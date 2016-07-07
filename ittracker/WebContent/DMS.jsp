@@ -162,7 +162,9 @@ div.panel.show {
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">My Documents</button>
 <div class="panel">
   <p>
- 	Under Construction !!!
+ 	
+ 	Under Construction..!
+ 	
   </p>
 </div>
 
@@ -171,11 +173,15 @@ div.panel.show {
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">All Shared SUB Documents</button>
 <div class="panel" style="border-bottom-style: ridge;">
   <p>
-  Under Construction !!!
+  
+  Under Construction..!
+  
   </p>
 </div>
 <p>
-Under Construction !!!
+
+Under Construction..!
+
 </p>
 </div>
 <script>
