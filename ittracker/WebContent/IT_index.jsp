@@ -53,7 +53,7 @@ try {
    	}
    %>
   <div style="width:100%; height: 100%; padding-left: 5px;padding-bottom: 5px;padding-top: 5px;">
-  		<img style="height: 350px;width: 99%"  src="images/helpline.png"></img>
+  		<img style="height: 330px;width: 99%"  src="images/helpline.png"></img>
   </div>
   
   <div id="footer">

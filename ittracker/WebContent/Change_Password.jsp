@@ -124,16 +124,10 @@
 				<li><a href="Closed_Req_User.jsp">Closed</a></li>
 				<li><a href="All_Requisitions.jsp">All</a></li>
 				<li><a href="Search_Requisitions.jsp">Search</a></li>
-				<li><a href="DMS.jsp">DMS</a></li>
-						<%--
-						if(d_Id==26 || d_Id==21 || d_Id==11){
-						%>
-						<li><a href="Admin.jsp">Admin</a></li>
-						<%
-						}
-						--%>
+				<li><a href="DMS.jsp">DMS</a></li> 
 				<li><a href="Reports_User.jsp">Reports</a></li>
 				<li><a href="Change_Password.jsp">Change Password</a></li>
+				<li><a href="Profile.jsp">My Profile</a></li> 
 				<li><a href="Logout.jsp">Logout</a></li>
 				<li><strong style="color: blue; font-size: small;"> <%=uname%></strong></li>
 			</ul>

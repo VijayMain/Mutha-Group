@@ -100,6 +100,7 @@ function ChangeColor(tableRow, highLight) {
 				<li><a href="DMS.jsp">DMS</a></li>
 				<li><a href="Reports_User.jsp">Reports</a></li>
 				<li><a href="Change_Password.jsp">Change Password</a></li>
+				<li><a href="Profile.jsp">My Profile</a></li> 
 				<li><a href="Logout.jsp">Logout</a></li>
 				<li><strong style="color: blue; font-size: small;"> <%=uname%></strong></li>
 			</ul>

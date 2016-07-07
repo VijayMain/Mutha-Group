@@ -40,13 +40,6 @@ try {
 				<li><a href="All_Requisitions.jsp">All</a></li>
 				<li><a href="Search_Requisitions.jsp">Search</a></li>
 				<li><a href="DMS.jsp">DMS</a></li>
-				<%--
-				if(d_Id==26 || d_Id==21 || d_Id==11){
-				
-				<li><a href="Admin.jsp">Admin</a></li>
-				<%
-				}
-				--%>
 				<li><a href="Reports_User.jsp">Reports</a></li>
 				<li><a href="Change_Password.jsp">Change Password</a></li>
 				<li><a href="Profile.jsp">My Profile</a></li> 
@@ -60,7 +53,7 @@ try {
 }
   %> 
   <div style="width:100%; height: 100%; padding-left: 5px;padding-bottom: 5px;padding-top: 5px;"> 
-  		<img style="height: 350px;width: 99%"  src="images/helpline.png"></img> 
+  		<img style="height: 330px;width: 99%"  src="images/helpline.png"></img> 
   </div>
   
   <div id="footer">
