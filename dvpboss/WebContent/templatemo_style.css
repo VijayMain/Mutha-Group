@@ -1,0 +1,80 @@
+/*
+CSS Credit: http://www.templatemo.com
+*/
+html {
+	background: #e3e3e3;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	width: 105%;
+	background: #e3e3e3;
+	font-size: 90%;
+}
+
+#templatemo_header {
+	width: 103%;
+	height: 50px;
+}
+
+/* menu */
+#templatemo_menu {
+	float: left;
+	width: 105%;
+	height: 48px;
+	background: url(images/templatemo_menu_bg.jpg);
+	padding: 2px 0 0 0;
+}
+
+#templatemo_menu ul {
+	float: left;
+	margin: 0px;
+	padding: 0 0 0 0;
+	width: 100%;
+	list-style: none;
+}
+
+#templatemo_menu ul li {
+	display: inline;
+}
+
+#templatemo_menu ul li a {
+	float: left;
+	padding: 11px 40px;
+	text-align: center;
+	font-size: 12px;
+	text-align: center;
+	text-decoration: none;
+	background: url(images/templatemo_menu_divider.png) center right
+		no-repeat;
+	color: #fff;
+	font-family: Arial, Helvetica, sans-serif; 
+	outline: none;
+}
+
+#templatemo_menu li a:hover,#templatemo_menu li .current {
+	color: #ffeb00;
+}
+
+#templatemo_menu li .last {
+	background: none;
+}
+
+/* end of menu*/
+.templatemo_section_1 {
+	width: 88%;
+	float: right;
+}
+
+.templatemo_section_2 {
+	width: 11.5%;
+	float: left;
+	height: 100%;
+}
+
+input {
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
