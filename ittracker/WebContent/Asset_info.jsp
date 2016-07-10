@@ -16,7 +16,7 @@
 <link rel="stylesheet" type="text/css" href="styles.css" /> 
 <script type="text/javascript">
 	function ChangeColor(tableRow, highLight) {
-		if (highLight) {
+		if (highLight) {    
 			tableRow.style.backgroundColor = '#CFCFCF';
 		} else {
 			tableRow.style.backgroundColor = '#FFFFFF';
