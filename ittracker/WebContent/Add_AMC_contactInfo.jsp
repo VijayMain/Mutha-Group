@@ -10,7 +10,6 @@
 function validateForm() {   
 	var cont_name = document.getElementById("cont_name");
 	var cont_no = document.getElementById("cont_no");  
-	 
 		if (cont_name.value=="0" || cont_name.value==null || cont_name.value=="" || cont_name.value=="null") {
 			alert("Please Enter Contact Name !!!"); 
 			document.getElementById("ADD").disabled = false;
