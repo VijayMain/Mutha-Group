@@ -13,7 +13,7 @@ try{
 	String devId = request.getParameter("q");
 	 
 	int i = Integer.parseInt(devId);
-	int partId = 0; 
+	int partId = 0;
 	PreparedStatement ps_rel=con.prepareStatement("select * from it_asset_deviceitem_rel_tbl where asset_deviceinfo_id="+i);
 	ResultSet rs_rel=ps_rel.executeQuery();
 	while(rs_rel.next()){
