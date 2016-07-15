@@ -519,7 +519,8 @@
 											</table>
 
 										</div>
-									</div></li>
+									</div>
+									</li>
 
 								<li class="buttons"><input style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"
 									type="submit" name="submit"  value="REGISTER" /></li>

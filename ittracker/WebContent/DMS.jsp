@@ -17,6 +17,25 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>DMS</title>
 <link rel="stylesheet" type="text/css" href="styles.css" />
+<script type="text/javascript" src="js/tabledeleterow.js"></script>
+<script type="text/javascript">
+	function validateForm() {
+	var rel_to = document.getElementById("rel_to");
+	var req_details = document.getElementById("req_details");
+		if (rel_to.value=="0" || rel_to.value==null || rel_to.value=="" || rel_to.value=="null") {
+			alert("Please Provide Problem Related To !!!");
+			document.getElementById("Save").disabled = false;
+			return false;
+		}
+		if (req_details.value=="0" || req_details.value==null || req_details.value=="" || req_details.value=="null") {
+			alert("Please Provide Requisition Details !!!");
+			document.getElementById("Save").disabled = false;
+			return false;
+		}
+		document.getElementById("Save").disabled = true;
+		return true;
+	}
+</script>
 <style>
 button.accordion {
     background-color: #006999;
@@ -88,12 +107,34 @@ div.panel.show {
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 				var a = null;
-				document.getElementById("req_type").innerHTML = xmlhttp.responseText;
+				document.getElementById("new_dms").innerHTML = xmlhttp.responseText;
 			}
 		};
-		xmlhttp.open("POST", "Req_Type.jsp?q=" + str, true);
+		xmlhttp.open("POST", "Add_NewDoc.jsp?q=" + str, true);
 		xmlhttp.send();
 	};
+	
+	
+	function GetMyDocs(str) {
+		var xmlhttp;
+
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var a = null;
+				document.getElementById("new_dms").innerHTML = xmlhttp.responseText;
+			}
+		};
+		xmlhttp.open("POST", "GetMyDocs.jsp?q=" + str, true);
+		xmlhttp.send();
+	};
+	
 </script>
 <%
 	try {
@@ -140,9 +181,7 @@ div.panel.show {
 				<li><a href="IT_index.jsp">Home</a></li>
 				<li><a href="IT_New_Requisition.jsp">New</a></li>
 				<li><a href="Closed_Requisitions.jsp">Closed</a></li>
-				<li><a href="IT_All_Requisitions.jsp">All</a></li>
-				<!-- <li><a href="Asset_info.jsp">Asset Info </a></li>
-				<li><a href="Asset_Master.jsp">Asset Master </a></li> -->
+				<li><a href="IT_All_Requisitions.jsp">All</a></li> 
 				<li><a href="Software_Access.jsp">Software Access</a></li>
 				<li><a href="MISAccess.jsp">MIS Access</a></li>
 				<li><a href="IT_Reports.jsp">Reports</a></li>
@@ -153,19 +192,21 @@ div.panel.show {
 			<%
 			}
 			%>
-		</div> 
-		 <div style="height: 500px;width:99%; overflow: scroll;"> 
+</div>
+<div style="height: 500px;width:99%; overflow: scroll;"> 
 		 
-         <div style="float:left;width:20.8%;text-align: left; height: 470px;background-color: #006999">
+ <div style="float:left;width:20.8%;text-align: left; height: 470px;background-color: #006999">
          	 
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">Add New Document</button> 
-
+<div class="panel">
+  <p style="padding-left: 15px;">
+ 	<a onclick="showState(this.value)" style="cursor: pointer;"><b>Add New</b></a>
+  </p>
+</div>
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">My Documents</button>
 <div class="panel">
-  <p>
- 	
- 	Under Construction..!
- 	
+ <p style="padding-left: 15px;">
+ 	<a onclick="GetMyDocs(this.value)" style="cursor: pointer;"><b>My Documents</b></a>
   </p>
 </div>
 
@@ -191,23 +232,30 @@ var i;
 for (i = 0; i < acc.length; i++) {
     acc[i].onclick = function(){
         this.classList.toggle("active");
-        this.nextElementSibling.classList.toggle("show");
-  }
+        this.nextElementSibling.classList.toggle("show");      
+  }  
 }
 </script>
 </div>
-
-
-
-       <div style="float:right; width:79%"> 
-          <img alt="No Image" src="images/dms.jpg" style="width: 100%;height: 470px;">
-         </div> 
-		</div>
+<div style="float:right; width:79%">
+	<span id="new_dms">
+    	<img alt="No Image" src="images/dms.jpg" style="width: 100%;height: 470px;">
+    </span>
+</div>
+</div>
 		<%
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		%>	
-	</div>
+		%>
+		<div id="footer">
+			<p class="style2">
+				<a href="index.jsp">Home</a><a href="New_Requisition.jsp">New Requisition</a> <a href="Requisition_Status.jsp">Requisition Status</a>
+				<a href="All_Requisitions.jsp">All Requisitions</a> <a href="Reports_User.jsp">Reports</a> <a href="Logout.jsp">Logout</a>
+		 <br /> <a href="http://www.muthagroup.com">Mutha Group, Satara
+				</a>
+			</p>
+		</div> 
+</div>
 </body>
 </html>

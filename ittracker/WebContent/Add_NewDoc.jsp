@@ -1,0 +1,109 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="it.muthagroup.connectionUtility.Connection_Utility"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.util.*"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%
+	response.setHeader("Cache-Control", "no-cache");
+	response.setHeader("Pragma", "no-cache");
+	response.setDateHeader("Expires", -1);
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<title>DMS</title>
+</head>
+<body>
+	<%
+		try {
+			Connection con = Connection_Utility.getConnection();
+	%>
+	<span id="new_dms">
+		<form action="Add_NewDoc" method="post" onSubmit="return validateForm();">
+			<table style="width: 100%;" class="tftable">
+				<tr>
+					<th colspan="5" align="center"><strong>Add New Document</strong></th>
+				</tr>
+				<tr>
+					<td width="16%" align="left"><b>Header / Folder Name</b></td>
+					<td colspan="4" align="left">
+					<input type="text" id="header" name="header" style="background-color:#d5f1ff;" maxlength="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td align="left"><b>Subject / File Name</b></td>
+					<td colspan="4" align="left"><input type="text" id="subject"
+						name="subject" size="60"  style="background-color:#d5f1ff;"/></td>
+				</tr>
+				<tr>
+					<td align="left"><b>Share To Others</b></td>
+					<td colspan="4" align="left"><input type="radio" name="share" value="yes" id="share" /> Yes
+					<input type="radio" name="share" value="no" id="share" /> No</td>
+				</tr>
+				<tr>
+					<td align="left"><b>Share To (If Yes)</b><br>Use Ctrl to select Multiple </td>
+					<td width="8%" align="left"><b>Company :</b> &nbsp;&nbsp;&nbsp;</td>
+				    <td width="15%" align="left"><select name="company" id="company" size="7" multiple="multiple" tabindex="1" style="width: 150px;background-color:#d5f1ff;">
+                      <option value="">- - - - - none - - - - -</option>
+                      <%
+							PreparedStatement ps_comp = con.prepareStatement("select * from user_tbl_company");
+							ResultSet rs_comp = ps_comp.executeQuery();
+							while(rs_comp.next()){ 
+							%>
+                      <option value="<%=rs_comp.getInt("Company_Id")%>"><%=rs_comp.getString("Company_Name") %></option>
+                      <%
+							}
+					  %>
+                    </select></td>
+				    <td width="9%" align="left"><b>Department :</b> &nbsp;</td>
+				    <td width="52%" align="left"><select name="department" id="department"  size="7" multiple="multiple" tabindex="1" style="width: 200px;background-color:#d5f1ff;">
+                      <option value="">- - - - - none - - - - -</option>
+                      <%
+					  PreparedStatement ps_dept = con.prepareStatement("select * from user_tbl_dept");
+					  ResultSet rs_dept = ps_dept.executeQuery();
+					  while(rs_dept.next()){ 
+					  %>
+                      <option value="<%=rs_dept.getInt("dept_id")%>"><%=rs_dept.getString("Department") %></option>
+                      <%
+							}
+					  %>
+                    </select></td>
+				</tr>
+				<tr>
+					<td align="left"><b>Document</b></td>
+					<td colspan="4" align="left">
+					<table id="tblSample">
+						<tr>
+						&nbsp;&nbsp;&nbsp;
+						<strong><input type="button" value="  ADD Files  " name="button" onclick="addRowToTable();" /></strong> &nbsp;&nbsp;
+								<input type="button" value=" Delete [Selected] " onclick="deleteChecked();" />&nbsp;&nbsp;
+								<input type="hidden" id="srno" name="srno" value="">
+						</tr>
+						<tbody></tbody>
+					 </table>
+				    </td>
+				</tr>
+				<tr>
+				  <td align="left"><strong>Note</strong></td>
+			      <td colspan="4" align="left"><textarea name="note" id="note" rows="2" cols="50" style="background-color:#d5f1ff;"></textarea></td>
+		      </tr>
+				<tr>
+					<td colspan="5" align="left" style="padding-left: 20px;"><input
+						type="submit" name="submit" value="   SAVE   "
+						style="height: 30px; width: 200px; font-weight: bold;" /></td>
+				</tr>
+			</table>
+		</form>
+	</span>
+	<%
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	%>
+</body>
+</html>
