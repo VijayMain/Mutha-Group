@@ -20,19 +20,13 @@
 <script type="text/javascript" src="js/tabledeleterow.js"></script>
 <script type="text/javascript">
 	function validateForm() {
-	var rel_to = document.getElementById("rel_to");
-	var req_details = document.getElementById("req_details");
-		if (rel_to.value=="0" || rel_to.value==null || rel_to.value=="" || rel_to.value=="null") {
-			alert("Please Provide Problem Related To !!!");
-			document.getElementById("Save").disabled = false;
-			return false;
-		}
-		if (req_details.value=="0" || req_details.value==null || req_details.value=="" || req_details.value=="null") {
+	var srno = document.getElementById("srno"); 
+		/* if (req_details.value=="0" || req_details.value==null || req_details.value=="" || req_details.value=="null") {
 			alert("Please Provide Requisition Details !!!");
 			document.getElementById("Save").disabled = false;
 			return false;
-		}
-		document.getElementById("Save").disabled = true;
+		} */
+	alert("Sr No = " + srno.value);	
 		return true;
 	}
 </script>
@@ -45,7 +39,7 @@ button.accordion {
     width: 100%;
     border: thin; 
     outline: black;
-    font-size: 13px;
+    font-size: 12.5px;
     transition: 0.4s;
 }
 
@@ -55,8 +49,10 @@ button.accordion.active, button.accordion:hover {
 }
 
 div.panel {
+font-size: 12.5px;
     padding: 0 1px;
     background-color: white;
+    color : #050aad;
     max-height: 0;
     overflow: hidden;
     transition: 0.6s ease-in-out;
@@ -71,7 +67,7 @@ div.panel.show {
 <style type="text/css">
 .tftable {
 	font-family:Arial;
-	font-size: 12px;
+	font-size: 11px;
 	color: #333333;
 	width: 100%; 
 }
@@ -79,7 +75,7 @@ div.panel.show {
 .tftable th {
 	font-size: 12px;
 	background-color: #acc8cc; 
-	padding: 8px; 
+	padding: 4px; 
 	text-align: center;
 }
 
@@ -88,8 +84,8 @@ div.panel.show {
 }
 
 .tftable td {
-	font-size: 11px; 
-	padding: 5px; 
+	font-size: 12px; 
+	padding: 1px; 
 }
 </style>
 
@@ -134,6 +130,25 @@ div.panel.show {
 		xmlhttp.open("POST", "GetMyDocs.jsp?q=" + str, true);
 		xmlhttp.send();
 	};
+	function GetSharedDocs(str) {
+		var xmlhttp;
+
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var a = null;
+				document.getElementById("new_dms").innerHTML = xmlhttp.responseText;
+			}
+		};
+		xmlhttp.open("POST", "Shared_doc.jsp?q=" + str, true);
+		xmlhttp.send();
+	};
 	
 </script>
 <%
@@ -142,8 +157,7 @@ div.panel.show {
 		String uname = null;
 		int d_Id=0;
  		Connection con = Connection_Utility.getConnection();
-		PreparedStatement ps_uname = con
-				.prepareStatement("select * from User_tbl where U_Id="+ uid);
+		PreparedStatement ps_uname = con.prepareStatement("select * from User_tbl where U_Id="+ uid);
 		ResultSet rs_uname = ps_uname.executeQuery();
 		while (rs_uname.next()) {
 			d_Id = rs_uname.getInt("Dept_Id");
@@ -193,39 +207,30 @@ div.panel.show {
 			}
 			%>
 </div>
-<div style="height: 500px;width:99%; overflow: scroll;"> 
+<div style="height: 530px;width:99%; overflow: scroll;"> 
 		 
- <div style="float:left;width:20.8%;text-align: left; height: 470px;background-color: #006999">
+<div style="float:left;width:20.8%;text-align: left; height: 470px;background-color: #006999;overflow: scroll;">
          	 
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">Add New Document</button> 
 <div class="panel">
   <p style="padding-left: 15px;">
- 	<a onclick="showState(this.value)" style="cursor: pointer;"><b>Add New</b></a>
+ 	<a onclick="showState(this.value)" style="cursor: pointer;"><b>Add New Document</b></a>
   </p>
 </div>
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">My Documents</button>
 <div class="panel">
  <p style="padding-left: 15px;">
- 	<a onclick="GetMyDocs(this.value)" style="cursor: pointer;"><b>My Documents</b></a>
+ 	<a onclick="GetMyDocs(this.value)" style="cursor: pointer;"><b>My Folder Name</b></a>
   </p>
 </div>
 
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">Shared Documents</button>
 <div class="panel">
-<button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">All Shared SUB Documents</button>
-<div class="panel" style="border-bottom-style: ridge;">
-  <p>
-  
-  Under Construction..!
-  
+ <p style="padding-left: 15px;">
+ 	<a onclick="GetSharedDocs(this.value)" style="cursor: pointer;"><b>My Shared Folder</b></a>
   </p>
 </div>
-<p>
 
-Under Construction..!
-
-</p>
-</div>
 <script>
 var acc = document.getElementsByClassName("accordion");
 var i;

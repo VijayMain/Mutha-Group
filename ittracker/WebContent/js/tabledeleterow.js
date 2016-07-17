@@ -1,3 +1,6 @@
+// tabledeleterow.js version 1.2 2006-02-21
+// mredkj.com
+
 // CONFIG notes. Below are some comments that point to where this script can be customized.
 // Note: Make sure to include a <tbody></tbody> in your table's HTML
 
@@ -5,13 +8,16 @@ var INPUT_NAME_PREFIX = 'inputName'; // this is being set via script
 var RADIO_NAME = 'totallyrad'; // this is being set via script
 var TABLE_NAME = 'tblSample'; // this should be named in the HTML
 var ROW_BASE = 0; // first number (for display)
-var hasLoaded = false; 
-window.onload = fillInRows; 
+var hasLoaded = false;
+
+window.onload = fillInRows;
+
 window.onerror = function() {
 	// Returning true informs the browser,
 	// that the error has been taken care of
 	return true;
 };
+
 function fillInRows() {
 	hasLoaded = true;
 	addRowToTable();
@@ -81,8 +87,8 @@ function addRowToTable(num) {
 		var txtInp = document.createElement('input');
 		txtInp.setAttribute('type', 'file');
 		txtInp.setAttribute('name', INPUT_NAME_PREFIX + iteration);
-		txtInp.setAttribute('size', '60');
-		txtInp.setAttribute('value', iteration);	// iteration included for
+		txtInp.setAttribute('size', '45');
+		txtInp.setAttribute('value', iteration);// iteration included for
 		// debug purposes
 		txtInp.setAttribute('class', 'element file');
 		cell1.appendChild(txtInp);
@@ -104,6 +110,23 @@ function addRowToTable(num) {
 		cbEl.setAttribute('type', 'checkbox');
 		cell3.appendChild(cbEl);
 
+		// cell 4 - input radio
+		// var cell4 = row.insertCell(4);
+		// var raEl;
+		// try {
+		// raEl = document.createElement('<input type="radio" name="' +
+		// RADIO_NAME + '" value="' + iteration + '">');
+		// var failIfNotIE = raEl.name.length;
+		// } catch(ex) {
+		// raEl = document.createElement('input');
+		// raEl.setAttribute('type', 'radio');
+		// raEl.setAttribute('name', RADIO_NAME);
+		// raEl.setAttribute('value', iteration);
+		// }
+		// cell4.appendChild(raEl);
+
+		// Pass in the elements you want to reference later
+		// Store the myRow object in each row
 		row.myRow = new myRowObject(textNode, txtInp, cbEl);
 	}
 }

@@ -46,6 +46,10 @@
 					<input type="radio" name="share" value="no" id="share" /> No</td>
 				</tr>
 				<tr>
+					<td align="left"><b>Shared User Access</b><br>(If Shared)</td>
+					<td colspan="4" align="left"><input type="checkbox" name="add_access" value="add_access" id="add_access" style=""/>  Add More Files</td>
+				</tr>
+				<tr>
 					<td align="left"><b>Share To (If Yes)</b><br>Use Ctrl to select Multiple </td>
 					<td width="8%" align="left"><b>Company :</b> &nbsp;&nbsp;&nbsp;</td>
 				    <td width="15%" align="left"><select name="company" id="company" size="7" multiple="multiple" tabindex="1" style="width: 150px;background-color:#d5f1ff;">
@@ -64,9 +68,9 @@
 				    <td width="52%" align="left"><select name="department" id="department"  size="7" multiple="multiple" tabindex="1" style="width: 200px;background-color:#d5f1ff;">
                       <option value="">- - - - - none - - - - -</option>
                       <%
-					  PreparedStatement ps_dept = con.prepareStatement("select * from user_tbl_dept");
+					  PreparedStatement ps_dept = con.prepareStatement("select distinct(Department),dept_id from user_tbl_dept order by Department");
 					  ResultSet rs_dept = ps_dept.executeQuery();
-					  while(rs_dept.next()){ 
+					  while(rs_dept.next()){
 					  %>
                       <option value="<%=rs_dept.getInt("dept_id")%>"><%=rs_dept.getString("Department") %></option>
                       <%
@@ -80,7 +84,7 @@
 					<table id="tblSample">
 						<tr>
 						&nbsp;&nbsp;&nbsp;
-						<strong><input type="button" value="  ADD Files  " name="button" onclick="addRowToTable();" /></strong> &nbsp;&nbsp;
+						<strong><input type="button" value="  Click To ADD Files  " name="button" onclick="addRowToTable();" /></strong> &nbsp;&nbsp;
 								<input type="button" value=" Delete [Selected] " onclick="deleteChecked();" />&nbsp;&nbsp;
 								<input type="hidden" id="srno" name="srno" value="">
 						</tr>
