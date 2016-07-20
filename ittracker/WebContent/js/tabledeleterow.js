@@ -46,7 +46,7 @@ function insertRowToTable() {
 				rowToInsertAt = i;
 				break;
 			}
-		}
+		} 
 		addRowToTable(rowToInsertAt);
 		reorderRows(tbl, rowToInsertAt);
 	}
@@ -62,9 +62,9 @@ function addRowToTable(num) {
 		var nextRow = tbl.tBodies[0].rows.length;
 		var iteration = nextRow + ROW_BASE;
 		if (num == null) {
-			num = nextRow;
-		} else {
-			iteration = num + ROW_BASE;
+			num = nextRow; 
+		} else { 
+			iteration = num + ROW_BASE; 
 		}
 
 		// add the row
@@ -153,8 +153,7 @@ function deleteChecked() {
 			reorderRows(tbl, rIndex);
 		}
 	}
-}
-
+} 
 // If there isn't an element with an onclick event in your row, then this
 // function can't be used.
 function deleteCurrentRow(obj) {

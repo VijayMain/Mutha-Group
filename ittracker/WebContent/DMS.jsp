@@ -20,14 +20,57 @@
 <script type="text/javascript" src="js/tabledeleterow.js"></script>
 <script type="text/javascript">
 	function validateForm() {
-	var srno = document.getElementById("srno"); 
-		/* if (req_details.value=="0" || req_details.value==null || req_details.value=="" || req_details.value=="null") {
-			alert("Please Provide Requisition Details !!!");
-			document.getElementById("Save").disabled = false;
+		
+		/* var folder = document.getElementById("folder"); */
+		var subject = document.getElementById("subject");
+		var srno = document.getElementById("srno"); 
+		var avail = document.getElementById("avail");
+		var subject = document.getElementById("subject");
+		  var share_yes = document.getElementById("share_yes").checked;
+	      var share_no = document.getElementById("share_no").checked;
+	      var note = document.getElementById("note");
+	      
+		
+		if(avail.value=="1"){
+			alert("Header / Folder Name is invalid  or already available !!!");	
 			return false;
-		} */
-	alert("Sr No = " + srno.value);	
-		return true;
+		}
+		if(subject.value==""){
+			alert("Subject / File Name ?");
+			return false;
+		} 
+		if(share_yes==false && share_no==false){
+			alert("Share To Other Users ?");	
+			return false;
+		}  
+		
+		if(share_yes==true){
+	      var x=document.getElementById("company");
+	      var y=document.getElementById("department");
+	      var cntcomp="",cntdept="";
+	      for (var i = 0; i < x.options.length; i++) {
+	         if(x.options[i].selected ==true){
+	        	 cntcomp = x.options[i].value;
+	          }
+	      } 
+	      for (var i = 0; i < y.options.length; i++) {
+		      if(y.options[i].selected ==true){
+		         cntdept = y.options[i].value;
+		      }
+		  }
+	      if(cntcomp=="" && cntdept==""){
+	    	  alert("Please Provide Shared Company / Departments !!!");
+	    	  return false;
+	      } 
+		}
+		if(srno.value==""){
+			alert("Document !...Click to Add Files.");
+			return false;
+		}
+		if(note.value==""){
+			alert("Note ???");
+			return false;
+		}
 	}
 </script>
 <style>
@@ -150,6 +193,33 @@ div.panel.show {
 		xmlhttp.send();
 	};
 	
+	function get_allAvailFolders(name) {
+		if(name!=""){
+			document.getElementById("subject").readOnly = false;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest(); 
+		} else {
+			// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); 
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				document.getElementById("availFolder").innerHTML = xmlhttp.responseText; 
+			}
+		};
+		xmlhttp.open("POST", "All_AvailableFolder.jsp?q=" + name , true);  
+		xmlhttp.send();
+		}else{
+			alert("Test = " + document.getElementById("avail").value);
+			document.getElementById("subject").readOnly = true; 
+			document.getElementById("availFolder").innerHTML = "";
+			document.getElementById("subject").value = "";
+			document.getElementById("avail").value = "0";
+			
+		}
+	}
 </script>
 <%
 	try {

@@ -146,13 +146,11 @@ public class Register_Controller extends HttpServlet {
 							}
 							if (fieldName.equalsIgnoreCase("srno")) {
 								bean.setSrNo(Integer.parseInt(fieldValue));
-								System.out
-										.println(Integer.parseInt(fieldValue));
+								System.out.println(Integer.parseInt(fieldValue));
 							}
 							// *****************************************************************************
 							// Get Complaint date ===== >
 							// ******************************************************************************
-
 						}
 						// *****************************************************************************************************
 						else {
@@ -166,25 +164,19 @@ public class Register_Controller extends HttpServlet {
 
 							for (int k = 1; k <= bean.getSrNo(); k++) {
 								System.out.println("K is = " + k);
-
 								// *************************************************************************************************************
 								// if multiple files then there names are
 								// inputName1,inputName2,inputName3,.......
 								// *************************************************************************************************************
-
 								if (fieldName.equalsIgnoreCase("inputName" + k)) {
-									System.out.println("File Name in java : "
-											+ fieldName);
+									System.out.println("File Name in java : " + fieldName);
 									file_stored = fileItem.getName();
 
-									bean.setFile_Name_ext(FilenameUtils
-											.getName(file_stored));
+									bean.setFile_Name_ext(FilenameUtils.getName(file_stored));
 
-									System.out.println(FilenameUtils
-											.getName(file_stored));
+									System.out.println(FilenameUtils.getName(file_stored));
 
-									file_Input = new DataInputStream(
-											fileItem.getInputStream());
+									file_Input = new DataInputStream(fileItem.getInputStream());
 									System.out.println("Input sr no is = " + k);
 
 									/*************************************************************************************************************************

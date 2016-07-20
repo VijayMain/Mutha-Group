@@ -22,9 +22,10 @@
 	<%
 		try {
 			Connection con = Connection_Utility.getConnection();
+			int uid = Integer.parseInt(session.getAttribute("uid").toString());
 	%>
 	<span id="new_dms">
-		<form action="Add_NewDoc" method="post" onSubmit="return validateForm();">
+		<form action="Add_NewDMSDoc" method="post" enctype="multipart/form-data" onSubmit="return validateForm();">
 			<table style="width: 100%;" class="tftable">
 				<tr>
 					<th colspan="5" align="center"><strong>Add New Document</strong></th>
@@ -32,33 +33,36 @@
 				<tr>
 					<td width="16%" align="left"><b>Header / Folder Name</b></td>
 					<td colspan="4" align="left">
-					<input type="text" id="header" name="header" style="background-color:#d5f1ff;" maxlength="45"/>
+					<input type="text" id="folder" name="folder" style="background-color:#d5f1ff;" maxlength="45"  onkeyup="get_allAvailFolders(this.value)"/>
+					<span id="availFolder">
+					<input type="hidden" name="avail" id="avail" value="1">
+					</span>
 					</td>
 				</tr>
 				<tr>
 					<td align="left"><b>Subject / File Name</b></td>
-					<td colspan="4" align="left"><input type="text" id="subject"
-						name="subject" size="60"  style="background-color:#d5f1ff;"/></td>
+					<td colspan="4" align="left"><input type="text" id="subject" name="subject" size="60" readonly="readonly" style="background-color:#d5f1ff;"/></td>
 				</tr>
 				<tr>
 					<td align="left"><b>Share To Others</b></td>
-					<td colspan="4" align="left"><input type="radio" name="share" value="yes" id="share" /> Yes
-					<input type="radio" name="share" value="no" id="share" /> No</td>
+					<td colspan="4" align="left"><input type="radio" name="share" value="yes" id="share_yes" /> Yes
+					<input type="radio" name="share" value="no" id="share_no" /> No</td>
 				</tr>
 				<tr>
 					<td align="left"><b>Shared User Access</b><br>(If Shared)</td>
-					<td colspan="4" align="left"><input type="checkbox" name="add_access" value="add_access" id="add_access" style=""/>  Add More Files</td>
+					<td colspan="4" align="left"><input type="checkbox" name="add_access" value="add_files" id="add_access" style=""/>  Add More Files</td>
 				</tr>
 				<tr>
 					<td align="left"><b>Share To (If Yes)</b><br>Use Ctrl to select Multiple </td>
 					<td width="8%" align="left"><b>Company :</b> &nbsp;&nbsp;&nbsp;</td>
-				    <td width="15%" align="left"><select name="company" id="company" size="7" multiple="multiple" tabindex="1" style="width: 150px;background-color:#d5f1ff;">
-                      <option value="">- - - - - none - - - - -</option>
+				    <td width="15%" align="left">
+				    <select name="company" id="company" size="7" multiple="multiple" tabindex="1" style="width: 150px;background-color:#d5f1ff;">
+                      <option value="">- - - - - All - - - - -</option>
                       <%
 							PreparedStatement ps_comp = con.prepareStatement("select * from user_tbl_company");
 							ResultSet rs_comp = ps_comp.executeQuery();
-							while(rs_comp.next()){ 
-							%>
+							while(rs_comp.next()){
+					  %>
                       <option value="<%=rs_comp.getInt("Company_Id")%>"><%=rs_comp.getString("Company_Name") %></option>
                       <%
 							}
@@ -66,7 +70,7 @@
                     </select></td>
 				    <td width="9%" align="left"><b>Department :</b> &nbsp;</td>
 				    <td width="52%" align="left"><select name="department" id="department"  size="7" multiple="multiple" tabindex="1" style="width: 200px;background-color:#d5f1ff;">
-                      <option value="">- - - - - none - - - - -</option>
+                    <option value="">- - - - - All - - - - -</option>
                       <%
 					  PreparedStatement ps_dept = con.prepareStatement("select distinct(Department),dept_id from user_tbl_dept order by Department");
 					  ResultSet rs_dept = ps_dept.executeQuery();
@@ -82,8 +86,7 @@
 					<td align="left"><b>Document</b></td>
 					<td colspan="4" align="left">
 					<table id="tblSample">
-						<tr>
-						&nbsp;&nbsp;&nbsp;
+						<tr>&nbsp;&nbsp;&nbsp;
 						<strong><input type="button" value="  Click To ADD Files  " name="button" onclick="addRowToTable();" /></strong> &nbsp;&nbsp;
 								<input type="button" value=" Delete [Selected] " onclick="deleteChecked();" />&nbsp;&nbsp;
 								<input type="hidden" id="srno" name="srno" value="">
