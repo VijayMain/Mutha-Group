@@ -95,13 +95,51 @@ public class Add_NewDMSDoc extends HttpServlet {
 						// Get Complaint date ===== >
 						// ******************************************************************************
 					}
-					// **********************************************************************************
 					
+					
+					// *************************************************************************************************************
+					// IF FILE inputs === >
+					// *************************************************************************************************************
+					String file_stored = null;
+					fileItem = fileItemTemp;
+					fieldName = fileItem.getFieldName();
+					fieldValue = fileItem.getString();
+
+					for (int k = 1; k <= bean.getSrno(); k++) {
+						System.out.println("K is = " + k);
+						// *************************************************************************************************************
+						// if multiple files then there names are
+						// inputName1,inputName2,inputName3,.......
+						// *************************************************************************************************************
+						if (fieldName.equalsIgnoreCase("inputName" + k)) {
+							System.out.println("File Name in java : " + fieldName);
+							file_stored = fileItem.getName();
+
+							bean.setBlob_name(FilenameUtils.getName(file_stored));
+
+							System.out.println(FilenameUtils.getName(file_stored));
+
+							file_Input = new DataInputStream(fileItem.getInputStream());
+							System.out.println("Input sr no is = " + k + " = " + file_Input);
+ 
+							// Attach file ====>
+							bean.setBlob_file(file_Input);
+						}
+					}
+					
+					
+					 
 				}
+				  
+				if(bean.getBlob_file() ==null){
+					System.out.println("Blob File ......");
+				}else{
+					System.out.println("Blob File null");
+				}
+				
 				it = fileItemsList.iterator();
 				while (it.hasNext()) {
 					FileItem fileItemTemp = (FileItem) it.next();
-
 					// if data is form field ==== >
 					if (!fileItemTemp.isFormField()) {
 						String file_stored = null;
@@ -118,7 +156,6 @@ public class Add_NewDMSDoc extends HttpServlet {
 					response.sendRedirect("Entry Failed");
 				}*/
 		}
-
 	} catch (Exception e) {
 		e.printStackTrace();
 	}

@@ -7,7 +7,7 @@ public class DMS_VO {
 	private int srno;
 	private String folder, subject, file, share_others, shared_access,
 			blob_name, note;
-	private InputStream blob_file;
+	private InputStream blob_file=null;
 
 	public int getSrno() {
 		return srno;
