@@ -5,7 +5,8 @@ import java.io.InputStream;
 public class DMS_VO {
 
 	private int srno;
-	private String folder, file, share_others, shared_access, blob_name;
+	private String folder, subject, file, share_others, shared_access,
+			blob_name, note;
 	private InputStream blob_file;
 
 	public int getSrno() {
@@ -22,6 +23,14 @@ public class DMS_VO {
 
 	public void setFolder(String folder) {
 		this.folder = folder;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 
 	public String getFile() {
@@ -46,6 +55,14 @@ public class DMS_VO {
 
 	public void setShared_access(String shared_access) {
 		this.shared_access = shared_access;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	public String getBlob_name() {

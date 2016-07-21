@@ -48,6 +48,7 @@
 	      var x=document.getElementById("company");
 	      var y=document.getElementById("department");
 	      var cntcomp="",cntdept="";
+	      
 	      for (var i = 0; i < x.options.length; i++) {
 	         if(x.options[i].selected ==true){
 	        	 cntcomp = x.options[i].value;
@@ -61,7 +62,7 @@
 	      if(cntcomp=="" && cntdept==""){
 	    	  alert("Please Provide Shared Company / Departments !!!");
 	    	  return false;
-	      } 
+	      }
 		}
 		if(srno.value==""){
 			alert("Document !...Click to Add Files.");
@@ -212,7 +213,7 @@ div.panel.show {
 		xmlhttp.open("POST", "All_AvailableFolder.jsp?q=" + name , true);  
 		xmlhttp.send();
 		}else{
-			alert("Test = " + document.getElementById("avail").value);
+			//alert("Test = " + document.getElementById("avail").value);
 			document.getElementById("subject").readOnly = true; 
 			document.getElementById("availFolder").innerHTML = "";
 			document.getElementById("subject").value = "";

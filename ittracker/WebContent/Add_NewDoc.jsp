@@ -50,14 +50,14 @@
 				</tr>
 				<tr>
 					<td align="left"><b>Shared User Access</b><br>(If Shared)</td>
-					<td colspan="4" align="left"><input type="checkbox" name="add_access" value="add_files" id="add_access" style=""/>  Add More Files</td>
+					<td colspan="4" align="left"><input type="checkbox" name="add_fileAccess" value="add_files" id="add_access"/>  Add More Files</td>
 				</tr>
 				<tr>
 					<td align="left"><b>Share To (If Yes)</b><br>Use Ctrl to select Multiple </td>
 					<td width="8%" align="left"><b>Company :</b> &nbsp;&nbsp;&nbsp;</td>
 				    <td width="15%" align="left">
 				    <select name="company" id="company" size="7" multiple="multiple" tabindex="1" style="width: 150px;background-color:#d5f1ff;">
-                      <option value="">- - - - - All - - - - -</option>
+                    <option value="0">- - - - - All - - - - -</option>
                       <%
 							PreparedStatement ps_comp = con.prepareStatement("select * from user_tbl_company");
 							ResultSet rs_comp = ps_comp.executeQuery();
@@ -70,7 +70,7 @@
                     </select></td>
 				    <td width="9%" align="left"><b>Department :</b> &nbsp;</td>
 				    <td width="52%" align="left"><select name="department" id="department"  size="7" multiple="multiple" tabindex="1" style="width: 200px;background-color:#d5f1ff;">
-                    <option value="">- - - - - All - - - - -</option>
+                    <option value="0">- - - - - All - - - - -</option>
                       <%
 					  PreparedStatement ps_dept = con.prepareStatement("select distinct(Department),dept_id from user_tbl_dept order by Department");
 					  ResultSet rs_dept = ps_dept.executeQuery();
@@ -98,11 +98,11 @@
 				<tr>
 				  <td align="left"><strong>Note</strong></td>
 			      <td colspan="4" align="left"><textarea name="note" id="note" rows="2" cols="50" style="background-color:#d5f1ff;"></textarea></td>
-		      </tr>
+		      	</tr>
 				<tr>
-					<td colspan="5" align="left" style="padding-left: 20px;"><input
-						type="submit" name="submit" value="   SAVE   "
-						style="height: 30px; width: 200px; font-weight: bold;" /></td>
+					<td colspan="5" align="left" style="padding-left: 20px;">
+						<input type="submit" name="submit" value="   SAVE   " style="height: 30px; width: 200px; font-weight: bold;" />
+					</td>
 				</tr>
 			</table>
 		</form>
