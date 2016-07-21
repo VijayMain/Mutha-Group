@@ -237,6 +237,15 @@ div.panel.show {
 %>
 </head>
 <body>
+<%
+if(request.getParameter("msg")!=null){ 
+%>
+<script type="text/javascript">
+alert("<%=request.getParameter("msg") %>");
+</script>
+<%
+	}
+%>
 	<div id="container">
 		<div id="top">
 			<h3>Document Management System (DMS)</h3>

@@ -46,7 +46,7 @@ function insertRowToTable() {
 				rowToInsertAt = i;
 				break;
 			}
-		} 
+		}
 		addRowToTable(rowToInsertAt);
 		reorderRows(tbl, rowToInsertAt);
 	}
@@ -62,9 +62,9 @@ function addRowToTable(num) {
 		var nextRow = tbl.tBodies[0].rows.length;
 		var iteration = nextRow + ROW_BASE;
 		if (num == null) {
-			num = nextRow; 
-		} else { 
-			iteration = num + ROW_BASE; 
+			num = nextRow;
+		} else {
+			iteration = num + ROW_BASE;
 		}
 
 		// add the row
@@ -87,7 +87,7 @@ function addRowToTable(num) {
 		var txtInp = document.createElement('input');
 		txtInp.setAttribute('type', 'file');
 		txtInp.setAttribute('name', INPUT_NAME_PREFIX + iteration);
-		txtInp.setAttribute('size', '45');
+		txtInp.setAttribute('size', '60');
 		txtInp.setAttribute('value', iteration);// iteration included for
 		// debug purposes
 		txtInp.setAttribute('class', 'element file');
@@ -153,7 +153,8 @@ function deleteChecked() {
 			reorderRows(tbl, rIndex);
 		}
 	}
-} 
+}
+
 // If there isn't an element with an onclick event in your row, then this
 // function can't be used.
 function deleteCurrentRow(obj) {
