@@ -121,7 +121,6 @@ public class Add_NewDMSDoc extends HttpServlet {
 								}
 							}
 						}
-						
 					}
 				} 
 				if(bean.getBlob_name()=="" || bean.getBlob_name()==null){
@@ -133,8 +132,13 @@ public class Add_NewDMSDoc extends HttpServlet {
 					// *************************************************************************************************************
 					it = fileItemsList.iterator();
 
-
 					while (it.hasNext()) {
+						
+						FileItem fileItemTemp = (FileItem) it.next();
+
+						// if data is form field ==== >
+						if (!fileItemTemp.isFormField()) {
+						 
 					fieldName = fileItem.getFieldName();
 					fieldValue = fileItem.getString();
 					
@@ -153,13 +157,14 @@ public class Add_NewDMSDoc extends HttpServlet {
  							
  							if (valcnt==1){
  								valcnt++;
-							}
- 							
-							bean.setBlob_file(file_Input); 
-								//flag = dao.attach_Filebase(bean, session); 
-								
+ 								System.out.println("attachment");
+							}else{
+								bean.setBlob_file(file_Input); 
+								System.out.println("attachment = = " + bean.getBlob_name());
+									//flag = dao.attach_Filebase(bean, session);	
+							}	
 						}
-							
+						}
 						}
 					}
 				}
