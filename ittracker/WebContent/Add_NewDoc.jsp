@@ -50,7 +50,7 @@
 				</tr>
 				<tr>
 					<td align="left"><b>Shared User Access</b><br>(If Shared)</td>
-					<td colspan="4" align="left"><input type="checkbox" name="add_fileAccess" value="add_files" id="add_access"/>  Add More Files</td>
+					<td colspan="4" align="left"><input type="checkbox" name="add_fileAccess" value="1" id="add_access"/>  Add More Files</td>
 				</tr>
 				<tr>
 					<td align="left"><b>Share To (If Yes)</b><br>Use Ctrl to select Multiple </td>

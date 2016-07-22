@@ -300,7 +300,9 @@ alert("<%=request.getParameter("msg") %>");
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">My Documents</button>
 <div class="panel">
  <p style="padding-left: 15px;">
+ 
  	<a onclick="GetMyDocs(this.value)" style="cursor: pointer;"><b>My Folder Name</b></a>
+ 	
   </p>
 </div>
 

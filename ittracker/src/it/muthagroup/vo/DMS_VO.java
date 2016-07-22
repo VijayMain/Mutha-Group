@@ -4,9 +4,8 @@ import java.io.InputStream;
 
 public class DMS_VO {
 
-	private int srno, dmscode;
-	private String folder, subject, file, share_others, shared_access,
-			blob_name, note;
+	private int srno, dmscode, shared_access;
+	private String folder, subject, file, share_others, blob_name, note;
 	private InputStream blob_file = null;
 
 	public int getDmscode() {
@@ -57,11 +56,11 @@ public class DMS_VO {
 		this.share_others = share_others;
 	}
 
-	public String getShared_access() {
+	public int getShared_access() {
 		return shared_access;
 	}
 
-	public void setShared_access(String shared_access) {
+	public void setShared_access(int shared_access) {
 		this.shared_access = shared_access;
 	}
 

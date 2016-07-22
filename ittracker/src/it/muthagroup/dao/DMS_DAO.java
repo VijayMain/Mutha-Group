@@ -18,7 +18,7 @@ public class DMS_DAO {
 			Connection con = Connection_Utility.getConnection();
 			int uid = Integer.parseInt(session.getAttribute("uid").toString());
 			int up = 0;
-			
+			System.out.println(" = "+flag);
 			PreparedStatement ps = con.prepareStatement("insert into tarn_dms(TRAN_NO,FILE,FILE_NAME,USER,TRAN_DATE,STATUS,NOTE,SYS_DATE)values(?,?,?,?,?,?,?,?)");
 			ps.setInt(1, bean.getDmscode());
 			ps.setBlob(2, bean.getBlob_file());
@@ -29,7 +29,10 @@ public class DMS_DAO {
 			ps.setString(7, bean.getNote());
 			ps.setDate(8, curr_Date);
 			
+			
+			
 			up = ps.executeUpdate();
+			
 			if(up>0){
 				flag=true;
 			}
@@ -51,9 +54,9 @@ public class DMS_DAO {
 			************************************ Insert Into Main DMS Table ******************************************** 
 			*
 			*/
-			
+			System.out.println("shres access = " + bean.getShared_access());
 			PreparedStatement ps = con.prepareStatement("insert into mst_dmsfolder"
-					+ "(FOLDER,SUBJECT,SHARE_FLAG,NOTE,STATUS,USER,TRAN_DATE,SYS_DATE)values(?,?,?,?,?,?,?,?)");
+					+ "(FOLDER,SUBJECT,SHARE_FLAG,NOTE,STATUS,USER,TRAN_DATE,SYS_DATE,SHARED_ACCESS)values(?,?,?,?,?,?,?,?,?)");
 			ps.setString(1, bean.getFolder());
 			ps.setString(2, bean.getSubject());
 			ps.setInt(3, Integer.parseInt(bean.getShare_others()));
@@ -62,6 +65,7 @@ public class DMS_DAO {
 			ps.setInt(6, uid);
 			ps.setDate(7, curr_Date);
 			ps.setDate(8, curr_Date);
+			ps.setInt(9, bean.getShared_access());
 			
 			up = ps.executeUpdate();
 			
@@ -75,8 +79,7 @@ public class DMS_DAO {
 			ps = con.prepareStatement("select max(CODE) from mst_dmsfolder");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				cnt_code = rs.getInt("max(CODE)");
-				System.out.println("Code = " + cnt_code);
+				cnt_code = rs.getInt("max(CODE)"); 
 			}
 			
 			/*
@@ -103,9 +106,7 @@ public class DMS_DAO {
 			*
 			************************************ Insert data into  mst_dept Table ******************************************** 
 			*
-			*/
-			 
-			
+			*/ 
 			
 			if(dMSDept_list.contains("0")){ 
 			ps = con.prepareStatement("insert into mst_dept(DMS_CODE,DEPT)values(?,?)");

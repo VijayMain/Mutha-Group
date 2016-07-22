@@ -36,14 +36,15 @@ public class Add_NewDMSDoc extends HttpServlet {
 		ArrayList DMSDept_list = new ArrayList();
 		boolean flag = false;
 		InputStream file_Input = null;
+		String fieldName, fieldValue = "";
+		String file_stored = null;
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		/**********************************************************************************************************
 		 * For MultipartContent Separate FILE Fields and FORM Fields
 		 **********************************************************************************************************/
 		if (ServletFileUpload.isMultipartContent(request)) {
 
-			String fieldName, fieldValue = "";
-			String file_stored = null;
+			
 			// ******** Temporary storage for items =====>
 
 			ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
@@ -54,6 +55,7 @@ public class Add_NewDMSDoc extends HttpServlet {
 
 				FileItem fileItem = null;
 				Iterator it = fileItemsList.iterator();
+				Iterator it2 = fileItemsList.iterator();
 
 				// iterate list to sort data(i.e. form / file Fields)
 
@@ -68,8 +70,7 @@ public class Add_NewDMSDoc extends HttpServlet {
 						fieldValue = fileItemTemp.getString();
 						// folder    subject   share  add_access   company    department   note  
 					 	if (fieldName.equalsIgnoreCase("srno")) {
-							bean.setSrno(Integer.parseInt(fieldValue));
-							System.out.println(Integer.parseInt(fieldValue));
+							bean.setSrno(Integer.parseInt(fieldValue)); 
 						}
 						
 						if (fieldName.equalsIgnoreCase("folder")) {
@@ -82,7 +83,7 @@ public class Add_NewDMSDoc extends HttpServlet {
 							bean.setShare_others(fieldValue);
 						}
 						if (fieldName.equalsIgnoreCase("add_fileAccess")) {
-							bean.setShared_access(fieldValue);
+							bean.setShared_access(Integer.parseInt(fieldValue));
 						}
 						if (fieldName.equalsIgnoreCase("department")) { 
 							DMSDept_list.add(fieldValue);
@@ -123,6 +124,12 @@ public class Add_NewDMSDoc extends HttpServlet {
 						}
 					}
 				} 
+		
+		// *************************************************************************************************************
+		// *************************************************************************************************************
+		// *************************************************************************************************************
+		
+		
 				if(bean.getBlob_name()=="" || bean.getBlob_name()==null){
 					String msg = "File Not selected....Data upload failed !!!"; 
 					response.sendRedirect("DMS.jsp?msg=" + msg);
@@ -130,49 +137,55 @@ public class Add_NewDMSDoc extends HttpServlet {
 					// *************************************************************************************************************
 					// IF FILE inputs === >
 					// *************************************************************************************************************
-					it = fileItemsList.iterator(); 
-					while (it.hasNext()) {
-						FileItem fileItemTemp = (FileItem) it.next(); 
-						// if data is form field ==== >
-						if (!fileItemTemp.isFormField()) {
-					fieldName = fileItem.getFieldName();
-					fieldValue = fileItem.getString();
-					for (int k = 1; k <= bean.getSrno(); k++) {
-						System.out.println("k count = " + k);
+					  	while (it2.hasNext()) {
+								FileItem fileItemTemp = (FileItem) it2.next(); 
+								if (fileItemTemp.isFormField()) {
+								}else{ 
+									fileItem = fileItemTemp;
+									fieldName = fileItem.getFieldName();
+									fieldValue = fileItem.getString(); 
+									for (int k = 1; k <= bean.getSrno(); k++) {  
 						// *************************************************************************************************************
 						// if multiple files then there names are
 						// inputName1,inputName2,inputName3,.......
 						// *************************************************************************************************************
 						if (fieldName.equalsIgnoreCase("inputName" + k)) {
-							file_stored = fileItem.getName();
-							if(FilenameUtils.getName(file_stored)!=""){
-								
-							bean.setBlob_name(FilenameUtils.getName(file_stored));
- 							file_Input = new DataInputStream(fileItem.getInputStream());
- 							
+							file_stored = fileItem.getName(); 
+							if(FilenameUtils.getName(file_stored)!=""){ 
  							if (valcnt==1){
  								valcnt++;
+ 								bean.setBlob_name(FilenameUtils.getName(file_stored));
+ 	 							file_Input = new DataInputStream(fileItem.getInputStream());
+ 	 							bean.setBlob_file(file_Input); 
  								cnt_doc = dao.upload_newFolder(session,bean,DMSComp_list,DMSDept_list);
- 								bean.setDmscode(cnt_doc); 
-							}else{
-								System.out.println("In loop = " + k);
-								bean.setBlob_file(file_Input);  
+ 								bean.setDmscode(cnt_doc);
+ 								flag = true;
+							}else{ 
+								flag = false;
+								bean.setBlob_name(FilenameUtils.getName(file_stored));
+	 							file_Input = new DataInputStream(fileItem.getInputStream());
+	 							bean.setBlob_file(file_Input); 
 								flag = dao.attach_Filebase(bean, session);	
 							}
 						}
 						}
 						}
 					}
-				}
+				} 
 					if(flag==true){
-					String msg = "Successfully Submitted!!!"; 
+					String msg = "Successfully Submitted !!!"; 
 					response.sendRedirect("DMS.jsp?msg=" + msg);
 					}else{
 						String msg = "Data upload failed !!!"; 
 						response.sendRedirect("DMS.jsp?msg=" + msg);	
 					}
 				}
-				}
+					}
+				
+				// *************************************************************************************************************
+				// *************************************************************************************************************
+				// *************************************************************************************************************
+					
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
