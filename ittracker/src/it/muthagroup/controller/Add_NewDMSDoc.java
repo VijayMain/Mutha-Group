@@ -31,7 +31,7 @@ public class Add_NewDMSDoc extends HttpServlet {
 		DMS_VO bean = new DMS_VO();
 		DMS_DAO dao = new DMS_DAO();
 		HttpSession session = request.getSession();
-		int valcnt=1;
+		int valcnt=1,cnt_doc=0;
 		ArrayList DMSComp_list = new ArrayList();
 		ArrayList DMSDept_list = new ArrayList();
 		
@@ -157,7 +157,7 @@ public class Add_NewDMSDoc extends HttpServlet {
  							
  							if (valcnt==1){
  								valcnt++;
- 								System.out.println("attachment");
+ 								cnt_doc = dao.upload_newFolder(session,bean);
 							}else{
 								bean.setBlob_file(file_Input); 
 								System.out.println("attachment = = " + bean.getBlob_name());
@@ -169,7 +169,6 @@ public class Add_NewDMSDoc extends HttpServlet {
 					}
 				}
 				}
-					
 				}
 	} catch (Exception e) {
 		e.printStackTrace();

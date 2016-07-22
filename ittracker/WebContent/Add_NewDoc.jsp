@@ -45,8 +45,8 @@
 				</tr>
 				<tr>
 					<td align="left"><b>Share To Others</b></td>
-					<td colspan="4" align="left"><input type="radio" name="share" value="yes" id="share_yes" /> Yes
-					<input type="radio" name="share" value="no" id="share_no" /> No</td>
+					<td colspan="4" align="left"><input type="radio" name="share" value="1" id="share_yes" /> Yes
+					<input type="radio" name="share" value="0" id="share_no" /> No</td>
 				</tr>
 				<tr>
 					<td align="left"><b>Shared User Access</b><br>(If Shared)</td>
