@@ -59,7 +59,7 @@
 				    <select name="company" id="company" size="7" multiple="multiple" tabindex="1" style="width: 150px;background-color:#d5f1ff;">
                     <option value="0">- - - - - All - - - - -</option>
                       <%
-							PreparedStatement ps_comp = con.prepareStatement("select * from user_tbl_company");
+							PreparedStatement ps_comp = con.prepareStatement("select * from user_tbl_company where company_id !=6");
 							ResultSet rs_comp = ps_comp.executeQuery();
 							while(rs_comp.next()){
 					  %>

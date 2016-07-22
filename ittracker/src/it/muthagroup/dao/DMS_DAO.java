@@ -3,6 +3,7 @@ package it.muthagroup.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import it.muthagroup.connectionUtility.Connection_Utility;
 import it.muthagroup.vo.DMS_VO;
@@ -11,13 +12,36 @@ import javax.servlet.http.HttpSession;
 
 public class DMS_DAO {
 	private static final java.sql.Date curr_Date = new java.sql.Date(System.currentTimeMillis());
-	public Object attach_Filebase(DMS_VO bean, HttpSession session) {
-
-		return null;
+	public boolean attach_Filebase(DMS_VO bean, HttpSession session) {
+		boolean flag = false;
+		try {
+			Connection con = Connection_Utility.getConnection();
+			int uid = Integer.parseInt(session.getAttribute("uid").toString());
+			int up = 0;
+			
+			PreparedStatement ps = con.prepareStatement("inert into tarn_dms(TRAN_NO,FILE,FILE_NAME,USER,TRAN_DATE,STATUS,NOTE,SYS_DATE)values(?,?,?,?,?,?,?,?)");
+			ps.setInt(1, bean.getDmscode());
+			ps.setBlob(2, bean.getBlob_file());
+			ps.setString(3, bean.getBlob_name());
+			ps.setInt(4, uid);
+			ps.setDate(5, curr_Date);
+			ps.setInt(6, 1);
+			ps.setString(7, bean.getNote());
+			ps.setDate(8, curr_Date);
+			
+			up = ps.executeUpdate();
+			if(up>0){
+				flag=true;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return flag;
 	}
 
-	public int upload_newFolder(HttpSession session, DMS_VO bean) {
-		int cnt_code = 0;
+	public int upload_newFolder(HttpSession session, DMS_VO bean, ArrayList dMSComp_list, ArrayList dMSDept_list) {
+		int cnt_code = 0,up=0;
 		try {
 			Connection con = Connection_Utility.getConnection();
 			int uid = Integer.parseInt(session.getAttribute("uid").toString());
@@ -33,14 +57,42 @@ public class DMS_DAO {
 			ps.setDate(7, curr_Date);
 			ps.setDate(8, curr_Date);
 			
-			cnt_code = ps.executeUpdate();
+			up = ps.executeUpdate();
 			
+			if(up>0){
 			ps = con.prepareStatement("select max(CODE) as code from mst_dmsfolder");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				cnt_code = rs.getInt(rs.getInt("code"));
 			}
 			
+			if(dMSDept_list.contains(0)){ 
+			ps = con.prepareStatement("insert into mst_dept(DMS_CODE,DEPT)values(?,?)");
+			ps.setInt(1, cnt_code);
+			ps.setInt(2, 0);
+			up = ps.executeUpdate();
+			}else{
+				for(int i=0;i<=dMSDept_list.size();i++){
+					ps = con.prepareStatement("insert into mst_dept(DMS_CODE,DEPT)values(?,?)");
+					ps.setInt(1, cnt_code);
+					ps.setInt(2, Integer.parseInt(dMSDept_list.get(i).toString()));
+					up = ps.executeUpdate();
+					}
+			}
+			if(dMSComp_list.contains(0)){
+				ps = con.prepareStatement("insert into mst_comp(DMS_CODE,COMPANY)values(?,?)");
+				ps.setInt(1, cnt_code);
+				ps.setInt(2, 0);
+				up = ps.executeUpdate();
+			}else{
+			for(int i=0;i<=dMSComp_list.size();i++){
+				ps = con.prepareStatement("insert into mst_comp(DMS_CODE,COMPANY)values(?,?)");
+				ps.setInt(1, cnt_code);
+				ps.setInt(2, Integer.parseInt(dMSComp_list.get(i).toString()));
+				up = ps.executeUpdate();
+			}
+			}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

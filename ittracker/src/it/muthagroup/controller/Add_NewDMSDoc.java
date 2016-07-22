@@ -34,7 +34,7 @@ public class Add_NewDMSDoc extends HttpServlet {
 		int valcnt=1,cnt_doc=0;
 		ArrayList DMSComp_list = new ArrayList();
 		ArrayList DMSDept_list = new ArrayList();
-		
+		boolean flag = false;
 		InputStream file_Input = null;
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		/**********************************************************************************************************
@@ -130,20 +130,14 @@ public class Add_NewDMSDoc extends HttpServlet {
 					// *************************************************************************************************************
 					// IF FILE inputs === >
 					// *************************************************************************************************************
-					it = fileItemsList.iterator();
-
+					it = fileItemsList.iterator(); 
 					while (it.hasNext()) {
-						
-						FileItem fileItemTemp = (FileItem) it.next();
-
+						FileItem fileItemTemp = (FileItem) it.next(); 
 						// if data is form field ==== >
 						if (!fileItemTemp.isFormField()) {
-						 
 					fieldName = fileItem.getFieldName();
 					fieldValue = fileItem.getString();
-					
-					for (int k = 1; k <= bean.getSrno(); k++) {
-						System.out.println("K is = " + k);
+					for (int k = 1; k <= bean.getSrno(); k++) { 
 						// *************************************************************************************************************
 						// if multiple files then there names are
 						// inputName1,inputName2,inputName3,.......
@@ -157,17 +151,24 @@ public class Add_NewDMSDoc extends HttpServlet {
  							
  							if (valcnt==1){
  								valcnt++;
- 								cnt_doc = dao.upload_newFolder(session,bean);
+ 								cnt_doc = dao.upload_newFolder(session,bean,DMSComp_list,DMSDept_list);
+ 								bean.setDmscode(cnt_doc); 
 							}else{
-								bean.setBlob_file(file_Input); 
-								System.out.println("attachment = = " + bean.getBlob_name());
-									//flag = dao.attach_Filebase(bean, session);	
-							}	
+								bean.setBlob_file(file_Input);  
+								flag = dao.attach_Filebase(bean, session);	
+							}
 						}
 						}
 						}
 					}
 				}
+					if(flag==true){
+					String msg = "Successfully Submitted!!!"; 
+					response.sendRedirect("DMS.jsp?msg=" + msg);
+					}else{
+						String msg = "Data upload failed !!!"; 
+						response.sendRedirect("DMS.jsp?msg=" + msg);	
+					}
 				}
 				}
 	} catch (Exception e) {
