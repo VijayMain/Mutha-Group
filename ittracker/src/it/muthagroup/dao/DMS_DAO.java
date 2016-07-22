@@ -19,7 +19,7 @@ public class DMS_DAO {
 			int uid = Integer.parseInt(session.getAttribute("uid").toString());
 			int up = 0;
 			
-			PreparedStatement ps = con.prepareStatement("inert into tarn_dms(TRAN_NO,FILE,FILE_NAME,USER,TRAN_DATE,STATUS,NOTE,SYS_DATE)values(?,?,?,?,?,?,?,?)");
+			PreparedStatement ps = con.prepareStatement("insert into tarn_dms(TRAN_NO,FILE,FILE_NAME,USER,TRAN_DATE,STATUS,NOTE,SYS_DATE)values(?,?,?,?,?,?,?,?)");
 			ps.setInt(1, bean.getDmscode());
 			ps.setBlob(2, bean.getBlob_file());
 			ps.setString(3, bean.getBlob_name());
@@ -60,11 +60,13 @@ public class DMS_DAO {
 			up = ps.executeUpdate();
 			
 			if(up>0){
-			ps = con.prepareStatement("select max(CODE) as code from mst_dmsfolder");
+			ps = con.prepareStatement("select max(CODE) from mst_dmsfolder");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				cnt_code = rs.getInt(rs.getInt("code"));
+				cnt_code = rs.getInt("max(CODE)");
+				System.out.println("Code = " + cnt_code);
 			}
+			
 			
 			if(dMSDept_list.contains(0)){ 
 			ps = con.prepareStatement("insert into mst_dept(DMS_CODE,DEPT)values(?,?)");
