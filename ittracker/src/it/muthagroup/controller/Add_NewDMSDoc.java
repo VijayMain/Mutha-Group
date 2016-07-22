@@ -137,7 +137,8 @@ public class Add_NewDMSDoc extends HttpServlet {
 						if (!fileItemTemp.isFormField()) {
 					fieldName = fileItem.getFieldName();
 					fieldValue = fileItem.getString();
-					for (int k = 1; k <= bean.getSrno(); k++) { 
+					for (int k = 1; k <= bean.getSrno(); k++) {
+						System.out.println("k count = " + k);
 						// *************************************************************************************************************
 						// if multiple files then there names are
 						// inputName1,inputName2,inputName3,.......
@@ -154,6 +155,7 @@ public class Add_NewDMSDoc extends HttpServlet {
  								cnt_doc = dao.upload_newFolder(session,bean,DMSComp_list,DMSDept_list);
  								bean.setDmscode(cnt_doc); 
 							}else{
+								System.out.println("In loop = " + k);
 								bean.setBlob_file(file_Input);  
 								flag = dao.attach_Filebase(bean, session);	
 							}
