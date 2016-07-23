@@ -15,13 +15,9 @@ public class Connection_Utility {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/complaintzilla", "root",
-					"root");
-
-			System.out.println("Connection Estab");
-
+					"root");  
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Connection Failed");
+			e.printStackTrace(); 
 		}
 
 		return con; // returns Connection

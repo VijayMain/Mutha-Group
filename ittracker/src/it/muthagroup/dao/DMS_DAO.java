@@ -18,7 +18,7 @@ public class DMS_DAO {
 			Connection con = Connection_Utility.getConnection();
 			int uid = Integer.parseInt(session.getAttribute("uid").toString());
 			int up = 0;
-			System.out.println(" = "+flag);
+			//  System.out.println(" = "+flag);
 			PreparedStatement ps = con.prepareStatement("insert into tarn_dms(TRAN_NO,FILE,FILE_NAME,USER,TRAN_DATE,STATUS,NOTE,SYS_DATE)values(?,?,?,?,?,?,?,?)");
 			ps.setInt(1, bean.getDmscode());
 			ps.setBlob(2, bean.getBlob_file());
@@ -54,7 +54,7 @@ public class DMS_DAO {
 			************************************ Insert Into Main DMS Table ******************************************** 
 			*
 			*/
-			System.out.println("shres access = " + bean.getShared_access());
+			// System.out.println("shres access = " + bean.getShared_access());
 			PreparedStatement ps = con.prepareStatement("insert into mst_dmsfolder"
 					+ "(FOLDER,SUBJECT,SHARE_FLAG,NOTE,STATUS,USER,TRAN_DATE,SYS_DATE,SHARED_ACCESS)values(?,?,?,?,?,?,?,?,?)");
 			ps.setString(1, bean.getFolder());

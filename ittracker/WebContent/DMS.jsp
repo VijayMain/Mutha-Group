@@ -155,7 +155,7 @@ div.panel.show {
 	};
 	
 	
-	function GetMyDocs(str) {
+	function GetMyDocs(str,str1) {
 		var xmlhttp;
 
 		if (window.XMLHttpRequest) {
@@ -171,7 +171,7 @@ div.panel.show {
 				document.getElementById("new_dms").innerHTML = xmlhttp.responseText;
 			}
 		};
-		xmlhttp.open("POST", "GetMyDocs.jsp?q=" + str, true);
+		xmlhttp.open("POST", "GetMyDocs.jsp?q=" + str + "&r=" + str1, true);
 		xmlhttp.send();
 	};
 	function GetSharedDocs(str) {
@@ -305,7 +305,7 @@ alert("<%=request.getParameter("msg") %>");
  ResultSet rs = ps.executeQuery();
  while(rs.next()){
  %>
- 	<a onclick="GetMyDocs(this.value)" style="cursor: pointer;"><b><%=rs.getString("FOLDER") %></b></a>
+ 	<a onclick="GetMyDocs('<%=rs.getInt("CODE") %>','<%=rs.getString("FOLDER") %>')" style="cursor: pointer;"><b><%=rs.getString("FOLDER") %></b></a>
  <%
  }
  %>	
