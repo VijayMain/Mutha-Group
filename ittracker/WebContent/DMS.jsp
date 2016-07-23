@@ -128,8 +128,8 @@ div.panel.show {
 }
 
 .tftable td {
-	font-size: 12px; 
-	padding: 1px; 
+	font-size: 11px; 
+	padding: 0.5px; 
 }
 </style>
 
@@ -299,24 +299,35 @@ alert("<%=request.getParameter("msg") %>");
 </div>
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">My Documents</button>
 <div class="panel">
- <p style="padding-left: 15px;">
+ 
  <%
  PreparedStatement ps = con.prepareStatement("select * from mst_dmsfolder where USER="+uid);
  ResultSet rs = ps.executeQuery();
  while(rs.next()){
  %>
+ <p style="padding-left: 15px;">
  	<a onclick="GetMyDocs('<%=rs.getInt("CODE") %>','<%=rs.getString("FOLDER") %>')" style="cursor: pointer;"><b><%=rs.getString("FOLDER") %></b></a>
+ 	</p>
  <%
  }
  %>	
-  </p>
+  
 </div>
 
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">Shared Documents</button>
 <div class="panel">
+ <%
+ ps = con.prepareStatement("select * from mst_dmsfolder where USER="+uid);
+ rs = ps.executeQuery();
+ while(rs.next()){
+ %>
  <p style="padding-left: 15px;">
- 	<a onclick="GetSharedDocs(this.value)" style="cursor: pointer;"><b>My Shared Folder</b></a>
-  </p>
+ 	<a onclick="GetMyDocs('<%=rs.getInt("CODE") %>','<%=rs.getString("FOLDER") %>')" style="cursor: pointer;"><b><%=rs.getString("FOLDER") %></b></a>
+ 	</p>
+ <%
+ }
+ %>	
+  
 </div>
 
 <script>
