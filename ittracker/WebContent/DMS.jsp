@@ -226,12 +226,13 @@ div.panel.show {
 	try {
 		int uid = Integer.parseInt(session.getAttribute("uid").toString());
 		String uname = null;
-		int d_Id=0;
+		int d_Id=0,comp_id=0;
  		Connection con = Connection_Utility.getConnection();
 		PreparedStatement ps_uname = con.prepareStatement("select * from User_tbl where U_Id="+ uid);
 		ResultSet rs_uname = ps_uname.executeQuery();
 		while (rs_uname.next()) {
 			d_Id = rs_uname.getInt("Dept_Id");
+			comp_id = rs_uname.getInt("Company_Id");
 			uname = rs_uname.getString("U_Name");
 		}
 %>
@@ -310,14 +311,13 @@ alert("<%=request.getParameter("msg") %>");
  	</p>
  <%
  }
- %>	
-  
+ %>
 </div>
 
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">Shared Documents</button>
 <div class="panel">
  <%
- ps = con.prepareStatement("select * from mst_dmsfolder where USER="+uid);
+ ps = con.prepareStatement("SELECT * FROM mst_dmsfolder where code in (SELECT dms_code FROM mst_comp where company in("+comp_id+",0)) and code in(SELECT dms_code FROM mst_dept where dept in("+d_Id+",0)) and share_flag=1 and user!="+uid);
  rs = ps.executeQuery();
  while(rs.next()){
  %>
@@ -326,8 +326,7 @@ alert("<%=request.getParameter("msg") %>");
  	</p>
  <%
  }
- %>	
-  
+ %>
 </div>
 
 <script>
@@ -336,8 +335,8 @@ var i;
 for (i = 0; i < acc.length; i++) {
     acc[i].onclick = function(){
         this.classList.toggle("active");
-        this.nextElementSibling.classList.toggle("show");      
-  }  
+        this.nextElementSibling.classList.toggle("show"); 
+  }
 }
 </script>
 </div>
