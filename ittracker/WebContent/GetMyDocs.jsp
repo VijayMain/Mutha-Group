@@ -17,6 +17,9 @@
 	   Connection con = Connection_Utility.getConnection();
 	   int code = Integer.parseInt(request.getParameter("q"));
 	   String folder = request.getParameter("r"); 
+	   PreparedStatement ps_use = null;
+	   ResultSet rs_use = null;
+	   String cr_use="",cr_note="";
    %> 
 			<table style="width: 100%;" class="tftable">
 				<tr>
@@ -30,7 +33,7 @@
 				    <td width="15%" align="center"><strong>Departments</strong></td>
 				    <td align="center"><strong>Document</strong></td>
 				    <td align="center"><strong>Note</strong></td>
-				    <td align="center"><strong>Customize</strong></td>
+				    <td align="center"><strong>Add</strong></td>
 				</tr>
 				<%
 				int sn=1,flagchk=0;
@@ -39,7 +42,7 @@
 				ResultSet rs_data = null,rs_chk=null;
 				PreparedStatement ps  = con.prepareStatement("select * from mst_dmsfolder where CODE=" + code);
 				ResultSet rs = ps.executeQuery();
-				while(rs.next()){ 
+				while(rs.next()){
 					if(rs.getInt("SHARED_ACCESS")==1){
 					rights = "Full";
 					}else{
@@ -50,7 +53,7 @@
 					}
 				%>
 				<tr>
-				  <td align="left"><%=sn %></td>
+				  <td align="center"><%=sn %></td>
 				  <td align="left"><%=rs.getString("SUBJECT") %></td>
 				  <td align="left"><%=rights %></td> 
 				 <!--
@@ -116,10 +119,18 @@
 				  <%
 				  ps_data = con.prepareStatement("SELECT * FROM tarn_dms where tran_no="+code);
 				  rs_data = ps_data.executeQuery(); 
-				  while(rs_data.next()){ 
+				  while(rs_data.next()){
+					  ps_use = con.prepareStatement("select * from user_tbl where u_id="+rs_data.getInt("user"));
+						 rs_use = ps_use.executeQuery();
+						 while(rs_use.next()){
+							 cr_use = rs_use.getString("u_name"); 
+						 }
+						 cr_note = rs_data.getString("note");
 				  %>
-				  &nbsp;<a href="Display_Doc.jsp?field=<%=rs_data.getInt("CODE")%>" style="color: #3a22c8"><b><%=rs_data.getString("File_Name")%></b></a>
-				  <b style="background-color: #eaf073">&nbsp;,&nbsp;</b>
+				  <a href="Display_Doc.jsp?field=<%=rs_data.getInt("CODE")%>" style="color: #3a22c8" 
+				  title="Created By <%=cr_use%>
+Note : <%=rs_data.getString("note")%>"><b><%=rs_data.getString("File_Name")%></b></a><font style="color: black;font-family: Arial;">---<%= cr_note%></font> 
+				 <br>
 				  <%
 				  } 
 				  %>
@@ -129,9 +140,19 @@
 				  -->  
 				  <td align="left"><%=rs.getString("note") %></td>
 				  <td align="center" style="width: 2%">
-				  	<img src="images/Add.png" style="height: 17px;cursor: pointer;" title="Add">
-					<img src="images/edit.png" style="height: 17px;cursor: pointer;" title="Edit"> 
-					<img src="images/delete.png" style="height: 17px;cursor: pointer;" title="Delete"> 
+				  <%
+				  if(rs.getInt("SHARE_FLAG")==1 && rs.getInt("SHARED_ACCESS")==1){
+				  %>
+				  	<img src="images/Add.png" style="height: 17px;cursor: pointer;" title="Add" onclick="AddNewDocs('<%=rs.getInt("CODE") %>','<%=rs.getString("FOLDER") %>')">
+				  <%
+				  }else{
+				  %>
+				  <b title="view only" style="background-color:#e1e38a;cursor: pointer;">---</b>
+				  <%  
+				  }
+				  %>	
+					<!-- <img src="images/edit.png" style="height: 17px;cursor: pointer;" title="Edit"> 
+					<img src="images/delete.png" style="height: 17px;cursor: pointer;" title="Delete">  -->
 				  </td>
 			  </tr>
 			  <%

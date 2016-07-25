@@ -150,4 +150,29 @@ public class DMS_DAO {
 		}
 		return cnt_code;
 	}
+
+	public boolean attach_NewDMSFile(DMS_VO bean, HttpSession session) {
+		boolean flag=false;
+		try {
+			Connection con = Connection_Utility.getConnection();
+			int uid = Integer.parseInt(session.getAttribute("uid").toString());
+			PreparedStatement ps = con.prepareStatement("insert into tarn_dms(TRAN_NO,FILE,FILE_NAME,USER,TRAN_DATE,STATUS,NOTE,SYS_DATE)values(?,?,?,?,?,?,?,?)");
+			ps.setInt(1, bean.getCode());
+			ps.setBlob(2, bean.getBlob_file());
+			ps.setString(3, bean.getBlob_name());
+			ps.setInt(4, uid);
+			ps.setDate(5, curr_Date);
+			ps.setInt(6, 1);
+			ps.setString(7, bean.getNote());
+			ps.setDate(8, curr_Date);
+			
+			int up = ps.executeUpdate();
+			if(up>0){
+				flag=true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
 }

@@ -4,9 +4,17 @@ import java.io.InputStream;
 
 public class DMS_VO {
 
-	private int srno, dmscode, shared_access;
+	private int srno, dmscode, shared_access, code;
 	private String folder, subject, file, share_others, blob_name, note;
 	private InputStream blob_file = null;
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
 
 	public int getDmscode() {
 		return dmscode;
