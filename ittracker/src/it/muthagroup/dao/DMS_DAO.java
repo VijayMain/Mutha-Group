@@ -55,8 +55,7 @@ public class DMS_DAO {
 			*
 			*/
 			// System.out.println("shres access = " + bean.getShared_access());
-			PreparedStatement ps = con.prepareStatement("insert into mst_dmsfolder"
-					+ "(FOLDER,SUBJECT,SHARE_FLAG,NOTE,STATUS,USER,TRAN_DATE,SYS_DATE,SHARED_ACCESS)values(?,?,?,?,?,?,?,?,?)");
+			PreparedStatement ps = con.prepareStatement("insert into mst_dmsfolder (FOLDER,SUBJECT,SHARE_FLAG,NOTE,STATUS,USER,TRAN_DATE,SYS_DATE,SHARED_ACCESS)values(?,?,?,?,?,?,?,?,?)");
 			ps.setString(1, bean.getFolder());
 			ps.setString(2, bean.getSubject());
 			ps.setInt(3, Integer.parseInt(bean.getShare_others()));
