@@ -57,29 +57,24 @@
 </style>
 <script type="text/javascript">
 function delete_msg(str) {
-	var where_to = confirm("Do you really want to DELETE this information ???"); 
-	if (where_to == true) {
-		var xmlhttp;
-		if (window.XMLHttpRequest) {
-			// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {
-			// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				document.getElementById("delmsg").innerHTML = xmlhttp.responseText;
-			}
-		};
-		xmlhttp.open("POST", "Delete.jsp?story_id=" + str, true);
-		xmlhttp.send();
-		window.location.reload();
+	var xmlhttp;
+
+	if (window.XMLHttpRequest) {
+		// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp = new XMLHttpRequest();
 	} else {
-		window.location.reload();
+		// code for IE6, IE5
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 	}
-	window.location.reload();
-}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById("delmsg").innerHTML = xmlhttp.responseText;
+		}
+	};
+	xmlhttp.open("POST", "Delete.jsp?story_id=" + str, true);
+	xmlhttp.send();
+};
+
 </script>
 
 <script type="text/javascript" src="js/highslide.js"></script>
@@ -587,21 +582,20 @@ if (session.getAttribute("uid") != null) {
 	%>
 	<br/><span style="font-family: Arial;font-size: 9px;background-color: #EDF7EE;">By  <%=rs_crested.getString("u_name") %>&nbsp;(<%=rs_comp.getString("Company_Name") %>)</span>
 	    <% 
-	    if(rs_disnews.getInt("created_by")==uid){
+	    if(rs_disnews.getInt("created_by")==uid){ 
 		    %>
-		    &nbsp;&nbsp;&nbsp;<input type="button" onclick="delete_msg(<%=Integer.parseInt(list_news.get(j).toString()) %>)" style="cursor: pointer;font-family: Arial;font-size: 10px;" value="Delete" /><br/>
+		    &nbsp;&nbsp;&nbsp;<input type="button" onclick="delete_msg('<%=Integer.parseInt(list_news.get(j).toString()) %>')" style="cursor: pointer;font-family: Arial;font-size: 10px;" value="Delete" /><br/>
 		    <%
 		    } 
 		}
 	}
 	%>
-		
 		<hr />
 	  <% 
 	  
-	  }
 			  }
-		}
+	 		}
+		 }
 	  }
   
   

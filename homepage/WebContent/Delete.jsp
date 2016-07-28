@@ -10,18 +10,19 @@
 </head>
 <body>
 	<%
-		try {
+		try { 
 			int story_id = Integer.parseInt(request.getParameter("story_id")); 
 			Connection con = Connection_Utility.getConnection();
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date curr_Date = new java.sql.Date(System.currentTimeMillis());
 			int uid = Integer.parseInt(session.getAttribute("uid").toString());
+			 
 			
 			PreparedStatement ps_story = con.prepareStatement("update homepage_stories_tbl set enable_id=0 and update_date="+curr_Date +" where homepage_stories_id="+story_id);
 			int up = ps_story.executeUpdate();
 			if(up>0){
 %>
-<span id="delOther"><img alt="" src="images/valid.png">&nbsp;&nbsp;Message Deleted</span>
+<span id="delOther"><img alt="" src="images/valid.png">&nbsp;&nbsp;Message Deleted (Kindly refresh the page)</span>
 <%				
 			}
 			
