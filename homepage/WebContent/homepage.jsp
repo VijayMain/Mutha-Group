@@ -543,7 +543,6 @@ if (session.getAttribute("uid") != null) {
 		}
 	}
 	%>
-	
 	<hr />
   <% 
   }
