@@ -328,10 +328,8 @@ alert("<%=request.getParameter("msg") %>");
 			}
 			%>
 </div>
-<div style="height: 530px;width:99%; overflow: scroll;"> 
-		 
-<div style="float:left;width:20.8%;text-align: left; height: 470px;background-color: #006999;overflow: scroll;">
-         	 
+<div style="height: 530px;width:99%; overflow: scroll;">
+<div style="float:left;width:20.8%;text-align: left; height: 470px;background-color: #006999;overflow: scroll;">    	 
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">Add New Document</button> 
 <div class="panel">
   <p style="padding-left: 15px;">
@@ -340,7 +338,6 @@ alert("<%=request.getParameter("msg") %>");
 </div>
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">My Documents</button>
 <div class="panel">
- 
  <%
  PreparedStatement ps = con.prepareStatement("select * from mst_dmsfolder where USER="+uid);
  ResultSet rs = ps.executeQuery();
