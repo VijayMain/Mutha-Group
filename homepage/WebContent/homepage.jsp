@@ -136,6 +136,7 @@ ArrayList list_news = new ArrayList();
     <a href="http://www.mantrucksindia.com/login/">MAN Trucks</a>
     <a href="https://tradewithtvs.com/Login.aspx">TVS</a>
     <a href="https://mptax.mp.gov.in/mpvatweb/index.jsp">Road Permit MP</a>
+    <a href="http://yorkebiz.com/ebp/">York</a>
  </div>
  </div>  
 <%
