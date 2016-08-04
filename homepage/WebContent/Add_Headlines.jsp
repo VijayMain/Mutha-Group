@@ -11,6 +11,47 @@
 <title>Add Headlines</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="css/style.css"/> 
+<style>
+.dropbtn {
+    background-color: black;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+	font-family: Arial; 
+    position: absolute;
+    background-color: #3b7687;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: black;}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: black;
+}
+</style>
 <style type="text/css">
 .tftable {
 	font-size: 12px;
@@ -98,16 +139,42 @@ String strDate = sdf.format(date);
 <div id="container">
     <div id="content"> 
   <div id="menu" style="font-size: 16px;font-family: Arial;">
-<a href="homepage.jsp">&nbsp; &nbsp;&nbsp;<strong>Home</strong>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</a>   
-  <a href="http://192.168.0.6/companyunits.htm">&nbsp; &nbsp;&nbsp;<strong>ERP</strong> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</a>  
-  <a href="http://192.168.0.7/ComplaintZilla/">&nbsp; &nbsp;&nbsp;<strong>ComplaintZilla</strong>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</a>  
-  <a href="http://192.168.0.7/ittracker/">&nbsp; &nbsp;&nbsp;<strong>IT Tracker</strong>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</a>  
-  <a href="http://192.168.0.7:8080/">&nbsp; &nbsp;&nbsp;<strong>MIKI</strong>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; </a> 
-  <a href="http://192.168.0.7/dvpboss/">&nbsp; &nbsp;&nbsp;<strong>DVP BOSS</strong> &nbsp;&nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;</a> 
-  <a href="http://192.168.0.7/ECN/">&nbsp; &nbsp;&nbsp;<strong>ECN</strong> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</a>
-  <a href="http://192.168.0.7/dictionary/">&nbsp; &nbsp;&nbsp;<strong>Item Dictionary</strong> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</a> 
-  <a href="http://192.168.0.7/foundrymis/">&nbsp; &nbsp;&nbsp;<strong>Foundry MIS</strong>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</a>  
-  <a href="http://www.getmykaizen.com/">&nbsp; &nbsp;&nbsp;<strong>Get My Kaizen</strong> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</a>
+  <a href="homepage.jsp">&nbsp; &nbsp;&nbsp;<strong>Home</strong>&nbsp; &nbsp;&nbsp;</a>   
+<div class="dropdown" style="cursor: pointer;">
+  <strong style="color: white;font-size: 13px"><a href="http://192.168.0.6/companyunits.htm">ERP Login</a></strong>
+  <div class="dropdown-content">
+    <a href="http://192.168.0.6/meplbwayserp/">MEPL H21</a>
+    <a href="http://192.168.0.6/H25bwayserp/">MEPL H25</a>
+    <a href="http://192.168.0.6/K1BWAYSERP/">MEPL UNIT III</a>
+    <a href="http://192.168.0.6/UNITIVBWAYSERP/">MEPL UNIT IV</a>
+    <a href="http://192.168.0.6/MFPLBWAYSERP/">MFPL</a>
+    <a href="http://192.168.0.6/DIBWAYSERP">DI</a>
+    
+    <a href="http://192.168.0.6/ENGH25CONSOLIDATION/">H21 & H25 CON</a>
+    <a href="http://192.168.0.6/UNIT123CONSOLIDATION/">H21,H25 & Unit III CON</a>
+    <a href="http://192.168.0.6/MUTHACONSOLIDATION/">ALL CON</a>
+  </div>
+</div>
+  <a href="http://192.168.0.7/ComplaintZilla/">&nbsp; &nbsp;&nbsp;<strong>ComplaintZilla</strong>&nbsp;&nbsp;&nbsp;</a>  
+  <a href="http://192.168.0.7/ittracker/">&nbsp; &nbsp;&nbsp;<strong>IT Tracker</strong>&nbsp;&nbsp;&nbsp;</a>  
+  <a href="http://192.168.0.7:8080/">&nbsp; &nbsp;&nbsp;<strong>MIKI</strong>&nbsp;&nbsp; &nbsp;</a> 
+  <a href="http://192.168.0.7/dvpboss/">&nbsp; &nbsp;&nbsp;<strong>DVP BOSS</strong> &nbsp;&nbsp;&nbsp;</a> 
+  <a href="http://192.168.0.7/ECN/">&nbsp; &nbsp;&nbsp;<strong>ECN</strong> &nbsp;&nbsp;&nbsp;</a><!-- 
+  <a href="http://192.168.0.7/dictionary/">&nbsp; &nbsp;&nbsp;<strong>Item Dictionary</strong> &nbsp;&nbsp;&nbsp;</a> --> 
+  <a href="http://192.168.0.7/foundrymis/">&nbsp; &nbsp;&nbsp;<strong>Foundry MIS</strong>&nbsp;&nbsp; &nbsp;</a>
+  <a href="http://192.168.0.7/dailyreports/">&nbsp; &nbsp;&nbsp;<strong>Daily Reports</strong>&nbsp;&nbsp; &nbsp;</a>  
+  <a href="http://www.getmykaizen.com/">&nbsp; &nbsp;&nbsp;<strong>GetMyKaizen</strong> &nbsp;&nbsp;&nbsp;</a>  
+ <div class="dropdown" style="cursor: pointer;">
+ <strong style="color: white;font-size: 13px">Portal</strong>
+ <div class="dropdown-content">
+    <a href="https://srm.inservices.tatamotors.com/irj/portal">Tata Motors</a>
+    <a href="http://its.forcemotors.com/sap/its/homepages/vis/default.html">Force Motors</a>
+    <a href="http://www.mantrucksindia.com/login/">MAN Trucks</a>
+    <a href="https://tradewithtvs.com/Login.aspx">TVS</a>
+    <a href="https://mptax.mp.gov.in/mpvatweb/index.jsp">Road Permit MP</a>
+    <a href="http://yorkebiz.com/ebp/">York</a>
+ </div>
+ </div> 
 <%
 if (session.getAttribute("uid") != null) { 
 	int uid = Integer.parseInt(session.getAttribute("uid").toString()); 
@@ -126,7 +193,7 @@ if (session.getAttribute("uid") != null) {
 		uname=rs_uname.getString("U_Name"); 
 	} 
 %> 
-  <a href="Logout.jsp"><strong>LogOut (<%=uname %>)</strong></a>
+  &nbsp;&nbsp;&nbsp;<a href="Logout.jsp"><strong>LogOut (<%=uname %>)</strong></a>
    <%
 	}   
    %>
