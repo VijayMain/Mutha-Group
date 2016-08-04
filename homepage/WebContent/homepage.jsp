@@ -267,7 +267,7 @@ Date firstDateOfPreviousMonth = caldate.getTime();
 %>
 <table style="font-family: Arial;font-size: 12px;">
 		<tr>
-			<td colspan="2" align="center" style="color: #87364E;"><b>Software Usage from <%=new SimpleDateFormat("dd-MM-yyyy").format(firstDateOfPreviousMonth) %>
+			<td colspan="2" align="center" style="color: #87364E;"><b>30 Days Software Usage
 			</b></td>
 		</tr>
 		<tr align="left" style="color: blue;">
