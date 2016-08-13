@@ -70,24 +70,34 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
 	    
 	    
 	    
-	    if(sup.equalsIgnoreCase("All_Supplier")){
-	   	 int cnt=0;
-	    PreparedStatement ps_sp=con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE=12");
-	    ResultSet rs_sp=ps_sp.executeQuery();
-	    while(rs_sp.next()){
-	   	 if(cnt ==0){
-	   		 sup = rs_sp.getString("SUB_GLACNO");
-	   		 cnt=1;
-	   	 }else{
-	   		 sup += rs_sp.getString("SUB_GLACNO"); 
-	   			}
-	    	}
-	    } 
+	 // ArrayList<String> al = new ArrayList<String>();
+	    boolean allFlag = false;
+	     if(sup.equalsIgnoreCase("All_Supplier")){
+	    	 allFlag = true;
+	    /*  int cnt=0;
+	     PreparedStatement ps_sp=con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE=12");
+	     ResultSet rs_sp=ps_sp.executeQuery();
+	     while(rs_sp.next()){
+	    	 if(cnt ==0 ){
+	    		 sup = rs_sp.getString("SUB_GLACNO");
+	    		 al.add(rs_sp.getString("SUB_GLACNO"));
+	    		 cnt=1;
+	    	 }else{
+	    		 sup += rs_sp.getString("SUB_GLACNO");
+	    		 al.add(rs_sp.getString("SUB_GLACNO"));
+	    	 }
+	     	} */
+	     }else{
+	    	 PreparedStatement ps_sp=con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLACNO='"+sup+"'");
+	    	 ResultSet rs_sp=ps_sp.executeQuery();
+	    	 while(rs_sp.next()){
+	    		 sup = rs_sp.getString("SUBGL_LONGNAME");
+	    	 }
+	     }
 	   // System.out.println("Suppliers = " + sup);
 	    
 	String fromDate = from.substring(6,8) +"/"+ from.substring(4,6) +"/"+ from.substring(0,4);
-	
-	String poDate = "";  
+	 
 	
 	String toDate = to.substring(6,8) +"/"+ to.substring(4,6) +"/"+ to.substring(0,4);
 	DecimalFormat zeroDForm = new DecimalFormat("##0.00");
@@ -141,9 +151,9 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
         
     Label label = new Label(0, 0, "Supplier Name",cellFormat);
     Label label1 = new Label(1, 0, "Part Name",cellFormat);
-    Label label2 = new Label(2, 0, "PO NO.",cellFormat);
-    Label label3 = new Label(3, 0, "PO DATE",cellFormat);
-    Label label4 = new Label(4, 0, "Amend No",cellFormat);
+    Label label2 = new Label(2, 0, "PO NO.",cellFormat); 
+    Label label3 = new Label(3, 0, "Amend No",cellFormat);
+    Label label4 = new Label(4, 0, "PO DATE",cellFormat);
     /* Label label5 = new Label(5, 0, "With Effect From",cellFormat); */
     Label label5 = new Label(5, 0, "Sr No",cellFormat); 
     Label label6 = new Label(6, 0, "Wgt kgs",cellFormat);
@@ -163,46 +173,42 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
     writableSheet.addCell(label8);
   	//***********************************************************************************************************************************
     //***********************************************************************************************************************************
-    CallableStatement cs11 = con.prepareCall("{call Sel_RptPartyWsPurchOrderRegister(?,?,?,?,?,?,?)}");
+    CallableStatement cs11 = con.prepareCall("{call Sel_RptPORegister(?,?,?,?,?,?)}");
 	cs11.setString(1,comp);
 	cs11.setString(2,"0");
 	cs11.setString(3,"4038,4034,4033,4039");
 	cs11.setString(4,from);
 	cs11.setString(5,to);
-	cs11.setString(6,"0");
-	cs11.setString(7,sup);
+	cs11.setString(6,"0"); 
 	
-	ResultSet rs = cs11.executeQuery(); 
-	while(rs.next()){
-		poDate = rs.getString("TRAN_DATE").substring(6,8) +"/"+ rs.getString("TRAN_DATE").substring(4,6) +"/"+ rs.getString("TRAN_DATE").substring(0,4);
-
+	ResultSet rs = cs11.executeQuery();
+	
+	if(allFlag==true){
+while(rs.next()){
 		Label supnamelbl = new Label(row, col, rs.getString("SUPP_NAME"),cellRIghtformat);
 		row++;
 		Label partnamelbl = new Label(row, col, rs.getString("MAT_NAME"),cellRIghtformat);
 		row++;
 Label po_nolbl = new Label(row, col, rs.getString("TRNNO").substring(3, 7) + " - " + rs.getString("PO_NO") ,cellRIghtformat); 
-row++;
-Label po_datelbl = new Label(row, col,poDate,cellleftformat);
-row++;
-Number amdatelbl = new Number(row, col, Double.parseDouble(rs.getString("NEW_AMENDNO")),cellRIghtformat);
-row++;
-/* Label witheffectlbl = new Label(row, col,rs.getString("REMRK"),cellRIghtformat);
-row++; */
-Number srnolbl = new Number(row, col,Integer.parseInt(rs.getString("SR_NO")),cellRIghtformat);
-
+row++; 
+Number amdatelbl = new Number(row, col, Double.parseDouble(rs.getString("NEW_AMENDNO")),cellRIghtformat); 
+row++; 
+Label po_datelbl = new Label(row, col,rs.getString("PRN_PODATE"),cellleftformat); 
+row++; 
+Number srnolbl = new Number(row, col,Integer.parseInt(rs.getString("SR_NO")),cellRIghtformat); 
 row++;
 Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
 row++;
 Number ratepplbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),cellRIghtformat); 
 row++;
-Label remarklbl = new Label(row, col, rs.getString("REMRK"),cellleftformat);
+Label remarklbl = new Label(row, col, rs.getString("PAY_REMRK"),cellleftformat);
 
 
 writableSheet.addCell(supnamelbl);
 writableSheet.addCell(partnamelbl);
 		writableSheet.addCell(po_nolbl);
-		writableSheet.addCell(po_datelbl);
 		writableSheet.addCell(amdatelbl);
+		writableSheet.addCell(po_datelbl); 
 		/* writableSheet.addCell(witheffectlbl); */
 		writableSheet.addCell(srnolbl); 
 		writableSheet.addCell(wtkglbl);
@@ -215,6 +221,50 @@ writableSheet.addCell(partnamelbl);
 			col++;   
 		} 
 }
+	}
+	if(allFlag==false){
+		while(rs.next()){
+			if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){ 
+			Label supnamelbl = new Label(row, col, rs.getString("SUPP_NAME"),cellRIghtformat);
+			row++;
+			Label partnamelbl = new Label(row, col, rs.getString("MAT_NAME"),cellRIghtformat);
+			row++;
+	Label po_nolbl = new Label(row, col, rs.getString("TRNNO").substring(3, 7) + " - " + rs.getString("PO_NO") ,cellRIghtformat); 
+	row++;
+	Number amdatelbl = new Number(row, col, Double.parseDouble(rs.getString("NEW_AMENDNO")),cellRIghtformat);
+	row++;
+	Label po_datelbl = new Label(row, col,rs.getString("PRN_PODATE"),cellleftformat); 
+	row++; 
+	Number srnolbl = new Number(row, col,Integer.parseInt(rs.getString("SR_NO")),cellRIghtformat); 
+	row++;
+	Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
+	row++;
+	Number ratepplbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),cellRIghtformat); 
+	row++;
+	Label remarklbl = new Label(row, col, rs.getString("PAY_REMRK"),cellleftformat);
+
+
+	writableSheet.addCell(supnamelbl);
+	writableSheet.addCell(partnamelbl);
+			writableSheet.addCell(po_nolbl); 
+			writableSheet.addCell(amdatelbl);
+			writableSheet.addCell(po_datelbl);
+			/* writableSheet.addCell(witheffectlbl); */
+			writableSheet.addCell(srnolbl); 
+			writableSheet.addCell(wtkglbl);
+			writableSheet.addCell(ratepplbl);	 
+			writableSheet.addCell(remarklbl);
+			row++;
+			
+			if(row==9){
+				row=0;
+				col++;   
+			} 
+	}
+	}
+	}
+	
+	
   //************************************************************************************************************************
   //************************************************ File Output Ligic *****************************************************
   //************************************************************************************************************************

@@ -147,8 +147,7 @@ String comp =request.getParameter("comp");
 String sup =request.getParameter("sup"); 
 String from =request.getParameter("fromdate");
 String to =request.getParameter("todate"); 
-String passSuppliers = sup;
-String poDate="";
+String passSuppliers = sup; 
 String fromDate = from.substring(6,8) +"/"+ from.substring(4,6) +"/"+ from.substring(0,4);
 String toDate = to.substring(6,8) +"/"+ to.substring(4,6) +"/"+ to.substring(0,4);
  
@@ -178,22 +177,32 @@ if(comp.equalsIgnoreCase("106")){
 	CompanyName = "MUTHA ENGINEERING UNIT III";
 	con = ConnectionUrl.getK1ERPConnection();
 }  
- 
- 
+  
+
+// ArrayList<String> al = new ArrayList<String>();
+boolean allFlag = false;
  if(sup.equalsIgnoreCase("All_Supplier")){
-	 int cnt=0;
+	 allFlag = true;
+/*  int cnt=0;
  PreparedStatement ps_sp=con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE=12");
  ResultSet rs_sp=ps_sp.executeQuery();
  while(rs_sp.next()){
 	 if(cnt ==0 ){
 		 sup = rs_sp.getString("SUB_GLACNO");
+		 al.add(rs_sp.getString("SUB_GLACNO"));
 		 cnt=1;
 	 }else{
 		 sup += rs_sp.getString("SUB_GLACNO");
+		 al.add(rs_sp.getString("SUB_GLACNO"));
 	 }
- 	}
+ 	} */
+ }else{
+	 PreparedStatement ps_sp=con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLACNO='"+sup+"'");
+	 ResultSet rs_sp=ps_sp.executeQuery();
+	 while(rs_sp.next()){
+		 sup = rs_sp.getString("SUBGL_LONGNAME");
+	 }
  }
-// System.out.println("Supp Name = " + sup);
 %>
 	<strong style="color: blue; font-family: Arial; font-size: 14px;"><%=CompanyName %>&nbsp;
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -253,42 +262,62 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			<th scope="col" class="th">Supplier Name</th>
 			<th scope="col" class="th">Part Name</th> 
 				<th scope="col" class="th" width="5%">PO NO.</th>
+				<th scope="col" class="th">Amend No</th> 
 				<th scope="col" class="th">PO DATE</th>
-				<th scope="col" class="th">Amend No</th>
-				
 				<th scope="col" class="th">Sr No</th>
 				<th scope="col" class="th">Wgt kgs</th> 
 				<th scope="col" class="th">Rs/Pc</th> 
 				<th scope="col" class="th">Remark</th>
 			</tr>
 			<%	
-			// exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1 '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
+// exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1 '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
+// exec "H25ERP"."dbo"."Sel_RptPORegister";1 '102', '0', '4038,4034,4033,4039', '20110401', '20160813', 0
 
- 	CallableStatement cs11 = con.prepareCall("{call Sel_RptPartyWsPurchOrderRegister(?,?,?,?,?,?,?)}");
+ 	CallableStatement cs11 = con.prepareCall("{call Sel_RptPORegister(?,?,?,?,?,?)}");
 	cs11.setString(1,comp);
 	cs11.setString(2,"0");
 	cs11.setString(3,"4038,4034,4033,4039");
 	cs11.setString(4,from);
 	cs11.setString(5,to);
-	cs11.setString(6,"0");
-	cs11.setString(7,sup);
+	cs11.setString(6,"0"); 
 	ResultSet rs = cs11.executeQuery(); 
-	while(rs.next()){
-		poDate = rs.getString("TRAN_DATE").substring(6,8) +"/"+ rs.getString("TRAN_DATE").substring(4,6) +"/"+ rs.getString("TRAN_DATE").substring(0,4);
+	
+	if(allFlag==true){
+		while(rs.next()){
  %>
 			 <tr style="font-size: 10px;"> 
 			 <td><%=rs.getString("SUPP_NAME") %></td>
 			 <td><%=rs.getString("MAT_NAME") %></td>
 			 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
-			 	<td align="right"><%=poDate%></td>
 			 	<td align="right"><%=rs.getString("NEW_AMENDNO") %></td> 
-			 	<td align="right"><%=rs.getString("SR_NO") %></td>
-			 	
+			 	<td align="right"><%=rs.getString("PRN_PODATE")%></td>
+			 	<td align="right"><%=rs.getString("SR_NO") %></td> 
 			 	<td align="right"><%=rs.getString("WEIGHT") %></td>  
 			 	<td align="right"><%=rs.getString("RATE") %></td> 
-			 	<td><%=rs.getString("REMRK") %></td>
+			 	<td><%=rs.getString("PAY_REMRK") %></td>
 			</tr>
 	<%			 
+		}
+	}
+	
+	if(allFlag==false){
+		while(rs.next()){ 
+			if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){
+		%>
+			 <tr style="font-size: 10px;"> 
+						 <td><%=rs.getString("SUPP_NAME") %></td>
+						 <td><%=rs.getString("MAT_NAME") %></td>
+						 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+						 	<td align="right"><%=rs.getString("NEW_AMENDNO") %></td> 
+						 	<td align="right"><%=rs.getString("PRN_PODATE")%></td>
+						 	<td align="right"><%=rs.getString("SR_NO") %></td>
+						 	<td align="right"><%=rs.getString("WEIGHT") %></td>  
+						 	<td align="right"><%=rs.getString("RATE") %></td> 
+						 	<td><%=rs.getString("PAY_REMRK") %></td>
+			</tr>
+		<%		
+		}
+		}
 	}
 	%>	 
 		</table>
