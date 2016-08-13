@@ -18,7 +18,7 @@ private static final long serialVersionUID = 1L;
 			// ******************************************************************************************************************
 			// Thread No 1
 			// ******************************************************************************************************************
-			
+			/*
 			// 09:40
 			TimerTask  siscompSale =new SisterCompanySale_Report();
 			timer.schedule(siscompSale, 1000, 60000);
@@ -133,6 +133,26 @@ private static final long serialVersionUID = 1L;
 			// 10:21
 			TimerTask  shedulexls_h21 =new SheduleXLSReminder();
 			timer.schedule(shedulexls_h21, 1000, 60000);
+			*/
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
 		} catch (Exception e) {
