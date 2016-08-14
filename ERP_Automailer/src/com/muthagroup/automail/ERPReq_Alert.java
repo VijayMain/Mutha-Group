@@ -25,61 +25,34 @@ public class ERPReq_Alert extends TimerTask {
 		try {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-			/*if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 01) ||
-				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 30) ||
-				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 30)
-			){*/
+			
 			if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 01) ||
 				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 30) ||
-				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 30)){
+				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 30)
+			){
+			
+			/*if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 17) ||
+				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 59) ||
+				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 18)){*/
+				
+				System.out.println("In Loop !!!");
 				
 				Connection con = ConnectionUrl.getLocalDatabase();
-				
-				
 				
 				Calendar cal = Calendar.getInstance();
 				SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
 				SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-				boolean sent=false;
 				
-				if(d.getHours() == 10 && d.getMinutes() == 19){
-				cal.add(Calendar.DATE, -1);
-				System.out.println("Inside prev date = " + formatDate.format(cal.getTime()).toString());
-				}
-				if(d.getHours() == 16 && d.getMinutes() == 14){
-					cal.add(Calendar.DATE, 0);
-					System.out.println("Inside prev date = " + formatDate.format(cal.getTime()).toString());
-				}
-				
-				String yest_date = sdfFIrstDate.format(cal.getTime()).toString(); 
-				String y_date = formatDate.format(cal.getTime()).toString();
-				
-				System.out.println("Yest Date = "+yest_date);
-				System.out.println("Y = "+y_date);
-				
-				Calendar first_Datecal = Calendar.getInstance();
-				first_Datecal.set(Calendar.DAY_OF_MONTH, 1);
-				Date dddd = first_Datecal.getTime();
-				
-				Date tdate = new Date();
-				String firstDate = sdfFIrstDate.format(dddd);
-				String nowDate = sdfFIrstDate.format(tdate);
-				
-				// System.out.println("Test = " + firstDate+"\n"+nowDate);
+				boolean sent=false; 
+				 
 				
 				
-				
-				
-				
-				
-				
-				
-			System.out.println("Email ERP Automailer.....");
+			System.out.println("Email ERP Approval List.....!");
 			String host = "send.one.com";
 			String user = "itsupports@muthagroup.com";
 			String pass = "itsupports@xyz"; 
 	 		String from = "itsupports@muthagroup.com";
-			String subject = "Pending Approval List !!!"; 
+			String subject = "ERP Pending Approval List !!!"; 
 			boolean sessionDebug = false;
 			// *********************************************************************************************
 			// multiple recipients : == >
@@ -88,31 +61,23 @@ public class ERPReq_Alert extends TimerTask {
 			ArrayList to_emails = new ArrayList();
 			ArrayList bcc_emails = new ArrayList();
 			
-			PreparedStatement ps_rec = con.prepareStatement("select * from pending_approvee where type='cc'");
+			PreparedStatement ps_rec = con.prepareStatement("select * from pending_approvee where type='cc' and report='REQ_PendingApproval'");
 			ResultSet rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
 				cc_emails.add(rs_rec.getString("email"));
 			}
 			
-			ps_rec = con.prepareStatement("select * from pending_approvee where type='to'");
+			ps_rec = con.prepareStatement("select * from pending_approvee where type='to' and report='REQ_PendingApproval'");
 			rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
 				to_emails.add(rs_rec.getString("email"));
 			}
 			
-			ps_rec = con.prepareStatement("select * from pending_approvee where type='bcc'");
+			ps_rec = con.prepareStatement("select * from pending_approvee where type='bcc' and report='REQ_PendingApproval'");
 			rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
 				bcc_emails.add(rs_rec.getString("email"));
 			}
-			
-			
-			
-			
-			String recipients[] = {"vijaybm@muthagroup.com"};
-			String cc_recipients[] = {"vijaybm@muthagroup.com"};
-			
-			
 			
 			Properties props = System.getProperties();
 			props.put("mail.host", host);
@@ -124,30 +89,231 @@ public class ERPReq_Alert extends TimerTask {
 			Message msg = new MimeMessage(mailSession);
 			msg.setFrom(new InternetAddress(from));
 			
-			InternetAddress[] addressTo = new InternetAddress[recipients.length];
-			for (int p = 0; p < recipients.length; p++) {
-				addressTo[p] = new InternetAddress(recipients[p]);
+			
+			InternetAddress[] addressTo = new InternetAddress[to_emails.size()]; 
+			for (int p = 0; p < to_emails.size(); p++) {
+				addressTo[p] = new InternetAddress(to_emails.get(p).toString());
+			}
+			InternetAddress[] addressCc = new InternetAddress[cc_emails.size()]; 
+			for (int p = 0; p < cc_emails.size(); p++) {
+				addressCc[p] = new InternetAddress(cc_emails.get(p).toString());
+			}
+			InternetAddress[] addressBcc = new InternetAddress[bcc_emails.size()]; 
+			for (int p = 0; p < bcc_emails.size(); p++) {
+				addressBcc[p] = new InternetAddress(bcc_emails.get(p).toString());
 			}
 			
-			InternetAddress[] addressCc = new InternetAddress[cc_recipients.length];
-			for (int p = 0; p < cc_recipients.length; p++) {
-				addressCc[p] = new InternetAddress(cc_recipients[p]);
-			}
-			  
+			
+			 
 			msg.setRecipients(Message.RecipientType.TO, addressTo);
 			msg.setRecipients(Message.RecipientType.CC, addressCc);
+			msg.setRecipients(Message.RecipientType.BCC, addressBcc);
 			 
 			msg.setSubject(subject);
 			msg.setSentDate(new Date()); 
 	 		
 			StringBuilder sb = new StringBuilder();
-			sb.append("<b style='color: #0D265E;'>*** This is an automatically generated email for Purchase  Approved PO of  MEPL UNIT III !!! ***</b>"+
-			"<table border='1' width='97%' style='font-family: Arial;'>"+
-			"<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
-			"<th width='8%' height='25'>PO. No</th><th width='15%'>PO Date</th><th width='40%'>Supplier Name</th><th width='20%'>Created By</th> "+
-			"<th width='20%'>Approved Date</th><th width='20%'>Approved By</th> "+
-			"</tr>"); 
-			sb.append("</table> <p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"+
+			sb.append("<b style='color: #0D265E;'>This is an automatically generated email for ERP REQ Pending For Approval !!!</b>");
+			
+			sb.append("<table border='1' width='97%' style='font-family: Arial;'><tr style='font-size: 12px;background-color:#94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+			"<th height='24'>REQ. No</th><th>SUBJECT</th><th>CALL TYPE</th>"+
+			"<th>PRIORITY</th><th>USER</th><th>DATE</th></tr>");
+			
+			ResultSet rs_getapp = null;
+			
+			/*
+			< ================= MEPL H21 =================> 
+			*  exec "ENGERP"."dbo"."Sel_ApprovalTransactionsSuppPortal";1 '101', '90001', '0', '21', 'ADMIN'  
+			**/ 
+			String comp = "101";
+			Connection con_21 = ConnectionUrl.getMEPLH21ERP();
+			boolean avail_flag = false;
+			
+			CallableStatement cs11 = con_21.prepareCall("{call Sel_ApprovalTransactionsSuppPortal(?,?,?,?,?)}");
+			cs11.setString(1,comp);
+			cs11.setString(2,"9001");
+			cs11.setString(3,"0");
+			cs11.setString(4,"21");
+			cs11.setString(5,"ADMIN");
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+				avail_flag = true;
+			}
+			if(avail_flag==true){
+			sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+			"<th colspan='6' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MEPL H21</th></tr>");
+
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+			sb.append("<tr style='font-size: 11px;border-width: 1px; padding: 4px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+				"<th align='left'>"+rs_getapp.getString("STRAN_NO")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("SUBJECT")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("CALL_TYPE_NAME")+"</th>"+
+  				/*"<th>"+rs_getapp.getString("INCI_REQ")+"</th>"+*/
+  				"<th align='left'>"+rs_getapp.getString("CLIENT_PRIORITY_NAME")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("SYSADD_NAME")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("PRN_TRANDATE")+"</th>"+
+  			"</tr>");
+			sent = true;
+			} 
+			} 
+			/*
+			 *  < ================= END =================>
+			*/
+			
+			/*
+			< ================= MEPL H25 =================>  
+			**/ 
+			comp = "102";
+			Connection con_25 = ConnectionUrl.getMEPLH25ERP(); 
+			avail_flag = false;
+			
+			cs11 = con_25.prepareCall("{call Sel_ApprovalTransactionsSuppPortal(?,?,?,?,?)}");
+			cs11.setString(1,comp);
+			cs11.setString(2,"9001");
+			cs11.setString(3,"0");
+			cs11.setString(4,"21");
+			cs11.setString(5,"ADMIN");
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+				avail_flag = true;
+			}
+			if(avail_flag==true){
+			sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+			"<th colspan='6' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MEPL H25</th></tr>");
+
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+			sb.append("<tr style='font-size: 11px;border-width: 1px; padding: 4px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+				"<th align='left'>"+rs_getapp.getString("STRAN_NO")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("SUBJECT")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("CALL_TYPE_NAME")+"</th>"+
+  				/*"<th>"+rs_getapp.getString("INCI_REQ")+"</th>"+*/
+  				"<th align='left'>"+rs_getapp.getString("CLIENT_PRIORITY_NAME")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("SYSADD_NAME")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("PRN_TRANDATE")+"</th>"+
+  			"</tr>");
+			sent = true;
+			} 
+			} 
+			/*
+			 *  < ================= END =================> 
+			*/ 
+			/*
+			< ================= MFPL =================>    
+			**/ 
+			comp = "103";
+			Connection con_fnd = ConnectionUrl.getFoundryERPNEWConnection(); 
+			avail_flag = false;
+			
+			cs11 = con_fnd.prepareCall("{call Sel_ApprovalTransactionsSuppPortal(?,?,?,?,?)}");
+			cs11.setString(1,comp);
+			cs11.setString(2,"9001");
+			cs11.setString(3,"0");
+			cs11.setString(4,"21");
+			cs11.setString(5,"ADMIN");
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+				avail_flag = true;
+			}
+			if(avail_flag==true){
+			sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+			"<th colspan='6' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MFPL</th></tr>");
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+			sb.append("<tr style='font-size: 11px;border-width: 1px; padding: 4px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+				"<th align='left'>"+rs_getapp.getString("STRAN_NO")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("SUBJECT")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("CALL_TYPE_NAME")+"</th>"+
+  				/*"<th>"+rs_getapp.getString("INCI_REQ")+"</th>"+*/
+  				"<th align='left'>"+rs_getapp.getString("CLIENT_PRIORITY_NAME")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("SYSADD_NAME")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("PRN_TRANDATE")+"</th>"+
+  			"</tr>");
+			sent = true;
+			} 
+			} 
+			/*
+			 *  < ================= END =================>
+			 *  
+			*/
+			/*
+			< ================= MFPL =================>    
+			**/ 
+			comp = "105";
+			Connection con_di = ConnectionUrl.getDIERPConnection(); 
+			avail_flag = false;
+			
+			cs11 = con_di.prepareCall("{call Sel_ApprovalTransactionsSuppPortal(?,?,?,?,?)}");
+			cs11.setString(1,comp);
+			cs11.setString(2,"9001");
+			cs11.setString(3,"0");
+			cs11.setString(4,"21");
+			cs11.setString(5,"ADMIN");
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+				avail_flag = true;
+			}
+			if(avail_flag==true){
+			sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+			"<th colspan='6' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;DI</th></tr>");
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+			sb.append("<tr style='font-size: 11px;border-width: 1px; padding: 4px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+				"<th align='left'>"+rs_getapp.getString("STRAN_NO")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("SUBJECT")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("CALL_TYPE_NAME")+"</th>"+
+  				/*"<th>"+rs_getapp.getString("INCI_REQ")+"</th>"+*/
+  				"<th align='left'>"+rs_getapp.getString("CLIENT_PRIORITY_NAME")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("SYSADD_NAME")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("PRN_TRANDATE")+"</th>"+
+  			"</tr>");
+			sent = true;
+			} 
+			} 
+			/*
+			 *  < ================= END =================>
+			 *  
+			< ================= MFPL =================>    
+			**/ 
+			comp = "106";
+			Connection con_k1 = ConnectionUrl.getK1ERPConnection(); 
+			avail_flag = false;
+			
+			cs11 = con_k1.prepareCall("{call Sel_ApprovalTransactionsSuppPortal(?,?,?,?,?)}");
+			cs11.setString(1,comp);
+			cs11.setString(2,"9001");
+			cs11.setString(3,"0");
+			cs11.setString(4,"21");
+			cs11.setString(5,"ADMIN");
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+				avail_flag = true;
+			}
+			if(avail_flag==true){
+			sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+			"<th colspan='6' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MEPL UNIT III</th></tr>");
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+			sb.append("<tr style='font-size: 11px;border-width: 1px; padding: 4px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+				"<th align='left'>"+rs_getapp.getString("STRAN_NO")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("SUBJECT")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("CALL_TYPE_NAME")+"</th>"+
+  				/*"<th>"+rs_getapp.getString("INCI_REQ")+"</th>"+*/
+  				"<th align='left'>"+rs_getapp.getString("CLIENT_PRIORITY_NAME")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("SYSADD_NAME")+"</th>"+
+  				"<th align='left'>"+rs_getapp.getString("PRN_TRANDATE")+"</th>"+
+  			"</tr>");
+			sent = true;
+			} 
+			} 
+			/*
+			 *  < ================= END =================>
+			 *  
+			*/
+			
+			
+			sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"+
 			"<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
 			"<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"+
 			"it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons"+
@@ -164,24 +330,11 @@ public class ERPReq_Alert extends TimerTask {
 			transport.close();
 			System.out.println("msg Sent !!!");
 			} 
-				con.close();
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-			}
+				con.close(); 
+			} 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 }
