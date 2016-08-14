@@ -298,11 +298,10 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			</tr>
 	<%			 
 		}
-	}
-	
-	if(allFlag==false){
-		while(rs.next()){ 
+	}else{
+		while(rs.next()){
 			if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){
+				System.out.println("rs.getString" + rs.getString("NEW_AMENDNO"));
 		%>
 			 <tr style="font-size: 10px;"> 
 						 <td><%=rs.getString("SUPP_NAME") %></td>

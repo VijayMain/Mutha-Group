@@ -25,7 +25,7 @@ public class Purchase_Approved_statusk1 extends TimerTask {
 		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday","Thursday", "Friday", "Saturday" };
 		ArrayList rem = new ArrayList();
 		if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 19)||(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16  && d.getMinutes() == 14)) {
-		try { 
+		try {
 			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
 			SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
