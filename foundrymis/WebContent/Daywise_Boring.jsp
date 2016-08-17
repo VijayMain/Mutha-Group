@@ -117,8 +117,9 @@ if(comp.equalsIgnoreCase("101")){
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <span style="font-family: Arial;font-size: 10px;color: brown;"><b>( Note : Click on record to get details &#8628; )</b></span>
 <br/>
-<div style="width: 100%;padding-left: 0.1em; float: left;"> 
-		<form action="PotwiseDetailReportK1.jsp" method="post" id="edit" name="edit"> 
+<div style="width: 100%;padding-left: 0.1em;"> 
+
+<form action="PotwiseDetailReportK1.jsp" method="post" id="edit" name="edit"> 
 	
 	<%
 	String ct = lastdate.substring(6); 
@@ -269,7 +270,12 @@ int dayct=0;
 				%>
 				<tr>
 					<td align="center"><strong>2</strong> </td>
-					<td align="left"><strong>Vendor Receipt Kgs</strong></td>
+					<td align="left">
+					<strong>Vendor Receipt Kgs <br>
+				<!-- Conditions after -->
+
+
+					</strong></td>
 					<td align="right"><strong><%=twoDForm.format(totalcq) %></strong></td>
 					<%
 					for(int i=1;i<=Integer.parseInt(ct);i++){
@@ -457,10 +463,6 @@ int dayct=0;
 <!--============================================================================--> 
 		</form>
 	</div>
- <div style="width: 46%;float: right;"> 
- 
- </div>
-
 
 <%
 con.close();
