@@ -33,7 +33,7 @@ function ChangeColor(tableRow, highLight) {
 </script> 
 <style type="text/css">
 .tftable {
-	font-size: 11px;
+	font-size: 10px;
 	color: #333333;
 	width: 100%;
 	border-width: 1px;
@@ -42,7 +42,7 @@ function ChangeColor(tableRow, highLight) {
 }
 
 .tftable th {
-	font-size: 11px;
+	font-size: 10px;
 	background-color: #acc8cc;
 	border-width: 1px;
 	padding: 8px;
@@ -53,11 +53,11 @@ function ChangeColor(tableRow, highLight) {
 
 .tftable tr {
 	background-color: white;
-	font-size: 11px;
+	font-size: 10px;
 }
 
 .tftable td {
-	font-size: 11px;
+	font-size: 10px;
 	border-width: 1px;
 	padding: 8px;
 	border-style: solid;
@@ -117,13 +117,13 @@ if(comp.equalsIgnoreCase("101")){
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <span style="font-family: Arial;font-size: 10px;color: brown;"><b>( Note : Click on record to get details &#8628; )</b></span>
 <br/>
-<div style="width: 100%;padding-left: 0.1em;"> 
-
-<form action="PotwiseDetailReportK1.jsp" method="post" id="edit" name="edit"> 
-	
+<div style="width: 150%;padding-left: 0.1em;">
+<form action="PotwiseDetailReportK1.jsp" method="post" id="edit" name="edit">
 	<%
 	String ct = lastdate.substring(6); 
 	String st = lastdate.substring(0, 6); 
+	//  ct = days eg 31
+	// 	st = yearmonth eg 201608 
 	DecimalFormat formatter = new DecimalFormat("00");
 	String dateTocomp = "";
 	String aFormatted = ""; 
@@ -182,12 +182,12 @@ int dayct=0;
 			<table border="1" class="tftable">
 				<tr>
 					<th width="2%">Sr No</th>
-					<th>Parameter</th>
-					<th>DayWise&#8658;<br> Total&#8659;</th>
+					<th width="10%">Parameter</th>
+					<th colspan="2">DayWise&#8658;<br> Total &#8659;</th>
 					<%
 					for(int i=1;i<=Integer.parseInt(ct);i++){
 					%>
-					<th align="right"><%=i %></th>
+					<th  align="right"><%=i %></th>
 					<%		 
 					}
 					%>  
@@ -196,7 +196,7 @@ int dayct=0;
 				<tr>
 					<td align="center"><strong>1</strong> </td>
 					<td align="left"><strong>Generated Kgs</strong> </td> 	
-					<td align="right"><strong><%=twoDForm.format(total) %></strong></td> 
+					<td colspan="2" align="right"><strong><%=twoDForm.format(total) %></strong></td> 
 					<%
 					for(int i=1;i<=Integer.parseInt(ct);i++){
 						
@@ -219,9 +219,7 @@ int dayct=0;
 								boringwt += (Double.parseDouble(brwt) * Double.parseDouble(prdqty));
 															
 							}
-						}
-						
-						
+						} 
 						cs.setString(1,comp);
 						cs.setString(2,firstdate);
 						cs.setString(3,lastdate);
@@ -230,7 +228,6 @@ int dayct=0;
 					%>
 					<td align="right">
 <a href="Inhouse_Boring_Generation.jsp?cp=<%=comp%>&fd=<%=firstdate%>&ld=<%=lastdate%>&db=<%=db%>&m=<%=mnth%>&y=<%=year%>&filter=<%=i%>"><%=zeroDForm.format(boringwt)%></a></td>
-																			 
 					<%
 					sumBorGen.put(i, boringwt);
 						}
@@ -241,6 +238,7 @@ int dayct=0;
 				double chqty=0,chqty_sap=0,totalcq=0;
 				HashMap cq=new HashMap();
 				HashMap cq_sap=new HashMap();
+				HashMap cq_sag=new HashMap();
 				
 				ArrayList matcodeList = new ArrayList();
 				matcodeList.add("1013100002");
@@ -248,6 +246,13 @@ int dayct=0;
 				matcodeList.add("1013100015");
 				matcodeList.add("1013100016");
 				matcodeList.add("1013100017");
+				
+				ArrayList matcodeNames = new ArrayList(); 
+				matcodeNames.add("C I");
+				matcodeNames.add("C I CNC");
+				matcodeNames.add("S.G.IRON MOLY");
+				matcodeNames.add("S.G.IRON WITHOUT MOLY");
+				matcodeNames.add("ALUMINIUM"); 
 				
 				//exec "ENGERP"."dbo"."Sel_BoringRegister";1 '101', '0', '20140401', '20150223', '103,131'
 				CallableStatement csvend = condisp.prepareCall("{call Sel_BoringRegister(?,?,?,?,?)}");
@@ -257,7 +262,7 @@ int dayct=0;
 				csvend.setString(4,lastdate);
 				csvend.setString(5,"103,131");
 				ResultSet rsvend = null;
-				for(int i=1;i<=Integer.parseInt(ct);i++){	
+				for(int i=1;i<=Integer.parseInt(ct);i++){
 					chqty=0;
 				 	aFormatted = formatter.format(i);
 				 	dateTocomp=st+aFormatted; 
@@ -276,45 +281,227 @@ int dayct=0;
 					totalcq += chqty;
 					cq.put(i, chqty);					
 					}
-				%>
-				<tr>
-					<td align="center"><strong>2</strong> </td>
-					<td align="left">
-					<strong>Vendor Receipt Kgs </strong> <br>
-				<!-- Conditions after -->
-				<%
-				String matname_sap = "";
+				/************************************************************************************************************/
+				ArrayList listsag = new ArrayList();
 				for(int i=0;i<matcodeList.size();i++){
-					rsvend = csvend.executeQuery(); 
+					rsvend = csvend.executeQuery();
 					chqty_sap=0;
 					while(rsvend.next()){
 						if(rsvend.getString("MATCODE").equalsIgnoreCase(matcodeList.get(i).toString())){
-							chl_sap = rsvend.getString("CHLN_QTY"); 
-							
+							chl_sap = rsvend.getString("CHLN_QTY");
 							if(chl_sap==null || chl_sap.length()==0){
 								chl_sap = "0";
 							}
-							chqty_sap += Double.parseDouble(chl_sap); 
-							matname_sap = rsvend.getString("MATNAME"); 
+							chqty_sap += Double.parseDouble(chl_sap);
+							
 						}
 					}
+					listsag.add(chqty_sap);
+				} 
 				%>
-				<p><%=matname_sap %> &#8658; <b style="color: blue;"><%=chqty_sap %></b></p>
-				<%
-				}
-				%> 
-				</td>
-					<td align="right"><strong><%=twoDForm.format(totalcq) %></strong></td>
-					<%
+				<tr>
+					<td rowspan="6" align="center"><strong>2</strong> </td>
+					<td rowspan="6" align="left">
+					<strong>Vendor Receipt Kgs </strong>				</td>
+					<td width="7%" align="left">C I </td>
+					<td width="3%" align="right"><%=listsag.get(0).toString()%></td>
+                    <%
+                    cq_sag.clear();
 					for(int i=1;i<=Integer.parseInt(ct);i++){
+						chqty=0;
+					 	aFormatted = formatter.format(i);
+					 	dateTocomp=st+aFormatted; 
+					 	rsvend = csvend.executeQuery();
+						
+						while(rsvend.next()){
+							if(rsvend.getString("TRAN_DATE").equalsIgnoreCase(dateTocomp) && rsvend.getString("MATCODE").equalsIgnoreCase(matcodeList.get(0).toString())){ 
+								chl = rsvend.getString("CHLN_QTY"); 
+								
+								if(chl==null || chl.length()==0){
+									chl = "0";
+								} 
+								chqty += Double.parseDouble(chl); 
+							}
+						}
+						cq_sag.put(i, chqty);	 
 					%>
 					<td align="right">
 					<a href="Inhouse_BoringReceipt.jsp?cp=<%=comp%>&fd=<%=firstdate%>&ld=<%=lastdate%>&db=<%=db%>&m=<%=mnth%>&y=<%=year%>&filter=<%=i%>">
-					<%=zeroDForm.format(cq.get(i)) %></a> </td> 
-					<% 
+					<%=zeroDForm.format(cq_sag.get(i)) %></a> 
+			      </td>
+                  <% 
 					}
-					%>
+				  %>
+					
 				</tr>
+				<tr>
+				  <td align="left">C I CNC </td>
+				  <td align="right"><%=listsag.get(1).toString()%></td>
+			      <%
+                    cq_sag.clear();
+					for(int i=1;i<=Integer.parseInt(ct);i++){
+						chqty=0;
+					 	aFormatted = formatter.format(i);
+					 	dateTocomp=st+aFormatted; 
+					 	rsvend = csvend.executeQuery();
+						while(rsvend.next()){
+							if(rsvend.getString("TRAN_DATE").equalsIgnoreCase(dateTocomp) && rsvend.getString("MATCODE").equalsIgnoreCase(matcodeList.get(1).toString())){ 
+								chl = rsvend.getString("CHLN_QTY"); 
+								
+								if(chl==null || chl.length()==0){
+									chl = "0";
+								} 
+								chqty += Double.parseDouble(chl); 
+							}
+						}
+						cq_sag.put(i, chqty);	 
+					%>
+					<td align="right">
+					<a href="Inhouse_BoringReceipt.jsp?cp=<%=comp%>&fd=<%=firstdate%>&ld=<%=lastdate%>&db=<%=db%>&m=<%=mnth%>&y=<%=year%>&filter=<%=i%>">
+					<%=zeroDForm.format(cq_sag.get(i)) %></a> 
+			      </td>
+                  <% 
+					}
+				  %>
+					
+			  </tr>
+				<tr>
+				  <td align="left">S.G.IRON MOLY </td>
+				  <td align="right"><%=listsag.get(2).toString()%></td>
+			      <%
+                    cq_sag.clear();
+					for(int i=1;i<=Integer.parseInt(ct);i++){
+						chqty=0;
+					 	aFormatted = formatter.format(i);
+					 	dateTocomp=st+aFormatted; 
+					 	rsvend = csvend.executeQuery();
+						while(rsvend.next()){
+							if(rsvend.getString("TRAN_DATE").equalsIgnoreCase(dateTocomp) && rsvend.getString("MATCODE").equalsIgnoreCase(matcodeList.get(2).toString())){ 
+								chl = rsvend.getString("CHLN_QTY"); 
+								
+								if(chl==null || chl.length()==0){
+									chl = "0";
+								} 
+								chqty += Double.parseDouble(chl); 
+							}
+						}
+						cq_sag.put(i, chqty);	 
+					%>
+					<td align="right">
+					<a href="Inhouse_BoringReceipt.jsp?cp=<%=comp%>&fd=<%=firstdate%>&ld=<%=lastdate%>&db=<%=db%>&m=<%=mnth%>&y=<%=year%>&filter=<%=i%>">
+					<%=zeroDForm.format(cq_sag.get(i)) %></a> 
+			      </td>
+                  <% 
+					}
+				  %>
+			  </tr>
+				<tr>
+				  <td align="left">S.G.IRON WITHOUT MOLY </td>
+				  <td align="right"><%=listsag.get(3).toString()%></td>
+			      <%
+                    cq_sag.clear();
+					for(int i=1;i<=Integer.parseInt(ct);i++){
+						chqty=0;
+					 	aFormatted = formatter.format(i);
+					 	dateTocomp=st+aFormatted; 
+					 	rsvend = csvend.executeQuery();
+						while(rsvend.next()){
+							if(rsvend.getString("TRAN_DATE").equalsIgnoreCase(dateTocomp) && rsvend.getString("MATCODE").equalsIgnoreCase(matcodeList.get(3).toString())){ 
+								chl = rsvend.getString("CHLN_QTY"); 
+								
+								if(chl==null || chl.length()==0){
+									chl = "0";
+								} 
+								chqty += Double.parseDouble(chl); 
+							}
+						}
+						cq_sag.put(i, chqty);	 
+					%>
+					<td align="right">
+					<a href="Inhouse_BoringReceipt.jsp?cp=<%=comp%>&fd=<%=firstdate%>&ld=<%=lastdate%>&db=<%=db%>&m=<%=mnth%>&y=<%=year%>&filter=<%=i%>">
+					<%=zeroDForm.format(cq_sag.get(i)) %></a> 
+			      </td>
+                  <% 
+					}
+				  %>
+			  </tr>
+				<tr>
+				  <td align="left">ALUMINIUM</td>
+				  <td align="right"><%=listsag.get(4).toString()%></td>
+			      <%
+                    cq_sag.clear();
+					for(int i=1;i<=Integer.parseInt(ct);i++){
+						chqty=0;
+					 	aFormatted = formatter.format(i);
+					 	dateTocomp=st+aFormatted; 
+					 	rsvend = csvend.executeQuery();
+						while(rsvend.next()){
+							if(rsvend.getString("TRAN_DATE").equalsIgnoreCase(dateTocomp) && rsvend.getString("MATCODE").equalsIgnoreCase(matcodeList.get(4).toString())){ 
+								chl = rsvend.getString("CHLN_QTY"); 
+								
+								if(chl==null || chl.length()==0){
+									chl = "0";
+								} 
+								chqty += Double.parseDouble(chl); 
+							}
+						}
+						cq_sag.put(i, chqty);	 
+					%>
+					<td align="right">
+					<a href="Inhouse_BoringReceipt.jsp?cp=<%=comp%>&fd=<%=firstdate%>&ld=<%=lastdate%>&db=<%=db%>&m=<%=mnth%>&y=<%=year%>&filter=<%=i%>">
+					<%=zeroDForm.format(cq_sag.get(i)) %></a> 
+			      </td>
+                  <% 
+					}
+				  %>
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+			  </tr>
+				<tr>
+				  <td align="left">TOTAL</td>
+				  <td align="left"><strong><%=twoDForm.format(totalcq) %></strong></td>
+                  <%
+					for(int i=1;i<=Integer.parseInt(ct);i++){
+					%>
+					<td align="right"><strong>
+					<a href="Inhouse_BoringReceipt.jsp?cp=<%=comp%>&fd=<%=firstdate%>&ld=<%=lastdate%>&db=<%=db%>&m=<%=mnth%>&y=<%=year%>&filter=<%=i%>">
+					<%=zeroDForm.format(cq.get(i)) %></a></strong> 
+			      </td>
+                  <% 
+					}
+				  %>
+			  </tr>
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
 				<%
 				double sumbore = total + totalcq;
 				double daywiseSum=0;
@@ -323,7 +510,7 @@ int dayct=0;
 				<tr>
 					<td align="center"><strong>3</strong> </td>
 					<td align="left"><strong>Sum of Boring Kgs</strong></td>
-					<td align="right"><strong><%=twoDForm.format(sumbore) %></strong></td>
+					<td colspan="2" align="right"><strong><%=twoDForm.format(sumbore) %></strong></td>
 					<%
 					for(int i=1;i<=Integer.parseInt(ct);i++){
 						daywiseSum = Double.parseDouble(sumBorGen.get(i).toString()) + Double.parseDouble(cq.get(i).toString());
@@ -390,7 +577,7 @@ int dayct=0;
                 <tr>
 					<td align="center"><strong>4</strong> </td>
 					<td align="left"><strong>Jobwork Boring Issue Kgs</strong></td>
-					<td align="right"><strong><%=twoDForm.format(sumjobwk) %></strong></td>
+					<td colspan="2" align="right"><strong><%=twoDForm.format(sumjobwk) %></strong></td>
 					<%
 					String iup = "",disp="0";
 					for(int i=1;i<=Integer.parseInt(ct);i++){
@@ -444,7 +631,7 @@ int dayct=0;
 			 	<tr>
 					<td align="center"><strong>5</strong> </td>
 					<td align="left"><strong>Dispatched Kgs</strong></td>
-					<td align="right"><strong><%=twoDForm.format(totalDisp) %></strong></td>
+					<td colspan="2" align="right"><strong><%=twoDForm.format(totalDisp) %></strong></td>
 					<%
 					for(int i=1;i<=Integer.parseInt(ct);i++){ 
 					%>
@@ -464,7 +651,7 @@ int dayct=0;
 				<tr>
 					<td align="center"><strong>6</strong> </td>
 					<td align="left"><strong>Difference</strong></td>
-					<td align="right"><strong><%=twoDForm.format(diffBor)%> </strong></td>
+					<td colspan="2" align="right"><strong><%=twoDForm.format(diffBor)%> </strong></td>
 					<%
 					double diff=0,diff_final=0;;
 					for(int i=1;i<=Integer.parseInt(ct);i++){
@@ -489,8 +676,8 @@ int dayct=0;
 			</table>  
 <!--============================================================================-->
 <!--============================================================================--> 
-		</form>
-	</div>
+  </form>
+</div>
 
 <%
 con.close();
