@@ -235,11 +235,20 @@ int dayct=0;
 					sumBorGen.put(i, boringwt);
 						}
 					%>   
-				</tr> 
+				</tr>
 				<%
-				String chl="";
-				double chqty=0,totalcq=0;
+				String chl="",chl_sap="";
+				double chqty=0,chqty_sap=0,totalcq=0;
 				HashMap cq=new HashMap();
+				HashMap cq_sap=new HashMap();
+				
+				ArrayList matcodeList = new ArrayList();
+				matcodeList.add("1013100002");
+				matcodeList.add("1013100007");
+				matcodeList.add("1013100015");
+				matcodeList.add("1013100016");
+				matcodeList.add("1013100017");
+				
 				//exec "ENGERP"."dbo"."Sel_BoringRegister";1 '101', '0', '20140401', '20150223', '103,131'
 				CallableStatement csvend = condisp.prepareCall("{call Sel_BoringRegister(?,?,?,?,?)}");
 				csvend.setString(1,comp);
@@ -248,7 +257,7 @@ int dayct=0;
 				csvend.setString(4,lastdate);
 				csvend.setString(5,"103,131");
 				ResultSet rsvend = null;
-				for(int i=1;i<=Integer.parseInt(ct);i++){			
+				for(int i=1;i<=Integer.parseInt(ct);i++){	
 					chqty=0;
 				 	aFormatted = formatter.format(i);
 				 	dateTocomp=st+aFormatted; 
@@ -266,16 +275,35 @@ int dayct=0;
 					}
 					totalcq += chqty;
 					cq.put(i, chqty);					
-					} 
+					}
 				%>
 				<tr>
 					<td align="center"><strong>2</strong> </td>
 					<td align="left">
-					<strong>Vendor Receipt Kgs <br>
+					<strong>Vendor Receipt Kgs </strong> <br>
 				<!-- Conditions after -->
-
-
-					</strong></td>
+				<%
+				String matname_sap = "";
+				for(int i=0;i<matcodeList.size();i++){
+					rsvend = csvend.executeQuery(); 
+					chqty_sap=0;
+					while(rsvend.next()){
+						if(rsvend.getString("MATCODE").equalsIgnoreCase(matcodeList.get(i).toString())){
+							chl_sap = rsvend.getString("CHLN_QTY"); 
+							
+							if(chl_sap==null || chl_sap.length()==0){
+								chl_sap = "0";
+							}
+							chqty_sap += Double.parseDouble(chl_sap); 
+							matname_sap = rsvend.getString("MATNAME"); 
+						}
+					}
+				%>
+				<p><%=matname_sap %> &#8658; <b style="color: blue;"><%=chqty_sap %></b></p>
+				<%
+				}
+				%> 
+				</td>
 					<td align="right"><strong><%=twoDForm.format(totalcq) %></strong></td>
 					<%
 					for(int i=1;i<=Integer.parseInt(ct);i++){
