@@ -182,7 +182,7 @@ int dayct=0;
 			<table border="1" class="tftable">
 				<tr>
 					<th width="2%">Sr No</th>
-					<th width="10%">Parameter</th>
+					<th width="9%">Parameter</th>
 					<th colspan="2">DayWise&#8658;<br> Total &#8659;</th>
 					<%
 					for(int i=1;i<=Integer.parseInt(ct);i++){
@@ -468,7 +468,7 @@ int dayct=0;
 				  
 			  </tr>
 				<tr>
-				  <td align="left">TOTAL</td>
+				  <td align="left"><strong>TOTAL</strong></td>
 				  <td align="left"><strong><%=twoDForm.format(totalcq) %></strong></td>
                   <%
 					for(int i=1;i<=Integer.parseInt(ct);i++){
