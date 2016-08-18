@@ -303,7 +303,7 @@ int dayct=0;
 					<td rowspan="6" align="center"><strong>2</strong> </td>
 					<td rowspan="6" align="left">
 					<strong>Vendor Receipt Kgs </strong>				</td>
-					<td width="7%" align="left">C I </td>
+					<td width="7%" align="left"><strong>C I</strong></td>
 					<td width="3%" align="right"><%=listsag.get(0).toString()%></td>
                     <%
                     cq_sag.clear();
@@ -335,7 +335,7 @@ int dayct=0;
 					
 				</tr>
 				<tr>
-				  <td align="left">C I CNC </td>
+				  <td align="left"><strong>C I CNC</strong> </td>
 				  <td align="right"><%=listsag.get(1).toString()%></td>
 			      <%
                     cq_sag.clear();
@@ -366,7 +366,7 @@ int dayct=0;
 					
 			  </tr>
 				<tr>
-				  <td align="left">S.G.IRON MOLY </td>
+				  <td align="left"><strong>S.G.IRON MOLY</strong> </td>
 				  <td align="right"><%=listsag.get(2).toString()%></td>
 			      <%
                     cq_sag.clear();
@@ -396,7 +396,7 @@ int dayct=0;
 				  %>
 			  </tr>
 				<tr>
-				  <td align="left">S.G.IRON WITHOUT MOLY </td>
+				  <td align="left"><strong> S.G.IRON WITHOUT MOLY </strong> </td>
 				  <td align="right"><%=listsag.get(3).toString()%></td>
 			      <%
                     cq_sag.clear();
@@ -426,7 +426,7 @@ int dayct=0;
 				  %>
 			  </tr>
 				<tr>
-				  <td align="left">ALUMINIUM</td>
+				  <td align="left"><strong> ALUMINIUM</strong> </td>
 				  <td align="right"><%=listsag.get(4).toString()%></td>
 			      <%
                     cq_sag.clear();
@@ -463,12 +463,9 @@ int dayct=0;
 				  
 				  
 				  
-				  
-				  
-				  
 			  </tr>
 				<tr>
-				  <td align="left"><strong>TOTAL</strong></td>
+				  <td align="left"><strong>TOTAL &#8680;</strong></td>
 				  <td align="left"><strong><%=twoDForm.format(totalcq) %></strong></td>
                   <%
 					for(int i=1;i<=Integer.parseInt(ct);i++){
@@ -481,26 +478,7 @@ int dayct=0;
 					}
 				  %>
 			  </tr>
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
+			   
 			  
 				<%
 				double sumbore = total + totalcq;
