@@ -1,4 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.util.Calendar"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="it.muthagroup.connectionUtility.Connection_Utility"%>
@@ -21,6 +24,20 @@
 	$(function() {
 		$("#tabs").tabs();
 	});
+	
+	$(document).ready(
+			  function () {
+			    $( "#fromUserwiseDate" ).datepicker({
+			      changeMonth: true,
+			      changeYear: true 
+			    });
+			    $( "#toUserwiseDate" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true 
+				    });   
+			  } 
+			); 
+	
 </script>
 <style type="text/css">
 .tftable {
@@ -91,8 +108,12 @@ function validatePerticularForm() {
 <%
 	try {
 
-		int uid = Integer.parseInt(session.getAttribute("uid")
-				.toString());
+		Calendar first_Datecal = Calendar.getInstance();   
+		first_Datecal.set(Calendar.DAY_OF_MONTH, 1);  
+		Date dddd = first_Datecal.getTime();  
+		SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyy-MM-dd");  
+		Date tdate = new Date();
+		int uid = Integer.parseInt(session.getAttribute("uid").toString());
 		String uname = null;
 		Connection con = Connection_Utility.getConnection();
 		PreparedStatement ps_uname = con
@@ -132,6 +153,7 @@ function validatePerticularForm() {
 				<ul>
 					<li><a href="#tabs-1"><font style="font-size: 12px;">Req No Wise</font> </a></li>
 					<li><a href="#tabs-2"><font style="font-size: 12px;">Select Particulars</font></a></li> 
+					<li><a href="#tabs-3"><font style="font-size: 12px;">User Wise Usage</font></a></li> 
 				</ul>
 				<div id="tabs-1">
 				<form action="Report_Generator_Controller" name="report" id="report"
@@ -147,25 +169,25 @@ function validatePerticularForm() {
 				<table align="center" border="0" class="tftable">
 
 								<tr>
-									<td colspan="2" align="center"><b>Requisition Number
+									<td colspan="3" align="center"><b>Requisition Number
 											Wise Report</b></td>
-											<td></td>
-								</tr>
+											<td width="5%"></td>
+				  </tr>
 								<tr>
-									<td align="right"><b style="color: red;">*</b> Enter Req. No. :</td>
-									<td align="left"><input type="text" name="req_no" id="req_no"/></td>
-								</tr>
+									<td width="13%" align="right"><b style="color: red;">*</b> Enter Req. No. :</td>
+								  <td colspan="2" align="left"><input type="text" name="req_no" id="req_no"/></td>
+				  </tr>
 								<tr>
-									<td colspan="2"><b style="color: red;">* Contains
+									<td colspan="3"><b style="color: red;">* Contains
 											Mandatory Fields</b></td>
 								</tr>
 								<tr>
 									<td colspan="2" align="center"><input type="submit"
 										value="Generate Report" style="width: 150px; height: 30px;"/></td>
+								    <td width="63%" align="center">&nbsp;</td>
 								</tr>
-
 							</table>
-							</form>
+				  </form>
 				</div>
 				<div id="tabs-2">
 				<form action="Report_Generator_Controller" name="report" id="report"
@@ -174,13 +196,13 @@ function validatePerticularForm() {
 				<table  align="center" border="0" class="tftable">
 
 								<tr>
-									<td align="right"><b>Select Particulars :</b></td>
-									<td></td>
-								</tr>
+									<td width="13%" align="right"><b>Select Particulars :</b></td>
+								  <td colspan="2"></td>
+				  </tr>
 								<tr>
 									<td align="right"><b style="color: red;">*</b> Select
 										Company :</td>
-									<td align="left"><select name="company_name" id="company_name">
+									<td colspan="2" align="left"><select name="company_name" id="company_name">
 											<option value="">--Select--</option>
 											<%
 												PreparedStatement ps_compName = con
@@ -197,7 +219,7 @@ function validatePerticularForm() {
 								</tr>
 								<tr>
 									<td align="right">Problem Related To :</td>
-									<td align="left"><select name="rel_to">
+									<td colspan="2" align="left"><select name="rel_to">
 											<option value="0">--Select--</option>
 											<%
 												PreparedStatement ps_relTo = con
@@ -214,7 +236,7 @@ function validatePerticularForm() {
 								</tr>
 								<tr>
 									<td align="right">Requisition Type :</td>
-									<td align="left"><select name="req_type">
+									<td colspan="2" align="left"><select name="req_type">
 											<option value="0">--Select--</option>
 											<%
 												PreparedStatement ps_type = con
@@ -231,7 +253,7 @@ function validatePerticularForm() {
 								</tr>
 								<tr>
 									<td align="right"><b style="color: red;">*</b> From Date :</td>
-									<td align="left"><input id="demo3" name="first_date" onclick="javascript:NewCal('demo3','ddmmyyyy',true,24)"
+									<td colspan="2" align="left"><input id="demo3" name="first_date" onclick="javascript:NewCal('demo3','ddmmyyyy',true,24)"
 										type="text" size="25" readonly="readonly"
 										TITLE="Click on Date Picker" /> <a
 										href="javascript:NewCal('demo3','ddmmyyyy',true,24)"> <img
@@ -240,7 +262,7 @@ function validatePerticularForm() {
 								</tr>
 								<tr>
 									<td align="right"><b style="color: red;">*</b> To Date :</td>
-									<td align="left"><input id="demo4" name="last_date" onclick="javascript:NewCal('demo4','ddmmyyyy',true,24)"
+									<td colspan="2" align="left"><input id="demo4" name="last_date" onclick="javascript:NewCal('demo4','ddmmyyyy',true,24)"
 										type="text" size="25" readonly="readonly"
 										TITLE="Click on Date Picker" /> <a
 										href="javascript:NewCal('demo4','ddmmyyyy',true,24)"> <img
@@ -248,16 +270,48 @@ function validatePerticularForm() {
 											alt="Pick a date" /></a></td>
 								</tr>
 								<tr>
-									<td colspan="2"><b style="color: red;">* Contains
+									<td colspan="3"><b style="color: red;">* Contains
 											Mandatory Fields</b></td>
 								</tr>
 								<tr>
 									<td colspan="2" align="center"><input type="submit"
 										value="Generate Report" style="width: 150px; height: 30px;"/></td>
+								    <td width="70%" align="center">&nbsp;</td>
 								</tr>
-
 							</table>
-							</form>
+				  </form>
+				</div>
+				<div id="tabs-3">
+				
+				<form action="UserWise_CountReport" name="Userreport" id="Userreport" method="post">
+				<table  align="center" border="0" class="tftable">
+								<tr>
+									<td width="12%" align="right"><b>Select Report Dates :</b></td>
+								  <td width="88%" colspan="2"></td>
+				  </tr> 
+								<tr>
+									<td align="right"><b style="color: red;">*</b> From :</td>
+									<td colspan="2" align="left">
+									<input type="text" name="fromUserwiseDate" id="fromUserwiseDate" readonly="readonly" value="<%=sdfFIrstDate.format(dddd) %>"/>									</td>
+								</tr>
+								<tr>
+									<td align="right"><b style="color: red;">*</b> To Date :</td>
+									<td colspan="2" align="left">
+									<input type="text" name="toUserwiseDate" id="toUserwiseDate" readonly="readonly" value="<%=sdfFIrstDate.format(tdate) %>"/>									</td>
+								</tr>
+								<tr>
+									<td colspan="3"><b style="color: red;">* Contains
+											Mandatory Fields</b></td>
+								</tr>
+								<tr>
+									<td colspan="2" align="center"><input type="submit"
+										value="View Report" style="width: 150px; height: 30px;"/></td>
+								    <td align="center">&nbsp;</td>
+								</tr>
+							</table>
+				  </form>
+				
+				
 				</div>
 			</div>	
 		
