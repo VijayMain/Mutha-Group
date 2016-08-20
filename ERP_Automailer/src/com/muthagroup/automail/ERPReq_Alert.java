@@ -23,6 +23,7 @@ public class ERPReq_Alert extends TimerTask {
 	@Override
 	public void run() {
 		try {
+			System.out.println("ERP Pending Approval !!!");
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
