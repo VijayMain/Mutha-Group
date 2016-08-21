@@ -12,7 +12,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%
+<%/* 
 Calendar cal = Calendar.getInstance();  
 cal.set(2010, 4, 14);
 
@@ -38,7 +38,37 @@ String dd = "2015-04-30";
 
 System.out.println("date = " + dd.substring(0, 4) + " = " + dd.substring(5, 7) + " = " + dd.substring(8, 10));
 
+Calendar first_Datecal = Calendar.getInstance();   
+first_Datecal.add(Calendar.DATE, -1);  
+Date date_last = first_Datecal.getTime();
+SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");  
+
+System.out.println("Dtae = = " + sdfFIrstDate.format(date_last));
+*/
+
+
+Date d = new Date();
+String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };  
+DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+DateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
+Calendar cal = Calendar.getInstance();
+cal.add(Calendar.DATE, -1);
+String yes_date = dateFormat.format(cal.getTime()).toString(); 
+String ason_date = dateFormat2.format(cal.getTime()).toString(); 			  
+	//************************************************************************************************
+//		System.out.println("Date before  =  " +yes_date+"\n date before = "+ason_date); 
+	if(weekday[d.getDay()].equals("Sunday")){
+		cal.add(Calendar.DATE, -1);
+		yes_date = dateFormat.format(cal.getTime()).toString(); 
+		ason_date = dateFormat2.format(cal.getTime()).toString();
+	}
+System.out.println("Date after =  " +yes_date+"\n date after = "+ason_date);
 
 %>
+<table>
+<tr>
+<td align="right"></td>
+</tr>
+</table>
 </body>
 </html>
