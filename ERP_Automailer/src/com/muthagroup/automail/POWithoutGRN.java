@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import java.util.TimerTask;
-
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -30,7 +29,7 @@ public class POWithoutGRN extends TimerTask {
 			
 			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 01){ */
 			
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 19){
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 15 && d.getMinutes() == 53){
 				
 				System.out.println("In Loop !!!");
 				Connection con = ConnectionUrl.getLocalDatabase();
@@ -66,19 +65,19 @@ public class POWithoutGRN extends TimerTask {
 			ArrayList to_emails = new ArrayList();
 			ArrayList bcc_emails = new ArrayList();
 			
-			PreparedStatement ps_rec = con.prepareStatement("select * from pending_approvee where type='cc' and report='REQ_PendingApproval'");
+			PreparedStatement ps_rec = con.prepareStatement("select * from pending_approvee where type='cc' and report='PO_WithoutGRN'");
 			ResultSet rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
 				cc_emails.add(rs_rec.getString("email"));
 			}
 			
-			ps_rec = con.prepareStatement("select * from pending_approvee where type='to' and report='REQ_PendingApproval'");
+			ps_rec = con.prepareStatement("select * from pending_approvee where type='to' and report='PO_WithoutGRN'");
 			rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
 				to_emails.add(rs_rec.getString("email"));
 			}
 			
-			ps_rec = con.prepareStatement("select * from pending_approvee where type='bcc' and report='REQ_PendingApproval'");
+			ps_rec = con.prepareStatement("select * from pending_approvee where type='bcc' and report='PO_WithoutGRN'");
 			rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
 				bcc_emails.add(rs_rec.getString("email"));
