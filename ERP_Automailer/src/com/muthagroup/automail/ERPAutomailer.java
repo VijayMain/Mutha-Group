@@ -142,17 +142,10 @@ private static final long serialVersionUID = 1L;
 			
 			*/
 			
-			// 10:26 
+			// 10:20
 			TimerTask  poWithoutGRN =new POWithoutGRN();
 			timer.schedule(poWithoutGRN, 1000, 60000);
-			
-			
-			
-			
-			
-			
-			
-			
+			 
 			
 			
 			
