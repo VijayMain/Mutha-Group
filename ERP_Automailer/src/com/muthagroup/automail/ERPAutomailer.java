@@ -135,19 +135,18 @@ private static final long serialVersionUID = 1L;
 			// 10:21
 			TimerTask  shedulexls_h21 =new SheduleXLSReminder();
 			timer.schedule(shedulexls_h21, 1000, 60000);
-			  
+			*/
+			
+			
 			// 11:01 | 14:30 | 16:30
 			TimerTask  reqalert =new ERPReq_Alert();
 			timer.schedule(reqalert, 1000, 60000); 
 			
-			*/
-			
+			/*
 			// 10:20
 			TimerTask  poWithoutGRN =new POWithoutGRN();
 			timer.schedule(poWithoutGRN, 1000, 60000);
-			 
-			
-			
+			 */
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -27,14 +27,14 @@ public class ERPReq_Alert extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 01) ||
+			/*if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 01) ||
 				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 30) ||
 				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 30)
-			){
+			){*/
 			
-			/*if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 17) ||
+			if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 56) ||
 				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 59) ||
-				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 18)){*/
+				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 22)){
 				
 				System.out.println("In Loop !!!");
 				
@@ -45,9 +45,7 @@ public class ERPReq_Alert extends TimerTask {
 				SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
 				
 				boolean sent=false; 
-				 
-				
-				
+			
 			System.out.println("Email ERP Approval List.....!");
 			String host = "send.one.com";
 			String user = "itsupports@muthagroup.com";
@@ -118,10 +116,13 @@ public class ERPReq_Alert extends TimerTask {
 			
 			sb.append("<table border='1' width='97%' style='font-family: Arial;'><tr style='font-size: 12px;background-color:#94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 			"<th height='24'>REQ. No</th><th>SUBJECT</th><th>CALL TYPE</th>"+
-			"<th>PRIORITY</th><th>USER</th><th>DATE</th></tr>");
+			"<th>DEPARTMENT</th><th>USER</th><th>DATE</th></tr>");
 			
 			ResultSet rs_getapp = null;
 			
+			String dept = "";
+			PreparedStatement ps_dept = null;
+			ResultSet rs_dept = null;
 			/*
 			< ================= MEPL H21 =================> 
 			*  exec "ENGERP"."dbo"."Sel_ApprovalTransactionsSuppPortal";1 '101', '90001', '0', '21', 'ADMIN'  
@@ -146,16 +147,27 @@ public class ERPReq_Alert extends TimerTask {
 
 			rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
+				
+				ps_dept = con.prepareStatement("select * from pending_approval_master where user_name='"+rs_getapp.getString("SYSADD_NAME")+"'");
+				rs_dept = ps_dept.executeQuery();
+				while (rs_dept.next()) {
+					dept = rs_dept.getString("module_name");
+				}
+				
 			sb.append("<tr style='font-size: 11px;border-width: 1px; padding: 4px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 				"<th align='left'>"+rs_getapp.getString("STRAN_NO")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("SUBJECT")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("CALL_TYPE_NAME")+"</th>"+
   				/*"<th>"+rs_getapp.getString("INCI_REQ")+"</th>"+*/
-  				"<th align='left'>"+rs_getapp.getString("CLIENT_PRIORITY_NAME")+"</th>"+
+  				
+  				"<th align='left'>"+dept+"</th>"+
+  				
+  				
   				"<th align='left'>"+rs_getapp.getString("SYSADD_NAME")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("PRN_TRANDATE")+"</th>"+
   			"</tr>");
 			sent = true;
+			dept="";
 			} 
 			} 
 			/*
@@ -185,16 +197,22 @@ public class ERPReq_Alert extends TimerTask {
 
 			rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
+				ps_dept = con.prepareStatement("select * from pending_approval_master where user_name='"+rs_getapp.getString("SYSADD_NAME")+"'");
+				rs_dept = ps_dept.executeQuery();
+				while (rs_dept.next()) {
+					dept = rs_dept.getString("module_name");
+				}
 			sb.append("<tr style='font-size: 11px;border-width: 1px; padding: 4px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 				"<th align='left'>"+rs_getapp.getString("STRAN_NO")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("SUBJECT")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("CALL_TYPE_NAME")+"</th>"+
   				/*"<th>"+rs_getapp.getString("INCI_REQ")+"</th>"+*/
-  				"<th align='left'>"+rs_getapp.getString("CLIENT_PRIORITY_NAME")+"</th>"+
+  				"<th align='left'>"+dept+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("SYSADD_NAME")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("PRN_TRANDATE")+"</th>"+
   			"</tr>");
 			sent = true;
+			dept="";
 			} 
 			} 
 			/*
@@ -222,16 +240,22 @@ public class ERPReq_Alert extends TimerTask {
 			"<th colspan='6' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MFPL</th></tr>");
 			rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
+				ps_dept = con.prepareStatement("select * from pending_approval_master where user_name='"+rs_getapp.getString("SYSADD_NAME")+"'");
+				rs_dept = ps_dept.executeQuery();
+				while (rs_dept.next()) {
+					dept = rs_dept.getString("module_name");
+				}
 			sb.append("<tr style='font-size: 11px;border-width: 1px; padding: 4px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 				"<th align='left'>"+rs_getapp.getString("STRAN_NO")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("SUBJECT")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("CALL_TYPE_NAME")+"</th>"+
   				/*"<th>"+rs_getapp.getString("INCI_REQ")+"</th>"+*/
-  				"<th align='left'>"+rs_getapp.getString("CLIENT_PRIORITY_NAME")+"</th>"+
+  				"<th align='left'>"+dept+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("SYSADD_NAME")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("PRN_TRANDATE")+"</th>"+
   			"</tr>");
 			sent = true;
+			dept="";
 			} 
 			} 
 			/*
@@ -260,16 +284,22 @@ public class ERPReq_Alert extends TimerTask {
 			"<th colspan='6' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;DI</th></tr>");
 			rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
+				ps_dept = con.prepareStatement("select * from pending_approval_master where user_name='"+rs_getapp.getString("SYSADD_NAME")+"'");
+				rs_dept = ps_dept.executeQuery();
+				while (rs_dept.next()) {
+					dept = rs_dept.getString("module_name");
+				}
 			sb.append("<tr style='font-size: 11px;border-width: 1px; padding: 4px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 				"<th align='left'>"+rs_getapp.getString("STRAN_NO")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("SUBJECT")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("CALL_TYPE_NAME")+"</th>"+
   				/*"<th>"+rs_getapp.getString("INCI_REQ")+"</th>"+*/
-  				"<th align='left'>"+rs_getapp.getString("CLIENT_PRIORITY_NAME")+"</th>"+
+  				"<th align='left'>"+dept+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("SYSADD_NAME")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("PRN_TRANDATE")+"</th>"+
   			"</tr>");
 			sent = true;
+			dept="";
 			} 
 			} 
 			/*
@@ -296,16 +326,22 @@ public class ERPReq_Alert extends TimerTask {
 			"<th colspan='6' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MEPL UNIT III</th></tr>");
 			rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
+				ps_dept = con.prepareStatement("select * from pending_approval_master where user_name='"+rs_getapp.getString("SYSADD_NAME")+"'");
+				rs_dept = ps_dept.executeQuery();
+				while (rs_dept.next()) {
+					dept = rs_dept.getString("module_name");
+				}
 			sb.append("<tr style='font-size: 11px;border-width: 1px; padding: 4px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 				"<th align='left'>"+rs_getapp.getString("STRAN_NO")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("SUBJECT")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("CALL_TYPE_NAME")+"</th>"+
   				/*"<th>"+rs_getapp.getString("INCI_REQ")+"</th>"+*/
-  				"<th align='left'>"+rs_getapp.getString("CLIENT_PRIORITY_NAME")+"</th>"+
+  				"<th align='left'>"+dept+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("SYSADD_NAME")+"</th>"+
   				"<th align='left'>"+rs_getapp.getString("PRN_TRANDATE")+"</th>"+
   			"</tr>");
 			sent = true;
+			dept="";
 			} 
 			} 
 			/*
