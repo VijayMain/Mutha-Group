@@ -32,7 +32,7 @@ public class IssueWithoutWO extends TimerTask {
 			
 			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 01){ */
 			
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 15 && d.getMinutes() == 43){
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 38){
 				
 				System.out.println("In Loop !!!");
 				Connection con = ConnectionUrl.getLocalDatabase();
@@ -134,8 +134,7 @@ public class IssueWithoutWO extends TimerTask {
 			 * 
 			*/
 			int testavail = 0;
-			int maxCount = 0;
-			int init_cnt=0;
+			int maxCount = 0; 
 			List<String> ac_Name = new ArrayList();
 			
 			String comp = "101";
@@ -159,7 +158,7 @@ public class IssueWithoutWO extends TimerTask {
 				upnew = ps_insSubgl.executeUpdate();
 			}
 			
-	// 		exec "K1ERP"."dbo"."Sel_SubContractDispt";1 '106', '0', '213', '7', '101121195101121698101120135101121306', '20160401', '20160820'
+			// 	exec "K1ERP"."dbo"."Sel_SubContractDispt";1 '106', '0', '213', '7', '101121195101121698101120135101121306', '20160401', '20160820'
 			
 			CallableStatement cs11 = con_21.prepareCall("{call Sel_SubContractDispt(?,?,?,?,?,?,?)}");
 			cs11.setString(1,comp);
@@ -170,7 +169,7 @@ public class IssueWithoutWO extends TimerTask {
 			ps_insSubgl = con.prepareStatement("select * from issuewithoutwo where CODE="+maxCount);
 			rs_insSubgl = ps_insSubgl.executeQuery();
 			while (rs_insSubgl.next()) {
-				cs11.setString(5,rs_insSubgl.getString("GLSUB"));	
+				cs11.setString(5,rs_insSubgl.getString("GLSUB"));
 			}
 			cs11.setString(6,"20160801");
 			cs11.setString(7,sql_date);
@@ -178,46 +177,43 @@ public class IssueWithoutWO extends TimerTask {
 			ResultSet rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
 			ac_Name.add(rs_getapp.getString("AC_NAME"));
-			if(init_cnt==0){
-				
 			}
-			}
-			
-			System.out.println("LIst before = " + ac_Name);
-			
+			 
 			Set<String> hs = new HashSet();
 			hs.addAll(ac_Name);
 			ac_Name.clear();
 			ac_Name.addAll(hs);
 			
-			System.out.println("LIst After = " + ac_Name);
 			
+			int acn=1;
 			
 			for(int i=0;i<ac_Name.size();i++){
+			acn=1;
 			rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
-				
 				if(testavail==0){
 					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
 						"<th colspan='10' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MEPL H21</th></tr>");
 				}
 			testavail++;
+			if(ac_Name.get(i).toString().equalsIgnoreCase(rs_getapp.getString("AC_NAME"))){
+			sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5;'>");
 			
-			
-			sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5;'>"+
-			  "<td align='left'>"+rs_getapp.getString("AC_NAME")+"</td>"+
-			  "<td align='left'>"+rs_getapp.getString("PROCESS_NAME")+"</td>"+
+			if(acn==1){
+				sb.append("<td align='left'>"+rs_getapp.getString("AC_NAME")+"</td>");
+			}else{
+				sb.append("<td align='left'></td>");
+			}
+			acn=0;
+			sb.append("<td align='left'>"+rs_getapp.getString("PROCESS_NAME")+"</td>"+
 			  "<td align='left'>"+rs_getapp.getString("NAME")+"</td>"+
 			  "<td align='right'>"+rs_getapp.getString("QTY")+"</td>"+ 
 			  "</tr>");
-			
 			sent = true;
 			}
-			testavail = 0;
 			}
-			
-			
-			con_21.close();  
+			}
+			con_21.close(); 
 			/* MEPL H21 End */
 			
 			
