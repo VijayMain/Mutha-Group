@@ -32,7 +32,7 @@ public class IssueWithoutWO extends TimerTask {
 			
 			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 01){ */
 			
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 7){
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 15 && d.getMinutes() == 43){
 				
 				System.out.println("In Loop !!!");
 				Connection con = ConnectionUrl.getLocalDatabase();
@@ -135,6 +135,7 @@ public class IssueWithoutWO extends TimerTask {
 			*/
 			int testavail = 0;
 			int maxCount = 0;
+			int init_cnt=0;
 			List<String> ac_Name = new ArrayList();
 			
 			String comp = "101";
@@ -171,12 +172,15 @@ public class IssueWithoutWO extends TimerTask {
 			while (rs_insSubgl.next()) {
 				cs11.setString(5,rs_insSubgl.getString("GLSUB"));	
 			}
-			cs11.setString(6,sql_date);
+			cs11.setString(6,"20160801");
 			cs11.setString(7,sql_date);
 			
 			ResultSet rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
 			ac_Name.add(rs_getapp.getString("AC_NAME"));
+			if(init_cnt==0){
+				
+			}
 			}
 			
 			System.out.println("LIst before = " + ac_Name);
@@ -188,27 +192,33 @@ public class IssueWithoutWO extends TimerTask {
 			
 			System.out.println("LIst After = " + ac_Name);
 			
+			
+			for(int i=0;i<ac_Name.size();i++){
 			rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
+				
 				if(testavail==0){
 					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
 						"<th colspan='10' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MEPL H21</th></tr>");
 				}
-				testavail++;
+			testavail++;
+			
+			
 			sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5;'>"+
-			  "<td align='right'>"+rs_getapp.getString("AC_NAME")+"</td>"+
+			  "<td align='left'>"+rs_getapp.getString("AC_NAME")+"</td>"+
 			  "<td align='left'>"+rs_getapp.getString("PROCESS_NAME")+"</td>"+
-			  "<td align='right'>"+rs_getapp.getString("NAME")+"</td>"+
+			  "<td align='left'>"+rs_getapp.getString("NAME")+"</td>"+
 			  "<td align='right'>"+rs_getapp.getString("QTY")+"</td>"+ 
 			  "</tr>");
 			
 			sent = true;
 			}
 			testavail = 0;
-			/* MEPL H21 End */
+			}
+			
 			
 			con_21.close();  
-			
+			/* MEPL H21 End */
 			
 			
             sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"+
