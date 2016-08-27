@@ -32,7 +32,7 @@ public class IssueWithoutWO extends TimerTask {
 			
 			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 01){ */
 			
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 9 && d.getMinutes() == 26){
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 47){
 				
 				System.out.println("In Loop !!!");
 				Connection con = ConnectionUrl.getLocalDatabase();
@@ -179,12 +179,11 @@ public class IssueWithoutWO extends TimerTask {
 			while(rs_getapp.next()) {
 			ac_Name.add(rs_getapp.getString("AC_NAME"));
 			}
-			 
+			
 			Set<String> hs = new HashSet();
 			hs.addAll(ac_Name);
 			ac_Name.clear();
 			ac_Name.addAll(hs);
-			
 			
 			int acn=1;
 			
@@ -193,7 +192,7 @@ public class IssueWithoutWO extends TimerTask {
 			rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
 				if(testavail==0){
-					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 						"<th colspan='10' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MEPL H21</th></tr>");
 				}
 			testavail++;
@@ -208,20 +207,19 @@ public class IssueWithoutWO extends TimerTask {
 			acn=0;
 			sb.append("<td align='left'>"+rs_getapp.getString("PROCESS_NAME")+"</td>"+
 			  "<td align='left'>"+rs_getapp.getString("NAME")+"</td>"+
-			  "<td align='right'>"+rs_getapp.getString("QTY")+"</td>"+ 
+			  "<td align='right'>"+rs_getapp.getString("QTY")+"</td>"+
 			  "</tr>");
 			sent = true;
 			}
 			}
 			}
-			con_21.close(); 
+			con_21.close();
 			/* MEPL H21 End */
-			
 			/********************************************************************************************************************/
 			
 			/* MEPL H25 Start */
 			testavail = 0;
-			maxCount = 0; 
+			maxCount = 0;
 			ac_Name.clear();
 			comp = "102";
 			con_21 = ConnectionUrl.getMEPLH25ERP();
@@ -276,7 +274,7 @@ public class IssueWithoutWO extends TimerTask {
 			rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
 				if(testavail==0){
-					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 						"<th colspan='10' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MEPL H25</th></tr>");
 				}
 			testavail++;
@@ -358,7 +356,7 @@ public class IssueWithoutWO extends TimerTask {
 			rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
 				if(testavail==0){
-					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 						"<th colspan='10' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MFPL</th></tr>");
 				}
 			testavail++;
@@ -442,7 +440,7 @@ public class IssueWithoutWO extends TimerTask {
 			rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
 				if(testavail==0){
-					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 						"<th colspan='10' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;DI</th></tr>");
 				}
 			testavail++;
@@ -525,7 +523,7 @@ public class IssueWithoutWO extends TimerTask {
 			rs_getapp = cs11.executeQuery();
 			while(rs_getapp.next()) {
 				if(testavail==0){
-					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 						"<th colspan='10' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MEPL UNIT III</th></tr>");
 				}
 			testavail++;
