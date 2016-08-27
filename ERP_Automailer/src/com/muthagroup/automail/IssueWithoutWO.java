@@ -32,7 +32,7 @@ public class IssueWithoutWO extends TimerTask {
 			
 			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 01){ */
 			
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 38){
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 9 && d.getMinutes() == 26){
 				
 				System.out.println("In Loop !!!");
 				Connection con = ConnectionUrl.getLocalDatabase();
@@ -133,6 +133,7 @@ public class IssueWithoutWO extends TimerTask {
 			 * MEPL H21 Start ==================== > 
 			 * 
 			*/
+			/* ------------------- */
 			int testavail = 0;
 			int maxCount = 0; 
 			List<String> ac_Name = new ArrayList();
@@ -171,7 +172,7 @@ public class IssueWithoutWO extends TimerTask {
 			while (rs_insSubgl.next()) {
 				cs11.setString(5,rs_insSubgl.getString("GLSUB"));
 			}
-			cs11.setString(6,"20160801");
+			cs11.setString(6,sql_date);
 			cs11.setString(7,sql_date);
 			
 			ResultSet rs_getapp = cs11.executeQuery();
@@ -215,6 +216,341 @@ public class IssueWithoutWO extends TimerTask {
 			}
 			con_21.close(); 
 			/* MEPL H21 End */
+			
+			/********************************************************************************************************************/
+			
+			/* MEPL H25 Start */
+			testavail = 0;
+			maxCount = 0; 
+			ac_Name.clear();
+			comp = "102";
+			con_21 = ConnectionUrl.getMEPLH25ERP();
+			ps_insSubgl = null;
+			
+			ps_insSubgl = con.prepareStatement("insert into issuewithoutwo(GLSUB)values(?)");
+			ps_insSubgl.setString(1, "");
+			upnew = ps_insSubgl.executeUpdate();
+			
+			ps_insSubgl = con.prepareStatement("select max(CODE) from issuewithoutwo");
+			rs_insSubgl = ps_insSubgl.executeQuery();
+			while (rs_insSubgl.next()) {
+				maxCount = rs_insSubgl.getInt("max(CODE)");
+			}
+			
+			ps_getmt = con_21.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE=12");
+			rs_getmt = ps_getmt.executeQuery();
+			while (rs_getmt.next()) {
+				ps_insSubgl = con.prepareStatement("update issuewithoutwo set GLSUB = concat(ifnull(GLSUB,''),'"+rs_getmt.getString("SUB_GLACNO")+"') where CODE="+maxCount);
+				upnew = ps_insSubgl.executeUpdate();
+			}
+			
+			cs11 = con_21.prepareCall("{call Sel_SubContractDispt(?,?,?,?,?,?,?)}");
+			cs11.setString(1,comp);
+			cs11.setString(2,"0");
+			cs11.setString(3,"213");
+			cs11.setString(4,"7");
+			
+			ps_insSubgl = con.prepareStatement("select * from issuewithoutwo where CODE="+maxCount);
+			rs_insSubgl = ps_insSubgl.executeQuery();
+			while (rs_insSubgl.next()) {
+				cs11.setString(5,rs_insSubgl.getString("GLSUB"));
+			}
+			cs11.setString(6,sql_date);
+			cs11.setString(7,sql_date);
+			
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+			ac_Name.add(rs_getapp.getString("AC_NAME"));
+			}
+			 
+			hs.clear();
+			hs.addAll(ac_Name);
+			ac_Name.clear();
+			ac_Name.addAll(hs);
+			
+			
+			acn=1;
+			
+			for(int i=0;i<ac_Name.size();i++){
+			acn=1;
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+				if(testavail==0){
+					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+						"<th colspan='10' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MEPL H25</th></tr>");
+				}
+			testavail++;
+			if(ac_Name.get(i).toString().equalsIgnoreCase(rs_getapp.getString("AC_NAME"))){
+			sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5;'>");
+			
+			if(acn==1){
+				sb.append("<td align='left'>"+rs_getapp.getString("AC_NAME")+"</td>");
+			}else{
+				sb.append("<td align='left'></td>");
+			}
+			acn=0;
+			sb.append("<td align='left'>"+rs_getapp.getString("PROCESS_NAME")+"</td>"+
+			  "<td align='left'>"+rs_getapp.getString("NAME")+"</td>"+
+			  "<td align='right'>"+rs_getapp.getString("QTY")+"</td>"+ 
+			  "</tr>");
+			sent = true;
+			}
+			}
+			}
+			con_21.close(); 
+			/* MEPL H25 End */
+			/******************************************************************************************************************/
+			
+			/********************************************************************************************************************/
+			/* MFPL Start */
+			testavail = 0;
+			maxCount = 0;
+			ac_Name.clear();
+			comp = "103";
+			con_21 = ConnectionUrl.getFoundryERPNEWConnection();
+			ps_insSubgl = null;
+			ps_insSubgl = con.prepareStatement("insert into issuewithoutwo(GLSUB)values(?)");
+			ps_insSubgl.setString(1, "");
+			upnew = ps_insSubgl.executeUpdate();
+			
+			ps_insSubgl = con.prepareStatement("select max(CODE) from issuewithoutwo");
+			rs_insSubgl = ps_insSubgl.executeQuery();
+			while (rs_insSubgl.next()) {
+				maxCount = rs_insSubgl.getInt("max(CODE)");
+			}
+			
+			ps_getmt = con_21.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE=12");
+			rs_getmt = ps_getmt.executeQuery();
+			while (rs_getmt.next()) {
+				ps_insSubgl = con.prepareStatement("update issuewithoutwo set GLSUB = concat(ifnull(GLSUB,''),'"+rs_getmt.getString("SUB_GLACNO")+"') where CODE="+maxCount);
+				upnew = ps_insSubgl.executeUpdate();
+			}
+			
+			cs11 = con_21.prepareCall("{call Sel_SubContractDispt(?,?,?,?,?,?,?)}");
+			cs11.setString(1,comp);
+			cs11.setString(2,"0");
+			cs11.setString(3,"213");
+			cs11.setString(4,"7");
+			
+			ps_insSubgl = con.prepareStatement("select * from issuewithoutwo where CODE="+maxCount);
+			rs_insSubgl = ps_insSubgl.executeQuery();
+			while (rs_insSubgl.next()) {
+				cs11.setString(5,rs_insSubgl.getString("GLSUB"));
+			}
+			cs11.setString(6,sql_date);
+			cs11.setString(7,sql_date);
+			
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+			ac_Name.add(rs_getapp.getString("AC_NAME"));
+			}
+			 
+			hs.clear();
+			hs.addAll(ac_Name);
+			ac_Name.clear();
+			ac_Name.addAll(hs);
+			
+			
+			acn=1;
+			
+			for(int i=0;i<ac_Name.size();i++){
+			acn=1;
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+				if(testavail==0){
+					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+						"<th colspan='10' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MFPL</th></tr>");
+				}
+			testavail++;
+			if(ac_Name.get(i).toString().equalsIgnoreCase(rs_getapp.getString("AC_NAME"))){
+			sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5;'>");
+			
+			if(acn==1){
+				sb.append("<td align='left'>"+rs_getapp.getString("AC_NAME")+"</td>");
+			}else{
+				sb.append("<td align='left'></td>");
+			}
+			acn=0;
+			sb.append("<td align='left'>"+rs_getapp.getString("PROCESS_NAME")+"</td>"+
+			  "<td align='left'>"+rs_getapp.getString("NAME")+"</td>"+
+			  "<td align='right'>"+rs_getapp.getString("QTY")+"</td>"+ 
+			  "</tr>");
+			sent = true;
+			}
+			}
+			}
+			con_21.close(); 
+			/* MFPL End */
+			/******************************************************************************************************************/
+			
+			
+			
+			/********************************************************************************************************************/
+			/* DI Start */
+			testavail = 0;
+			maxCount = 0;
+			ac_Name.clear();
+			comp = "105";
+			con_21 = ConnectionUrl.getDIERPConnection();
+			ps_insSubgl = null;
+			ps_insSubgl = con.prepareStatement("insert into issuewithoutwo(GLSUB)values(?)");
+			ps_insSubgl.setString(1, "");
+			upnew = ps_insSubgl.executeUpdate();
+			
+			ps_insSubgl = con.prepareStatement("select max(CODE) from issuewithoutwo");
+			rs_insSubgl = ps_insSubgl.executeQuery();
+			while (rs_insSubgl.next()) {
+				maxCount = rs_insSubgl.getInt("max(CODE)");
+			}
+			
+			ps_getmt = con_21.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE=12");
+			rs_getmt = ps_getmt.executeQuery();
+			while (rs_getmt.next()) {
+				ps_insSubgl = con.prepareStatement("update issuewithoutwo set GLSUB = concat(ifnull(GLSUB,''),'"+rs_getmt.getString("SUB_GLACNO")+"') where CODE="+maxCount);
+				upnew = ps_insSubgl.executeUpdate();
+			}
+			
+			cs11 = con_21.prepareCall("{call Sel_SubContractDispt(?,?,?,?,?,?,?)}");
+			cs11.setString(1,comp);
+			cs11.setString(2,"0");
+			cs11.setString(3,"213");
+			cs11.setString(4,"7");
+			
+			ps_insSubgl = con.prepareStatement("select * from issuewithoutwo where CODE="+maxCount);
+			rs_insSubgl = ps_insSubgl.executeQuery();
+			while (rs_insSubgl.next()) {
+				cs11.setString(5,rs_insSubgl.getString("GLSUB"));
+			}
+			cs11.setString(6,sql_date);
+			cs11.setString(7,sql_date);
+			
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+			ac_Name.add(rs_getapp.getString("AC_NAME"));
+			}
+			 
+			hs.clear();
+			hs.addAll(ac_Name);
+			ac_Name.clear();
+			ac_Name.addAll(hs);
+			
+			
+			acn=1;
+			
+			for(int i=0;i<ac_Name.size();i++){
+			acn=1;
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+				if(testavail==0){
+					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+						"<th colspan='10' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;DI</th></tr>");
+				}
+			testavail++;
+			if(ac_Name.get(i).toString().equalsIgnoreCase(rs_getapp.getString("AC_NAME"))){
+			sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5;'>");
+			
+			if(acn==1){
+				sb.append("<td align='left'>"+rs_getapp.getString("AC_NAME")+"</td>");
+			}else{
+				sb.append("<td align='left'></td>");
+			}
+			acn=0;
+			sb.append("<td align='left'>"+rs_getapp.getString("PROCESS_NAME")+"</td>"+
+			  "<td align='left'>"+rs_getapp.getString("NAME")+"</td>"+
+			  "<td align='right'>"+rs_getapp.getString("QTY")+"</td>"+ 
+			  "</tr>");
+			sent = true;
+			}
+			}
+			}
+			con_21.close(); 
+			/* DI End */
+			/******************************************************************************************************************/
+			
+			
+			/********************************************************************************************************************/
+			/* K1 Start */
+			testavail = 0;
+			maxCount = 0;
+			ac_Name.clear();
+			comp = "106";
+			con_21 = ConnectionUrl.getK1ERPConnection();
+			ps_insSubgl = null;
+			ps_insSubgl = con.prepareStatement("insert into issuewithoutwo(GLSUB)values(?)");
+			ps_insSubgl.setString(1, "");
+			upnew = ps_insSubgl.executeUpdate();
+			
+			ps_insSubgl = con.prepareStatement("select max(CODE) from issuewithoutwo");
+			rs_insSubgl = ps_insSubgl.executeQuery();
+			while (rs_insSubgl.next()) {
+				maxCount = rs_insSubgl.getInt("max(CODE)");
+			}
+			
+			ps_getmt = con_21.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE=12");
+			rs_getmt = ps_getmt.executeQuery();
+			while (rs_getmt.next()) {
+				ps_insSubgl = con.prepareStatement("update issuewithoutwo set GLSUB = concat(ifnull(GLSUB,''),'"+rs_getmt.getString("SUB_GLACNO")+"') where CODE="+maxCount);
+				upnew = ps_insSubgl.executeUpdate();
+			}
+			
+			cs11 = con_21.prepareCall("{call Sel_SubContractDispt(?,?,?,?,?,?,?)}");
+			cs11.setString(1,comp);
+			cs11.setString(2,"0");
+			cs11.setString(3,"213");
+			cs11.setString(4,"7");
+			
+			ps_insSubgl = con.prepareStatement("select * from issuewithoutwo where CODE="+maxCount);
+			rs_insSubgl = ps_insSubgl.executeQuery();
+			while (rs_insSubgl.next()) {
+				cs11.setString(5,rs_insSubgl.getString("GLSUB"));
+			}
+			cs11.setString(6,sql_date);
+			cs11.setString(7,sql_date);
+			
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+			ac_Name.add(rs_getapp.getString("AC_NAME"));
+			}
+			 
+			hs.clear();
+			hs.addAll(ac_Name);
+			ac_Name.clear();
+			ac_Name.addAll(hs);
+			
+			
+			acn=1;
+			
+			for(int i=0;i<ac_Name.size();i++){
+			acn=1;
+			rs_getapp = cs11.executeQuery();
+			while(rs_getapp.next()) {
+				if(testavail==0){
+					sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left;'>"+
+						"<th colspan='10' style='background-color:#CCCCCC;color:#330066'>&nbsp;&nbsp;MEPL UNIT III</th></tr>");
+				}
+			testavail++;
+			if(ac_Name.get(i).toString().equalsIgnoreCase(rs_getapp.getString("AC_NAME"))){
+			sb.append("<tr style='font-size: 12px;border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5;'>");
+			
+			if(acn==1){
+				sb.append("<td align='left'>"+rs_getapp.getString("AC_NAME")+"</td>");
+			}else{
+				sb.append("<td align='left'></td>");
+			}
+			acn=0;
+			sb.append("<td align='left'>"+rs_getapp.getString("PROCESS_NAME")+"</td>"+
+			  "<td align='left'>"+rs_getapp.getString("NAME")+"</td>"+
+			  "<td align='right'>"+rs_getapp.getString("QTY")+"</td>"+ 
+			  "</tr>");
+			sent = true;
+			}
+			}
+			}
+			con_21.close(); 
+			/* K1 End */
+			/******************************************************************************************************************/
+			
+			
 			
 			
             sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"+
