@@ -30,9 +30,9 @@ public class IssueWithoutWO extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 01){ */
+			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 21){ */
 			
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 47){
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 13 && d.getMinutes() == 49){
 				
 				System.out.println("In Loop !!!");
 				Connection con = ConnectionUrl.getLocalDatabase();
@@ -52,7 +52,7 @@ public class IssueWithoutWO extends TimerTask {
 				
 				boolean sent=false;
 				
-			System.out.println("Email ERP Approval List.....!" + sql_date);
+			System.out.println("Email ERP Approval List.....!");
 			String host = "send.one.com";
 			String user = "itsupports@muthagroup.com";
 			String pass = "itsupports@xyz"; 
