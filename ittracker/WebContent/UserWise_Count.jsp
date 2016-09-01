@@ -1,4 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@page import="com.sun.org.apache.xalan.internal.xsltc.compiler.sym"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.Calendar"%>
@@ -25,7 +26,7 @@
 .tftable {
 	font-size: 10px;
 	color: #333333;
-	width: 100%;
+	width: 60%;
 	border-width: 1px;
 	border-color: #729ea5;
 	border-collapse: collapse;
@@ -92,65 +93,370 @@
 				<li><a href="Profile.jsp">My Profile</a></li>
 				<li><a href="Logout.jsp">Logout<strong style="color: blue; font-size: 8px;"> <%=uname%></strong></a></li>
 			</ul>
-		</div> 
-<div style="height: 80%;width: 99%;overflow: scroll;">
+		</div>
+<div style="height: 500px;width: 70%;overflow: scroll;padding-left: 20px;">
 <table border="1" class="tftable">
   <tr>
-    <th colspan="5"><strong>INHOUSE SOFTWARE USAGE FROM <b style="color: green;background-color: yellow;"><%=fromdate %> TO <%=todate %></b></strong></th>
+    <th colspan="3"><strong>INHOUSE SOFTWARE USAGE FROM <b style="color: green;background-color: yellow;"><%=fromdate %> TO <%=todate %></b></strong></th>
   </tr>
-  <tr align="center"> 
-    <th><strong>STATUS</strong></th>
+  <tr align="center">
     <th><strong>USER NAME</strong></th>
     <th><strong>COMPANY</strong></th>
     <th><strong>TOTAL</strong></th>
   </tr>
   <!-- IT Tracker start -->
   <tr>
-    <td colspan="4" style="background-color:#f9f799 "><strong style="font-size: 12px;">IT Tracker &#8680;</strong></td>
+    <td colspan="3" style="background-color:#f9f799 "><strong style="font-size: 12px;">IT Tracker &#8680;</strong></td>
   </tr>
   <%
-  int cnt=0;
-  String query = "SELECT * FROM it_user_requisition where Status='Pending' and Req_Date between " + fromdate + " and " + todate;
-  PreparedStatement ps_new = con.prepareStatement(query);
-  ResultSet rs_new = ps_new.executeQuery();
-  while(rs_new.next()){ 
-  %>
-  <tr>
-    <td>Hardware</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td> 
+  PreparedStatement ps_other = null,ps_other1 = null;
+  ResultSet rs_other = null,rs_other1 = null;
+  String val="",u_Name ="",u_comp="";
+  int reqid=0;
+  
+  PreparedStatement ps_cnt = con.prepareStatement("SELECT distinct(u_id) FROM it_user_requisition where Req_Date between '" + fromdate + "' and '" + todate +"'");
+  ResultSet rs_cnt = ps_cnt.executeQuery();
+  while(rs_cnt.next()){
+  
+  ps_other = con.prepareStatement("select count(*) as cnt from it_user_requisition where u_id="+rs_cnt.getInt("u_id")+" and Req_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+	 val = rs_other.getString("cnt"); 
+  }
+  ps_other = con.prepareStatement("select * from it_user_requisition where u_id="+rs_cnt.getInt("u_id")+" and Req_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){ 
+  ps_other1 = con.prepareStatement("select * from user_tbl where u_id="+rs_other.getInt("u_id"));
+  rs_other1 = ps_other1.executeQuery();
+	while(rs_other1.next()){
+		u_Name = rs_other1.getString("U_Name"); 
+	}
+
+	 ps_other1 = con.prepareStatement("select * from user_tbl_company where Company_Id="+rs_other.getInt("Company_Id"));
+	  rs_other1 = ps_other1.executeQuery();
+		while(rs_other1.next()){
+			u_comp = rs_other1.getString("Company_Name"); 
+		}
+  }
+  if(u_Name!=""){
+  %> 
+  <tr> 
+    <td><%-- <%=rs_cnt.getInt("u_id") %>  --%><%=u_Name %></td>
+    <td><%=u_comp %></td>
+    <td align="right"><%=val %></td>
   </tr>
-  <%
+  <% 
+  }
   }
   %>
   <!-- IT Tracker End -->
   <!-- ComplaintZilla start -->
-  <tr> 
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+  <tr>
+    <td colspan="3" style="background-color:#f9f799 "><strong style="font-size: 12px;">ComplaintZilla &#8680;</strong></td>
   </tr>
+  <%
+  ps_other = null;ps_other1 = null;
+  rs_other = null;rs_other1 = null;
+  val="";u_Name ="";u_comp="";
+  reqid=0;
+  ps_cnt = con.prepareStatement("SELECT distinct(u_id) FROM complaint_tbl where Complaint_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_cnt = ps_cnt.executeQuery();
+  while(rs_cnt.next()){
+  
+  ps_other = con.prepareStatement("select count(*) as cnt from complaint_tbl where u_id="+rs_cnt.getInt("u_id")+" and Complaint_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+	 val = rs_other.getString("cnt"); 
+  }
+  ps_other = con.prepareStatement("select * from complaint_tbl where u_id="+rs_cnt.getInt("u_id")+" and Complaint_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+  ps_other1 = con.prepareStatement("select * from user_tbl where u_id="+rs_other.getInt("u_id"));
+  rs_other1 = ps_other1.executeQuery();
+	while(rs_other1.next()){
+		u_Name = rs_other1.getString("U_Name"); 
+	}
+
+	 ps_other1 = con.prepareStatement("select * from user_tbl_company where Company_Id="+rs_other.getInt("Company_Id"));
+	  rs_other1 = ps_other1.executeQuery();
+		while(rs_other1.next()){
+			u_comp = rs_other1.getString("Company_Name"); 
+		}
+  }
+  if(u_Name!=""){
+  %>
+  <tr title="Registered by marketing login"> 
+    <td><%-- <%=rs_cnt.getInt("u_id") %>  --%><%=u_Name %></td>
+    <td><%=u_comp %></td>
+    <td align="right"><%=val %></td>
+  </tr> 
+  <%
+  }
+  }
+%>
+
+<tr>
+<td colspan="3"><hr /></td>  
+</tr>
+
+<%
+ps_other = null;ps_other1 = null;
+rs_other = null;rs_other1 = null;
+val="";u_Name ="";u_comp="";
+reqid=0;
+  ps_cnt = con.prepareStatement("SELECT distinct(u_id) FROM complaint_tbl_action where Action_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_cnt = ps_cnt.executeQuery();
+  while(rs_cnt.next()){
+  
+  ps_other = con.prepareStatement("select count(*) as cnt from complaint_tbl_action where u_id="+rs_cnt.getInt("u_id")+" and Action_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+	 val = rs_other.getString("cnt"); 
+  }
+  ps_other = con.prepareStatement("select * from complaint_tbl_action where u_id="+rs_cnt.getInt("u_id")+" and Action_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+  ps_other1 = con.prepareStatement("select * from user_tbl where u_id="+rs_other.getInt("u_id"));
+  rs_other1 = ps_other1.executeQuery();
+	while(rs_other1.next()){
+		u_Name = rs_other1.getString("U_Name"); 
+	}
+	  
+	 ps_other1 = con.prepareStatement("SELECT * FROM user_tbl_company where company_id =(SELECT company_id FROM complaint_tbl where complaint_no='"+rs_other.getString("Complaint_No")+"')");	 
+	 rs_other1 = ps_other1.executeQuery();
+	 while(rs_other1.next()){
+			u_comp = rs_other1.getString("Company_Name"); 
+		}
+  }
+  if(u_Name!=""){
+  %>
+  <tr title="Action Taken"> 
+    <td><%-- <%=rs_cnt.getInt("u_id") %>  --%><%=u_Name %></td>
+    <td><%=u_comp %></td>
+    <td align="right"><%=val %></td>
+  </tr>
+  <%
+  }
+  }
+  %>
+  
   <!-- ComplaintZilla End -->
   <!-- ECN start -->
-  <tr>
-    <td>&nbsp;</td> 
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+
+	<tr>
+    <td colspan="3" style="background-color:#f9f799 "><strong style="font-size: 12px;">ECN &#8680;</strong></td>
   </tr>
+  <%
+  ps_other = null;ps_other1 = null;
+  rs_other = null;rs_other1 = null;
+  val="";u_Name ="";u_comp="";
+  reqid=0;
+  ps_cnt = con.prepareStatement("SELECT distinct(u_id) FROM cr_tbl where CR_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_cnt = ps_cnt.executeQuery();
+  while(rs_cnt.next()){
+  
+  ps_other = con.prepareStatement("select count(*) as cnt from cr_tbl where u_id="+rs_cnt.getInt("u_id")+" and CR_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+	 val = rs_other.getString("cnt"); 
+  }
+  ps_other = con.prepareStatement("select * from cr_tbl where u_id="+rs_cnt.getInt("u_id")+" and CR_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+  ps_other1 = con.prepareStatement("select * from user_tbl where u_id="+rs_other.getInt("u_id"));
+  rs_other1 = ps_other1.executeQuery();
+	while(rs_other1.next()){
+		u_Name = rs_other1.getString("U_Name"); 
+	}
+
+	 ps_other1 = con.prepareStatement("select * from user_tbl_company where Company_Id="+rs_other.getInt("Company_Id"));
+	  rs_other1 = ps_other1.executeQuery();
+		while(rs_other1.next()){
+			u_comp = rs_other1.getString("Company_Name"); 
+		}
+  }
+  if(u_Name!=""){
+  %>
+  <tr title="Registered by marketing login"> 
+    <td><%-- <%=rs_cnt.getInt("u_id") %>  --%><%=u_Name %></td>
+    <td><%=u_comp %></td>
+    <td align="right"><%=val %></td>
+  </tr> 
+  <%
+  }
+  } 
+  
+  
+  ps_other = null;ps_other1 = null;
+  rs_other = null;rs_other1 = null;
+  val="";u_Name ="";u_comp="";
+  reqid=0;
+  ps_cnt = con.prepareStatement("SELECT distinct(u_id) FROM cr_tbl_action where Action_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_cnt = ps_cnt.executeQuery();
+  while(rs_cnt.next()){
+  
+  ps_other = con.prepareStatement("select count(*) as cnt from cr_tbl_action where u_id="+rs_cnt.getInt("u_id")+" and Action_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+	 val = rs_other.getString("cnt"); 
+  }
+  ps_other = con.prepareStatement("select * from cr_tbl_action where u_id="+rs_cnt.getInt("u_id")+" and Action_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+  ps_other1 = con.prepareStatement("select * from user_tbl where u_id="+rs_other.getInt("u_id"));
+  rs_other1 = ps_other1.executeQuery();
+	while(rs_other1.next()){
+		u_Name = rs_other1.getString("U_Name"); 
+	}
+
+	 ps_other1 = con.prepareStatement("select * from user_tbl_company where Company_Id=(SELECT company_id FROM cr_tbl where CR_No="+rs_other.getInt("CR_No")+")");
+	  rs_other1 = ps_other1.executeQuery();
+		while(rs_other1.next()){
+			u_comp = rs_other1.getString("Company_Name"); 
+		}
+  }
+  if(u_Name!=""){
+  %>
+  <tr title="Registered by marketing login"> 
+    <td><%-- <%=rs_cnt.getInt("u_id") %>  --%><%=u_Name %></td>
+    <td><%=u_comp %></td>
+    <td align="right"><%=val %></td>
+  </tr> 
+  <%
+  }
+  }
+%>
+
+
+
+<!--  -->
+ <%
+  ps_other = null;ps_other1 = null;
+  rs_other = null;rs_other1 = null;
+  val="";u_Name ="";u_comp="";
+  reqid=0;
+  ps_cnt = con.prepareStatement("SELECT distinct(u_id) FROM crc_tbl where CRC_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_cnt = ps_cnt.executeQuery();
+  while(rs_cnt.next()){
+  
+  ps_other = con.prepareStatement("select count(*) as cnt from crc_tbl where u_id="+rs_cnt.getInt("u_id")+" and CRC_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+	 val = rs_other.getString("cnt"); 
+  }
+  ps_other = con.prepareStatement("select * from crc_tbl where u_id="+rs_cnt.getInt("u_id")+" and CRC_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+  ps_other1 = con.prepareStatement("select * from user_tbl where u_id="+rs_other.getInt("u_id"));
+  rs_other1 = ps_other1.executeQuery();
+	while(rs_other1.next()){
+		u_Name = rs_other1.getString("U_Name"); 
+	}
+
+	 ps_other1 = con.prepareStatement("select * from user_tbl_company where Company_Id="+rs_other.getInt("Company_Id"));
+	  rs_other1 = ps_other1.executeQuery();
+		while(rs_other1.next()){
+			u_comp = rs_other1.getString("Company_Name"); 
+		}
+  }
+  if(u_Name!=""){
+  %>
+  <tr title="Registered by marketing login"> 
+    <td><%-- <%=rs_cnt.getInt("u_id") %>  --%><%=u_Name %></td>
+    <td><%=u_comp %></td>
+    <td align="right"><%=val %></td>
+  </tr> 
+  <%
+  }
+  } 
+  
+  
+  ps_other = null;ps_other1 = null;
+  rs_other = null;rs_other1 = null;
+  val="";u_Name ="";u_comp="";
+  reqid=0;
+  ps_cnt = con.prepareStatement("SELECT distinct(u_id) FROM crc_tbl_action where Action_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_cnt = ps_cnt.executeQuery();
+  while(rs_cnt.next()){
+  
+  ps_other = con.prepareStatement("select count(*) as cnt from crc_tbl_action where u_id="+rs_cnt.getInt("u_id")+" and Action_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+	 val = rs_other.getString("cnt"); 
+  }
+  ps_other = con.prepareStatement("select * from crc_tbl_action where u_id="+rs_cnt.getInt("u_id")+" and Action_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+  ps_other1 = con.prepareStatement("select * from user_tbl where u_id="+rs_other.getInt("u_id"));
+  rs_other1 = ps_other1.executeQuery();
+	while(rs_other1.next()){
+		u_Name = rs_other1.getString("U_Name"); 
+	}
+
+	 ps_other1 = con.prepareStatement("select * from user_tbl_company where Company_Id=(SELECT company_id FROM crc_tbl where CRC_No="+rs_other.getInt("CRC_No")+")");
+	  rs_other1 = ps_other1.executeQuery();
+		while(rs_other1.next()){
+			u_comp = rs_other1.getString("Company_Name"); 
+		}
+  }
+  if(u_Name!=""){
+  %>
+  <tr title="Registered by marketing login"> 
+    <td><%-- <%=rs_cnt.getInt("u_id") %>  --%><%=u_Name %></td>
+    <td><%=u_comp %></td>
+    <td align="right"><%=val %></td>
+  </tr> 
+  <%
+  }
+  }
+%>
   <!-- ECN End -->
-   <!-- DVP BOSS start -->
+  <!-- DVP BOSS start -->
   <tr>
-    <td>&nbsp;</td> 
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td colspan="3" style="background-color:#f9f799 "><strong style="font-size: 12px;">DVP BOSS &#8680;</strong></td>
   </tr>
-  <!-- DVP BOSS End -->
+  <%
+  ps_other = null;ps_other1 = null;
+  rs_other = null;rs_other1 = null;
+  val="";u_Name ="";u_comp="";
+  reqid=0;
+  ps_cnt = con.prepareStatement("SELECT distinct(Created_By) FROM dev_basicinfo_tbl where Created_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_cnt = ps_cnt.executeQuery();
+  while(rs_cnt.next()){
+  
+  ps_other = con.prepareStatement("select count(*) as cnt from dev_basicinfo_tbl where Created_By="+rs_cnt.getInt("Created_By")+" and Created_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+	 val = rs_other.getString("cnt"); 
+  }
+  ps_other = con.prepareStatement("select * from dev_basicinfo_tbl where Created_By="+rs_cnt.getInt("Created_By")+" and Created_Date between '" + fromdate + "' and '" + todate +"'");
+  rs_other = ps_other.executeQuery();
+  while(rs_other.next()){
+  ps_other1 = con.prepareStatement("select * from user_tbl where u_id="+rs_other.getInt("Created_By"));
+  rs_other1 = ps_other1.executeQuery();
+	while(rs_other1.next()){
+		u_Name = rs_other1.getString("U_Name");
+	}
+
+	 ps_other1 = con.prepareStatement("select * from user_tbl_company where Company_Id=(select company_id from user_tbl where u_id="+rs_other.getInt("Created_By")+")");
+	  rs_other1 = ps_other1.executeQuery();
+		while(rs_other1.next()){
+			u_comp = rs_other1.getString("Company_Name"); 
+		}
+  }
+  if(u_Name!=""){
+  %>
+  <tr title="Registered by marketing login"> 
+    <td><%-- <%=rs_cnt.getInt("u_id") %>  --%><%=u_Name %></td>
+    <td><%=u_comp %></td>
+    <td align="right"><%=val %></td>
+  </tr>
+  <%
+  }
+  } 
+   %> 
 </table>	 
-	</div>
+</div>
 		<%
 			} catch (Exception e) {
 				e.printStackTrace();
