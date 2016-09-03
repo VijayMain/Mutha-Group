@@ -28,34 +28,33 @@
 		<form action="Add_NewDMSDoc" method="post" enctype="multipart/form-data" onSubmit="return validateForm();">
 			<table style="width: 100%;" class="tftable">
 				<tr>
-					<th colspan="5" align="center"><strong>Add New Document</strong></th>
+					<th colspan="7" align="center"><strong>Add New Document</strong></th>
 				</tr>
 				<tr>
-					<td width="16%" align="left"><b>Header / Folder Name</b></td>
-					<td colspan="4" align="left">
+					<td width="15%" align="left"><b>Header / Folder Name</b></td>
+					<td colspan="6" align="left">
 					<input type="text" id="folder" name="folder" style="background-color:#d5f1ff;" maxlength="45"  onkeyup="get_allAvailFolders(this.value)"/>
 					<span id="availFolder">
 					<input type="hidden" name="avail" id="avail" value="1">
-					</span>
-					</td>
+					</span>					</td>
 				</tr>
 				<tr>
 					<td align="left"><b>Subject / File Name</b></td>
-					<td colspan="4" align="left"><input type="text" id="subject" name="subject" size="60" readonly="readonly" style="background-color:#d5f1ff;"/></td>
+					<td colspan="6" align="left"><input type="text" id="subject" name="subject" size="60" readonly="readonly" style="background-color:#d5f1ff;"/></td>
 				</tr>
 				<tr>
 					<td align="left"><b>Share To Others</b></td>
-					<td colspan="4" align="left"><input type="radio" name="share" value="1" id="share_yes" /> Yes
+					<td colspan="6" align="left"><input type="radio" name="share" value="1" id="share_yes" /> Yes
 					<input type="radio" name="share" value="0" id="share_no" /> No</td>
 				</tr>
 				<tr>
 					<td align="left"><b>Shared User Access</b><br>(If Shared)</td>
-					<td colspan="4" align="left"><input type="checkbox" name="add_fileAccess" value="1" id="add_access"/>  Add More Files</td>
+					<td colspan="6" align="left"><input type="checkbox" name="add_fileAccess" value="1" id="add_access"/>  Add More Files</td>
 				</tr>
 				<tr>
 					<td align="left"><b>Share To (If Yes)</b><br>Use Ctrl to select Multiple </td>
-					<td width="8%" align="left"><b>Company :</b> &nbsp;&nbsp;&nbsp;</td>
-				    <td width="15%" align="left">
+					<td  align="left"><b>Company :</b> &nbsp;&nbsp;&nbsp;</td>
+				    <td  align="left">
 				    <select name="company" id="company" size="7" multiple="multiple" tabindex="1" style="width: 150px;background-color:#d5f1ff;">
                     <option value="0">- - - - - All - - - - -</option>
                       <%
@@ -68,9 +67,10 @@
 							}
 					  %>
                     </select></td>
-				    <td width="9%" align="left"><b>Department :</b> &nbsp;</td>
-				    <td width="52%" align="left"><select name="department" id="department"  size="7" multiple="multiple" tabindex="1" style="width: 200px;background-color:#d5f1ff;">
-                    <option value="0">- - - - - All - - - - -</option>
+				    <td align="left"><b>Department :</b> &nbsp;</td>
+				    <td align="left">
+				    <select name="department" id="department" size="7" multiple="multiple" tabindex="1" style="width: 200px;background-color:#d5f1ff;">
+                      <option value="0">- - - - - All - - - - -</option>
                       <%
 					  PreparedStatement ps_dept = con.prepareStatement("select distinct(Department),dept_id from user_tbl_dept order by Department");
 					  ResultSet rs_dept = ps_dept.executeQuery();
@@ -78,34 +78,47 @@
 					  %>
                       <option value="<%=rs_dept.getInt("dept_id")%>"><%=rs_dept.getString("Department") %></option>
                       <%
-							}
+					   }
 					  %>
                     </select></td>
+				    <td align="left"><b>Employee :</b></td>
+			      <td align="left">
+			      <select name="employee" id="employee"  size="7" multiple="multiple" tabindex="1" style="width: 200px;background-color:#d5f1ff;">
+                    <option value="0">- - All Selected Dept. users - -</option>
+                     <%
+					  PreparedStatement ps_emp = con.prepareStatement("select distinct(U_Name) from user_tbl order by U_Name");
+					  ResultSet rs_emp = ps_emp.executeQuery();
+					  while(rs_emp.next()){
+					  %>
+                      <option value="<%=rs_emp.getString("U_Name")%>"><%=rs_emp.getString("U_Name") %></option>
+                      <%
+					   }
+					  %>
+                  </select>  
+                  </td>
 				</tr>
 				<tr>
 					<td align="left"><b>Document</b></td>
-					<td colspan="4" align="left">
+					<td colspan="6" align="left">
 					<table id="tblSample">
 						<tr>&nbsp;&nbsp;&nbsp;
-						<strong><input type="button" value="  Click To ADD Files  " name="button" onclick="addRowToTable();" /></strong> &nbsp;&nbsp;
-								<input type="button" value=" Delete [Selected] " onclick="deleteChecked();" />&nbsp;&nbsp;
+						<strong><input type="button" value="  Click To ADD Files  " name="button" onClick="addRowToTable();" /></strong> &nbsp;&nbsp;
+								<input type="button" value=" Delete [Selected] " onClick="deleteChecked();" />&nbsp;&nbsp;
 								<input type="hidden" id="srno" name="srno" value="">
 						</tr>
 						<tbody></tbody>
-					 </table>
-				    </td>
+					 </table>				    </td>
 				</tr>
 				<tr>
 				  <td align="left"><strong>Note</strong></td>
-			      <td colspan="4" align="left"><textarea name="note" id="note" rows="2" cols="50" style="background-color:#d5f1ff;"></textarea></td>
+			      <td colspan="6" align="left"><textarea name="note" id="note" rows="2" cols="50" style="background-color:#d5f1ff;"></textarea></td>
 		      	</tr>
 				<tr>
-					<td colspan="5" align="left" style="padding-left: 20px;">
-						<input type="submit" name="submit" value="   SAVE   " style="height: 30px; width: 200px; font-weight: bold;" />
-					</td>
+					<td colspan="7" align="left" style="padding-left: 20px;">
+						<input type="submit" name="submit" value="   SAVE   " style="height: 30px; width: 200px; font-weight: bold;" />					</td>
 				</tr>
 			</table>
-		</form>
+	</form>
 	</span>
 	<%
 		} catch (Exception e) {

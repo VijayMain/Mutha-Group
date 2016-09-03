@@ -43,7 +43,7 @@ public class DMS_DAO {
 		return flag;
 	}
 
-	public int upload_newFolder(HttpSession session, DMS_VO bean, ArrayList dMSComp_list, ArrayList dMSDept_list) {
+	public int upload_newFolder(HttpSession session, DMS_VO bean, ArrayList dMSComp_list, ArrayList dMSDept_list, ArrayList dMSEmp_list) {
 		int cnt_code = 0,up=0;
 		try {
 			Connection con = Connection_Utility.getConnection();
@@ -107,7 +107,7 @@ public class DMS_DAO {
 			*
 			*/ 
 			
-			if(dMSDept_list.contains("0")){ 
+			if(dMSDept_list.contains("0")){
 			ps = con.prepareStatement("insert into mst_dept(DMS_CODE,DEPT)values(?,?)");
 			ps.setInt(1, cnt_code);
 			ps.setInt(2, 0);
@@ -142,6 +142,25 @@ public class DMS_DAO {
 			}
 			}
 			
+			/*
+			*
+			************************************ Insert data into  mst_dmsuser Table ******************************************** 
+			*
+			*/
+			
+			if(dMSEmp_list.contains("0")){
+				ps = con.prepareStatement("insert into mst_dmsuser(DMS_CODE,USER)values(?,?)");
+				ps.setInt(1, cnt_code);
+				ps.setInt(2, 0);
+				up = ps.executeUpdate();
+			}else{
+			for(int i=0;i<dMSEmp_list.size();i++){
+				ps = con.prepareStatement("insert into mst_dmsuser(DMS_CODE,USER)values(?,?)");
+				ps.setInt(1, cnt_code);
+				ps.setString(2, dMSEmp_list.get(i).toString());
+				up = ps.executeUpdate();
+			}
+			} 
 			/**************************************************** Upload Finish *************************************************/
 			
 		} catch (Exception e) {

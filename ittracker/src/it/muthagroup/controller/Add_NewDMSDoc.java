@@ -34,6 +34,7 @@ public class Add_NewDMSDoc extends HttpServlet {
 		int valcnt=1,cnt_doc=0;
 		ArrayList DMSComp_list = new ArrayList();
 		ArrayList DMSDept_list = new ArrayList();
+		ArrayList DMSEmp_list = new ArrayList();
 		boolean flag = false;
 		InputStream file_Input = null;
 		String fieldName, fieldValue = "";
@@ -85,11 +86,14 @@ public class Add_NewDMSDoc extends HttpServlet {
 						if (fieldName.equalsIgnoreCase("add_fileAccess")) {
 							bean.setShared_access(Integer.parseInt(fieldValue));
 						}
-						if (fieldName.equalsIgnoreCase("department")) { 
+						if (fieldName.equalsIgnoreCase("department")) {
 							DMSDept_list.add(fieldValue);
 						}
 						if (fieldName.equalsIgnoreCase("company")) {
 							DMSComp_list.add(fieldValue);
+						}
+						if (fieldName.equalsIgnoreCase("employee")) {
+							DMSEmp_list.add(fieldValue);
 						}
 						if (fieldName.equalsIgnoreCase("note")) {
 							bean.setNote(fieldValue);
@@ -157,7 +161,7 @@ public class Add_NewDMSDoc extends HttpServlet {
  								bean.setBlob_name(FilenameUtils.getName(file_stored));
  	 							file_Input = new DataInputStream(fileItem.getInputStream());
  	 							bean.setBlob_file(file_Input); 
- 								cnt_doc = dao.upload_newFolder(session,bean,DMSComp_list,DMSDept_list);
+ 								cnt_doc = dao.upload_newFolder(session,bean,DMSComp_list,DMSDept_list,DMSEmp_list);
  								bean.setDmscode(cnt_doc);
  								flag = true;
 							}else{ 

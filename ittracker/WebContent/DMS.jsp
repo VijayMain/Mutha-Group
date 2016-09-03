@@ -354,7 +354,7 @@ alert("<%=request.getParameter("msg") %>");
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">Shared Documents</button>
 <div class="panel">
  <%
- ps = con.prepareStatement("SELECT * FROM mst_dmsfolder where code in (SELECT dms_code FROM mst_comp where company in("+comp_id+",0)) and code in(SELECT dms_code FROM mst_dept where dept in("+d_Id+",0)) and share_flag=1 and user!="+uid);
+ ps = con.prepareStatement("SELECT * FROM mst_dmsfolder where code in (SELECT dms_code FROM mst_comp where company in("+comp_id+",0)) and code in(SELECT dms_code FROM mst_dept where dept in("+d_Id+",0)) and code in(SELECT dms_code FROM mst_dmsuser where USER in('"+uname+"','0')) and share_flag=1 and user!="+uid);
  rs = ps.executeQuery();
  while(rs.next()){
 	 ps_use = con.prepareStatement("select * from user_tbl where u_id="+rs.getInt("user"));
