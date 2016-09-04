@@ -3,6 +3,7 @@ package it.muthagroup.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import it.muthagroup.connectionUtility.Connection_Utility;
@@ -11,11 +12,14 @@ import it.muthagroup.vo.DMS_VO;
 import javax.servlet.http.HttpSession;
 
 public class DMS_DAO {
-	private static final java.sql.Date curr_Date = new java.sql.Date(System.currentTimeMillis());
+	//private static final java.sql.Date curr_Date = new java.sql.Date(System.currentTimeMillis());
 	public boolean attach_Filebase(DMS_VO bean, HttpSession session) {
 		boolean flag = false;
 		try {
 			Connection con = Connection_Utility.getConnection();
+			java.util.Date date= new java.util.Date();
+			Timestamp curr_Date = new Timestamp(date.getTime());
+			
 			int uid = Integer.parseInt(session.getAttribute("uid").toString());
 			int up = 0;
 			//  System.out.println(" = "+flag);
@@ -24,10 +28,10 @@ public class DMS_DAO {
 			ps.setBlob(2, bean.getBlob_file());
 			ps.setString(3, bean.getBlob_name());
 			ps.setInt(4, uid);
-			ps.setDate(5, curr_Date);
+			ps.setTimestamp(5, curr_Date);
 			ps.setInt(6, 1);
 			ps.setString(7, bean.getNote());
-			ps.setDate(8, curr_Date);
+			ps.setTimestamp(8, curr_Date);
 			
 			
 			
@@ -48,6 +52,8 @@ public class DMS_DAO {
 		try {
 			Connection con = Connection_Utility.getConnection();
 			int uid = Integer.parseInt(session.getAttribute("uid").toString());
+			java.util.Date date= new java.util.Date();
+			Timestamp curr_Date = new Timestamp(date.getTime());
 			
 			/*
 			*
@@ -62,8 +68,8 @@ public class DMS_DAO {
 			ps.setString(4, bean.getNote());
 			ps.setInt(5, 1);
 			ps.setInt(6, uid);
-			ps.setDate(7, curr_Date);
-			ps.setDate(8, curr_Date);
+			ps.setTimestamp(7, curr_Date);
+			ps.setTimestamp(8, curr_Date);
 			ps.setInt(9, bean.getShared_access());
 			
 			up = ps.executeUpdate();
@@ -93,10 +99,10 @@ public class DMS_DAO {
 			ps.setBlob(2, bean.getBlob_file());
 			ps.setString(3, bean.getBlob_name());
 			ps.setInt(4, uid);
-			ps.setDate(5, curr_Date);
+			ps.setTimestamp(5, curr_Date);
 			ps.setInt(6, 1);
 			ps.setString(7, bean.getNote());
-			ps.setDate(8, curr_Date);
+			ps.setTimestamp(8, curr_Date);
 			
 			up = ps.executeUpdate();
 			
@@ -172,6 +178,11 @@ public class DMS_DAO {
 	public boolean attach_NewDMSFile(DMS_VO bean, HttpSession session) {
 		boolean flag=false;
 		try {
+			
+
+			java.util.Date date= new java.util.Date();
+			Timestamp sqlDate = new Timestamp(date.getTime());
+			
 			Connection con = Connection_Utility.getConnection();
 			int uid = Integer.parseInt(session.getAttribute("uid").toString());
 			PreparedStatement ps = con.prepareStatement("insert into tarn_dms(TRAN_NO,FILE,FILE_NAME,USER,TRAN_DATE,STATUS,NOTE,SYS_DATE)values(?,?,?,?,?,?,?,?)");
@@ -179,13 +190,40 @@ public class DMS_DAO {
 			ps.setBlob(2, bean.getBlob_file());
 			ps.setString(3, bean.getBlob_name());
 			ps.setInt(4, uid);
-			ps.setDate(5, curr_Date);
+			ps.setTimestamp(5, sqlDate);
 			ps.setInt(6, 1);
 			ps.setString(7, bean.getNote());
-			ps.setDate(8, curr_Date);
+			ps.setTimestamp(8, sqlDate);
 			
 			int up = ps.executeUpdate();
 			if(up>0){
+				String reg_uname = "";
+				int trncode=0;
+				PreparedStatement ps_uname = con.prepareStatement("select * from User_tbl where U_Id="+ uid);
+				ResultSet rs_uname = ps_uname.executeQuery();
+				while (rs_uname.next()) { 
+					reg_uname = rs_uname.getString("U_Name");
+				}
+				
+				ps_uname = con.prepareStatement("select max(CODE) from tarn_dms");
+				rs_uname = ps_uname.executeQuery();
+				while (rs_uname.next()) { 
+					trncode = rs_uname.getInt("max(CODE)");
+				}
+				
+				
+				PreparedStatement ps_fileHist = con.prepareStatement("insert into mst_dmshist(DMS_CODE,TRAN_FILE,USER,DATE,STATUS,TRAN_CODE)values(?,?,?,?,?,?)");
+				ps_fileHist.setInt(1, bean.getCode());
+				ps_fileHist.setString(2, bean.getBlob_name());
+				ps_fileHist.setString(3, reg_uname);
+				ps_fileHist.setTimestamp(4, sqlDate);
+				ps_fileHist.setString(5, "New File");
+				ps_fileHist.setInt(6, trncode);
+				
+				int up_hist =  ps_fileHist.executeUpdate();
+				
+				
+				
 				flag=true;
 			}
 		} catch (Exception e) {

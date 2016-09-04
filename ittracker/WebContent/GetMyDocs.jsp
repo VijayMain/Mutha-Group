@@ -38,12 +38,13 @@
 				</tr>
 				<%
 				int sn=1,flagchk=0;
-				String rights="";
+				String rights="",folderName="";
 				PreparedStatement ps_data = null,ps_chk=null;
 				ResultSet rs_data = null,rs_chk=null;
 				PreparedStatement ps  = con.prepareStatement("select * from mst_dmsfolder where CODE=" + code);
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()){
+					folderName = rs.getString("FOLDER");
 					if(rs.getInt("SHARED_ACCESS")==1){
 					rights = "Full";
 					}else{
@@ -165,22 +166,30 @@ Note : <%=rs_data.getString("note")%>"><b><%=rs_data.getString("File_Name")%></b
 			<div style="float: right;width: 39%">
 			<table style="width: 100%;" class="tftable">
 				<tr>
-					<th colspan="8" align="center">File History</th>
+					<th colspan="8" align="center"><marquee  behavior="alternate" scrolldelay="200"><b style="color: #348200;"> &#8647;===== HISTORY =====&#8649;</b></marquee></th>
 				</tr>
-				<tr style="background-color: #acc8cc;">
-					<td align="center" width="2%" style="padding: 3px;"><strong>S.No</strong></td>
+				<tr style="background-color: #acc8cc;"> 
 					<td align="center"><strong>Subject / File Name</strong></td>
-					<td align="center"><strong>Shared Rights</strong></td>
-			        <td width="12%" align="center"><strong>Companies</strong></td>
-				    <td width="15%" align="center"><strong>Departments</strong></td> 
+					<td align="center"><strong>Document</strong></td>
+			        <td align="center"><strong>Checked by</strong></td>
+				    <td align="center"><strong>Date</strong></td> 
+				    <td align="center"><strong>Status</strong></td> 
 				</tr>
+				<%
+				ps  = con.prepareStatement("select * from mst_dmshist where DMS_CODE=" + code);
+				rs = ps.executeQuery();
+				while(rs.next()){
+				%>
 				<tr>
-				  <td align="center">&nbsp;</td>
-				  <td>&nbsp;</td>
-				  <td>&nbsp;</td> 
-				  <td>&nbsp;</td>
-				  <td>&nbsp;</td> 
-				  
+				  <td><%=folderName %></td>
+				  <td><%=rs.getString("TRAN_FILE") %></td> 
+				  <td><%=rs.getString("USER") %></td> 
+				  <td><%=rs.getTimestamp("DATE")%></td>  
+				  <td><%=rs.getString("STATUS") %></td> 
+				 </tr>
+				 <%
+					}
+				 %>
 			</div>
 	<%
 	}catch(Exception e){

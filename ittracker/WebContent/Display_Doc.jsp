@@ -1,3 +1,7 @@
+<%@page import="java.sql.Timestamp"%>
+<%@page import="java.sql.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%> 
 <%@page import="it.muthagroup.connectionUtility.Connection_Utility"%>
 <%@page import="java.io.OutputStream"%>
 <%@page import="java.io.InputStream"%>
@@ -20,12 +24,29 @@
 		try {
 			final int BUFFER_SIZE = 8096;
 			Connection con = Connection_Utility.getConnection();
-			String name = request.getParameter("field");
- 
-			PreparedStatement ps = con.prepareStatement("select * from tarn_dms where CODE=" + name);
+			int trnCode = Integer.parseInt(request.getParameter("field"));
+			
+			int uid = Integer.parseInt(session.getAttribute("uid").toString());
+			String reg_uname=""; 
+			
+			 
+			java.util.Date date= new java.util.Date();
+			Timestamp sqlDate = new Timestamp(date.getTime());
+			
+			
+			PreparedStatement ps_uname = con.prepareStatement("select * from User_tbl where U_Id="+ uid);
+			ResultSet rs_uname = ps_uname.executeQuery();
+			while (rs_uname.next()) { 
+				reg_uname = rs_uname.getString("U_Name");
+			}
+			 
+			
+			
+			PreparedStatement ps = con.prepareStatement("select * from tarn_dms where CODE=" + trnCode);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-
+				String name = rs.getString("FILE_NAME");
+				int dmscode = rs.getInt("TRAN_NO");
 				Blob blob = rs.getBlob("FILE");
 				InputStream inputStream = blob.getBinaryStream();
 				int filelength = inputStream.available();
@@ -53,6 +74,17 @@
 
 				inputStream.close();
 				outStream.close();
+				
+				PreparedStatement ps_fileHist = con.prepareStatement("insert into mst_dmshist(DMS_CODE,TRAN_FILE,USER,DATE,STATUS,TRAN_CODE)values(?,?,?,?,?,?)");
+				ps_fileHist.setInt(1, dmscode);
+				ps_fileHist.setString(2, name);
+				ps_fileHist.setString(3, reg_uname);
+				ps_fileHist.setTimestamp(4, sqlDate);
+				ps_fileHist.setString(5, "Downloaded");
+				ps_fileHist.setInt(6, trnCode);
+				
+				int up_hist =  ps_fileHist.executeUpdate();
+				
 			} else {
 				response.getWriter().println("File not found for the id: " + request.getParameter("field"));
 			}
