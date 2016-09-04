@@ -21,6 +21,7 @@
 	   ResultSet rs_use = null;
 	   String cr_use="",cr_note="";
    %> 
+   <div style="float: left;width: 60%">
 			<table style="width: 100%;" class="tftable">
 				<tr>
 					<th colspan="8" align="center"><%=folder %></th>
@@ -160,11 +161,32 @@ Note : <%=rs_data.getString("note")%>"><b><%=rs_data.getString("File_Name")%></b
    				}
 			  %>
 			</table> 
+			</div>
+			<div style="float: right;width: 39%">
+			<table style="width: 100%;" class="tftable">
+				<tr>
+					<th colspan="8" align="center">File History</th>
+				</tr>
+				<tr style="background-color: #acc8cc;">
+					<td align="center" width="2%" style="padding: 3px;"><strong>S.No</strong></td>
+					<td align="center"><strong>Subject / File Name</strong></td>
+					<td align="center"><strong>Shared Rights</strong></td>
+			        <td width="12%" align="center"><strong>Companies</strong></td>
+				    <td width="15%" align="center"><strong>Departments</strong></td> 
+				</tr>
+				<tr>
+				  <td align="center">&nbsp;</td>
+				  <td>&nbsp;</td>
+				  <td>&nbsp;</td> 
+				  <td>&nbsp;</td>
+				  <td>&nbsp;</td> 
+				  
+			</div>
 	<%
 	}catch(Exception e){
 		e.printStackTrace();
 	}
-	%>		
+	%>
 </span>
 </body>
 </html>
