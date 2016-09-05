@@ -86,7 +86,7 @@
 			      <select name="employee" id="employee"  size="7" multiple="multiple" tabindex="1" style="width: 200px;background-color:#d5f1ff;">
                     <option value="0">- - All Selected Dept. users - -</option>
                      <%
-					  PreparedStatement ps_emp = con.prepareStatement("select distinct(U_Name) from user_tbl order by U_Name");
+					  PreparedStatement ps_emp = con.prepareStatement("select distinct(U_Name) from user_tbl where Enable_id=1 order by u_name");
 					  ResultSet rs_emp = ps_emp.executeQuery();
 					  while(rs_emp.next()){
 					  %>
