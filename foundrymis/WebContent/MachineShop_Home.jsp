@@ -369,6 +369,11 @@ function validat_boring() {
 		
 		return true;
 }		
+function validateBillWisePurchase() {
+	document.getElementById("ADDbillwisepurchase").disabled = true;
+	document.getElementById("waitImagebillwisepurchase").style.visibility = "visible";		
+	return true;
+}
 </script>
 <script type="text/javascript">
 function validateMacRejForm() {                  
@@ -731,10 +736,14 @@ while(rs.next()){
 		}if(reportList.contains("ASN Generation")){
 		%>
 			<li><a href="#tabs-14">ASN Generation</a></li>
-		<% 
+		<%
+		}if(reportList.contains("Bill Wise Purchase Details")){
+			%>
+				<li><a href="#tabs-15">Bill Wise Purchase Details</a></li> 
+		<%
 		}if(reportList.size()==0){
 		%> 	
-			<li><a href="#tabs-15">Work In Progress</a></li>
+			<li><a href="#tabs-16">Work In Progress</a></li>
 		<%
 		}
 		%>
@@ -1523,14 +1532,55 @@ while(rs.next()){
 	</form>
 		</div>
 		<%
-			}if(reportList.size()==0){
+			}if(reportList.contains("Bill Wise Purchase Details")){
 		%>
 			<div id="tabs-15">
+			<form action="BillWisePurchase_Controller" method="post" onSubmit="return validateBillWisePurchase();">
+			<br/>
+			<table class="tftable" style="border: 0px;">
+			<tr>
+				<td colspan="2"><strong>To Get Bill Wise Purchase Details<br/></strong> <br/>
+			</td>
+			</tr>
+			<tr>
+				<td>Select Company :</td>
+				<td> 
+				<select name="company" id="companybillwisepurchase"> 
+ 				<option value="101">MEPL H21</option> 
+ 				<option value="102">MEPL H25</option>    
+ 			</select>
+				 </td>
+			</tr> 
+			<tr>
+				<td>From Date :</td>
+				<td> <input type="text" name="FromDatebillwisepurchase" value="<%=sdfFIrstDate.format(dddd) %>" id="FromDatebillwisepurchase" readonly="readonly" style="width: 200px;"/>  
+				 </td>
+			</tr> 
+			<tr>
+				<td>To Date :</td>
+				<td> <input type="text" name="ToDatebillwisepurchase" value="<%=sdfFIrstDate.format(tdate) %>" id="ToDatebillwisepurchase" readonly="readonly" style="width: 200px;"/>  
+				 </td>
+			</tr>  
+			<tr> 
+			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADDbillwisepurchase" value="Bill Wise Purchase Details" style="background-color: #BABABA;width: 285px;height: 35px;"/> </td>
+			</tr>
+			<tr> 
+			<td colspan="2" align="left"><span id="waitImagebillwisepurchase" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
+			</tr>
+						 
+		</table>
+	</form> 		
+			</div>
+		<% 
+			}if(reportList.size()==0){
+		%>
+			<div id="tabs-16">
 			<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
 			</div>
 		<%
 			}
 		%>
+		
 		<%--		
 		<div id="tabs-4">
 			<br/>

@@ -188,8 +188,17 @@ if(comp.equalsIgnoreCase("101")){
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- <span style="font-family: Arial;font-size: 10px;color: brown;"><b>( Note : Click on record to get details )</b></span> -->
 	</strong>	
 	<br />
-	<strong style="font-family: Arial; font-size: 13px;"><a
-		href="HomePage.jsp" style="text-decoration: none;">&lArr;BACK</a></strong>
+<%
+if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
+%>
+<strong style="font-family: Arial;font-size: 13px;"><a href="MachineShop_Home.jsp" style="text-decoration: none;">&lArr;BACK</a></strong>
+<%
+}else{
+%>
+<strong style="font-family: Arial;font-size: 13px;"><a href="HomePage.jsp" style="text-decoration: none;">&lArr;BACK</a></strong>
+<%	
+}
+%> 
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 	<span id="exportId">
