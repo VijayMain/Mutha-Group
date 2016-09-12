@@ -14,7 +14,6 @@
 			      
 			    // obtains ServletContext
 			    ServletContext context = getServletContext();
-			     
 			    // gets MIME type of the file
 			    String mimeType = context.getMimeType(filePath);
 			    if (mimeType == null) {
