@@ -71,82 +71,61 @@ public class Register_Controller extends HttpServlet {
 
 							// TO SELECT PARTICULAR FORM FIELD ====>
 							if (fieldName.equalsIgnoreCase("cust_company_name")) {
-
-								bean.setCust_comp_id(Integer
-										.parseInt(fieldValue));
-								System.out.println("Cust Company == "
-										+ bean.getCust_comp_id());
-
+								bean.setCust_comp_id(Integer.parseInt(fieldValue));
 							}
 							if (fieldName.equalsIgnoreCase("cust_name")) {
 								bean.setCust_id(Integer.parseInt(fieldValue));
-								System.out.println("Cust Name === "
-										+ bean.getCust_id());
+								 
 							}
 							if (fieldName.equalsIgnoreCase("item_name")) {
 								bean.setItem_id(Integer.parseInt(fieldValue));
-								System.out.println("Item Name === "
-										+ bean.getItem_id());
+								
 							}
 							if (fieldName.equalsIgnoreCase("received")) {
 								bean.setReceived(fieldValue);
-								System.out.println("Received from === "
-										+ bean.getReceived());
+								 
 							}
 							if (fieldName.equalsIgnoreCase("severity")) {
 								bean.setSeverity(Integer.parseInt(fieldValue));
-								System.out.println("severity == "
-										+ bean.getSeverity());
+								 
 							}
 							if (fieldName.equalsIgnoreCase("category")) {
 								bean.setCategory(Integer.parseInt(fieldValue));
-								System.out.println("Category === "
-										+ bean.getCategory());
+								 
 							}
 							if (fieldName.equalsIgnoreCase("defect_name")) {
 								bean.setDefect(fieldValue);
-								System.out.println("Defect Name === "
-										+ bean.getDefect());
+								 
 							}
 							if (fieldName.equalsIgnoreCase("description")) {
 								bean.setDiscription(fieldValue);
-								System.out
-										.println("This is description ======== "
-												+ bean.getDiscription());
+								 
 							}
 							if (fieldName.equalsIgnoreCase("unregistered")) {
 								bean.setUnregistered(Integer
 										.parseInt(fieldValue));
-								System.out.println("Unregistered Status ==== "
-										+ bean.getUnregistered());
+								 
 							}
 
 							if (fieldName.equalsIgnoreCase("related")) {
 								bean.setRelated(Integer.parseInt(fieldValue));
-								System.out.println("related == "
-										+ bean.getRelated());
+								 
 							}
 
 							if (fieldName.equalsIgnoreCase("assigned")) {
-								bean.setAssigned(Integer.parseInt(fieldValue));
-								System.out.println("Assigned === "
-										+ bean.getAssigned());
+								bean.setAssigned(Integer.parseInt(fieldValue)); 
 							}
 							if (fieldName.equalsIgnoreCase("complaint_date")) {
-
-								System.out
-										.println("Input date = " + fieldValue);
+ 
 								Timestamp convertedDate = null;
-								convertedDate = new java.sql.Timestamp(
-										formatter.parse(fieldValue).getTime());
-
-								bean.setDate(convertedDate);
-								System.out.println("Get input date = "
-										+ bean.getDate());
+								convertedDate = new java.sql.Timestamp(formatter.parse(fieldValue).getTime());
+								bean.setDate(convertedDate); 
 							}
 							if (fieldName.equalsIgnoreCase("srno")) {
-								bean.setSrNo(Integer.parseInt(fieldValue));
-								System.out.println(Integer.parseInt(fieldValue));
+								bean.setSrNo(Integer.parseInt(fieldValue)); 
+							}
+							if (fieldName.equalsIgnoreCase("complaint_type")) {
+								bean.setComplaint_type(fieldValue);
 							}
 							// *****************************************************************************
 							// Get Complaint date ===== >
@@ -162,23 +141,16 @@ public class Register_Controller extends HttpServlet {
 							fieldName = fileItem.getFieldName();
 							fieldValue = fileItem.getString();
 
-							for (int k = 1; k <= bean.getSrNo(); k++) {
-								System.out.println("K is = " + k);
+							for (int k = 1; k <= bean.getSrNo(); k++) { 
 								// *************************************************************************************************************
 								// if multiple files then there names are
 								// inputName1,inputName2,inputName3,.......
 								// *************************************************************************************************************
-								if (fieldName.equalsIgnoreCase("inputName" + k)) {
-									System.out.println("File Name in java : " + fieldName);
-									file_stored = fileItem.getName();
-
-									bean.setFile_Name_ext(FilenameUtils.getName(file_stored));
-
-									System.out.println(FilenameUtils.getName(file_stored));
-
+								if (fieldName.equalsIgnoreCase("inputName" + k)) { 
+									file_stored = fileItem.getName(); 
+									bean.setFile_Name_ext(FilenameUtils.getName(file_stored)); 
 									file_Input = new DataInputStream(fileItem.getInputStream());
-									System.out.println("Input sr no is = " + k);
-
+									
 									/*************************************************************************************************************************
 									 * Register complaint using data form fields
 									 * and return complaint number
@@ -199,10 +171,7 @@ public class Register_Controller extends HttpServlet {
 												session);
 										// set complaint number
 										bean.setComplaint_No(c_no);
-										System.out
-												.println("register complaint = "
-														+ c_no);
-										
+										 
 										if(bean.getUnregistered()!=0 && bean.getComplaint_No()!=null){
 											dao.registered_Unassigned(bean);
 										}

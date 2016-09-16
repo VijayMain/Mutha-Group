@@ -101,8 +101,8 @@ public class Register_Complaint_DAO {
 			// *********************************************************************************************************
 			// *********************************************************************************************************
 			ps = con.prepareStatement("insert into complaint_tbl(Complaint_No,U_Id,Cust_Id,Item_id,Defect_Id,Complaint_Received_by,"
-					+ "Complaint_Description,Complaint_Related_To,Complaint_Assigned_To,Category_Id,Complaint_Date,Status_Id,Company_Id,P_Id,Automail_time,mail_status)"
-					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					+ "Complaint_Description,Complaint_Related_To,Complaint_Assigned_To,Category_Id,Complaint_Date,Status_Id,Company_Id,P_Id,Automail_time,mail_status,complaint_type)"
+					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			ps.setString(1, userVO.getComplaint_Number());
 			ps.setInt(2, uid);
 			ps.setInt(3, beans.getCust_id());
@@ -119,6 +119,7 @@ public class Register_Complaint_DAO {
 			ps.setInt(14, beans.getSeverity());
 			ps.setString(15, autoTime);
 			ps.setInt(16, 0);
+			ps.setString(17, beans.getComplaint_type());
 
 			update = ps.executeUpdate();
 

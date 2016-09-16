@@ -18,10 +18,18 @@ public class Register_VO {
 	int srNo;
 	Timestamp date = null;
 	String file_Name_ext;
-	String complaint_No;
+	String complaint_No, complaint_type;
 	InputStream file_blob;
 	int count;
 	int unregistered;
+
+	public String getComplaint_type() {
+		return complaint_type;
+	}
+
+	public void setComplaint_type(String complaint_type) {
+		this.complaint_type = complaint_type;
+	}
 
 	public int getUnregistered() {
 		return unregistered;

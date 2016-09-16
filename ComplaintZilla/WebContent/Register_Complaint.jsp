@@ -195,19 +195,24 @@
 
 		//******************************************************************************************************************************
 		GetUserName_BO ubo = new GetUserName_BO();
-		int count = 0;
+		int count = 0,int_count=0;
 		String complaint_no = null;
 		int uid = Integer.parseInt(session.getAttribute("uid").toString());
 		String U_Name = ubo.getUserName(uid);
 		int dept_id = ubo.getUserDeptID(uid); 
 		try {
 			Connection con = Connection_Utility.getConnection();
-			PreparedStatement ps6 = con
-					.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1");
+			PreparedStatement ps6 = con.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='customer'");
 			ResultSet rs6 = ps6.executeQuery();
 			while (rs6.next()) {
 				count = rs6.getInt("count(Status_Id)");
-				session.setAttribute("count", count);
+				session.setAttribute("count", count); 
+			}
+			ps6 = con.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='internal'");
+			rs6 = ps6.executeQuery();
+			while (rs6.next()) {
+				int_count = rs6.getInt("count(Status_Id)");
+				session.setAttribute("int_count", int_count); 
 			}
 
 			//******************************************************************************************************************************
@@ -224,8 +229,11 @@
 					class="round button dark menu-user image-left">Logged in as <strong><%=U_Name%></strong></a></li>
 
 				<li><a href="All_Complaint.jsp"
-					class="round button dark menu-email-special image-left"><%=count%>
-						New Complaints</a></li>
+					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
+						Customer Complaints</a></li>
+						<li><a href="All_Complaint.jsp"
+					class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=count%>
+						Internal Complaints</a></li>
 				<!-- 
 				<li><a href="All_Complaint.jsp"
 					class="round button dark menu-email-special image-left">All
@@ -360,10 +368,19 @@
 
 									//****************************************************************************************************************
 							%>
-							<ul>
+							<ul> 
+<li id="li_5"><label class="description" for="element_5">COMPLAINT TYPE</label>
+									<div style="font-size: 14px;">
+										<select class="element select medium" id="complaint_type" name="complaint_type">
+											<option value="customer">Customer</option>
+											<option value="internal">Internal</option> 
+										</select>
+									</div></li>
+							
 
 
-								<li id="li_5"><label class="description" for="element_5">COMPANY NAME </label>
+
+							<li id="li_5"><label class="description" for="element_5">COMPANY NAME </label>
 									<div>
 
 										<select class="element select medium" id="cust_company_name"
