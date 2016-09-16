@@ -100,6 +100,14 @@ if(window.history[nHist] != window.location)
 				      changeMonth: true,
 				      changeYear: true 
 				});
+			    $( "#FromDatebillwisepurchase" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true 				         
+				}); 
+			    $( "#ToDatebillwisepurchase" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true 				         
+				}); 
 	}
 	);
 	 	
