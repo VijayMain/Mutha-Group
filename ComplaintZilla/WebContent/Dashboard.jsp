@@ -4,8 +4,7 @@
 <%@page import="java.sql.Connection"%>
 <%@ page import="com.muthagroup.bo.GetUserName_BO"%>
 <%@page import="com.muthagroup.connectionModel.Connection_Utility"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,13 +30,13 @@
 <body> 
 	<%
 		try {
-			int uid, count = 0;
+			int uid, count = 0,int_count=0;
 			Connection con = Connection_Utility.getConnection();
 			GetUserName_BO ubo = new GetUserName_BO();
 			uid = Integer.parseInt(session.getAttribute("uid").toString());
 			String U_Name = ubo.getUserName(uid);
-			count = Integer.parseInt(session.getAttribute("count")
-					.toString());
+			count = Integer.parseInt(session.getAttribute("count").toString());
+			int_count = Integer.parseInt(session.getAttribute("int_count").toString());
 	%> 
 	<!-- TOP BAR -->
 	<div id="top-bar">
@@ -48,7 +47,13 @@
 
 				<li class="v-sep"><a href="#" class="round button dark menu-user image-left">Logged in as <strong><%=U_Name%></strong></a></li>
 
-				<li><a href="All_Complaint_Others.jsp" class="round button dark menu-email-special image-left"><%=count%> New Complaints</a></li>
+				<li><a href="All_Complaint_Others.jsp"
+					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
+						Customer Complaints</a></li>
+				<li><a href="All_Complaint_Others.jsp"
+					class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=int_count%>
+						Internal Complaints</a></li>	
+						
 				<!--<li><a href="All_Complaint_Others.jsp"
 					class="round button dark menu-email-special image-left"> All
 						Complaints</a></li>-->

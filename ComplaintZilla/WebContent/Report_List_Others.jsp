@@ -35,8 +35,8 @@
 			GetUserName_BO ubo = new GetUserName_BO();
 			uid = Integer.parseInt(session.getAttribute("uid").toString());
 			String U_Name = ubo.getUserName(uid);
-			count = Integer.parseInt(session.getAttribute("count")
-					.toString());
+			count = Integer.parseInt(session.getAttribute("count").toString());
+			int int_count = Integer.parseInt(session.getAttribute("int_count").toString());
 	%> 
 	<!-- TOP BAR -->
 	<div id="top-bar">
@@ -49,8 +49,12 @@
 					class="round button dark menu-user image-left">Logged in as <strong><%=U_Name%></strong></a></li>
 
 				<li><a href="All_Complaint_Others.jsp"
-					class="round button dark menu-email-special image-left"><%=count%>
-						New Complaints</a></li>
+					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
+						Customer Complaints</a></li>
+				<li><a href="All_Complaint_OthersQlty.jsp"
+					class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=int_count%>
+						Internal Complaints</a></li>
+						
 				<!--<li><a href="All_Complaint_Others.jsp"
 					class="round button dark menu-email-special image-left"> All
 						Complaints</a></li>-->

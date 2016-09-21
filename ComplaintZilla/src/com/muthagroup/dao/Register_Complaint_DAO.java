@@ -95,9 +95,7 @@ public class Register_Complaint_DAO {
 			cal.getTime();
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 			String autoTime = sdf.format(cal.getTime());
-
-			System.out.println("Discription Value in DAo ::: "
-					+ beans.getDiscription());
+			
 			// *********************************************************************************************************
 			// *********************************************************************************************************
 			ps = con.prepareStatement("insert into complaint_tbl(Complaint_No,U_Id,Cust_Id,Item_id,Defect_Id,Complaint_Received_by,"
@@ -122,8 +120,7 @@ public class Register_Complaint_DAO {
 			ps.setString(17, beans.getComplaint_type());
 
 			update = ps.executeUpdate();
-
-			System.out.println("Unregistered id = " + beans.getUnregistered());
+ 
 			if (beans.getUnregistered() != 0) {
 
 				PreparedStatement ps_unreg1 = con
@@ -145,8 +142,7 @@ public class Register_Complaint_DAO {
 		// ***********************************************************************************************************
 		String cust_Name = null;
 		try {
-
-			System.out.println("CID = " + cid);
+ 
 			con = Connection_Utility.getConnection();
 			ps = con.prepareStatement("select * from customer_tbl where Cust_Id='"
 					+ cid + "'");
@@ -179,8 +175,7 @@ public class Register_Complaint_DAO {
 				cnt = rs.getInt("count(Complaint_No)") + 1;
 			}
 
-			Count = Integer.toString(cnt);
-			System.out.println("Count is = " + Count);
+			Count = Integer.toString(cnt); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -232,9 +227,7 @@ public class Register_Complaint_DAO {
 
 			java.sql.Timestamp timestamp = new java.sql.Timestamp(
 					date.getTime());
-
-			System.out.println("by TIMESTAMP..:" + timestamp);
-
+ 
 			// ****************************************************************************************
 
 			PreparedStatement ps_history = con
@@ -286,8 +279,7 @@ public class Register_Complaint_DAO {
 					ps_unregHis.setInt(6, 1);
 
 					ps_unregHis.executeUpdate();
-
-					System.out.println("Testing file system");
+ 
 				}
 
 				PreparedStatement ps_unreg1 = con
@@ -314,9 +306,7 @@ public class Register_Complaint_DAO {
 			ps_getreply.setInt(1, bean.getUnregistered());
 			ps_getreply.setString(2, bean.getComplaint_No());
 			int reply = ps_getreply.executeUpdate();
-			System.out.println("Unassigned Complaint no="
-					+ bean.getUnregistered() + " is registered");
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

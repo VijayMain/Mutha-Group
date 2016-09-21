@@ -169,6 +169,7 @@ function loadSubmit() {
 		session.setAttribute("complaint_no", complaint_no);
 		int uid = Integer.parseInt(session.getAttribute("uid").toString());
 		count = Integer.parseInt(session.getAttribute("count").toString());
+		int int_count = Integer.parseInt(session.getAttribute("int_count").toString());
 		String U_Name = ubo.getUserName(uid);
 		int dept_id = ubo.getUserDeptID(uid); 
 		try {
@@ -187,8 +188,11 @@ function loadSubmit() {
 				<li class="v-sep"><a href="Marketing_Home.jsp"
 					class="round button dark menu-user image-left">Logged in as <strong><%=U_Name%></strong></a></li>
 				<li><a href="All_Complaint.jsp"
-					class="round button dark menu-email-special image-left"><%=count%>
-						New Complaints</a></li>
+					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
+						Customer Complaints</a></li>
+						<li><a href="All_Complaint.jsp"
+					class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=int_count%>
+						Internal Complaints</a></li>
 				<!-- 
 				<li><a href="All_Complaint.jsp"
 					class="round button dark menu-email-special image-left">All
@@ -285,22 +289,17 @@ function loadSubmit() {
 					<div id="form_container" style="float: left; width: 60%">
 
 
-						<!--  
+				<!--  
 				****************************************************************************************************
-				
 							EDIT COMPLAINT
-							
 				****************************************************************************************************
-						-->
+				-->
 						<form class="appnitro" action="Edit_Complaint_Controller"
 							method="post" enctype="multipart/form-data">
-
 							<%
 								/****************************************************************************************************************
-																																																													
-																																																														TO POPULATE FORM VALUES USING COMPLAINT NUMBER 
-																																																													
-									 ****************************************************************************************************************/
+								TO POPULATE FORM VALUES USING COMPLAINT NUMBER 
+								****************************************************************************************************************/
 									PreparedStatement ps = con
 											.prepareStatement("select * from customer_tbl");
 									ResultSet rs = ps.executeQuery();
@@ -319,13 +318,11 @@ function loadSubmit() {
 									Timestamp CDate = null;
 									String cust_name = null, company_name = null, unit_name = null, company_name1 = null, item_name = null, defect = null, category = null;
 
-									PreparedStatement ps5 = con
-											.prepareStatement("select * from complaint_tbl where complaint_no='"
-													+ complaint_no + "'");
-									ResultSet rs5 = ps5.executeQuery();
+			PreparedStatement ps5 = con.prepareStatement("select * from complaint_tbl where complaint_no='" + complaint_no + "'");
+			ResultSet rs5 = ps5.executeQuery();
 
 									int a_uid = 0;
-
+									String comp_type = "";
 									while (rs5.next()) {
 										cust_id = rs5.getInt("cust_id");
 										company_id = rs5.getInt("company_id");
@@ -340,10 +337,8 @@ function loadSubmit() {
 										CDate = rs5.getTimestamp("Complaint_Date");
 										p_id = rs5.getInt("p_id");
 										a_uid = rs5.getInt("U_Id");
-
-										PreparedStatement ps_ass = con
-												.prepareStatement("select U_Name from User_Tbl where U_Id="
-														+ assigned_id);
+										comp_type = rs5.getString("complaint_type");
+										PreparedStatement ps_ass = con.prepareStatement("select U_Name from User_Tbl where U_Id=" + assigned_id);
 										ResultSet rs_ass = ps_ass.executeQuery();
 										while (rs_ass.next()) {
 											assigned = rs_ass.getString("U_name");
@@ -413,14 +408,13 @@ function loadSubmit() {
 									if (uid == a_uid) {
 							%>
 							<ul>
-								<li id="li_5"><label class="description" for="element_5">Complaint
-										No : <%=session.getAttribute("complaint_no")%></label></li>
-								<li id="li_5"><label class="description" for="element_5">COMPANY
-										NAME </label>
+								<li id="li_5"><label class="description" for="element_5">Complaint No : <%=session.getAttribute("complaint_no")%></label></li>
+								
+								<li id="li_5"><label class="description" for="element_5">Complaint Type : <%=comp_type%></label></li>
+								
+								<li id="li_5"><label class="description" for="element_5">COMPANY NAME </label>
 									<div>
-
-										<select class="element select medium" id="element_5"
-											name="company_name" disabled="disabled">
+										<select class="element select medium" id="element_5" name="company_name" disabled="disabled">
 											<option value="<%=company_id%>"><%=company_name%></option>
 											<%
 												while (rs13.next()) {
@@ -696,7 +690,7 @@ function loadSubmit() {
 												  -->
 												</tr>
 
-												<%
+											<%
 													}
 												%>
 
@@ -750,10 +744,9 @@ function loadSubmit() {
 								} else {
 							%>
 							<ul>
-								<li id="li_5"><label class="description" for="element_5">Complaint
-										No : <%=session.getAttribute("complaint_no")%></label></li>
-								<li id="li_5"><label class="description" for="element_5">COMPANY
-										NAME </label>
+								<li id="li_5"><label class="description" for="element_5">Complaint No : <%=session.getAttribute("complaint_no")%></label></li>
+								<li id="li_5"><label class="description" for="element_5">Complaint Type : <%=comp_type%></label></li>
+								<li id="li_5"><label class="description" for="element_5">COMPANY NAME </label>
 									<div>
 
 										<select class="element select medium" id="element_5"

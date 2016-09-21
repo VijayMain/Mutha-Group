@@ -101,7 +101,7 @@ td a {
 
 		session.setMaxInactiveInterval(-1); //Session timeout limit = unlimited
 
-		int count = 0;
+		int count = 0,int_count=0;
 
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -110,12 +110,17 @@ td a {
 					.prepareStatement("select * from complaint_tbl order by complaint_date desc limit 5");
 			ResultSet rs = ps.executeQuery();
 
-			PreparedStatement ps6 = con
-					.prepareStatement("select count(status_id) from complaint_tbl where status_id=1");
+			PreparedStatement ps6 = con.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='customer'");
 			ResultSet rs6 = ps6.executeQuery();
 			while (rs6.next()) {
 				count = rs6.getInt("count(Status_Id)");
-				session.setAttribute("count", count);
+				session.setAttribute("count", count); 
+			}
+			ps6 = con.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='internal'");
+			rs6 = ps6.executeQuery();
+			while (rs6.next()) {
+				int_count = rs6.getInt("count(Status_Id)");
+				session.setAttribute("int_count", int_count); 
 			}
 	%>
 
@@ -132,8 +137,11 @@ td a {
 				</li>
 
 				<li><a href="All_Complaint.jsp"
-					class="round button dark menu-email-special image-left"><%=count%>
-						New Complaints</a></li>
+					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
+						Customer Complaints</a></li>
+						<li><a href="All_Complaint.jsp"
+					class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=int_count%>
+						Internal Complaints</a></li>
 				<!-- 
 				<li><a href="All_Complaint.jsp"
 					class="round button dark menu-email-special image-left">All

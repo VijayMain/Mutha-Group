@@ -254,7 +254,7 @@ int int_count=0;
 												iPageNo = Math.abs((iPageNo - 1) * iShowRows);
 											}
 
-											String sqlPagination = "SELECT SQL_CALC_FOUND_ROWS *,CONVERT(SUBSTRING(Complaint_No, 12, 100),Unsigned Integer) as C_No FROM Complaint_Tbl where Status_id=1 and complaint_type='customer' order by C_No desc limit "
+											String sqlPagination = "SELECT SQL_CALC_FOUND_ROWS *,CONVERT(SUBSTRING(Complaint_No, 12, 100),Unsigned Integer) as C_No FROM Complaint_Tbl where Status_id=1  and complaint_type='internal' order by C_No desc limit "
 													+ iPageNo + "," + iShowRows + "";
 
 											psPagination = conn.prepareStatement(sqlPagination);

@@ -131,6 +131,7 @@ function validateComplaint(){
 		session.setAttribute("complaint_no", complaint_no);
 		int uid = Integer.parseInt(session.getAttribute("uid").toString());
 		count = Integer.parseInt(session.getAttribute("count").toString());
+		int int_count = Integer.parseInt(session.getAttribute("int_count").toString());
 		String U_Name = ubo.getUserName(uid);
 		try {
 			Connection con = Connection_Utility.getConnection();
@@ -145,9 +146,14 @@ function validateComplaint(){
 
 				<li class="v-sep"><a href="#"
 					class="round button dark menu-user image-left">Logged in as <strong><%=U_Name%></strong></a></li>
+					
 				<li><a href="All_Complaint_Others.jsp"
-					class="round button dark menu-email-special image-left"><%=count%>
-						New Complaints</a></li>
+					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
+						Customer Complaints</a></li>
+				<li><a href="All_Complaint_OthersQlty.jsp"
+					class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=int_count%>
+						Internal Complaints</a></li>	
+						
 				<!--<li><a href="All_Complaint_Others.jsp"
 					class="round button dark menu-email-special image-left"> All
 						Complaints</a></li>-->
@@ -231,6 +237,7 @@ function validateComplaint(){
 						<form class="appnitro" action="Complaint_Action_Controller" name="myForm" id="myForm" method="post" enctype="multipart/form-data" onSubmit="return validateComplaint();">
 
 							<%
+							String comp_type = "";
 								PreparedStatement ps = con
 											.prepareStatement("select * from customer_tbl");
 									PreparedStatement ps1 = con
@@ -282,7 +289,6 @@ function validateComplaint(){
 									}
 									while (rs5.next()) {
 										cust_Id = rs5.getInt("Cust_Id");
-										//out.println("customer id :" + cust_Id);
 										status_id = rs5.getInt("Status_Id");
 										Item_Id = rs5.getInt("Item_Id");
 										received = rs5.getString("Complaint_Received_By");
@@ -293,7 +299,8 @@ function validateComplaint(){
 										Category_Id = rs5.getInt("Category_Id");
 										CDate = rs5.getTimestamp("Complaint_Date");
 										comp_No = rs5.getInt("Company_Id");
-
+										comp_type = rs5.getString("complaint_type");
+										
 										PreparedStatement ps7 = con
 												.prepareStatement("select Cust_Name from customer_tbl where Cust_Id="
 														+ cust_Id);
@@ -355,9 +362,7 @@ function validateComplaint(){
 									ResultSet rs_u_id = ps_u_id.executeQuery();
 
 									while (rs_u_id.next()) {
-										arr_uid.add(rs_u_id.getInt("U_Id"));
-										System.out.println("original user id is :" + uid);
-										System.out.println("user has id like :" + rs_u_id.getInt("U_Id"));
+										arr_uid.add(rs_u_id.getInt("U_Id")); 
 									}
 
 									for (int i = 0; i < arr_uid.size(); i++) {
@@ -370,7 +375,7 @@ function validateComplaint(){
 							%>
 							<ul>
 								<li id="li_5"><label class="description" for="element_5">Complaint No : <%=session.getAttribute("complaint_no")%></label></li>
-
+								<li id="li_5"><label class="description" for="element_5">Complaint Type : <%=comp_type%></label></li> 
 								<li id="li_5"><label class="description" for="element_5">Company NAME </label>
 									<div>
 										<input type="text" name="" value="<%=cust_comp%>" disabled="disabled" size="80"> <input type="hidden" name="company_name" value="<%=cust_comp%>">
@@ -744,15 +749,10 @@ function validateComplaint(){
 																	}
 																}
 															}
-												%>
-											
-
-											</table>
-
-
+												%> 
+											</table> 
 										</div>
-									</div></li>
-
+									</div></li> 
 								<li>
 								<a href="Home.jsp"><strong style="font-size: large;">&#8656;Back</strong></a>
 								<input  type="submit" name="submit" style="width:200px;height:40px; font-size: 15px;font-family: Arial;background-color: #9191C2"  value="SUBMIT" /> </li>
@@ -761,11 +761,9 @@ function validateComplaint(){
 								} else {
 							%>
 							<ul>
-								<li id="li_5"><label class="description" for="element_5">Complaint
-										No : <%=session.getAttribute("complaint_no")%></label></li>
-
-								<li id="li_5"><label class="description" for="element_5">Company
-										NAME </label>
+								<li id="li_5"><label class="description" for="element_5">Complaint No : <%=session.getAttribute("complaint_no")%></label></li>
+								<li id="li_5"><label class="description" for="element_5">Complaint Type : <%=comp_type%></label></li> 
+								<li id="li_5"><label class="description" for="element_5">Company NAME </label>
 									<div>
 										<input type="text" name="" value="<%=cust_comp%>"
 											readonly="readonly" size="80"> <input type="hidden"

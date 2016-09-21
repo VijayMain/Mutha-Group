@@ -70,13 +70,19 @@
 		try {
 			//complaint_no=bean.getComplaint_no();
 			Connection con = Connection_Utility.getConnection();
+			int int_count=0;
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-			PreparedStatement ps6 = con
-					.prepareStatement("select count(status_id) from complaint_tbl where status_id=1");
+			PreparedStatement ps6 = con.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='customer'");
 			ResultSet rs6 = ps6.executeQuery();
 			while (rs6.next()) {
 				count = rs6.getInt("count(Status_Id)");
-				session.setAttribute("count", count);
+				session.setAttribute("count", count); 
+			}
+			ps6 = con.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='internal'");
+			rs6 = ps6.executeQuery();
+			while (rs6.next()) {
+				int_count = rs6.getInt("count(Status_Id)");
+				session.setAttribute("int_count", int_count); 
 			}
 
 			ArrayList arr = new ArrayList();
@@ -100,8 +106,12 @@
 				</li>
 
 				<li><a href="All_Complaint_Others.jsp"
-					class="round button dark menu-email-special image-left"><%=count%>
-						New Complaints</a></li>
+					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
+						Customer Complaints</a></li>
+				<li><a href="All_Complaint_Others.jsp"
+					class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=int_count%>
+						Internal Complaints</a></li>	
+						
 				<!--<li><a href="All_Complaint_Others.jsp"
 					class="round button dark menu-email-special image-left"> All
 						Complaints</a></li>-->

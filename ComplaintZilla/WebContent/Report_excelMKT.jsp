@@ -90,7 +90,7 @@
 		int dept_id = ubo.getUserDeptID(uid); 
 		
 		count = Integer.parseInt(session.getAttribute("count").toString());
-		
+		int int_count = Integer.parseInt(session.getAttribute("int_count").toString());
 		int comp = Integer.parseInt(request.getParameter("comp"));
 		String status  = request.getParameter("status");
 		String fromDate  = request.getParameter("fromDate");
@@ -146,8 +146,12 @@
 					class="round button dark menu-user image-left">Logged in as <strong><%=U_Name%></strong></a></li>
 
 				<li><a href="All_Complaint.jsp"
-					class="round button dark menu-email-special image-left"><%=count%>
-						New Complaints</a></li>
+					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
+						Customer Complaints</a></li>
+						<li><a href="All_Complaint.jsp"
+					class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=int_count%>
+						Internal Complaints</a></li>
+						
 				<!-- 
 				<li><a href="All_Complaint.jsp"
 					class="round button dark menu-email-special image-left">All
