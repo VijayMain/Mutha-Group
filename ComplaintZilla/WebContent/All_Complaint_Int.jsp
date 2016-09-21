@@ -88,7 +88,7 @@
 					class="round button dark menu-user image-left">Logged in as <strong><%=U_Name%></strong></a>
 				</li>
 
-					<li><a href="All_Complaint.jsp"
+				<li><a href="All_Complaint.jsp"
 					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
 						Customer Complaints</a></li>
 						<li><a href="All_Complaint_Int.jsp"
@@ -253,7 +253,7 @@
 												iPageNo = Math.abs((iPageNo - 1) * iShowRows);
 											}
 
-											String sqlPagination = "SELECT SQL_CALC_FOUND_ROWS *,CONVERT(SUBSTRING(Complaint_No, 12, 100),Unsigned Integer) as C_No FROM Complaint_Tbl where Status_id=1 and complaint_type='customer' order by C_No desc limit "
+											String sqlPagination = "SELECT SQL_CALC_FOUND_ROWS *,CONVERT(SUBSTRING(Complaint_No, 12, 100),Unsigned Integer) as C_No FROM Complaint_Tbl where Status_id=1 and complaint_type='internal' order by C_No desc limit "
 													+ iPageNo + "," + iShowRows + "";
 
 											psPagination = conn.prepareStatement(sqlPagination);

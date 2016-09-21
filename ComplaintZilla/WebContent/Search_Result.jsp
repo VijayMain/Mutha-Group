@@ -71,13 +71,8 @@
 			//complaint_no=bean.getComplaint_no();
 			Connection con = Connection_Utility.getConnection();
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-			PreparedStatement ps6 = con
-					.prepareStatement("select count(status_id) from complaint_tbl where status_id=1");
-			ResultSet rs6 = ps6.executeQuery();
-			while (rs6.next()) {
-				count = rs6.getInt("count(Status_Id)");
-				session.setAttribute("count", count);
-			}
+			count = Integer.parseInt(session.getAttribute("count").toString());
+			int int_count = Integer.parseInt(session.getAttribute("int_count").toString());
 
 			ArrayList arr = new ArrayList();
 			if (request.getAttribute("arry") != null) {
@@ -100,8 +95,12 @@
 				</li>
 
 				<li><a href="All_Complaint.jsp"
-					class="round button dark menu-email-special image-left"><%=count%>
-						New Complaints</a></li>
+					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
+						Customer Complaints</a></li>
+						<li><a href="All_Complaint_Int.jsp"
+					class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=int_count%>
+						Internal Complaints</a></li>
+						
 				<!-- 
 				<li><a href="All_Complaint.jsp"
 					class="round button dark menu-email-special image-left">All

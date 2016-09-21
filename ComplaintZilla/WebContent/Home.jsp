@@ -298,6 +298,7 @@
 											<thead>
 												<tr>
 													<th>Complaint No</th>
+													<th>Type</th>
 													<th>Customer Name</th>
 													<th>Company</th>
 													<th>Status</th>
@@ -319,6 +320,7 @@
 											%>
 											<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rsPagination.getString("complaint_no")%>');" style="cursor: pointer;">
 												<td><%=rsPagination.getString("Complaint_No")%></td>
+												<td><%=rsPagination.getString("complaint_type")%></td>
 												<%
 													PreparedStatement ps_cust = con
 																	.prepareStatement("select Cust_name from Customer_tbl where Cust_Id="

@@ -139,7 +139,7 @@ td a {
 				<li><a href="All_Complaint.jsp"
 					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
 						Customer Complaints</a></li>
-						<li><a href="All_Complaint.jsp"
+						<li><a href="All_Complaint_Int.jsp"
 					class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=int_count%>
 						Internal Complaints</a></li>
 				<!-- 
@@ -399,12 +399,12 @@ td a {
 										<input type="hidden" name="cPageNo" value="<%=cPageNo%>">
 										<input type="hidden" name="iShowRows" value="<%=iShowRows%>">
 										<table width="100%" cellpadding="0" cellspacing="0" border="0">
-											<thead>
-
-												<tr>
-
+											<thead> 
+												<tr> 
 													<th><a href="Marketing_Home.jsp?name=Complaint_No"
 														style="color: white;">Complaint No</a></th>
+														<th><a href="Marketing_Home.jsp?name=Complaint_No"
+														style="color: white;">Type</a></th>
 													<th><a href="Marketing_Home.jsp?name=Cust_Id"
 														style="color: white;">Customer Name</a></th>
 													<th><a href="Marketing_Home.jsp?name=Company_Id"
@@ -432,18 +432,16 @@ td a {
 														style="color: white;">Category</a></th>
 													<th><a href="Marketing_Home.jsp?name=Complaint_Date"
 														style="color: white;">Complaint Date</a></th>
-												</tr>
-
+												</tr> 
 											</thead>
-
-
-											<%
+ 											<%
 												while (rsPagination.next()) {
 											%>
 											<tr onmouseover="ChangeColor(this, true);"
 												onmouseout="ChangeColor(this, false);"
 												onclick="button1('<%=rsPagination.getString("complaint_no")%>');">
 												<td><%=rsPagination.getString("Complaint_No")%></td>
+												<td><%=rsPagination.getString("complaint_type")%></td>
 												<%
 													PreparedStatement ps_cust = con
 																	.prepareStatement("select Cust_name from Customer_tbl where Cust_Id="

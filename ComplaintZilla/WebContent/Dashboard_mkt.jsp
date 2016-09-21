@@ -53,7 +53,7 @@
 				<li><a href="All_Complaint.jsp"
 					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
 						Customer Complaints</a></li>
-						<li><a href="All_Complaint.jsp"
+						<li><a href="All_Complaint_Int.jsp"
 					class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=int_count%>
 						Internal Complaints</a></li>
 				<!-- 
