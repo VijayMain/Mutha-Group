@@ -164,19 +164,15 @@ public class Edit_Complaint_Controller extends HttpServlet {
 							// *************************************************************************************************************
 
 							if (fieldName.equalsIgnoreCase("inputName" + k)) {
-								System.out.println("File Name in java : "
-										+ fieldName);
+								// System.out.println("File Name in java : " + fieldName);
 								file_stored = fileItem.getName();
 
-								bean.setFile_Name_ext(FilenameUtils
-										.getName(file_stored));
+								bean.setFile_Name_ext(FilenameUtils.getName(file_stored));
 
-								System.out.println(FilenameUtils
-										.getName(file_stored));
+								// System.out.println(FilenameUtils.getName(file_stored));
 
-								file_Input = new DataInputStream(
-										fileItem.getInputStream());
-								System.out.println("Input sr no is = " + k);
+								file_Input = new DataInputStream(fileItem.getInputStream());
+								// System.out.println("Input sr no is = " + k);
 
 								/*************************************************************************************************************************
 								 * EDIT Registered complaint using data form
@@ -200,10 +196,8 @@ public class Edit_Complaint_Controller extends HttpServlet {
 								}
 								if (bean.getFile_Name_ext() != null) {
 									// Attach file ====>
-									System.out.println("Files Attached"
-											+ bean.getFile_Name_ext());
-									flag = dao.attach_File(bean, file_Input,
-											session);
+									// System.out.println("Files Attached" + bean.getFile_Name_ext());
+									flag = dao.attach_File(bean, file_Input, session);
 								}
 							}
 						}

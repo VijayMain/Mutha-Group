@@ -301,15 +301,12 @@ public class Register_Complaint_DAO {
 	public void registered_Unassigned(Register_VO bean) {
 		try {
 			con = Connection_Utility.getConnection();
-			PreparedStatement ps_getreply = con
-					.prepareStatement("insert into complaint_unassigned_rel_tbl(unassign_id,complaint_no)values(?,?)");
+			PreparedStatement ps_getreply = con.prepareStatement("insert into complaint_unassigned_rel_tbl(unassign_id,complaint_no)values(?,?)");
 			ps_getreply.setInt(1, bean.getUnregistered());
 			ps_getreply.setString(2, bean.getComplaint_No());
 			int reply = ps_getreply.executeUpdate();
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 }

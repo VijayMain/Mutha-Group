@@ -53,15 +53,13 @@ public class Edit_DAO {
 		try {
 
 			con = Connection_Utility.getConnection();
-			System.out.println("Get Connection edit complaint");
-			System.out.println("session DAO : "
-					+ session.getAttribute("complaint_no").toString());
+			/*System.out.println("Get Connection edit complaint");
+			System.out.println("session DAO : " + session.getAttribute("complaint_no").toString());*/
 			uid = Integer.parseInt(session.getAttribute("uid").toString());
 			int j = 0;
 			System.out.println("session uid :" + uid);
 
-			System.out
-					.println("************* Values In Edit_DAO **************");
+			/*System.out.println("************* Values In Edit_DAO **************");
 			System.out.println("Complaint Date : " + bean.getC_date());
 			System.out.println("Comapny id : " + bean.getCompany_id());
 			System.out.println("Cust id : " + bean.getCust_id());
@@ -74,7 +72,7 @@ public class Edit_DAO {
 			System.out.println("Category : " + bean.getCategory());
 			System.out.println("Assigned : " + bean.getAssigned());
 			System.out.println("Status Id : " + bean.getStatus_id());
-			System.out.println("Priority id : " + bean.getPriority());
+			System.out.println("Priority id : " + bean.getPriority());*/
 
 			complaint_no = session.getAttribute("complaint_no").toString();
 
@@ -113,8 +111,7 @@ public class Edit_DAO {
 				int i = ps.executeUpdate();
 
 				// To Maintain logs.......update history
-				ps1 = con
-						.prepareStatement("insert into complaint_tbl_history (C_History_Date,Complaint_No,U_Id,Cust_Id,Item_Id,Defect_Id,Complaint_Received_By,Complaint_Description,Complaint_Related_To,Complaint_Assigned_To,Category_Id,Status_Id,Company_Id,Complaint_Date,p_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+				ps1 = con.prepareStatement("insert into complaint_tbl_history (C_History_Date,Complaint_No,U_Id,Cust_Id,Item_Id,Defect_Id,Complaint_Received_By,Complaint_Description,Complaint_Related_To,Complaint_Assigned_To,Category_Id,Status_Id,Company_Id,Complaint_Date,p_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 				ps1.setTimestamp(1, timestamp);
 				ps1.setString(2, complaint_no);
 				ps1.setInt(3, uid);
@@ -164,8 +161,7 @@ public class Edit_DAO {
 			int uid = Integer.parseInt(sr);
 
 			// To attach file
-			ps_file = con
-					.prepareStatement("insert into complaint_tbl_attachments(Complaint_No,Attachment,Attach_Date,U_Id,File_Name,delete_Status)values(?,?,?,?,?,?)");
+			ps_file = con.prepareStatement("insert into complaint_tbl_attachments(Complaint_No,Attachment,Attach_Date,U_Id,File_Name,delete_Status)values(?,?,?,?,?,?)");
 			ps_file.setString(1, bean.getComplaint_no());
 			ps_file.setBinaryStream(2, file_Input);
 			ps_file.setTimestamp(3, bean.getC_date());
@@ -176,8 +172,7 @@ public class Edit_DAO {
 			flag = true;
 
 			// To Maintain logs for attachment.......insert file.....
-			PreparedStatement ps_history = con
-					.prepareStatement("insert into complaint_tbl_attachment_hist(CA_Hist_date,Complaint_No,Attach_Date,U_Id,File_Name,Delete_Status_Hist)values(?,?,?,?,?,?) ");
+			PreparedStatement ps_history = con.prepareStatement("insert into complaint_tbl_attachment_hist(CA_Hist_date,Complaint_No,Attach_Date,U_Id,File_Name,Delete_Status_Hist)values(?,?,?,?,?,?) ");
 			ps_history.setTimestamp(1, timestamp);
 			ps_history.setString(2, bean.getComplaint_no());
 			ps_history.setTimestamp(3, bean.getC_date());
