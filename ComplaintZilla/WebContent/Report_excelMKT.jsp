@@ -75,7 +75,7 @@
 		};
 		xmlhttp.open("POST", "Complaint_Report_xls.jsp?comp="+comp+"&status="+status+"&fromDate="+from+"&toDate="+to, true);
 		xmlhttp.send();
-	}; 
+	};
 </script>
 </head>
 <body>

@@ -179,6 +179,7 @@
  					<table style="width: 100%;" class="tftable"> 
 												<tr>
 													<th>Complaint No</th>
+													<th>Type</th>
 													<th>Customer Name</th>
 													<th>Company</th>
 													<th>Status</th>
@@ -197,6 +198,7 @@
 							 %>
 							 					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" style="cursor: pointer;">
 												<td><b><%=rs_sel.getString("Complaint_No")%></b></td>
+												<td><b><%=rs_sel.getString("complaint_type")%></b></td>
 												<%
 													PreparedStatement ps_cust = con.prepareStatement("select Cust_name from Customer_tbl where Cust_Id="+ rs_sel.getInt("Cust_Id"));
 															ResultSet rs_cust = ps_cust.executeQuery();

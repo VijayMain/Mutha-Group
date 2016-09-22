@@ -28,8 +28,8 @@ public class ComplaintZilla_PlantHalert extends TimerTask {
 		boolean flag = true;
 		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 		System.out.println("Overdue Complaints 14 days !!!");
-		if (weekday[d.getDay()].equals("Wednesday") && d.getHours() == 10 && d.getMinutes() == 32) {
-		/*if (weekday[d.getDay()].equals("Wednesday") && d.getHours() == 13 && d.getMinutes() == 48) {*/
+		/*if (weekday[d.getDay()].equals("Wednesday") && d.getHours() == 10 && d.getMinutes() == 32) {*/
+		if (weekday[d.getDay()].equals("Thursday") && d.getHours() == 11 && d.getMinutes() == 40) {
 		
 		//************************************************************************************************				
 		for(int loop=0;loop<5;loop++){
@@ -67,7 +67,7 @@ public class ComplaintZilla_PlantHalert extends TimerTask {
 	 		pend_closeure=0;*/
 	 		
 	 		int count=0;
-			PreparedStatement ps_plant = con.prepareStatement("select count(*) from complaint_tbl where company_id="+comp_id+" and Status_Id<3 and Complaint_Date<'"+dateback+"'");
+			PreparedStatement ps_plant = con.prepareStatement("select count(*) from complaint_tbl where company_id="+comp_id+" and Status_Id<3  and complaint_type='customer' and Complaint_Date<'"+dateback+"'");
 	 		ResultSet rs_plant = ps_plant.executeQuery();
 	 		while (rs_plant.next()) {
 	 			count = rs_plant.getInt("count(*)");
@@ -99,8 +99,8 @@ public class ComplaintZilla_PlantHalert extends TimerTask {
 			}
 			
 			emailList.add("vijaybm@muthagroup.com");
-			emailList.add("vmjoshi@muthagroup.com");
-			emailList.add("rhpisal@muthagroup.com");
+			/*emailList.add("vmjoshi@muthagroup.com");
+			emailList.add("rhpisal@muthagroup.com");*/
 			//**********************************************************************************************
 			
 			Set<String> hs2 = new HashSet();

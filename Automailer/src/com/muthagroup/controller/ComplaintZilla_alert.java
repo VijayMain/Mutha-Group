@@ -27,8 +27,8 @@ public class ComplaintZilla_alert extends TimerTask {
 		boolean flag = true;
 		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 		System.out.println("Overdue Complaints 7 days!!!");
-		if (weekday[d.getDay()].equals("Wednesday") && d.getHours() == 10 && d.getMinutes() == 30) {
-		/*if (weekday[d.getDay()].equals("Wednesday") && d.getHours() == 13 && d.getMinutes() == 57) {*/
+		/*if (weekday[d.getDay()].equals("Wednesday") && d.getHours() == 10 && d.getMinutes() == 30) {*/
+		if (weekday[d.getDay()].equals("Thursday") && d.getHours() == 11 && d.getMinutes() == 40) {
 		
 		//*************************************************************************************************************************************
 		for(int loop=0;loop<5;loop++){
@@ -65,7 +65,7 @@ public class ComplaintZilla_alert extends TimerTask {
 			// **********************************************************************************************************************************************************
 			// **********************************************************************************************************************************************************
 			
-			ps_aasignCnt  = con.prepareStatement("select distinct(Complaint_Assigned_To) from complaint_tbl where company_id="+comp_id+" and Status_Id<3 and Complaint_Date<'"+dateback+"'");
+			ps_aasignCnt  = con.prepareStatement("select distinct(Complaint_Assigned_To) from complaint_tbl where company_id="+comp_id+" and Status_Id<3 and complaint_type='customer' and Complaint_Date<'"+dateback+"'");
 			rs_assignedCnt = ps_aasignCnt.executeQuery();
 			while(rs_assignedCnt.next()){
 				 ps_user = con.prepareStatement("select * from user_tbl where u_id="+rs_assignedCnt.getInt("Complaint_Assigned_To") +" and enable_id=1");
@@ -75,7 +75,7 @@ public class ComplaintZilla_alert extends TimerTask {
 						list_assigned.add(name);
 						emailList.add(rs_user.getString("U_Email"));
 						System.out.println("Email List = = " + emailList);
-						ps_get = con.prepareStatement("select count(*) from complaint_tbl where Complaint_Assigned_To="+rs_user.getInt("u_id") +" and Complaint_Date<'"+dateback+"' and status_id<3");
+						ps_get = con.prepareStatement("select count(*) from complaint_tbl where Complaint_Assigned_To="+rs_user.getInt("u_id") +" and Complaint_Date<'"+dateback+"' and status_id<3 and complaint_type='customer'");
 						  rs_get = ps_get.executeQuery();
 						  while(rs_get.next()){
 							  hm.put(name,rs_get.getInt("count(*)"));
@@ -115,8 +115,8 @@ public class ComplaintZilla_alert extends TimerTask {
 			}
 			
 			emailList.add("vijaybm@muthagroup.com");
-			emailList.add("vmjoshi@muthagroup.com");
-			emailList.add("rhpisal@muthagroup.com");
+			/*emailList.add("vmjoshi@muthagroup.com");
+			emailList.add("rhpisal@muthagroup.com");*/
 			//**********************************************************************************************
 			
 			Set<String> hs2 = new HashSet();

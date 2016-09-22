@@ -37,7 +37,7 @@ public class Repetative_Task_Regular extends TimerTask {
 	public void run() {
 
 		int count = 0, U_Id = 0, Cust_Id = 0, Item_Id = 0, mail_status = 0, P_Id = 0, Company_Id = 0, Defect_Id = 0, Complaint_Related_To = 0, Complaint_Assigned_To = 0, Category_Id = 0;
-		String Complaint_Received_By = null, Complaint_Description = null, Complaint_Date = null;
+		String Complaint_Received_By = null, Complaint_Description = null, Complaint_Date = null,complaintType="";
 		int dept_id = 0;
 		Connection con = Connection_Utility.getConnection();
 		try {
@@ -54,26 +54,20 @@ public class Repetative_Task_Regular extends TimerTask {
 
 				for (int ch = 0; ch < list.size(); ch++) {
 
-					PreparedStatement ps_complaint = con
-							.prepareStatement("select * from complaint_tbl where Complaint_No='"
-									+ list.get(ch).toString() + "'");
+					PreparedStatement ps_complaint = con.prepareStatement("select * from complaint_tbl where Complaint_No='" + list.get(ch).toString() + "'");
 					ResultSet rs_complaint = ps_complaint.executeQuery();
 					while (rs_complaint.next()) {
 						U_Id = rs_complaint.getInt("U_Id");
+						complaintType = rs_complaint.getString("complaint_type");
 						Cust_Id = rs_complaint.getInt("Cust_Id");
 						Item_Id = rs_complaint.getInt("Item_Id");
 						Defect_Id = rs_complaint.getInt("Defect_Id");
-						Complaint_Received_By = rs_complaint
-								.getString("Complaint_Received_By");
-						Complaint_Description = rs_complaint
-								.getString("Complaint_Description");
-						Complaint_Related_To = rs_complaint
-								.getInt("Complaint_Related_To");
-						Complaint_Assigned_To = rs_complaint
-								.getInt("Complaint_Assigned_To");
+						Complaint_Received_By = rs_complaint.getString("Complaint_Received_By");
+						Complaint_Description = rs_complaint.getString("Complaint_Description");
+						Complaint_Related_To = rs_complaint.getInt("Complaint_Related_To");
+						Complaint_Assigned_To = rs_complaint.getInt("Complaint_Assigned_To");
 						Category_Id = rs_complaint.getInt("Category_Id");
-						Complaint_Date = rs_complaint
-								.getString("Complaint_Date");
+						Complaint_Date = rs_complaint.getString("Complaint_Date");
 						Company_Id = rs_complaint.getInt("Company_Id");
 						P_Id = rs_complaint.getInt("P_Id");
 						mail_status = rs_complaint.getInt("mail_status");
@@ -86,8 +80,7 @@ public class Repetative_Task_Regular extends TimerTask {
 
 					String name = null;
 					String department = null;
-					String company = null;
-
+					String company = null; 
 					String assignto = null;
 					String customer = null;
 					String cust_mail = null;
@@ -121,8 +114,7 @@ public class Repetative_Task_Regular extends TimerTask {
 						item = rs_item.getString("Item_Name");
 					}
 					// ********************************************************************
-					PreparedStatement ps_cust = con
-							.prepareStatement("select * from customer_tbl where Cust_Id="
+					PreparedStatement ps_cust = con.prepareStatement("select * from customer_tbl where Cust_Id="
 									+ Cust_Id);
 					ResultSet rs_cust = ps_cust.executeQuery();
 					while (rs_cust.next()) {
@@ -131,18 +123,14 @@ public class Repetative_Task_Regular extends TimerTask {
 					}
 					// ********************************************************************
 					int comapany_id = 0;
-					PreparedStatement ps_user = con
-							.prepareStatement("select * from user_tbl where U_Id="
-									+ U_Id);
+					PreparedStatement ps_user = con.prepareStatement("select * from user_tbl where U_Id=" + U_Id);
 					ResultSet rs_user = ps_user.executeQuery();
 
 					while (rs_user.next()) {
 						name = rs_user.getString("U_Name");
 
 						// ******************************************************************
-						PreparedStatement ps_dept = con
-								.prepareStatement("select * from user_tbl_dept where dept_id="
-										+ dept_id);
+						PreparedStatement ps_dept = con.prepareStatement("select * from user_tbl_dept where dept_id=" + dept_id);
 						ResultSet rs_d = ps_dept.executeQuery();
 
 						while (rs_d.next()) {
@@ -199,17 +187,13 @@ public class Repetative_Task_Regular extends TimerTask {
 					// *********************************************************************************************
 					// multiple recipients : == >
 					// *********************************************************************************************
-					PreparedStatement ps6 = con
-							.prepareStatement("select count(Email) from automail where Company_id=6 or company_id="
-									+ Company_Id);
+					PreparedStatement ps6 = con.prepareStatement("select count(Email) from automail where Company_id=6 or company_id=" + Company_Id);
 					ResultSet rs6 = ps6.executeQuery();
 					while (rs6.next()) {
 						count = rs6.getInt("count(Email)");
 					}
 
-					PreparedStatement ps_auto = con
-							.prepareStatement("select * from automail where Company_id=6 or company_id="
-									+ Company_Id);
+					PreparedStatement ps_auto = con.prepareStatement("select * from automail where Company_id=6 or company_id=" + Company_Id);
 					ResultSet rs_auto = ps_auto.executeQuery();
 					String[] recipients = new String[count + 1];
 					int j = 1;
@@ -253,6 +237,11 @@ public class Repetative_Task_Regular extends TimerTask {
 												+ ", "
 												+ " </p>"
 
+												+ "<p><b>Complaint Type : </b>"
+												+ complaintType
+												+ ", "
+												+ " </p>"
+												
 												+ "<p><b>Customer Name : </b>"
 												+ customer
 												+ ", "

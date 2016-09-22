@@ -142,24 +142,25 @@ writableSheet.setColumnView(9, 15);
 writableSheet.setColumnView(10, 15);
 writableSheet.setColumnView(11, 15);
 writableSheet.setColumnView(12, 15);
+writableSheet.setColumnView(13, 15);
 
 Label label0 = new Label(0, 0, "Complaint No",cellFormat);
-Label label = new Label(1, 0, "Company",cellFormat);
-Label label1 = new Label(2, 0, "Customer Name",cellFormat);
-Label label2 = new Label(3, 0, "Item Name",cellFormat);
-Label label3 = new Label(4, 0, "Severity",cellFormat);
-Label label4 = new Label(5, 0, "Status",cellFormat); 
-Label label5 = new Label(6, 0, "Defect",cellFormat);
-Label label6 = new Label(7, 0, "Complaint Received By",cellFormat);
-Label label7 = new Label(8, 0, "Complaint Related To",cellFormat);
-Label label8 = new Label(9, 0, "Complaint Registered By",cellFormat);
-Label label9 = new Label(10, 0, "Complaint Assigned To",cellFormat);
-Label label10 = new Label(11, 0, "Category",cellFormat);
-Label label11 = new Label(12, 0, "Complaint Date",cellFormat);
+Label label1 = new Label(1, 0, "Type",cellFormat);
+Label label2 = new Label(2, 0, "Company",cellFormat);
+Label label3 = new Label(3, 0, "Customer Name",cellFormat);
+Label label4 = new Label(4, 0, "Item Name",cellFormat);
+Label label5 = new Label(5, 0, "Severity",cellFormat);
+Label label6 = new Label(6, 0, "Status",cellFormat); 
+Label label7 = new Label(7, 0, "Defect",cellFormat);
+Label label8 = new Label(8, 0, "Complaint Received By",cellFormat);
+Label label9 = new Label(9, 0, "Complaint Related To",cellFormat);
+Label label10 = new Label(10, 0, "Complaint Registered By",cellFormat);
+Label label11 = new Label(11, 0, "Complaint Assigned To",cellFormat);
+Label label12 = new Label(12, 0, "Category",cellFormat);
+Label label13 = new Label(13, 0, "Complaint Date",cellFormat);
 
 // Add the created Cells to the sheet
 writableSheet.addCell(label0);
-writableSheet.addCell(label);
 writableSheet.addCell(label1);
 writableSheet.addCell(label2);
 writableSheet.addCell(label3);
@@ -170,7 +171,9 @@ writableSheet.addCell(label7);
 writableSheet.addCell(label8);
 writableSheet.addCell(label9);
 writableSheet.addCell(label10);
-writableSheet.addCell(label11); 
+writableSheet.addCell(label11);
+writableSheet.addCell(label12); 
+writableSheet.addCell(label13); 
 
 
 int r=1;
@@ -178,11 +181,14 @@ while(rs_sel.next()){
 	
 	Label complaintno = new Label(0, r, rs_sel.getString("Complaint_No"),cellleftformat);
 	writableSheet.addCell(complaintno);
+	
+	Label complainttype = new Label(1, r, rs_sel.getString("complaint_type"),cellleftformat);
+	writableSheet.addCell(complainttype);
 	  
 	PreparedStatement ps_comp = con.prepareStatement("select Company_Name from user_tbl_company where Company_Id=" + rs_sel.getInt("Company_Id"));
 	ResultSet rs_comp = ps_comp.executeQuery();
 	while (rs_comp.next()) {
-		Label company = new Label(1, r, rs_comp.getString("Company_Name"),cellleftformat);
+		Label company = new Label(2, r, rs_comp.getString("Company_Name"),cellleftformat);
 		writableSheet.addCell(company);
 	}
 	ps_comp.close();		
@@ -191,7 +197,7 @@ while(rs_sel.next()){
 	PreparedStatement ps_cust = con.prepareStatement("select Cust_name from Customer_tbl where Cust_Id="+ rs_sel.getInt("Cust_Id"));
 	ResultSet rs_cust = ps_cust.executeQuery();
 	while (rs_cust.next()) {
-		Label customer = new Label(2, r, rs_cust.getString("Cust_Name"),cellleftformat);
+		Label customer = new Label(3, r, rs_cust.getString("Cust_Name"),cellleftformat);
 		writableSheet.addCell(customer);
 	}
 	ps_cust.close();	
@@ -200,7 +206,7 @@ while(rs_sel.next()){
 	PreparedStatement ps_Item = con.prepareStatement("select Item_Name from Customer_tbl_Item where Item_Id=" + rs_sel.getInt("Item_id"));
 	ResultSet rs_Item = ps_Item.executeQuery();
 	while (rs_Item.next()) {
-		Label severity = new Label(3, r, rs_Item.getString("Item_Name"),cellleftformat);
+		Label severity = new Label(4, r, rs_Item.getString("Item_Name"),cellleftformat);
 		writableSheet.addCell(severity);
 	}
 	ps_Item.close();
@@ -209,7 +215,7 @@ while(rs_sel.next()){
 	PreparedStatement ps_priority = con.prepareStatement("select P_Type from Severity_tbl where P_Id=" + rs_sel.getInt("P_id"));
 	ResultSet rs_priority = ps_priority.executeQuery();
 	while (rs_priority.next()) {
-		Label severity = new Label(4, r, rs_priority.getString("P_Type"),cellleftformat);
+		Label severity = new Label(5, r, rs_priority.getString("P_Type"),cellleftformat);
 		writableSheet.addCell(severity);
 	}
 	ps_priority.close();
@@ -218,7 +224,7 @@ while(rs_sel.next()){
 	PreparedStatement ps_Status = con.prepareStatement("select Status from Status_tbl where Status_Id=" + rs_sel.getInt("Status_id"));
 	ResultSet rs_Status = ps_Status.executeQuery();
 	while (rs_Status.next()) {
-		Label statuscomp = new Label(5, r, rs_Status.getString("Status"),cellleftformat);
+		Label statuscomp = new Label(6, r, rs_Status.getString("Status"),cellleftformat);
 		writableSheet.addCell(statuscomp);
 	} 
 	ps_Status.close();
@@ -230,20 +236,20 @@ while(rs_sel.next()){
 	PreparedStatement ps_Defect = con.prepareStatement("select Defect_Type from Defect_tbl where Defect_id=" + rs_sel.getInt("Defect_Id"));
 	ResultSet rs_Defect = ps_Defect.executeQuery();
 	while (rs_Defect.next()) {
-		Label defect = new Label(6, r, rs_Defect.getString("Defect_Type"),cellleftformat);
+		Label defect = new Label(7, r, rs_Defect.getString("Defect_Type"),cellleftformat);
 		writableSheet.addCell(defect); 
 	}	 
 	ps_Defect.close();
 	rs_Defect.close();
 	
-	Label receivedBy = new Label(7, r, rs_sel.getString("Complaint_Received_By"),cellleftformat);
+	Label receivedBy = new Label(8, r, rs_sel.getString("Complaint_Received_By"),cellleftformat);
 	writableSheet.addCell(receivedBy);
 	
 	  
 	PreparedStatement ps_related = con.prepareStatement("select Department from User_tbl_Dept where Dept_id=" + rs_sel.getInt("Complaint_Related_To"));
 	ResultSet rs_related = ps_related.executeQuery();
 	while (rs_related.next()) {
-		Label relatedDept = new Label(8, r, rs_related.getString("Department"),cellleftformat);
+		Label relatedDept = new Label(9, r, rs_related.getString("Department"),cellleftformat);
 		writableSheet.addCell(relatedDept);
 	}
 	ps_related.close();
@@ -252,7 +258,7 @@ while(rs_sel.next()){
 	PreparedStatement ps_registerer = con.prepareStatement("select U_Name from User_tbl where U_id=" + rs_sel.getInt("U_Id"));
 	ResultSet rs_registerer = ps_registerer.executeQuery();
 	while (rs_registerer.next()) {
-		Label nameRegister = new Label(9, r, rs_registerer.getString("U_Name"),cellleftformat);
+		Label nameRegister = new Label(10, r, rs_registerer.getString("U_Name"),cellleftformat);
 		writableSheet.addCell(nameRegister);
 	}
 	ps_registerer.close();
@@ -262,7 +268,7 @@ while(rs_sel.next()){
 	PreparedStatement ps_assigned = con.prepareStatement("select U_Name from User_tbl where U_id=" + rs_sel.getInt("Complaint_Assigned_To"));
 	ResultSet rs_assigned = ps_assigned.executeQuery();
 	while (rs_assigned.next()) {
-		Label assigned = new Label(10, r,rs_assigned.getString("U_Name"),cellleftformat);
+		Label assigned = new Label(11, r,rs_assigned.getString("U_Name"),cellleftformat);
 		writableSheet.addCell(assigned); 
 	}
 	ps_assigned.close();
@@ -271,13 +277,13 @@ while(rs_sel.next()){
 	PreparedStatement ps_category = con.prepareStatement("select Category from Category_tbl where category_id=" + rs_sel.getInt("category_id"));
 	ResultSet rs_category = ps_category.executeQuery();
 	while (rs_category.next()) {
-		Label category = new Label(11, r,rs_category.getString("Category"),cellleftformat);
+		Label category = new Label(12, r,rs_category.getString("Category"),cellleftformat);
 		writableSheet.addCell(category);  
 	}
 	ps_category.close();
 	rs_category.close();
 	
-	Label complaintdate = new Label(12, r,sdf2.format(rs_sel.getDate("complaint_date")),cellleftformat);
+	Label complaintdate = new Label(13, r,sdf2.format(rs_sel.getDate("complaint_date")),cellleftformat);
 	writableSheet.addCell(complaintdate);
 	r++;
 } 
