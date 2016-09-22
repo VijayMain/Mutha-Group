@@ -43,6 +43,7 @@
 		String complaint_no = null;
 		int count = 0;
 		count = Integer.parseInt(session.getAttribute("count").toString());
+		int int_count = Integer.parseInt(session.getAttribute("int_count").toString());
 	%>
 
 	<!-- TOP BAR -->
@@ -56,9 +57,13 @@
 					class="round button dark menu-user image-left">Logged in as <strong><%=U_Name%></strong></a>
 				</li>
 
-				<li><a href="Marketing_Home.jsp"
-					class="round button dark menu-email-special image-left"><%=count%>
-						New Complaints</a></li>
+				<li><a href="All_Complaint.jsp"
+					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
+						Customer Complaints</a></li>
+						<li><a href="All_Complaint_Int.jsp"
+					class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=int_count%>
+						Internal Complaints</a></li>
+						
 				<li><a href="logout.jsp"
 					class="round button dark menu-logoff image-left">Log out</a></li>
 
