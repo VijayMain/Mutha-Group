@@ -16,16 +16,7 @@ public class Automailer extends HttpServlet {
 		try {
 			// ******************************************************************************************************************
 			Timer timer = new Timer();
-  
-			TimerTask complaintZilla_alert = new ComplaintZilla_alert();
-			timer.schedule(complaintZilla_alert, 1000, 55000);
-			
-			TimerTask complaintZilla_PlantHalert = new ComplaintZilla_PlantHalert();
-			timer.schedule(complaintZilla_PlantHalert, 1000, 55000);
-			
-			
-			/*
-			
+   		
 			TimerTask timerTask3 = new Repetative_Task_24Hours_Remainder();
 			timer.schedule(timerTask3, 10000, 60000);
 			
@@ -62,7 +53,7 @@ public class Automailer extends HttpServlet {
 			timer.schedule(complaintZilla_PlantHalert, 1000, 55000);
 			
 			
-			*/
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

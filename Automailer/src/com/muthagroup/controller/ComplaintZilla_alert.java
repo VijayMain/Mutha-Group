@@ -27,8 +27,8 @@ public class ComplaintZilla_alert extends TimerTask {
 		boolean flag = true;
 		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 		System.out.println("Overdue Complaints 7 days!!!");
-		/*if (weekday[d.getDay()].equals("Wednesday") && d.getHours() == 10 && d.getMinutes() == 30) {*/
-		if (weekday[d.getDay()].equals("Thursday") && d.getHours() == 11 && d.getMinutes() == 40) {
+		if (weekday[d.getDay()].equals("Wednesday") && d.getHours() == 10 && d.getMinutes() == 30) {
+		/*if (weekday[d.getDay()].equals("Thursday") && d.getHours() == 11 && d.getMinutes() == 40) {*/
 		
 		//*************************************************************************************************************************************
 		for(int loop=0;loop<5;loop++){
@@ -115,8 +115,8 @@ public class ComplaintZilla_alert extends TimerTask {
 			}
 			
 			emailList.add("vijaybm@muthagroup.com");
-			/*emailList.add("vmjoshi@muthagroup.com");
-			emailList.add("rhpisal@muthagroup.com");*/
+			emailList.add("vmjoshi@muthagroup.com");
+			emailList.add("rhpisal@muthagroup.com");
 			//**********************************************************************************************
 			
 			Set<String> hs2 = new HashSet();
