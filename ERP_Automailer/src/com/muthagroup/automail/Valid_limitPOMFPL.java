@@ -28,8 +28,8 @@ public class Valid_limitPOMFPL extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 21){ */			
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 16){
+			if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 26){ 			
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 43){*/
 				 
 				Connection con = ConnectionUrl.getLocalDatabase();
 				SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
@@ -134,7 +134,7 @@ public class Valid_limitPOMFPL extends TimerTask {
 				date_chk.add(sql_date);
 			} 
 			while(rs_getapp.next()) {
-			if(date_chk.contains(rs_getapp.getString("VALID_DATE"))){   
+				if(date_chk.contains(rs_getapp.getString("VALID_DATE")) && rs_getapp.getString("STATUS_CODE").equalsIgnoreCase("0")){
 			sb.append("<tr style='font-size: 12px; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 					"<td align='right'>"+rs_getapp.getString("PO_NO")+"</td>"+
 						"<td align='left'>"+rs_getapp.getString("PO_DATE").substring(6,8) +"/"+ rs_getapp.getString("PO_DATE").substring(4,6) +"/"+ rs_getapp.getString("PO_DATE").substring(0,4)+"</td>"+
@@ -169,9 +169,10 @@ public class Valid_limitPOMFPL extends TimerTask {
 			System.out.println("msg Sent !!!");
 			}
 			 
-		/******************************************************************************************************** */	
-			}
+		/******************************************************************************************************** */
 			Thread.sleep(60000);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

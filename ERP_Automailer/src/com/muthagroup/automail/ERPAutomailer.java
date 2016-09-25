@@ -18,9 +18,7 @@ private static final long serialVersionUID = 1L;
 			// ******************************************************************************************************************
 			// Thread No 1
 			// ******************************************************************************************************************
-			 
-			/*
-
+			  
 			// 09:40
 			TimerTask  siscompSale =new SisterCompanySale_Report();
 			timer.schedule(siscompSale, 1000, 60000);
@@ -140,27 +138,31 @@ private static final long serialVersionUID = 1L;
 			TimerTask  reqalert =new ERPReq_Alert();
 			timer.schedule(reqalert, 1000, 60000); 
 		 
-			// 10:20
+			// 10:22
 			TimerTask  poWithoutGRN =new POWithoutGRN();
 			timer.schedule(poWithoutGRN, 1000, 60000);
 			 
-			// 10:21
+			// 10:23
 			TimerTask  issueWithoutWO = new IssueWithoutWO();
-			timer.schedule(issueWithoutWO, 1000, 60000);
-			*/
+			timer.schedule(issueWithoutWO, 1000, 60000); 
 			
+			// 10:24
 			TimerTask  valid_limitPOH21 = new Valid_limitPO();
 			timer.schedule(valid_limitPOH21, 1000, 60000);
 			
+			// 10:25
 			TimerTask  valid_limitPOH25 = new Valid_limitPOH25();
 			timer.schedule(valid_limitPOH25, 1000, 60000);
 			
+			// 10:26
 			TimerTask  valid_limitPOMFPL = new Valid_limitPOMFPL();
 			timer.schedule(valid_limitPOMFPL, 1000, 60000);
 			
+			// 10:27
 			TimerTask  valid_limitPODI = new Valid_limitPODI();
 			timer.schedule(valid_limitPODI, 1000, 60000);
 			
+			// 10:28
 			TimerTask  valid_limitPOK1 = new Valid_limitPOK1();
 			timer.schedule(valid_limitPOK1, 1000, 60000);
 			
@@ -171,17 +173,7 @@ private static final long serialVersionUID = 1L;
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
 

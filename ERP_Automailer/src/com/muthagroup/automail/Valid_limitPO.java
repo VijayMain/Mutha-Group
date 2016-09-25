@@ -22,7 +22,7 @@ import javax.mail.internet.MimeMessage;
 
 import com.muthagroup.connectionERPUtil.ConnectionUrl;
 
-public class Valid_limitPO extends TimerTask { 
+public class Valid_limitPO extends TimerTask {
 	@Override
 	public void run() {
 		try {
@@ -30,9 +30,9 @@ public class Valid_limitPO extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 21){ */			
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 14){
-				 
+			if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 24){ 
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 41){*/
+				
 				Connection con = ConnectionUrl.getLocalDatabase();
 				SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
 				
@@ -64,12 +64,12 @@ public class Valid_limitPO extends TimerTask {
 			
 			Connection conerp = null;
 			int dateLimit=0;
-			String report ="",company="",comp=""; 
+			String report ="",company="",comp="";
 			/******************************************************************************************************** */
-			 	conerp  = ConnectionUrl.getMEPLH21ERP();
-					report = "PO_ValidLimitH21";
-					company = "MEPL H21";
-					comp = "101"; 
+			conerp  = ConnectionUrl.getMEPLH21ERP();
+			report = "PO_ValidLimitH21";
+			company = "MEPL H21";
+			comp = "101";
 			PreparedStatement ps_rec = con.prepareStatement("select * from pending_approvee where type='bcc' and report='"+report+"'");
 			ResultSet rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
@@ -134,9 +134,9 @@ public class Valid_limitPO extends TimerTask {
 				cal.add(Calendar.DATE, +1);
 				sql_date = sdfFIrstDate.format(cal.getTime()).toString();
 				date_chk.add(sql_date);
-			} 
+			}
 			while(rs_getapp.next()) {
-			if(date_chk.contains(rs_getapp.getString("VALID_DATE"))){   
+			if(date_chk.contains(rs_getapp.getString("VALID_DATE")) && rs_getapp.getString("STATUS_CODE").equalsIgnoreCase("0")){
 			sb.append("<tr style='font-size: 12px; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 					"<td align='right'>"+rs_getapp.getString("PO_NO")+"</td>"+
 						"<td align='left'>"+rs_getapp.getString("PO_DATE").substring(6,8) +"/"+ rs_getapp.getString("PO_DATE").substring(4,6) +"/"+ rs_getapp.getString("PO_DATE").substring(0,4)+"</td>"+
@@ -145,7 +145,7 @@ public class Valid_limitPO extends TimerTask {
 						"<td align='left'>"+rs_getapp.getString("VALID_DATE").substring(6,8) +"/"+ rs_getapp.getString("VALID_DATE").substring(4,6) +"/"+ rs_getapp.getString("VALID_DATE").substring(0,4)+"</td></tr>");
 			sent=true;
 			}
-			}
+			} 
 		sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"+
 			"<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
 			"<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"+
@@ -171,9 +171,10 @@ public class Valid_limitPO extends TimerTask {
 			System.out.println("msg Sent !!!");
 			}
 			 
-		/******************************************************************************************************** */	
-			}
+		/******************************************************************************************************** */
 			Thread.sleep(60000);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

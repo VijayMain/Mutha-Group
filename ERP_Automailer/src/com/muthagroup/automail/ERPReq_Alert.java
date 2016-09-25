@@ -27,14 +27,14 @@ public class ERPReq_Alert extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			/*if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 01) ||
+			if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 01) ||
 				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 30) ||
 				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 30)
-			){*/
+			){
 			
-			if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 56) ||
+			/*if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 56) ||
 				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 59) ||
-				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 22)){
+				(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 22)){*/
 				
 				System.out.println("In Loop !!!");
 				

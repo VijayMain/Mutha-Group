@@ -30,9 +30,9 @@ public class IssueWithoutWO extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 21){ */
+			if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 23){ 
 			
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 13 && d.getMinutes() == 49){
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 13 && d.getMinutes() == 49){*/
 				
 				System.out.println("In Loop !!!");
 				Connection con = ConnectionUrl.getLocalDatabase();

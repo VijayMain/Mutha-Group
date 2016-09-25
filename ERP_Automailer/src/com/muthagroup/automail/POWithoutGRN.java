@@ -27,9 +27,9 @@ public class POWithoutGRN extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 01){ */
+			if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 22){ 
 			
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 20){
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 20){*/
 				
 				System.out.println("In Loop !!!");
 				Connection con = ConnectionUrl.getLocalDatabase();
