@@ -166,14 +166,12 @@ private static final long serialVersionUID = 1L;
 			
 			// 10:28
 			TimerTask  valid_limitPOK1 = new Valid_limitPOK1();
-			timer.schedule(valid_limitPOK1, 1000, 60000);
-			
+			timer.schedule(valid_limitPOK1, 1000, 60000); 
 			*/
 			
-			
 			// 10:22
-						TimerTask  poWithoutGRN =new POWithoutGRN();
-						timer.schedule(poWithoutGRN, 1000, 60000);
+			TimerTask  poWithoutGRN_1000 =new POWithoutGRN_1000();
+			timer.schedule(poWithoutGRN_1000, 1000, 60000);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
