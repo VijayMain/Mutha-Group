@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import java.util.TimerTask;
+
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -23,14 +24,14 @@ public class POWithoutGRN_1000 extends TimerTask {
 	@Override
 	public void run() {
 		try {
-			System.out.println("ERP Pending Approval !!!");
+			System.out.println("PO Without GRN 1000 !!!");
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday",
 					"Thursday", "Friday", "Saturday" };
 
 			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 22) {*/
-				
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 16){
+		
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 42){
 			 
 				System.out.println("In Loop !!!");
 				Connection con = ConnectionUrl.getLocalDatabase();
@@ -46,8 +47,7 @@ public class POWithoutGRN_1000 extends TimerTask {
 					first_Datecal.add(Calendar.DATE, -1);
 					sql_date = sdfFIrstDate.format(first_Datecal.getTime()).toString();
 					date_last = first_Datecal.getTime();
-				}
-				sql_date = "20150411";
+				} 
 				boolean sent = false;
 
 				String host = "send.one.com";
@@ -132,6 +132,7 @@ public class POWithoutGRN_1000 extends TimerTask {
 				 * 
 				 * MEPL H21 Start ==================== >
 				 */
+				System.out.println("date  = " + sql_date);
 				int testavail = 0;
 				String comp = "101";
 				Connection con_21 = ConnectionUrl.getMEPLH21ERP();
@@ -438,6 +439,7 @@ public class POWithoutGRN_1000 extends TimerTask {
 					System.out.println("msg Sent !!!");
 				}
 				con.close();
+				Thread.sleep(60000);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
