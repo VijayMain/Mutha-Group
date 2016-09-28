@@ -169,7 +169,7 @@ private static final long serialVersionUID = 1L;
 			timer.schedule(valid_limitPOK1, 1000, 60000); 
 			*/
 			
-			// 10:22
+			// 10:29
 			TimerTask  poWithoutGRN_1000 =new POWithoutGRN_1000();
 			timer.schedule(poWithoutGRN_1000, 1000, 60000);
 			

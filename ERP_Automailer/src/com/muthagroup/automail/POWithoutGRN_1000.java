@@ -26,15 +26,11 @@ public class POWithoutGRN_1000 extends TimerTask {
 		try {
 			System.out.println("PO Without GRN 1000 !!!");
 			Date d = new Date();
-			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday",
-					"Thursday", "Friday", "Saturday" };
+			String weekday[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
-			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 22) {*/
-		
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 42){
-			 
-				System.out.println("In Loop !!!");
-				Connection con = ConnectionUrl.getLocalDatabase();
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 29) {
+		/*	if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 15 && d.getMinutes() == 5){*/
+			    Connection con = ConnectionUrl.getLocalDatabase();
 
 				Calendar first_Datecal = Calendar.getInstance();
 				first_Datecal.add(Calendar.DATE, -1);
@@ -47,7 +43,8 @@ public class POWithoutGRN_1000 extends TimerTask {
 					first_Datecal.add(Calendar.DATE, -1);
 					sql_date = sdfFIrstDate.format(first_Datecal.getTime()).toString();
 					date_last = first_Datecal.getTime();
-				} 
+				}
+				
 				boolean sent = false;
 
 				String host = "send.one.com";
