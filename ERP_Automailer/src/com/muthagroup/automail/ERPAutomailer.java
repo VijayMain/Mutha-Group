@@ -1,8 +1,8 @@
 package com.muthagroup.automail;
+
 import java.io.IOException;
 import java.util.Timer; 
 import java.util.TimerTask;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +18,7 @@ private static final long serialVersionUID = 1L;
 			// ******************************************************************************************************************
 			// Thread No 1
 			// ******************************************************************************************************************
-			
-			/*
-			
+		 
 			// 09:40
 			TimerTask  siscompSale =new SisterCompanySale_Report();
 			timer.schedule(siscompSale, 1000, 60000);
@@ -111,7 +109,6 @@ private static final long serialVersionUID = 1L;
 			TimerTask  timerTask25 =new TransporterWiseSaleK1();
 			timer.schedule(timerTask25, 1000, 60000);
 			
-			
 			// 15:30
 			TimerTask  timerTask16 =new Purchase_PendDues_Stat21();
 			timer.schedule(timerTask16, 1000, 60000);			
@@ -167,8 +164,7 @@ private static final long serialVersionUID = 1L;
 			// 10:28
 			TimerTask  valid_limitPOK1 = new Valid_limitPOK1();
 			timer.schedule(valid_limitPOK1, 1000, 60000); 
-			*/
-			
+			 
 			// 10:29
 			TimerTask  poWithoutGRN_1000 =new POWithoutGRN_1000();
 			timer.schedule(poWithoutGRN_1000, 1000, 60000);
