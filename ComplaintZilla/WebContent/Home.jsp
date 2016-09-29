@@ -2,8 +2,9 @@
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.ResultSet"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="com.muthagroup.bo.GetUserName_BO"%> 
+<%@page import="com.muthagroup.connectionModel.Connection_Utility"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -73,13 +74,7 @@
 			edit.submit();
 
 		}
-	</SCRIPT>
-
-
-	<%@ page import="com.muthagroup.bo.GetUserName_BO"%>
-
-	<%@page import="com.muthagroup.connectionModel.Connection_Utility"%>
-
+	</SCRIPT> 
 	<%
 		GetUserName_BO ubo = new GetUserName_BO();
 		//PreparedStatement ps = null;
@@ -89,7 +84,7 @@
 		String U_Name = ubo.getUserName(uid);
 		//out.print("user name  :"+U_Name);
 		String complaint_no = null;
-		int count = 0,int_count=0;
+		int count = 0, int_count = 0;
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			Connection con = Connection_Utility.getConnection();
@@ -98,17 +93,19 @@
 					.prepareStatement("select * from complaint_tbl order by complaint_date desc limit 5");
 			ResultSet rs = ps.executeQuery();
 
-			PreparedStatement ps6 = con.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='customer'");
+			PreparedStatement ps6 = con
+					.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='customer'");
 			ResultSet rs6 = ps6.executeQuery();
 			while (rs6.next()) {
 				count = rs6.getInt("count(Status_Id)");
-				session.setAttribute("count", count); 
+				session.setAttribute("count", count);
 			}
-			ps6 = con.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='internal'");
+			ps6 = con
+					.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='internal'");
 			rs6 = ps6.executeQuery();
 			while (rs6.next()) {
 				int_count = rs6.getInt("count(Status_Id)");
-				session.setAttribute("int_count", int_count); 
+				session.setAttribute("int_count", int_count);
 			}
 	%>
 
@@ -120,15 +117,16 @@
 			<ul id="nav" class="fl">
 				<li class="v-sep"><a href="Home.jsp"
 					class="round button dark menu-user image-left">Logged in as <strong><%=U_Name%></strong></a>
-				</li> 
-				
+				</li>
+
 				<li><a href="All_Complaint_Others.jsp"
-					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
-						Customer Complaints</a></li>
+					class="round button dark menu-email-special image-left"
+					title="New Customer Complaints"><%=count%> Customer Complaints</a></li>
 				<li><a href="All_Complaint_OthersQlty.jsp"
-					class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=int_count%>
-						Internal Complaints</a></li>	
-							
+					class="round button dark menu-email-special image-left"
+					title="New Internal Complaints"><%=int_count%> Internal
+						Complaints</a></li>
+
 				<!-- 
 					<li><a href="All_Complaint_Others.jsp"
 					class="round button dark menu-email-special image-left"> All
@@ -161,10 +159,11 @@
 
 			<ul id="tabs" class="fl">
 				<li><a href="Home.jsp" class="active-tab dashboard-tab">Home</a></li>
-				<li><a href="Report_List_Others.jsp" class="active-tab dashboard-tab">Reports</a></li>
-				
+				<li><a href="Report_List_Others.jsp"
+					class="active-tab dashboard-tab">Reports</a></li>
+
 				<li><a href="Dashboard.jsp" class="active-tab dashboard-tab">Dashboard</a></li>
-				
+
 			</ul>
 			<!-- end tabs -->
 
@@ -177,17 +176,13 @@
 		<!-- end full-width -->
 
 	</div>
-	<!-- end header -->
-
-
+	<!-- end header --> 
 
 	<!-- MAIN CONTENT -->
 	<div id="content">
 
-		<div class="page-full-width cf">
-
-			<div class="side-menu fl">
-
+		<div class="page-full-width cf"> 
+			<div class="side-menu fl"> 
 				<h3>Content</h3>
 				<ul>
 					<li><a href="Edit_By_Search_Other.jsp">Search Complaint</a></li>
@@ -221,14 +216,14 @@
 						<form name="edit" action="Complaint_Action.jsp" method="post">
 							<table>
 
-								<tbody>
-									<%@ page language="java"
-										contentType="text/html; charset=ISO-8859-1"%>
-									<%@ page import="java.sql.PreparedStatement"%>
-									<%@ page import="java.sql.ResultSet"%>
-									<%@ page import="java.sql.Connection"%>
-									<%@ page import="java.sql.DriverManager"%>
-									<%!public int nullIntconv(String str) {
+		<tbody>
+		<%@ page language="java"
+		contentType="text/html; charset=ISO-8859-1"%>
+		<%@ page import="java.sql.PreparedStatement"%>
+		<%@ page import="java.sql.ResultSet"%>
+		<%@ page import="java.sql.Connection"%>
+		<%@ page import="java.sql.DriverManager"%>
+		<%!public int nullIntconv(String str) {
 		int conv = 0;
 		if (str == null) {
 			str = "0";
@@ -242,8 +237,9 @@
 		} catch (Exception e) {
 		}
 		return conv;
-	}%>
-									<%
+	}
+	%>
+	<%
 										Connection conn = null;
 											Class.forName("com.mysql.jdbc.Driver").newInstance();
 											conn = DriverManager.getConnection(
@@ -318,7 +314,10 @@
 											<%
 												while (rsPagination.next()) {
 											%>
-											<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rsPagination.getString("complaint_no")%>');" style="cursor: pointer;">
+											<tr onmouseover="ChangeColor(this, true);"
+												onmouseout="ChangeColor(this, false);"
+												onclick="button1('<%=rsPagination.getString("complaint_no")%>');"
+												style="cursor: pointer;">
 												<td><%=rsPagination.getString("Complaint_No")%></td>
 												<td><%=rsPagination.getString("complaint_type")%></td>
 												<%
@@ -357,7 +356,8 @@
 																			+ rsPagination.getInt("Status_id"));
 															ResultSet rs_Status = ps_Status.executeQuery();
 															while (rs_Status.next()) {
-																if (rs_Status.getString("Status").equalsIgnoreCase("New")) {
+																if (rs_Status.getString("Status").equalsIgnoreCase(
+																		"New")) {
 												%>
 												<td style="color: #2230C7;" class="blink"><strong>
 														<%=rs_Status.getString("Status")%></strong></td>
@@ -620,7 +620,8 @@
 	<div id="footer">
 
 		<p>
-			<a href="http://www.muthagroup.com">Mutha Group of Foundries, Satara</a>
+			<a href="http://www.muthagroup.com">Mutha Group of Foundries,
+				Satara</a>
 		</p>
 
 	</div>

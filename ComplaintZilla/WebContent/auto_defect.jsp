@@ -2,10 +2,7 @@
 <%@page import="java.sql.*"%>
 <%@page import="java.util.*"%>
 <%@page import="com.muthagroup.connectionModel.Connection_Utility"%>
-
-
- 
-   <%
+    <%
    try{
      String s[]=null;
  	String str1=null;
