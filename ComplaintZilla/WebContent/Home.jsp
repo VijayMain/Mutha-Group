@@ -242,9 +242,7 @@
 	<%
 										Connection conn = null;
 											Class.forName("com.mysql.jdbc.Driver").newInstance();
-											conn = DriverManager.getConnection(
-													"jdbc:mysql://localhost:3306/ComplaintZilla", "root",
-													"root");
+											conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ComplaintZilla", "root", "root");
 
 											ResultSet rsPagination = null;
 											ResultSet rsRowCnt = null;
