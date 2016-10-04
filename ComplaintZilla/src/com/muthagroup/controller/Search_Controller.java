@@ -37,22 +37,15 @@ public class Search_Controller extends HttpServlet {
 			end_date1=request.getParameter("end_date");
 			
 			
-			SimpleDateFormat formatter = new SimpleDateFormat(
-					"dd-MM-yyyy HH:mm:ss");
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			Timestamp date1 = null, date2 = null;
 			
 			
 			if(start_date1!="")
 			{
-			
-				start_date = new java.sql.Timestamp(
-					formatter.parse(start_date1).getTime());
-
+				start_date = new java.sql.Timestamp(formatter.parse(start_date1).getTime());
 				// Get Date in DD/MM/YYYY format
-				
 					date1=start_date;
-				
-			
 			}
 			else
 			{
@@ -77,13 +70,13 @@ public class Search_Controller extends HttpServlet {
 			//String date1 = d4 + "/" + m1 + "/" + y1;
 			//String date2 = d5 + "/" + m2 + "/" + y2;
 			
-			System.out.println("Customer name :" + cust_id);
+			/*System.out.println("Customer name :" + cust_id);
 			System.out.println("Complaint Severity :" + p_id);
 			System.out.println("Status id :" + status_id);
 			System.out.println("company id :" + company_id);
 			System.out.println("complaint_no :"+complaint_no);
 			System.out.println("from date :" + date1);
-			System.out.println("to date :" + date2);
+			System.out.println("to date :" + date2);*/
 			
 			Edit_By_Search_VO bean = new Edit_By_Search_VO(request);
 

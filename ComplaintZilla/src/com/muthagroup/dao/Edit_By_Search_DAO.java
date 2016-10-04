@@ -61,11 +61,11 @@ public class Edit_By_Search_DAO {
 			status_id = bean.getStatus_id();
 
 			String cust = null;
-			System.out.println(cust_id);
+			/*System.out.println(cust_id);
 			System.out.println(date1);
 			System.out.println(date2);
 			// System.out.println(unit);
-			System.out.println(status_id);
+			System.out.println(status_id);*/
 
 			con = Connection_Utility.getConnection();
 
@@ -73,9 +73,7 @@ public class Edit_By_Search_DAO {
 
 				if (cust_id != 0) {
 
-					ps1 = con
-							.prepareStatement("select Cust_Name from Customer_Tbl where Cust_Id="
-									+ cust_id);
+					ps1 = con.prepareStatement("select Cust_Name from Customer_Tbl where Cust_Id=" + cust_id);
 
 					rs1 = ps1.executeQuery();
 					String cust_name = null;
