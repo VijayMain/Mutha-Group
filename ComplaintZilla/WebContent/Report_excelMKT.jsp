@@ -182,6 +182,7 @@
 				%>
 				<!-- <li><a href="Unassigned_Complaints.jsp" class="active-tab dashboard-tab">Unassigned Complaints</a></li> -->
 				<li><a href="Report_List.jsp" class="active-tab dashboard-tab">Reports</a></li>
+				<li> <a href="Edit_By_Search.jsp" class="active-tab dashboard-tab">Search</a></li>
 				<li><a href="Dashboard_mkt.jsp" class="active-tab dashboard-tab">Dashboard</a></li>
 			</ul>
 			<!-- end tabs -->
@@ -209,7 +210,14 @@
  					<table style="width: 100%;" class="tftable"> 
 												<tr>
 													<th>Complaint No</th>
-													<th>Type</th>
+													<th style="width: 60px;"><b>Type</b><!-- 
+														<select name="type" id="type" style="width: 17px;" onchange="getType(this.value)">
+															<option value=""></option>
+															<option value="all">All</option>
+															<option value="customer">Customer</option>
+															<option value="internal">Internal</option>
+														</select>(all) -->
+													</th>
 													<th>Customer Name</th>
 													<th>Company</th>
 													<th>Status</th>

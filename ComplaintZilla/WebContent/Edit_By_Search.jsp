@@ -149,6 +149,7 @@
 				%>
 				<!-- <li><a href="Unassigned_Complaints.jsp" class="active-tab dashboard-tab">Unassigned Complaints</a></li> -->
 				<li><a href="Report_List.jsp" class="active-tab dashboard-tab">Reports</a></li>
+				<li> <a href="Edit_By_Search.jsp" class="active-tab dashboard-tab">Search</a></li>
 				<li><a href="Dashboard_mkt.jsp" class="active-tab dashboard-tab">Dashboard</a></li>
 			</ul>
 			<!-- end tabs -->
