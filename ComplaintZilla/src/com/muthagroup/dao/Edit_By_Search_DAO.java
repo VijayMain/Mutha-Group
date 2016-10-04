@@ -1065,7 +1065,7 @@ public class Edit_By_Search_DAO {
 				// n=n+1;
 
 				list.add(rs.getString("Complaint_No"));
-				System.out.println(rs.getString("Complaint_No"));
+				// System.out.println(rs.getString("Complaint_No"));
 
 				cust_id = rs.getInt("cust_Id");
 
@@ -1094,7 +1094,7 @@ public class Edit_By_Search_DAO {
 			}
 
 			// System.out.println(complaint_no);
-			System.out.println(cust_id);
+			/*System.out.println(cust_id);
 			System.out.println(item_id);
 			System.out.println(defect_id);
 			System.out.println(category_id);
@@ -1105,7 +1105,7 @@ public class Edit_By_Search_DAO {
 			System.out.println(discription);
 			System.out.println(related);
 			System.out.println(assigned);
-			System.out.println(cdate);
+			System.out.println(cdate);*/
 
 			// bean.setComplaint_no(complaint_no);
 			// session.setAttribute("complaint_no",complaint_no);

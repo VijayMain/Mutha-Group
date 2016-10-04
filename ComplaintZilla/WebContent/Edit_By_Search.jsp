@@ -203,7 +203,7 @@
 
 					</div>
 					<!-- end content-module-heading -->
-					<form action="Search_Controller" method="post"></form>
+					<!-- <form action="Search_Controller" method="post"></form> -->
 
 					<div class="content-module-main">
 
