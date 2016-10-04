@@ -34,7 +34,8 @@
          <!--   <li><a href="Daily_Report.jsp">MEPL H25</a></li>
                 <li><a href="Daily_Report.jsp">MFPL</a></li>
                 <li><a href="Daily_Report.jsp">MEPL Unit III</a></li>
-                <li><a href="Daily_Report.jsp">DI</a></li> 	 -->
+                <li><a href="Daily_Report.jsp">DI</a></li> 	 
+           -->
                 
                 <li><a href="Configure.jsp">CONFIGURE</a></li>
                 <li><a href="Add_Master.jsp">MASTER</a></li>
@@ -67,6 +68,13 @@ try{
 			<a href="Sub_ContractorStk.jsp">3. Click to get SUB-CONTRACTOR STOCK STATUS</a>
 			</td>
 		</tr>
+		<!--
+		<tr>
+			<td style="font-family: Arial;font-size: 13px;font-weight: bold;">
+			<a href="ItemwiseStkList.jsp">4. Click to get ITEMWISE STOCK LIST</a>
+			</td>
+		</tr> 
+		-->
 </table>
 <%
 }catch(Exception e){

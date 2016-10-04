@@ -53,10 +53,10 @@
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		DateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
 
-		/* Calendar cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance();
 		 cal.add(Calendar.DATE, -1);
 		 String yes_date = dateFormat.format(cal.getTime()).toString(); 
-		 String ason_date = dateFormat2.format(cal.getTime()).toString(); 			   */
+		 String ason_date = dateFormat2.format(cal.getTime()).toString(); 			  
 		//************************************************************************************************
 		//		System.out.println("Date before  =  " +yes_date+"\n date before = "+ason_date); 
 		/* 	if(weekday[d.getDay()].equals("Sunday")){
@@ -64,14 +64,14 @@
 		 yes_date = dateFormat.format(cal.getTime()).toString(); 
 		 ason_date = dateFormat2.format(cal.getTime()).toString();
 		 } */
-		Calendar cal = Calendar.getInstance();
+		/* Calendar cal = Calendar.getInstance();
 		String yes_date = "";
 		String ason_date = "";
 		//cal.add(Calendar.DATE, -3);
 		yes_date = dateFormat.format(cal.getTime()).toString();
 		ason_date = dateFormat2.format(cal.getTime()).toString();
 		System.out.println("Date after =  " + yes_date + " date after = "
-				+ ason_date);
+				+ ason_date); */
 	%>
 	<table>
 		<tr>
