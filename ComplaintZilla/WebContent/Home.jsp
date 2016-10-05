@@ -265,7 +265,7 @@
 							<input type="hidden" name="hid" id="hid">
 							<!-- Complaints Home  -->
 							<span id="getType_data">
-							<table style="width: 100%;" class="tftable"> 
+							<table style="width: 100%;" class="tftable">
 												<tr>
 													<th><b>Complaint No</b></th>
 													<th style="width: 60px;"><b>Type</b>

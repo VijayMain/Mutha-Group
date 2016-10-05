@@ -35,6 +35,29 @@
 </script>
 <title>Report</title> 
 <link rel="stylesheet" href="css/style.css">
+<style type="text/css">
+.tftable {
+	font-size: 10px;
+	color: #333333;
+	width: 100%;  
+}
+
+.tftable th {
+	font-size: 11px;
+	background-color: #388EAB; 
+	padding: 3px; 
+	text-align: center;
+}
+
+.tftable tr {
+	background-color: white;
+}
+
+.tftable td {
+	font-size: 10px; 
+	padding: 3px; 
+}
+</style>
 <script src="js/script.js"></script>
 </head>
 <body> 
@@ -148,7 +171,7 @@
 	<div style="background-color: white; padding-left: 2px;padding-right: 2px; height: 500px;overflow: scroll;">
 		<form name="edit" action="Complaint_Action.jsp" method="post">
  <input type="hidden" name="hid" id="hid">
- 		<table width="100%" border="1">
+ 		<table width="100%" border="1"  class="tftable">
   <tr  style="background-color: #D1CED9;">
     <td colspan="9" align="center" style="height: 28px;"><b><%=comp_status %> Complaint Summary Report for <%=company %></b></td>
   </tr>

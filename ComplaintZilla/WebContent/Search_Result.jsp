@@ -228,6 +228,7 @@
 					<!-- end content-module-heading -->
 					<!-- <div class="content-module-main"> --> 
 						<form name="edit" action="Edit_Complaint.jsp" method="post"> 
+						<input type="hidden" name="hid" id="hid">
 							<table style="width: 100%;" class="tftable">
 												<tr>
 													<th><b>Complaint No</b></th>
@@ -373,10 +374,15 @@
 																			+ rs_sel.getInt("U_Id"));
 															ResultSet rs_registerer = ps_registerer.executeQuery();
 															while (rs_registerer.next()) {
-												%>
-
-												<td><%=rs_registerer.getString("U_Name")%></td>
-												<%
+												if(rs_sel.getInt("U_Id")==uid){			
+																	%>
+																	<td style="background-color: #94c8fc"><%=rs_registerer.getString("U_Name")%></td>
+																	<%
+																		}else{
+																		%>
+																		<td><%=rs_registerer.getString("U_Name")%></td>
+																		<%		
+																		}
 													}
 
 															PreparedStatement ps_assigned = con

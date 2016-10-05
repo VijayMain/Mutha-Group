@@ -33,6 +33,29 @@
 </script>
 <title>Report</title> 
 <link rel="stylesheet" href="css/style.css">
+<style type="text/css">
+.tftable {
+	font-size: 10px;
+	color: #333333;
+	width: 100%;  
+}
+
+.tftable th {
+	font-size: 11px;
+	background-color: #388EAB; 
+	padding: 3px; 
+	text-align: center;
+}
+
+.tftable tr {
+	background-color: white;
+}
+
+.tftable td {
+	font-size: 10px; 
+	padding: 3px; 
+}
+</style>
 <script src="js/script.js"></script>
 </head>
 <body> 
@@ -86,6 +109,7 @@
 				<li><a href="Home.jsp" class="active-tab dashboard-tab">Home</a></li>
 
 				<li><a href="Report_List_Others.jsp" class="active-tab dashboard-tab">Reports</a></li>
+				<li><a href="Edit_By_Search_Other.jsp" class="active-tab dashboard-tab">Search</a></li>
 				<li><a href="Dashboard.jsp" class="active-tab dashboard-tab">Dashboard</a></li>
 			</ul>
 			
@@ -137,15 +161,16 @@
 	<div style="background-color: white; padding-left: 2px;padding-right: 2px; height: 500px;overflow: scroll;">
 		<form name="edit" action="Complaint_Action.jsp" method="post">
  <input type="hidden" name="hid" id="hid">
- 		<table width="100%" border="1">
+ 		<table width="100%" border="1"  class="tftable">
   <tr  style="background-color: #D1CED9;">
-    <td colspan="8" align="center" style="height: 28px;">
+    <td colspan="9" align="center" style="height: 28px;">
     <b><%=comp_status %> Complaint Summary Report for <%=company %></b>&nbsp;&nbsp;&nbsp;&nbsp; 
     <b style="font-family: Arial;font-size: 11px;color: red;">Note : Click on records to get details &#8628;</b>
     </td>
   </tr>
   <tr style="background-color: #D1CED9;">
     <th><b>COMPLAINT NO</b></th>
+    <th><b>COMPLAINT TYPE</b></th>
     <th><b>CUSTOMER</b></th>
     <th><b>ITEM</b></th>
     <th><b>REGISTERED BY</b></th>
@@ -166,6 +191,7 @@
   %>
   <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" style="cursor: pointer;" onclick="button1('<%=rs_summary.getString("complaint_no")%>');" title="Click to get details">
     <td style="font-size: 10px;text-align: left;"><%=rs_summary.getString("Complaint_No") %></td>
+    <td style="font-size: 10px;text-align: left;"><%=rs_summary.getString("complaint_type") %></td>
     <%
     ps_cust = con.prepareStatement("select * from customer_tbl where Cust_Id="+rs_summary.getInt("Cust_Id"));
     rs_cust = ps_cust.executeQuery();
@@ -270,6 +296,7 @@
 		  %>
 		  <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" style="cursor: pointer;" onclick="button1('<%=rs_summary2.getString("complaint_no")%>');" title="Click to get details">
 		    <td style="font-size: 10px;text-align: left;"><%=rs_summary2.getString("Complaint_No") %></td>
+		    <td style="font-size: 10px;text-align: left;"><%=rs_summary2.getString("complaint_type") %></td>
 		    <%
 		    ps_cust = con.prepareStatement("select * from customer_tbl where Cust_Id="+rs_summary2.getInt("Cust_Id"));
 		    rs_cust = ps_cust.executeQuery();

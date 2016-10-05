@@ -139,8 +139,8 @@
 
 			<ul id="tabs" class="fl">
 				<li><a href="Home.jsp" class="active-tab dashboard-tab">Home</a></li>
-				<li><a href="Report_List_Others.jsp"
-					class="active-tab dashboard-tab">Reports</a></li>
+				<li><a href="Report_List_Others.jsp" class="active-tab dashboard-tab">Reports</a></li>
+					<li><a href="Edit_By_Search_Other.jsp" class="active-tab dashboard-tab">Search</a></li>
 					<li><a href="Dashboard.jsp" class="active-tab dashboard-tab">Dashboard</a></li>
 			</ul>
 			<!-- end tabs -->
