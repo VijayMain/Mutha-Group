@@ -395,10 +395,8 @@ td a {
 												%>
 												<td style="color: green;"><strong> <%=rs_Status.getString("Status")%></strong></td>
 												<%
-													}
-
-															}
-
+													} 
+															} 
 															PreparedStatement ps_priority = con
 																	.prepareStatement("select P_Type from Severity_tbl where P_Id="
 																			+ rs_sel.getInt("P_id"));
