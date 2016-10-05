@@ -17,28 +17,62 @@ try{
 	SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
 	Connection con = Connection_Utility.getConnection();
 	
-	String comp_code = request.getParameter("q");
-	String query=""; 
-	if(comp_code.equalsIgnoreCase("all")){
+	String comp_type = request.getParameter("q");
+	String comp_id = request.getParameter("r");
+	// System.out.println("Company = " + comp_id + " Complaint Type = " + comp_type);
+	String query="",comp_name = "ALL";
+	if(comp_type.equalsIgnoreCase("all") && comp_id.equalsIgnoreCase("all") ){
 		query = "select * from complaint_tbl where  Status_id!=5 order by Complaint_Date desc";
-	}else{
-		query = "select * from complaint_tbl where  Status_id!=5 and complaint_type='"+comp_code+"' order by Complaint_Date desc";
 	}
+	if(comp_type.equalsIgnoreCase("all") && !comp_id.equalsIgnoreCase("all") ){ 
+		query = "select * from complaint_tbl where  Status_id!=5 and Company_Id="+Integer.parseInt(comp_id)+" order by Complaint_Date desc";
+		
+		PreparedStatement ps_compvar = con.prepareStatement("select * from user_tbl_company where Company_Id="+Integer.parseInt(comp_id) );
+		ResultSet rs_compvar = ps_compvar.executeQuery();
+		while (rs_compvar.next()) {
+			comp_name = rs_compvar.getString("Company_Name");
+		}
+	}
+	if(!comp_type.equalsIgnoreCase("all") && comp_id.equalsIgnoreCase("all") ){
+		query = "select * from complaint_tbl where  Status_id!=5 and complaint_type='"+comp_type+"' order by Complaint_Date desc";
+	}
+	if(!comp_type.equalsIgnoreCase("all") && !comp_id.equalsIgnoreCase("all") ){
+		query = "select * from complaint_tbl where  Status_id!=5 and complaint_type='"+comp_type+"'  and Company_Id="+Integer.parseInt(comp_id)+" order by Complaint_Date desc";
+		PreparedStatement ps_compvar = con.prepareStatement("select * from user_tbl_company where Company_Id="+Integer.parseInt(comp_id) );
+		ResultSet rs_compvar = ps_compvar.executeQuery();
+		while (rs_compvar.next()) {
+			comp_name = rs_compvar.getString("Company_Name");
+		}
+	} 
 %>
 <span id="getType_data">
 							<table style="width: 100%;" class="tftable"> 
 												<tr>
-													<th><b>Comp No</b></th>
+													<th><b>Complaint No</b></th>
 													<th style="width: 60px;"><b>Type</b>
-														<select name="type" id="type" style="width: 17px;" onchange="getType(this.value)">
-															<option value=""></option>
+														<select name="type" id="type" style="width: 17px;" onchange="getType()">
+															<option value="<%=comp_type %>"><%=comp_type %></option>
 															<option value="all">All</option>
 															<option value="customer">Customer</option>
 															<option value="internal">Internal</option>
-														</select>(<%=comp_code %>)
+														</select>(<%=comp_type %>)
 													</th>
 													<th><b>Cust Name</b></th>
-													<th><b>Company</b></th>
+													<th><b>Company</b>
+													<select name="comp_ser" id="comp_ser" style="width: 17px;" onchange="getType()">
+															<option value="<%=comp_id%>"><%=comp_name %></option>
+															<option value="all">All</option>
+															<%
+															PreparedStatement ps_compSer = con.prepareStatement("select * from user_tbl_company where Company_Id!=6" );
+															ResultSet rs_compSer = ps_compSer.executeQuery();
+															while (rs_compSer.next()) {
+														   %>
+														   <option value="<%=rs_compSer.getString("Company_Id")%>"><%=rs_compSer.getString("Company_Name")%></option>
+														   <%
+															}
+															%>
+														</select>(<%=comp_name %>) 
+													</th>
 													<th><b>Status</b></th>
 													<th><b>Severity</b></th>
 													<th><b>Item Name</b></th>

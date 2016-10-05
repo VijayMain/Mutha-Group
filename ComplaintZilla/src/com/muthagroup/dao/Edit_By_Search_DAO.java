@@ -1124,8 +1124,7 @@ public class Edit_By_Search_DAO {
 			// requestDispatcher.forward(request, response);
 			// response.sendRedirect("Search_Result.jsp?al="+al);
 
-			RequestDispatcher rd = request
-					.getRequestDispatcher("/Search_Result.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/Search_Result.jsp");
 			request.setAttribute("arry", list);
 			rd.forward(request, response);
 
@@ -1133,7 +1132,6 @@ public class Edit_By_Search_DAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Data Search Failed !!!!!!");
-		}
-
+		} 
 	}
 }

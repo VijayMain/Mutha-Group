@@ -150,10 +150,11 @@
  <input type="hidden" name="hid" id="hid">
  		<table width="100%" border="1">
   <tr  style="background-color: #D1CED9;">
-    <td colspan="8" align="center" style="height: 28px;"><b><%=comp_status %> Complaint Summary Report for <%=company %></b></td>
+    <td colspan="9" align="center" style="height: 28px;"><b><%=comp_status %> Complaint Summary Report for <%=company %></b></td>
   </tr>
   <tr style="background-color: #D1CED9;">
     <th><b>COMPLAINT NO</b></th>
+    <th><b>COMPLAINT TYPE</b></th>
     <th><b>CUSTOMER</b></th>
     <th><b>ITEM</b></th>
     <th><b>REGISTERED BY</b></th>
@@ -168,12 +169,13 @@
   String act_date="",date1="",date3="";
 
   
-	PreparedStatement ps_summary = con.prepareStatement("select * from complaint_tbl where Company_Id="+comp+" and Status_Id="+status + "  and complaint_date< '2015-10-01 00:00:00' order by complaint_date");
+	PreparedStatement ps_summary = con.prepareStatement("select * from complaint_tbl where Company_Id="+comp+"  and complaint_type='customer' and Status_Id="+status + "  and complaint_date< '2015-10-01 00:00:00' order by complaint_date");
 	ResultSet rs_summary = ps_summary.executeQuery();
 	while(rs_summary.next()){
   %>
   <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" style="cursor: pointer;" onclick="button1('<%=rs_summary.getString("complaint_no")%>');" title="Click to get details">
     <td style="font-size: 10px;text-align: left;"><%=rs_summary.getString("Complaint_No") %></td>
+    <td style="font-size: 10px;text-align: left;"><%=rs_summary.getString("complaint_type") %></td>
     <%
     ps_cust = con.prepareStatement("select * from customer_tbl where Cust_Id="+rs_summary.getInt("Cust_Id"));
     rs_cust = ps_cust.executeQuery();
@@ -278,6 +280,7 @@
 		  %>
 		  <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" style="cursor: pointer;" onclick="button1('<%=rs_summary2.getString("complaint_no")%>');" title="Click to get details">
 		    <td style="font-size: 10px;text-align: left;"><%=rs_summary2.getString("Complaint_No") %></td>
+		    <td style="font-size: 10px;text-align: left;"><%=rs_summary2.getString("complaint_type") %></td>
 		    <%
 		    ps_cust = con.prepareStatement("select * from customer_tbl where Cust_Id="+rs_summary2.getInt("Cust_Id"));
 		    rs_cust = ps_cust.executeQuery();

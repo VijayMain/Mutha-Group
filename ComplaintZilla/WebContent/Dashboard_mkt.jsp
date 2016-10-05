@@ -130,27 +130,27 @@
   ResultSet rs = null,rs_h25=null,rs_di=null,rs_mfpl=null,rs_unit=null;
   
   for(int i=1;i<=5;i++){
-  ps = con.prepareStatement("select count(*) from complaint_tbl where Status_Id="+i+" and Company_Id=1");
+  ps = con.prepareStatement("select count(*) from complaint_tbl where Status_Id="+i+" and Company_Id=1 and complaint_type='customer'");
   rs =  ps.executeQuery();
   while(rs.next()){
 	  h21_comp.add(rs.getString("count(*)"));
   }
-  ps_h25 = con.prepareStatement("select count(*) from complaint_tbl where Status_Id="+i+" and Company_Id=2");
+  ps_h25 = con.prepareStatement("select count(*) from complaint_tbl where Status_Id="+i+" and Company_Id=2 and complaint_type='customer'");
   rs_h25 =  ps_h25.executeQuery();
   while(rs_h25.next()){
 	  h25_comp.add(rs_h25.getString("count(*)"));
   }
-  ps_mfpl = con.prepareStatement("select count(*) from complaint_tbl where Status_Id="+i+" and Company_Id=3");
+  ps_mfpl = con.prepareStatement("select count(*) from complaint_tbl where Status_Id="+i+" and Company_Id=3 and complaint_type='customer'");
   rs_mfpl =  ps_mfpl.executeQuery();
   while(rs_mfpl.next()){
 	  mfpl_comp.add(rs_mfpl.getString("count(*)"));
   }
-  ps_di = con.prepareStatement("select count(*) from complaint_tbl where Status_Id="+i+" and Company_Id=5");
+  ps_di = con.prepareStatement("select count(*) from complaint_tbl where Status_Id="+i+" and Company_Id=5 and complaint_type='customer'");
   rs_di =  ps_di.executeQuery();
   while(rs_di.next()){
 	  di_comp.add(rs_di.getString("count(*)"));
   }
-  ps_unit = con.prepareStatement("select count(*) from complaint_tbl where Status_Id="+i+" and Company_Id=4");
+  ps_unit = con.prepareStatement("select count(*) from complaint_tbl where Status_Id="+i+" and Company_Id=4 and complaint_type='customer'");
   rs_unit =  ps_unit.executeQuery();
   while(rs_unit.next()){
 	  unit3_comp.add(rs_unit.getString("count(*)"));

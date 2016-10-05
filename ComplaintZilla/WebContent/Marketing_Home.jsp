@@ -103,7 +103,10 @@ td a {
 			edit.submit(); 
 		}
 		
-		function getType(str){ 
+		function getType(){
+			var str = document.getElementById("type").value;
+			var str1 = document.getElementById("comp_ser").value;
+			// alert(str + "  =  "  + str1);
 			var xmlhttp;
 			if (window.XMLHttpRequest) {
 				// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -117,7 +120,7 @@ td a {
 					document.getElementById("getType_data").innerHTML = xmlhttp.responseText;
 				}
 			};
-			xmlhttp.open("POST", "GetTypewiseComplaints.jsp?q=" + str, true);
+			xmlhttp.open("POST", "GetTypewiseComplaints.jsp?q=" + str + "&r="+str1 , true);
 			xmlhttp.send(); 
 		};
 		
@@ -296,15 +299,29 @@ td a {
 												<tr>
 													<th><b>Complaint No</b></th>
 													<th style="width: 60px;"><b>Type</b>
-														<select name="type" id="type" style="width: 17px;" onchange="getType(this.value)">
-															<option value=""></option>
-															<option value="all">All</option>
+														<select name="type" id="type" style="width: 17px;" onchange="getType()">
+															<option value="all"></option>
+															<option value="all">All</option> 
 															<option value="customer">Customer</option>
 															<option value="internal">Internal</option>
 														</select>(all)
 													</th>
 													<th><b>Cust Name</b></th>
-													<th><b>Company</b></th>
+													<th><b>Company</b>
+														<select name="comp_ser" id="comp_ser" style="width: 17px;" onchange="getType()">
+															<option value="all"></option>
+															<option value="all">All</option>
+															<%
+															PreparedStatement ps_compSer = con.prepareStatement("select * from user_tbl_company where Company_Id!=6" );
+															ResultSet rs_compSer = ps_compSer.executeQuery();
+															while (rs_compSer.next()) {
+														   %>
+														   <option value="<%=rs_compSer.getString("Company_Id")%>"><%=rs_compSer.getString("Company_Name")%></option>
+														   <%
+															}
+															%>
+														</select>(all)
+													</th>
 													<th><b>Status</b></th>
 													<th><b>Severity</b></th>
 													<th><b>Item Name</b></th>
@@ -497,7 +514,7 @@ td a {
 	<!-- FOOTER -->
 	<div id="footer">
 
-		<p>
+		<p style="font-family: Arial;font-size: 12px;">
 			<a href="http://www.muthagroup.com">Mutha Group of Foundries, Satara</a>
 		</p>
 
