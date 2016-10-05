@@ -58,20 +58,16 @@
 .tftable tr {
 	background-color: white;
 }
-
 .tftable td {
 	font-size: 10px; 
 	padding: 3px; 
 }
 </style>
 <!-- Stylesheets -->
-<link rel="stylesheet" href="css/style.css">
-
+<link rel="stylesheet" href="css/style.css"> 
 <!-- Optimize for mobile devices -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<!-- jQuery & JS files -->
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+<!-- jQuery & JS files --> 
 <script src="js/script.js"></script>
 
 <script type="text/javascript">
@@ -332,10 +328,9 @@
 												<td><%=rs_comp.getString("Company_Name")%></td>
 												<%
 													}
-															ps_comp.close();		
-															rs_comp.close(); 
-													PreparedStatement ps_Status = con
-																	.prepareStatement("select Status from Status_tbl where Status_Id="
+													ps_comp.close();		
+													rs_comp.close(); 
+													PreparedStatement ps_Status = con.prepareStatement("select Status from Status_tbl where Status_Id="
 																			+ rs_sel.getInt("Status_id"));
 															ResultSet rs_Status = ps_Status.executeQuery();
 															while (rs_Status.next()) {
