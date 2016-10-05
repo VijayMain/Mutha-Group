@@ -454,13 +454,18 @@ td a {
 																			+ rs_sel.getInt("U_Id"));
 															ResultSet rs_registerer = ps_registerer.executeQuery();
 															while (rs_registerer.next()) {
-												%>
-
-												<td><%=rs_registerer.getString("U_Name")%></td>
-												<%
+																if(rs_sel.getInt("U_Id")==uid){			
+																	%>
+																	<td style="background-color: #94c8fc"><%=rs_registerer.getString("U_Name")%></td>
+																	<%
+																		}else{
+																		%>
+																		<td><%=rs_registerer.getString("U_Name")%></td>
+																		<%		
+																		}
 													}
 
-															PreparedStatement ps_assigned = con
+				PreparedStatement ps_assigned = con
 																	.prepareStatement("select U_Name from User_tbl where U_id="
 																			+ rs_sel
 																					.getInt("Complaint_Assigned_To"));

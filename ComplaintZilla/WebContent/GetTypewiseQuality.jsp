@@ -205,15 +205,10 @@ try{
 																			+ rs_sel.getInt("U_Id"));
 															ResultSet rs_registerer = ps_registerer.executeQuery();
 															while (rs_registerer.next()) {
-												if(rs_sel.getInt("U_Id")==uid){			
-																	%>
-																	<td style="background-color: #94c8fc"><%=rs_registerer.getString("U_Name")%></td>
-																	<%
-																		}else{
-																		%>
-																		<td><%=rs_registerer.getString("U_Name")%></td>
-																		<%		
-																		}
+												%>
+
+												<td><%=rs_registerer.getString("U_Name")%></td>
+												<%
 													}
 
 															PreparedStatement ps_assigned = con
@@ -222,9 +217,15 @@ try{
 																					.getInt("Complaint_Assigned_To"));
 															ResultSet rs_assigned = ps_assigned.executeQuery();
 															while (rs_assigned.next()) {
+												if(rs_sel.getInt("Complaint_Assigned_To")==uid){			
 												%>
-												<td><%=rs_assigned.getString("U_Name")%></td>
+												<td style="background-color: #94c8fc"><%=rs_assigned.getString("U_Name")%></td>
 												<%
+													}else{
+													%>
+													<td><%=rs_assigned.getString("U_Name")%></td>
+													<%		
+													}
 													}
 
 															PreparedStatement ps_category = con
