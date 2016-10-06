@@ -270,8 +270,7 @@ int dayct=0;
 					
 					while(rsvend.next()){
 						if(rsvend.getString("TRAN_DATE").equalsIgnoreCase(dateTocomp)){ 
-							chl = rsvend.getString("CHLN_QTY"); 
-							
+							chl = rsvend.getString("CHLN_QTY");
 							if(chl==null || chl.length()==0){
 								chl = "0";
 							} 
