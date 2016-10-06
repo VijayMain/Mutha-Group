@@ -332,7 +332,6 @@ int dayct=0;
                   <% 
 					}
 				  %>
-					
 				</tr>
 				<tr>
 				  <td align="left"><strong>C I CNC</strong> </td>
@@ -456,13 +455,6 @@ int dayct=0;
 				  %>
 				  
 				  
-				  
-				  
-				  
-				  
-				  
-				  
-				  
 			  </tr>
 				<tr>
 				  <td align="left"><strong>TOTAL &#8680;</strong></td>
@@ -501,7 +493,6 @@ int dayct=0;
 				</tr>
                 <!----------------------------------------------------------------------------------------------------------->
                 <!----------------------------------------------------------------------------------------------------------->
-                <!----------------------------------------------------------------------------------------------------------->
                 <%
                 HashMap jobwork_dl = new HashMap();
                 
@@ -513,8 +504,7 @@ int dayct=0;
                 boringlist.add("1013100015");
                 boringlist.add("1013100016");
                 boringlist.add("1013100017");
-
-                
+ 
                 CallableStatement cs_jobwork = condisp.prepareCall("{call Sel_RptPurchaseReturn(?,?,?,?,?)}");
                 cs_jobwork.setString(1,comp);
                 cs_jobwork.setString(2,"0");

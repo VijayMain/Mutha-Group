@@ -203,6 +203,10 @@ if(window.history[nHist] != window.location)
 		document.getElementById("waitImage_cashbook").style.visibility = "visible";		
 		return true;
 	}
+	
+	function updateHid(str) {
+		document.getElementById("buttonChg").value = str;
+	}
 </script>
 <style type="text/css">
 .tftable {
@@ -372,7 +376,8 @@ function validateGRNForm() {
 </script>
 <script type="text/javascript">
 function validat_boring() {    
-		document.getElementById("ADDb").disabled = true;
+		document.getElementById("ADDb").disabled = true;	
+		document.getElementById("ADDmonthbor").disabled = true;
 		document.getElementById("waitImageb").style.visibility = "visible";
 		
 		return true;
@@ -654,7 +659,7 @@ alert("Success, Please Download file from ERP System !");
 <strong style="font-size: 12px;font-family:Arial; color: blue;">MUTHA GROUP OF FOUNDRIES</strong><br/>
 </div>
 <div align="center" style="float: left;width: 24%;">
-<img src="images/MUTHA LOGO.JPG"><br><b style="font-size: 14px;font-family: Arial;color: blue;">Mutha Group Satara</b>
+<img src="images/MUTHA LOGO.JPG"><br><b style="font-size: 12px;font-family: Arial;color: blue;">Mutha Group Of Industries Satara</b>
 </div>
 <br/> <br/> <br/> <br/> <br/> <br/>  
 <% 
@@ -1129,6 +1134,7 @@ while(rs.next()){
 		
 		<div id="tabs-7">
 		<form action="Get_DaywiseBoring_Controller" method="post" onSubmit="return validat_boring();">
+		<input type="hidden" name="buttonChg" id="buttonChg">
 		<table class="tftable" style="border: 0px;">
 		<tr>
 				<td colspan="2"><strong style="font-size: 12px;">To Get Daywise Boring Report<br/> </strong> <br/>
@@ -1178,7 +1184,10 @@ while(rs.next()){
 
   			
 			<tr> 
-			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADDb" value="To Get Daywise Boring" style="background-color: #BABABA;width: 255px;height: 35px;"/> </td>
+			<td colspan="2" align="center">
+				<input type="submit" name="ADD" id="ADDb" value="Daywise Boring" onclick="updateHid(this.value)" style="background-color: #BABABA;width: 150px;height: 35px;"/>
+				<input type="submit" name="ADDmonthbor" id="ADDmonthbor"  onclick="updateHid(this.value)" value="Monthwise Boring" style="background-color: #BABABA;width: 150px;height: 35px;"/>
+			 </td>
 			</tr>
 			<tr> 
 			<td colspan="2" align="center"><span id="waitImageb" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>

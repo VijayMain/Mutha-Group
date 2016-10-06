@@ -671,7 +671,7 @@ try{
 <strong style="font-size: 12px;font-family:Arial; color: blue;">MUTHA GROUP OF FOUNDRIES</strong><br/> 
 </div> 
 <div align="center" style="float: left;width: 24%;">
-<img src="images/MUTHA LOGO.JPG"><br><b style="font-size: 14px;font-family: Arial;color: blue;">Mutha Group Satara</b>
+<img src="images/MUTHA LOGO.JPG"><br><b style="font-size: 14px;font-family: Arial;color: blue;">Mutha Group Of Industries Satara</b>
 </div>
 <br/>
 <br/> 

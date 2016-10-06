@@ -17,11 +17,12 @@ public class Get_DaywiseBoring_Controller extends HttpServlet {
  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			String company ="" , month="" , year="";
+			String company ="" , month="" , year="",updateButton="";
 			
 			company = request.getParameter("company");
 			month = request.getParameter("month");
-			year = request.getParameter("year");			
+			year = request.getParameter("year");	
+			updateButton = request.getParameter("buttonChg"); 
 			
 			Calendar cal = new GregorianCalendar(Integer.parseInt(year),Integer.parseInt(month),0);
 			Date date = cal.getTime();
@@ -36,8 +37,15 @@ public class Get_DaywiseBoring_Controller extends HttpServlet {
 			if(company.equalsIgnoreCase("102")){
 				db="H25ERP";
 			}
-			response.sendRedirect("Daywise_Boring.jsp?fd="+firstdate+"&ld="+lastdate+"&cp="+company+"&db="+db+"&m="+month+"&y="+year);			
 			
+			if(updateButton.equalsIgnoreCase("Daywise Boring")){
+				response.sendRedirect("Daywise_Boring.jsp?fd="+firstdate+"&ld="+lastdate+"&cp="+company+"&db="+db+"&m="+month+"&y="+year);	 
+			 }
+			
+			if(updateButton.equalsIgnoreCase("Monthwise Boring")){
+				response.sendRedirect("MonthWise_Boring.jsp?fd="+firstdate+"&ld="+lastdate+"&cp="+company+"&db="+db+"&m="+month+"&y="+year);
+			 }
+			 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
