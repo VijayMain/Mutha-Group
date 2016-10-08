@@ -348,19 +348,19 @@
 							rsdes.getString("MAT_CODE").equalsIgnoreCase("1013100017")){
 						 	disQty += Double.parseDouble(rsdes.getString("QTY"));
 					     }
-		 			} 
+		 			}
 		 			dispKg.add(disQty);
 		 			%>
 						<td align="right"><%= dForm.format(disQty) %></td>
 					<%
 					totalSum = totalSum + disQty;
 						}
-					%>	
+					%>
 					<td align="right"><%= dForm.format(totalSum) %></td>
 					</tr>
 					<tr>
 					<td align="center"><b>6</b> </td>
-					<td align="left"><b>Difference</b></td> 
+					<td align="left"><b>Difference</b></td>
 					<%
 					totalSum = 0;
 					double diff=0,diff_final=0;
