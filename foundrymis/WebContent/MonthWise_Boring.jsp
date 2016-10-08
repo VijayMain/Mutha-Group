@@ -88,6 +88,10 @@
 			String mnth = firstdate.substring(4, 6);
 			String yrcal = firstdate.substring(0, 4);
 
+			/******************************************************************************************/
+											    				/*		            String Format                        */
+			/******************************************************************************************/
+			
 			DecimalFormat zeroDForm = new DecimalFormat("#####0;-#####0");
 			DecimalFormat twoDForm = new DecimalFormat("###,##0.00;-###,##0.00");
 			DecimalFormat dForm = new DecimalFormat("#####0.00;-#####0.00");
@@ -99,11 +103,12 @@
 			String mmnt = "", passval="";
 			HashMap<Integer,String>  hm = new HashMap<Integer,String>();  
 			for(int h=0;h<12;h++){
+			// Month mumber received 	
 			mnt = Integer.parseInt(month)-1;
 			mmnt = month;
+			// Convert number to string Month
 			month = new DateFormatSymbols().getMonths()[mnt].substring(0, 3);
-			 passval = month + " " + year;
-			 // System.out.println("Months = " + month + "  = = " + mnt + "  =  " + year.substring(2,4) + " = " + passval); 
+			 passval = month + " " + year; 
 			 hm.put((mnt+1), passval); 
 			 if(mmnt.equalsIgnoreCase("1")){
 					month="12"; 
@@ -115,10 +120,6 @@
 				 h=12;
 			 }
 			}
-		/* 	for(Map.Entry m:hm.entrySet()){
-				   System.out.println(m.getKey()+" "+m.getValue());  
-			}   */
-			
 			/******************************************************************************************/
 			
 			if (comp.equalsIgnoreCase("101")) {
@@ -153,7 +154,6 @@
 	<strong style="font-family: Arial; font-size: 13px;"><a href="MachineShop_Home.jsp" style="text-decoration: none;">&lArr;BACK</a></strong></b></span>
 	<br />
 	<div style="width: 100%; padding-left: 0.1;">
-			
 			<table border="1" class="tftable">
 				<tbody>
 					<tr>
@@ -255,19 +255,23 @@
 						<td><b>3</b></td>
 						<td><b>Sum of Boring Kgs</b></td>
 						<%
+						ArrayList sumBorkg = new ArrayList(); 
 						double sum_bor =0;
 						for(int br=0;br<bor_gentot.size();br++){
 							sum_bor = Double.parseDouble(bor_gentot.get(br).toString()) + Double.parseDouble(bor_ventot.get(br).toString());
 						%>
 						<td align="right"><%=dForm.format(sum_bor) %></td>
-						<%	
+						<%
+						sumBorkg.add(sum_bor);
+						sum_bor =0;
 						} 
 						%>
 					</tr>
 					<tr>
 						<td><b>4</b></td>
 						<td><b>Jobwork Boring Issue Kgs</b></td>
-						<%   
+						<%
+						ArrayList jobwork = new ArrayList();
 						for(Map.Entry m:hm.entrySet()){
 							Calendar cal = new GregorianCalendar(Integer.parseInt(m.getValue().toString().substring(4, 8)),Integer.parseInt(m.getKey().toString()), 0);
 							Date date = cal.getTime();
@@ -295,6 +299,7 @@
 							}
 						} 
 						}
+						jobwork.add(sumjobwk);
 		                %> 
 						<td align="right"><%= dForm.format(sumjobwk)%></td>
 						<%
@@ -303,40 +308,56 @@
 					</tr> 
 					<tr>
 						<td><b>5</b></td>
-						<td><b>Dispatched Kgs</b></td> 
-				<%
-				HashMap brg_dispatch = new HashMap();
-				double disQty=0,totalDisp=0;
+						<td><b>Dispatched Kgs</b></td>
+				<% 
+				ArrayList dispKg = new ArrayList();
+				for(Map.Entry m:hm.entrySet()){
+					Calendar cal = new GregorianCalendar(Integer.parseInt(m.getValue().toString().substring(4, 8)),Integer.parseInt(m.getKey().toString()), 0);
+					Date date = cal.getTime();
+					DateFormat sdf = new SimpleDateFormat("yyyyMMdd");			
+					String last = sdf.format(date);
+					String first = sdf.format(date).substring(0, 6) + "01";
+				double disQty=0;
 				// exec "ENGERP"."dbo"."Sel_SaleRegister";1 '101', '0', '20150201', '20150222', '1155', '0'
 				CallableStatement csdes = condisp.prepareCall("{call Sel_SaleRegister(?,?,?,?,?,?)}");
 				csdes.setString(1,comp);
 				csdes.setString(2, "0");
-				csdes.setString(3,firstdate);
-				csdes.setString(4,lastdate);
+				csdes.setString(3,first);
+				csdes.setString(4,last);
 				csdes.setString(5,"1155");
 				csdes.setString(6,"0");
-				ResultSet rsdes = null; 
-				for(int i=1;i<=Integer.parseInt(ct);i++){
-					disQty=0;
-					aFormatted = formatter.format(i);
-		 			dateTocomp=st+aFormatted; 
-		 			rsdes = csdes.executeQuery();
+				ResultSet rsdes = csdes.executeQuery();
 		 			while(rsdes.next()){
-					if(rsdes.getString("TRAN_DATE").equalsIgnoreCase(dateTocomp) &&
-							(rsdes.getString("MAT_CODE").equalsIgnoreCase("1013100007") ||
+					if(rsdes.getString("MAT_CODE").equalsIgnoreCase("1013100007") ||
 							rsdes.getString("MAT_CODE").equalsIgnoreCase("1013100002") ||
-							 rsdes.getString("MAT_CODE").equalsIgnoreCase("1013100016") || 
-							 rsdes.getString("MAT_CODE").equalsIgnoreCase("1013100017"))){ 
-						 disQty += Double.parseDouble(rsdes.getString("QTY"));
+							rsdes.getString("MAT_CODE").equalsIgnoreCase("1013100016") || 
+							rsdes.getString("MAT_CODE").equalsIgnoreCase("1013100017")){
+						 	disQty += Double.parseDouble(rsdes.getString("QTY"));
+					     }
+		 			} 
+		 			dispKg.add(disQty);
+		 			%>
+						<td align="right"><%= dForm.format(disQty) %></td>
+					<%
 						}
-		 			}
-		 			brg_dispatch.put(i, disQty);
-		 			totalDisp += disQty;
-				}
-				%>	
-						
-						<td>&nbsp;</td>
+					%>	
 					</tr>
+					<tr>
+					<td align="center"><b>6</b> </td>
+					<td align="left"><b>Difference</b></td> 
+					<%
+					double diff=0,diff_final=0;
+					for(int df=0;df<sumBorkg.size();df++){
+						diff = Double.parseDouble(dispKg.get(df).toString()) + Double.parseDouble(jobwork.get(df).toString());
+						diff_final = Double.parseDouble(sumBorkg.get(df).toString())-diff;
+					%>
+					<td align="right"><%=dForm.format(diff_final) %></td>
+					<% 
+					diff = 0;
+					diff_final=0;
+					}
+					%>  
+				</tr>
 				</tbody>
 			</table>
 			<!--============================================================================-->
