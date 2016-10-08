@@ -166,11 +166,13 @@
 						<%
 						}
 						%>
+						<th><b>Total</b></th>
 					</tr>
 					<tr>
-						<td><b>1</b></td>
+						<td align="center"><b>1</b></td>
 						<td><b>Generated Kgs</b></td>
 						<%
+						double totalSum=0;
 						ArrayList bor_gentot = new ArrayList();
 						ArrayList bor_ventot = new ArrayList();
 						for(Map.Entry m:hm.entrySet()){
@@ -212,13 +214,16 @@
 						%>
 						<td align="right"><%=total %> </td>
 						<%
+						totalSum = totalSum +  boringwt;
 						}
 						%>
+						<td align="right"><%= dForm.format(totalSum) %> </td>
 					</tr> 
 					<tr>
-						<td><b>2</b></td>
+						<td align="center"><b>2</b></td>
 						<td><b>Vendor Receipt Kgs</b></td>
 				<% 
+				totalSum=0;
 				for(Map.Entry m:hm.entrySet()){ 
 					Calendar cal = new GregorianCalendar(Integer.parseInt(m.getValue().toString().substring(4, 8)),Integer.parseInt(m.getKey().toString()), 0);
 					Date date = cal.getTime();
@@ -236,7 +241,7 @@
 				csvend.setString(4,last);
 				csvend.setString(5,"103,131");
 				ResultSet rsvend = csvend.executeQuery();
-					while(rsvend.next()){ 
+					while(rsvend.next()){
 							chl = rsvend.getString("CHLN_QTY");
 							if(chl==null || chl.length()==0){
 								chl = "0";
@@ -248,29 +253,35 @@
 				%>
 				<td align="right"><%= dForm.format(chqty) %></td>
 				<%
+				totalSum = totalSum + chqty;
 				}
 				%>
-					</tr> 
+				<td align="right"><%= dForm.format(totalSum) %></td>
+					</tr>
 					<tr>
-						<td><b>3</b></td>
+						<td align="center"><b>3</b></td>
 						<td><b>Sum of Boring Kgs</b></td>
 						<%
-						ArrayList sumBorkg = new ArrayList(); 
+						ArrayList sumBorkg = new ArrayList();
 						double sum_bor =0;
+						totalSum = 0;
 						for(int br=0;br<bor_gentot.size();br++){
 							sum_bor = Double.parseDouble(bor_gentot.get(br).toString()) + Double.parseDouble(bor_ventot.get(br).toString());
 						%>
 						<td align="right"><%=dForm.format(sum_bor) %></td>
 						<%
+						totalSum = totalSum + sum_bor;
 						sumBorkg.add(sum_bor);
-						sum_bor =0;
+						sum_bor =0; 
 						} 
 						%>
+						<td align="right"><%= dForm.format(totalSum) %></td>
 					</tr>
 					<tr>
-						<td><b>4</b></td>
+						<td align="center"><b>4</b></td>
 						<td><b>Jobwork Boring Issue Kgs</b></td>
 						<%
+						totalSum = 0;
 						ArrayList jobwork = new ArrayList();
 						for(Map.Entry m:hm.entrySet()){
 							Calendar cal = new GregorianCalendar(Integer.parseInt(m.getValue().toString().substring(4, 8)),Integer.parseInt(m.getKey().toString()), 0);
@@ -303,13 +314,16 @@
 		                %> 
 						<td align="right"><%= dForm.format(sumjobwk)%></td>
 						<%
+						totalSum = totalSum + sumjobwk;
 						}
 						%>
+						<td align="right"><%= dForm.format(totalSum) %></td>
 					</tr> 
 					<tr>
-						<td><b>5</b></td>
+						<td align="center"><b>5</b></td>
 						<td><b>Dispatched Kgs</b></td>
 				<% 
+				totalSum = 0;
 				ArrayList dispKg = new ArrayList();
 				for(Map.Entry m:hm.entrySet()){
 					Calendar cal = new GregorianCalendar(Integer.parseInt(m.getValue().toString().substring(4, 8)),Integer.parseInt(m.getKey().toString()), 0);
@@ -339,24 +353,29 @@
 		 			%>
 						<td align="right"><%= dForm.format(disQty) %></td>
 					<%
+					totalSum = totalSum + disQty;
 						}
 					%>	
+					<td align="right"><%= dForm.format(totalSum) %></td>
 					</tr>
 					<tr>
 					<td align="center"><b>6</b> </td>
 					<td align="left"><b>Difference</b></td> 
 					<%
+					totalSum = 0;
 					double diff=0,diff_final=0;
 					for(int df=0;df<sumBorkg.size();df++){
 						diff = Double.parseDouble(dispKg.get(df).toString()) + Double.parseDouble(jobwork.get(df).toString());
 						diff_final = Double.parseDouble(sumBorkg.get(df).toString())-diff;
 					%>
 					<td align="right"><%=dForm.format(diff_final) %></td>
-					<% 
+					<%
+					totalSum= totalSum+ diff_final;
 					diff = 0;
-					diff_final=0;
+					diff_final=0; 
 					}
-					%>  
+					%>
+					<td align="right"><%= dForm.format(totalSum) %></td>
 				</tr>
 				</tbody>
 			</table>
