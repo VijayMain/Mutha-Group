@@ -8,10 +8,36 @@
 <head>
 
 <title>All Complaints</title>
-
-<!-- Stylesheets -->
 <link rel="stylesheet" href="css/style.css">
+<style type="text/css">
+td {
+	border-collapse: collapse;
+}
+td a {
+	text-decoration: none;
+}
+.tftable {
+	font-size: 10px;
+	color: #333333;
+	width: 100%;  
+}
 
+.tftable th {
+	font-size: 11px;
+	background-color: #388EAB; 
+	padding: 3px; 
+	text-align: center;
+}
+
+.tftable tr {
+	background-color: white;
+}
+
+.tftable td {
+	font-size: 10px; 
+	padding: 3px; 
+}
+</style>
 <!-- Optimize for mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="cache-control" content="no-cache" />
@@ -119,8 +145,6 @@
 
 	</div>
 	<!-- end top-bar -->
-
-
 
 	<!-- HEADER -->
 	<div id="header-with-tabs">

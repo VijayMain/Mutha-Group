@@ -11,15 +11,15 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script language="JavaScript"> 
+<script language="JavaScript">
 var nHist = window.history.length;
 if(window.history[nHist] != window.location)
-  window.history.forward(); 
-</script> 
+  window.history.forward();
+</script>
 <title>Foundry MIS HOME</title>
 <link rel="stylesheet" href="js/jquery-ui.css"/>
 <script src="js/jquery-1.9.1.js"></script>
-<script src="js/jquery-ui.js"></script> 
+<script src="js/jquery-ui.js"></script>
 <script>
 	$(function() {
 		$("#tabs").tabs();
