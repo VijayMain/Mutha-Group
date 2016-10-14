@@ -1,17 +1,44 @@
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.ResultSet"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="com.muthagroup.bo.GetUserName_BO"%> 
+<%@page import="com.muthagroup.connectionModel.Connection_Utility"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
 <title>All Complaints</title>
-
 <!-- Stylesheets -->
 <link rel="stylesheet" href="css/style.css">
+<style type="text/css">
+td {
+	border-collapse: collapse;
+}
+td a {
+	text-decoration: none;
+}
+.tftable {
+	font-size: 10px;
+	color: #333333;
+	width: 100%;  
+}
 
+.tftable th {
+	font-size: 11px;
+	background-color: #388EAB; 
+	padding: 3px; 
+	text-align: center;
+}
+
+.tftable tr {
+	background-color: white;
+}
+
+.tftable td {
+	font-size: 10px; 
+	padding: 3px; 
+}
+</style>
 <!-- Optimize for mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="cache-control" content="no-cache" />
@@ -32,12 +59,9 @@
 		//	document.getElementById("frm1").submit();
 	} */
 </script>
-
-
 </head>
 <body>
-
-	<SCRIPT LANGUAGE="JavaScript">
+<SCRIPT LANGUAGE="JavaScript">
 		function button1(val) {
 			var val1 = val;
 
@@ -45,15 +69,8 @@
 			edit.submit();
 
 		}
-	</SCRIPT>
-
-
-
-	<%@ page import="com.muthagroup.bo.GetUserName_BO"%>
-
-	<%@page import="com.muthagroup.connectionModel.Connection_Utility"%>
-
-	<%
+</SCRIPT>
+<%
 		GetUserName_BO ubo = new GetUserName_BO();
 		//PreparedStatement ps = null;
 		//ResultSet rs = null;
@@ -66,28 +83,18 @@
 		int count = 0;
 		int count1 = 0;
 		try {
-
 			Connection con = Connection_Utility.getConnection();
-			PreparedStatement ps = con
-					.prepareStatement("select * from complaint_tbl  order by complaint_date desc");
+			PreparedStatement ps = con.prepareStatement("select * from complaint_tbl  order by complaint_date desc");
 			ResultSet rs = ps.executeQuery();
-
 			count = Integer.parseInt(session.getAttribute("count").toString());
 			int int_count = Integer.parseInt(session.getAttribute("int_count").toString());
-	%>
-
+	%> 
 	<!-- TOP BAR -->
-	<div id="top-bar">
-
-		<div class="page-full-width cf">
-
-			<ul id="nav" class="fl">
-
-
-				<li class="v-sep"><a href="Marketing_Home.jsp"
-					class="round button dark menu-user image-left">Logged in as <strong><%=U_Name%></strong></a>
+	<div id="top-bar"> 
+		<div class="page-full-width cf"> 
+			<ul id="nav" class="fl"> 
+				<li class="v-sep"><a href="Marketing_Home.jsp" class="round button dark menu-user image-left">Logged in as <strong><%=U_Name%></strong></a>
 				</li>
-
 				<li><a href="All_Complaint.jsp"
 					class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%>
 						Customer Complaints</a></li>
