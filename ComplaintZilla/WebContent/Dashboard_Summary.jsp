@@ -28,7 +28,6 @@
 		var val1 = val;
 		document.getElementById("hid").value = val1;
 		edit.submit();
-
 	} 
 </script>
 <title>Report</title> 

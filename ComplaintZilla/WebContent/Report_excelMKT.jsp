@@ -88,7 +88,15 @@
 		uid = Integer.parseInt(session.getAttribute("uid").toString());
 		String U_Name = ubo.getUserName(uid);
 		int dept_id = ubo.getUserDeptID(uid); 
-		
+		String dept_name = ""; 
+		PreparedStatement ps_dp = con.prepareStatement("select * from user_tbl_dept where dept_id="+dept_id);
+		ResultSet rs_dp=ps_dp.executeQuery();
+		while(rs_dp.next())
+		{
+			dept_name=rs_dp.getString("Department"); 
+		}
+		ps_dp.close();
+		rs_dp.close(); 
 		count = Integer.parseInt(session.getAttribute("count").toString());
 		int int_count = Integer.parseInt(session.getAttribute("int_count").toString());
 		int comp = Integer.parseInt(request.getParameter("comp"));
@@ -158,7 +166,7 @@
 						Complaints</a></li>
 					 -->
 				<li><a href="logout.jsp"
-					class="round button dark menu-logoff image-left">Log out</a></li>
+					class="round button dark menu-logoff image-left">Log out  <b>(<%= dept_name%>)</b></a></li>
 
 			</ul> 
 

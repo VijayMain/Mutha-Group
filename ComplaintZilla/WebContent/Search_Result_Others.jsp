@@ -87,13 +87,18 @@
 		int uid = Integer.parseInt(session.getAttribute("uid").toString());
 		//out.println("UID "+ uid);
 		String U_Name = ubo.getUserName(uid);
-		//out.print("user name  :"+U_Name);
-
-		int count = 0;
-		
-			//complaint_no=bean.getComplaint_no();
-			Connection con = Connection_Utility.getConnection();
-			int int_count=0;
+		int dept_id = ubo.getUserDeptID(uid); 
+		Connection con = Connection_Utility.getConnection();
+		String dept_name = ""; 
+		PreparedStatement ps_dp = con.prepareStatement("select * from user_tbl_dept where dept_id="+dept_id);
+		ResultSet rs_dp=ps_dp.executeQuery();
+		while(rs_dp.next())
+		{
+			dept_name=rs_dp.getString("Department"); 
+		}
+		ps_dp.close();
+		rs_dp.close();
+		int count = 0,int_count=0;
 			SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
 			PreparedStatement ps6 = con.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='customer'");
 			ResultSet rs6 = ps6.executeQuery();
@@ -139,7 +144,7 @@
 					class="round button dark menu-email-special image-left"> All
 						Complaints</a></li>-->
 				<li><a href="logout.jsp"
-					class="round button dark menu-logoff image-left">Log out</a></li>
+					class="round button dark menu-logoff image-left">Log out <b>(<%= dept_name%>)</b></a></li>
 
 			</ul>
 			<!-- end nav -->

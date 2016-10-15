@@ -189,6 +189,8 @@
 	<%@page import="com.muthagroup.connectionModel.Connection_Utility"%>
 
 	<%
+	try {
+		Connection con = Connection_Utility.getConnection();
 		//******************************************************************************************************************************
 
 		// To Count New Complaints
@@ -199,9 +201,18 @@
 		String complaint_no = null;
 		int uid = Integer.parseInt(session.getAttribute("uid").toString());
 		String U_Name = ubo.getUserName(uid);
-		int dept_id = ubo.getUserDeptID(uid); 
-		try {
-			Connection con = Connection_Utility.getConnection();
+		int dept_id = ubo.getUserDeptID(uid);  	
+		
+		String dept_name = ""; 
+		PreparedStatement ps_dp = con.prepareStatement("select * from user_tbl_dept where dept_id="+dept_id);
+		ResultSet rs_dp=ps_dp.executeQuery();
+		while(rs_dp.next())
+		{
+			dept_name=rs_dp.getString("Department"); 
+		}
+		ps_dp.close();
+		rs_dp.close(); 
+		
 			PreparedStatement ps6 = con.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='customer'");
 			ResultSet rs6 = ps6.executeQuery();
 			while (rs6.next()) {
@@ -238,9 +249,8 @@
 					class="round button dark menu-email-special image-left">All
 						Complaints</a></li>
 					 -->
-				<li><a href="logout.jsp"
-					class="round button dark menu-logoff image-left">Log out</a></li>
-
+				<li><a href="logout.jsp" class="round button dark menu-logoff image-left">Log out <b>(<%= dept_name%>)</b></a></li>
+					
 			</ul>
 			<!-- end nav -->
 

@@ -11,9 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login Page</title>
-
-<script language="JavaScript" src="gen_validatorv4.js"
-	type="text/javascript" xml:space="preserve"></script>
+ 
 
 <script type="text/javascript">
 	function showState(str) {
@@ -113,7 +111,7 @@
 <body>
 
 	<!-- TOP BAR -->
-	<div id="top-bar">
+	<!-- <div id="top-bar">
 
 		<div class="page-full-width">
 
@@ -134,7 +132,7 @@
 				value="ITTracker Login"
 				onclick="navigateToittracker('window', false);">
 				
-				<!-- New Links -->
+				New Links
 				<input
 				type="button" class="round button dark ic-left-arrow image-left"
 				value="DVPBOSS Login"
@@ -144,31 +142,26 @@
 				type="button" class="round button dark ic-left-arrow image-left"
 				value="fiqurnot Login"
 				onclick="navigateTofiqurnot('window', false);">
-				<!-- End -->
+				End
 				
 		</div>
-		<!-- end full-width -->
+		end full-width
 
-	</div>
+	</div> -->
 	<!-- end top-bar -->
 
 
 
 	<!-- HEADER -->
-	<div id="header">
+	<div id="header" style="padding: 0px;">
 
-		<div class="page-full-width cf">
+		<div class="page-full-width cf"  style="padding-left: 20px;">
 
 			<div id="login-intro" class="fl">
-
 				<h1>Login to ComplaintZilla</h1>
 				<h5>Enter your credentials below</h5>
 
 			</div>
-			<!-- login-intro -->
-
-			<!-- Change this image to your own company's logo -->
-			<!-- The logo will automatically be resized to 39px height. -->
 			<a href="login.jsp" id="company-branding" class="fr"><img
 				src="images/company-logo.png" alt="ComplaintZilla" /></a>
 
@@ -188,7 +181,7 @@
 
 	<!-- MAIN CONTENT -->
 	<div id="content">
-
+<br><br>
 		<form action="Login_Controller" method="post" id="login-form"
 			name="login-form">
 
@@ -232,32 +225,7 @@
 
 
 		</form>
-		<!--  
-		//********************************************************************************************************
-		//Form Validation Script
--->
-		<script language="JavaScript" type="text/javascript"
-			xml:space="preserve">
-			var frmvalidator = new Validator("login-form");
-
-			frmvalidator.addValidation("Login_Name", "req",
-					"Please enter your First Name");
-			frmvalidator.addValidation("Login_Name", "maxlen=20",
-					"Max length for FirstName is 20");
-
-			frmvalidator.addValidation("Login_Password", "req",
-					"Please enter Password");
-			frmvalidator.addValidation("Login_Password", "maxlen=20",
-					"Max length is 20");
-
-			frmvalidator.addValidation("U_Dept", "req",
-					"Please select your Department");
-			frmvalidator.addValidation("U_Dept",
-					"Please Select Your Department");
-		</script>
-		<!--  
-		//*****************************************************************************************************
--->
+		
 
 	</div>
 	<!-- end content -->
@@ -268,7 +236,7 @@
 	<div id="footer">
 
 		<p>
-			<a href="http://www.muthagroup.com">Mutha Group of Foundries, Satara</a>
+			<a href="http://www.muthagroup.com">Mutha Group of Industries, Satara</a>
 		</p>
 
 	</div>

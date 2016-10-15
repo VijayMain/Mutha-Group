@@ -64,10 +64,21 @@
 		//out.println("UID "+ uid);
 		String U_Name = ubo.getUserName(uid);
 		int dept_id = ubo.getUserDeptID(uid); 
+		Connection con = Connection_Utility.getConnection();
+		String dept_name = ""; 
+		PreparedStatement ps_dp = con.prepareStatement("select * from user_tbl_dept where dept_id="+dept_id);
+		ResultSet rs_dp=ps_dp.executeQuery();
+		while(rs_dp.next())
+		{
+			dept_name=rs_dp.getString("Department"); 
+		}
+		ps_dp.close();
+		rs_dp.close(); 
+		
 		//out.print("user name  :"+U_Name);
 		String complaint_no = null;
 		int count = 0,int_count=0;
-		    Connection con = Connection_Utility.getConnection();
+		    
 			PreparedStatement ps = con.prepareStatement("select * from complaint_tbl order by complaint_no desc limit 5");
 			ResultSet rs = ps.executeQuery();
 			PreparedStatement ps6 = con.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='customer'");
@@ -111,7 +122,7 @@
 						Complaints</a></li>
 					 -->
 				<li><a href="logout.jsp"
-					class="round button dark menu-logoff image-left">Log out</a></li>
+					class="round button dark menu-logoff image-left">Log out <b>(<%= dept_name%>)</b></a></li>
 
 			</ul>
 			<!-- end nav -->
@@ -224,8 +235,7 @@
 									<li id="li_3"><label class="description" for="element_3">Company
 											Name </label>
 										<div>
-											<select name="company_name">
-												<option value="0">---select---</option>
+											<select name="company_name"> 
 												<%
 													PreparedStatement ps_com = con
 																.prepareStatement("select * from user_tbl_Company where company_id!=6");

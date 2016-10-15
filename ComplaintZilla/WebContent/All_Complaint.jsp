@@ -14,7 +14,7 @@
 <html>
 <head>
 
-<title>All Complaints</title>
+<title>Cust. New Complaints</title>
 <link rel="stylesheet" href="css/style.css">
 <style type="text/css">
 td {
@@ -81,6 +81,8 @@ td a {
 	</SCRIPT> 
 
 	<%
+	try {
+		Connection con = Connection_Utility.getConnection();
 		GetUserName_BO ubo = new GetUserName_BO();
 		//PreparedStatement ps = null;
 		//ResultSet rs = null;
@@ -88,13 +90,22 @@ td a {
 		//out.println("UID "+ uid);
 		String U_Name = ubo.getUserName(uid);
 		int dept_id = ubo.getUserDeptID(uid); 
+		String dept_name = ""; 
+		PreparedStatement ps_dp = con.prepareStatement("select * from user_tbl_dept where dept_id="+dept_id);
+		ResultSet rs_dp=ps_dp.executeQuery();
+		while(rs_dp.next())
+		{
+			dept_name=rs_dp.getString("Department"); 
+		}
+		ps_dp.close();
+		rs_dp.close();
 		//out.print("user name  :"+U_Name);
 		String complaint_no = null;
 		int count = 0;
 		int count1 = 0;
-		try {
+		
 
-			Connection con = Connection_Utility.getConnection();
+			
 			PreparedStatement ps = con.prepareStatement("select * from complaint_tbl  order by complaint_date desc");
 			ResultSet rs = ps.executeQuery();
 			SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
@@ -126,7 +137,7 @@ td a {
 						Complaints</a></li>
 					 -->
 				<li><a href="logout.jsp"
-					class="round button dark menu-logoff image-left">Log out</a></li>
+					class="round button dark menu-logoff image-left">Log out <b>(<%= dept_name%>)</b></a></li>
 
 			</ul>
 			<!-- end nav -->

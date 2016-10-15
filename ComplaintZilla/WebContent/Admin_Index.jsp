@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>SimpleAdmin - Dashboard</title>
+<title>Admin</title>
 
 <!-- Stylesheets -->
 <link rel="stylesheet" href="css/style.css">
@@ -46,8 +46,22 @@ TO LOCK PAGE BACK EVENT
 </script>
 
 </head>
-<body>
-
+<body> 
+				<%
+				try{
+					// System.out.println("Department is = " + session.getAttribute("deptid").toString());
+					int deptid = Integer.parseInt(session.getAttribute("deptid").toString()); 
+					Connection con = Connection_Utility.getConnection();
+					String dept_name = ""; 
+					PreparedStatement ps_dp = con.prepareStatement("select * from user_tbl_dept where dept_id="+deptid);
+					ResultSet rs_dp=ps_dp.executeQuery();
+					while(rs_dp.next())
+					{
+						dept_name=rs_dp.getString("Department"); 
+					}
+					ps_dp.close();
+					rs_dp.close(); 
+				%>
 	<!-- TOP BAR -->
 	<div id="top-bar">
 
@@ -65,7 +79,7 @@ TO LOCK PAGE BACK EVENT
 					class="round button dark menu-email-special image-left">
 						new Complaints</a></li> -->
 				<li><a href="logout.jsp"
-					class="round button dark menu-logoff image-left">Log out</a></li>
+					class="round button dark menu-logoff image-left">Log out  <b>(<%= dept_name%>)</b></a></li>
 
 			</ul>
 			<!-- end nav -->
@@ -90,44 +104,19 @@ TO LOCK PAGE BACK EVENT
 	<!-- HEADER -->
 	<div id="header-with-tabs">
 
-		<div class="page-full-width cf">
-
+		<div class="page-full-width cf"> 
 			<ul id="tabs" class="fl">
-				<li><a href="Admin_Index.jsp" class="active-tab dashboard-tab">Admin
-						Home</a></li>
-			</ul>
-			<!-- end tabs -->
-
-			<!-- Change this image to your own company's logo -->
-			<!-- The logo will automatically be resized to 30px height. -->
-			<a href="Admin_Index.jsp" id="company-branding-small" class="fr"><img
-				src="images/company-logo.png" alt="Blue Hosting" /></a>
-
-		</div>
-		<!-- end full-width -->
-
+				<li><a href="Admin_Index.jsp" class="active-tab dashboard-tab">Admin Home</a></li>
+			</ul> 
+			<a href="Admin_Index.jsp" id="company-branding-small" class="fr"><img src="images/company-logo.png" alt="Blue Hosting" /></a>
 	</div>
-	<!-- end header -->
-
-
-
+	</div>
 	<!-- MAIN CONTENT -->
-	<div id="content">
-
-		<div class="page-full-width cf">
-
+	<div id="content"> 
+		<div class="page-full-width cf"> 
 			<div class="side-menu fl">
-
 				<h3>Contents</h3>
-
-				<%
-					System.out.println("Department is = "
-							+ session.getAttribute("deptid").toString());
-					int deptid = Integer.parseInt(session.getAttribute("deptid")
-							.toString());
-				%>
 				<ul>
-
 					<%
 						if (deptid == 18) {
 					%>
@@ -151,8 +140,7 @@ TO LOCK PAGE BACK EVENT
 					<li><a href="Add_Defect.jsp">Add Defect</a></li>
 					<li><a href="Add_Category.jsp">Add Category</a></li>
 					<li><a href="Add_Action.jsp">Add Action</a></li>
-					<li><a href="Add_AutoMailing_List.jsp">Add Auto Mailing
-							List</a></li>
+					<li><a href="Add_AutoMailing_List.jsp">Add Auto Mailing List</a></li>
 					<%
 						}
 					%>
@@ -194,12 +182,8 @@ TO LOCK PAGE BACK EVENT
 						<div id="form_container">
 
 							<form class="appnitro" method="post" action="Admin_Index">
-
-								<%
-									// GET COMPANY USERS
-									Connection con = Connection_Utility.getConnection();
-									PreparedStatement ps_company = con
-											.prepareStatement("select * from user_tbl_company");
+								<% 
+									PreparedStatement ps_company = con.prepareStatement("select * from user_tbl_company");
 									ResultSet rs_company = ps_company.executeQuery();
 								%>
 
@@ -314,7 +298,11 @@ TO LOCK PAGE BACK EVENT
 
 
 
-
+<%
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+%>
 
 
 

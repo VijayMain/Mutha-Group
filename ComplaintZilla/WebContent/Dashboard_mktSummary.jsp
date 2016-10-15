@@ -32,6 +32,11 @@
 			tableRow.style.backgroundColor = 'white';
 		}
 	}  
+	function button1(val) {
+		var val1 = val;
+		document.getElementById("hid").value = val1;
+		edit.submit();
+	} 
 </script>
 <title>Report</title> 
 <link rel="stylesheet" href="css/style.css">
@@ -69,6 +74,17 @@
 			uid = Integer.parseInt(session.getAttribute("uid").toString());
 			String U_Name = ubo.getUserName(uid);
 			int dept_id = ubo.getUserDeptID(uid); 
+			
+			String dept_name = ""; 
+			PreparedStatement ps_dp = con.prepareStatement("select * from user_tbl_dept where dept_id="+dept_id);
+			ResultSet rs_dp=ps_dp.executeQuery();
+			while(rs_dp.next())
+			{
+				dept_name=rs_dp.getString("Department"); 
+			}
+			ps_dp.close();
+			rs_dp.close();
+			
 			count = Integer.parseInt(session.getAttribute("count").toString());
 			int int_count = Integer.parseInt(session.getAttribute("int_count").toString());
 	%>
@@ -97,7 +113,7 @@
 						Complaints</a></li>
 					 -->
 				<li><a href="logout.jsp"
-					class="round button dark menu-logoff image-left">Log out</a></li>   
+					class="round button dark menu-logoff image-left">Log out <b>(<%= dept_name%>)</b></a></li>   
 			</ul> 
 
 		</div>
@@ -169,7 +185,7 @@
 	%>
 	
 	<div style="background-color: white; padding-left: 2px;padding-right: 2px; height: 500px;overflow: scroll;">
-		<form name="edit" action="Complaint_Action.jsp" method="post">
+		<form name="edit" action="Edit_Complaint.jsp" method="post">
  <input type="hidden" name="hid" id="hid">
  		<table width="100%" border="1"  class="tftable">
   <tr  style="background-color: #D1CED9;">

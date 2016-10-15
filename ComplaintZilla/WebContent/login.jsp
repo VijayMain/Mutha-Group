@@ -2,8 +2,6 @@
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="com.muthagroup.connectionModel.Connection_Utility"%>
 <%@page import="java.sql.Connection"%>
-
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -11,10 +9,27 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login Page</title>
-
-<script language="JavaScript" src="gen_validatorv4.js"
-	type="text/javascript" xml:space="preserve"></script>
-
+ <script type="text/javascript">
+	function validateForm() {		login-username  login-password   dept
+		var username = document.getElementById("login-username"); 
+		var password = document.getElementById("login-password");
+		var dept = document.getElementById("dept");
+		
+		if (username.value=="0" || username.value==null || username.value=="" || username.value=="null") {
+			alert("INVALID/NULL LOGIN NAME ?");  
+			return false;
+		}
+		if (password.value=="0" || password.value==null || password.value=="" || password.value=="null") {
+			alert("INVALID/NULL PASSWORD ?");  
+			return false;
+		}
+		if (dept.value=="0" || dept.value==null || dept.value=="" || dept.value=="null") {
+			alert("Please provide proper User Name & Password & wait for department auto fill ?");  
+			return false;
+		}
+		return true;
+	}
+</script>
 <script type="text/javascript">
 	function navigateTo(target, newWindow) {
 		var url = 'http://192.168.0.6/companyunits.htm';
@@ -114,7 +129,7 @@
 
 
 	<!-- TOP BAR -->
-	<div id="top-bar">
+	<!-- <div id="top-bar">
 
 		<div class="page-full-width">
 
@@ -135,44 +150,42 @@
 				type="button" class="round button dark ic-left-arrow image-left"
 				value="ITTracker Login"
 				onclick="navigateToittracker('window', false);">
-				<!-- New Links -->
+				New Links
 				<input
 				type="button" class="round button dark ic-left-arrow image-left"
 				value="DVPBOSS Login"
 				onclick="navigateTodvpboss('window', false);">
 				
-				<!-- <input
+				<input
 				type="button" class="round button dark ic-left-arrow image-left"
 				value="fiqurnot Login"
-				onclick="navigateTofiqurnot('window', false);"> -->
-				<!-- End -->
+				onclick="navigateTofiqurnot('window', false);">
+				End
 				
 
 		</div>
-		<!-- end full-width -->
+		end full-width
 
-	</div>
+	</div> -->
 	<!-- end top-bar -->
 
 
 
 	<!-- HEADER -->
-	<div id="header">
+	<div id="header" style="padding: 0px;">
 
-		<div class="page-full-width cf">
-
+		<div class="page-full-width cf" style="padding-left: 20px;">
+			<a href="login.jsp">
 			<div id="login-intro" class="fl">
-
 				<h1>Login to ComplaintZilla</h1>
 				<h5>Enter your credentials below</h5>
-
-			</div>
+				
+			</div></a>
 			<!-- login-intro -->
 
 			<!-- Change this image to your own company's logo -->
 			<!-- The logo will automatically be resized to 39px height. -->
-			<a href="login.jsp" id="company-branding" class="fr"><img
-				src="images/company-logo.png" alt="ComplaintZilla" /></a>
+			<a href="login.jsp" id="company-branding" class="fr"><img src="images/company-logo.png" alt="ComplaintZilla" /></a>
 
 		</div>
 		<!-- end full-width -->
@@ -184,14 +197,10 @@
 
 	<!-- MAIN CONTENT -->
 	<div id="content">
-
-		<form action="Login_Controller" method="post" id="login-form"
-			name="login-form">
-
+<br><br>
+		<form action="Login_Controller" method="post" id="login-form" name="login-form" onsubmit="return validateForm()">
 			<fieldset>
-
 				<p>
-
 					<label for="login-username">username</label> <input type="text"
 						id="login-username" onchange="showState(this.value)"
 						class="round full-width-input" name="Login_Name" />
@@ -205,8 +214,7 @@
 				<div id="dept">
 					<p>
 
-						<label for="login-department">Department</label> <input
-							type="text" name="U_Dept" id="dept"
+						<label for="login-department">Department</label> <input type="text" name="U_Dept" id="dept"
 							onchange="showState(this.value)" class="round full-width-input">
 
 					</p>
@@ -217,37 +225,8 @@
 					value="LOG IN">
 			</fieldset>
 
-			<br />
-
-
-		</form>
-		<!--  
-		//********************************************************************************************************
-		//Form Validation Script
--->
-		<script language="JavaScript" type="text/javascript"
-			xml:space="preserve">
-			var frmvalidator = new Validator("login-form");
-
-			frmvalidator.addValidation("Login_Name", "req",
-					"Please enter your First Name");
-			frmvalidator.addValidation("Login_Name", "maxlen=20",
-					"Max length for FirstName is 20");
-
-			frmvalidator.addValidation("Login_Password", "req",
-					"Please enter Password");
-			frmvalidator.addValidation("Login_Password", "maxlen=20",
-					"Max length is 20");
-
-			frmvalidator.addValidation("U_Dept", "req",
-					"Please select your Department");
-			frmvalidator.addValidation("U_Dept",
-					"Please Select Your Department");
-		</script>
-		<!--  
-		//*****************************************************************************************************
--->
-
+			<br /> 
+		</form> 
 	</div>
 	<!-- end content -->
 
@@ -257,7 +236,7 @@
 	<div id="footer">
 
 		<p>
-			<a href="http://www.muthagroup.com">Mutha Group of Foundries, Satara</a>
+			<a href="http://www.muthagroup.com">Mutha Group of Industries, Satara</a>
 		</p>
 
 	</div>

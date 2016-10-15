@@ -123,32 +123,38 @@ td a {
 			xmlhttp.open("POST", "GetTypewiseComplaints.jsp?q=" + str + "&r="+str1 , true);
 			xmlhttp.send(); 
 		};
-		
-		
 	</SCRIPT>
-
-
-
-
 	<%
+	try {
+		Connection con = Connection_Utility.getConnection();
 		GetUserName_BO ubo = new GetUserName_BO();
+		SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
 		//PreparedStatement ps = null;
 		//ResultSet rs = null;
 		int uid = Integer.parseInt(session.getAttribute("uid").toString());
 		//out.println("UID "+ uid);
 		String U_Name = ubo.getUserName(uid);
 		int dept_id = ubo.getUserDeptID(uid); 
+		
+		String dept_name = ""; 
+		PreparedStatement ps = con.prepareStatement("select * from user_tbl_dept where dept_id="+dept_id);
+		ResultSet rs=ps.executeQuery();
+		while(rs.next())
+		{
+			dept_name=rs.getString("Department"); 
+		}
+		ps.close();
+		rs.close(); 
+		
 		String complaint_no = null;
-
 		session.setMaxInactiveInterval(-1); //Session timeout limit = unlimited
+ 		int count = 0,int_count=0;
 
-		int count = 0,int_count=0;
-
-		try { 
-			SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
-			Connection con = Connection_Utility.getConnection();
-		/* 	PreparedStatement ps = con.prepareStatement("select * from complaint_tbl order by complaint_date desc limit 5");
-			ResultSet rs = ps.executeQuery(); */
+		 
+		/* 	
+			PreparedStatement ps = con.prepareStatement("select * from complaint_tbl order by complaint_date desc limit 5");
+			ResultSet rs = ps.executeQuery(); 
+		*/
 
 			PreparedStatement ps6 = con.prepareStatement("select count(Status_Id) from complaint_tbl where Status_Id=1 and complaint_type='customer'");
 			ResultSet rs6 = ps6.executeQuery();
@@ -188,8 +194,9 @@ td a {
 					class="round button dark menu-email-special image-left">All
 						Complaints</a></li>
 					 -->
-				<li><a href="logout.jsp"
-					class="round button dark menu-logoff image-left">Log out</a></li>
+				<li>	<a href="logout.jsp" class="round button dark menu-logoff image-left">Log out <b>(<%= dept_name%>)</b>
+						</a> 
+				</li>
 
 			</ul>
 			<!-- end nav -->

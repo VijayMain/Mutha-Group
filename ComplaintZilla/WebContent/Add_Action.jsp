@@ -191,8 +191,7 @@
 
 
 
-									<li id="li_1"><label class="description" for="element_1">Enter
-											new Action</label>
+									<li id="li_1"><label class="description" for="element_1">Enter new Action</label>
 										<div>
 											<input id="element_1" name="Action_Type"
 												class="element text medium" type="text" maxlength="255"
