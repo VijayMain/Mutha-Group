@@ -22,28 +22,34 @@
 
 	<%
 		String str = request.getParameter("q");
-		System.out.print(str);
-
+		//		System.out.print(str); 
+		boolean flag = false;
 		try {
-			Connection con = Connection_Utility.getConnection();
-
-			PreparedStatement ps_It = con
-					.prepareStatement("select * from user_tbl_dept where dept_id=(select dept_id from user_tbl where Login_name='"
-							+ str + "')");
-
+			Connection con = Connection_Utility.getConnection(); 
+			PreparedStatement ps_It = con.prepareStatement("select * from user_tbl_dept where dept_id=(select dept_id from user_tbl where Login_name='" + str + "')");
 			ResultSet rs_It = ps_It.executeQuery();
-
 			while (rs_It.next()) {
+				flag=true; 
 	%>
 	<div id="content">
-		<label for="login-department">Department</label> <input type="hidden"
-			name="U_Dept" value="<%=rs_It.getInt("Dept_Id")%>"
-			class="round full-width-input"> <input type="text" name="U_Dept"
-			value="<%=rs_It.getString("Department")%>"
-			class="round full-width-input" disabled="disabled">
+	<p>
+		<label for="login-department">Department</label> 
+		<input type="hidden" name="U_Dept" value="<%=rs_It.getInt("Dept_Id")%>" class="round full-width-input"> 
+		<input type="text" name="U_Dept" value="<%=rs_It.getString("Department")%>" class="round full-width-input" disabled="disabled">
+	</p>	
 	</div>
 	<%
 		}
+			if(flag==false){
+	%>
+	 			<div id="content">
+	 			<p> 
+						<label for="login-department">Department</label> 
+						<input type="text" name="U_Dept" id="dept" class="round full-width-input">
+				</p>		 
+				</div>
+	<%			
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();

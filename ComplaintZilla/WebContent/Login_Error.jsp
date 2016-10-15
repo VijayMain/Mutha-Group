@@ -10,9 +10,28 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login Page</title>
- 
-
+<title>Login Page</title> 
+<script type="text/javascript">
+	function validateForm() { 
+		var username = document.getElementById("login-username"); 
+		var password = document.getElementById("login-password");
+		var dept = document.getElementById("dept");
+		
+		if (username.value=="0" || username.value==null || username.value=="" || username.value=="null") {
+			alert("Invalid/Null Login Name ?");  
+			return false;
+		}
+		if (password.value=="0" || password.value==null || password.value=="" || password.value=="null") {
+			alert("Invalid/Null Password ?");  
+			return false;
+		}
+		if (dept.value=="0" || dept.value==null || dept.value=="" || dept.value=="null") {
+			alert("Please provide proper User Name & Password & wait for department auto fill ?");  
+			return false;
+		}
+		return true;
+	}
+</script>
 <script type="text/javascript">
 	function showState(str) {
 		var xmlhttp;
@@ -26,9 +45,8 @@
 			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 		}
 		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var a = null;
-				document.getElementById("dept").innerHTML = xmlhttp.responseText;
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) { 
+				document.getElementById("content").innerHTML = xmlhttp.responseText;
 				//document.getElementById("approvers").innerHTML = xmlhttp.responseText;
 
 			}
@@ -176,21 +194,14 @@
 		if (str.equals("null")) {
 			str = "Please Enter the Correct Credentials . . . !";
 		}
-	%>
-
-
+	%> 
 	<!-- MAIN CONTENT -->
-	<div id="content">
-<br><br>
-		<form action="Login_Controller" method="post" id="login-form"
-			name="login-form">
-
-			<fieldset>
-
-				<p>
-
-					<label for="login-username">username</label> <input type="text"
-						id="login-username" onchange="showState(this.value)"
+	<div>
+<br><br> 
+		<form action="Login_Controller" method="post" id="login-form" name="login-form" onsubmit="return validateForm()"> 
+			<fieldset> 
+				<p> 
+					<label for="login-username">username</label> <input type="text" id="login-username" onchange="showState(this.value)"
 						class="round full-width-input" name="Login_Name" />
 				</p>
 
@@ -200,14 +211,11 @@
 						name="Login_Password" />
 				</p>
 
-				<div id="dept">
-					<p>
-
-						<label for="login-department">Department</label> <input
-							type="text" name="U_Dept" id="dept"
-							onchange="showState(this.value)" class="round full-width-input">
-
-					</p>
+				<div id="content"> 
+				<p>
+						<label for="login-department">Department</label> 
+						<input type="text" name="U_Dept" id="dept" readonly="readonly" class="round full-width-input">
+				</p>		 
 				</div>
 
 
