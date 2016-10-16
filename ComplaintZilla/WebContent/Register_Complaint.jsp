@@ -105,8 +105,9 @@
 			alert("COMPLAINT DATE ?");  
 			return false;
 		}
-		document.getElementById("progress").style.visibility = 'visible';
+		document.getElementById("progress").style.visibility = 'visible'; 
 		setTimeout("ProgressImage.src = ProgressImage.src", 100);
+		document.getElementById("submit").disabled = true;
 	}
 </script>
 <!-- 
@@ -550,7 +551,7 @@
 									</li>
 
 								<li class="buttons"><input style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"
-									type="submit" name="submit"  value="REGISTER" /></li>
+									type="submit" name="submit" id="submit"  value="REGISTER" /></li>
 							</ul>
 							<!-- 
 						
