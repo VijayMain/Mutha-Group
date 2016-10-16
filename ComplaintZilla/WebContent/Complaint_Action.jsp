@@ -8,9 +8,7 @@
 <%@page import="java.sql.Connection"%>
 <%@page import="com.muthagroup.bo.Login_BO"%>
 <%@page import="com.muthagroup.vo.Login_VO"%>
-
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <meta http-equiv="cache-control" content="no-cache" />
 <%
@@ -55,24 +53,31 @@
 <script type="text/javascript" src="js/calendar.js"></script>
 <script type="text/javascript" src="tabledeleterow.js"></script>
 <script type="text/javascript">
-
 function validateComplaint(){
 	var stat = document.getElementById("status");
 	var a = document.getElementById("a");
-	var b = document.getElementById("b");
- 	
+	var b = document.getElementById("b"); 
+	alert("IN Loop....");
 	if (stat.value=="1") {
-		alert("Please Change Complaint Status !!!");  
+		alert("Please Change Complaint Status !!!");   
+		document.getElementById("form_submit").disabled = false;
+		document.getElementById("waitNote").style.visibility = "hidden";
 		return false;
 	}
-	if (a.value=="0" || a.value==null || a.value=="" || a.value=="null") {
+	if (a.value=="0" || a.value==null || a.value=="" || a.value=="null") { 
 		alert("Please provide Proper Action Type and PHASE !!!");  
+		document.getElementById("form_submit").disabled = false;
+		document.getElementById("waitNote").style.visibility = "hidden";
 		return false;
 	}
-	if (b.value=="0" || b.value==null || b.value=="" || b.value=="null") {
+	if (b.value=="0" || b.value==null || b.value=="" || b.value=="null") { 
 		alert("Please provide Action Description! !!!");  
+		document.getElementById("form_submit").disabled = false;
+		document.getElementById("waitNote").style.visibility = "hidden";
 		return false;
-	}
+	} 
+	document.getElementById("form_submit").disabled = true;
+	document.getElementById("waitNote").style.visibility = "visible";
 	return true;
 }
 
@@ -765,8 +770,10 @@ function validateComplaint(){
 										</div>
 									</div></li> 
 								<li>
-								<a href="Home.jsp"><strong style="font-size: large;">&#8656;Back</strong></a>
-								<input  type="submit" name="submit" style="width:200px;height:40px; font-size: 15px;font-family: Arial;background-color: #9191C2"  value="SUBMIT" /> </li>
+								<a href="Home.jsp"><strong style="font-size: large;">&#8656;Back</strong></a> 
+								<input type="submit" name="submit" id="form_submit" style="width:200px;height:40px; font-size: 15px;font-family: Arial;background-color: #9191C2"  value="SUBMIT" /> 
+								<span id="waitNote" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span>
+								
 							</ul>
 							<%
 								} else {
@@ -1159,10 +1166,11 @@ function validateComplaint(){
 								<%
 								if ((U_Name.equalsIgnoreCase("Shirish koli") || depart_id==6) && (user_comp==comp_No)) {
 								%>
-								<li>
+							<li>
 								<a href="Home.jsp"><strong style="font-size: large;">&#8656;Back</strong></a>
-								<input type="submit" name="submit" style="width:200px;height:40px; font-size: 15px;font-family: Arial;background-color: #9191C2"  value="SUBMIT" /> </li>
-
+								<input type="submit" name="submit" id="form_submit" style="width:200px;height:40px; font-size: 15px;font-family: Arial;background-color: #9191C2"  value="SUBMIT" /> 
+								<span id="waitNote" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span>
+							</li>
 								<%
 									} else {
 								%>
