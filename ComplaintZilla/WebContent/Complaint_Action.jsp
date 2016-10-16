@@ -119,22 +119,33 @@ function validateComplaint(){
 <script src="js/jquery.autocomplete.js"></script>
 </head>
 <body>
-
 	<%
+	try {
 		Edit_VO bean = new Edit_VO();
 		GetUserName_BO ubo = new GetUserName_BO();
 		int count = 0,depart_id=0;
 		String u_name = null, status =null;
 		String complaint_no = null;
 		complaint_no = request.getParameter("hid");
-		System.out.println("complaint_no Edit Complaint :" + complaint_no);
+		//		System.out.println("complaint_no Edit Complaint :" + complaint_no);
 		session.setAttribute("complaint_no", complaint_no);
 		int uid = Integer.parseInt(session.getAttribute("uid").toString());
 		count = Integer.parseInt(session.getAttribute("count").toString());
 		int int_count = Integer.parseInt(session.getAttribute("int_count").toString());
 		String U_Name = ubo.getUserName(uid);
-		try {
-			Connection con = Connection_Utility.getConnection();
+		Connection con = Connection_Utility.getConnection();
+		
+		int dept_id = ubo.getUserDeptID(uid);
+		String dept_name = ""; 
+		PreparedStatement ps_dp = con.prepareStatement("select * from user_tbl_dept where dept_id="+dept_id);
+		ResultSet rs_dp=ps_dp.executeQuery();
+		while(rs_dp.next())
+		{
+			dept_name=rs_dp.getString("Department"); 
+		}
+		ps_dp.close();
+		rs_dp.close(); 
+		
 	%>
 
 	<!-- TOP BAR -->
@@ -158,7 +169,7 @@ function validateComplaint(){
 					class="round button dark menu-email-special image-left"> All
 						Complaints</a></li>-->
 				<li><a href="logout.jsp"
-					class="round button dark menu-logoff image-left">Log out</a></li>
+					class="round button dark menu-logoff image-left">Log out <b>(<%= dept_name%>)</b></a></li>
 			</ul>
 			<!-- end nav -->
 

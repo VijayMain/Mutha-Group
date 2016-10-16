@@ -13,19 +13,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
-<script src="js/jquery-1.3.2.min.js" language="javascript"
-	type="text/javascript"></script>
-<script src="js/jquery-blink.js" language="javscript"
-	type="text/javascript"></script>
-
+<script src="js/jquery-1.3.2.min.js" language="javascript" type="text/javascript"></script>
+<script src="js/jquery-blink.js" language="javscript" type="text/javascript"></script> 
 <script type="text/javascript" language="javascript">
 	$(document).ready(function() {
 		$('.blink').blink();
 	});
 </script>
-
-
 <script type="text/javascript">
 	function noBack() {
 		window.history.forward();
@@ -121,20 +115,30 @@
 	</SCRIPT> 
 	<%
 	try {
+		//out.print("user name  :"+U_Name);
+		String complaint_no = null;
+		int count = 0, int_count = 0;
+		SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
+		Connection con = Connection_Utility.getConnection();
 		GetUserName_BO ubo = new GetUserName_BO();
 		//PreparedStatement ps = null;
 		//ResultSet rs = null;
 		int uid = Integer.parseInt(session.getAttribute("uid").toString());
 		//out.println("UID "+ uid);
 		String U_Name = ubo.getUserName(uid); 
-		//out.print("user name  :"+U_Name);
-		String complaint_no = null;
-		int count = 0, int_count = 0;
-			SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
-			Connection con = Connection_Utility.getConnection();
+		int dept_id = ubo.getUserDeptID(uid); 
+		
+		String dept_name = ""; 
+		PreparedStatement ps_dp = con.prepareStatement("select * from user_tbl_dept where dept_id="+dept_id);
+		ResultSet rs_dp=ps_dp.executeQuery();
+		while(rs_dp.next())
+		{
+			dept_name=rs_dp.getString("Department"); 
+		}
+		ps_dp.close();
+		rs_dp.close(); 
 			session.setMaxInactiveInterval(-1);
-			PreparedStatement ps = con
-					.prepareStatement("select * from complaint_tbl order by complaint_date desc limit 5");
+			PreparedStatement ps = con.prepareStatement("select * from complaint_tbl order by complaint_date desc limit 5");
 			ResultSet rs = ps.executeQuery();
 
 			PreparedStatement ps6 = con
@@ -152,24 +156,14 @@
 				session.setAttribute("int_count", int_count);
 			}
 	%>
-
 	<!-- TOP BAR -->
 	<div id="top-bar">
-
-		<div class="page-full-width cf">
-
+ 		<div class="page-full-width cf"> 
 			<ul id="nav" class="fl">
-				<li class="v-sep"><a href="Home.jsp"
-					class="round button dark menu-user image-left">Logged in as <strong><%=U_Name%></strong></a>
-				</li>
-
-				<li><a href="All_Complaint_Others.jsp"
-					class="round button dark menu-email-special image-left"
-					title="New Customer Complaints"><%=count%> Customer Complaints</a></li>
-				<li><a href="All_Complaint_OthersQlty.jsp"
-					class="round button dark menu-email-special image-left"
-					title="New Internal Complaints"><%=int_count%> Internal
-						Complaints</a></li>
+				<li class="v-sep"><a href="Home.jsp" class="round button dark menu-user image-left">Logged in as <strong><%=U_Name%></strong></a>
+				</li> 
+				<li><a href="All_Complaint_Others.jsp" class="round button dark menu-email-special image-left" title="New Customer Complaints"><%=count%> Customer Complaints</a></li>
+				<li><a href="All_Complaint_OthersQlty.jsp" class="round button dark menu-email-special image-left" title="New Internal Complaints"><%=int_count%> Internal Complaints</a></li>
 
 				<!-- 
 					<li><a href="All_Complaint_Others.jsp"
@@ -177,7 +171,7 @@
 						Complaints</a></li>
 				 -->
 				<li><a href="logout.jsp"
-					class="round button dark menu-logoff image-left">Log out</a></li>
+					class="round button dark menu-logoff image-left">Log out <b>(<%= dept_name%>)</b></a></li>
 			</ul>
 			<!-- end nav -->
 			<!-- 	<form action="#" method="POST" id="search-form" class="fr">

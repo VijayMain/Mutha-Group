@@ -12,7 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login Page</title> 
 <script type="text/javascript">
-	function validateForm() { 
+	function validateForm() {
 		var username = document.getElementById("login-username"); 
 		var password = document.getElementById("login-password");
 		var dept = document.getElementById("dept");
