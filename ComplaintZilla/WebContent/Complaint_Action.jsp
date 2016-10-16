@@ -57,7 +57,7 @@ function validateComplaint(){
 	var stat = document.getElementById("status");
 	var a = document.getElementById("a");
 	var b = document.getElementById("b"); 
-	alert("IN Loop....");
+	
 	if (stat.value=="1") {
 		alert("Please Change Complaint Status !!!");   
 		document.getElementById("form_submit").disabled = false;
@@ -771,7 +771,7 @@ function validateComplaint(){
 									</div></li> 
 								<li>
 								<a href="Home.jsp"><strong style="font-size: large;">&#8656;Back</strong></a> 
-								<input type="submit" name="submit" id="form_submit" style="width:200px;height:40px; font-size: 15px;font-family: Arial;background-color: #9191C2"  value="SUBMIT" /> 
+								<input type="submit" name="submit" id="form_submit" style="width:200px;height:40px; font-size: 15px;font-family: Arial;background-color: #9191C2"  value="SUBMIT" /> <br>
 								<span id="waitNote" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span>
 								
 							</ul>
@@ -1168,7 +1168,7 @@ function validateComplaint(){
 								%>
 							<li>
 								<a href="Home.jsp"><strong style="font-size: large;">&#8656;Back</strong></a>
-								<input type="submit" name="submit" id="form_submit" style="width:200px;height:40px; font-size: 15px;font-family: Arial;background-color: #9191C2"  value="SUBMIT" /> 
+								<input type="submit" name="submit" id="form_submit" style="width:200px;height:40px; font-size: 15px;font-family: Arial;background-color: #9191C2"  value="SUBMIT" /><br> 
 								<span id="waitNote" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span>
 							</li>
 								<%

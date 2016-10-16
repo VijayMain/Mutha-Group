@@ -80,55 +80,46 @@ public class Complaint_Action_Controller extends HttpServlet {
 						if (fieldName.equalsIgnoreCase("company_name")) {
 
 							bean.setCompany_name(fieldValue);
-							System.out.println("Company =="
-									+ bean.getCompany_name());
+						    //	System.out.println("Company ==" + bean.getCompany_name());
 
 						}
 						if (fieldName.equalsIgnoreCase("cust_name")) {
 							bean.setCust_name(fieldValue);
-							System.out.println("Customer === "
-									+ bean.getCust_name());
+							//  System.out.println("Customer === " + bean.getCust_name());
 						}
 						if (fieldName.equalsIgnoreCase("item_name")) {
 							bean.setItem_name(fieldValue);
-							System.out.println("Item ==== "
-									+ bean.getItem_name());
+							//  System.out.println("Item ==== " 	+ bean.getItem_name());
 						}
 						if (fieldName.equalsIgnoreCase("status")) {
 							bean.setStatus(Integer.parseInt(fieldValue));
-							System.out
-									.println("Status === " + bean.getStatus());
+							//   System.out.println("Status === " + bean.getStatus());
 						}
 						if (fieldName.equalsIgnoreCase("description")) {
 							bean.setDescription(fieldValue);
-							System.out.println("Description ===== "
-									+ bean.getDescription());
+							//  System.out.println("Description ===== " + bean.getDescription());
 						}
 						if (fieldName.equalsIgnoreCase("defect")) {
 							bean.setDefect(fieldValue);
-							System.out.println("Defect ==== "
-									+ bean.getDefect());
+							//  System.out.println("Defect ==== " + bean.getDefect());
 						}
 						if (fieldName.equalsIgnoreCase("phase_id")) {
 							bean.setPhase_id(Integer.parseInt(fieldValue));
-							System.out.println("PhaseId ==== "
-									+ bean.getPhase_id());
+							//  System.out.println("PhaseId ==== " + bean.getPhase_id());
 						}
 						
 						if (fieldName.equalsIgnoreCase("a_type")) {
 							bean.setAction_Type(fieldValue);
-							System.out.println("A Type === "
-									+ bean.getAction_Type());
+							//  System.out.println("A Type === " + bean.getAction_Type());
 						}
 						if (fieldName.equalsIgnoreCase("action_description")) {
 							bean.setAction_description(fieldValue);
-							System.out.println("Action Description ===== "
-									+ bean.getAction_description());
+							//   System.out.println("Action Description ===== " + bean.getAction_description());
 						}
 
 						if (fieldName.equalsIgnoreCase("srno")) {
 							bean.setSrNo(Integer.parseInt(fieldValue));
-							System.out.println(bean.getSrNo());
+							//  System.out.println(bean.getSrNo());
 						}
 						// *******************************************************************************************************************
 
@@ -142,7 +133,7 @@ public class Complaint_Action_Controller extends HttpServlet {
 						fieldValue = fileItem.getString();
 
 						for (int k = 1; k <= bean.getSrNo(); k++) {
-							System.out.println("K is = " + k);
+							//   System.out.println("K is = " + k);
 
 							// *************************************************************************************************************
 							// if multiple files then there names are
@@ -150,37 +141,26 @@ public class Complaint_Action_Controller extends HttpServlet {
 							// *************************************************************************************************************
 
 							if (fieldName.equalsIgnoreCase("inputName" + k)) {
-								System.out.println("File Name in java : "
-										+ fieldName);
+								//  System.out.println("File Name in java : " + fieldName);
 								file_stored = fileItem.getName();
 
-								bean.setFile_Name(FilenameUtils
-										.getName(file_stored));
+								bean.setFile_Name(FilenameUtils.getName(file_stored));
 
-								System.out.println(FilenameUtils
-										.getName(file_stored));
+								//  System.out.println(FilenameUtils.getName(file_stored));
 
-								file_Input = new DataInputStream(
-										fileItem.getInputStream());
-								System.out.println("Input sr no is = " + k);
+								file_Input = new DataInputStream(fileItem.getInputStream());
+								//  System.out.println("Input sr no is = " + k);
 
 								if (k == 1) {
-									System.out.println("Test in progress");
-									System.out.println("Company in controller "
-											+ bean.getCompany_name());
-									System.out
-											.println("Customer in controller "
-													+ bean.getCust_name());
-									System.out.println("Item in controller "
-											+ bean.getItem_name());
-									System.out.println("Status in controller "
-											+ bean.getStatus());
-									System.out.println("Defect in controller "
-											+ bean.getDefect());
+									/*System.out.println("Test in progress");
+									System.out.println("Company in controller " + bean.getCompany_name());
+									System.out.println("Customer in controller "+ bean.getCust_name());
+									System.out.println("Item in controller " + bean.getItem_name());
+									System.out.println("Status in controller " + bean.getStatus());
+									System.out.println("Defect in controller " + bean.getDefect());
 									System.out.println("Test 2222 ");
 									// Register Complaint Action
-									System.out.println("Action Type ====== "
-											+ bean.getAction_Type());
+									System.out.println("Action Type ====== " + bean.getAction_Type());*/
 
 									if (bean.getAction_description().equals("")
 											&& bean.getAction_Type().equals("")
@@ -190,7 +170,7 @@ public class Complaint_Action_Controller extends HttpServlet {
 											&& !bean.getDefect().equals("")
 											&& !bean.getDescription().equals(""))
 									{
-										System .out.println("Status Change method..");
+										//  System .out.println("Status Change method..");
 										flag=dao.Change_Status(bean, session);
 
 									} else {
@@ -204,8 +184,7 @@ public class Complaint_Action_Controller extends HttpServlet {
 								if (bean.getFile_Name() != null) {
 									bean.setFile(file_Input);
 									flag = dao.file_upload(bean, session);
-									System.out.println("file name = "
-											+ bean.getFile_Name());
+									//   System.out.println("file name = " + bean.getFile_Name());
 								}
 							}
 						}
@@ -214,8 +193,7 @@ public class Complaint_Action_Controller extends HttpServlet {
 			}
 
 			if (flag == true) {
-				response.sendRedirect("Complaint_Action.jsp?hid="
-						+ complaint_no);
+				response.sendRedirect("Complaint_Action.jsp?hid=" + complaint_no);
 			} else {
 				out.println("Entry Failed");
 			}

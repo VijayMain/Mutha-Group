@@ -512,7 +512,7 @@ public class Complaint_Action_Dao {
 
 				int count = 0;
 
-				System.out.println("Connection Estab");
+			// 	System.out.println("Connection Estab");
 
 				try {
 					String company = null, part = null;
@@ -569,7 +569,7 @@ public class Complaint_Action_Dao {
 					while (rs6.next()) {
 						count = rs6.getInt("count(Email)");
 					}
-					System.out.println("Company_Id ... : " + company_id);
+					//System.out.println("Company_Id ... : " + company_id);
 					PreparedStatement ps_auto = con
 							.prepareStatement("select * from automail where company_id="
 									+ Company_Id + " or company_id=6");
@@ -652,11 +652,7 @@ public class Complaint_Action_Dao {
 								Blob bb = rs_mail.getBlob("Attachment");
 
 								InputStream is = bb.getBinaryStream();
-								FileOutputStream fos = new FileOutputStream(
-										"c:\\EmailFiles"
-												+ "\\"
-												+ rs_mail
-														.getString("File_Name"));
+								FileOutputStream fos = new FileOutputStream("c:\\EmailFiles" + "\\" + rs_mail.getString("File_Name"));
 								int b = 0;
 								while ((b = is.read()) != -1) {
 									fos.write(b);
@@ -676,8 +672,7 @@ public class Complaint_Action_Dao {
 								 */
 								// _______________________________________________________________________________________________________________
 
-								String filename = "c:\\EmailFiles" + "\\"
-										+ rs_mail.getString("File_Name");
+								String filename = "c:\\EmailFiles" + "\\" + rs_mail.getString("File_Name");
 
 								DataSource source = new FileDataSource(filename);
 								messageBodyPart.setDataHandler(new DataHandler(
@@ -688,8 +683,7 @@ public class Complaint_Action_Dao {
 								// Send the complete message parts
 								msg.setContent(multipart);
 							}
-							Transport transport = mailSession
-									.getTransport("smtp");
+							Transport transport = mailSession.getTransport("smtp");
 							transport.connect(host, user, pass);
 							transport.sendMessage(msg, msg.getAllRecipients());
 
