@@ -174,12 +174,11 @@
 	<div id="header" style="padding: 0px;">
 
 		<div class="page-full-width cf"  style="padding-left: 20px;">
-
+			<a href="login.jsp">
 			<div id="login-intro" class="fl">
 				<h1>Login to ComplaintZilla</h1>
 				<h5>Enter your credentials below</h5>
-
-			</div>
+			</div></a>
 			<a href="login.jsp" id="company-branding" class="fr"><img
 				src="images/company-logo.png" alt="ComplaintZilla" /></a>
 
