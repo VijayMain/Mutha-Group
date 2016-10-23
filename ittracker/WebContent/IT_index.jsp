@@ -3,7 +3,6 @@
 <%@page import="java.sql.Connection"%>
 <%@page import="it.muthagroup.connectionUtility.Connection_Utility"%>
 <%@page import="java.sql.PreparedStatement"%>
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>IT Tracker Home</title>
@@ -11,7 +10,6 @@
 <link rel="stylesheet" type="text/css" href="styles.css" /> 
 <%
 try {
-	
 	int dept_id=0;
 	int uid = Integer.parseInt(session.getAttribute("uid").toString());
 	String uname=null;
@@ -43,7 +41,8 @@ try {
 				<li><a href="MISAccess.jsp">MIS Access</a></li>
 				<li><a href="IT_Reports.jsp">Reports</a></li>
 				<li><a href="DMS.jsp">DMS</a></li>
-				<li><a href="Master.jsp">Master</a></li>
+				<li><a href="IT_AssetHUB.jsp">IT Asset</a></li>
+				<!-- <li><a href="Master.jsp">Master</a></li> -->
 				<li><a href="Profile.jsp">My Profile</a></li>
 				<li><a href="Logout.jsp">Logout<strong style="color: blue; font-size: 8px;"> <%=uname%></strong></a></li>
 			</ul>
