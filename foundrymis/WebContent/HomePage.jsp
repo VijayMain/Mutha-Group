@@ -778,12 +778,16 @@ while(rs.next()){
 			<li><a href="#tabs-18">MRM Operations</a></li> 
 		<%
 		}if(reportList.contains("Bill Wise Purchase Details")){
-			%>
+		%>
 				<li><a href="#tabs-19">Bill Wise Purchase Details</a></li> 
+		<% 
+		}if(reportList.contains("ERP New Item Creation")){
+		%>
+				<li><a href="#tabs-20">ERP New Item Creation</a></li> 
 		<%
 		}if(reportList.size()==0){
 		%>
-			<li><a href="#tabs-20">Work In Progress</a></li>
+			<li><a href="#tabs-21">Work In Progress</a></li>
 		<%
 		}
 		%>
@@ -1920,11 +1924,34 @@ while(rs.next()){
 			
 			
 			 		
+		</div>
+		<%
+			}if(reportList.contains("ERP New Item Creation")){
+		%>
+			<div id="tabs-20">
+			
+			<form action="ItemCreate_Controller" method="post">
+			<br/>
+			<table class="tftable" style="border: 0px;">
+			<tr>
+				<td colspan="2"><strong>To Create New Item in ERP<br/></strong> <br/>
+			</td>
+			</tr>
+			<tr> 
+			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADDnewitem" value="Click Here" style="background-color: #BABABA;font-weight:bold; width: 85px;height: 35px;"/> </td>
+			</tr>
+			<tr> 
+			<td colspan="2" align="left"><span id="waitImagenewitem" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
+			</tr>
+						 
+		</table>
+	</form>
+			
 			</div>
 		<%
 			}if(reportList.size()==0){
 		%>
-			<div id="tabs-20">
+			<div id="tabs-21">
 			<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
 			</div>
 		<%

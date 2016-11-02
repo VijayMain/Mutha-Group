@@ -344,4 +344,14 @@
     <servlet-name>BillWisePurchase_Controller</servlet-name>
     <url-pattern>/BillWisePurchase_Controller</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ItemCreate_Controller</display-name>
+    <servlet-name>ItemCreate_Controller</servlet-name>
+    <servlet-class>com.muthagroup.controller.ItemCreate_Controller</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ItemCreate_Controller</servlet-name>
+    <url-pattern>/ItemCreate_Controller</url-pattern>
+  </servlet-mapping>
 </web-app>
