@@ -602,6 +602,12 @@ function validateBillWisePurchase() {
 	return true;
 }
 
+function validateNewItemCreation() {
+	document.getElementById("ADDnewERPItem").disabled = true;
+	document.getElementById("waitnewERPItem").style.visibility = "visible";		
+	return true;
+}
+
 function validateMRMEntries() {
 	document.getElementById("ADDBudAdd").disabled = true;
 	document.getElementById("waitImageBudAdd").style.visibility = "visible";		
@@ -1930,7 +1936,7 @@ while(rs.next()){
 		%>
 			<div id="tabs-20">
 			
-			<form action="ItemCreate_Controller" method="post">
+			<form action="ItemCreate_Controller" method="post" onSubmit="return validateNewItemCreation();">
 			<br/>
 			<table class="tftable" style="border: 0px;">
 			<tr>
@@ -1938,10 +1944,10 @@ while(rs.next()){
 			</td>
 			</tr>
 			<tr> 
-			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADDnewitem" value="Click Here" style="background-color: #BABABA;font-weight:bold; width: 85px;height: 35px;"/> </td>
+			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADDnewERPItem" value="Click Here" style="background-color: #BABABA;font-weight:bold; width: 85px;height: 35px;"/> </td>
 			</tr>
 			<tr> 
-			<td colspan="2" align="left"><span id="waitImagenewitem" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
+			<td colspan="2" align="left"><span id="waitnewERPItem" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
 			</tr>
 						 
 		</table>

@@ -132,8 +132,7 @@ try{
 					// System.out.println("check 3= " + rs_op.getString("AC_NAME") + "  =  " + chk);
 					addtq = Double.parseDouble(rs_op.getString("REC_QTY")) + addtq;
 					// System.out.println("DESP_QTY = " + rs_op.getString("DESP_QTY"));
-					balancesum = balancesum + Double.parseDouble(rs_op.getString("DESP_QTY")); 
-					
+					balancesum = balancesum + Double.parseDouble(rs_op.getString("DESP_QTY"));
 					}
 				}else{
 					if(rs_op.getString("REC_QTY")!=null){

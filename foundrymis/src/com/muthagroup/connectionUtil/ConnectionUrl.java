@@ -129,4 +129,15 @@ public class ConnectionUrl {
 		return con; 
 	}
 	
+	public static Connection getBWAYSERPMASTERConnection() {
+		try {   
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection("jdbc:sqlserver://192.168.0.6:1433;databaseName=BWAYSERPMASTER;user=BWAYS;password=BWAYSKING321");
+            System.out.println("Connection Occurred to BWAYSERPMASTER");
+		} catch (Exception e) {
+			e.printStackTrace(); 
+		} 
+		return con; 
+	}
+	
 }
