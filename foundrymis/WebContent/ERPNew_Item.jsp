@@ -380,7 +380,16 @@ alert("Done");
     <tr>
       <td>Branch</td>
       <td colspan="3"><select name="branch" id="branch">
-        <option value=""></option>
+      <option value="">- - - - Select - - - - </option>
+       <%
+      ps = con.prepareStatement("select * from MSTCOMMCITY order by NAME");
+      rs = ps.executeQuery();
+      while(rs.next()){
+      %>
+      <option value="<%=rs.getString("CODE")%>"><%=rs.getString("NAME")%></option>
+      <%
+      }
+      %> 
       </select></td>
     </tr>
     <tr>
