@@ -28,7 +28,8 @@ public class ItemCreation_Approval_dao {
 			Connection con = ConnectionUrl.getLocalDatabase();
 			Connection conlocal = Connection_Utility.getConnection();
 			Connection conERP = ConnectionUrl.getBWAYSERPMASTERConnection();
-			String uname = ""; 
+			String uname = "",approval_status=""; 
+			int srno=0;
 			PreparedStatement ps_uname=conlocal.prepareStatement("select * from User_tbl where U_Id="+uid);
 			ResultSet rs_uname=ps_uname.executeQuery();
 			while(rs_uname.next())
@@ -112,7 +113,7 @@ public class ItemCreation_Approval_dao {
 			
 			if(up>0){
 				
-				/**************************************************************************************************/
+			/**************************************************************************************************/
 			SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
 			Calendar cal = Calendar.getInstance();
 			String sql_date = sdfFIrstDate.format(cal.getTime()).toString();
@@ -134,31 +135,44 @@ public class ItemCreation_Approval_dao {
 			Message msg = new MimeMessage(mailSession);
 			msg.setFrom(new InternetAddress(from)); 
 			/******************************************************************************************************** */
-			String report = "PO_ValidLimitH21";
+			String report = "NewERPItem_Approval";
 			ArrayList to_emails = new ArrayList();
-			PreparedStatement ps_rec = con.prepareStatement("select * from pending_approvee where type='bcc' and report='"+report+"'");
+			PreparedStatement ps_rec = con.prepareStatement("select * from pending_approvee where type='to' and report='"+report+"'");
 			ResultSet rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
 				to_emails.add(rs_rec.getString("email")); 
 			}
-			 
+
 			StringBuilder sb = new StringBuilder();
-			sb.append("<b style='color: #0D265E;'>This is an automatically generated email for ERP - New Supplier Creation Approval !!!</b>"); 
-			sb.append("<table border='1' width='97%' style='font-family: Arial;'>"+
-					"<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
-					"<th height='24'>PO No</th><th>PO Date</th><th>Supplier</th><th>Material</th><th>Validity Date</th></tr>");
+			ps = con.prepareStatement("select * from new_item_creation where enable=1 and approval_status=0");
+			rs = ps.executeQuery();
 			
-			 
-		sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"+
+			sb.append("<b style='color: #0D265E; font-family: Arial;font-size: 11px;'>This is an automatically generated email for ERP Pending Approval - To add new suppliers in ERP System !!!</b>"+
+					"<table border='1' width='97%' style='font-family: Arial;'>"+
+					"<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+					"<th height='24'>S.No</th><th>Supplier</th><th>Request Date</th><th>Approval</th></tr>");
+		
+			while (rs.next()) {
+				srno++;
+			sb.append("<tr style='font-size: 12px; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+						"<td align='center'>"+srno+"</td>"+ 
+						"<td  align='left'>"+rs.getString("supplier")+"</td>"+ 
+						"<td  align='left'>"+rs.getString("registered_date")+"</td>"+
+						"<td  align='left'>Pending</td>"+
+						"</tr>");
+			sent = true;
+			}
+			
+			sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"+
 			"<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
 			"<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"+
 			"it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons"+
 			"or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"+
 			"</font></p>");
 		 
-		InternetAddress[] addressBcc = new InternetAddress[bcc_emails.size()]; 
-		for (int p = 0; p < bcc_emails.size(); p++) {
-			addressBcc[p] = new InternetAddress(bcc_emails.get(p).toString());
+		InternetAddress[] addressBcc = new InternetAddress[to_emails.size()];
+		for (int p = 0; p < to_emails.size(); p++) {
+			addressBcc[p] = new InternetAddress(to_emails.get(p).toString());
 		}
 		msg.setRecipients(Message.RecipientType.TO, addressBcc);
 		msg.setSubject(subject);
@@ -173,10 +187,8 @@ public class ItemCreation_Approval_dao {
 			transport.close();
 			System.out.println("msg Sent !!!");
 			}
-			
 			/*************************************************************************************************/
-				
-				response.sendRedirect("ERPNew_Item.jsp?repMsg='Sent to Approve !!!'");
+				response.sendRedirect("ERPNew_Item.jsp?repMsg='Success.....Request is sent to Approve !!!'");
 			}
 			
 		} catch (Exception e) {

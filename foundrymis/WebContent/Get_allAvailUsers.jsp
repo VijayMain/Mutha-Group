@@ -15,6 +15,7 @@
 try{
 	String supp_name = request.getParameter("q");
 	Connection con = ConnectionUrl.getBWAYSERPMASTERConnection(); 
+	Connection conlocal = ConnectionUrl.getLocalDatabase();
 %>
 <table class="tftable" style="border: 0px;">
   <tr>
@@ -31,12 +32,25 @@ try{
   </tr>
   <%
   }
-  }else{
+  ps = conlocal.prepareStatement("select * from new_item_creation where enable=1 and approval_status=0");
+  rs = ps.executeQuery();
+  while(rs.next()){
   %>
   <tr>
-  <td align="left" style="font-family: Arial;font-size: 10px;">&nbsp;</td>
+  <td align="left" style="font-family: Arial;font-size: 10px;"><%=rs.getString("supplier") %></td>
   </tr>
-  <%	  
+  <%
+  }
+  }else{ 
+  PreparedStatement  ps = conlocal.prepareStatement("select * from new_item_creation where enable=1 and supplier  like  '%"+supp_name+"%'");
+  ResultSet  rs = ps.executeQuery();
+  while(rs.next()){
+  %>
+  <tr>
+  <td align="left" style="font-family: Arial;font-size: 10px;"><%=rs.getString("supplier") %></td>
+  </tr>
+  <%
+  } 
   }
   %>
 </table>

@@ -234,6 +234,7 @@ alert("Done");
 		Date tdate = new Date();
 		String todaysDate = sdfFIrstDate.format(tdate);
 		Connection con = ConnectionUrl.getBWAYSERPMASTERConnection();
+		Connection conlocal = ConnectionUrl.getLocalDatabase();
 		PreparedStatement ps=null;
 		ResultSet rs = null; 
 		
@@ -509,12 +510,20 @@ alert("Done");
 <div style="height:550px; overflow: scroll;background-color: white;width:41%;float:right;"> 	
 <span id="autofind">	
 <table class="tftable" style="border: 0px;">
-  <tr>
-    <th>Available</th>
+<tr>
+    <th>Available Supplier Names</th>
   </tr>
+  <%
+  ps = conlocal.prepareStatement("select * from new_item_creation where enable=1 and approval_status=0");
+  rs = ps.executeQuery();
+  while(rs.next()){
+  %>
   <tr>
-  <td>&nbsp;</td>
+  <td align="left" style="font-family: Arial;font-size: 10px;"><%=rs.getString("supplier") %></td>
   </tr>
+  <%
+  }
+  %>
 </table>
 </span>
 </div>
