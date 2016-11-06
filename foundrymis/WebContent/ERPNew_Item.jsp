@@ -108,18 +108,84 @@ background-color: #e6e6ff;
 }
 </STYLE>
 <script type="text/javascript">
-function ValidationMRM_Para() {
-	var para = document.getElementById("para"); 
+function validateNewItemForm() {
+	var supplier = document.getElementById("supplier");
+	var supp_address = document.getElementById("supp_address"); 
+	var supp_city = document.getElementById("supp_city");
+	var work_address = document.getElementById("work_address");
+	var credit_days = document.getElementById("credit_days");
+	
+	var tin_sst = document.getElementById("tin_sst");
+	var tin_sst_date = document.getElementById("tin_sst_date"); 
+	var cst_number = document.getElementById("cst_number"); 
+	var cst_number_date = document.getElementById("cst_number_date"); 
+	var service_tax = document.getElementById("service_tax"); 
+	var service_tax_date = document.getElementById("service_tax_date"); 
+	
+	var supp_category = document.getElementById("supp_category"); 
+	var category = document.getElementById("category"); 
+	var pan_no = document.getElementById("pan_no"); 
+	
+	var tds_code = document.getElementById("tds_code"); 
+	var indus_type = document.getElementById("indus_type");  
 	 
-		if (para.value=="0" || para.value==null || para.value=="" || para.value=="null") {
-			alert("Please Provide Parameter First !!!");  
+		if (supplier.value=="0" || supplier.value==null || supplier.value=="" || supplier.value=="null") {
+			alert("Please Provide Supplier Name !!!");  
+			return false;
+		}
+		if (supp_address.value=="0" || supp_address.value==null || supp_address.value=="" || supp_address.value=="null") {
+			alert("Please Provide Address !!!");  
+			return false;
+		}
+		if (supp_city.value=="" || supp_city.value=="null") {
+			alert("Please Provide City !!!");  
+			return false;
+		}
+		if (work_address.value=="0" || work_address.value==null || work_address.value=="" || work_address.value=="null") {
+			alert("Please Provide Work Address !!!");  
+			return false;
+		}
+		if (credit_days.value=="0" || credit_days.value==null || credit_days.value=="" || credit_days.value=="null") {
+			alert("Please Provide Credit Days !!!");  
+			return false;
+		}
+		if (tin_sst.value!="" && tin_sst_date.value=="") {
+			alert("If TIN/SST Number is available, Date is mandatory !!!");  
+			return false;
+		}
+		if (cst_number.value!="" && cst_number_date.value=="") {
+			alert("If CST Number is available, Date is mandatory !!!");  
+			return false;
+		}
+		if (service_tax.value!="" && service_tax_date.value=="") {
+			alert("If Service Tax Number is available, Date is mandatory !!!");  
+			return false;
+		}
+		if (supp_category.value=="0" || supp_category.value==null || supp_category.value=="" || supp_category.value=="null") {
+			alert("Please Provide Supplier Category !!!");  
+			return false;
+		}
+		if (category.value=="0" || category.value==null || category.value=="" || category.value=="null") {
+			alert("Please Provide Category !!!");  
+			return false;
+		}
+		if (pan_no.value=="0" || pan_no.value==null || pan_no.value=="" || pan_no.value=="null") {
+			alert("Please Provide PAN Number !!!");
+			return false;
+		}			   
+		if (tds_code.value=="0" || tds_code.value==null || tds_code.value=="" || tds_code.value=="null") {
+			alert("Please Provide TDS Code !!!");
+			return false;
+		}
+		if (indus_type.value=="0" || indus_type.value==null || indus_type.value=="" || indus_type.value=="null") {
+			alert("Please Provide Industry Type !!!");
 			return false;
 		}
 		return true;
 }
  
 function get_allAvailSuppliers(name) {
-	var xmlhttp;  
+	var xmlhttp;
 	if (window.XMLHttpRequest) {
 		// code for IE7+, Firefox, Chrome, Opera, Safari
 		xmlhttp = new XMLHttpRequest(); 
@@ -169,14 +235,23 @@ alert("Done");
 		String todaysDate = sdfFIrstDate.format(tdate);
 		Connection con = ConnectionUrl.getBWAYSERPMASTERConnection();
 		PreparedStatement ps=null;
-		ResultSet rs = null;
-	%>
+		ResultSet rs = null; 
+		
+		if(request.getParameter("repMsg")!=null){ 
+	  %>
+	  <script type="text/javascript">
+	  alert("<%=request.getParameter("repMsg") %>");
+	  </script>
+	  <% 
+		}
+	  %>  	
 <strong style="color: #1B5869;font-family: Arial;font-size: 14px;">To create new item's in ERP System</strong> 
 <br/>
 <strong style="font-family: Arial;font-size: 14px;font-weight: bold;"><a href="HomePage.jsp" style="text-decoration: none;">&lArr; BACK</a></strong>
 <br>
 <div style="overflow: scroll;background-color: white;width:58%;float:left">
-<form action="ItemCreation_Approval" method="post">
+
+<form action="ItemCreation_Approval" method="post"  onSubmit="return validateNewItemForm();">
 <table class="tftable" style="border: 0px;">
   <tr>
     <th colspan="4" align="left">To add new supplier</th>
@@ -222,8 +297,8 @@ alert("Done");
       </tr>
     <tr>
       <td>Phone Number</td>
-      <td><input type="text" name="phone_supplier" id="phone_supplier"  onkeypress ="return validatenumerics(event);"></td>
-      <td>&nbsp;</td>
+      <td><input type="text" name="phone_number1" id="phone_number1"   onkeypress ="return validatenumerics(event);"></td>
+      <td><input type="text" name="phone_number2" id="phone_number2"  onkeypress ="return validatenumerics(event);"></td>
       <td>&nbsp;</td>
       </tr>
     <tr>
@@ -288,7 +363,7 @@ alert("Done");
       <td><select name="supp_category" id="supp_category">
        <option value="">- - - - Select - - - - </option>
       <%
-      ps = con.prepareStatement("select * from MSTCUSTCATAG");
+      ps = con.prepareStatement("select * from MSTMATCATAG");
       rs = ps.executeQuery();
       while(rs.next()){
       %>
@@ -299,7 +374,11 @@ alert("Done");
       </select></td>
       <td>Category</td>
       <td><select name="category" id="category">
-       <option value="">- - - - Select - - - - </option> 
+         <option value="">- - - - Select - - - - </option>
+					<Option Value="0">Manufacturer</Option>
+					<Option Value="1">Dealer/Traders</Option>
+					<Option Value="2">Importer</Option>
+					<Option Value="3">Other</Option>
       </select> 
 		</td>
       </tr>
@@ -417,7 +496,7 @@ alert("Done");
       <td colspan="3"><input type="text" name="bank_address2" id="bank_address2" size="40"></td>
     </tr>
     <tr>
-      <td colspan="3"><input type="text" name="bank_address3" id="bank_address13" size="40"></td>
+      <td colspan="3"><input type="text" name="bank_address3" id="bank_address3" size="40"></td>
     </tr>
     
     <tr>

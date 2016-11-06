@@ -91,11 +91,12 @@ cal32.add(Calendar.DATE, +1);
 sql_date = sdfFIrstDate.format(cal32.getTime()).toString();
 System.out.println("SQL DATE =  " + sql_date);
 %>
-	<b style='color: #0D265E;'>This is an automatically generated email for ERP - PO Validity Limit Alert for " + company + " !!!</b> 
+	<b style='color: #0D265E; font-family: Arial;font-size: 11px;'>This is an automatically generated email for ERP Pending Approval - To add new suppliers in ERP System !!!</b>
+	 
 	<table border='1' width='97%' style='font-family: Arial;'>
 		<tr
 			style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>
-			<th height='24'>PO Date</th>
+			<th height='24'>S.No</th>
 			<th>Supplier</th>
 			<th>Material</th>
 			<th>Validity Date</th> 
@@ -110,6 +111,12 @@ System.out.println("SQL DATE =  " + sql_date);
 
 
 
+<% 
+	Date date = new Date(); 
+	java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
+	System.out.println("time = " + timestamp);
+%>
+ 
 
 
 

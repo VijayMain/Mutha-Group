@@ -11,10 +11,10 @@ public class ConnectionUrl {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/erp_database", "root","root"); 
 		} catch (Exception e) {
-			e.printStackTrace(); 
+			e.printStackTrace();
 		}
-		return con; 
-	}	
+		return con;
+	}
 	public static Connection getK1FMShopConnection() {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
