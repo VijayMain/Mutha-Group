@@ -508,10 +508,10 @@ alert("Done");
   </form>
 </div> 
 <div style="height:550px; overflow: scroll;background-color: white;width:41%;float:right;"> 	
-<span id="autofind">	
+<span id="autofind">
 <table class="tftable" style="border: 0px;">
 <tr>
-    <th>Available Supplier Names</th>
+    <th>Available Supplier Names Pending for Approval</th>
   </tr>
   <%
   ps = conlocal.prepareStatement("select * from new_item_creation where enable=1 and approval_status=0");

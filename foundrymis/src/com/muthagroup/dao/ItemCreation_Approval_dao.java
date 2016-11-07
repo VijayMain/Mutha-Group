@@ -137,27 +137,33 @@ public class ItemCreation_Approval_dao {
 			/******************************************************************************************************** */
 			String report = "NewERPItem_Approval";
 			ArrayList to_emails = new ArrayList();
+			ArrayList name_emails = new ArrayList();
+			
 			PreparedStatement ps_rec = con.prepareStatement("select * from pending_approvee where type='to' and report='"+report+"'");
 			ResultSet rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
-				to_emails.add(rs_rec.getString("email")); 
+				to_emails.add(rs_rec.getString("email"));
+				name_emails.add(rs_rec.getString("validlimit"));
 			}
-
+			
+			InternetAddress[] addressBcc = new InternetAddress[to_emails.size()];
+			for (int p = 0; p < to_emails.size(); p++) {
 			StringBuilder sb = new StringBuilder();
 			ps = con.prepareStatement("select * from new_item_creation where enable=1 and approval_status=0");
 			rs = ps.executeQuery();
-			
-			sb.append("<b style='color: #0D265E; font-family: Arial;font-size: 11px;'>This is an automatically generated email for ERP Pending Approval - To add new suppliers in ERP System !!!</b>"+
+			sb.append("<b style='color: #0D265E; font-family: Arial;font-size: 11px;'>This is an automatically generated email for ERP Pending Approval - To add new suppliers in ERP System !!!</b>"+ 
+					"<p><b>To Approve ,</b><a href='http://localhost/foundrymis/approve.jsp?userName="+name_emails.get(p).toString()+"'>Click Here</a></p>"+
 					"<table border='1' width='97%' style='font-family: Arial;'>"+
 					"<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
-					"<th height='24'>S.No</th><th>Supplier</th><th>Request Date</th><th>Approval</th></tr>");
+					"<th height='24'>S.No</th><th>Supplier</th><th>Request Date</th><th>Logged By</th><th>Approval</th></tr>");
 		
 			while (rs.next()) {
 				srno++;
 			sb.append("<tr style='font-size: 12px; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
-						"<td align='center'>"+srno+"</td>"+ 
+						"<td align='center'>"+srno+"</td>"+
 						"<td  align='left'>"+rs.getString("supplier")+"</td>"+ 
 						"<td  align='left'>"+rs.getString("registered_date")+"</td>"+
+						"<td  align='left'>"+rs.getString("registered_by")+"</td>"+
 						"<td  align='left'>Pending</td>"+
 						"</tr>");
 			sent = true;
@@ -170,27 +176,21 @@ public class ItemCreation_Approval_dao {
 			"or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"+
 			"</font></p>");
 		 
-		InternetAddress[] addressBcc = new InternetAddress[to_emails.size()];
-		for (int p = 0; p < to_emails.size(); p++) {
-			addressBcc[p] = new InternetAddress(to_emails.get(p).toString());
-		}
+		addressBcc[p] = new InternetAddress(to_emails.get(p).toString());
 		msg.setRecipients(Message.RecipientType.TO, addressBcc);
 		msg.setSubject(subject);
 		msg.setSentDate(new Date());
 		msg.setContent(sb.toString(), "text/html");
-	 
-			if(sent==true){
+		if(sent==true){
 			Transport transport = mailSession.getTransport("smtp");
 			transport.connect(host, user, pass);
-			transport.sendMessage(msg, msg.getAllRecipients());
-			// ******************************************************************************
-			transport.close();
-			System.out.println("msg Sent !!!");
-			}
+			transport.sendMessage(msg, msg.getAllRecipients()); 
+			transport.close(); 
+		}
+		}
 			/*************************************************************************************************/
 				response.sendRedirect("ERPNew_Item.jsp?repMsg='Success.....Request is sent to Approve !!!'");
-			}
-			
+		}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

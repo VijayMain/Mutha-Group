@@ -17,13 +17,15 @@ try{
 	Connection con = ConnectionUrl.getBWAYSERPMASTERConnection(); 
 	Connection conlocal = ConnectionUrl.getLocalDatabase();
 %>
-<table class="tftable" style="border: 0px;">
+<table class="tftable" style="border: 0px;"> 
+  <%
+  if(supp_name!=""){
+  %>
   <tr>
     <th>Available Supplier Names</th>
   </tr>
-  <%
-  if(supp_name!=""){
-  PreparedStatement ps = con.prepareStatement("select * from MSTACCTGLSUB where SUBGL_LONGNAME like  '%"+supp_name+"%'");
+  <%	  
+  PreparedStatement ps = con.prepareStatement("select * from MSTACCTGLSUB where SUBGL_LONGNAME like '%"+supp_name+"%'");
   ResultSet rs = ps.executeQuery();
   while(rs.next()){
   %>
@@ -32,7 +34,7 @@ try{
   </tr>
   <%
   }
-  ps = conlocal.prepareStatement("select * from new_item_creation where enable=1 and approval_status=0");
+  ps = conlocal.prepareStatement("select * from new_item_creation where enable=1 and supplier  like  '%"+supp_name+"%'");
   rs = ps.executeQuery();
   while(rs.next()){
   %>
@@ -41,7 +43,12 @@ try{
   </tr>
   <%
   }
-  }else{ 
+  }else{
+  %>
+   <tr>
+    <th>Available Supplier Names Pending for Approval</th>
+  </tr>
+  <%  
   PreparedStatement  ps = conlocal.prepareStatement("select * from new_item_creation where enable=1 and supplier  like  '%"+supp_name+"%'");
   ResultSet  rs = ps.executeQuery();
   while(rs.next()){
@@ -50,7 +57,7 @@ try{
   <td align="left" style="font-family: Arial;font-size: 10px;"><%=rs.getString("supplier") %></td>
   </tr>
   <%
-  } 
+  }
   }
   %>
 </table>

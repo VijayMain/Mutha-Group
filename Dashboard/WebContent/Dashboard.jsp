@@ -92,6 +92,7 @@ sql_date = sdfFIrstDate.format(cal32.getTime()).toString();
 System.out.println("SQL DATE =  " + sql_date);
 %>
 	<b style='color: #0D265E; font-family: Arial;font-size: 11px;'>This is an automatically generated email for ERP Pending Approval - To add new suppliers in ERP System !!!</b>
+	<p><b>To Approve ,</b><a href='http://localhost/foundrymis/approve.jsp'>Click Here</a></p>
 	<table border='1' width='97%' style='font-family: Arial;'>
 		<tr
 			style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>
