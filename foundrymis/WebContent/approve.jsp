@@ -3,8 +3,8 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"  pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Approve</title>
@@ -12,9 +12,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="stationary/bootstrap.min.css">
   <script src="stationary/jquery.min.js"></script>
-  <script src="stationary/bootstrap.min.js"></script>
+  <script src="stationary/bootstrap.min.js"></script> 
 </head>
-<body> 
+<body>
 <%
 try{
 Connection con = ConnectionUrl.getLocalDatabase();
@@ -24,7 +24,7 @@ if(request.getParameter("userName")!=null){
 }
 %>
 <nav class="navbar navbar-default">
-  <div class="container-fluid"> 
+  <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
@@ -32,9 +32,8 @@ if(request.getParameter("userName")!=null){
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <img src="images/MUTHA LOGO.JPG" class="navbar-brand"/>
-    </div>
-
+     <img src="images/MUTHA LOGO.JPG" class="navbar-brand"/>
+</div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
@@ -44,25 +43,21 @@ if(request.getParameter("userName")!=null){
           <ul class="dropdown-menu">
             <li><a href="#">Pending Approvals</a></li>
             <li><a href="#">Approved Items</a></li>
-            <li><a href="#">All </a></li> 
+            <li><a href="#">All </a></li>
           </ul> 
         </li> 
       </ul>
-      <form class="navbar-form navbar-left">
+    <form class="navbar-form navbar-left">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
         </div>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
+    </form>
+    <ul class="nav navbar-nav navbar-right">
         <li>Hi, <%=name_user %></li>
-      </ul>
-      
+    </ul>
+    </div>
     </div> 
  </nav>
-
-
-
-
 <table class="table table-striped">
   <thead>
     <tr>
@@ -71,14 +66,15 @@ if(request.getParameter("userName")!=null){
       <td align="left"><b>Request Date</b></td>
       <td align="left"><b>Logged By</b></td>
       <td align="left"><b>Approval</b></td>
+      <td align="left"><b>Action</b></td>
     </tr>
   </thead>
-  <tbody>
+ <tbody>
   <%
-  	int sr=1; 		
+  	int sr=1;
  	PreparedStatement ps = con.prepareStatement("select * from new_item_creation where enable=1 and approval_status=0");
 	ResultSet rs = ps.executeQuery();
-    while(rs.next()){ 
+    while(rs.next()){
   %>
     <tr>
       <td align="center"><%=sr %></td>
@@ -86,15 +82,93 @@ if(request.getParameter("userName")!=null){
       <td align="left"><%=rs.getTimestamp("registered_date") %></td>
       <td align="left"><%=rs.getString("registered_by") %></td>
       <td align="left">Pending</td>
-    </tr> 
+      <td align="left">
+ 	  <a class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal<%=sr%>">Action</a> 
+      </td>
+    </tr>
+    
+    
+ <!-- Modal -->
+<div class="modal fade" id="myModal<%=sr%>" role="dialog">
+     <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button> 
+          <h4 class="modal-title"><%=rs.getString("supplier") %></h4>
+        </div>
+<div class="modal-body"> 
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ <form id="userForm" method="post" class="form-horizontal">
+ <div style="width: 50%;float: left;">  
+  <dl>
+    <dt>Coffee</dt>
+    <dd>- black hot drink</dd>
+    <dt>Milk</dt>
+    <dd>- white cold drink</dd>
+     <dt>Coffee</dt>
+    <dd>- black hot drink</dd>
+    <dt>Milk</dt>
+    <dd>- white cold drink</dd>
+     <dt>Coffee</dt>
+    <dd>- black hot drink</dd>
+    <dt>Milk</dt>
+    <dd>- white cold drink</dd>
+  </dl>
+  </div>
+  <div style="width: 49%;float: right;">
+  <dl>
+    <dt>Coffee</dt>
+    <dd>- black hot drink</dd>
+    <dt>Milk</dt>
+    <dd>- white cold drink</dd>
+     <dt>Coffee</dt>
+    <dd>- black hot drink</dd>
+    <dt>Milk</dt>
+    <dd>- white cold drink</dd>
+     <dt>Coffee</dt>
+    <dd>- black hot drink</dd>
+    <dt>Milk</dt>
+    <dd>- white cold drink</dd> 
+  </dl>
+  </div> 
+  </form>
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 
+</div>
+  	<div class="modal-footer">
+    	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+     
   <%
   sr++;
-    }
-  %>  
+  }
+  %>
   </tbody>
 </table>
 
 
+
+ 
 <%
 }catch(Exception e){
 	e.printStackTrace();

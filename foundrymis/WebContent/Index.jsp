@@ -10,6 +10,16 @@
 </head>
 <body>
   
+  <script>
+    var v="xyz";
+</script>
+<% 
+    String st="<script>document.writeln(v)</script>";
+    out.println("value="+st); 
+%>
+  
+  
+  
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -537,16 +547,16 @@ line breaks.
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
+    <div class="modal-content">
+     <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Modal Header</h4>
-        </div>
-        <div class="modal-body">
+     </div>
+ <div class="modal-body">
         
         
         
-         <div class="form-group">
+<div class="form-group">
   <label for="usr">Name:</label>
   <input type="text" class="form-control" id="usr"> 
   <label for="pwd">Password:</label>
@@ -555,8 +565,6 @@ line breaks.
   <textarea class="form-control" rows="5" id="comment"></textarea> 
 </div>
 
-
-
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -564,8 +572,7 @@ line breaks.
       </div>
     </div>
   </div>
-  
-  
+
    <!-- ************************************************************************************************ -->
    
    <h3>Tooltip Example</h3>
