@@ -11,7 +11,7 @@ public class ItemCreation_Approval_vo {
 			service_cessround, vat_round, net_amountRound, is_overseas,
 			account_name, account_number, bank_name, branch, ifsc_rtgs,
 			ifsc_neft, micr_code, phone_number1, phone_number2, bank_address1,
-			bank_address2, bank_address3;
+			bank_address2, bank_address3, supplier_phone2, supplier_phone1;
 
 	public String getSupplier() {
 		return supplier;
@@ -395,6 +395,22 @@ public class ItemCreation_Approval_vo {
 
 	public void setBank_address3(String bank_address3) {
 		this.bank_address3 = bank_address3;
+	}
+
+	public String getSupplier_phone2() {
+		return supplier_phone2;
+	}
+
+	public void setSupplier_phone2(String supplier_phone2) {
+		this.supplier_phone2 = supplier_phone2;
+	}
+
+	public String getSupplier_phone1() {
+		return supplier_phone1;
+	}
+
+	public void setSupplier_phone1(String supplier_phone1) {
+		this.supplier_phone1 = supplier_phone1;
 	}
 
 }

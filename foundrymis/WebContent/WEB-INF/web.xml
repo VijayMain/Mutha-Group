@@ -364,4 +364,14 @@
     <servlet-name>ItemCreation_Approval</servlet-name>
     <url-pattern>/ItemCreation_Approval</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Item_ApprovalController</display-name>
+    <servlet-name>Item_ApprovalController</servlet-name>
+    <servlet-class>com.muthagroup.controller.Item_ApprovalController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Item_ApprovalController</servlet-name>
+    <url-pattern>/Item_ApprovalController</url-pattern>
+  </servlet-mapping>
 </web-app>

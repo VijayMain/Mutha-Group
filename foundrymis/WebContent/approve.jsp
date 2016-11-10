@@ -18,7 +18,8 @@
 <%
 try{
 Connection con = ConnectionUrl.getLocalDatabase();
-String name_user = "";
+Connection conERP = ConnectionUrl.getBWAYSERPMASTERConnection();
+String name_user = "",supp_cat="",tds_code="";
 if(request.getParameter("userName")!=null){
 	name_user = request.getParameter("userName").toString(); 
 }
@@ -53,12 +54,12 @@ if(request.getParameter("userName")!=null){
         </div>
     </form>
     <ul class="nav navbar-nav navbar-right">
-        <li>Hi, <%=name_user %></li>
+        <li>Hi,<br> <%=name_user %></li>
     </ul>
     </div>
     </div> 
  </nav>
-<table class="table table-striped">
+<table class="table table-striped" style="font-family: Arial;font-size: 12px;">
   <thead>
     <tr>
       <td align="center"><b>Sr.No</b></td>
@@ -74,7 +75,18 @@ if(request.getParameter("userName")!=null){
   	int sr=1;
  	PreparedStatement ps = con.prepareStatement("select * from new_item_creation where enable=1 and approval_status=0");
 	ResultSet rs = ps.executeQuery();
-    while(rs.next()){
+    while(rs.next()){  
+    	     PreparedStatement ps_sup = conERP.prepareStatement("select * from MSTMATCATAG where code ='"+ rs.getString("supp_category") + "'");
+    	     ResultSet rs_sup = ps_sup.executeQuery();
+    	      while(rs_sup.next()){ 
+    	    	  supp_cat = rs_sup.getString("NAME");  
+    	      } 
+    	      
+    	      ps_sup = conERP.prepareStatement("select * from CNFRATETDS where code ='"+ rs.getString("tds_code") + "'");
+     	      rs_sup = ps_sup.executeQuery();
+     	      while(rs_sup.next()){ 
+     	    	  tds_code = rs_sup.getString("NAME");  
+     	      } 
   %>
     <tr>
       <td align="center"><%=sr %></td>
@@ -86,8 +98,7 @@ if(request.getParameter("userName")!=null){
  	  <a class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal<%=sr%>">Action</a> 
       </td>
     </tr>
-    
-    
+
  <!-- Modal -->
 <div class="modal fade" id="myModal<%=sr%>" role="dialog">
      <div class="modal-dialog modal-lg">
@@ -96,71 +107,52 @@ if(request.getParameter("userName")!=null){
           <button type="button" class="close" data-dismiss="modal">&times;</button> 
           <h4 class="modal-title"><%=rs.getString("supplier") %></h4>
         </div>
-<div class="modal-body"> 
- 	
- 	
- 	
- 	
- 	
- 	
- <form id="userForm" method="post" class="form-horizontal">
+<div class="modal-body">
+
+<form id="userForm" method="post" class="form-horizontal" action="Item_ApprovalController">
  <div style="width: 50%;float: left;">  
   <dl>
-    <dt>Coffee</dt>
-    <dd>- black hot drink</dd>
-    <dt>Milk</dt>
-    <dd>- white cold drink</dd>
-     <dt>Coffee</dt>
-    <dd>- black hot drink</dd>
-    <dt>Milk</dt>
-    <dd>- white cold drink</dd>
-     <dt>Coffee</dt>
-    <dd>- black hot drink</dd>
-    <dt>Milk</dt>
-    <dd>- white cold drink</dd>
+    <dt>Address</dt>
+    <dd>- <%=rs.getString("supp_address") %></dd>
+    <dt>Phone Number</dt>
+    <dd>- <%=rs.getString("supplier_phone1") %></dd>
+    <dd>- <%=rs.getString("supplier_phone2") %></dd>
+     <dt>PAN Number</dt>
+    <dd>- <%=rs.getString("pan_no") %></dd>
+    <dt>Industry Type</dt>  
+    <dd>- <%=rs.getString("indus_type") %></dd>
   </dl>
   </div>
   <div style="width: 49%;float: right;">
   <dl>
-    <dt>Coffee</dt>
-    <dd>- black hot drink</dd>
-    <dt>Milk</dt>
-    <dd>- white cold drink</dd>
-     <dt>Coffee</dt>
-    <dd>- black hot drink</dd>
-    <dt>Milk</dt>
-    <dd>- white cold drink</dd>
-     <dt>Coffee</dt>
-    <dd>- black hot drink</dd>
-    <dt>Milk</dt>
-    <dd>- white cold drink</dd> 
+    <dt>City</dt>
+    <dd>- <%=rs.getString("supp_city") %></dd>
+    <dt>Credit Days</dt>
+    <dd>- <%=rs.getString("credit_days") %></dd>
+     <dt>TAN Number</dt>
+    <dd>- <%=rs.getString("tan_no") %></dd>
+    <dt>Supplier Category</dt>
+    <dd>- <%=supp_cat %></dd>
+     <dt>TDS Code</dt>
+    <dd>- <%=tds_code %></dd>
   </dl>
-  </div> 
-  </form>
- 	
- 	
- 	
- 	
- 	
- 	
- 	
- 	
- 	
- 	
- 	
- 	
- 
+  </div>
+  <input type="submit" value="Approve"  class="btn btn-default"  style="background-color: #2cc543;font-weight: bold;">
+  <input type="submit" value="Decline"  class="btn btn-default" style="background-color: #ff2222;font-weight: bold;">
+</form>
+  
+  
 </div>
-  	<div class="modal-footer">
+<div class="modal-footer">
     	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     </div>
     </div>
     </div>
-  </div>
-  
+</div>
      
   <%
-  sr++;
+  sr++; 
+  supp_cat=""; 
   }
   %>
   </tbody>

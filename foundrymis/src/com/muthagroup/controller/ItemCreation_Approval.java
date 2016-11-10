@@ -65,6 +65,8 @@ private static final long serialVersionUID = 1L;
 			vo.setBank_address1(request.getParameter("bank_address1").toUpperCase());
 			vo.setBank_address2(request.getParameter("bank_address2").toUpperCase());
 			vo.setBank_address3(request.getParameter("bank_address3").toUpperCase());
+			vo.setSupplier_phone1(request.getParameter("supplier_phone1"));
+			vo.setSupplier_phone2(request.getParameter("supplier_phone2"));
 			
 			HttpSession session = request.getSession();
 			String sr = session.getAttribute("uid").toString();

@@ -165,7 +165,7 @@ function validateNewItemForm() {
 			alert("Please Provide Supplier Category !!!");  
 			return false;
 		}
-		if (category.value=="0" || category.value==null || category.value=="" || category.value=="null") {
+		if (category.value==null || category.value=="" || category.value=="null") {
 			alert("Please Provide Category !!!");  
 			return false;
 		}
@@ -298,8 +298,8 @@ alert("Done");
       </tr>
     <tr>
       <td>Phone Number</td>
-      <td><input type="text" name="phone_number1" id="phone_number1"   onkeypress ="return validatenumerics(event);"></td>
-      <td><input type="text" name="phone_number2" id="phone_number2"  onkeypress ="return validatenumerics(event);"></td>
+      <td><input type="text" name="supplier_phone1" id="supplier_phone1"  maxlength="10"  onkeypress ="return validatenumerics(event);"></td>
+      <td><input type="text" name="supplier_phone2" id="supplier_phone2" maxlength="10"  onkeypress ="return validatenumerics(event);"></td>
       <td>&nbsp;</td>
       </tr>
     <tr>
@@ -486,8 +486,8 @@ alert("Done");
     </tr>
     <tr>
       <td>Phone Number</td>
-      <td><input type="text" name="phone_number1" id="phone_number1"></td>
-      <td colspan="2"><input type="text" name="phone_number2" id="phone_number2"></td>
+      <td><input type="text" name="phone_number1" id="phone_number1"  maxlength="10"></td>
+      <td colspan="2"><input type="text" name="phone_number2" id="phone_number2"  maxlength="10"></td>
     </tr>
     <tr>
       <td rowspan="3">Bank Address</td>
