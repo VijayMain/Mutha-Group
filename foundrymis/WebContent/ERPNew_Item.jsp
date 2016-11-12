@@ -109,6 +109,8 @@ background-color: #e6e6ff;
 </STYLE>
 <script type="text/javascript">
 function validateNewItemForm() {
+	document.getElementById("submit").disabled = true
+	
 	var supplier = document.getElementById("supplier");
 	var supp_address = document.getElementById("supp_address"); 
 	var supp_city = document.getElementById("supp_city");
@@ -130,54 +132,67 @@ function validateNewItemForm() {
 	var indus_type = document.getElementById("indus_type");  
 	 
 		if (supplier.value=="0" || supplier.value==null || supplier.value=="" || supplier.value=="null") {
+			document.getElementById("submit").disabled = false;
 			alert("Please Provide Supplier Name !!!");  
 			return false;
 		}
 		if (supp_address.value=="0" || supp_address.value==null || supp_address.value=="" || supp_address.value=="null") {
+			document.getElementById("submit").disabled = false;
 			alert("Please Provide Address !!!");  
 			return false;
 		}
 		if (supp_city.value=="" || supp_city.value=="null") {
+			document.getElementById("submit").disabled = false;
 			alert("Please Provide City !!!");  
 			return false;
 		}
 		if (work_address.value=="0" || work_address.value==null || work_address.value=="" || work_address.value=="null") {
+			document.getElementById("submit").disabled = false;
 			alert("Please Provide Work Address !!!");  
 			return false;
 		}
 		if (credit_days.value=="0" || credit_days.value==null || credit_days.value=="" || credit_days.value=="null") {
+			document.getElementById("submit").disabled = false;
 			alert("Please Provide Credit Days !!!");  
 			return false;
 		}
 		if (tin_sst.value!="" && tin_sst_date.value=="") {
+			document.getElementById("submit").disabled = false;
 			alert("If TIN/SST Number is available, Date is mandatory !!!");  
 			return false;
 		}
 		if (cst_number.value!="" && cst_number_date.value=="") {
+			document.getElementById("submit").disabled = false;
 			alert("If CST Number is available, Date is mandatory !!!");  
 			return false;
 		}
 		if (service_tax.value!="" && service_tax_date.value=="") {
+			document.getElementById("submit").disabled = false;
 			alert("If Service Tax Number is available, Date is mandatory !!!");  
 			return false;
 		}
 		if (supp_category.value=="0" || supp_category.value==null || supp_category.value=="" || supp_category.value=="null") {
+			document.getElementById("submit").disabled = false;
 			alert("Please Provide Supplier Category !!!");  
 			return false;
 		}
 		if (category.value==null || category.value=="" || category.value=="null") {
+			document.getElementById("submit").disabled = false;
 			alert("Please Provide Category !!!");  
 			return false;
 		}
 		if (pan_no.value=="0" || pan_no.value==null || pan_no.value=="" || pan_no.value=="null") {
+			document.getElementById("submit").disabled = false;
 			alert("Please Provide PAN Number !!!");
 			return false;
 		}			   
 		if (tds_code.value=="0" || tds_code.value==null || tds_code.value=="" || tds_code.value=="null") {
+			document.getElementById("submit").disabled = false;
 			alert("Please Provide TDS Code !!!");
 			return false;
 		}
 		if (indus_type.value=="0" || indus_type.value==null || indus_type.value=="" || indus_type.value=="null") {
+			document.getElementById("submit").disabled = false;
 			alert("Please Provide Industry Type !!!");
 			return false;
 		}
@@ -406,7 +421,7 @@ alert("Done");
       <%
       }
       %>
-      </select> 
+      </select>
       </td>
       </tr>
     <tr>

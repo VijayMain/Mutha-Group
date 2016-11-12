@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>AJAX AVAIL USERS</title>
+<title>AJAX AVAIL Suppliers</title>
 </head>
 <body>
 <span id="autofind">
@@ -25,7 +25,7 @@ try{
     <th>Available Supplier Names</th>
   </tr>
   <%	  
-  PreparedStatement ps = con.prepareStatement("select * from MSTACCTGLSUB where SUBGL_LONGNAME like '%"+supp_name+"%'");
+  PreparedStatement ps = con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE=12 and SUBGL_LONGNAME like '%"+supp_name+"%'");
   ResultSet rs = ps.executeQuery();
   while(rs.next()){
   %>
