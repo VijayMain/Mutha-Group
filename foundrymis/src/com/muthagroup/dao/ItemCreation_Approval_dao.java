@@ -119,6 +119,20 @@ if(flag_check==false){
 			if (up > 0) {
 
 				/**************************************************************************************************/
+				String report = "NewERPItem_Approval";
+				ArrayList to_emails = new ArrayList();
+				ArrayList name_emails = new ArrayList();
+
+				PreparedStatement ps_rec = con.prepareStatement("select * from pending_approvee where type='to' and report='"+ report + "'");
+				ResultSet rs_rec = ps_rec.executeQuery();
+				while (rs_rec.next()) {
+					to_emails.add(rs_rec.getString("email"));
+					name_emails.add(rs_rec.getString("validlimit"));
+				}
+				  
+				InternetAddress[] addressBcc = new InternetAddress[1];
+				for (int p = 0; p < to_emails.size(); p++) {
+					
 				SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
 				Calendar cal = Calendar.getInstance();
 				String sql_date = sdfFIrstDate.format(cal.getTime()).toString();
@@ -140,27 +154,14 @@ if(flag_check==false){
 				Message msg = new MimeMessage(mailSession);
 				msg.setFrom(new InternetAddress(from));
 				/******************************************************************************************************** */
-				String report = "NewERPItem_Approval";
-				ArrayList to_emails = new ArrayList();
-				ArrayList name_emails = new ArrayList();
-
-				PreparedStatement ps_rec = con.prepareStatement("select * from pending_approvee where type='to' and report='"+ report + "'");
-				ResultSet rs_rec = ps_rec.executeQuery();
-				while (rs_rec.next()) {
-					to_emails.add(rs_rec.getString("email"));
-					name_emails.add(rs_rec.getString("validlimit"));
-				} 
-				  
-				for (int p = 0; p < to_emails.size(); p++) {
-					InternetAddress[] addressBcc = new InternetAddress[1];
+				
+					
 					
 					StringBuilder sb = new StringBuilder();
 					ps = con.prepareStatement("select * from new_item_creation where enable=1 and approval_status=0");
 					rs = ps.executeQuery();
 					sb.append("<b style='color: #0D265E; font-family: Arial;font-size: 11px;'>This is an automatically generated email for ERP Pending Approval - To add new suppliers in ERP System !!!</b>"
-							+ "<p><b>To Approve ,</b><a href='http://localhost/foundrymis/approve.jsp?userName="
-							+ name_emails.get(p).toString()
-							+ "'>Click Here</a></p>"
+							+ "<p><b>To Approve ,</b><a href='http://192.168.0.7/foundrymis/approve.jsp?userName=" + name_emails.get(p).toString() + "'>Click Here</a></p>"
 							+ "<table border='1' width='97%' style='font-family: Arial;'>"
 							+ "<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"
 							+ "<th height='24'>S.No</th><th>Supplier</th><th>Request Date</th><th>Logged By</th><th>Approval</th></tr>");
@@ -183,7 +184,7 @@ if(flag_check==false){
 								+ "<td  align='left'>Pending</td>" + "</tr>");
 						sent = true;
 					}
-
+					srno=0;
 					sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"
 							+ "<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"
 							+ "<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"

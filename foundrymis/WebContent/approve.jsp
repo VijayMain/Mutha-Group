@@ -17,7 +17,9 @@
   function myFunction(str,str1) {		
 	    document.getElementById("hid_status").value = str;
   		document.getElementById("hid_mode").value = str1;
-  		 
+  		
+  		document.getElementById("approve_btn").disabled = true;
+  		document.getElementById("decline_btn").disabled = true;
   		
   		document.getElementById("myForm").submit();
   }
@@ -50,7 +52,7 @@ if(request.getParameter("userName")!=null){
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active"><a href="approve.jsp?userName=<%=request.getParameter("userName")%>">Home <span class="sr-only">(current)</span></a></li> 
-        <li class="dropdown">
+        <!-- <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Status<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Pending Approvals</a></li>
@@ -58,7 +60,7 @@ if(request.getParameter("userName")!=null){
             <li><a href="#">Declined</a></li>
             <li><a href="#">All </a></li>
           </ul> 
-        </li> 
+        </li>  -->
       </ul>
     <!-- <form class="navbar-form navbar-left">
         <div class="form-group">
@@ -150,10 +152,9 @@ if(request.getParameter("userName")!=null){
     <dd>- <%=tds_code %></dd>
   </dl>
   </div>
-  <input type="button" value="Approve"  class="btn btn-default" onclick="myFunction(1,'<%= rs.getString("code")%>')" style="background-color: #2cc543;font-weight: bold;">
-  <input type="button" value="Decline"  class="btn btn-default"  onclick="myFunction(3,'<%= rs.getString("code")%>')" style="background-color: #ff2222;font-weight: bold;">
+  <input type="button" id="approve_btn" value="Approve"  class="btn btn-default" onclick="myFunction(1,'<%= rs.getString("code")%>')" style="background-color: #2cc543;font-weight: bold;">
+  <input type="button" id="decline_btn" value="Decline"  class="btn btn-default"  onclick="myFunction(3,'<%= rs.getString("code")%>')" style="background-color: #ff2222;font-weight: bold;">
 </form>
-
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

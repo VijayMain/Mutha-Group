@@ -109,7 +109,7 @@ background-color: #e6e6ff;
 </STYLE>
 <script type="text/javascript">
 function validateNewItemForm() {
-	document.getElementById("submit").disabled = true
+	document.getElementById("submit").disabled = true;
 	
 	var supplier = document.getElementById("supplier");
 	var supp_address = document.getElementById("supp_address"); 
@@ -216,6 +216,27 @@ function get_allAvailSuppliers(name) {
 	xmlhttp.open("POST", "Get_allAvailUsers.jsp?q=" + name, true);  
 	xmlhttp.send(); 
 }
+
+
+function getSupplier(str) {
+	if(str!=""){
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		// code for IE6, IE5
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById("autofind").innerHTML = xmlhttp.responseText; 
+		}
+	};
+	xmlhttp.open("GET", "GetSelectedApproval_List.jsp?q=" + str, true);
+	xmlhttp.send();
+	}
+}; 
 </script>
 <script type="text/javascript">
 function validatenumerics(key) {
@@ -270,7 +291,7 @@ alert("Done");
 <form action="ItemCreation_Approval" method="post"  onSubmit="return validateNewItemForm();">
 <table class="tftable" style="border: 0px;">
   <tr>
-    <th colspan="4" align="left">To add new supplier</th>
+    <th colspan="4" align="left">To add new supplier  ( <a href="ERPNew_Item.jsp" style="font-family: Arial;font-size: 12px;color: green;">Reset</a> )</th>
     </tr>
     <tr>
       <td colspan="4" align="left" bgcolor="#999999"><strong>Supplier Details</strong></td>
@@ -319,7 +340,7 @@ alert("Done");
       </tr>
     <tr>
       <td>Fax Number</td>
-      <td><input type="text" name="fax_supplier" id="fax_supplier"></td>
+      <td><input type="text" name="fax_supplier" id="fax_supplier"  maxlength="11"></td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       </tr>
@@ -526,10 +547,16 @@ alert("Done");
 <span id="autofind">
 <table class="tftable" style="border: 0px;">
 <tr>
-    <th>Available Supplier Names Pending for Approval</th>
+    <th> 
+    <select name="supplier_name" id="supplier_name" onchange="getSupplier(this.value)">
+    <option value="">All</option>
+    <option value="0">Pending</option>
+    <option value="1">Approved</option>
+    <option value="3">Declined</option> 
+    </select> Supplier Names</th>
   </tr>
   <%
-  ps = conlocal.prepareStatement("select * from new_item_creation where enable=1 and approval_status=0");
+  ps = conlocal.prepareStatement("select * from new_item_creation where enable=1 and approval_status!=3");
   rs = ps.executeQuery();
   while(rs.next()){
   %>
