@@ -574,6 +574,26 @@ function validateCatoutForm(){
 	document.getElementById("waitImageots").style.visibility = "visible";		
 	return true;
 }
+
+function validateBU(){
+	document.getElementById("ADDUB").disabled = true;
+	document.getElementById("waitImageUB").style.visibility = "visible";
+	
+	var companyBU = document.getElementById("companyBU").value;
+	var monthBU = document.getElementById("monthBU").value;
+	var yearBU = document.getElementById("yearBU").value;
+	var custUB = document.getElementById("custUB").value;
+		
+	document.getElementById("compBU_hid").value = companyBU;
+	document.getElementById("monthBU_hid").value = monthBU;
+	document.getElementById("yearBU_hid").value = yearBU;
+	document.getElementById("custBU_hid").value = custUB;
+	
+	// compBU_hid   monthBU_hid   yearBU_hid   custBU_hid
+	// companyBU   monthBU    yearBU  custUB
+	
+	return true;
+}
 </script>
 <script type="text/javascript">
 function validat_rmcomsume() {      
@@ -754,12 +774,18 @@ while(rs.next()){
 			%>
 				<li><a href="#tabs-15">Bill Wise Purchase Details</a></li> 
 		<%
-		}if(reportList.size()==0){
+		}if(reportList.contains("Outstanding Bajaj and Umasons")){
 		%> 	
-			<li><a href="#tabs-16">Work In Progress</a></li>
+			<li><a href="#tabs-16">Outstanding Bajaj and Umasons</a></li>
+		<%  
+		}if(reportList.size()==0){			
+		%> 	
+			<li><a href="#tabs-17">Work In Progress</a></li>
 		<%
 		}
 		%>
+		
+		
 			<!-- 
 			<li><a href="#tabs-6">Casting Rejection</a></li>
 			 -->						  
@@ -1589,9 +1615,89 @@ while(rs.next()){
 	</form> 		
 			</div>
 		<% 
+			}if(reportList.contains("Outstanding Bajaj and Umasons")){
+		%>
+		<div id="tabs-16"> 
+		<form action="Get_Outstanding_BU.jsp" method="post" onSubmit="return validateBU();">
+		
+		<input type="hidden" name="compBU_hid"  id="compBU_hid">
+		<input type="hidden" name="monthBU_hid"  id="monthBU_hid">
+		<input type="hidden" name="yearBU_hid"  id="yearBU_hid"> 
+		<input type="hidden" name="custBU_hid"  id="custBU_hid"> 
+		
+		<table class="tftable" style="border: 0px;">
+		<tr>
+				<td colspan="2"><strong style="font-size: 12px;">To Get Outstanding Bajaj and Umasons<br/> </strong> <br/>
+				 </td>
+			</tr> 
+			<tr>
+				<td>Select Company :</td>
+				<td> 
+				<select name="company" id="companyBU"> 
+ 				<!-- <option value="101">MEPL H21</option>  -->
+ 				<option value="102">MEPL H25</option>  
+ 				</select>
+				 </td>
+			</tr>			
+			<tr>
+				<td>Select Month :</td>
+				<td>
+		<select name="month" id="monthBU">
+ 		<option value="<%=getcalmn+1%>"><%=getcalName%></option>
+ 		<% 
+ 		String[] monthb = new DateFormatSymbols().getMonths(); 
+ 		for (int i = 0; i < 12; i++) {
+	   	String nameb = monthb[i]; 
+ 		%>
+ 			<option value="<%=i+1%>"><%=nameb %></option>
+		 <% 
+	 			}
+ 		 %>  
+			 </select> 
+				 </td>
+			</tr> 
+			<tr>
+				<td>Select Year :</td>
+				<td>
+				<select name="year" id="yearBU"> 
+ 		<%
+ 		int yearb = Calendar.getInstance().get(Calendar.YEAR); 
+ 		for(int x = yearb; x >= 2011; x = x-1) { 
+ 			%>
+ 		<option value="<%=x%>"><%=x %></option>
+ 			<%
+ 			}
+ 			%>
+ 			</select> 
+				 </td>
+			</tr>
+			<tr>
+				<td>Select Customer :</td>
+				<td>
+				<select name="cust" id="custUB"> 
+ 		<option value="101110004">BAJAJ AUTO LIMITED (AURANGABAD)</option> 
+ 		<option value="101110384">UMASONS AUTO COMPO PVT.LTD.</option> 
+ 			</select>
+				 </td>
+			</tr>
+			<tr>
+			<td colspan="2" align="center">
+				<input type="submit" name="ADD" id="ADDUB" value="Generate Report"  style="font-weight:bold;background-color: #BABABA;width: 150px;height: 35px;"/> 
+			 </td>
+			</tr>
+			<tr>
+			<td colspan="2" align="center"><span id="waitImageUB" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
+			</tr>
+						 
+		</table>
+		</form> 
+		
+		
+			</div>
+		<%
 			}if(reportList.size()==0){
 		%>
-			<div id="tabs-16">
+			<div id="tabs-17">
 			<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
 			</div>
 		<%
