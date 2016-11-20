@@ -127,22 +127,13 @@ if(flag_check==false){
 			int up = ps.executeUpdate();
 
 			if (up > 0) {
-
-				System.out.println("In loop of value = " + vo.getAttachment_name());
-				
-				if(!vo.getAttachment_name().equalsIgnoreCase(null)){
-					
-					System.out.println("In loop of attachment");
-					
+				if(vo.getAttachment_name()!=""){
 					int item_codeNo=0;
 					PreparedStatement ps_prev = con.prepareStatement("select max(code) as code from new_item_creation");
 					ResultSet rs_prev = ps_prev.executeQuery();
 					while (rs_prev.next()) {
 						item_codeNo = rs_prev.getInt("code");
-					}
-					
-					System.out.println("attachment code number" + item_codeNo);
-					
+					}  
 					ps_prev = con.prepareStatement("insert into new_item_attach(item_code,attachment,attach_name,enable,date_update,created_by)values(?,?,?,?,?,?)");
 					ps_prev.setInt(1, item_codeNo);
 					ps_prev.setBlob(2, vo.getAttachment());

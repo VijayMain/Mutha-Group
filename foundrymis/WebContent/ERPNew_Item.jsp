@@ -290,6 +290,7 @@ alert("Done");
 <strong style="color: #1B5869;font-family: Arial;font-size: 14px;">To create new item's in ERP System</strong> 
 <br/>
 <strong style="font-family: Arial;font-size: 14px;font-weight: bold;"><a href="HomePage.jsp" style="text-decoration: none;">&lArr; BACK</a></strong>
+&nbsp;&nbsp;&nbsp;<b style="font-size: 11px;color: #555306">Note : Please Use Mozilla Firefox Web Browser for full control.......</b>
 <br>
 <div style="overflow: scroll;background-color: white;width:58%;float:left">
 
