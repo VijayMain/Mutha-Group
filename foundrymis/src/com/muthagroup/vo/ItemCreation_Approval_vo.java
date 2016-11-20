@@ -1,5 +1,7 @@
 package com.muthagroup.vo;
 
+import java.io.InputStream;
+
 public class ItemCreation_Approval_vo {
 	private String supplier, short_supplier, supp_address, supp_city,
 			pin_supplier, vendor_code, fax_supplier, email_supplier,
@@ -11,7 +13,12 @@ public class ItemCreation_Approval_vo {
 			service_cessround, vat_round, net_amountRound, is_overseas,
 			account_name, account_number, bank_name, branch, ifsc_rtgs,
 			ifsc_neft, micr_code, phone_number1, phone_number2, bank_address1,
-			bank_address2, bank_address3, supplier_phone2, supplier_phone1;
+			bank_address2, bank_address3, supplier_phone2, supplier_phone1,
+			supplier_phone3, relativeinMutha, relative_name, turnYear1,
+			turnover1, turnover2, turnover3, turnYear2, turnYear3, owners_name,
+			phone_number3, attachment_name;
+
+	private InputStream attachment;
 
 	public String getSupplier() {
 		return supplier;
@@ -411,6 +418,110 @@ public class ItemCreation_Approval_vo {
 
 	public void setSupplier_phone1(String supplier_phone1) {
 		this.supplier_phone1 = supplier_phone1;
+	}
+
+	public String getSupplier_phone3() {
+		return supplier_phone3;
+	}
+
+	public void setSupplier_phone3(String supplier_phone3) {
+		this.supplier_phone3 = supplier_phone3;
+	}
+
+	public String getRelativeinMutha() {
+		return relativeinMutha;
+	}
+
+	public void setRelativeinMutha(String relativeinMutha) {
+		this.relativeinMutha = relativeinMutha;
+	}
+
+	public String getRelative_name() {
+		return relative_name;
+	}
+
+	public void setRelative_name(String relative_name) {
+		this.relative_name = relative_name;
+	}
+
+	public String getTurnYear1() {
+		return turnYear1;
+	}
+
+	public void setTurnYear1(String turnYear1) {
+		this.turnYear1 = turnYear1;
+	}
+
+	public String getTurnover1() {
+		return turnover1;
+	}
+
+	public void setTurnover1(String turnover1) {
+		this.turnover1 = turnover1;
+	}
+
+	public String getTurnover2() {
+		return turnover2;
+	}
+
+	public void setTurnover2(String turnover2) {
+		this.turnover2 = turnover2;
+	}
+
+	public String getTurnover3() {
+		return turnover3;
+	}
+
+	public void setTurnover3(String turnover3) {
+		this.turnover3 = turnover3;
+	}
+
+	public String getTurnYear2() {
+		return turnYear2;
+	}
+
+	public void setTurnYear2(String turnYear2) {
+		this.turnYear2 = turnYear2;
+	}
+
+	public String getTurnYear3() {
+		return turnYear3;
+	}
+
+	public void setTurnYear3(String turnYear3) {
+		this.turnYear3 = turnYear3;
+	}
+
+	public String getOwners_name() {
+		return owners_name;
+	}
+
+	public void setOwners_name(String owners_name) {
+		this.owners_name = owners_name;
+	}
+
+	public String getPhone_number3() {
+		return phone_number3;
+	}
+
+	public void setPhone_number3(String phone_number3) {
+		this.phone_number3 = phone_number3;
+	}
+
+	public String getAttachment_name() {
+		return attachment_name;
+	}
+
+	public void setAttachment_name(String attachment_name) {
+		this.attachment_name = attachment_name;
+	}
+
+	public InputStream getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(InputStream attachment) {
+		this.attachment = attachment;
 	}
 
 }

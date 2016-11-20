@@ -114,7 +114,7 @@ function validateNewItemForm() {
 	var supplier = document.getElementById("supplier");
 	var supp_address = document.getElementById("supp_address"); 
 	var supp_city = document.getElementById("supp_city");
-	var work_address = document.getElementById("work_address");
+	/* var work_address = document.getElementById("work_address"); */
 	var credit_days = document.getElementById("credit_days");
 	
 	var tin_sst = document.getElementById("tin_sst");
@@ -146,11 +146,12 @@ function validateNewItemForm() {
 			alert("Please Provide City !!!");  
 			return false;
 		}
-		if (work_address.value=="0" || work_address.value==null || work_address.value=="" || work_address.value=="null") {
+		/*	
+			if (work_address.value=="0" || work_address.value==null || work_address.value=="" || work_address.value=="null") {
 			document.getElementById("submit").disabled = false;
 			alert("Please Provide Work Address !!!");  
 			return false;
-		}
+		} */
 		if (credit_days.value=="0" || credit_days.value==null || credit_days.value=="" || credit_days.value=="null") {
 			document.getElementById("submit").disabled = false;
 			alert("Please Provide Credit Days !!!");  
@@ -233,7 +234,7 @@ function getSupplier(str) {
 			document.getElementById("autofind").innerHTML = xmlhttp.responseText; 
 		}
 	};
-	xmlhttp.open("GET", "GetSelectedApproval_List.jsp?q=" + str, true);
+	xmlhttp.open("POST", "GetSelectedApproval_List.jsp?q=" + str, true);
 	xmlhttp.send();
 	}
 }; 
@@ -274,6 +275,10 @@ alert("Done");
 		PreparedStatement ps=null;
 		ResultSet rs = null; 
 		
+		Calendar now = Calendar.getInstance();
+		int year = now.get(Calendar.YEAR);
+		 
+		
 		if(request.getParameter("repMsg")!=null){ 
 	  %>
 	  <script type="text/javascript">
@@ -288,28 +293,28 @@ alert("Done");
 <br>
 <div style="overflow: scroll;background-color: white;width:58%;float:left">
 
-<form action="ItemCreation_Approval" method="post"  onSubmit="return validateNewItemForm();">
+<form action="ItemCreation_Approval" method="post"  onSubmit="return validateNewItemForm();"  enctype="multipart/form-data">
 <table class="tftable" style="border: 0px;">
   <tr>
     <th colspan="4" align="left">To add new supplier  ( <a href="ERPNew_Item.jsp" style="font-family: Arial;font-size: 12px;color: green;">Reset</a> )</th>
     </tr>
     <tr>
       <td colspan="4" align="left" bgcolor="#999999"><strong>Supplier Details</strong></td>
-      </tr>
+    </tr>
     <tr>
-    <td width="23%">Supplier Name</td>
-    <td colspan="3"><input type="text" name="supplier" id="supplier" style="text-transform: uppercase;" size="60" onkeyup="get_allAvailSuppliers(this.value)"> </td>
+    <td width="23%">Supplier Name <b style="color: red;">*</b> </td>
+    <td colspan="3"><input type="text" name="supplier" id="supplier" style="text-transform: uppercase;" size="60" onKeyUp="get_allAvailSuppliers(this.value)"> </td>
     </tr>
     <tr>
       <td>Supplier Short Name</td>
       <td colspan="3"><input type="text" name="short_supplier" id="short_supplier"  style="text-transform: uppercase;"></td>
       </tr>
     <tr>
-      <td>Address</td>
+      <td>Address <b style="color: red;">*</b> </td>
       <td colspan="3"><textarea name="supp_address"  style="text-transform: uppercase;" id="supp_address" rows="2" cols="40"></textarea></td>
       </tr>
     <tr>
-      <td>City</td>
+      <td>City <b style="color: red;">*</b> </td>
       <td width="27%">
       <select name="supp_city" id="supp_city">
       <option value="">- - - - Select - - - - </option>
@@ -336,7 +341,7 @@ alert("Done");
       <td>Phone Number</td>
       <td><input type="text" name="supplier_phone1" id="supplier_phone1"  maxlength="10"  onkeypress ="return validatenumerics(event);"></td>
       <td><input type="text" name="supplier_phone2" id="supplier_phone2" maxlength="10"  onkeypress ="return validatenumerics(event);"></td>
-      <td>&nbsp;</td>
+      <td><input type="text" name="supplier_phone3" id="supplier_phone3" maxlength="10"  onkeypress ="return validatenumerics(event);"></td>
       </tr>
     <tr>
       <td>Fax Number</td>
@@ -360,7 +365,7 @@ alert("Done");
       <td colspan="4" align="left" bgcolor="#999999"><strong>Taxation Details</strong></td>
       </tr>
     <tr>
-      <td>Credit Days</td>
+      <td>Credit Days <b style="color: red;">*</b> </td>
       <td colspan="3"><input type="text" name="credit_days" id="credit_days" size="5"  style="text-align: right;"   onkeypress ="return validatenumerics(event);" maxlength="3"></td>
       </tr>
     <tr>
@@ -396,7 +401,7 @@ alert("Done");
       <td colspan="3"><input type="text" name="collectorate" id="collectorate"></td>
       </tr>
     <tr>
-      <td>Supplier Category</td>
+      <td>Supplier Category <b style="color: red;">*</b> </td>
       <td><select name="supp_category" id="supp_category">
        <option value="">- - - - Select - - - - </option>
       <%
@@ -409,18 +414,17 @@ alert("Done");
       }
       %>
       </select></td>
-      <td>Category</td>
+      <td>Category <b style="color: red;">*</b> </td>
       <td><select name="category" id="category">
          <option value="">- - - - Select - - - - </option>
 					<Option Value="0">Manufacturer</Option>
 					<Option Value="1">Dealer/Traders</Option>
 					<Option Value="2">Importer</Option>
 					<Option Value="3">Other</Option>
-      </select> 
-		</td>
+      </select>		</td>
       </tr>
     <tr>
-      <td>PAN Number</td>
+      <td>PAN Number <b style="color: red;">*</b></td>
       <td><input type="text" name="pan_no" id="pan_no" maxlength="10"></td>
       <td>TAN Number</td>
       <td><input type="text" name="tan_no" id="tan_no" maxlength="10"></td>
@@ -430,7 +434,7 @@ alert("Done");
       <td colspan="3"><input type="text" name="lbt_no" id="lbt_no" maxlength="15"></td>
       </tr>
     <tr>
-      <td>TDS Code</td>
+      <td>TDS Code <b style="color: red;">*</b> </td>
       <td colspan="3"><select name="tds_code" id="tds_code">
       <option value="">- - - - Select - - - - </option>
       <%
@@ -442,11 +446,10 @@ alert("Done");
       <%
       }
       %>
-      </select>
-      </td>
+      </select>      </td>
       </tr>
     <tr>
-      <td>Industry Type</td>
+      <td>Industry Type <b style="color: red;">*</b> </td>
       <td colspan="3"><select name="indus_type" id="indus_type">
         <option value="SSI">SSI</option>
         <option value="NON SSI">NON SSI</option>
@@ -478,11 +481,36 @@ alert("Done");
     <tr>
       <td>Is Overseas</td>
       <td colspan="3"><input type="checkbox" name="is_overseas" id="is_overseas"></td>
+    </tr> 
+    <tr>
+      <td colspan="4" align="left" bgcolor="#999999"><strong>Extra Information</strong></td>
+      </tr>
+    <tr>
+      <td>Any Relatives in Mutha Group</td>
+      <td colspan="3">
+      <input type="radio" name="relativeinMutha" id="relativeinMutha" value="yes">Yes &nbsp; &nbsp;
+      <input type="radio" name="relativeinMutha" id="relativeinMutha" value="no">No &nbsp; &nbsp;
+      If Yes Name : <input type="text" name="relative_name" id="relative_name" size="30" maxlength="50" style="text-transform: uppercase;">
+      </td>
+    </tr>
+    <tr>
+      <td>Turnover p.a.(Last 3)</td>
+      <td colspan="3"><%=year-1 %><input type="hidden" name="turnYear1" id="turnYear1" value="<%=year-1%>">
+      <input type="text" name="turnover1" id="turnover1" size="11" maxlength="11" onkeypress ="return validatenumerics(event);">
+      <%=year-2 %><input type="hidden" name="turnYear2" id="turnYear2" value="<%=year-2%>">
+      <input type="text" name="turnover2" id="turnover2" size="11" maxlength="11" onkeypress ="return validatenumerics(event);">
+      <%=year-3 %><input type="hidden" name="turnYear3" id="turnYear3" value="<%=year-3%>">
+      <input type="text" name="turnover3" id="turnover3" size="11" maxlength="11" onkeypress ="return validatenumerics(event);">
+      </td>
+    </tr>
+    <tr>
+      <td>Owner's Name</td>
+      <td colspan="3"><input type="text" name="owners_name" id="owners_name" size="40"></td>
     </tr>
     <tr>
       <td colspan="4" align="left" bgcolor="#999999"><strong>Bank Details</strong></td>
     <tr>
-      <td>Account Name*</td>
+      <td>Account Name</td>
       <td colspan="3"><input type="text" name="account_name" id="account_name" size="40"></td>
       </tr>
     <tr>
@@ -522,8 +550,9 @@ alert("Done");
     </tr>
     <tr>
       <td>Phone Number</td>
-      <td><input type="text" name="phone_number1" id="phone_number1"  maxlength="10"></td>
-      <td colspan="2"><input type="text" name="phone_number2" id="phone_number2"  maxlength="10"></td>
+      <td><input type="text" name="phone_number1" id="phone_number1"  maxlength="10" onkeypress ="return validatenumerics(event);"></td>
+      <td><input type="text" name="phone_number2" id="phone_number2"  maxlength="10" onkeypress ="return validatenumerics(event);"></td>
+      <td><input type="text" name="phone_number3" id="phone_number3"  maxlength="10" onkeypress ="return validatenumerics(event);"></td>
     </tr>
     <tr>
       <td rowspan="3">Bank Address</td>
@@ -537,6 +566,10 @@ alert("Done");
     </tr>
     
     <tr>
+      <td>Attach cheque/other for ref.</td>
+      <td colspan="3"><input type="file" name="attachment" id="attachment" size="40"></td>
+    </tr>
+    <tr>
       <td>&nbsp;</td>
       <td colspan="3"><input type="submit" name="submit" id="submit" value="Submit for Approval" style="font-weight:bold;height: 29px;width: 200px;background-color: #9ae9ef;"></td>
     </tr>
@@ -547,8 +580,8 @@ alert("Done");
 <span id="autofind">
 <table class="tftable" style="border: 0px;">
 <tr>
-    <th> 
-    <select name="supplier_name" id="supplier_name" onchange="getSupplier(this.value)">
+    <th>
+    <select name="supplier_name" id="supplier_name" onChange="getSupplier(this.value)">
     <option value="">All</option>
     <option value="0">Pending</option>
     <option value="1">Approved</option>

@@ -55,7 +55,7 @@ public void add_newERPitems(int uid, HttpServletResponse response, ItemCreation_
 				response.sendRedirect("ERPNew_Item.jsp?repMsg='Supplier is Already Available !!!'");
 			}
 if(flag_check==false){
-			ps = con.prepareStatement("insert into new_item_creation(supplier,short_supplier,supp_address,supp_city,pin_supplier,vendor_code,fax_supplier,email_supplier,website_supplier,work_address,credit_days,tin_sst,tin_sst_date,cst_number,cst_number_date,service_tax,service_tax_date,ecc_no,excise_range,division,collectorate,supp_category,category,pan_no,tan_no,lbt_no,tds_code,indus_type,tds_method,excise_round,excise_cessround,service_taxround,service_cessround,vat_round,net_amountRound,is_overseas,account_name,account_number,bank_name,branch,ifsc_rtgs,ifsc_neft,micr_code,phone_number1,phone_number2,bank_address1,bank_address2,bank_address3,registered_by,registered_date,update_by,update_date,enable,approval_status,supplier_phone1,supplier_phone2,email_logger)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			ps = con.prepareStatement("insert into new_item_creation(supplier,short_supplier,supp_address,supp_city,pin_supplier,vendor_code,fax_supplier,email_supplier,website_supplier,work_address,credit_days,tin_sst,tin_sst_date,cst_number,cst_number_date,service_tax,service_tax_date,ecc_no,excise_range,division,collectorate,supp_category,category,pan_no,tan_no,lbt_no,tds_code,indus_type,tds_method,excise_round,excise_cessround,service_taxround,service_cessround,vat_round,net_amountRound,is_overseas,account_name,account_number,bank_name,branch,ifsc_rtgs,ifsc_neft,micr_code,phone_number1,phone_number2,bank_address1,bank_address2,bank_address3,registered_by,registered_date,update_by,update_date,enable,approval_status,supplier_phone1,supplier_phone2,email_logger,relative_flag,relative_name,turnover_year1,turnover_year2,turnover_year3,turnover1,turnover2,turnover3,owner_name,supplier_phone3,phone_number3)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			ps.setString(1, vo.getSupplier());
 			ps.setString(2, vo.getShort_supplier());
 			ps.setString(3, vo.getSupp_address());
@@ -113,11 +113,47 @@ if(flag_check==false){
 			ps.setString(55, vo.getSupplier_phone1());
 			ps.setString(56, vo.getSupplier_phone2());
 			ps.setString(57, email);
-
+			ps.setString(58, vo.getRelativeinMutha());
+			ps.setString(59, vo.getRelative_name());
+			ps.setString(60, vo.getTurnYear1());
+			ps.setString(61, vo.getTurnYear2());
+			ps.setString(62, vo.getTurnYear3());
+			ps.setString(63, vo.getTurnover1());
+			ps.setString(64, vo.getTurnover2());
+			ps.setString(65, vo.getTurnover3());
+			ps.setString(66, vo.getOwners_name());
+			ps.setString(67, vo.getSupplier_phone3());
+			ps.setString(68, vo.getPhone_number3()); 
 			int up = ps.executeUpdate();
 
 			if (up > 0) {
 
+				System.out.println("In loop of value = " + vo.getAttachment_name());
+				
+				if(!vo.getAttachment_name().equalsIgnoreCase(null)){
+					
+					System.out.println("In loop of attachment");
+					
+					int item_codeNo=0;
+					PreparedStatement ps_prev = con.prepareStatement("select max(code) as code from new_item_creation");
+					ResultSet rs_prev = ps_prev.executeQuery();
+					while (rs_prev.next()) {
+						item_codeNo = rs_prev.getInt("code");
+					}
+					
+					System.out.println("attachment code number" + item_codeNo);
+					
+					ps_prev = con.prepareStatement("insert into new_item_attach(item_code,attachment,attach_name,enable,date_update,created_by)values(?,?,?,?,?,?)");
+					ps_prev.setInt(1, item_codeNo);
+					ps_prev.setBlob(2, vo.getAttachment());
+					ps_prev.setString(3, vo.getAttachment_name());
+					ps_prev.setInt(4, 1);
+					ps_prev.setTimestamp(5, todaysDate);
+					ps_prev.setString(6, uname);
+					
+					int up_prev = ps_prev.executeUpdate();
+					
+				}
 				/**************************************************************************************************/
 				String report = "NewERPItem_Approval";
 				ArrayList to_emails = new ArrayList();
