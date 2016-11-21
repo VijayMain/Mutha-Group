@@ -1,3 +1,4 @@
+<%@page import="java.util.Calendar"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="com.muthagroup.connection.ConnectionModel"%>
@@ -15,12 +16,34 @@
 <%
 try{
 			String str = request.getParameter("q");
-			int i = Integer.parseInt(str);
-			 Connection con =ConnectionModel.getConnection();
-		     String sql ="";
-		     PreparedStatement ps=null,ps_des = null;;
+			String sql ="";
+		    java.sql.Date compareDate = null; 
+		    
+		    if(str.equalsIgnoreCase("prev")){
+		    compareDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+			sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1 and event_date < '"+ compareDate +"'  order by event_date";
+			}
+			if(str.equalsIgnoreCase("todays")){
+			    compareDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1 and event_date = '"+ compareDate +"'  order by event_date";
+			} 
+			if(str.equalsIgnoreCase("upcoming")){
+			    compareDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1 and event_date > '"+ compareDate +"'  order by event_date";
+			} 
+			if(str.equalsIgnoreCase("myMeeting")){ 
+				 int uid = Integer.parseInt(session.getAttribute("u_id").toString());
+				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1 and created_by ="+ uid +"  order by event_date desc";
+			}
+			
+		     
+			Connection con =ConnectionModel.getConnection();
+		     
+		    PreparedStatement ps=null,ps_des = null;;
 		     ResultSet rs = null,rs_des = null;
-		    sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1  order by event_date";
+
+		     
+		    
 		    ps = con.prepareStatement(sql);
 		    rs = ps.executeQuery();
 		   %>  

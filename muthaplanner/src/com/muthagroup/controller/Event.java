@@ -33,7 +33,7 @@ extends HttpServlet {
             list.add(request.getParameter("users"));//6
             list.add(request.getParameter("user"));//7
             
-            System.out.println("This is the update = " + list);
+            //System.out.println("This is the update = " + list);
             int uid = Integer.parseInt(session.getAttribute("u_id").toString());
             this.dao.saveEvent(list,uid);
             response.sendRedirect("mainpage.jsp");

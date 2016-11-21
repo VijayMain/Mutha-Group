@@ -202,13 +202,16 @@ System.out.println("list date = " + calarray.get(3) +","+ calarray.get(2) +","+ 
 
 
 <%
-Calendar c = Calendar.getInstance();
-for(int i=1;i<=24;i++){
-c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY)+i); 
+Calendar c = Calendar.getInstance(); 
+c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY)+1); 
 System.out.println(c.get(Calendar.HOUR_OF_DAY)); 
 System.out.println(c.get(Calendar.MINUTE));
 System.out.println(c.get(Calendar.AM_PM));
-}
+ 
+java.sql.Date dateIndate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+System.out.println("date sql = " + dateIndate);
+
+
 %>
 
 

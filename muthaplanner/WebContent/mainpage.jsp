@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.muthagroup.controller.DailyReport"%>
@@ -76,7 +77,7 @@
     }
 </script>
 <script>
-function callPrev(){ 
+function callstatusv(str){  
 		var xmlhttp;
 		if (window.XMLHttpRequest) { 
 			xmlhttp = new XMLHttpRequest();
@@ -350,10 +351,10 @@ if ((session.getAttribute("user")!=null))
       <button type="button" class="btn btn-default">My Events</button>
       </li> -->
       	 <li><a href="#Report" data-id="New Event" data-toggle="modal"><b>CREATE NEW</b></a></li>
-         <li><a onclick="callPrev()"><b>PREVIOUS</b></a></li>
-         <li><a href="#"><b>TODAYS</b></a></li>
-         <li><a href="#"><b>UPCOMING</b></a></li>
-         <li><a href="#"><b>MY MEETINGS</b></a></li>
+         <li><a onclick="callstatusv('prev');" style="cursor: pointer;"><b>PREVIOUS</b></a></li>
+         <li><a onclick="callstatusv('todays');" style="cursor: pointer;"><b>TODAYS</b></a></li>
+         <li><a onclick="callstatusv('upcoming');" style="cursor: pointer;"><b>UPCOMING</b></a></li>
+         <li><a onclick="callstatusv('myMeeting');" style="cursor: pointer;"><b>MY MEETINGS</b></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a  data-toggle="modal" href="#loginModal"><span class="glyphicon glyphicon-log-out"></span><b> <%=username%></b> Logout</a></li>
@@ -382,9 +383,10 @@ if ((session.getAttribute("user")!=null))
      /* ArrayList<String> userlist = new ArrayList<String>(); */
      Connection con =ConnectionModel.getConnection();
      String sql ="";
+     java.sql.Date compareDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
      PreparedStatement ps=null,ps_des = null;;
      ResultSet rs = null,rs_des = null;
-    sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1  order by event_date";
+    sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1  and event_date >= '"+ compareDate +"'  order by event_date";
     ps = con.prepareStatement(sql);
     rs = ps.executeQuery();
    %> 
