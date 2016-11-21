@@ -20,6 +20,12 @@
 		var data = new google.visualization.DataTable();
 <%
 try{
+	
+	String newdate = "20/11/2016";
+	String update = newdate.substring(3, 5)+"  =   " + newdate.substring(0, 2) + " = " + newdate.substring(5,10);
+	System.out.println("N = = " + update);
+	
+	
 String d1="oms";
 String d2="Mus";
 String d3="Mushrooms";
@@ -63,11 +69,15 @@ double v7=1;
 	}
 </script> 
 </head> 
-<body>
-	
-	<div id="chart_div"></div>
-	
-	
+<body> 
+
+
+
+
+
+
+
+<div id="chart_div"></div> 
 <script type="text/javascript">
     google.load("visualization", "1", {packages:["corechart"]});
     google.setOnLoadCallback(drawChart);
@@ -184,5 +194,24 @@ for (int i=0;i<4;i++){
 }
 System.out.println("list date = " + calarray.get(3) +","+ calarray.get(2) +","+ calarray.get(1) +","+ calarray.get(0));
 %>
+
+
+
+
+
+
+
+<%
+Calendar c = Calendar.getInstance();
+for(int i=1;i<=24;i++){
+c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY)+i); 
+System.out.println(c.get(Calendar.HOUR_OF_DAY)); 
+System.out.println(c.get(Calendar.MINUTE));
+System.out.println(c.get(Calendar.AM_PM));
+}
+%>
+
+
+
 </body>
 </html>
