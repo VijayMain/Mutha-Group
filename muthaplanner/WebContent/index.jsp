@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Mutha Group of Engineering Satara</title>
+  <title>Mutha Group Planner</title>
+  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.min.css" >
@@ -180,9 +181,6 @@ else
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-center">
         <li class="active"><a href="#">Mutha Event Planner</a></li>
-        <!-- <li><a href="#">About</a></li>
-        <li><a href="#">Projects</a></li>
-        <li><a href="#">Contact</a></li> -->
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a  data-toggle="modal" href="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -221,25 +219,6 @@ else
 				</div>
 			</div>
 		  </div>
-		  
-		  <div class="modal fade active" id="signupModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    	  <div class="modal-dialog">
-				<div class="loginmodal-container">
-					<h1>Create new Account</h1><br>
-				  <form action="Signup" method="post">
-					<input type="text" name="user" placeholder="Username" required  >
-					<input type="password" name="pass" placeholder="Password" required id="password1" >
-					<input type="password" name="pass" placeholder="Conform Password" required id="password2" >
-					<input type="submit" name="login" class="login loginmodal-submit" value="Signup">
-				  </form>
-				</div>
-			</div>
-		  </div>
-<!-- 
-<footer class="container-fluid text-center">
-  <p>Mutha Group of Engineering satara</p>
-</footer>
- -->
 <%
 }
 %>

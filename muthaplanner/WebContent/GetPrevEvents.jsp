@@ -3,8 +3,7 @@
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="com.muthagroup.connection.ConnectionModel"%>
 <%@page import="java.sql.Connection"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -80,19 +79,18 @@ try{
 		  }
 		  %>
 		  </td>
-		  <%
-		 if(str.equalsIgnoreCase("myMeeting")){ 
-			 srmodal++;
+		<%
+		if(str.equalsIgnoreCase("myMeeting")){ 
+		srmodal++;
 		%>
 		 <th><a  data-toggle="modal" href="#deleteModal<%=srmodal%>"><span class="glyphicon glyphicon-log-out"></span><b></b> Delete</a></th>
-		 
 		 <div class="modal fade active" id="deleteModal<%=srmodal%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    	  <div class="modal-dialog">
+    	 <div class="modal-dialog">
 				<div align="center" class="logoutmodal-container">
 					<h4>Are you sure ? <br> Delete <%=rs.getString("text") %></h4><br> 
 	               <a href="DeleteEvent.jsp?event_id=<%=rs.getInt("event_id")%>"  class="btn btn-info btn-lg">Delete</a>
 				</div>
-			</div>
+		  </div>
 		  </div>
 		<%	 
 		 }
@@ -103,7 +101,6 @@ try{
 		 sql="";
 		 %> 
 		 </table>
-		      
 	<%		  
 }catch(Exception e){
 	e.printStackTrace();
