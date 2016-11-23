@@ -18,7 +18,7 @@ try{
 			String str = request.getParameter("q");
 			String sql ="";
 		    java.sql.Date compareDate = null; 
-		    
+		    int srmodal=0;
 		    if(str.equalsIgnoreCase("prev")){
 		    compareDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 			sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1 and event_date < '"+ compareDate +"'  order by event_date";
@@ -34,16 +34,11 @@ try{
 			if(str.equalsIgnoreCase("myMeeting")){ 
 				 int uid = Integer.parseInt(session.getAttribute("u_id").toString());
 				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1 and created_by ="+ uid +"  order by event_date desc";
-			}
+			} 
 			
-		     
-			Connection con =ConnectionModel.getConnection();
-		     
+			Connection con =ConnectionModel.getConnection(); 
 		    PreparedStatement ps=null,ps_des = null;;
-		     ResultSet rs = null,rs_des = null;
-
-		     
-		    
+		    ResultSet rs = null,rs_des = null;
 		    ps = con.prepareStatement(sql);
 		    rs = ps.executeQuery();
 		   %>  
@@ -56,6 +51,15 @@ try{
 		 <th>End Time</th>
 		 <th>Venue</th>
 		 <th>Participants</th>
+		 
+		 <%
+		 if(str.equalsIgnoreCase("myMeeting")){ 
+		%>
+		 <th>Delete</th>
+		<%	 
+		 }
+		 %>
+		 
 		 </tr>
 		 <%while (rs.next()) {%>
 		  <tr> 
@@ -76,6 +80,23 @@ try{
 		  }
 		  %>
 		  </td>
+		  <%
+		 if(str.equalsIgnoreCase("myMeeting")){ 
+			 srmodal++;
+		%>
+		 <th><a  data-toggle="modal" href="#deleteModal<%=srmodal%>"><span class="glyphicon glyphicon-log-out"></span><b></b> Delete</a></th>
+		 
+		 <div class="modal fade active" id="deleteModal<%=srmodal%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    	  <div class="modal-dialog">
+				<div align="center" class="logoutmodal-container">
+					<h4>Are you sure ? <br> Delete <%=rs.getString("text") %></h4><br> 
+	               <a href="DeleteEvent.jsp?event_id=<%=rs.getInt("event_id")%>"  class="btn btn-info btn-lg">Delete</a>
+				</div>
+			</div>
+		  </div>
+		<%	 
+		 }
+		 %> 
 		  </tr>
 		 <%
 		 }
