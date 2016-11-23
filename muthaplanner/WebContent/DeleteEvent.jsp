@@ -16,7 +16,7 @@ try{
 	Connection con =ConnectionModel.getConnection();  
 	int uid = Integer.parseInt(session.getAttribute("u_id").toString());
 	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-	
+
 	PreparedStatement ps = con.prepareStatement("update events_units set enable_id=?,update_date=?,updated_by=? where event_id="+Integer.parseInt(request.getParameter("event_id")));
 	ps.setInt(1, 0);
 	ps.setTimestamp(2, timestamp);
