@@ -35,7 +35,7 @@ extends HttpServlet {
             
             //System.out.println("This is the update = " + list);
             int uid = Integer.parseInt(session.getAttribute("u_id").toString());
-            this.dao.saveEvent(list,uid);
+            this.dao.saveEvent(list,uid,response);
             response.sendRedirect("mainpage.jsp");
             /*RequestDispatcher view = this.getServletContext().getRequestDispatcher("/mainpage.jsp");
             view.forward((ServletRequest)request, (ServletResponse)response);

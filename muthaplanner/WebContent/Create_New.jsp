@@ -26,6 +26,7 @@
 <script src="js/jquery-ui.js"></script> 
   <script type="text/javascript" src="js/formden.js"></script>
   <script type="text/javascript" src="js/jquery.tokeninput.js"></script>  
+  
     <script type="text/javascript">
     	$(document).ready(
   			  function () { 
@@ -99,7 +100,14 @@ if ((session.getAttribute("user")!=null))
 	ResultSet rs=null;
 	String sql="";
 	String username=(String)session.getAttribute("user"); 
-%>
+	if(request.getParameter("avail")!=null){
+		%>
+		<script type="text/javascript">
+		alert("Please Check Meetings Scheduled And Provide Proper Time Range...!!!");
+		</script>
+		<%
+			}
+		%>
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -131,13 +139,13 @@ if ((session.getAttribute("user")!=null))
       </ul>
     </div>
   </div>
-</nav> 
-<div id="ajaxID"></div>
+</nav>
+<div id="ajaxID">
 		<div class="loginmodal-container"> 
 				<h1><strong><label id="lbl">New Event/Meeting</label></strong></h1>
 	             <form class="form-inline" action="Event" method="post" >
 	              <label>Event Title</label><br>
-	              <input class="form-control" name="text" type="text" required maxlength="25" > 
+	              <input class="form-control" name="text" type="text" required maxlength="25"> 
 	              <label>Event Description</label>
 	              <br>
 	              <textarea name="desc" rows="2" cols="30" required ></textarea>
@@ -346,6 +354,7 @@ if ((session.getAttribute("user")!=null))
 	              <input type="hidden" name="user" value="<%=username%>">
 	              <input type=submit  class="btn btn-info btn-lg" type="submit" value="Create Event/Meeting"  autofocus onClick="showList()" >
 	            </form> 
+			 </div>
 			 </div>
 <%
 }

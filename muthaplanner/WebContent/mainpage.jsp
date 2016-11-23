@@ -88,7 +88,7 @@ if ((session.getAttribute("user")!=null))
          <li><a onclick="callstatusv('prev');" style="cursor: pointer;"><b>PREVIOUS</b></a></li>
          <li><a onclick="callstatusv('todays');" style="cursor: pointer;"><b>TODAYS</b></a></li>
          <li><a onclick="callstatusv('upcoming');" style="cursor: pointer;"><b>UPCOMING</b></a></li>
-         <li><a onclick="callstatusv('myMeeting');" style="cursor: pointer;"><b>MY MEETINGS</b></a></li>
+         <li><a onclick="callstatusv('myMeeting');" style="cursor: pointer;"><b>MY MEETINGS</b></a></li> 
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a  data-toggle="modal" href="#loginModal"><span class="glyphicon glyphicon-log-out"></span><b> <%=username%></b> Logout</a></li>
@@ -106,9 +106,18 @@ if ((session.getAttribute("user")!=null))
      /* ArrayList<String> userlist = new ArrayList<String>(); */
      Connection con =ConnectionModel.getConnection();
      String sql ="";
+     ArrayList activeList = new ArrayList();
      java.sql.Date compareDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-     PreparedStatement ps=null,ps_des = null;;
-     ResultSet rs = null,rs_des = null;
+     PreparedStatement ps=null,ps_des = null, ps_act = null;
+     ResultSet rs = null, rs_act = null ,rs_des = null;
+     
+     String activeMeetings = "SELECT event_id FROM  events_units where enable_id=1 and CAST(CURTIME() as time)  between CAST(start_time as time) and CAST(end_time as time)";
+     ps_act = con.prepareStatement(activeMeetings);
+     rs_act = ps_act.executeQuery();
+     while(rs_act.next()){
+    	 activeList.add(rs_act.getInt("event_id"));
+     }
+     
     sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1  and event_date >= '"+ compareDate +"'  order by event_date";
     ps = con.prepareStatement(sql);
     rs = ps.executeQuery();
@@ -124,8 +133,17 @@ if ((session.getAttribute("user")!=null))
  <th>Venue</th>
  <th>Participants</th>
  </tr>
- <%while (rs.next()) {%>
-  <tr> 
+ <%while (rs.next()) {
+ if(activeList.contains(rs.getInt("event_id"))){
+%>
+<tr bgcolor="#ffff4f" title="Meeting Started">
+<%	 
+ }else{
+%>
+<tr>
+<%
+ }
+ %>
   <td><%=rs.getString("event_date") %></td>
   <td><%=rs.getString("text") %></td>
   <td><%=rs.getString("event_desc") %></td>

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale; 
 
+import javax.servlet.http.HttpServletResponse;
+
 public class MuthaGroupDAO {
     public ArrayList<ArrayList<String>> getReport(MuthaGroupVO vo) {
         ArrayList<ArrayList<String>> allList = new ArrayList<ArrayList<String>>();
@@ -54,7 +56,7 @@ public class MuthaGroupDAO {
         }
     }
 
-    public void saveEvent(ArrayList<String> list, int uid) {
+    public void saveEvent(ArrayList<String> list, int uid, HttpServletResponse response) {
         try {
         	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             String date = list.get(0);
@@ -75,6 +77,18 @@ public class MuthaGroupDAO {
             ResultSet rs = null;
             PreparedStatement ps = null;
             int event_id =0;
+            boolean flag_avail=false;
+            PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_venue='"+list.get(4).toString()+"' and enable_id=1 and  CAST(start_time as time) >= '"+sqltime1+"' AND CAST(end_time as time) <'"+sqltime2+"'");
+            ResultSet rs_chk = ps_chk.executeQuery();
+            while (rs_chk.next()) {
+				flag_avail=true;
+			}
+            if(flag_avail==true || start.equalsIgnoreCase(end)){
+            	System.out.println("Already Available");
+            	String avail = "Please select proper date range...!";
+            	response.sendRedirect("Create_New.jsp?avail="+avail);
+            	
+            }else{
             sql = "insert into events_units(event_date,text,start_time,end_time,event_venue,event_desc,enable_id,created_by,created_date) values(?,?,?,?,?,?,?,?,?)";
             ps = con.prepareStatement(sql);
             ps.setDate(1, sqlDate);//date
@@ -121,9 +135,8 @@ public class MuthaGroupDAO {
  				user_name="";
  				}
  			}
-            
         }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
