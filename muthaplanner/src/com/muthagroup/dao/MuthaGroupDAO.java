@@ -201,10 +201,10 @@ public class MuthaGroupDAO {
 						+ "</font></p>");
 
 	 		
-	 		InternetAddress[] addressBcc = new InternetAddress[1];
+	 		InternetAddress[] addressBcc = new InternetAddress[to_emails.size()];
 			for (int p = 0; p < to_emails.size(); p++) {
-				addressBcc[0] = new InternetAddress(to_emails.get(p).toString());
-				
+				addressBcc[p] = new InternetAddress(to_emails.get(p).toString());
+			}	
 				msg.setRecipients(Message.RecipientType.TO, addressBcc);
 				msg.setSubject(subject);
 				msg.setSentDate(new Date());
@@ -215,7 +215,7 @@ public class MuthaGroupDAO {
 					transport.sendMessage(msg, msg.getAllRecipients());
 					transport.close();
 				} 
-			}
+			
 		/*___________________________________________________________________________________________________*/
 		/*****************************************************************************************************/
         }
