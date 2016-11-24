@@ -83,14 +83,13 @@ public class MuthaGroupDAO {
             ResultSet rs = null;
             PreparedStatement ps = null;
             int event_id =0;
-            boolean flag_avail=false;
-            PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+date+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and  CAST(start_time as time) >= '"+sqltime1+"' AND CAST(end_time as time) <'"+sqltime2+"'");
+            boolean flag_avail=false; 
+            PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+sqlDate.toString()+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and  CAST(start_time as time) >= '"+sqltime1+"' AND CAST(end_time as time) <'"+sqltime2+"'");
             ResultSet rs_chk = ps_chk.executeQuery();
             while (rs_chk.next()) {
 				flag_avail=true;
 			}
-            if(flag_avail==true || start.equalsIgnoreCase(end)){
-            	System.out.println("Already Available");
+            if(flag_avail==true || start.equalsIgnoreCase(end)){ 
             	String avail = "Please select proper date range...!";
             	response.sendRedirect("Create_New.jsp?avail="+avail);
             	
