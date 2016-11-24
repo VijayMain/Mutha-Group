@@ -83,18 +83,20 @@ public class MuthaGroupDAO {
             ResultSet rs = null;
             PreparedStatement ps = null;
             int event_id =0;
-            boolean flag_avail=false; 
-            PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+sqlDate.toString()+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and  CAST(start_time as time) >= '"+sqltime1+"' AND CAST(end_time as time) <'"+sqltime2+"'");
+            boolean flag_avail=false;
+
+        	System.err.println("In Loop " + sqltime1 + " = " + sqltime2);
+        	
+            /*PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+sqlDate.toString()+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and  CAST(start_time as time) >= '"+sqltime1+"' AND CAST(start_time as time) <='"+sqltime2+"'");*/
+            PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+sqlDate.toString()+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and CAST(start_time as time) between '"+sqltime1+"' AND '"+sqltime2+"' OR CAST(end_time as time) between '"+sqltime1+"' AND '"+sqltime2+"'");
             ResultSet rs_chk = ps_chk.executeQuery();
             while (rs_chk.next()) {
 				flag_avail=true;
 			}
-            if(flag_avail==true || start.equalsIgnoreCase(end)){ 
+            if(flag_avail==true || start.equalsIgnoreCase(end)){
             	String avail = "Please select proper date range...!";
             	response.sendRedirect("Create_New.jsp?avail="+avail);
-            	
             }else{
-            	
             sql = "insert into events_units(event_date,text,start_time,end_time,event_venue,event_desc,enable_id,created_by,created_date) values(?,?,?,?,?,?,?,?,?)";
             ps = con.prepareStatement(sql);
             ps.setDate(1, sqlDate);//date
@@ -211,7 +213,7 @@ public class MuthaGroupDAO {
 				if (sent == true) {
 					Transport transport = mailSession.getTransport("smtp");
 					transport.connect(host, user, pass);
-					transport.sendMessage(msg, msg.getAllRecipients());
+				//	transport.sendMessage(msg, msg.getAllRecipients());
 					transport.close();
 				}
 			
