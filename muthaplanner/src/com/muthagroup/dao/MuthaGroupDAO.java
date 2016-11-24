@@ -84,7 +84,7 @@ public class MuthaGroupDAO {
             PreparedStatement ps = null;
             int event_id =0;
             boolean flag_avail=false;
-            PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+sqlDate+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and  CAST(start_time as time) >= '"+sqltime1+"' AND CAST(end_time as time) <'"+sqltime2+"'");
+            PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+date+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and  CAST(start_time as time) >= '"+sqltime1+"' AND CAST(end_time as time) <'"+sqltime2+"'");
             ResultSet rs_chk = ps_chk.executeQuery();
             while (rs_chk.next()) {
 				flag_avail=true;
@@ -214,7 +214,7 @@ public class MuthaGroupDAO {
 					transport.connect(host, user, pass);
 					transport.sendMessage(msg, msg.getAllRecipients());
 					transport.close();
-				} 
+				}
 			
 		/*___________________________________________________________________________________________________*/
 		/*****************************************************************************************************/
