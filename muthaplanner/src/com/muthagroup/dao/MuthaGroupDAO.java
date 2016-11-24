@@ -85,8 +85,6 @@ public class MuthaGroupDAO {
             int event_id =0;
             boolean flag_avail=false;
 
-        	System.err.println("In Loop " + sqltime1 + " = " + sqltime2);
-        	
             /*PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+sqlDate.toString()+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and  CAST(start_time as time) >= '"+sqltime1+"' AND CAST(start_time as time) <='"+sqltime2+"'");*/
             PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+sqlDate.toString()+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and CAST(start_time as time) between '"+sqltime1+"' AND '"+sqltime2+"' OR CAST(end_time as time) between '"+sqltime1+"' AND '"+sqltime2+"'");
             ResultSet rs_chk = ps_chk.executeQuery();
@@ -157,7 +155,7 @@ public class MuthaGroupDAO {
 			PreparedStatement ps_rec = con_email.prepareStatement("select * from pending_approvee where type='to' and report='"+ report + "' and validlimit='" + list.get(4).toString() + "'");
 			ResultSet rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
-				to_emails.add(rs_rec.getString("email")); 
+				to_emails.add(rs_rec.getString("email"));
 			} 
 			SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
 			Calendar cal = Calendar.getInstance();
@@ -205,7 +203,8 @@ public class MuthaGroupDAO {
 	 		InternetAddress[] addressBcc = new InternetAddress[to_emails.size()];
 			for (int p = 0; p < to_emails.size(); p++) {
 				addressBcc[p] = new InternetAddress(to_emails.get(p).toString());
-			}	
+			}
+			
 				msg.setRecipients(Message.RecipientType.TO, addressBcc);
 				msg.setSubject(subject);
 				msg.setSentDate(new Date());
