@@ -73,7 +73,7 @@ public class MuthaGroupDAO {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date dateMy = sdf.parse(strDate); 
             java.sql.Date sqlDate = new java.sql.Date(dateMy.getTime()); 
-            SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
+            SimpleDateFormat time = new SimpleDateFormat("HH:mm a");
             Date utilTime1=time.parse(start);
             Date utilTime2=time.parse(end);
             Time sqltime1=new Time(utilTime1.getTime());
@@ -115,7 +115,8 @@ public class MuthaGroupDAO {
             if (rs.next()) {
         	   event_id=rs.getInt("code");
            }
-           
+        	boolean sent = false;
+        	ArrayList to_emails = new ArrayList(); 
             String users=list.get(5);//users list
             String[] userlist ;
             userlist = users.split(",");
@@ -129,8 +130,12 @@ public class MuthaGroupDAO {
  				ps = con.prepareStatement("select * from user_tbl where U_Id="+Integer.parseInt(user_id));
  				rs = ps.executeQuery();
  				while (rs.next()) {
+ 					to_emails.add(rs.getString("U_Email"));
+ 					
  					user_name = rs.getString("U_Name");
+ 					
  					name_users = name_users + user_name +","; 
+ 					sent=true;
 				}
  				sql = "insert into event_users(event_id,u_id,user_name) values(?,?,?)";
  	            ps = con.prepareStatement(sql);
@@ -141,27 +146,22 @@ public class MuthaGroupDAO {
  				user_id="";
  				user_name="";
  				}
- 			} 
- 			
+ 			}
  			/*___________________________________________________________________________________________________*/
  			/*****************************************************************************************************/
  			
 			String report = "Mutha_Planner";
-			ArrayList to_emails = new ArrayList(); 
+			
 			Connection con_email = ConnectionModel.getLocalDatabase();
 			PreparedStatement ps_rec = con_email.prepareStatement("select * from pending_approvee where type='to' and report='"+ report + "' and validlimit='" + list.get(4).toString() + "'");
 			ResultSet rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
 				to_emails.add(rs_rec.getString("email")); 
-			}
-			  
-			InternetAddress[] addressBcc = new InternetAddress[1];
-			for (int p = 0; p < to_emails.size(); p++) {
-			
+			} 
 			SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
 			Calendar cal = Calendar.getInstance();
 			String sql_date = sdfFIrstDate.format(cal.getTime()).toString();
-			boolean sent = false;
+		
 			String host = "send.one.com";
 			String user = "itsupports@muthagroup.com";
 			String pass = "itsupports@xyz";
@@ -180,7 +180,7 @@ public class MuthaGroupDAO {
 			msg.setFrom(new InternetAddress(from));
 			StringBuilder sb = new StringBuilder();
 			
-			sb.append("<b style='color: #0D265E; font-family: Arial; font-size: 11px;'>This is an automatically generated email to attend a meeting in !!!</b>");
+			sb.append("<b style='color: #0D265E; font-family: Arial; font-size: 11px;'>This is an automatically generated email to attend a meeting in "+list.get(4).toString()+"!!!</b>");
 			sb.append("<p><b>To Check ,</b><a href='http://192.168.0.7/muthaplanner/'>Click Here</a> </p>");
 			sb.append("<table border='1' width='97%' style='font-family: Arial;'>"+
 						"<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
@@ -200,6 +200,9 @@ public class MuthaGroupDAO {
 						+ "or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"
 						+ "</font></p>");
 
+	 		
+	 		InternetAddress[] addressBcc = new InternetAddress[1];
+			for (int p = 0; p < to_emails.size(); p++) {
 				addressBcc[0] = new InternetAddress(to_emails.get(p).toString());
 				
 				msg.setRecipients(Message.RecipientType.TO, addressBcc);
