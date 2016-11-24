@@ -118,7 +118,7 @@ if ((session.getAttribute("user")!=null))
      PreparedStatement ps=null,ps_des = null, ps_act = null;
      ResultSet rs = null, rs_act = null ,rs_des = null;
      
-     String activeMeetings = "SELECT event_id FROM  events_units where enable_id=1 and CAST(CURTIME() as time)  between CAST(start_time as time) and CAST(end_time as time)";
+     String activeMeetings = "SELECT event_id FROM  events_units where event_date='"+compareDate+"' and enable_id=1 and CAST(CURTIME() as time)  between CAST(start_time as time) and CAST(end_time as time)";
      ps_act = con.prepareStatement(activeMeetings);
      rs_act = ps_act.executeQuery();
      while(rs_act.next()){

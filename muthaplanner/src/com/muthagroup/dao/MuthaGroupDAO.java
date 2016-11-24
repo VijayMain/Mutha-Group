@@ -67,7 +67,7 @@ public class MuthaGroupDAO {
         	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             String date = list.get(0);
             String start = list.get(2);
-            String end = list.get(3); 
+            String end = list.get(3);
      //    String strDate =  date.substring(6,10) + "-" + date.substring(3, 5) + "-" + date.substring(0, 2);
             String strDate = date;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -84,7 +84,7 @@ public class MuthaGroupDAO {
             PreparedStatement ps = null;
             int event_id =0;
             boolean flag_avail=false;
-            PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_venue='"+list.get(4).toString()+"' and enable_id=1 and  CAST(start_time as time) >= '"+sqltime1+"' AND CAST(end_time as time) <'"+sqltime2+"'");
+            PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+sqlDate+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and  CAST(start_time as time) >= '"+sqltime1+"' AND CAST(end_time as time) <'"+sqltime2+"'");
             ResultSet rs_chk = ps_chk.executeQuery();
             while (rs_chk.next()) {
 				flag_avail=true;
