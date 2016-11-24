@@ -18,4 +18,15 @@ public class ConnectionModel {
         }
         return con;
     }
+    
+	public static Connection getLocalDatabase() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/erp_database", "root","root"); 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return con;
+	}
+    
 }

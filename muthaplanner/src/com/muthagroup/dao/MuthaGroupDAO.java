@@ -1,7 +1,7 @@
 package com.muthagroup.dao;
 
 import com.muthagroup.connection.ConnectionModel;
-import com.muthagroup.vo.MuthaGroupVO;
+import com.muthagroup.vo.MuthaGroupVO; 
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,9 +10,15 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale; 
+import java.util.Calendar;
+import java.util.Date; 
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
 
 public class MuthaGroupDAO {
@@ -62,7 +68,7 @@ public class MuthaGroupDAO {
             String date = list.get(0);
             String start = list.get(2);
             String end = list.get(3); 
-//            String strDate =  date.substring(6,10) + "-" + date.substring(3, 5) + "-" + date.substring(0, 2);
+     //    String strDate =  date.substring(6,10) + "-" + date.substring(3, 5) + "-" + date.substring(0, 2);
             String strDate = date;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date dateMy = sdf.parse(strDate); 
@@ -89,6 +95,7 @@ public class MuthaGroupDAO {
             	response.sendRedirect("Create_New.jsp?avail="+avail);
             	
             }else{
+            	
             sql = "insert into events_units(event_date,text,start_time,end_time,event_venue,event_desc,enable_id,created_by,created_date) values(?,?,?,?,?,?,?,?,?)";
             ps = con.prepareStatement(sql);
             ps.setDate(1, sqlDate);//date
@@ -108,13 +115,12 @@ public class MuthaGroupDAO {
             if (rs.next()) {
         	   event_id=rs.getInt("code");
            }
-            
-            
+           
             String users=list.get(5);//users list
             String[] userlist ;
             userlist = users.split(",");
             String creator= list.get(6);//creator
-            
+            String name_users = "";
             String user_id = "",user_name="";
             String[] user_saparate = creator.split(",");             
  			for (int p = 0; p < user_saparate.length; p++) {
@@ -124,7 +130,8 @@ public class MuthaGroupDAO {
  				rs = ps.executeQuery();
  				while (rs.next()) {
  					user_name = rs.getString("U_Name");
-				} 				
+ 					name_users = name_users + user_name +","; 
+				}
  				sql = "insert into event_users(event_id,u_id,user_name) values(?,?,?)";
  	            ps = con.prepareStatement(sql);
  	            ps.setInt(1, event_id);
@@ -134,7 +141,80 @@ public class MuthaGroupDAO {
  				user_id="";
  				user_name="";
  				}
- 			}
+ 			} 
+ 			
+ 			/*___________________________________________________________________________________________________*/
+ 			/*****************************************************************************************************/
+ 			
+			String report = "Mutha_Planner";
+			ArrayList to_emails = new ArrayList(); 
+			Connection con_email = ConnectionModel.getLocalDatabase();
+			PreparedStatement ps_rec = con_email.prepareStatement("select * from pending_approvee where type='to' and report='"+ report + "' and validlimit='" + list.get(4).toString() + "'");
+			ResultSet rs_rec = ps_rec.executeQuery();
+			while (rs_rec.next()) {
+				to_emails.add(rs_rec.getString("email")); 
+			}
+			  
+			InternetAddress[] addressBcc = new InternetAddress[1];
+			for (int p = 0; p < to_emails.size(); p++) {
+			
+			SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
+			Calendar cal = Calendar.getInstance();
+			String sql_date = sdfFIrstDate.format(cal.getTime()).toString();
+			boolean sent = false;
+			String host = "send.one.com";
+			String user = "itsupports@muthagroup.com";
+			String pass = "itsupports@xyz";
+			String from = "itsupports@muthagroup.com";
+			String subject = "Meeting Scheduled at "+ list.get(4).toString()+" on " + date + " " + start + " !!!";
+			boolean sessionDebug = false;
+
+			Properties props = System.getProperties();
+			props.put("mail.host", host);
+			props.put("mail.transport.protocol", "smtp");
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.port", 2525);
+			Session mailSession = Session.getDefaultInstance(props, null);
+			mailSession.setDebug(sessionDebug);
+			Message msg = new MimeMessage(mailSession);
+			msg.setFrom(new InternetAddress(from));
+			StringBuilder sb = new StringBuilder();
+			
+			sb.append("<b style='color: #0D265E; font-family: Arial; font-size: 11px;'>This is an automatically generated email to attend a meeting in !!!</b>");
+			sb.append("<p><b>To Check ,</b><a href='http://192.168.0.7/muthaplanner/'>Click Here</a> </p>");
+			sb.append("<table border='1' width='97%' style='font-family: Arial;'>"+
+						"<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+						"<th>Meeting Date</th> <th>Topic / Agenda</th> <th>Details</th> <th>Start Time</th> <th>End Time</th> <th>Venue</th> <th>Participants</th> </tr> <tr>"+
+						"<td>"+date+"</td>"+
+						"<td>"+list.get(5).toString()+"</td>"+
+						"<td>"+list.get(1).toString()+"</td>"+
+						"<td>"+start+"</td>"+
+						"<td>"+end+"</td>"+
+						"<td>"+list.get(4).toString()+"</td>"+
+						"<td>"+name_users+"</td>"+
+						"</tr>");
+	 		sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"
+						+ "<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"
+						+ "<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"
+						+ "it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons"
+						+ "or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"
+						+ "</font></p>");
+
+				addressBcc[0] = new InternetAddress(to_emails.get(p).toString());
+				
+				msg.setRecipients(Message.RecipientType.TO, addressBcc);
+				msg.setSubject(subject);
+				msg.setSentDate(new Date());
+				msg.setContent(sb.toString(), "text/html");
+				if (sent == true) {
+					Transport transport = mailSession.getTransport("smtp");
+					transport.connect(host, user, pass);
+					transport.sendMessage(msg, msg.getAllRecipients());
+					transport.close();
+				} 
+			}
+		/*___________________________________________________________________________________________________*/
+		/*****************************************************************************************************/
         }
         } catch (Exception e) {
             e.printStackTrace();

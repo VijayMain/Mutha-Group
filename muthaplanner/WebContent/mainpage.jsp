@@ -70,7 +70,14 @@ try{
 if ((session.getAttribute("user")!=null)) 
 {
 	String username=(String)session.getAttribute("user"); 
-%>
+	if(request.getParameter("delete_str")!=null){
+		%>
+		<script type="text/javascript">
+		alert("Deleted successfully.....!!!");
+		</script>
+		<%
+			}
+		%>
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -125,8 +132,8 @@ if ((session.getAttribute("user")!=null))
  <div style="height: 550px;overflow: scroll;" id="ajaxID"> 
  <table class="table table-bordered">         
  <tr>
- <th>Event Date</th>
- <th>Event</th>
+ <th>Meeting Date</th>
+ <th>Topic / Agenda</th>
  <th>Details</th>
  <th>Start Time</th>
  <th>End Time</th>

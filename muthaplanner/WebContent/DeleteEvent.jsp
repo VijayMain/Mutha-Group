@@ -24,7 +24,8 @@ try{
 	int up = ps.executeUpdate();
 	
 	if(up>0){
-		response.sendRedirect("mainpage.jsp");
+		String delete_str = "Deleted successfully.....";
+		response.sendRedirect("mainpage.jsp?delete_str="+delete_str);
 	}else{
 		response.sendRedirect("mainpage.jsp");
 	}
