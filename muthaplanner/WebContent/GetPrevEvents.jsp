@@ -9,6 +9,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>PREV</title>
+<script type="text/javascript">
+function disable_me(){
+	document.getElementById("delete_query").style.pointerEvents = "none";
+}
+</script>
 </head>
 <body> 
  <div style="height: 550px;overflow: scroll;" id="ajaxID"> 
