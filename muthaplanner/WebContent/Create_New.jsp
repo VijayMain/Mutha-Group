@@ -147,9 +147,9 @@ if ((session.getAttribute("user")!=null))
 		<div class="loginmodal-container"> 
 				<h1><strong><label id="lbl">New Event/Meeting</label></strong></h1>
 	             <form class="form-inline" action="Event" method="post" >
-	              <label>Meeting Title</label><br>
+	              <label>Topic / Agenda</label><br>
 	              <input class="form-control" name="text" type="text" required maxlength="25"> 
-	              <label>Topic / Agenda</label>
+	              <label>Details</label>
 	              <br>
 	              <textarea name="desc" rows="2" cols="30" required ></textarea>
 	              <label>Meeting Date</label>
