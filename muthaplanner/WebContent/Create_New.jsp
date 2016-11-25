@@ -49,7 +49,7 @@
         document.getElementById("users").setAttribute('value',t);
         alert(t);
     }
-    function delete_query(){  
+    function disable_me(){
     	document.getElementById("delete_query").style.pointerEvents = "none";
     }
 </script>

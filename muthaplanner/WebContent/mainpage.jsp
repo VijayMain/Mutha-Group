@@ -53,7 +53,7 @@ function myFunction(divName) {
     document.body.innerHTML = originalContents;
 }
 
-function delete_query(){  
+function disable_me(){
 	document.getElementById("delete_query").style.pointerEvents = "none";
 }
 </script>
@@ -64,9 +64,7 @@ function delete_query(){
      document.getElementById('lbl').innerHTML =myBookId;
      $(".loginmodal-container #bookId").val( myBookId ); 
 });
-	
-</script> 
-  
+</script>
 </head>
 <body>
 <%
