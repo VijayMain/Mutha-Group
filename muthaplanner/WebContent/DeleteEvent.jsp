@@ -96,11 +96,10 @@ try{
 		String sql_date = sdfFIrstDate.format(cal.getTime()).toString();
 
 		String host = "send.one.com";
-		String user = "itsupports@muthagroup.com";
-		String pass = "itsupports@xyz";
-		String from = "itsupports@muthagroup.com";
-		String subject = "Meeting has been canceled at " + venue
-				+ " on " + event_date + " " + start_time + " !!!";
+		String user = "meetings@muthagroup.com";
+		String pass = "meetings@xyz";
+		String from = "meetings@muthagroup.com";
+		String subject = "Meeting has been canceled at " + venue + " on " + event_date + " " + start_time + " !!!";
 		boolean sessionDebug = false;
 
 		Properties props = System.getProperties();

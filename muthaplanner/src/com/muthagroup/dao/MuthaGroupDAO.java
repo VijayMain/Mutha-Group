@@ -165,9 +165,9 @@ public class MuthaGroupDAO {
 			String sql_date = sdfFIrstDate.format(cal.getTime()).toString();
 		
 			String host = "send.one.com";
-			String user = "itsupports@muthagroup.com";
-			String pass = "itsupports@xyz";
-			String from = "itsupports@muthagroup.com";
+			String user = "meetings@muthagroup.com";
+			String pass = "meetings@xyz";
+			String from = "meetings@muthagroup.com";
 			String subject = "Meeting Scheduled at "+ list.get(4).toString()+" on " + date + " " + start + " !!!";
 			boolean sessionDebug = false;
 
