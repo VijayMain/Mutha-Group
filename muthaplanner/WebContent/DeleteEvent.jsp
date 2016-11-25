@@ -59,8 +59,8 @@ try{
 		event_date = rs_delmail.getString("event_date");
 		start_time = rs_delmail.getString("start_time");
 		end_time = rs_delmail.getString("end_time");
-		title = rs_delmail.getString("text");
-		agenda = rs_delmail.getString("event_desc");
+		agenda = rs_delmail.getString("text");
+		title = rs_delmail.getString("event_desc");
 
 		ps_att = con.prepareStatement("select * from user_tbl where U_Id =" + uid);
 		rs_att = ps_att.executeQuery();
