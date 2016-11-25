@@ -86,10 +86,13 @@ public class MuthaGroupDAO {
             boolean flag_avail=false;
 
             /*PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+sqlDate.toString()+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and  CAST(start_time as time) >= '"+sqltime1+"' AND CAST(start_time as time) <='"+sqltime2+"'");*/
-            PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+sqlDate.toString()+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and CAST(start_time as time) between '"+sqltime1+"' AND '"+sqltime2+"' OR CAST(end_time as time) between '"+sqltime1+"' AND '"+sqltime2+"'");
+            PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where  enable_id=1 and  "
+            		+ " event_date='"+sqlDate.toString()+"' and event_venue='"+list.get(4).toString()+"'  and CAST(start_time as time) between '"+sqltime1
+            		+"' AND '"+sqltime2+"' and CAST(end_time as time) between  '"+sqltime1+"' AND '"+sqltime2+"'");
+            
             ResultSet rs_chk = ps_chk.executeQuery();
             while (rs_chk.next()) {
-				flag_avail=true;
+				flag_avail=true; 
 			}
             if(flag_avail==true || start.equalsIgnoreCase(end)){
             	String avail = "Please select proper date range...!";
@@ -185,8 +188,8 @@ public class MuthaGroupDAO {
 						"<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 						"<th>Meeting Date</th> <th>Topic / Agenda</th> <th>Details</th> <th>Start Time</th> <th>End Time</th> <th>Venue</th> <th>Participants</th> </tr> <tr>"+
 						"<td>"+date+"</td>"+
-						"<td>"+list.get(5).toString()+"</td>"+
 						"<td>"+list.get(1).toString()+"</td>"+
+						"<td>"+list.get(5).toString()+"</td>"+
 						"<td>"+start+"</td>"+
 						"<td>"+end+"</td>"+
 						"<td>"+list.get(4).toString()+"</td>"+
@@ -212,7 +215,7 @@ public class MuthaGroupDAO {
 				if (sent == true) {
 					Transport transport = mailSession.getTransport("smtp");
 					transport.connect(host, user, pass);
-				//	transport.sendMessage(msg, msg.getAllRecipients());
+					transport.sendMessage(msg, msg.getAllRecipients());
 					transport.close();
 				}
 			

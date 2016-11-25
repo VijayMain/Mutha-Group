@@ -52,6 +52,10 @@ function myFunction(divName) {
 
     document.body.innerHTML = originalContents;
 }
+
+function delete_query(){  
+	document.getElementById("delete_query").style.pointerEvents = "none";
+}
 </script>
 
   <script type="text/javascript" > 

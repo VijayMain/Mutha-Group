@@ -83,15 +83,8 @@ try{
 		if(str.equalsIgnoreCase("myMeeting")){ 
 		srmodal++;
 		%>
-		 <th><%-- <a  data-toggle="modal" href="#deleteModal<%=srmodal%>"><span class="glyphicon glyphicon-log-out"></span><b></b> Delete</a></th>
-		 <div class="modal fade active" id="deleteModal<%=srmodal%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    	 <div class="modal-dialog">
-				<div align="center" class="logoutmodal-container">
-					<h4>Are you sure ? <br> Delete <%=rs.getString("text") %></h4><br> --%> 
-	    <a href="DeleteEvent.jsp?event_id=<%=rs.getInt("event_id")%>">Delete</a>
-		<!-- </div>
-		  </div>
-		  </div> -->
+		 <th> 
+	    <a href="DeleteEvent.jsp?event_id=<%=rs.getInt("event_id")%>" id="delete_query" onclick="disable_me()">Delete</a> 
 		<%	 
 		 }
 		 %> 

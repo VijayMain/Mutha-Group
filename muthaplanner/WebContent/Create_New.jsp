@@ -49,6 +49,9 @@
         document.getElementById("users").setAttribute('value',t);
         alert(t);
     }
+    function delete_query(){  
+    	document.getElementById("delete_query").style.pointerEvents = "none";
+    }
 </script>
 <script>
 function callstatusv(str){  
