@@ -119,17 +119,17 @@ ArrayList list_news = new ArrayList();
     <a href="http://192.168.0.6/MUTHACONSOLIDATION/">ALL CON</a>
   </div>
 </div>
-  <a href="http://192.168.0.7/ComplaintZilla/">&nbsp; &nbsp;&nbsp;<strong>ComplaintZilla</strong>&nbsp;&nbsp;&nbsp;</a>  
-  <a href="http://192.168.0.7/ittracker/">&nbsp; &nbsp;&nbsp;<strong>IT Tracker</strong>&nbsp;&nbsp;&nbsp;</a>  
-  <a href="http://192.168.0.7:8080/">&nbsp; &nbsp;&nbsp;<strong>MIKI</strong>&nbsp;&nbsp; &nbsp;</a> 
-  <a href="http://192.168.0.7/dvpboss/">&nbsp; &nbsp;&nbsp;<strong>DVP BOSS</strong> &nbsp;&nbsp;&nbsp;</a> 
-  <a href="http://192.168.0.7/ECN/">&nbsp; &nbsp;&nbsp;<strong>ECN</strong> &nbsp;&nbsp;&nbsp;</a><!-- 
-  <a href="http://192.168.0.7/dictionary/">&nbsp; &nbsp;&nbsp;<strong>Item Dictionary</strong> &nbsp;&nbsp;&nbsp;</a> --> 
-  <a href="http://192.168.0.7/foundrymis/">&nbsp; &nbsp;&nbsp;<strong>Foundry MIS</strong>&nbsp;&nbsp; &nbsp;</a>
-  <a href="http://192.168.0.7/dailyreports/">&nbsp; &nbsp;&nbsp;<strong>Daily Reports</strong>&nbsp;&nbsp; &nbsp;</a>  
-  <a href="http://www.getmykaizen.com/">&nbsp; &nbsp;&nbsp;<strong>GetMyKaizen</strong> &nbsp;&nbsp;&nbsp;</a>  
+  <a href="http://192.168.0.7/ComplaintZilla/">&nbsp; &nbsp;&nbsp;<strong>ComplaintZilla</strong>&nbsp;&nbsp;</a>  
+  <a href="http://192.168.0.7/ittracker/">&nbsp; &nbsp;&nbsp;<strong>IT Tracker</strong>&nbsp;&nbsp;</a>  
+  <a href="http://192.168.0.7:8080/">&nbsp; &nbsp;&nbsp;<strong>MIKI</strong>&nbsp; &nbsp;</a> 
+  <a href="http://192.168.0.7/dvpboss/">&nbsp; &nbsp;&nbsp;<strong>DVP BOSS</strong> &nbsp;&nbsp;</a> 
+  <a href="http://192.168.0.7/ECN/">&nbsp; &nbsp;&nbsp;<strong>ECN</strong>&nbsp;&nbsp;</a><!-- 
+  <a href="http://192.168.0.7/dictionary/">&nbsp; &nbsp;&nbsp;<strong>Item Dictionary</strong>&nbsp;&nbsp;</a> --> 
+  <a href="http://192.168.0.7/foundrymis/">&nbsp; &nbsp;&nbsp;<strong>Foundry MIS</strong>&nbsp; &nbsp;</a>
+  <a href="http://192.168.0.7/dailyreports/">&nbsp; &nbsp;&nbsp;<strong>Daily Reports</strong>&nbsp; &nbsp;</a>  
+  <a href="http://www.getmykaizen.com/">&nbsp; &nbsp;&nbsp;<strong>GetMyKaizen</strong> &nbsp;&nbsp;</a>  
  <div class="dropdown" style="cursor: pointer;">
- <strong style="color: white;font-size: 13px">Portal</strong>
+ <strong style="color: white;font-size: 13px">Portal</strong> &nbsp;&nbsp;&nbsp;
  <div class="dropdown-content">
     <a href="https://srm.inservices.tatamotors.com/irj/portal">Tata Motors</a>
     <a href="http://its.forcemotors.com/sap/its/homepages/vis/default.html">Force Motors</a>
@@ -138,7 +138,22 @@ ArrayList list_news = new ArrayList();
     <a href="https://mptax.mp.gov.in/mpvatweb/index.jsp">Road Permit MP</a>
     <a href="http://yorkebiz.com/ebp/">York</a>
  </div>
- </div>  
+ </div> 
+ 
+ 
+ <div class="dropdown" style="cursor: pointer;">
+  <strong style="color: white;font-size: 13px"><a href="HelpLine.html">Contact Us</a></strong>
+  <div class="dropdown-content" style="font-family: Arial;font-size: 10px;">
+    <a href="HelpLine.html">ERP (Nilesh Sarnaik - 9923399361)</a>
+    <a href="HelpLine.html">ERP (Amit Jadhav - 9923395915)</a>
+    <a href="HelpLine.html">Software (Vijay Main - 9923396823)</a>
+    <a href="HelpLine.html">Software (Uday Vedpathak - 9175004128)</a>
+    <a href="HelpLine.html">Hardware (Makarand Apsingkar - 9923396807)</a> 
+    </a>
+  </div>
+</div>
+ 
+  
 <%
 if (session.getAttribute("uid") != null) { 
 	uid = Integer.parseInt(session.getAttribute("uid").toString()); 
@@ -174,7 +189,7 @@ if (session.getAttribute("uid") != null) {
 		uname=rs_uname.getString("U_Name"); 
 	}
 %> 
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="Logout.jsp"><strong>LogOut (<%=uname %>)</strong></a>
+  &nbsp;&nbsp;&nbsp;<a href="Logout.jsp"><strong>LogOut (<%=uname %>)</strong></a>
    <%
 	}
    %>

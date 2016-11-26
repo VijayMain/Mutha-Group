@@ -427,7 +427,7 @@ count_mnt = count_mnt - space;
 					// todate_sgi++;
 				todatesgi.add(rs_ondate.getString("TRAN_NO"));
 				}
-			} 
+			}
 			int heatavg1 = todateci.size()/total_dd;
 			int heatavg2 = todatesgi.size()/total_dd;
 			int  total_ci = ondateci.size() + ondatesgi.size();
