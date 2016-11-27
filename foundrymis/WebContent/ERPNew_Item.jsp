@@ -19,12 +19,7 @@
 <%@page import="com.muthagroup.connectionUtil.ConnectionUrl"%>
 <%@page import="java.sql.Connection"%>
 <html>
-<head>
-<script language="JavaScript"> 
-var nHist = window.history.length;
-if(window.history[nHist] != window.location)
-  window.history.forward(); 
-</script> 
+<head> 
 <title>MRM Operations</title> 
 <link rel="stylesheet" href="js/jquery-ui.css"/>
 <script src="js/jquery-1.9.1.js"></script>
@@ -47,6 +42,7 @@ if(window.history[nHist] != window.location)
 			      changeYear: true
 			}); 
 	});
+	 
 </script>
 <STYLE TYPE="text/css" MEDIA=all>
 input{
@@ -116,20 +112,23 @@ function validateNewItemForm() {
 	var supp_city = document.getElementById("supp_city");
 	/* var work_address = document.getElementById("work_address"); */
 	var credit_days = document.getElementById("credit_days");
-	
 	var tin_sst = document.getElementById("tin_sst");
 	var tin_sst_date = document.getElementById("tin_sst_date"); 
 	var cst_number = document.getElementById("cst_number"); 
 	var cst_number_date = document.getElementById("cst_number_date"); 
 	var service_tax = document.getElementById("service_tax"); 
-	var service_tax_date = document.getElementById("service_tax_date"); 
-	
+	var service_tax_date = document.getElementById("service_tax_date");
 	var supp_category = document.getElementById("supp_category"); 
 	var category = document.getElementById("category"); 
 	var pan_no = document.getElementById("pan_no"); 
-	
 	var tds_code = document.getElementById("tds_code"); 
-	var indus_type = document.getElementById("indus_type");  
+	var indus_type = document.getElementById("indus_type");
+	
+	var meplH21 = document.getElementById("meplH21").checked;
+	var meplH25 = document.getElementById("meplH25").checked;
+	var mfpl = document.getElementById("mfpl").checked;
+	var di = document.getElementById("di").checked;
+	var meplunitIII = document.getElementById("meplunitIII").checked;
 	 
 		if (supplier.value=="0" || supplier.value==null || supplier.value=="" || supplier.value=="null") {
 			document.getElementById("submit").disabled = false;
@@ -197,6 +196,14 @@ function validateNewItemForm() {
 			alert("Please Provide Industry Type !!!");
 			return false;
 		}
+		            
+		if (meplH21==false && meplH25==false && mfpl==false && di==false && meplunitIII==false) {
+			document.getElementById("submit").disabled = false;
+			alert("After supplier creation, which company it belongs to / Transfer to !!!");
+			return false;
+		}
+		
+		
 		return true;
 }
  
@@ -217,7 +224,6 @@ function get_allAvailSuppliers(name) {
 	xmlhttp.open("POST", "Get_allAvailUsers.jsp?q=" + name, true);  
 	xmlhttp.send(); 
 }
-
 
 function getSupplier(str) {
 	if(str!=""){
@@ -300,7 +306,7 @@ alert("Done");
     <th colspan="4" align="left">To add new supplier  ( <a href="ERPNew_Item.jsp" style="font-family: Arial;font-size: 12px;color: green;">Reset</a> )</th>
     </tr>
     <tr>
-      <td colspan="4" align="left" bgcolor="#999999"><strong>Supplier Details</strong></td>
+      <td colspan="4" align="left" bgcolor="#c3c3c3"><strong>Supplier Details</strong></td>
     </tr>
     <tr>
     <td width="23%">Supplier Name <b style="color: red;">*</b> </td>
@@ -363,7 +369,7 @@ alert("Done");
       <td colspan="3"><textarea name="work_address" id="work_address" rows="2" cols="40" style="text-transform: uppercase;"></textarea></td>
       </tr>
     <tr>
-      <td colspan="4" align="left" bgcolor="#999999"><strong>Taxation Details</strong></td>
+      <td colspan="4" align="left" bgcolor="#c3c3c3"><strong>Taxation Details</strong></td>
       </tr>
     <tr>
       <td>Credit Days <b style="color: red;">*</b> </td>
@@ -484,7 +490,7 @@ alert("Done");
       <td colspan="3"><input type="checkbox" name="is_overseas" id="is_overseas"></td>
     </tr> 
     <tr>
-      <td colspan="4" align="left" bgcolor="#999999"><strong>Extra Information</strong></td>
+      <td colspan="4" align="left" bgcolor="#c3c3c3"><strong>Extra Information</strong></td>
       </tr>
     <tr>
       <td>Any Relatives in Mutha Group</td>
@@ -509,7 +515,7 @@ alert("Done");
       <td colspan="3"><input type="text" name="owners_name" id="owners_name" size="40"></td>
     </tr>
     <tr>
-      <td colspan="4" align="left" bgcolor="#999999"><strong>Bank Details</strong></td>
+      <td colspan="4" align="left" bgcolor="#c3c3c3"><strong>Bank Details</strong></td>
     <tr>
       <td>Account Name</td>
       <td colspan="3"><input type="text" name="account_name" id="account_name" size="40"></td>
@@ -570,6 +576,25 @@ alert("Done");
       <td>Attach cheque/other for ref.</td>
       <td colspan="3"><input type="file" name="attachment" id="attachment" size="40"></td>
     </tr>
+    
+    <!--
+    		Transfer data to company selected  
+    --->
+    <tr>
+      <td colspan="4" align="left" bgcolor="#c3c3c3"><strong>After Creation, Transfer Supplier To</strong></td>
+    </tr>
+    <tr>
+      <td colspan="4">
+      <br>
+      <input type="checkbox" name="meplH21" id="meplH21"> MEPL H21  &nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="checkbox" name="meplH25" id="meplH25"> MEPL H25  &nbsp;&nbsp; &nbsp;&nbsp; 
+      <input type="checkbox" name="mfpl" id="mfpl"> MFPL  &nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="checkbox" name="di" id="di"> DI  &nbsp;&nbsp; &nbsp;&nbsp;
+      <input type="checkbox" name="meplunitIII" id="meplunitIII"> MEPL UNIT III
+      <br> <br> 
+      </td>
+    </tr>
+    
     <tr>
       <td>&nbsp;</td>
       <td colspan="3"><input type="submit" name="submit" id="submit" value="Submit for Approval" style="font-weight:bold;height: 29px;width: 200px;background-color: #9ae9ef;"></td>

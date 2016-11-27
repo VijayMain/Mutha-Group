@@ -231,7 +231,23 @@ private static final long serialVersionUID = 1L;
 				}
 				if (fieldName.equalsIgnoreCase("owners_name")) {
 					vo.setOwners_name(fieldValue);
-				}   
+				}
+				if (fieldName.equalsIgnoreCase("meplH21")) {
+					vo.setMeplH21(fieldValue);
+				}
+				if (fieldName.equalsIgnoreCase("meplH25")) {
+					vo.setMeplH25(fieldValue);
+				}
+				if (fieldName.equalsIgnoreCase("mfpl")) {
+					vo.setMfpl(fieldValue);
+				}
+				if (fieldName.equalsIgnoreCase("di")) {
+					vo.setDi(fieldValue);
+				}
+				if (fieldName.equalsIgnoreCase("meplunitIII")) {
+					vo.setMeplunitIII(fieldValue);
+				}
+				
 				}else {
 							// *************************************************************************************************************
 							// IF FILE inputs === >

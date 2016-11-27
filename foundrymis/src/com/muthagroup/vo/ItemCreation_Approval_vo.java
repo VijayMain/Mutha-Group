@@ -16,7 +16,8 @@ public class ItemCreation_Approval_vo {
 			bank_address2, bank_address3, supplier_phone2, supplier_phone1,
 			supplier_phone3, relativeinMutha, relative_name, turnYear1,
 			turnover1, turnover2, turnover3, turnYear2, turnYear3, owners_name,
-			phone_number3, attachment_name;
+			phone_number3, attachment_name, meplH21, meplH25, mfpl, di,
+			meplunitIII;
 
 	private InputStream attachment;
 
@@ -522,6 +523,46 @@ public class ItemCreation_Approval_vo {
 
 	public void setAttachment(InputStream attachment) {
 		this.attachment = attachment;
+	}
+
+	public String getMeplH21() {
+		return meplH21;
+	}
+
+	public void setMeplH21(String meplH21) {
+		this.meplH21 = meplH21;
+	}
+
+	public String getMeplH25() {
+		return meplH25;
+	}
+
+	public void setMeplH25(String meplH25) {
+		this.meplH25 = meplH25;
+	}
+
+	public String getMfpl() {
+		return mfpl;
+	}
+
+	public void setMfpl(String mfpl) {
+		this.mfpl = mfpl;
+	}
+
+	public String getDi() {
+		return di;
+	}
+
+	public void setDi(String di) {
+		this.di = di;
+	}
+
+	public String getMeplunitIII() {
+		return meplunitIII;
+	}
+
+	public void setMeplunitIII(String meplunitIII) {
+		this.meplunitIII = meplunitIII;
 	}
 
 }

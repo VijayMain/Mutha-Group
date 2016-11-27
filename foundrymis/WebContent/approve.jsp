@@ -170,9 +170,6 @@ if(request.getParameter("userName")!=null){
   %>
   </tbody>
 </table>
-
-
-
  
 <%
 }catch(Exception e){

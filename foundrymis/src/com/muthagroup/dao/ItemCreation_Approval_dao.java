@@ -55,7 +55,14 @@ public void add_newERPitems(int uid, HttpServletResponse response, ItemCreation_
 				response.sendRedirect("ERPNew_Item.jsp?repMsg='Supplier is Already Available !!!'");
 			}
 if(flag_check==false){
-			ps = con.prepareStatement("insert into new_item_creation(supplier,short_supplier,supp_address,supp_city,pin_supplier,vendor_code,fax_supplier,email_supplier,website_supplier,work_address,credit_days,tin_sst,tin_sst_date,cst_number,cst_number_date,service_tax,service_tax_date,ecc_no,excise_range,division,collectorate,supp_category,category,pan_no,tan_no,lbt_no,tds_code,indus_type,tds_method,excise_round,excise_cessround,service_taxround,service_cessround,vat_round,net_amountRound,is_overseas,account_name,account_number,bank_name,branch,ifsc_rtgs,ifsc_neft,micr_code,phone_number1,phone_number2,bank_address1,bank_address2,bank_address3,registered_by,registered_date,update_by,update_date,enable,approval_status,supplier_phone1,supplier_phone2,email_logger,relative_flag,relative_name,turnover_year1,turnover_year2,turnover_year3,turnover1,turnover2,turnover3,owner_name,supplier_phone3,phone_number3)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			ps = con.prepareStatement("insert into new_item_creation(supplier,short_supplier,supp_address,supp_city,pin_supplier,vendor_code,fax_supplier,email_supplier,"
+					+ "website_supplier,work_address,credit_days,tin_sst,tin_sst_date,cst_number,cst_number_date,service_tax,service_tax_date,ecc_no,excise_range,division,"
+					+ "collectorate,supp_category,category,pan_no,tan_no,lbt_no,tds_code,indus_type,tds_method,excise_round,excise_cessround,service_taxround,"
+					+ "service_cessround,vat_round,net_amountRound,is_overseas,account_name,account_number,bank_name,branch,ifsc_rtgs,ifsc_neft,micr_code,phone_number1,"
+					+ "phone_number2,bank_address1,bank_address2,bank_address3,registered_by,registered_date,update_by,update_date,enable,approval_status,supplier_phone1,"
+					+ "supplier_phone2,email_logger,relative_flag,relative_name,turnover_year1,turnover_year2,turnover_year3,turnover1,turnover2,turnover3,owner_name,"
+					+ "supplier_phone3,phone_number3,transf_h21,transf_h25,transf_mfpl,transf_di,transf_u3)"
+					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			ps.setString(1, vo.getSupplier());
 			ps.setString(2, vo.getShort_supplier());
 			ps.setString(3, vo.getSupp_address());
@@ -123,7 +130,13 @@ if(flag_check==false){
 			ps.setString(65, vo.getTurnover3());
 			ps.setString(66, vo.getOwners_name());
 			ps.setString(67, vo.getSupplier_phone3());
-			ps.setString(68, vo.getPhone_number3()); 
+			ps.setString(68, vo.getPhone_number3());
+			ps.setString(69, vo.getMeplH21());
+			ps.setString(70, vo.getMeplH25());
+			ps.setString(71, vo.getMfpl());
+			ps.setString(72, vo.getDi());
+			ps.setString(73, vo.getMeplunitIII());
+			
 			int up = ps.executeUpdate();
 
 			if (up > 0) {
@@ -281,6 +294,55 @@ if(flag_check==false){
 			
 			
 	/*____________________________________________________________________________________________________*/
+			String reg_by = "",tranf_to="",tds_method="",excise_round="",excise_cessround="",service_taxround="",service_cessround="",vat_round="",net_amountRound="",is_overseas="";
+			 
+			
+			PreparedStatement ps_rec = con.prepareStatement("select * from new_item_creation where code="+Integer.parseInt(code));
+			ResultSet rs_rec = ps_rec.executeQuery();		
+			while(rs_rec.next()){
+				reg_by = rs_rec.getString("registered_by"); 
+				if(rs_rec.getString("transf_h21")!=null){
+					tranf_to = "MEPL H21" + ", " + tranf_to;
+				}
+				if(rs_rec.getString("transf_h25")!=null){
+					tranf_to = "MEPL H25" + ", " + tranf_to;
+				}
+				if(rs_rec.getString("transf_mfpl")!=null){
+					tranf_to = "MFPL" + ", " + tranf_to;
+				}
+				if(rs_rec.getString("transf_di")!=null){
+					tranf_to = "DI" + ", " + tranf_to;
+				}
+				if(rs_rec.getString("transf_u3")!=null){
+					tranf_to = "MEPL UNIT III" + ", " + tranf_to;
+				}
+				
+				if(rs_rec.getString("tds_method")!=null){
+					tds_method = "Applicable";
+				}
+				if(rs_rec.getString("excise_round")!=null){
+					excise_round = "Applicable";
+				}
+
+				if(rs_rec.getString("excise_cessround")!=null){
+					excise_cessround = "Applicable";
+				}
+				if(rs_rec.getString("service_taxround")!=null){
+					service_taxround = "Applicable";
+				}
+				if(rs_rec.getString("service_cessround")!=null){
+					service_cessround = "Applicable";
+				}
+				if(rs_rec.getString("vat_round")!=null){
+					vat_round = "Applicable";
+				}
+				if(rs_rec.getString("net_amountRound")!=null){
+					net_amountRound = "Applicable";
+				}
+				if(rs_rec.getString("is_overseas")!=null){
+					is_overseas = "Applicable";
+				}
+			}
 	
 			String host = "send.one.com";
 			String user = "itsupports@muthagroup.com";
@@ -303,8 +365,8 @@ if(flag_check==false){
 			ArrayList to_emails = new ArrayList();
 			ArrayList name_emails = new ArrayList();
 			String city_up="",sup_cat="",categ="",tds_code=""; 
-			PreparedStatement ps_rec = con.prepareStatement("select * from pending_approvee where type='to' and report='" + report + "'");
-			ResultSet rs_rec = ps_rec.executeQuery();
+			ps_rec = con.prepareStatement("select * from pending_approvee where type='to' and report='" + report + "'");
+			rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
 				to_emails.add(rs_rec.getString("email"));
 				name_emails.add(rs_rec.getString("validlimit"));
@@ -312,10 +374,16 @@ if(flag_check==false){
 
 				StringBuilder sb = new StringBuilder();
 				
-				sb.append("<b style='color: #0D265E; font-family: Arial;font-size: 11px;'>This is an automatically generated email for ERP Approval - For new suppliers !!!</b>"
-						+ "<p><b>To Approval Status : </b>" + ap_status + " by " + userName + "</p>"
-						+ "<table border='1' width='97%' style='font-family: Arial;'>");
-				
+		sb.append("<b style='color: #0D265E; font-family: Arial;font-size: 11px;'>This is an automatically generated email for Approval of ERP Supplier Creation !!!</b>");
+		
+		sb.append("<table border='1' width='97%' style='font-family: Arial;'>"+
+		"<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+		"<th height='24'>Registered By</th><th>Approval Status</th><th>Transfer To</th> "+
+		"</tr><tr style='font-size: 12px; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+		"<td>"+reg_by+"</td> <td><strong>"+ap_status + "</strong> by " + userName+"</td> <td>" + tranf_to + "</td> </tr></table>");
+		
+		sb.append("<table border='1' width='97%' style='font-family: Arial;'>");
+		
 		ps_rec = con.prepareStatement("select * from new_item_creation where code="+Integer.parseInt(code));
 		rs_rec = ps_rec.executeQuery();		
 		while(rs_rec.next()){
@@ -348,47 +416,47 @@ if(flag_check==false){
 		    	  tds_code = rs.getString("NAME");
 		      }
 		      
-		sb.append("<table class='tftable' style='border: 0px;'>"+
+		sb.append("<table border='1' width='97%' style='font-family: Arial;'>"+
 		// supplier,short_supplier,supp_address,supp_city,pin_supplier,vendor_code,fax_supplier,email_supplier,website_supplier,work_address,credit_days,
 		// tin_sst,tin_sst_date,cst_number,cst_number_date,service_tax,service_tax_date,ecc_no,excise_range,division,collectorate,supp_category,
 		// category,pan_no,tan_no,lbt_no,tds_code,indus_type,tds_method,excise_round,excise_cessround,service_taxround,service_cessround,vat_round,
 		// net_amountRound,is_overseas,account_name,account_number,bank_name,branch,ifsc_rtgs,ifsc_neft,micr_code,phone_number1,phone_number2,bank_address1,bank_address2,bank_address3
-"<tr><td colspan='4' align='left' bgcolor='#999999'><strong>Supplier Details</strong></td></tr><tr><td width='23%'>Supplier Name</td>"+
-"<td colspan='3'>"+rs_rec.getString("supplier")+"</td></tr><tr><td>Supplier Short Name</td><td colspan='3'>"+rs_rec.getString("short_supplier")+"</td></tr><tr>"+
-"<td>Address</td><td colspan='3'>"+rs_rec.getString("supp_address")+"</td></tr><tr><td>City</td><td width='27%'>"+city_up+"</td><td width='21%'>Pin Code</td>"+
-"<td width='29%'>"+rs_rec.getString("pin_supplier")+"</td></tr><tr><td>Vendor Code</td><td>"+rs_rec.getString("vendor_code")+"</td><td>&nbsp;</td><td>&nbsp;</td></tr>"+
-"<tr><td>Phone Number</td><td>"+rs_rec.getString("supplier_phone1")+"</td><td>"+rs_rec.getString("supplier_phone2")+"</td><td>&nbsp;</td></tr><tr><td>Fax Number</td><td>"+rs_rec.getString("fax_supplier")+"</td><td>&nbsp;</td>"+
-"<td>&nbsp;</td></tr><tr><td>E-mail ID</td><td colspan='3'>"+rs_rec.getString("email_supplier")+"</td></tr><tr><td>Website</td>"+
-"<td colspan='3'>"+rs_rec.getString("website_supplier")+"</td></tr><tr><td>Work Address</td><td colspan='3'>"+rs_rec.getString("work_address")+"</td></tr><tr>"+
-"<td colspan='4' align='left' bgcolor='#999999'><strong>Taxation Details</strong></td></tr><tr><td>Credit Days</td>"+
-"<td colspan='3'>"+rs_rec.getString("credit_days")+"</td></tr><tr><td>TIN/SST Number</td><td>"+rs_rec.getString("tin_sst")+"</td><td>Date</td>"+
-"<td>"+rs_rec.getString("tin_sst_date")+"</td></tr><tr><td>CST Number</td><td>"+rs_rec.getString("cst_number")+"</td><td>Date</td>"+
-"<td>"+rs_rec.getString("cst_number_date")+"</td></tr><tr><td>Service Tax Number</td><td>"+rs_rec.getString("service_tax")+"</td><td>Date</td>"+
-"<td>"+rs_rec.getString("service_tax_date")+"</td></tr><tr><td>ECC Number</td><td colspan='3'>"+rs_rec.getString("ecc_no")+"</td></tr>"+
-"<tr><td>Exceise Range</td><td>"+rs_rec.getString("excise_range")+"</td><td>Division</td><td>"+rs_rec.getString("division")+"</td></tr><tr><td>Collectorate</td>"+
-"<td colspan='3'>"+rs_rec.getString("collectorate")+"</td></tr><tr><td>Supplier Category</td><td>"+sup_cat+"</td><td>Category</td>"+
-"<td>"+categ+"</td></tr><tr><td>PAN Number</td><td>"+rs_rec.getString("pan_no")+"</td><td>TAN Number</td>"+
-"<td>"+rs_rec.getString("tan_no")+"</td></tr><tr><td>LBT Number</td><td colspan='3'>"+rs_rec.getString("lbt_no")+"</td></tr><tr><td>TDS Code</td>"+
-"<td colspan='3'>"+tds_code+"</td></tr><tr><td>Industry Type</td><td colspan='3'>"+rs_rec.getString("indus_type")+"</td></tr><tr><td>TDS Method</td><td colspan='3'>"+
-rs_rec.getString("tds_method") +"* Checked TDS Posting Entry Wise and Unchecked for TDS Debit Note"+
-"</td></tr><tr><td>Excise Round</td><td>"+rs_rec.getString("excise_round")+"</td>"+
-"<td>Excise Cess Round</td><td>"+rs_rec.getString("excise_cessround")+"</td>"+
-"</tr><tr><td>Service Tax Round</td><td>"+rs_rec.getString("service_taxround")+"</td>"+
-"<td>Service Cess Round</td><td>"+rs_rec.getString("service_cessround")+"</td>"+
-"</tr><tr><td>VAT Round</td><td>"+rs_rec.getString("vat_round")+"</td>"+
-"<td>Net Amount Round</td><td>"+rs_rec.getString("net_amountRound")+"</td></tr><tr><td>Is Overseas</td>"+
-"<td colspan='3'>"+rs_rec.getString("is_overseas")+"</td>"+
+"<tr><td colspan='4' align='left' bgcolor='#999999'><strong>Supplier Details</strong></td></tr><tr><td width='23%'><strong>Supplier Name</strong></td>"+
+"<td colspan='3'>"+rs_rec.getString("supplier").toUpperCase()+"&nbsp;</td></tr><tr><td><strong>Supplier Short Name</strong></td><td colspan='3'>"+rs_rec.getString("short_supplier").toUpperCase()+"&nbsp;</td></tr><tr>"+
+"<td><strong>Address</strong></td><td colspan='3'>"+rs_rec.getString("supp_address").toUpperCase()+"&nbsp;</td></tr><tr><td><strong>City</strong></td><td width='27%'>"+city_up+"&nbsp;</td><td width='21%'><strong>Pin Code</strong></td>"+
+"<td width='29%'>"+rs_rec.getString("pin_supplier")+"&nbsp;</td></tr><tr><td><strong>Vendor Code</strong></td><td>"+rs_rec.getString("vendor_code")+"&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>"+
+"<tr><td><strong>Phone Number</strong></td><td>"+rs_rec.getString("supplier_phone1")+"&nbsp;</td><td>"+rs_rec.getString("supplier_phone2")+"&nbsp;</td><td>"+rs_rec.getString("supplier_phone3")+"&nbsp;</td></tr><tr><td><strong>Fax Number</strong></td><td>"+rs_rec.getString("fax_supplier")+"&nbsp;</td><td>&nbsp;</td>"+
+"<td>&nbsp;</td></tr><tr><td><strong>E-mail ID</strong></td><td colspan='3'>"+rs_rec.getString("email_supplier")+"&nbsp;</td></tr><tr><td><strong>Website</strong></td>"+
+"<td colspan='3'>"+rs_rec.getString("website_supplier")+"&nbsp;</td></tr><tr><td><strong>Work Address</strong></td><td colspan='3'>"+rs_rec.getString("work_address").toUpperCase()+"&nbsp;</td></tr><tr>"+
+"<td colspan='4' align='left' bgcolor='#999999'><strong>Taxation Details</strong></td></tr><tr><td><strong>Credit Days</strong></td>"+
+"<td>"+rs_rec.getString("credit_days")+"&nbsp;</td><td colspan='2' ></td></tr><tr><td><strong>TIN/SST Number</strong></td><td>"+rs_rec.getString("tin_sst")+"&nbsp;</td><td><strong>Date</strong></td>"+
+"<td>"+rs_rec.getString("tin_sst_date")+"&nbsp;</td></tr><tr><td><strong>CST Number</strong></td><td>"+rs_rec.getString("cst_number")+"&nbsp;</td><td><strong>Date</strong></td>"+
+"<td>"+rs_rec.getString("cst_number_date")+"&nbsp;</td></tr><tr><td><strong>Service Tax Number</strong></td><td>"+rs_rec.getString("service_tax")+"&nbsp;</td><td><strong>Date</strong></td>"+
+"<td>"+rs_rec.getString("service_tax_date")+"&nbsp;</td></tr><tr><td><strong>ECC Number</strong></td><td colspan='3'>"+rs_rec.getString("ecc_no")+"&nbsp;</td></tr>"+
+"<tr><td><strong>Exceise Range</strong></td><td>"+rs_rec.getString("excise_range")+"&nbsp;</td><td><strong>Division</strong></td><td>"+rs_rec.getString("division")+"&nbsp;</td></tr><tr><td><strong>Collectorate</strong></td>"+
+"<td colspan='3'>"+rs_rec.getString("collectorate")+"&nbsp;</td></tr><tr><td><strong>Supplier Category</strong></td><td>"+sup_cat+"&nbsp;</td><td><strong>Category</strong></td>"+
+"<td>"+categ+"&nbsp;</td></tr><tr><td><strong>PAN Number</strong></td><td>"+rs_rec.getString("pan_no")+"&nbsp;</td><td><strong>TAN Number</strong></td>"+
+"<td>"+rs_rec.getString("tan_no")+"&nbsp;</td></tr><tr><td><strong>LBT Number</strong></td><td colspan='3'>"+rs_rec.getString("lbt_no")+"&nbsp;</td></tr><tr><td><strong>TDS Code</strong></td>"+
+"<td colspan='3'>"+tds_code+"&nbsp;</td></tr><tr><td><strong>Industry Type</strong></td><td colspan='3'>"+rs_rec.getString("indus_type")+"&nbsp;</td></tr><tr><td><strong>TDS Method</strong></td><td colspan='3'>"+
+
+tds_method +"* Checked TDS Posting Entry Wise and Unchecked for TDS Debit Note"+
+"</td></tr><tr><td><strong>Excise Round</strong></td><td>"+excise_round+"&nbsp;</td>"+
+"<td><strong>Excise Cess Round</strong></td><td>"+excise_cessround+"&nbsp;</td>"+
+"</tr><tr><td><strong>Service Tax Round</strong></td><td>"+service_taxround+"&nbsp;</td>"+
+"<td><strong>Service Cess Round</strong></td><td>"+service_cessround+"&nbsp;</td>"+
+"</tr><tr><td><strong>VAT Round</strong></td><td>"+vat_round+"&nbsp;</td>"+
+"<td><strong>Net Amount Round</strong></td><td>"+net_amountRound+"&nbsp;</td></tr><tr><td><strong>Is Overseas<strong></td>"+
+"<td colspan='3'>"+is_overseas+"&nbsp;</td>"+
+
 "</tr><tr><td colspan='4' align='left' bgcolor='#999999'><strong>Bank Details</strong></td>"+ 
-"<tr><td>Account Name*</td><td colspan='3'>"+rs_rec.getString("account_name")+"</td></tr><tr><td>Account Number</td>"+
-"<td colspan='3'>"+rs_rec.getString("account_number")+"</td></tr><tr><td>Bank Name</td><td colspan='3'>"+rs_rec.getString("bank_name")+"</td></tr><tr><td>Branch</td>"+
-"<td colspan='3'>"+rs_rec.getString("branch")+"</td></tr><tr><td>IFSC Code for RTGS</td><td colspan='3'>"+rs_rec.getString("ifsc_rtgs")+"</td>"+
-"</tr><tr><td>IFSC Code NEFT</td><td colspan='3'>"+rs_rec.getString("ifsc_neft")+"</td></tr><tr><td>MICR Code</td>"+
-"<td colspan='3'>"+rs_rec.getString("micr_code")+"</td></tr><tr><td>Phone Number</td><td>"+rs_rec.getString("phone_number1")+"</td>"+
-"<td colspan='2'>"+rs_rec.getString("phone_number2")+"</td></tr><tr><td rowspan='3'>Bank Address</td><td colspan='3'>"+rs_rec.getString("bank_address1")+"</td></tr><tr>"+
-"<td colspan='3'>"+rs_rec.getString("bank_address2")+"</td></tr><tr><td colspan='3'>"+rs_rec.getString("bank_address3")+"</td></tr>");
-	 
+"<tr><td><strong>Account Name</strong></td><td colspan='3'>"+rs_rec.getString("account_name")+"&nbsp;</td></tr><tr><td><strong>Account Number</strong></td>"+
+"<td colspan='3'>"+rs_rec.getString("account_number")+"&nbsp;</td></tr><tr><td><strong>Bank Name</strong></td><td colspan='3'>"+rs_rec.getString("bank_name")+"&nbsp;</td></tr><tr><td><strong>Branch</strong></td>"+
+"<td colspan='3'>"+rs_rec.getString("branch")+"&nbsp;</td></tr><tr><td><strong>IFSC Code for RTGS</strong></td><td colspan='3'>"+rs_rec.getString("ifsc_rtgs")+"&nbsp;</td>"+
+"</tr><tr><td><strong>IFSC Code NEFT</strong></td><td colspan='3'>"+rs_rec.getString("ifsc_neft")+"&nbsp;</td></tr><tr><td><strong>MICR Code</strong></td>"+
+"<td colspan='3'>"+rs_rec.getString("micr_code")+"&nbsp;</td></tr><tr><td><strong>Phone Number</strong></td><td>"+rs_rec.getString("phone_number1")+"&nbsp;</td>"+
+"<td>"+rs_rec.getString("phone_number2")+"&nbsp;</td><td>"+rs_rec.getString("phone_number3")+"&nbsp;</td></tr><tr><td rowspan='3'><strong>Bank Address</strong></td><td colspan='3'>"+rs_rec.getString("bank_address1")+"&nbsp;</td></tr><tr>"+
+"<td colspan='3'>"+rs_rec.getString("bank_address2")+"&nbsp;</td></tr><tr><td colspan='3'>"+rs_rec.getString("bank_address3")+"&nbsp;</td></tr>");
 }
-				
 				sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"
 						+ "<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"
 						+ "<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"
