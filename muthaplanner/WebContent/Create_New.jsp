@@ -104,13 +104,13 @@ if ((session.getAttribute("user")!=null))
 	String sql="";
 	String username=(String)session.getAttribute("user"); 
 	if(request.getParameter("avail")!=null){
-		%>
+%>
 		<script type="text/javascript">
 		alert("Please Check Meetings Scheduled And Provide Proper Time Range...!!!");
 		</script>
-		<%
-			}
-		%>
+<%
+	}
+%>
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
