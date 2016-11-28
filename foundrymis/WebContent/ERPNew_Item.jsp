@@ -47,7 +47,15 @@
 			var val1 = val; 
 			document.getElementById("hid_code").value = val1;
 			edit.submit();
-		}	 
+		}
+
+	 function ChangeColor(tableRow, highLight) {
+			if (highLight) {
+				tableRow.style.backgroundColor = '#CFCFCF';
+			} else {
+				tableRow.style.backgroundColor = '#FFFFFF';
+			}
+		}
 </script>
 <STYLE TYPE="text/css" MEDIA=all>
 input{
@@ -382,35 +390,35 @@ alert("Done");
       </tr>
     <tr>
       <td>TIN/SST Number</td>
-      <td><input type="text" name="tin_sst" id="tin_sst" maxlength="12"></td>
+      <td><input type="text" name="tin_sst" id="tin_sst" maxlength="12" style="text-transform: uppercase;"></td>
       <td>Date</td>
       <td><input type="text" name="tin_sst_date" id="tin_sst_date" readonly="readonly"></td>
       </tr>
     <tr>
       <td>CST Number</td>
-      <td><input type="text" name="cst_number" id="cst_number" maxlength="12"></td>
+      <td><input type="text" name="cst_number" id="cst_number" maxlength="12" style="text-transform: uppercase;"></td>
       <td>Date</td>
       <td><input type="text" name="cst_number_date" id="cst_number_date"  readonly="readonly"></td>
       </tr>
     <tr>
       <td>Service Tax Number</td>
-      <td><input type="text" name="service_tax" id="service_tax" maxlength="15"></td>
+      <td><input type="text" name="service_tax" id="service_tax" maxlength="15" style="text-transform: uppercase;"></td>
       <td>Date</td>
       <td><input type="text" name="service_tax_date" id="service_tax_date"  readonly="readonly"></td>
       </tr>
     <tr>
       <td>ECC Number</td>
-      <td colspan="3"><input type="text" name="ecc_no" id="ecc_no" maxlength="15"></td>
+      <td colspan="3"><input type="text" name="ecc_no" id="ecc_no" maxlength="15" style="text-transform: uppercase;"></td>
       </tr>
     <tr>
       <td>Exceise Range</td>
-      <td><input type="text" name="excise_range" id="excise_range"></td>
+      <td><input type="text" name="excise_range" id="excise_range" style="text-transform: uppercase;"></td>
       <td>Division</td>
-      <td><input type="text" name="division" id="division"></td>
+      <td><input type="text" name="division" id="division" style="text-transform: uppercase;"></td>
       </tr>
     <tr>
       <td>Collectorate</td>
-      <td colspan="3"><input type="text" name="collectorate" id="collectorate"></td>
+      <td colspan="3"><input type="text" name="collectorate" id="collectorate" style="text-transform: uppercase;"></td>
       </tr>
     <tr>
       <td>Supplier Category <b style="color: red;">*</b> </td>
@@ -437,13 +445,13 @@ alert("Done");
       </tr>
     <tr>
       <td>PAN Number <b style="color: red;">*</b></td>
-      <td><input type="text" name="pan_no" id="pan_no" maxlength="10"></td>
+      <td><input type="text" name="pan_no" id="pan_no" maxlength="10" style="text-transform: uppercase;"></td>
       <td>TAN Number</td>
-      <td><input type="text" name="tan_no" id="tan_no" maxlength="10"></td>
+      <td><input type="text" name="tan_no" id="tan_no" maxlength="10" style="text-transform: uppercase;"></td>
       </tr>
     <tr>
       <td>LBT Number</td>
-      <td colspan="3"><input type="text" name="lbt_no" id="lbt_no" maxlength="15"></td>
+      <td colspan="3"><input type="text" name="lbt_no" id="lbt_no" maxlength="15" style="text-transform: uppercase;"></td>
       </tr>
     <tr>
       <td>TDS Code <b style="color: red;">*</b> </td>
@@ -628,7 +636,7 @@ alert("Done");
   while(rs.next()){
   %>
   <tr  onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs.getInt("code")%>',0);" style="cursor: pointer;">
-  <td align="left" style="font-family: Arial;font-size: 10px;"><%=rs.getString("supplier") %></td>
+  <td align="left" style="font-family: Arial;font-size: 11px;"><%=rs.getString("supplier").toUpperCase() %></td>
   </tr>
   <%
   }

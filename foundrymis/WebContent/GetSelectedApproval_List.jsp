@@ -43,8 +43,8 @@ try{
   ResultSet rs = ps.executeQuery();
   while(rs.next()){
   %>
-  <tr>
-  <td align="left" style="font-family: Arial;font-size: 10px;"><%=rs.getString("supplier") %></td>
+  <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">
+  <td align="left" style="font-family: Arial;font-size: 10px;"><%=rs.getString("supplier").toUpperCase() %></td>
   </tr>
   <%
   }
