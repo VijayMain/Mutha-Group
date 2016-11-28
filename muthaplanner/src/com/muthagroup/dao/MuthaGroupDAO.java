@@ -68,11 +68,20 @@ public class MuthaGroupDAO {
             String date = list.get(0);
             String start = list.get(2);
             String end = list.get(3);
+            ArrayList to_emails = new ArrayList(); 
+            ArrayList user_regList = new ArrayList(); 
+            String users=list.get(5);//users list
+            String[] userlist ;
+            userlist = users.split(",");
+            String creator= list.get(6);//creator
+            String name_users = "";
+            String user_id = "",user_name="";
+            String[] user_saparate = creator.split(",");       
      //    String strDate =  date.substring(6,10) + "-" + date.substring(3, 5) + "-" + date.substring(0, 2);
             String strDate = date;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date dateMy = sdf.parse(strDate); 
-            java.sql.Date sqlDate = new java.sql.Date(dateMy.getTime()); 
+            java.util.Date dateMy = sdf.parse(strDate);
+            java.sql.Date sqlDate = new java.sql.Date(dateMy.getTime());
             SimpleDateFormat time = new SimpleDateFormat("HH:mm a");
             Date utilTime1=time.parse(start);
             Date utilTime2=time.parse(end);
@@ -91,9 +100,22 @@ public class MuthaGroupDAO {
             		+"' AND '"+sqltime2+"' and CAST(end_time as time) between  '"+sqltime1+"' AND '"+sqltime2+"'");
             
             ResultSet rs_chk = ps_chk.executeQuery();
+            
+            
+            for (int p = 0; p < user_saparate.length; p++) {
+            	user_regList.add(user_saparate[p].toString()); 
+            }	 
             while (rs_chk.next()) {
-				flag_avail=true; 
+            	PreparedStatement ps_availUsers = con.prepareStatement("select * from event_users where event_id="+rs_chk.getInt("event_id"));
+            	ResultSet rs_availUsers = ps_availUsers.executeQuery();
+            	while (rs_availUsers.next()) {
+            		if(user_regList.contains(String.valueOf(rs_availUsers.getInt("u_id")))){
+            			flag_avail=true;	
+            		}  
+				}
 			}
+            user_id="";
+             
             if(flag_avail==true || start.equalsIgnoreCase(end)){
             	String avail = "Please select proper date range...!";
             	response.sendRedirect("Create_New.jsp?avail="+avail);
@@ -118,14 +140,7 @@ public class MuthaGroupDAO {
         	   event_id=rs.getInt("code");
            }
         	boolean sent = false;
-        	ArrayList to_emails = new ArrayList(); 
-            String users=list.get(5);//users list
-            String[] userlist ;
-            userlist = users.split(",");
-            String creator= list.get(6);//creator
-            String name_users = "";
-            String user_id = "",user_name="";
-            String[] user_saparate = creator.split(",");             
+        	////////////////////
  			for (int p = 0; p < user_saparate.length; p++) {
  				user_id = user_saparate[p].toString(); 
  				if(user_id!=""){
