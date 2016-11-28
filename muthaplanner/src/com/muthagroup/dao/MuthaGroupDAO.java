@@ -101,7 +101,6 @@ public class MuthaGroupDAO {
             
             ResultSet rs_chk = ps_chk.executeQuery();
             
-            
             for (int p = 0; p < user_saparate.length; p++) {
             	user_regList.add(user_saparate[p].toString()); 
             }	 
@@ -111,7 +110,7 @@ public class MuthaGroupDAO {
             	while (rs_availUsers.next()) {
             		if(user_regList.contains(String.valueOf(rs_availUsers.getInt("u_id")))){
             			flag_avail=true;	
-            		}  
+            		}
 				}
 			}
             user_id="";
@@ -142,7 +141,7 @@ public class MuthaGroupDAO {
         	boolean sent = false;
         	////////////////////
  			for (int p = 0; p < user_saparate.length; p++) {
- 				user_id = user_saparate[p].toString(); 
+ 				user_id = user_saparate[p].toString();
  				if(user_id!=""){
  				ps = con.prepareStatement("select * from user_tbl where U_Id="+Integer.parseInt(user_id));
  				rs = ps.executeQuery();
