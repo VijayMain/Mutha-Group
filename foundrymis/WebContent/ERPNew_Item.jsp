@@ -43,6 +43,11 @@
 			}); 
 	});
 	 
+	 function button1(val) {
+			var val1 = val; 
+			document.getElementById("hid_code").value = val1;
+			edit.submit();
+		}	 
 </script>
 <STYLE TYPE="text/css" MEDIA=all>
 input{
@@ -603,6 +608,9 @@ alert("Done");
   </form>
 </div> 
 <div style="height:550px; overflow: scroll;background-color: white;width:41%;float:right;"> 	
+<form action="">
+<input type="hidden" >
+</form>
 <span id="autofind">
 <table class="tftable" style="border: 0px;">
 <tr>
@@ -619,7 +627,7 @@ alert("Done");
   rs = ps.executeQuery();
   while(rs.next()){
   %>
-  <tr>
+  <tr  onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs.getInt("code")%>',0);" style="cursor: pointer;">
   <td align="left" style="font-family: Arial;font-size: 10px;"><%=rs.getString("supplier") %></td>
   </tr>
   <%

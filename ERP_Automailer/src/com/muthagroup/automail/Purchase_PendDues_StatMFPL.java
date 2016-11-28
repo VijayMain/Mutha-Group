@@ -57,7 +57,7 @@ public class Purchase_PendDues_StatMFPL extends TimerTask {
 			ResultSet rs_category=null;
 			
 			Connection con = ConnectionUrl.getFoundryERPNEWConnection();
-			 PreparedStatement ps=con.prepareStatement("select * from FOUNDRYERPNEW..MSTACCTGLSUB where SUB_GLCODE='12'");
+			 PreparedStatement ps=con.prepareStatement("select * from FOUNDRYERP..MSTACCTGLSUB where SUB_GLCODE='12'");
 			  ResultSet rs3=ps.executeQuery();
 			  while(rs3.next()){
 				  		  codes.add(rs3.getString("SUB_GLACNO"));
@@ -236,7 +236,7 @@ public class Purchase_PendDues_StatMFPL extends TimerTask {
 					    writableSheet.addCell(lab9);  
 					    col++;
 					    
-					    ps_category = con.prepareStatement("select * from FOUNDRYERPNEW..MSTMATCATAG  where CODE='"+rs.getString("CATEGOARY")+"'");
+					    ps_category = con.prepareStatement("select * from FOUNDRYERP..MSTMATCATAG  where CODE='"+rs.getString("CATEGOARY")+"'");
 					    rs_category = ps_category.executeQuery();
 					    while(rs_category.next()){
 					    Label lab10 = new Label(col, row, rs_category.getString("NAME"),cellRIghtformat);

@@ -50,8 +50,7 @@
 </style>
 <script language="javascript">
 	function button1(val) {
-		var val1 = val;
-		//alert(val1);
+		var val1 = val; 
 		document.getElementById("hid").value = val1;
 		edit.submit();
 	}

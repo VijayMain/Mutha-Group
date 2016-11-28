@@ -30,7 +30,7 @@ public class Valid_limitPO extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 24){
+			if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 24){ 
 			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 41){*/
 				
 				Connection con = ConnectionUrl.getLocalDatabase();
@@ -170,14 +170,11 @@ public class Valid_limitPO extends TimerTask {
 			transport.close();
 			System.out.println("msg Sent !!!");
 			}
-			 
 		/******************************************************************************************************** */
 			Thread.sleep(60000);
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 }

@@ -114,7 +114,7 @@ String bdatefrom = OnDateMIS.substring(0,4) +OnDateMIS.substring(4,6)+"01";
 double avg2=0;
 Connection conlocal = ConnectionUrl.getLocalDatabase();
 Calendar calAvg = Calendar.getInstance();
-int month = Integer.parseInt(OnDateMIS.substring(4,6)); 
+int month = Integer.parseInt(OnDateMIS.substring(4,6));
 %>
 <strong style="color: blue; font-family: Arial;font-size: 14px;">MUTHA FOUNDERS PVT.LTD.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
@@ -472,26 +472,38 @@ count_mnt = count_mnt - space;
 		 sumrs = sumrs + Double.parseDouble(rabatch.getString("QTY"));
 		 }
 	}
-	DecimalFormat threeDForm = new DecimalFormat("0.000"); 
+	DecimalFormat threeDForm = new DecimalFormat("0.000");
+	double sandqty = 0;
+	CallableStatement batsand = con.prepareCall("{call Sel_TransactionsSand(?,?,?,?,?,?)}");
+	batsand.setString(1, comp);
+	batsand.setString(2, "60202");
+	batsand.setString(3, "ADMIN");
+	batsand.setString(4, bdatefrom);
+	batsand.setString(5, bdateto);
+	batsand.setString(6, db);
+	ResultSet rsbatsand = batsand.executeQuery();
+	while(rsbatsand.next()){
+		sandqty = sandqty + Double.parseDouble(rsbatsand.getString("QTY"));
+	}
  %>
  <table border="1" class="tftable">
 				<tr>
-					<th scope="col" colspan="3">Batch Production From <%=batchonDate %> to <%=OnDate %></th>   
+					<th scope="col" colspan="2">Batch Production From <%=batchonDate %> to <%=OnDate %></th>   
 				</tr>
 				<tr>
 					<th scope="col">Item</th>
 					<th scope="col">Qty</th>
-					<th scope="col">Total Mixes</th>
+					<!-- <th scope="col">Total Mixes</th> -->
 				</tr>
 				<tr>
 				<td title="Click to get details"><a href="MIS_SummaryDetailsBatch_FND.jsp?comp=<%=comp %>&fromdate=<%=bdatefrom %>&todate=<%=bdateto %>&db=<%=db %>" style="text-decoration: none;">RESINE COATED SAND 3.8 %</a> </td>
 				<td title="Click to get details" align="right"><a href="MIS_SummaryDetailsBatch_FND.jsp?comp=<%=comp %>&fromdate=<%=bdatefrom %>&todate=<%=bdateto %>&db=<%=db %>" style="text-decoration: none;"><%=threeDForm.format(sumrc/1000)%></a>  </td>
-				<td title="Click to get details" align="right"><a href="MIS_SummaryDetailsBatch_FND.jsp?comp=<%=comp %>&fromdate=<%=bdatefrom %>&todate=<%=bdateto %>&db=<%=db %>" style="text-decoration: none;"><%=summix %></a>  </td>
+				<%-- <td title="Click to get details" align="right"><a href="MIS_SummaryDetailsBatch_FND.jsp?comp=<%=comp %>&fromdate=<%=bdatefrom %>&todate=<%=bdateto %>&db=<%=db %>" style="text-decoration: none;"><%=summix %></a>  </td> --%>
 				</tr>
 				<tr>
 				<td title="Click to get details"><a href="MIS_SummaryDetailsBatch_FND.jsp?comp=<%=comp %>&fromdate=<%=bdatefrom %>&todate=<%=bdateto %>&db=<%=db %>" style="text-decoration: none;">RAW SILICA SAND RECLAIMED</a>  </td>
-				<td title="Click to get details" align="right"><a href="MIS_SummaryDetailsBatch_FND.jsp?comp=<%=comp %>&fromdate=<%=bdatefrom %>&todate=<%=bdateto %>&db=<%=db %>" style="text-decoration: none;"><%=threeDForm.format(sumrs/1000)%></a>  </td>
-				<td align="right"></td>
+				<%-- <td title="Click to get details" align="right"><a href="MIS_SummaryDetailsBatch_FND.jsp?comp=<%=comp %>&fromdate=<%=bdatefrom %>&todate=<%=bdateto %>&db=<%=db %>" style="text-decoration: none;"><%=threeDForm.format(sumrs/1000)%></a>  </td> --%>
+				<td align="right"><%=threeDForm.format(sandqty/1000) %></td> 
 				</tr>
  </table>
  <br>

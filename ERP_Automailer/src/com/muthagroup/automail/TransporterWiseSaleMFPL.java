@@ -54,7 +54,7 @@ public class TransporterWiseSaleMFPL extends TimerTask {
 			
 			Connection con = ConnectionUrl.getFoundryERPNEWConnection();
 			
-			PreparedStatement pstrname=con.prepareStatement("select * from FOUNDRYERPNEW..MSTCOMMTRANSPORT");
+			PreparedStatement pstrname=con.prepareStatement("select * from FOUNDRYERP..MSTCOMMTRANSPORT");
 			  ResultSet rstrname=pstrname.executeQuery();
 			  while(rstrname.next()){
 				  matcode+=rstrname.getString("CODE");
