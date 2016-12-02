@@ -93,22 +93,25 @@ public class MuthaGroupDAO {
             PreparedStatement ps = null;
             int event_id =0;
             boolean flag_avail=false;
-
+            String already_AvailUsers = "";
             /*PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+sqlDate.toString()+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and  CAST(start_time as time) >= '"+sqltime1+"' AND CAST(start_time as time) <='"+sqltime2+"'");*/
             PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where  enable_id=1 and  "
             		+ " event_date='"+sqlDate.toString()+"' and event_venue='"+list.get(4).toString()+"'  and CAST(start_time as time) between '"+sqltime1
-            		+"' AND '"+sqltime2+"' and CAST(end_time as time) between  '"+sqltime1+"' AND '"+sqltime2+"'");
+            		+"' AND '"+sqltime2+"' OR CAST(end_time as time) between  '"+sqltime1+"' AND '"+sqltime2+"'");
             
             ResultSet rs_chk = ps_chk.executeQuery();
             
             for (int p = 0; p < user_saparate.length; p++) {
             	user_regList.add(user_saparate[p].toString()); 
-            }	 
+            }
+            
             while (rs_chk.next()) {
             	PreparedStatement ps_availUsers = con.prepareStatement("select * from event_users where event_id="+rs_chk.getInt("event_id"));
             	ResultSet rs_availUsers = ps_availUsers.executeQuery();
             	while (rs_availUsers.next()) {
             		if(user_regList.contains(String.valueOf(rs_availUsers.getInt("u_id")))){
+            			already_AvailUsers = rs_availUsers.getString("user_name");
+            			System.out.println("In Loop");
             			flag_avail=true;	
             		}
 				}
@@ -116,8 +119,8 @@ public class MuthaGroupDAO {
             user_id="";
              
             if(flag_avail==true || start.equalsIgnoreCase(end)){
-            	String avail = "Please select proper date range...!";
-            	response.sendRedirect("Create_New.jsp?avail="+avail);
+            	System.out.println("In Loop" + already_AvailUsers);
+            	response.sendRedirect("Create_New.jsp?avail="+already_AvailUsers);
             }else{
             sql = "insert into events_units(event_date,text,start_time,end_time,event_venue,event_desc,enable_id,created_by,created_date) values(?,?,?,?,?,?,?,?,?)";
             ps = con.prepareStatement(sql);

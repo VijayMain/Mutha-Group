@@ -101,14 +101,10 @@ if ((session.getAttribute("user")!=null))
 	Connection con =ConnectionModel.getConnection();
 	PreparedStatement ps=null;
 	ResultSet rs=null;
-	String sql="";
+	String sql="", msg ="";
 	String username=(String)session.getAttribute("user"); 
-	if(request.getParameter("avail")!=null){
-%>
-		<script type="text/javascript">
-		alert("Please Check Meetings Scheduled And Provide Proper Time Range...!!!");
-		</script>
-<%
+	if(request.getParameter("avail")!=null){  
+    msg = "Failed..."+ request.getParameter("avail") +" already scheduled for another meeting....!!!";  
 	}
 %>
 <nav class="navbar navbar-inverse">
@@ -146,6 +142,13 @@ if ((session.getAttribute("user")!=null))
 <div id="ajaxID">
 		<div class="loginmodal-container"> 
 				<h1><strong><label id="lbl">New Event/Meeting</label></strong></h1>
+				<%
+				if(msg!=""){
+				%>
+				<b style="color: red;"><%=msg %></b> 
+				<%	
+				}
+				%>
 	             <form class="form-inline" action="Event" method="post" >
 	              <label>Topic / Agenda</label><br>
 	              <input class="form-control" name="text" type="text" required maxlength="25"> 
@@ -216,15 +219,6 @@ if ((session.getAttribute("user")!=null))
 	             <option value=" 20:45 pm"> 08:45 pm</option>
 	             <option value=" 21:00 pm"> 09:00 pm</option>
 	             <option value=" 21:15 pm"> 09:15 pm</option>
-	             
-	             
-	             
-	             
-	             
-	             
-	             
-	             
-	             
 	             
 	               
 	              </select>

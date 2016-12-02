@@ -148,24 +148,27 @@ String strDate = sdf.format(date);
     <a href="http://192.168.0.6/K1BWAYSERP/">MEPL UNIT III</a>
     <a href="http://192.168.0.6/UNITIVBWAYSERP/">MEPL UNIT IV</a>
     <a href="http://192.168.0.6/MFPLBWAYSERP/">MFPL</a>
-    <a href="http://192.168.0.6/DIBWAYSERP">DI</a>
-    
+    <a href="http://192.168.0.6/DIBWAYSERP">DI</a> 
     <a href="http://192.168.0.6/ENGH25CONSOLIDATION/">H21 & H25 CON</a>
     <a href="http://192.168.0.6/UNIT123CONSOLIDATION/">H21,H25 & Unit III CON</a>
     <a href="http://192.168.0.6/MUTHACONSOLIDATION/">ALL CON</a>
   </div>
-</div>
-  <a href="http://192.168.0.7/ComplaintZilla/">&nbsp; &nbsp;&nbsp;<strong>ComplaintZilla</strong>&nbsp;&nbsp;&nbsp;</a>  
-  <a href="http://192.168.0.7/ittracker/">&nbsp; &nbsp;&nbsp;<strong>IT Tracker</strong>&nbsp;&nbsp;&nbsp;</a>  
-  <a href="http://192.168.0.7:8080/">&nbsp; &nbsp;&nbsp;<strong>MIKI</strong>&nbsp;&nbsp; &nbsp;</a> 
-  <a href="http://192.168.0.7/dvpboss/">&nbsp; &nbsp;&nbsp;<strong>DVP BOSS</strong> &nbsp;&nbsp;&nbsp;</a> 
-  <a href="http://192.168.0.7/ECN/">&nbsp; &nbsp;&nbsp;<strong>ECN</strong> &nbsp;&nbsp;&nbsp;</a><!-- 
-  <a href="http://192.168.0.7/dictionary/">&nbsp; &nbsp;&nbsp;<strong>Item Dictionary</strong> &nbsp;&nbsp;&nbsp;</a> --> 
-  <a href="http://192.168.0.7/foundrymis/">&nbsp; &nbsp;&nbsp;<strong>Foundry MIS</strong>&nbsp;&nbsp; &nbsp;</a>
-  <a href="http://192.168.0.7/dailyreports/">&nbsp; &nbsp;&nbsp;<strong>Daily Reports</strong>&nbsp;&nbsp; &nbsp;</a>  
-  <a href="http://www.getmykaizen.com/">&nbsp; &nbsp;&nbsp;<strong>GetMyKaizen</strong> &nbsp;&nbsp;&nbsp;</a>  
- <div class="dropdown" style="cursor: pointer;">
- <strong style="color: white;font-size: 13px">Portal</strong>
+</div> 
+<div class="dropdown" style="cursor: pointer;">&nbsp;&nbsp;
+  <strong style="color: white;font-size: 13px"><a href="http://192.168.0.6/companyunits.htm">In-House Software's</a></strong>
+  <div class="dropdown-content">
+  <a href="http://192.168.0.7/ComplaintZilla/">&nbsp;&nbsp;<strong>ComplaintZilla</strong>&nbsp;</a>  
+  <a href="http://192.168.0.7/ittracker/">&nbsp;&nbsp;<strong>IT Tracker</strong>&nbsp;</a>  
+  <a href="http://192.168.0.7:8080/">&nbsp;&nbsp;<strong>MIKI</strong>&nbsp;</a> 
+  <a href="http://192.168.0.7/dvpboss/">&nbsp;&nbsp;<strong>DVP BOSS</strong> &nbsp;</a> 
+  <a href="http://192.168.0.7/ECN/">&nbsp;&nbsp;<strong>ECN</strong>&nbsp;</a>
+  <a href="http://192.168.0.7/foundrymis/">&nbsp;&nbsp;<strong>Foundry MIS</strong>&nbsp;</a>
+  <a href="http://192.168.0.7/dailyreports/">&nbsp;&nbsp;<strong>Daily Reports</strong>&nbsp;</a>
+  <a href="http://192.168.0.7/muthaplanner/">&nbsp;&nbsp;<strong>Mutha Planner</strong>&nbsp;</a>  
+  </div>
+</div> 
+ <div class="dropdown" style="cursor: pointer;">&nbsp;&nbsp;
+ <strong style="color: white;font-size: 13px">Portal</strong> 
  <div class="dropdown-content">
     <a href="https://srm.inservices.tatamotors.com/irj/portal">Tata Motors</a>
     <a href="http://its.forcemotors.com/sap/its/homepages/vis/default.html">Force Motors</a>
@@ -174,7 +177,18 @@ String strDate = sdf.format(date);
     <a href="https://mptax.mp.gov.in/mpvatweb/index.jsp">Road Permit MP</a>
     <a href="http://yorkebiz.com/ebp/">York</a>
  </div>
- </div> 
+ </div>  
+ <a href="http://www.getmykaizen.com/">&nbsp;&nbsp;<strong>GetMyKaizen</strong> &nbsp;&nbsp;</a>  
+ <div class="dropdown" style="cursor: pointer;">
+  <strong style="color: white;font-size: 13px"><a href="HelpLine.html">Contact Us</a></strong>
+  <div class="dropdown-content" style="font-family: Arial;font-size: 10px;">
+    <a href="HelpLine.html">ERP (Nilesh Sarnaik -<b>9923399361</b> )</a>
+    <a href="HelpLine.html">ERP (Amit Jadhav - <b>9923395915</b> )</a>
+    <a href="HelpLine.html">Software (Vijay Main - <b>9923396823</b> )</a>
+    <a href="HelpLine.html">Software (Uday Vedpathak - <b>9175004128</b> )</a>
+    <a href="HelpLine.html">Hardware (Makarand Apsingkar - <b>9923396807</b> )</a> 
+  </div>
+</div>
 <%
 if (session.getAttribute("uid") != null) { 
 	int uid = Integer.parseInt(session.getAttribute("uid").toString()); 

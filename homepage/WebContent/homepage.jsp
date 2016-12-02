@@ -54,6 +54,24 @@
 .dropdown:hover .dropbtn {
     background-color: black;
 }
+.tftable {
+	font-size: 12px;
+	color: #333333;
+	width: 100%;
+	border-width: 1px;
+	border-color: #729ea5;
+	border-collapse: collapse;
+}
+.tftable tr {
+	background-color: white;
+}
+.tftable td {
+	font-size: 12px;
+	border-width: 1px;
+	padding: 3px;
+	border-style: solid;
+	border-color: #729ea5;
+}
 </style>
 <script type="text/javascript">
 function delete_msg(str) {
@@ -112,26 +130,27 @@ ArrayList list_news = new ArrayList();
     <a href="http://192.168.0.6/K1BWAYSERP/">MEPL UNIT III</a>
     <a href="http://192.168.0.6/UNITIVBWAYSERP/">MEPL UNIT IV</a>
     <a href="http://192.168.0.6/MFPLBWAYSERP/">MFPL</a>
-    <a href="http://192.168.0.6/DIBWAYSERP">DI</a>
-    
+    <a href="http://192.168.0.6/DIBWAYSERP">DI</a> 
     <a href="http://192.168.0.6/ENGH25CONSOLIDATION/">H21 & H25 CON</a>
     <a href="http://192.168.0.6/UNIT123CONSOLIDATION/">H21,H25 & Unit III CON</a>
     <a href="http://192.168.0.6/MUTHACONSOLIDATION/">ALL CON</a>
   </div>
-</div>
-  <a href="http://192.168.0.7/ComplaintZilla/">&nbsp; &nbsp;&nbsp;<strong>ComplaintZilla</strong>&nbsp;&nbsp;</a>  
-  <a href="http://192.168.0.7/ittracker/">&nbsp; &nbsp;&nbsp;<strong>IT Tracker</strong>&nbsp;&nbsp;</a>  
-  <a href="http://192.168.0.7:8080/">&nbsp; &nbsp;&nbsp;<strong>MIKI</strong>&nbsp; &nbsp;</a> 
-  <a href="http://192.168.0.7/dvpboss/">&nbsp; &nbsp;&nbsp;<strong>DVP BOSS</strong> &nbsp;&nbsp;</a> 
-  <a href="http://192.168.0.7/ECN/">&nbsp; &nbsp;&nbsp;<strong>ECN</strong>&nbsp;&nbsp;</a>
-  <a href="http://192.168.0.7/foundrymis/">&nbsp; &nbsp;&nbsp;<strong>Foundry MIS</strong>&nbsp; &nbsp;</a>
-  <a href="http://192.168.0.7/dailyreports/">&nbsp; &nbsp;&nbsp;<strong>Daily Reports</strong>&nbsp; &nbsp;</a>
-  <a href="http://192.168.0.7/muthaplanner/">&nbsp; &nbsp;&nbsp;<strong>Mutha Planner</strong>&nbsp; &nbsp;</a>  
-  
-  
-  <a href="http://www.getmykaizen.com/">&nbsp; &nbsp;&nbsp;<strong>GetMyKaizen</strong> &nbsp;&nbsp;</a>  
- <div class="dropdown" style="cursor: pointer;">
- <strong style="color: white;font-size: 13px">Portal</strong> &nbsp;&nbsp;&nbsp;
+</div> 
+<div class="dropdown" style="cursor: pointer;">&nbsp;&nbsp;
+  <strong style="color: white;font-size: 13px"><a href="http://192.168.0.6/companyunits.htm">In-House Software's</a></strong>
+  <div class="dropdown-content">
+  <a href="http://192.168.0.7/ComplaintZilla/">&nbsp;&nbsp;<strong>ComplaintZilla</strong>&nbsp;</a>  
+  <a href="http://192.168.0.7/ittracker/">&nbsp;&nbsp;<strong>IT Tracker</strong>&nbsp;</a>  
+  <a href="http://192.168.0.7:8080/">&nbsp;&nbsp;<strong>MIKI</strong>&nbsp;</a> 
+  <a href="http://192.168.0.7/dvpboss/">&nbsp;&nbsp;<strong>DVP BOSS</strong> &nbsp;</a> 
+  <a href="http://192.168.0.7/ECN/">&nbsp;&nbsp;<strong>ECN</strong>&nbsp;</a>
+  <a href="http://192.168.0.7/foundrymis/">&nbsp;&nbsp;<strong>Foundry MIS</strong>&nbsp;</a>
+  <a href="http://192.168.0.7/dailyreports/">&nbsp;&nbsp;<strong>Daily Reports</strong>&nbsp;</a>
+  <a href="http://192.168.0.7/muthaplanner/">&nbsp;&nbsp;<strong>Mutha Planner</strong>&nbsp;</a>  
+  </div>
+</div> 
+ <div class="dropdown" style="cursor: pointer;">&nbsp;&nbsp;
+ <strong style="color: white;font-size: 13px">Portal</strong> 
  <div class="dropdown-content">
     <a href="https://srm.inservices.tatamotors.com/irj/portal">Tata Motors</a>
     <a href="http://its.forcemotors.com/sap/its/homepages/vis/default.html">Force Motors</a>
@@ -140,18 +159,16 @@ ArrayList list_news = new ArrayList();
     <a href="https://mptax.mp.gov.in/mpvatweb/index.jsp">Road Permit MP</a>
     <a href="http://yorkebiz.com/ebp/">York</a>
  </div>
- </div> 
- 
- 
+ </div>  
+ <a href="http://www.getmykaizen.com/">&nbsp;&nbsp;<strong>GetMyKaizen</strong> &nbsp;&nbsp;</a>  
  <div class="dropdown" style="cursor: pointer;">
   <strong style="color: white;font-size: 13px"><a href="HelpLine.html">Contact Us</a></strong>
   <div class="dropdown-content" style="font-family: Arial;font-size: 10px;">
-    <a href="HelpLine.html">ERP (Nilesh Sarnaik - 9923399361)</a>
-    <a href="HelpLine.html">ERP (Amit Jadhav - 9923395915)</a>
-    <a href="HelpLine.html">Software (Vijay Main - 9923396823)</a>
-    <a href="HelpLine.html">Software (Uday Vedpathak - 9175004128)</a>
-    <a href="HelpLine.html">Hardware (Makarand Apsingkar - 9923396807)</a> 
-    </a>
+    <a href="HelpLine.html">ERP (Nilesh Sarnaik -<b>9923399361</b> )</a>
+    <a href="HelpLine.html">ERP (Amit Jadhav - <b>9923395915</b> )</a>
+    <a href="HelpLine.html">Software (Vijay Main - <b>9923396823</b> )</a>
+    <a href="HelpLine.html">Software (Uday Vedpathak - <b>9175004128</b> )</a>
+    <a href="HelpLine.html">Hardware (Makarand Apsingkar - <b>9923396807</b> )</a> 
   </div>
 </div>
  
@@ -494,7 +511,7 @@ if (session.getAttribute("uid") != null) {
  <strong style="font-family: Arial;font-size: 15px;color: #10006E;">MUTHA GROUP TOP STORIES</strong><br/>
  <hr />
  </div>
-  <div id="main" style="overflow: scroll;">
+  <div style="overflow: scroll;height: 300px;padding-left: 10px;padding-right: 10px;">
   
   <%  
   String fromdate="",todate="";
@@ -620,6 +637,69 @@ if (session.getAttribute("uid") != null) {
   %>  
   <span id="delmsg"></span>
  </div> 
+ 
+ 
+ 
+ <div style="overflow: scroll;height: 300px;padding-left: 5px;padding-right: 5px;">
+ <%
+ java.sql.Date compareDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+ String sql_meeting = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where event_date='"+compareDate+"' and enable_id=1";
+ PreparedStatement ps_meeting = con.prepareStatement(sql_meeting);
+ ResultSet rs_meeting = ps_meeting.executeQuery();
+ %>
+ <table border="0" style="font-family: Arial;" class="tftable">
+	<tr style="background-color: #bed5d8;text-align: left;font-weight: bold;">
+		<td colspan="7">Mutha Group Meeting scheduled Today for details <a href="http://192.168.0.7/muthaplanner/">click here</a> </td>
+	</tr>
+	<tr style="background-color: #bed5d8;text-align: center; font-weight: bold;">
+		<td>Topic / Agenda</td>
+		<td>Details</td>
+		<td>Start Time</td>
+		<td>End Time</td>
+		<td>Venue</td>
+		<td>Participants</td>
+		<td>Created By</td>
+	</tr>
+<%
+while (rs_meeting.next()) {
+%>
+	<tr> 
+  			<td><%=rs_meeting.getString("text") %></td>
+  			<td><%=rs_meeting.getString("event_desc") %></td>
+  			<td><%=rs_meeting.getString("start_time") %></td>
+  			<td><%=rs_meeting.getString("end_time") %></td>
+  			<td><%=rs_meeting.getString("event_venue") %></td>
+  <td>
+  <%
+  PreparedStatement ps_des = con.prepareStatement("select * from event_users where event_id="+rs_meeting.getInt("event_id"));
+  ResultSet rs_des = ps_des.executeQuery();
+  while(rs_des.next()){
+  %>
+  <%=rs_des.getString("user_name") %>,
+  <%
+  }
+  %>
+  </td>
+  <td>
+   <%
+  ps_des = con.prepareStatement("select * from user_tbl where U_Id="+rs_meeting.getInt("created_by"));
+  rs_des = ps_des.executeQuery();
+  while(rs_des.next()){
+  %>
+  <%=rs_des.getString("u_name") %>
+  <%
+  }
+  %>
+  </td>
+</tr>
+<%
+}
+%>
+</table>			
+ </div>
+ 
+ 
+ 
 </div>
 <div id="footer" style="width: 900px; margin: 0 auto; background: #FFFFFF;">
 <a href="http://www.muthagroup.com/"><strong>Mutha Group of Foundries</strong> </a> &nbsp; | &nbsp; 
