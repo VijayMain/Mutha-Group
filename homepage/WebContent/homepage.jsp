@@ -123,10 +123,12 @@ ArrayList list_news = new ArrayList();
   <a href="http://192.168.0.7/ittracker/">&nbsp; &nbsp;&nbsp;<strong>IT Tracker</strong>&nbsp;&nbsp;</a>  
   <a href="http://192.168.0.7:8080/">&nbsp; &nbsp;&nbsp;<strong>MIKI</strong>&nbsp; &nbsp;</a> 
   <a href="http://192.168.0.7/dvpboss/">&nbsp; &nbsp;&nbsp;<strong>DVP BOSS</strong> &nbsp;&nbsp;</a> 
-  <a href="http://192.168.0.7/ECN/">&nbsp; &nbsp;&nbsp;<strong>ECN</strong>&nbsp;&nbsp;</a><!-- 
-  <a href="http://192.168.0.7/dictionary/">&nbsp; &nbsp;&nbsp;<strong>Item Dictionary</strong>&nbsp;&nbsp;</a> --> 
+  <a href="http://192.168.0.7/ECN/">&nbsp; &nbsp;&nbsp;<strong>ECN</strong>&nbsp;&nbsp;</a>
   <a href="http://192.168.0.7/foundrymis/">&nbsp; &nbsp;&nbsp;<strong>Foundry MIS</strong>&nbsp; &nbsp;</a>
-  <a href="http://192.168.0.7/dailyreports/">&nbsp; &nbsp;&nbsp;<strong>Daily Reports</strong>&nbsp; &nbsp;</a>  
+  <a href="http://192.168.0.7/dailyreports/">&nbsp; &nbsp;&nbsp;<strong>Daily Reports</strong>&nbsp; &nbsp;</a>
+  <a href="http://192.168.0.7/muthaplanner/">&nbsp; &nbsp;&nbsp;<strong>Mutha Planner</strong>&nbsp; &nbsp;</a>  
+  
+  
   <a href="http://www.getmykaizen.com/">&nbsp; &nbsp;&nbsp;<strong>GetMyKaizen</strong> &nbsp;&nbsp;</a>  
  <div class="dropdown" style="cursor: pointer;">
  <strong style="color: white;font-size: 13px">Portal</strong> &nbsp;&nbsp;&nbsp;

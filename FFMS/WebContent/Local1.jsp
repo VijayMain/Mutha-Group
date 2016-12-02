@@ -8,10 +8,16 @@
 <script type="text/javascript">
 localStorage.setItem("Key1", 100000);
 localStorage.setItem("Key2", 1000);
-localStorage.setItem("Key3", 100); 
+localStorage.setItem("Key3", 100);
 </script>
 </head>
 <body>
 <a href="Local2.jsp">Click Me</a>
+
+
+
+
+
+
 </body>
 </html>
