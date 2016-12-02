@@ -104,12 +104,12 @@ public class MuthaGroupDAO {
             for (int p = 0; p < user_saparate.length; p++) {
             	user_regList.add(user_saparate[p].toString()); 
             }
-            
+            // amount changed
             while (rs_chk.next()) {
             	PreparedStatement ps_availUsers = con.prepareStatement("select * from event_users where event_id="+rs_chk.getInt("event_id"));
             	ResultSet rs_availUsers = ps_availUsers.executeQuery();
             	while (rs_availUsers.next()) {
-            		if(user_regList.contains(String.valueOf(rs_availUsers.getInt("u_id")))){
+            		if(user_regList.contains(String.valueOf(rs_availUsers.getInt("u_id")))  && !rs_availUsers.getTime("start_time").equals(sqltime2)){
             			already_AvailUsers = rs_availUsers.getString("user_name");
             			System.out.println("In Loop");
             			flag_avail=true;	
