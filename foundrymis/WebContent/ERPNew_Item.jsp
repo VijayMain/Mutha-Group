@@ -628,7 +628,10 @@ alert("Done");
     <option value="0">Pending</option>
     <option value="1">Approved</option>
     <option value="3">Declined</option> 
-    </select> Supplier Names</th>
+    </select> Supplier Names
+    </th>
+    <th>Request Date</th>
+    <th>Created By</th>
   </tr>
   <%
   ps = conlocal.prepareStatement("select * from new_item_creation where enable=1 and approval_status!=3");
@@ -637,6 +640,8 @@ alert("Done");
   %>
   <tr  onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs.getInt("code")%>',0);" style="cursor: pointer;">
   <td align="left" style="font-family: Arial;font-size: 11px;"><%=rs.getString("supplier").toUpperCase() %></td>
+  <td><%=rs.getString("registered_date") %></td>
+  <td><%=rs.getString("registered_by") %></td>
   </tr>
   <%
   }

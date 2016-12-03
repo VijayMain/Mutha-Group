@@ -189,6 +189,15 @@ public class MuthaGroupDAO {
 			while (rs_rec.next()) {
 				to_emails.add(rs_rec.getString("email"));
 			} 
+			
+			ps_rec = con.prepareStatement("select * from user_tbl where U_Id="+uid);
+			rs_rec = ps_rec.executeQuery();
+			while (rs_rec.next()) {
+				to_emails.add(rs_rec.getString("U_Email"));
+			}
+			
+			
+			
 			SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
 			Calendar cal = Calendar.getInstance();
 			String sql_date = sdfFIrstDate.format(cal.getTime()).toString();
