@@ -127,7 +127,7 @@ if ((session.getAttribute("user")!=null))
     	 activeList.add(rs_act.getInt("event_id"));
      }
      
-    sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1  and event_date >= '"+ compareDate +"'  order by event_date";
+    sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by  FROM  events_units where enable_id=1  and event_date >= '"+ compareDate +"'  order by event_date";
     ps = con.prepareStatement(sql);
     rs = ps.executeQuery();
    %> 
@@ -141,6 +141,7 @@ if ((session.getAttribute("user")!=null))
  <th>End Time</th>
  <th>Venue</th>
  <th>Participants</th>
+ <th>Organizer</th>
  </tr>
  <%while (rs.next()) {
  if(activeList.contains(rs.getInt("event_id"))){
@@ -159,13 +160,24 @@ if ((session.getAttribute("user")!=null))
   <td><%=rs.getString("start_time") %></td>
   <td><%=rs.getString("end_time") %></td>
   <td><%=rs.getString("event_venue") %></td>
-  <td width="20%">
+  <td>
   <%
   ps_des = con.prepareStatement("select * from event_users where event_id="+rs.getInt("event_id"));
   rs_des = ps_des.executeQuery();
   while(rs_des.next()){
   %>
   <%=rs_des.getString("user_name") %>,
+  <%
+  }
+  %>
+  </td>
+  <td>
+   <%
+  ps_des = con.prepareStatement("select * from user_tbl where U_Id="+rs.getInt("created_by"));
+  rs_des = ps_des.executeQuery();
+  while(rs_des.next()){
+  %>
+  <%=rs_des.getString("u_name") %>
   <%
   }
   %>

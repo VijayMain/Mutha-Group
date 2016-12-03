@@ -30,8 +30,7 @@ public class MuthaGroupDAO {
             PreparedStatement ps = null;
             ResultSet rs = null;
             int event_id = 0;
-            //String event_creator="";
-           
+            //String event_creator=""; 
             sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \"),text,DATE_FORMAT(start_time,'%l:%i %p'), DATE_FORMAT(end_time,'%l:%i %p'),event_venue,event_desc FROM events_units";
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -83,6 +82,7 @@ public class MuthaGroupDAO {
             java.util.Date dateMy = sdf.parse(strDate);
             java.sql.Date sqlDate = new java.sql.Date(dateMy.getTime());
             SimpleDateFormat time = new SimpleDateFormat("HH:mm a");
+            SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a");
             Date utilTime1=time.parse(start);
             Date utilTime2=time.parse(end);
             Time sqltime1=new Time(utilTime1.getTime());
@@ -109,17 +109,19 @@ public class MuthaGroupDAO {
             	PreparedStatement ps_availUsers = con.prepareStatement("select * from event_users where event_id="+rs_chk.getInt("event_id"));
             	ResultSet rs_availUsers = ps_availUsers.executeQuery();
             	while (rs_availUsers.next()) {
-            		if(user_regList.contains(String.valueOf(rs_availUsers.getInt("u_id")))  && !rs_availUsers.getTime("start_time").equals(sqltime2)){
-            			already_AvailUsers = rs_availUsers.getString("user_name");
-            			System.out.println("In Loop");
-            			flag_avail=true;	
+            		if(user_regList.contains(String.valueOf(rs_availUsers.getInt("u_id")))){
+            			already_AvailUsers = already_AvailUsers + rs_availUsers.getString("user_name") + "(Upto "+parseFormat.format(rs_chk.getTime("end_time"))+"),";
+            			if(parseFormat.format(rs_chk.getTime("end_time")).equalsIgnoreCase(parseFormat.format(sqltime1))){
+            				flag_avail=false;
+            			}else{
+            				flag_avail=true;
+            			}
             		}
 				}
 			}
-            user_id="";
-             
-            if(flag_avail==true || start.equalsIgnoreCase(end)){
-            	System.out.println("In Loop" + already_AvailUsers);
+            user_id=""; 
+            
+            if(flag_avail==true || start.equalsIgnoreCase(end)){ 
             	response.sendRedirect("Create_New.jsp?avail="+already_AvailUsers);
             }else{
             sql = "insert into events_units(event_date,text,start_time,end_time,event_venue,event_desc,enable_id,created_by,created_date) values(?,?,?,?,?,?,?,?,?)";
@@ -166,6 +168,16 @@ public class MuthaGroupDAO {
  				user_name="";
  				}
  			}
+ 			
+ 			String organiser = "";
+ 			PreparedStatement  ps_des = con.prepareStatement("select * from user_tbl where U_Id="+uid);
+ 			ResultSet  rs_des = ps_des.executeQuery();
+ 			while(rs_des.next()){
+ 				organiser = rs_des.getString("u_name");  
+ 			} 
+ 			
+ 			
+ 			
  			/*___________________________________________________________________________________________________*/
  			/*****************************************************************************************************/
  			
@@ -203,7 +215,7 @@ public class MuthaGroupDAO {
 			sb.append("<p><b>To Check ,</b><a href='http://192.168.0.7/muthaplanner/'>Click Here</a> </p>");
 			sb.append("<table border='1' width='97%' style='font-family: Arial;'>"+
 						"<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
-						"<th>Meeting Date</th> <th>Topic / Agenda</th> <th>Details</th> <th>Start Time</th> <th>End Time</th> <th>Venue</th> <th>Participants</th> </tr> <tr>"+
+						"<th>Meeting Date</th> <th>Topic / Agenda</th> <th>Details</th> <th>Start Time</th> <th>End Time</th> <th>Venue</th> <th>Participants</th> <th>Organizer</th> </tr> <tr>"+
 						"<td>"+date+"</td>"+
 						"<td>"+list.get(1).toString()+"</td>"+
 						"<td>"+list.get(5).toString()+"</td>"+
@@ -211,6 +223,7 @@ public class MuthaGroupDAO {
 						"<td>"+end+"</td>"+
 						"<td>"+list.get(4).toString()+"</td>"+
 						"<td>"+name_users+"</td>"+
+						"<td>"+organiser+"</td>"+
 						"</tr>");
 	 		sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"
 						+ "<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"

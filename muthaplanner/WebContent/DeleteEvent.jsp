@@ -44,6 +44,16 @@ try{
 	/*****************************************************************************************************/
 	/* ___________________________________________________________________________________________________ */
 
+	
+			String organiser = "";
+			PreparedStatement  ps_des = con.prepareStatement("select * from user_tbl where U_Id="+uid);
+			ResultSet  rs_des = ps_des.executeQuery();
+			while(rs_des.next()){
+				organiser = rs_des.getString("u_name");  
+			} 
+	
+	
+	
 	ArrayList to_emails = new ArrayList();
 	String report = "Mutha_Planner";
 	PreparedStatement ps_att = null;
@@ -118,7 +128,7 @@ try{
 		sb.append("<p><b>To Check ,</b><a href='http://192.168.0.7/muthaplanner/'>Click Here</a> </p>");
 		sb.append("<table border='1' width='97%' style='font-family: Arial;'>"
 				+ "<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"
-				+ "<th>Meeting Date</th> <th>Topic / Agenda</th> <th>Details</th> <th>Start Time</th> <th>End Time</th> <th>Venue</th> <th>Participants</th> </tr> <tr>"
+				+ "<th>Meeting Date</th> <th>Topic / Agenda</th> <th>Details</th> <th>Start Time</th> <th>End Time</th> <th>Venue</th> <th>Participants</th> <th>Organizer</th> </tr> <tr>"
 				+ "<td>"
 				+ event_date
 				+ "</td>" 
@@ -139,8 +149,11 @@ try{
 				+ "</td>"
 				+ "<td>"
 				+ user_name
-				+ "</td>" + "</tr>");
-
+				+ "</td>"
+				+ "<td>"
+				+ organiser
+				+ "</td>"
+				+ "</tr>");
 		sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"
 				+ "<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"
 				+ "<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"

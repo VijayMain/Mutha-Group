@@ -25,19 +25,19 @@ try{
 		    int srmodal=0;
 		    if(str.equalsIgnoreCase("prev")){
 		    compareDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-			sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1 and event_date < '"+ compareDate +"'  order by event_date";
+			sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where enable_id=1 and event_date < '"+ compareDate +"'  order by event_date";
 			}
 			if(str.equalsIgnoreCase("todays")){
 			    compareDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1 and event_date = '"+ compareDate +"'  order by event_date";
+				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where enable_id=1 and event_date = '"+ compareDate +"'  order by event_date";
 			} 
 			if(str.equalsIgnoreCase("upcoming")){
 			    compareDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1 and event_date > '"+ compareDate +"'  order by event_date";
+				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where enable_id=1 and event_date > '"+ compareDate +"'  order by event_date";
 			} 
 			if(str.equalsIgnoreCase("myMeeting")){ 
 				 int uid = Integer.parseInt(session.getAttribute("u_id").toString());
-				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc FROM  events_units where enable_id=1 and created_by ="+ uid +"  order by event_date desc";
+				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where enable_id=1 and created_by ="+ uid +"  order by event_date desc";
 			} 
 			
 			Connection con =ConnectionModel.getConnection(); 
@@ -54,8 +54,8 @@ try{
 		 <th>Start Time</th>
 		 <th>End Time</th>
 		 <th>Venue</th>
-		 <th>Participants</th>
-		 
+ 		<th>Participants</th>
+ 		<th>Organizer</th>
 		 <%
 		 if(str.equalsIgnoreCase("myMeeting")){ 
 		%>
@@ -63,7 +63,6 @@ try{
 		<%	 
 		 }
 		 %>
-		 
 		 </tr>
 		 <%while (rs.next()) {%>
 		  <tr> 
@@ -84,6 +83,19 @@ try{
 		  }
 		  %>
 		  </td>
+		    <td>
+   <%
+  ps_des = con.prepareStatement("select * from user_tbl where U_Id="+rs.getInt("created_by"));
+  rs_des = ps_des.executeQuery();
+  while(rs_des.next()){
+  %>
+  <%=rs_des.getString("u_name") %>
+  <%
+  }
+  %>
+  </td>
+		  
+		  
 		<%
 		if(str.equalsIgnoreCase("myMeeting")){ 
 		srmodal++;
