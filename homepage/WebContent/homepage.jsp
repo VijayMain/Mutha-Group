@@ -649,7 +649,7 @@ if (session.getAttribute("uid") != null) {
  %>
  <table border="0" style="font-family: Arial;" class="tftable">
 	<tr style="background-color: #bed5d8;text-align: left;font-weight: bold;">
-		<td colspan="7">Mutha Group Meeting scheduled Today for details <a href="http://192.168.0.7/muthaplanner/">click here</a> </td>
+		<td colspan="7">Todays Mutha Group Meetings, for details <a href="http://192.168.0.7/muthaplanner/">click here</a> </td>
 	</tr>
 	<tr style="background-color: #bed5d8;text-align: center; font-weight: bold;">
 		<td>Topic / Agenda</td>
