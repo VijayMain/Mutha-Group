@@ -90,8 +90,7 @@ try{
 			user_name = user_name + rs_att.getString("user_name") + ",";
 		}
 
-		PreparedStatement ps_rec = con_email
-				.prepareStatement("select * from pending_approvee where type='to' and report='"
+		PreparedStatement ps_rec = con_email.prepareStatement("select * from pending_approvee where type='to' and report='"
 						+ report + "' and validlimit='" + venue + "'");
 		ResultSet rs_rec = ps_rec.executeQuery();
 		while (rs_rec.next()) {

@@ -658,7 +658,7 @@ if (session.getAttribute("uid") != null) {
 		<td>End Time</td>
 		<td>Venue</td>
 		<td>Participants</td>
-		<td>Created By</td>
+		<td>Organizer</td>
 	</tr>
 <%
 while (rs_meeting.next()) {
