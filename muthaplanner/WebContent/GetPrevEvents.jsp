@@ -21,7 +21,8 @@ function disable_me(){
 try{
 			String str = request.getParameter("q");
 			String sql ="";
-		    java.sql.Date compareDate = null; 
+		    java.sql.Date compareDate = null;
+		    boolean flag_prev = false;
 		    //int srmodal=0;
 		    PreparedStatement ps_hid=null;
 		    ResultSet rs_hid=null;
@@ -100,14 +101,26 @@ try{
 		  
 		  
 		<%
-		if(str.equalsIgnoreCase("myMeeting")){ 
-			ps_hid = con.prepareStatement("select * from events_units where event_date=CURDATE() and event_id=6 and enable_id=1 and created_by ="+ uid +"  order by event_date desc");
-			 
+		if(str.equalsIgnoreCase("myMeeting")){
+			ps_hid = con.prepareStatement("select * from events_units where event_date < CURDATE() and event_id="+rs.getInt("event_id")+" and enable_id=1 and created_by ="+ uid +"  order by event_date desc");
+			rs_hid = ps_hid.executeQuery();
+			while(rs_hid.next()){
+				flag_prev=true;
+			}
 		%>
 		 <th> 
-	    <a href="DeleteEvent.jsp?event_id=<%=rs.getInt("event_id")%>" id="delete_query" onclick="disable_me()">Delete</a> 
-		<%	 
+		 <%
+		if(flag_prev==false){
+		 %>
+	    <a href="DeleteEvent.jsp?event_id=<%=rs.getInt("event_id")%>" id="delete_query" onclick="disable_me()">Delete</a>
+	    <%
+		}else{
+		%> 
+	    <span style="color: green;">Done</span> 
+	    <%	
+		} 	 
 		 }
+		flag_prev=false;
 		 %> 
 		  </tr>
 		 <%
