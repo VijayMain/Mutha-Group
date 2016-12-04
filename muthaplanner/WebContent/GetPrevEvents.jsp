@@ -22,7 +22,10 @@ try{
 			String str = request.getParameter("q");
 			String sql ="";
 		    java.sql.Date compareDate = null; 
-		    int srmodal=0;
+		    //int srmodal=0;
+		    PreparedStatement ps_hid=null;
+		    ResultSet rs_hid=null;
+		    int uid = Integer.parseInt(session.getAttribute("u_id").toString());
 		    if(str.equalsIgnoreCase("prev")){
 		    compareDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 			sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where enable_id=1 and event_date < '"+ compareDate +"'  order by event_date";
@@ -36,17 +39,16 @@ try{
 				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where enable_id=1 and event_date > '"+ compareDate +"'  order by event_date";
 			} 
 			if(str.equalsIgnoreCase("myMeeting")){ 
-				 int uid = Integer.parseInt(session.getAttribute("u_id").toString());
 				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where enable_id=1 and created_by ="+ uid +"  order by event_date desc";
 			} 
 			
 			Connection con =ConnectionModel.getConnection(); 
-		    PreparedStatement ps=null,ps_des = null;;
+		    PreparedStatement ps=null,ps_des = null;
 		    ResultSet rs = null,rs_des = null;
 		    ps = con.prepareStatement(sql);
 		    rs = ps.executeQuery();
-		   %>  
-		 <table class="table table-bordered">         
+		   %>
+		 <table class="table table-bordered">
 		 <tr>
 		 <th>Meeting Date</th>
 		 <th>Topic / Agenda</th>
@@ -57,7 +59,8 @@ try{
  		<th>Participants</th>
  		<th>Organizer</th>
 		 <%
-		 if(str.equalsIgnoreCase("myMeeting")){ 
+		 if(str.equalsIgnoreCase("myMeeting")){
+			 
 		%>
 		 <th>Delete</th>
 		<%	 
@@ -98,7 +101,8 @@ try{
 		  
 		<%
 		if(str.equalsIgnoreCase("myMeeting")){ 
-		srmodal++;
+			ps_hid = con.prepareStatement("select * from events_units where event_date=CURDATE() and event_id=6 and enable_id=1 and created_by ="+ uid +"  order by event_date desc");
+			 
 		%>
 		 <th> 
 	    <a href="DeleteEvent.jsp?event_id=<%=rs.getInt("event_id")%>" id="delete_query" onclick="disable_me()">Delete</a> 
