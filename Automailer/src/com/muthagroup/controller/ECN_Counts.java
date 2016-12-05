@@ -60,7 +60,7 @@ public class ECN_Counts extends TimerTask {
 					recipients[j] = rs_auto.getString("Email");
 					j++;
 				}
-				recipients[j] = "govindmb@muthagroup.com";
+				//recipients[j] = "govindmb@muthagroup.com";
 				// ********************************************************************************************* 
 				SimpleDateFormat formatView = new SimpleDateFormat("dd/MM/yyyy");
 				// -----------------------------------------------------------------------------------------------------------------------------

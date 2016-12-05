@@ -66,12 +66,12 @@ public class ECN_ActionCustCheck_mailer extends TimerTask {
 					
 					
 					
-					System.out.println("list size = " + countEmail.size());
+					// System.out.println("list size = " + countEmail.size());
 					int ct=0;
 					
 					if (countEmail.size()>0){
 					
-						countEmail.add("govindmb@muthagroup.com");
+						// countEmail.add("govindmb@muthagroup.com");
 						
 						ct = countEmail.size(); 
 						String[] recipients = new String[ct];
@@ -79,10 +79,10 @@ public class ECN_ActionCustCheck_mailer extends TimerTask {
 						
 						for(int e=0;e<countEmail.size();e++){
 							recipients[e]=countEmail.get(e).toString();
-							System.out.println("filler  = " + recipients[e].toString() + " e = "+e);
+							//System.out.println("filler  = " + recipients[e].toString() + " e = "+e);
 						}
 						
-						System.out.println("list size = " + recipients.length);
+					//	System.out.println("list size = " + recipients.length);
 
 			System.out.println("ECN Automailer....");
 			

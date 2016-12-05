@@ -95,7 +95,7 @@ public class ECN_NoAction_mailer extends TimerTask {
 					}
 				}
 			}
-			recipients[ct] = "govindmb@muthagroup.com";
+		//	recipients[ct] = "govindmb@muthagroup.com";
 			
 			Properties props = System.getProperties();
 			props.put("mail.host", host);

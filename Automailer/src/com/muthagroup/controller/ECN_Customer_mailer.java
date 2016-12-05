@@ -75,7 +75,7 @@ public class ECN_Customer_mailer extends TimerTask {
 				ResultSet rs_user = ps_user.executeQuery();
 				while (rs_user.next()) {
 					recipients[ct] = rs_user.getString("U_Email");
-					System.out.println("email = = = " + rs_user.getString("U_Email"));
+					// System.out.println("email = = = " + rs_user.getString("U_Email"));
 				}
 				ct++;
 			}			 
