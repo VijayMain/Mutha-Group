@@ -54,7 +54,7 @@ public class MIS_SummaryReportFND extends TimerTask {
 			
 			DecimalFormat twoDForm = new DecimalFormat("###,##0.##");			
 			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 17 && d.getMinutes() == 01) {*/
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 49) {
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 14) {
 			
 				//************************************************************************************************				
 				if(weekday[d.getDay()].equals("Wednesday")){
@@ -66,7 +66,7 @@ public class MIS_SummaryReportFND extends TimerTask {
 				}
 				Connection con = ConnectionUrl.getFoundryFMShopConnection();
 				String OnDateMIS = yes_date;
-				String db = "FOUNDRYERPNEW";
+				String db = "FOUNDRYERP";
 				String comp = "103";
 				int j=10;
 				String OnDate = OnDateMIS.substring(6,8) +"/"+ OnDateMIS.substring(4,6) +"/"+ OnDateMIS.substring(0,4); 
@@ -244,7 +244,6 @@ public class MIS_SummaryReportFND extends TimerTask {
 				
 				sb.append("<b style='color: #0D265E;font-family: Arial;font-size: 11px;'>*** This is an automatically generated email of MIS Summary Report !!! ***</b> <br />"+
 				"<div style='width: 65%;float: left;'><b style='font-family: Arial;font-size: 14px;'>MUTHA FOUNDERS PVT.LTD. MIS Summary Report as on "+ason_date +"</b></div>");
-				
 				
 				sb.append("<span style='font-family: Arial;font-size: 12px;'>Total Working Days : <b>"+total_dd +"&nbsp;&nbsp;&nbsp;</b>Working Days Over : <b>"+workdays +"</b></span>"+
 						"<table border='1' style='font-size: 10px; color: #333333; width: 90%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
