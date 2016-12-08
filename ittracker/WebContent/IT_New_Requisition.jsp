@@ -115,8 +115,7 @@
 					</thead>
 
 					<%
-						PreparedStatement ps_reqDetails = con
-									.prepareStatement("select * from it_user_requisition where status!='Closed' order by U_Req_Id desc");
+						PreparedStatement ps_reqDetails = con.prepareStatement("select * from it_user_requisition where status!='Closed' order by Company_Id,Req_Date desc");
 
 							ResultSet rs_reqDetails = ps_reqDetails.executeQuery();
 
@@ -175,7 +174,6 @@
 
 									}
 						%>
-
 					</tr>
 					<%
 						}

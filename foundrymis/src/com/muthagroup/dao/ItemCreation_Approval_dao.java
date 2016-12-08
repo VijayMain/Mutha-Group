@@ -201,7 +201,9 @@ if(flag_check==false){
 					ps = con.prepareStatement("select * from new_item_creation where enable=1 and approval_status=0");
 					rs = ps.executeQuery();
 					sb.append("<b style='color: #0D265E; font-family: Arial;font-size: 11px;'>This is an automatically generated email for ERP Pending Approval - To add new suppliers in ERP System !!!</b>"
-							+ "<p><b>To Approve ,</b><a href='http://192.168.0.7/foundrymis/approve.jsp?userName=" + name_emails.get(p).toString() + "'>Click Here</a></p>"
+							+ "<b style='color: #0D265E; font-family: Arial;font-size: 11px;'>This is an automatically generated email for ERP Pending Approval - To add new suppliers in ERP System !!!</b> "
+							+ "<p><b>To Approve ,</b><a href='http://192.168.0.7/foundrymis/approve.jsp?userName=" + name_emails.get(p).toString() + "'>Click Here</a>, <b>If you are at remote location ,"
+							+ "</b><a href='http://61.1.84.192:8081/Approvals?userName=" + name_emails.get(p).toString() + "'>Click Here</a></p>"
 							+ "<table border='1' width='97%' style='font-family: Arial;'>"
 							+ "<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"
 							+ "<th height='24'>S.No</th><th>Supplier</th><th>Request Date</th><th>Logged By</th><th>Approval</th></tr>");
