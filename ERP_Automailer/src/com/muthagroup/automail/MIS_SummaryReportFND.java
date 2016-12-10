@@ -53,7 +53,7 @@ public class MIS_SummaryReportFND extends TimerTask {
 			
 			DecimalFormat twoDForm = new DecimalFormat("###,##0.##");
 			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 30) {
-			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 7) {*/
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 24) {*/
 				//************************************************************************************************				
 				if(weekday[d.getDay()].equals("Wednesday")){
 					cal.add(Calendar.DATE, -1);
