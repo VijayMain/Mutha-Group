@@ -8,7 +8,8 @@
 </head>
 <body>
 	<p>
-		<b>To Check ,</b><a href='http://192.168.0.7/muthaplanner/"'>Click Here</a>
+		<b>To Check ,</b><a href='http://192.168.0.7/muthaplanner/"'>Click
+			Here</a>
 	</p>
 	<b style='color: #0D265E; font-family: Arial; font-size: 11px;'>This
 		is an automatically generated email to attend a meeting in !!!</b>
@@ -33,5 +34,20 @@
 			<td></td>
 		</tr>
 	</table>
+
+	<table border='0' width='99%' style='font-family: Arial;text-align: center;'>
+		<tr>
+			<td>1</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>1</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td colspan='2'>1</td>
+		</tr>
+	</table>
+
 </body>
 </html>

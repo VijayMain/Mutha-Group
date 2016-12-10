@@ -173,7 +173,7 @@ private static final long serialVersionUID = 1L;
 			timer.schedule(poWithoutGRN_1000, 1000, 60000);
 			 */
 			
-			// 17:01
+			// 12:30
 			TimerTask  timerTaskMISF =new MIS_SummaryReportFND();
 			timer.schedule(timerTaskMISF, 1000, 60000);
 			

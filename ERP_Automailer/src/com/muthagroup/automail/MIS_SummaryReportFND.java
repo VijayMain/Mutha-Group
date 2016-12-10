@@ -41,7 +41,7 @@ public class MIS_SummaryReportFND extends TimerTask {
 			//___________________________________________________________________________
 			
 			Date d = new Date();
-			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };  
+			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 			DateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
 			Calendar cal = Calendar.getInstance();
@@ -52,8 +52,8 @@ public class MIS_SummaryReportFND extends TimerTask {
 			String ason_date = dateFormat2.format(cal.getTime()).toString();
 			
 			DecimalFormat twoDForm = new DecimalFormat("###,##0.##");
-			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 17 && d.getMinutes() == 01) {*/
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 19) {
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 30) {
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 7) {*/
 				//************************************************************************************************				
 				if(weekday[d.getDay()].equals("Wednesday")){
 					cal.add(Calendar.DATE, -1);
@@ -119,11 +119,11 @@ public class MIS_SummaryReportFND extends TimerTask {
 				String user = "itsupports@muthagroup.com";
 				String pass = "itsupports@xyz"; 
 		 		String from = "itsupports@muthagroup.com";
-				String subject = "MIS Summary Report ("+ason_date+") of MFPL !!!"; 
+				String subject = "MIS Summary Report ("+ason_date+") of MFPL !!!";
 				boolean sessionDebug = false;
 				// *********************************************************************************************
 				// multiple recipients : == >
-				// ********************************************************************************************* 
+				// *********************************************************************************************
 			 
 				ArrayList to_emails = new ArrayList();
 				String report_name = "MIS_Report_MFPL";
@@ -157,7 +157,7 @@ public class MIS_SummaryReportFND extends TimerTask {
 				"<div style='width: 65%;float: left;'><b style='font-family: Arial;font-size: 14px;'>MUTHA FOUNDERS PVT.LTD. MIS Summary Report as on "+ason_date +"</b></div>");
 				
 sb.append("<span style='font-family: Arial;font-size: 12px;'>Total Working Days : <b>"+total_dd +"&nbsp;&nbsp;&nbsp;</b>Working Days Over : <b>"+workdays +"</b></span>"+
-"<div><div style='float: left;width: 50%'><table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
+"<table border='0' width='99%' style='font-family: Arial;text-align: center;'><tr><td><table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
 "<tr><th scope='col' colspan='4'  style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>On Date</th>"+
 "</tr><tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 "<th scope='col'>Head</th><th scope='col'>CI</th><th scope='col'>SGI</th><th scope='col'>Total</th>"+
@@ -165,7 +165,7 @@ sb.append("<span style='font-family: Arial;font-size: 12px;'>Total Working Days 
 while (rs1.next()) {
 	sb.append("<tr><td>"+rs1.getString("HEAD")+"</td><td align='right'>"+rs1.getString("SG_QTY")+"</td><td align='right'>"+rs1.getString("CI_QTY")+"</td><td align='right'>"+rs1.getString("TOTAL")+"</td></tr>");
  }
-sb.append("</table></div><div style='float: right;width: 49%'>"+
+sb.append("</table></td><td>"+
 "<table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
 "<tr><th scope='col' colspan='5'  style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>To Date</th>"+
 "</tr><tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
@@ -179,7 +179,7 @@ if (cs.getMoreResults()) {
      }
     rs1.close();
 }
-sb.append("</table></div><div style='float: left;width: 50%'>"+
+sb.append("</table></td></tr><tr><td>"+
 "<table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+ 
 "<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 "<th scope='col'>Heats</th><th scope='col'>On Date</th><th scope='col'>To Date</th>"+
@@ -192,7 +192,7 @@ if (cs.getMoreResults()) {
      } 
     rs1.close();
 }
-sb.append("</table></div><div style='float: right;width: 49%'>"+
+sb.append("</table></td><td>"+
 "<table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
 "<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 "<th scope='col'>Items</th><th scope='col'>On Date</th>"+
@@ -206,7 +206,7 @@ if (cs.getMoreResults()) {
      } 
     rs1.close();
 }
-sb.append("</table></div></div><table border='1' style='font-size: 12px; color: #333333; width: 60%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
+sb.append("</table></td></tr><tr><td colspan='2'><table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
 "<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 "<th scope='col' colspan='2'>Shift 1</th>"+
 "<th scope='col' colspan='2'>Shift 2</th><th scope='col' colspan='2'>Shift 3</th><th scope='col' colspan='2'>Total</th></tr>"+
@@ -223,7 +223,7 @@ if (cs.getMoreResults()) {
     rs1.close();
 }
 
-sb.append("</table><p><b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
+sb.append("</table></td></tr></table><p><b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
 "<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"+
 "it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons"+
 "or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"+
@@ -239,11 +239,11 @@ sb.append("</table><p><b style='font-family: Arial;'>Disclaimer :</b></p> <p><fo
 				System.out.println("MIS Summary loop End");	
 				con.close();
 			}	
-		
+			Thread.sleep(60000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 	}
 
 }
