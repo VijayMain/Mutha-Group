@@ -19,7 +19,7 @@ private static final long serialVersionUID = 1L;
 			// ******************************************************************************************************************
 			// Thread No 1
 			// ******************************************************************************************************************
-	 
+	 /*
 			// 09:40
 			TimerTask  siscompSale =new SisterCompanySale_Report();
 			timer.schedule(siscompSale, 1000, 60000);
@@ -171,8 +171,11 @@ private static final long serialVersionUID = 1L;
 			// 10:29
 			TimerTask  poWithoutGRN_1000 =new POWithoutGRN_1000();
 			timer.schedule(poWithoutGRN_1000, 1000, 60000);
-			 
-			  
+			 */
+			
+			// 17:01
+			TimerTask  timerTaskMISF =new MIS_SummaryReportFND();
+			timer.schedule(timerTaskMISF, 1000, 60000);
 			
 			
 			
