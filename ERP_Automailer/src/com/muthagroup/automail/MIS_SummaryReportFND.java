@@ -156,8 +156,8 @@ public class MIS_SummaryReportFND extends TimerTask {
 				sb.append("<b style='color: #0D265E;font-family: Arial;font-size: 11px;'>*** This is an automatically generated email of MIS Summary Report !!! ***</b> <br />"+
 				"<div style='width: 65%;float: left;'><b style='font-family: Arial;font-size: 14px;'>MUTHA FOUNDERS PVT.LTD. MIS Summary Report as on "+ason_date +"</b></div>");
 				
-				sb.append("<span style='font-family: Arial;font-size: 12px;'>Total Working Days : <b>"+total_dd +"&nbsp;&nbsp;&nbsp;</b>Working Days Over : <b>"+workdays +"</b></span>"+
-						"<div><div style='float: left;width: 50%'><table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
+sb.append("<span style='font-family: Arial;font-size: 12px;'>Total Working Days : <b>"+total_dd +"&nbsp;&nbsp;&nbsp;</b>Working Days Over : <b>"+workdays +"</b></span>"+
+"<div><div style='float: left;width: 50%'><table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
 "<tr><th scope='col' colspan='4'  style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>On Date</th>"+
 "</tr><tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 "<th scope='col'>Head</th><th scope='col'>CI</th><th scope='col'>SGI</th><th scope='col'>Total</th>"+
