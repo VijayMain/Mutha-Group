@@ -54,6 +54,7 @@ public class Valid_limitPOH25 extends TimerTask {
 			mailSession.setDebug(sessionDebug);
 			Message msg = new MimeMessage(mailSession);
 			msg.setFrom(new InternetAddress(from)); 
+			
 			// *********************************************************************************************
 			// multiple recipients : == >
 			// *********************************************************************************************

@@ -61,8 +61,8 @@ if(flag_check==false){
 					+ "service_cessround,vat_round,net_amountRound,is_overseas,account_name,account_number,bank_name,branch,ifsc_rtgs,ifsc_neft,micr_code,phone_number1,"
 					+ "phone_number2,bank_address1,bank_address2,bank_address3,registered_by,registered_date,update_by,update_date,enable,approval_status,supplier_phone1,"
 					+ "supplier_phone2,email_logger,relative_flag,relative_name,turnover_year1,turnover_year2,turnover_year3,turnover1,turnover2,turnover3,owner_name,"
-					+ "supplier_phone3,phone_number3,transf_h21,transf_h25,transf_mfpl,transf_di,transf_u3)"
-					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					+ "supplier_phone3,phone_number3,transf_h21,transf_h25,transf_mfpl,transf_di,transf_u3,purpose)"
+					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			ps.setString(1, vo.getSupplier().toUpperCase());
 			ps.setString(2, vo.getShort_supplier());
 			ps.setString(3, vo.getSupp_address().toUpperCase());
@@ -136,6 +136,7 @@ if(flag_check==false){
 			ps.setString(71, vo.getMfpl());
 			ps.setString(72, vo.getDi());
 			ps.setString(73, vo.getMeplunitIII());
+			ps.setString(74, vo.getPurpose());
 			
 			int up = ps.executeUpdate();
 
@@ -197,13 +198,14 @@ if(flag_check==false){
 				
 					StringBuilder sb = new StringBuilder();
 					ps = con.prepareStatement("select * from new_item_creation where enable=1 and approval_status=0");
-					rs = ps.executeQuery();
+					rs = ps.executeQuery(); 
+					
 					sb.append("<b style='color: #0D265E; font-family: Arial;font-size: 11px;'>This is an automatically generated email for ERP Pending Approval - To add new suppliers in ERP System !!!</b>"
 							+ "<p><b>To Approve ,</b><a href='http://192.168.0.7/foundrymis/approve.jsp?userName=" + name_emails.get(p).toString() + "'>Click Here</a>, <b>If you are at remote location ,"
 							+ "</b><a href='http://61.1.84.192:8081/Approvals?userName=" + name_emails.get(p).toString() + "'>Click Here</a></p>"
 							+ "<table border='1' width='97%' style='font-family: Arial;'>"
 							+ "<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"
-							+ "<th height='24'>S.No</th><th>Supplier</th><th>Request Date</th><th>Logged By</th><th>Approval</th></tr>");
+							+ "<th height='24'>S.No</th><th>Supplier</th><th>Purpose</th><th>Request Date</th><th>Logged By</th><th>Approval</th></tr>");
 					while (rs.next()) {
 						srno++;
 						sb.append("<tr style='font-size: 12px; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"
@@ -212,6 +214,9 @@ if(flag_check==false){
 								+ "</td>"
 								+ "<td  align='left'>"
 								+ rs.getString("supplier")
+								+ "</td>"
+								+ "<td  align='left'>"
+								+ rs.getString("purpose")
 								+ "</td>"
 								+ "<td  align='left'>"
 								+ rs.getString("registered_date")
@@ -223,7 +228,7 @@ if(flag_check==false){
 						sent = true;
 					}
 					srno=0;
-					sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"
+					sb.append("</table><p>"
 							+ "<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"
 							+ "<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"
 							+ "it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons"
@@ -281,13 +286,12 @@ if(flag_check==false){
 			// Approved
 			if(status.equalsIgnoreCase("1")){
 				 ap_status = "Approved";
-			} 
+			}
+			
 			// Declined
 			if(status.equalsIgnoreCase("3")){
 				ap_status = "Declined";
-			} 
-			
-			
+			}
 			
 	/*____________________________________________________________________________________________________*/
 			String reg_by = "",tranf_to="",tds_method="",excise_round="",excise_cessround="",service_taxround="",service_cessround="",vat_round="",net_amountRound="",is_overseas="";
@@ -453,7 +457,7 @@ tds_method +"* Checked TDS Posting Entry Wise and Unchecked for TDS Debit Note"+
 "<td>"+rs_rec.getString("phone_number2")+"&nbsp;</td><td>"+rs_rec.getString("phone_number3")+"&nbsp;</td></tr><tr><td rowspan='3'><strong>Bank Address</strong></td><td colspan='3'>"+rs_rec.getString("bank_address1")+"&nbsp;</td></tr><tr>"+
 "<td colspan='3'>"+rs_rec.getString("bank_address2")+"&nbsp;</td></tr><tr><td colspan='3'>"+rs_rec.getString("bank_address3")+"&nbsp;</td></tr>");
 }
-				sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"
+				sb.append("</table><p>"
 						+ "<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"
 						+ "<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"
 						+ "it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons"

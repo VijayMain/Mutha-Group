@@ -17,7 +17,6 @@
   function myFunction(str,str1) {		
 	    document.getElementById("hid_status").value = str;
   		document.getElementById("hid_mode").value = str1;
-  		
   		document.getElementById("approve_btn").disabled = true;
   		document.getElementById("decline_btn").disabled = true;
   		
@@ -30,12 +29,13 @@
 try{
 Connection con = ConnectionUrl.getLocalDatabase();
 Connection conERP = ConnectionUrl.getBWAYSERPMASTERConnection();
-String name_user = "",supp_cat="",tds_code="";
+String name_user = "",supp_cat="",tds_code="",supp_city="";
 
 if(request.getParameter("userName")!=null){
-	name_user = request.getParameter("userName").toString(); 
+	name_user = request.getParameter("userName").toString();
 	session.setAttribute("uname", name_user);
 }
+ 
 %>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -71,14 +71,16 @@ if(request.getParameter("userName")!=null){
         <li>Hi,<br> <%=name_user %></li>
     </ul>
     </div>
-    </div> 
+    </div>
  </nav>
 <table class="table table-striped" style="font-family: Arial;font-size: 12px;">
   <thead>
     <tr>
       <td align="center"><b>Sr.No</b></td>
       <td align="left"><b>Supplier Name</b></td>
+      <td align="left"><b>Purpose</b></td>
       <td align="left"><b>Request Date</b></td>
+      <td align="left"><b>Request Days</b></td>
       <td align="left"><b>Logged By</b></td>
       <td align="left"><b>Approval</b></td>
       <td align="left"><b>Action</b></td>
@@ -87,12 +89,12 @@ if(request.getParameter("userName")!=null){
  <tbody>
   <%
   	int sr=1;
- 	PreparedStatement ps = con.prepareStatement("select * from new_item_creation where enable=1 and approval_status=0");
+ 	PreparedStatement ps = con.prepareStatement("select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,supp_category,tds_code,supp_city,supplier,purpose,registered_by,supp_address,supplier_phone1,supplier_phone2,pan_no,indus_type,credit_days,tan_no,code, DATEDIFF(CURDATE(), registered_date) AS DAYS from new_item_creation where enable=1 and approval_status=0");
 	ResultSet rs = ps.executeQuery();
     while(rs.next()){
     	     PreparedStatement ps_sup = conERP.prepareStatement("select * from MSTMATCATAG where code ='"+ rs.getString("supp_category") + "'");
     	     ResultSet rs_sup = ps_sup.executeQuery();
-    	      while(rs_sup.next()){ 
+    	      while(rs_sup.next()){
     	    	  supp_cat = rs_sup.getString("NAME");  
     	      }
     	      
@@ -101,15 +103,33 @@ if(request.getParameter("userName")!=null){
      	      while(rs_sup.next()){
      	    	  tds_code = rs_sup.getString("NAME");  
      	      }
+     	      
+     	     ps_sup = conERP.prepareStatement("select * from MSTCOMMCITY  where CODE ='"+ rs.getString("supp_city") + "'");
+    	      rs_sup = ps_sup.executeQuery();
+    	      while(rs_sup.next()){
+    	    	  supp_city = rs_sup.getString("NAME");
+    	      }
   %>
     <tr>
       <td align="center"><%=sr %></td>
       <td align="left"><%=rs.getString("supplier") %></td>
-      <td align="left"><%=rs.getTimestamp("registered_date") %></td>
+      <td align="left"><%=rs.getString("purpose") %></td>
+      <td align="left"><%=rs.getString("registered_date") %></td>
+      <td align="left"><%=rs.getString("DAYS") %></td>
       <td align="left"><%=rs.getString("registered_by") %></td>
       <td align="left">Pending</td>
       <td align="left">
- 	  <a class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal<%=sr%>">Action</a> 
+      <%
+      if(name_user!=""){
+      %>
+ 	  <a class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal<%=sr%>">Action</a>
+ 	  <%
+      }else{
+ 	  %>
+ 	  <b style="color: #c10005">User Name Missing !!!</b>
+ 	  <%
+      }
+ 	  %>
       </td>
     </tr>
 
@@ -126,6 +146,9 @@ if(request.getParameter("userName")!=null){
 <input type="hidden" name="hid_status" id="hid_status">
 <input type="hidden" name="hid_mode" id="hid_mode">
 <div style="width: 50%;float: left;">
+
+
+
   <dl>
     <dt>Address</dt>
     <dd>- <%=rs.getString("supp_address") %></dd>
@@ -141,7 +164,7 @@ if(request.getParameter("userName")!=null){
   <div style="width: 49%;float: right;">
   <dl>
     <dt>City</dt>
-    <dd>- <%=rs.getString("supp_city") %></dd>
+    <dd>- <%=supp_city %></dd>
     <dt>Credit Days</dt>
     <dd>- <%=rs.getString("credit_days") %></dd>
      <dt>TAN Number</dt>

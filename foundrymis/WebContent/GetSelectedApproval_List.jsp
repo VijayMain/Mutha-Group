@@ -29,7 +29,7 @@ try{
 	 
 	Connection conlocal = ConnectionUrl.getLocalDatabase();
 %>
-<table class="tftable" style="border: 0px;">  
+<table class="tftable" style="border: 0px;">
   <tr>
     <th> <select name="supplier_name" id="supplier_name" onchange="getSupplier(this.value)">
     <option value="<%=app_code%>"><%=app_status%></option>

@@ -115,6 +115,9 @@ private static final long serialVersionUID = 1L;
 				if (fieldName.equalsIgnoreCase("supp_category")) {
 					vo.setSupp_category(fieldValue);
 				}
+				if (fieldName.equalsIgnoreCase("purpose")) {
+					vo.setPurpose(fieldValue);
+				}
 				if (fieldName.equalsIgnoreCase("category")) {
 					vo.setCategory(fieldValue);
 				}

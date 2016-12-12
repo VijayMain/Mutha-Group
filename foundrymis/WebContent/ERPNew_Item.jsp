@@ -132,11 +132,11 @@ function validateNewItemForm() {
 	var service_tax = document.getElementById("service_tax"); 
 	var service_tax_date = document.getElementById("service_tax_date");
 	var supp_category = document.getElementById("supp_category"); 
+	var purpose = document.getElementById("purpose"); 
 	var category = document.getElementById("category"); 
 	var pan_no = document.getElementById("pan_no"); 
 	var tds_code = document.getElementById("tds_code"); 
 	var indus_type = document.getElementById("indus_type");
-	
 	var meplH21 = document.getElementById("meplH21").checked;
 	var meplH25 = document.getElementById("meplH25").checked;
 	var mfpl = document.getElementById("mfpl").checked;
@@ -159,11 +159,12 @@ function validateNewItemForm() {
 			return false;
 		}
 		/*	
-			if (work_address.value=="0" || work_address.value==null || work_address.value=="" || work_address.value=="null") {
+		if (work_address.value=="0" || work_address.value==null || work_address.value=="" || work_address.value=="null") {
 			document.getElementById("submit").disabled = false;
-			alert("Please Provide Work Address !!!");  
+			alert("Please Provide Work Address !!!");
 			return false;
-		} */
+		}
+		*/
 		if (credit_days.value=="0" || credit_days.value==null || credit_days.value=="" || credit_days.value=="null") {
 			document.getElementById("submit").disabled = false;
 			alert("Please Provide Credit Days !!!");  
@@ -189,9 +190,14 @@ function validateNewItemForm() {
 			alert("Please Provide Supplier Category !!!");  
 			return false;
 		}
+		if (purpose.value=="0" || purpose.value==null || purpose.value=="" || purpose.value=="null") {
+			document.getElementById("submit").disabled = false;
+			alert("Please Provide Purpose  !!!");  
+			return false;
+		}
 		if (category.value==null || category.value=="" || category.value=="null") {
 			document.getElementById("submit").disabled = false;
-			alert("Please Provide Category !!!");  
+			alert("Please Provide Category !!!");
 			return false;
 		}
 		if (pan_no.value=="0" || pan_no.value==null || pan_no.value=="" || pan_no.value=="null") {
@@ -434,25 +440,27 @@ alert("Done");
       }
       %>
       </select></td>
-      <td>Category <b style="color: red;">*</b> </td>
+      <td>Purpose <b style="color: red;">*</b></td>
+      <td><input type="text" name="purpose" id="purpose" style="text-transform: uppercase;"></td>
+      </tr>
+    <tr>
+      <td>Category <b style="color: red;">*</b></td>
       <td><select name="category" id="category">
          <option value="">- - - - Select - - - - </option>
 					<Option Value="0">Manufacturer</Option>
 					<Option Value="1">Dealer/Traders</Option>
 					<Option Value="2">Importer</Option>
 					<Option Value="3">Other</Option>
-      </select>		</td>
-      </tr>
-    <tr>
+      </select></td>
       <td>PAN Number <b style="color: red;">*</b></td>
       <td><input type="text" name="pan_no" id="pan_no" maxlength="10" style="text-transform: uppercase;"></td>
-      <td>TAN Number</td>
-      <td><input type="text" name="tan_no" id="tan_no" maxlength="10" style="text-transform: uppercase;"></td>
       </tr>
     <tr>
       <td>LBT Number</td>
-      <td colspan="3"><input type="text" name="lbt_no" id="lbt_no" maxlength="15" style="text-transform: uppercase;"></td>
-      </tr>
+      <td><input type="text" name="lbt_no" id="lbt_no" maxlength="15" style="text-transform: uppercase;"></td>
+      <td>TAN Number</td>
+      <td><input type="text" name="tan_no" id="tan_no" maxlength="10" style="text-transform: uppercase;"></td>
+    </tr>
     <tr>
       <td>TDS Code <b style="color: red;">*</b> </td>
       <td colspan="3"><select name="tds_code" id="tds_code">
@@ -510,8 +518,7 @@ alert("Done");
       <td colspan="3">
       <input type="radio" name="relativeinMutha" id="relativeinMutha" value="yes">Yes &nbsp; &nbsp;
       <input type="radio" name="relativeinMutha" id="relativeinMutha" value="no">No &nbsp; &nbsp;
-      If Yes Name : <input type="text" name="relative_name" id="relative_name" size="30" maxlength="50" style="text-transform: uppercase;">
-      </td>
+      If Yes Name : <input type="text" name="relative_name" id="relative_name" size="30" maxlength="50" style="text-transform: uppercase;">      </td>
     </tr>
     <tr>
       <td>Turnover p.a.(Last 3)</td>
@@ -520,8 +527,7 @@ alert("Done");
       <%=year-2 %><input type="hidden" name="turnYear2" id="turnYear2" value="<%=year-2%>">
       <input type="text" name="turnover2" id="turnover2" size="11" maxlength="11" onkeypress ="return validatenumerics(event);">
       <%=year-3 %><input type="hidden" name="turnYear3" id="turnYear3" value="<%=year-3%>">
-      <input type="text" name="turnover3" id="turnover3" size="11" maxlength="11" onkeypress ="return validatenumerics(event);">
-      </td>
+      <input type="text" name="turnover3" id="turnover3" size="11" maxlength="11" onkeypress ="return validatenumerics(event);">      </td>
     </tr>
     <tr>
       <td>Owner's Name</td>
@@ -604,8 +610,7 @@ alert("Done");
       <input type="checkbox" name="mfpl" id="mfpl"> MFPL  &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="checkbox" name="di" id="di"> DI  &nbsp;&nbsp; &nbsp;&nbsp;
       <input type="checkbox" name="meplunitIII" id="meplunitIII"> MEPL UNIT III
-      <br> <br> 
-      </td>
+      <br> <br>      </td>
     </tr>
     
     <tr>
@@ -637,7 +642,7 @@ alert("Done");
   rs = ps.executeQuery();
   while(rs.next()){
   %>
-  <tr  onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs.getInt("code")%>',0);" style="cursor: pointer;">
+  <tr  onmouseover="ChangeColor(this, true);" onMouseOut="ChangeColor(this, false);" onClick="button1('<%=rs.getInt("code")%>',0);" style="cursor: pointer;">
   <td align="left" style="font-family: Arial;font-size: 10px;"><%=rs.getString("supplier").toUpperCase() %></td>
   <td><%=rs.getString("registered_date") %></td>
   <td><%=rs.getString("registered_by") %></td>

@@ -17,7 +17,7 @@ public class ItemCreation_Approval_vo {
 			supplier_phone3, relativeinMutha, relative_name, turnYear1,
 			turnover1, turnover2, turnover3, turnYear2, turnYear3, owners_name,
 			phone_number3, attachment_name, meplH21, meplH25, mfpl, di,
-			meplunitIII;
+			meplunitIII, purpose;
 
 	private InputStream attachment;
 
@@ -563,6 +563,14 @@ public class ItemCreation_Approval_vo {
 
 	public void setMeplunitIII(String meplunitIII) {
 		this.meplunitIII = meplunitIII;
+	}
+
+	public String getPurpose() {
+		return purpose;
+	}
+
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
 	}
 
 }
