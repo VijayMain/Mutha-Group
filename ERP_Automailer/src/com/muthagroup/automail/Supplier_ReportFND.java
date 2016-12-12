@@ -28,7 +28,7 @@ public class Supplier_ReportFND extends TimerTask {
 			Date d = new Date();
 			String weekday[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 7) {
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 22) {
 		/*	if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 15 && d.getMinutes() == 5){*/
 			    
 				Connection con = ConnectionUrl.getLocalDatabase(); 
