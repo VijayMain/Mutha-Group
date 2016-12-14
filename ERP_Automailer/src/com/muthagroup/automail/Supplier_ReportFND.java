@@ -28,10 +28,10 @@ public class Supplier_ReportFND extends TimerTask {
 			Date d = new Date();
 			String weekday[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 22) {
-		/*	if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 15 && d.getMinutes() == 5){*/
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 50) {
+		/*	if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 15 && d.getMinutes() == 5){	*/
 			    
-				Connection con = ConnectionUrl.getLocalDatabase(); 
+				Connection con = ConnectionUrl.getLocalDatabase();
 				Connection conERP = ConnectionUrl.getBWAYSERPMASTERConnection();
 				String name_user = "",supp_cat="",tds_code="",supp_city="";
 				boolean sent = false;
@@ -48,6 +48,7 @@ public class Supplier_ReportFND extends TimerTask {
 				 
 				String report = "NewSuppliers_pending";
 				ArrayList to_emails = new ArrayList();
+				ArrayList bcc_emails = new ArrayList();
 				ArrayList name_emails = new ArrayList();
 
 				PreparedStatement ps_rec = con.prepareStatement("select * from pending_approvee where type='to' and report='"+ report + "'");
@@ -56,7 +57,13 @@ public class Supplier_ReportFND extends TimerTask {
 					to_emails.add(rs_rec.getString("email"));
 					name_emails.add(rs_rec.getString("validlimit"));
 				}
-				  
+				
+				ps_rec = con.prepareStatement("select * from pending_approvee where type='bcc' and report='"+ report + "'");
+				rs_rec = ps_rec.executeQuery();
+				while (rs_rec.next()) {
+					bcc_emails.add(rs_rec.getString("email"));
+				}
+				
 				InternetAddress[] addressBcc = new InternetAddress[1];
 				for (int p = 0; p < to_emails.size(); p++) {
 				 
@@ -113,7 +120,7 @@ public class Supplier_ReportFND extends TimerTask {
 			    	      
 			    	      sr++; 
 			    	      supp_cat=""; 
-			    	      } 
+			    	      }
  				sb.append("</table><p>"
 						+ "<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"
 						+ "<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"
@@ -123,6 +130,13 @@ public class Supplier_ReportFND extends TimerTask {
  				
  				addressBcc[0] = new InternetAddress(to_emails.get(p).toString()); 
 				msg.setRecipients(Message.RecipientType.TO, addressBcc);
+				
+				InternetAddress[] addresscopy = new InternetAddress[bcc_emails.size()];
+				for (int i = 0; i < bcc_emails.size(); i++) {
+					addresscopy[i] = new InternetAddress(bcc_emails.get(i).toString());
+				} 
+				msg.setRecipients(Message.RecipientType.BCC, addresscopy);
+				
 				msg.setSubject(subject);
 				msg.setSentDate(new Date());
 				msg.setContent(sb.toString(), "text/html");
@@ -133,8 +147,10 @@ public class Supplier_ReportFND extends TimerTask {
 					transport.close();
 				}
 				System.out.println("MIS Summary loop End");
+				System.out.println("Flag = " + sent);
 				}
 			}
+			
 			Thread.sleep(60000);
 		} catch (Exception e) {
 			e.printStackTrace();
