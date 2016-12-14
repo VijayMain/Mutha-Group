@@ -1,16 +1,12 @@
 package com.muthagroup.automail;
- 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet; 
 import java.util.ArrayList; 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TimerTask; 
-
+import java.util.Date; 
+import java.util.Properties; 
+import java.util.TimerTask;  
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -20,7 +16,6 @@ import javax.mail.internet.MimeMessage;
 import com.muthagroup.connectionERPUtil.ConnectionUrl;
 
 public class Supplier_ReportFND extends TimerTask {
-
 	@Override
 	public void run() {
 		try {
@@ -28,8 +23,8 @@ public class Supplier_ReportFND extends TimerTask {
 			Date d = new Date();
 			String weekday[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 50) {
-		/*	if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 15 && d.getMinutes() == 5){	*/
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 30) {
+				/*	if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 15 && d.getMinutes() == 5){	*/
 			    
 				Connection con = ConnectionUrl.getLocalDatabase();
 				Connection conERP = ConnectionUrl.getBWAYSERPMASTERConnection();
@@ -40,12 +35,11 @@ public class Supplier_ReportFND extends TimerTask {
 				String user = "itsupports@muthagroup.com";
 				String pass = "itsupports@xyz";
 				String from = "itsupports@muthagroup.com";
-				String subject = "Alert: ERP New Supplier Creation Approvals are Pending !!!";
+				String subject = "ERP New Supplier Creation Approvals are Pending !!!";
 				boolean sessionDebug = false;
 				// *********************************************************************************************
 				// multiple recipients : == >
 				// *********************************************************************************************
-				 
 				String report = "NewSuppliers_pending";
 				ArrayList to_emails = new ArrayList();
 				ArrayList bcc_emails = new ArrayList();
@@ -146,8 +140,7 @@ public class Supplier_ReportFND extends TimerTask {
 					transport.sendMessage(msg, msg.getAllRecipients());
 					transport.close();
 				}
-				System.out.println("MIS Summary loop End");
-				System.out.println("Flag = " + sent);
+				System.out.println("MIS Summary loop End"); 
 				}
 			}
 			
