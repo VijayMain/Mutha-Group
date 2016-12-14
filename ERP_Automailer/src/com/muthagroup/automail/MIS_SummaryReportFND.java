@@ -238,8 +238,9 @@ sb.append("</table></td></tr></table><p><b style='font-family: Arial;'>Disclaime
 				transport.close(); 
 				System.out.println("MIS Summary loop End");	
 				con.close();
+				Thread.sleep(60000);
 			}	
-			Thread.sleep(60000);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

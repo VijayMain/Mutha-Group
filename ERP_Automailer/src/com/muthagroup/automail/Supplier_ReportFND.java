@@ -142,9 +142,10 @@ public class Supplier_ReportFND extends TimerTask {
 				}
 				System.out.println("MIS Summary loop End"); 
 				}
+				Thread.sleep(60000);
 			}
 			
-			Thread.sleep(60000);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
