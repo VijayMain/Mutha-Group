@@ -173,14 +173,17 @@ private static final long serialVersionUID = 1L;
 			timer.schedule(poWithoutGRN_1000, 1000, 60000);
 	
 			
+			// 10:30
+			TimerTask  timerTaskSupplier =new Supplier_ReportFND();
+			timer.schedule(timerTaskSupplier, 1000, 60000);
+			 
+			
 			// 12:30
 			TimerTask  timerTaskMISF =new MIS_SummaryReportFND();
 			timer.schedule(timerTaskMISF, 1000, 60000);
 			
 		 
-			// 10:30
-			TimerTask  timerTaskSupplier =new Supplier_ReportFND();
-			timer.schedule(timerTaskSupplier, 1000, 60000);
+	
 			
 			
 		} catch (Exception e) {

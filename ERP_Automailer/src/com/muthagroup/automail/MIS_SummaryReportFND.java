@@ -53,7 +53,7 @@ public class MIS_SummaryReportFND extends TimerTask {
 			
 			DecimalFormat twoDForm = new DecimalFormat("###,##0.##");
 			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 30) {
-			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 24) {*/
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 53) {*/
 				//************************************************************************************************				
 				if(weekday[d.getDay()].equals("Wednesday")){
 					cal.add(Calendar.DATE, -1);
@@ -163,7 +163,7 @@ sb.append("<span style='font-family: Arial;font-size: 12px;'>Total Working Days 
 "<th scope='col'>Head</th><th scope='col'>CI</th><th scope='col'>SGI</th><th scope='col'>Total</th>"+
 "</tr>");
 while (rs1.next()) {
-	sb.append("<tr><td>"+rs1.getString("HEAD")+"</td><td align='right'>"+rs1.getString("SG_QTY")+"</td><td align='right'>"+rs1.getString("CI_QTY")+"</td><td align='right'>"+rs1.getString("TOTAL")+"</td></tr>");
+	sb.append("<tr><td>"+rs1.getString("HEAD")+"</td><td align='right'>"+rs1.getString("CI_QTY")+"</td><td align='right'>"+rs1.getString("SG_QTY")+"</td><td align='right'>"+rs1.getString("TOTAL")+"</td></tr>");
  }
 sb.append("</table></td><td>"+
 "<table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
@@ -175,7 +175,7 @@ rs1.close();
 if (cs.getMoreResults()) {
     rs1 = cs.getResultSet();
     while (rs1.next()) {
-    	sb.append("<tr><td>"+rs1.getString("HEAD")+"</td><td align='right'>"+rs1.getString("SG_QTY")+"</td><td align='right'>"+rs1.getString("CI_QTY")+"</td><td align='right'>"+rs1.getString("TOTAL")+"</td><td align='right'>"+rs1.getString("AVG")+"</td></tr>");
+    	sb.append("<tr><td>"+rs1.getString("HEAD")+"</td><td align='right'>"+rs1.getString("CI_QTY")+"</td><td align='right'>"+rs1.getString("SG_QTY")+"</td><td align='right'>"+rs1.getString("TOTAL")+"</td><td align='right'>"+rs1.getString("AVG")+"</td></tr>");
      }
     rs1.close();
 }

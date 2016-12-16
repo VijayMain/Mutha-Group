@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=7">
+<title>Compserv Consultant Pvt.Ltd.</title>
+<link href="Compserv%20Consultant%20Pvt.Ltd_files/Login.css" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="http://117.247.84.137/Supportportal/images/favicon.ico">
+</head>
+<body onload="init();" bgcolor="#FFFFFF">
+<form Id="MS1" name="form" RunAt="Server"> 
+  
+</div>
+<div id="container" style="height: 488px;">
+		<table style="width: 100%; height: 100%" cellspacing="0" cellpadding="0" border="0">
+			<tbody><tr>
+				<td colspan="99" class="LoginHeaderImageR" style="height: 22px; width: 100%;" valign="top">				</td>
+			</tr>
+			<tr>
+				<td width="80%" align="center" valign="middle"> <b><%=Application("CompanyName")%></b> </td>
+  <td align="right" width="20%" valign="middle"><img src="images/mutha.jpg" width="90" height="63" />&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="99" class="LoginHeaderImage" style="height: 22px; width: 100%;" valign="top">				</td>
+			</tr>
+		</tbody></table>
+  </div>
+	<div id="content">
+		<table style="width: 100%; height: 100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#FFFFFF">
+        <tbody><tr>
+            <td>
+                <table align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody><tr>
+                        <td>
+                            <table align="center" width="98%" cellspacing="0" cellpadding="0" border="0">
+                                <tbody><tr>
+                                    <td>
+                                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+										    <tbody><tr>
+												<td height="54" width="380" valign="top">&nbsp;												</td>
+											</tr>
+                                            <tr>
+                                              <td colspan="60" align="center" width="60%" valign="top">&nbsp;</td>
+                                  <td align="right">
+                                                    <table align="left" width="380" cellspacing="0" cellpadding="0" border="0">
+                                                        <tbody><tr>
+                                                            <td class="Loginboxhead" height="40" width="380" valign="top">&nbsp;                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                                    <tbody><tr>
+                                                                        <td class="Loginboxbgleft" height="210" width="5">&nbsp;                                                                        </td>
+                                                                        <td valign="top" bgcolor="#F3F3F3">
+                                                                            <table align="center" width="350" cellspacing="0" cellpadding="0" border="0">
+                                                                                <tbody><tr>
+                                                                                    <td colspan="2" class="style5" height="10" align="left" valign="top">                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="2" class="style5" height="30" align="left" valign="top">
+                                                                                        Welcome !                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="2" class="style1" align="left" valign="top">
+                                                                        
+                Please enter your User 
+Name, Password and click Sign In            </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="2" height="10" align="left" valign="top">                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="style1" height="20" align="left" width="106" valign="middle">
+                                                                                        <b>User Name:</b>                                                                                    
+                                                                                    </td>
+                                                                                    <td width="244" height="20" align="left" valign="top">
+<Input Type="Text" Id="txtUserId" Name="txtUserId" Size="10" Value="">                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="2" class="style1" height="9" align="left" valign="middle">                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="style1" height="25" align="left" valign="middle">
+                                                                                        <b>Password:</b>
+                                                                                    </td>
+                                                                                    <td height="25" align="left" valign="top"><Input Type="Password" Id="txtpassword" Name="txtpassword" Size="10" Value="" onKeyUp="checkCapsWarning(event)" onFocus="checkCapsWarning(event)" onBlur="removeCapsWarning()">    <div style="display:none;color:red" id="capsIndicator">Warning: Caps Lock is on!</div>                                                                                </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                <td height="20" align="left" valign="middle" class="style1">                                                                                 </td>
+<td height="20" align="left" valign="middle" class="style1"> 
+<P align="left"> 
+<asp:ImageButton AlternateText="Sign In" Id="btnEnter" Name="btnEnter" ImageUrl="Images/signin.gif" ImageAlign="left" cssClass="ImageButton" Runat="Server" AccessKey="S" OnClick="btnEnter_Click"/></p></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                  <td height="20" colspan="2" align="left" valign="middle" class="style1"><Font Color="RGB(255,7,0)"> <div Id="divError" Name="divError" RunAt="Server"> </Div> </font></td>
+                                                                                  </tr>
+                                                                                <tr>
+                                                                                  <td height="20" align="left" valign="middle" class="style1">&nbsp;</td>
+                                                                                  <td height="20" align="left" valign="middle" class="style1">&nbsp;</td>
+                                                                                </tr>
+                                                                      </tbody></table>                                                                        </td>
+                                                                        <td class="Loginboxbgright" height="210" width="5">&nbsp;                                                                        </td>
+                                                                    </tr>
+                                                                </tbody></table>                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="Loginboxfoot" height="17" width="380">                                                            </td>
+                                                        </tr>
+                                                    </tbody></table>                                                </td>
+                                            </tr>
+                                        </tbody></table>
+                                  </td>
+                                </tr>
+                            </tbody></table>
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+		</tbody></table>
+        </div>
+		
+		</form>
+
+
+
+<script type="text/javascript">
+
+	function init() {
+		delete_cookie ("PrvModuleNo");
+<%		If dsLog.Tables.count > 0 Then : If dsLog.Tables(0).Rows.count > 0 Then %>
+			document.getElementById("txtUserId").value= "<%=dsLog.Tables(0).Rows(0).Item("User_Code")%>"
+<%		End If : End If %>
+
+		if (document.getElementById("txtUserId").value == "") {
+			document.getElementById("txtUserId").value = "ADMIN"
+		}
+
+		document.getElementById("txtUserId").focus();
+		document.getElementById("txtUserId").select();
+	}
+
+	function delete_cookie(cookie_name) {
+		var cookie_date = new Date ( );  // current date & time
+		cookie_date.setTime ( cookie_date.getTime() - 1 );
+		document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
+	}
+	
+</script>
+
+<script>
+	var capsLockEnabled = null
+	function getChar(e) {
+	  if (e.which == null) {
+		return String.fromCharCode(e.keyCode) // IE
+	  }
+	  if (e.which!=0 && e.charCode!=0) {
+		return String.fromCharCode(e.which)   // rest
+	  }
+	   
+	  return null
+	}
+
+	document.onkeydown = function(e) {
+	  e = e || event
+	  
+	  if (e.keyCode == 20 && capsLockEnabled !== null) {
+		capsLockEnabled = !capsLockEnabled
+	  }
+	}
+
+	document.onkeypress = function(e) {
+	  e = e || event 
+
+	  var chr = getChar(e)
+	  if (!chr) return // special key
+
+	  if (chr.toLowerCase() == chr.toUpperCase()) {
+		// caseless symbol, like whitespace 
+		// can't use it to detect Caps Lock
+		return
+	  }
+	  capsLockEnabled = (chr.toLowerCase() == chr &&e.shiftKey) || (chr.toUpperCase() == chr && !e.shiftKey)
+	}
+
+	function checkCapsWarning() {
+	  document.getElementById('capsIndicator').style.display =capsLockEnabled ? 'block' : 'none'
+	}
+
+	function removeCapsWarning() {
+	  document.getElementById('capsIndicator').style.display ='none'
+	}
+</script>
+</body></html>
