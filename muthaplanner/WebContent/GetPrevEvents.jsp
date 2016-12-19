@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -7,7 +8,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> 
 <title>PREV</title>
 <script type="text/javascript">
 function disable_me(){
@@ -19,6 +20,7 @@ function disable_me(){
  <div style="height: 550px;overflow: scroll;" id="ajaxID"> 
 <%
 try{
+	
 			String str = request.getParameter("q");
 			String sql ="";
 		    java.sql.Date compareDate = null;
@@ -27,6 +29,10 @@ try{
 		    PreparedStatement ps_hid=null;
 		    ResultSet rs_hid=null;
 		    int uid = Integer.parseInt(session.getAttribute("u_id").toString());
+		    
+		    Connection con =ConnectionModel.getConnection(); 
+		    ArrayList momLisl = new ArrayList();
+		    
 		    if(str.equalsIgnoreCase("prev")){
 		    compareDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 			sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where enable_id=1 and event_date < '"+ compareDate +"'  order by event_date";
@@ -42,8 +48,15 @@ try{
 			if(str.equalsIgnoreCase("myMeeting")){ 
 				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where enable_id=1 and created_by ="+ uid +"  order by event_date desc";
 			} 
+			if(str.equalsIgnoreCase("myMOM")){
+				PreparedStatement psList = con.prepareStatement("select * from events_units_mom");
+				ResultSet rsList = psList.executeQuery();
+				while(rsList.next()){
+					momLisl.add(rsList.getInt("event_id"));
+				}
+				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where enable_id=1 and event_id in(SELECT event_id FROM event_users where u_id="+ uid +")  order by event_date desc";
+			}
 			
-			Connection con =ConnectionModel.getConnection(); 
 		    PreparedStatement ps=null,ps_des = null;
 		    ResultSet rs = null,rs_des = null;
 		    ps = con.prepareStatement(sql);
@@ -61,15 +74,31 @@ try{
  		<th>Organizer</th>
 		 <%
 		 if(str.equalsIgnoreCase("myMeeting")){
-			 
 		%>
 		 <th>Delete</th>
-		<%	 
+		 <%
+		 }
+		 %>
+		  <%
+		 if(str.equalsIgnoreCase("myMOM")){
+		%>
+		 <th>Add MOM</th>
+		 <%
 		 }
 		 %>
 		 </tr>
 		 <%while (rs.next()) {%>
-		  <tr> 
+		 <%
+		 if(str.equalsIgnoreCase("myMOM") && momLisl.contains(rs.getInt("event_id"))){
+		 %>
+		 <tr style="background-color: #75ee8a;cursor: pointer;" title="MOM Attached">
+		 <%
+		 }else{
+		%>
+		<tr  title="MOM Missing" style="cursor: pointer;" onclick="button1();">
+		<%
+		 }
+		 %>
 		  <td><%=rs.getString("event_date") %></td>
 		  <td><%=rs.getString("text") %></td>
 		  <td><%=rs.getString("event_desc") %></td>
@@ -108,7 +137,7 @@ try{
 				flag_prev=true;
 			}
 		%>
-		 <th> 
+		 <td> 
 		 <%
 		if(flag_prev==false){
 		 %>
@@ -122,16 +151,24 @@ try{
 		 }
 		flag_prev=false;
 		 %> 
+		 </td>
+		  <%
+		 if(str.equalsIgnoreCase("myMOM")){
+		%>
+		 <td align="left"><a href="AddMyMOM.jsp?event_id=<%=rs.getInt("event_id")%>"  id="delete_query" onclick="disable_me()">Add MOM</a></td>
+		 <%
+		 }
+		 %>
 		  </tr>
 		 <%
 		 }
 		 sql="";
-		 %> 
+		 %>
 		 </table>
 	<%		  
-}catch(Exception e){
-	e.printStackTrace();
-}
+	}catch(Exception e){
+		e.printStackTrace();
+	}
 	%>  
 </div> 
 </body>

@@ -102,11 +102,11 @@ if ((session.getAttribute("user")!=null))
       <ul class="nav navbar-nav navbar-center">
         <li class="active"><a href="mainpage.jsp"><b>Event Planner</b></a></li>
       	 <li><a href="Create_New.jsp"><b>CREATE NEW</b></a></li>
-         <li><a onclick="callstatusv('prev');" style="cursor: pointer;"><b>PREVIOUS</b></a></li>
-         <li><a onclick="callstatusv('todays');" style="cursor: pointer;"><b>TODAYS</b></a></li>
-         <li><a onclick="callstatusv('upcoming');" style="cursor: pointer;"><b>UPCOMING</b></a></li>
-         <li><a onclick="callstatusv('myMeeting');" style="cursor: pointer;"><b>MY MEETINGS</b></a></li>
-          <li><a onclick="callstatusv('myMOM');" style="cursor: pointer;"><b>MOM</b></a></li>
+         <li><a onClick="callstatusv('prev');" style="cursor: pointer;"><b>PREVIOUS</b></a></li>
+         <li><a onClick="callstatusv('todays');" style="cursor: pointer;"><b>TODAYS</b></a></li>
+         <li><a onClick="callstatusv('upcoming');" style="cursor: pointer;"><b>UPCOMING</b></a></li>
+         <li><a onClick="callstatusv('myMeeting');" style="cursor: pointer;"><b>MY MEETINGS</b></a></li>
+          <li><a onClick="callstatusv('myMOM');" style="cursor: pointer;"><b>MOM</b></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a  data-toggle="modal" href="#loginModal"><span class="glyphicon glyphicon-log-out"></span><b> <%=username%></b> Logout</a></li>
@@ -114,32 +114,26 @@ if ((session.getAttribute("user")!=null))
     </div>
   </div>
 </nav>
-<div class="container-fluid text-center">    
+<div class="container-fluid text-center">
   <div class="row content">
-    <div class="col-sm-12 text-left"> 
+    <div class="col-sm-12 text-left">
      <%
      /* ArrayList<String> userlist = new ArrayList<String>(); */
      Connection con =ConnectionModel.getConnection();
      String sql ="";
-     ArrayList activeList = new ArrayList();
-     java.sql.Date compareDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+     int event_id = Integer.parseInt(request.getParameter("event_id"));
+     int uid = Integer.parseInt(session.getAttribute("u_id").toString());
      PreparedStatement ps=null,ps_des = null, ps_act = null;
      ResultSet rs = null, rs_act = null ,rs_des = null;
-     
-     String activeMeetings = "SELECT event_id FROM  events_units where event_date='"+compareDate+"' and enable_id=1 and CAST(CURTIME() as time)  between CAST(start_time as time) and CAST(end_time as time)";
-     ps_act = con.prepareStatement(activeMeetings);
-     rs_act = ps_act.executeQuery();
-     while(rs_act.next()){
-    	 activeList.add(rs_act.getInt("event_id"));
-     }
-     
-    sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by  FROM  events_units where enable_id=1  and event_date >= '"+ compareDate +"'  order by event_date";
+      
+    sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by  FROM  events_units where event_id="+ event_id;
     ps = con.prepareStatement(sql);
     rs = ps.executeQuery();
-   %> 
- <div style="height: 550px;overflow: scroll;" id="ajaxID"> 
- <table class="table table-bordered">         
- <tr>
+    rs = ps.executeQuery();
+%> 
+<div style="height: 550px;overflow: scroll;" id="ajaxID"> 
+<table class="table table-bordered">         
+ <tr style="background-color: #8bcbed">
  <th>Meeting Date</th>
  <th>Topic / Agenda</th>
  <th>Details</th>
@@ -148,54 +142,79 @@ if ((session.getAttribute("user")!=null))
  <th>Venue</th>
  <th>Participants</th>
  <th>Organizer</th>
+ <th>MOM Attached</th>
  </tr>
- <%while (rs.next()) {
- if(activeList.contains(rs.getInt("event_id"))){
-%>
-<tr bgcolor="#ffff4f" title="Meeting Started">
-<%	 
- }else{
-%>
-<tr>
-<%
- }
- %>
-  <td><%=rs.getString("event_date") %></td>
-  <td><%=rs.getString("text") %></td>
-  <td><%=rs.getString("event_desc") %></td>
-  <td><%=rs.getString("start_time") %></td>
-  <td><%=rs.getString("end_time") %></td>
-  <td><%=rs.getString("event_venue") %></td>
-  <td>
-  <%
-  ps_des = con.prepareStatement("select * from event_users where event_id="+rs.getInt("event_id"));
-  rs_des = ps_des.executeQuery();
-  while(rs_des.next()){
-  %>
-  <%=rs_des.getString("user_name") %>,
-  <%
-  }
-  %>
-  </td>
-  <td>
-   <%
-  ps_des = con.prepareStatement("select * from user_tbl where U_Id="+rs.getInt("created_by"));
-  rs_des = ps_des.executeQuery();
-  while(rs_des.next()){
-  %>
-  <%=rs_des.getString("u_name") %>
-  <%
-  }
-  %>
-  </td>
-  </tr>
- <%
- }
- sql="";
- %> 
- </table>
-      
-	  </div>
+	                <%
+	                while(rs.next()){
+	                %>
+		 			<tr>
+	               	<td><%=rs.getString("event_date") %></td>
+		 			<td><%=rs.getString("text") %></td>
+		  			<td><%=rs.getString("event_desc") %></td>
+		  			<td><%=rs.getString("start_time") %></td>
+		  			<td><%=rs.getString("end_time") %></td>
+		  			<td><%=rs.getString("event_venue") %></td>
+		  			 <td width="20%">
+		  			<%
+		  			ps_des = con.prepareStatement("select * from event_users where event_id="+rs.getInt("event_id"));
+		  			rs_des = ps_des.executeQuery();
+		  			while(rs_des.next()){
+		  			%>
+		  			<%=rs_des.getString("user_name") %>,
+		  			<%
+		  			}
+		  			%>
+		  			</td>
+		  			 <td>
+   					<%
+  					ps_des = con.prepareStatement("select * from user_tbl where U_Id="+rs.getInt("created_by"));
+  					rs_des = ps_des.executeQuery();
+  					while(rs_des.next()){
+  					%>
+  					<%=rs_des.getString("u_name") %>
+  					<%
+  					}
+  					%>
+  					</td>
+  					<td>
+  					<%
+  					ps_act = con.prepareStatement("select * from events_units_mom where event_id="+event_id);
+  					rs_act = ps_act.executeQuery();
+  					while(rs_act.next()){
+  					%>
+  					<span></span><br>
+  					<%
+  					}
+  					%>
+  					</td>				
+		  			</tr>
+		  			<%
+	                }
+	                %>
+		  			</table> 
+<form action="AddMy_MOM" method="post" enctype="multipart/form-data">  			
+<table class="table table-bordered" style="width: 50%">         
+ <tr style="background-color: #8bcbed">
+ <th colspan="2">Attach MOM Here :</th>
+ </tr>
+ <tr>
+    <td>Attach File<b style="color:red">*</b></td>	
+    <td><input type="file" name="filename" id="filename" size="40" style="background-color: #e0e0e0"></td>
+ </tr>
+ <tr>
+   <td>Remark(If Any)</td>
+   <td><textarea name="remark" id="remark" rows="4" cols="40" style="background-color: #e0e0e0"></textarea></td>
+ </tr>
+ <tr>
+   <td>&nbsp;</td>
+   <td>
+   <input type="submit" value="Save" style="width: 100px;height:25px;font-weight:bold"/>
+   <span id=""></span>
+   </td>
+ </tr>
+</table>
+		</form>
+</div>
     </div>
   </div>
 </div>
@@ -203,7 +222,7 @@ if ((session.getAttribute("user")!=null))
     	  <div class="modal-dialog">
 				<div align="center" class="logoutmodal-container">
 					<h3>Are you want to log out</h3><br>
-	               <form class="form-inline" action="Logout" method="post">
+	               <form class="form-inline" action="Logout" method="post"> 
 	                <input  type=submit  class="btn btn-info btn-lg" type="submit" value="Log out"  autofocus >
 	                 </form>      		
 				</div>
