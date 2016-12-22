@@ -94,7 +94,7 @@ public class MuthaGroupDAO {
             int event_id =0;
             boolean flag_avail=false;
             String already_AvailUsers = "";
-            System.out.println("TEst = " + sqlDate.toString());
+            //System.out.println("TEst = " + sqlDate.toString());
             /*PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where event_date='"+sqlDate.toString()+"' and event_venue='"+list.get(4).toString()+"' and enable_id=1 and  CAST(start_time as time) >= '"+sqltime1+"' AND CAST(start_time as time) <='"+sqltime2+"'");*/
             PreparedStatement ps_chk = con.prepareStatement("SELECT * FROM events_units where  enable_id=1 and  "
             		+ " event_date='"+sqlDate.toString()+"' and event_venue='"+list.get(4).toString()+"'  and (CAST(start_time as time) between '"+sqltime1 +"' AND '"+sqltime2+"' OR CAST(end_time as time) between  '"+sqltime1+"' AND '"+sqltime2+"')");

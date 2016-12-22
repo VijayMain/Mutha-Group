@@ -26,8 +26,7 @@ import com.muthagroup.vo.MyMOM_vo;
 public class AddMy_MOM extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			MyMOM_vo bean = new MyMOM_vo();
 			MyMOM_dao dao = new MyMOM_dao();
@@ -68,30 +67,31 @@ public class AddMy_MOM extends HttpServlet {
 						if (fieldName.equalsIgnoreCase("remark")) {
 							bean.setRemark(fieldValue);
 						} 
+						if (fieldName.equalsIgnoreCase("event_id")) {
+							bean.setEvent_id(Integer.parseInt(fieldValue));
+						} 
 						// *****************************************************************************
 						// Get Complaint date ===== >
 						// ******************************************************************************
 
 					}
 
-					else { 
+					else {
 						fileItem = fileItemTemp;
 						fieldName = fileItem.getFieldName();
-						fieldValue = fileItem.getString(); 
-								file_stored = fileItem.getName();
-								if (FilenameUtils.getName(file_stored) != "") {
-									bean.setBlob_name(FilenameUtils.getName(file_stored));
+						fieldValue = fileItem.getString();  
+								if (fieldName.equalsIgnoreCase("filename")) {
+									file_stored = fileItem.getName();
+									if(FilenameUtils.getName(file_stored)!=""){
+									bean.setBlob_name(FilenameUtils.getName(file_stored)); 
+									file_Input = new DataInputStream(fileItem.getInputStream());
+									bean.setBlob_file(file_Input);
+									}
 								}
 							}
-				} 
-					if (flag == true) {
-						String msg = "Successfully Submitted !!!";
-						response.sendRedirect("DMS.jsp?msg=" + msg);
-					} else {
-						String msg = "Data upload failed !!!";
-						response.sendRedirect("DMS.jsp?msg=" + msg);
-					}
-				} 
+				}
+				 dao.saveMOM(response,bean,session);
+				}
 
 			// *************************************************************************************************************
 			// *************************************************************************************************************

@@ -187,6 +187,27 @@ div.panel.show {
 		xmlhttp.open("POST", "GetMyDocs.jsp?q=" + str + "&r=" + str1, true);
 		xmlhttp.send();
 	};
+	
+	function GetMyMOMs(str) {
+		var xmlhttp;
+
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var a = null;
+				document.getElementById("new_dms").innerHTML = xmlhttp.responseText;
+			}
+		};
+		xmlhttp.open("POST", "GetMyMOMs.jsp?q=" + str, true);
+		xmlhttp.send();
+	};
+	
 	function GetSharedDocs(str) {
 		var xmlhttp;
 
@@ -370,6 +391,19 @@ alert("<%=request.getParameter("msg") %>");
  }
  %>
 </div>
+
+
+<button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">MOM Data</button>
+<div class="panel">
+ <p style="padding-left: 15px;">
+ <a onclick="GetMyMOMs('<%=uid %>')" style="cursor: pointer;"><b>My MOM Data</b></a>
+ </p>
+</div>
+
+
+
+
+
 
 <script>
 var acc = document.getElementsByClassName("accordion");

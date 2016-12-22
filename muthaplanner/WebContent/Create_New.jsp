@@ -132,6 +132,7 @@ if ((session.getAttribute("user")!=null))
          <li><a onclick="callstatusv('todays');" style="cursor: pointer;"><b>TODAYS</b></a></li>
          <li><a onclick="callstatusv('upcoming');" style="cursor: pointer;"><b>UPCOMING</b></a></li>
          <li><a onclick="callstatusv('myMeeting');" style="cursor: pointer;"><b>MY MEETINGS</b></a></li>
+         <li><a onclick="callstatusv('myMOM');" style="cursor: pointer;"><b>MOM</b></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="LogOut.jsp"><span class="glyphicon glyphicon-log-out"></span><b> <%=username%></b> Logout</a></li>

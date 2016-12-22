@@ -10,7 +10,7 @@
 <%@page import="java.util.ArrayList"%>
 <html lang="en">
 <head>
-  <title>Mutha Group Planner</title>
+  <title>MOM Attached</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1"> 
   <link rel="stylesheet" href="css/bootstrap.min.css" >
@@ -65,7 +65,20 @@ function disable_me(){
 	document.getElementById("delete_query").style.pointerEvents = "none";
 }
 </script>
-
+<script type="text/javascript">  
+	// Form validation code will come here.
+	function validateForm() {
+	var filename = document.getElementById("filename"); 
+		if (filename.value=="0" || filename.value==null || filename.value=="" || filename.value=="null") {
+			alert("Please Provide MOM File !!!"); 
+			document.getElementById("save").disabled = false;
+			document.getElementById("waitImage").style.visibility = "hidden";
+			return false;
+		} 
+		document.getElementById("save").disabled = true;
+		document.getElementById("waitImage").style.visibility = "visible"; 
+	} 
+</script>
   <script type="text/javascript" > 
 	$(document).on("click", ".modal-link", function () {
      var myBookId = $(this).data('id');
@@ -76,18 +89,25 @@ function disable_me(){
 </head>
 <body>
 <%
-try{ 
+try{
 if ((session.getAttribute("user")!=null)) 
 {
 	String username=(String)session.getAttribute("user"); 
 	if(request.getParameter("delete_str")!=null){
-		%>
+	%>
 		<script type="text/javascript">
 		alert("Deleted successfully.....!!!");
 		</script>
-		<%
-			}
-		%>
+	<%
+	}
+	if(request.getParameter("mom_upload")!=null){
+	%>
+		<script type="text/javascript">
+		alert("MOM Attached successfully.....!!!");
+		</script>
+	<%
+		}
+	%>		
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -176,13 +196,13 @@ if ((session.getAttribute("user")!=null))
   					}
   					%>
   					</td>
-  					<td>
+  					<td width="200" style="font-size: 11px;font-weight: bold;">
   					<%
   					ps_act = con.prepareStatement("select * from events_units_mom where event_id="+event_id);
   					rs_act = ps_act.executeQuery();
   					while(rs_act.next()){
   					%>
-  					<span></span><br>
+  					<span><a href="Display_AttachedMOM.jsp?field=<%=rs_act.getInt("code")%>"><%=rs_act.getString("file_name")%>,&nbsp;</a></span>
   					<%
   					}
   					%>
@@ -192,7 +212,8 @@ if ((session.getAttribute("user")!=null))
 	                }
 	                %>
 		  			</table> 
-<form action="AddMy_MOM" method="post" enctype="multipart/form-data">  			
+<form action="AddMy_MOM" method="post" enctype="multipart/form-data"   onSubmit="return validateForm();">
+<input type="hidden" name="event_id" id="event_id" value="<%=event_id%>">  			
 <table class="table table-bordered" style="width: 50%">         
  <tr style="background-color: #8bcbed">
  <th colspan="2">Attach MOM Here :</th>
@@ -208,8 +229,8 @@ if ((session.getAttribute("user")!=null))
  <tr>
    <td>&nbsp;</td>
    <td>
-   <input type="submit" value="Save" style="width: 100px;height:25px;font-weight:bold"/>
-   <span id=""></span>
+   <input type="submit" value="Save" id="save" style="width: 100px;height:25px;font-weight:bold"/>
+   <span id="waitImage" style="visibility: hidden;"><strong style="color: blue;">Please Wait......</strong></span>
    </td>
  </tr>
 </table>

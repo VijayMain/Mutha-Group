@@ -26,8 +26,8 @@ try{
 		    java.sql.Date compareDate = null;
 		    boolean flag_prev = false;
 		    //int srmodal=0;
-		    PreparedStatement ps_hid=null;
-		    ResultSet rs_hid=null;
+		    PreparedStatement ps_hid=null,ps_get_att=null;
+		    ResultSet rs_hid=null,rs_get_att=null;
 		    int uid = Integer.parseInt(session.getAttribute("u_id").toString());
 		    
 		    Connection con =ConnectionModel.getConnection(); 
@@ -82,6 +82,7 @@ try{
 		  <%
 		 if(str.equalsIgnoreCase("myMOM")){
 		%>
+		 <th>Attached MOM</th>
 		 <th>Add MOM</th>
 		 <%
 		 }
@@ -91,7 +92,7 @@ try{
 		 <%
 		 if(str.equalsIgnoreCase("myMOM") && momLisl.contains(rs.getInt("event_id"))){
 		 %>
-		 <tr style="background-color: #75ee8a;cursor: pointer;" title="MOM Attached">
+		 <tr style="background-color: #caf9d2;cursor: pointer;" title="MOM Attached">
 		 <%
 		 }else{
 		%>
@@ -155,6 +156,17 @@ try{
 		  <%
 		 if(str.equalsIgnoreCase("myMOM")){
 		%>
+		<td width="200" style="font-size: 11px;font-weight: bold;">
+		<%	 
+			 ps_get_att = con.prepareStatement("select * from events_units_mom where enable=1 and event_id="+rs.getInt("event_id"));
+			 rs_get_att = ps_get_att.executeQuery();
+			 while(rs_get_att.next()){
+		%>
+		<span><a href="Display_AttachedMOM.jsp?field=<%=rs_get_att.getInt("code")%>"><%=rs_get_att.getString("file_name")%>,&nbsp;</a></span>
+		<%
+			 }
+		%>
+		</td>
 		 <td align="left"><a href="AddMyMOM.jsp?event_id=<%=rs.getInt("event_id")%>"  id="delete_query" onclick="disable_me()">Add MOM</a></td>
 		 <%
 		 }

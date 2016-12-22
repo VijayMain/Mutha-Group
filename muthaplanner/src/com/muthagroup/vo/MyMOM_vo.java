@@ -4,7 +4,16 @@ import java.io.InputStream;
 
 public class MyMOM_vo {
 	private String remark, blob_name;
+	private int event_id;
 	private InputStream blob_file = null;
+
+	public int getEvent_id() {
+		return event_id;
+	}
+
+	public void setEvent_id(int event_id) {
+		this.event_id = event_id;
+	}
 
 	public String getRemark() {
 		return remark;
