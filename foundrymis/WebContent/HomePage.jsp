@@ -789,7 +789,7 @@ while(rs.next()){
 		<% 
 		}if(reportList.contains("ERP New Item Creation")){
 		%>
-				<li><a href="#tabs-20">ERP New Item Creation</a></li> 
+				<li><a href="#tabs-20">ERP New Supplier Creation</a></li> 
 		<%
 		}if(reportList.size()==0){
 		%>
@@ -1940,7 +1940,7 @@ while(rs.next()){
 			<br/>
 			<table class="tftable" style="border: 0px;">
 			<tr>
-				<td colspan="2"><strong>To Create New Item in ERP<br/></strong> <br/>
+				<td colspan="2"><strong>To Create New Supplier in ERP<br/></strong> <br/>
 			</td>
 			</tr>
 			<tr> 
