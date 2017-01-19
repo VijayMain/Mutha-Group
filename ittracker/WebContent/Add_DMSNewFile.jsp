@@ -15,7 +15,11 @@
 %>
 <html>
 <head> 
-<title>Add New File DMS</title></head>
+<title>Add New File DMS</title>
+<link rel="stylesheet" href="js/jquery-ui.css" />
+<script src="js/jquery-1.9.1.js"></script>
+<script src="js/jquery-ui.js"></script>
+</head>
 <body>
 	<%
 		try {
@@ -27,7 +31,20 @@
 			ResultSet rs_data = null,rs_chk=null,rs_use = null;
 			int flagchk=0;
 		    String rights="",cr_use="",cr_note = "";
+		    ArrayList dept_check=new ArrayList(); 
 		    
+		    ps_chk = con.prepareStatement("SELECT dept FROM mst_dept where dms_code="+code);
+			  rs_chk = ps_chk.executeQuery();
+			  while(rs_chk.next()){
+				 dept_check.add(rs_chk.getInt("DEPT"));
+			  }
+			  
+			  int ins_check=0;
+			  ps_chk = con.prepareStatement("SELECT dept_id FROM user_tbl where u_id in(SELECT USER FROM mst_dmsfolder where code="+code+")");
+			  rs_chk = ps_chk.executeQuery();
+			  while(rs_chk.next()){
+				ins_check = rs_chk.getInt("dept_id");
+			  } 
 	%>
 	<span id="new_dms">
         <table style="width: 100%;" class="tftable">
@@ -39,8 +56,7 @@
 				    <th align="center">Shared Rights</th>
 				    <th align="center">Companies</th>
 				    <th align="center">Departments</th>
-				    <th align="center">Document</th>
-				    <th align="center">Note</th>
+				    <th align="center">Document</th> 
 			    </tr>
 			    <%
 			    
@@ -90,7 +106,7 @@
 				  ------------------------------------------------------------------------------------------------------------- 
 				   -->
 				  </td>
-				  <td align="center">
+				  <%-- <td align="center">
 				 <%
 				  ps_chk = con.prepareStatement("select * from mst_comp where DMS_CODE="+code);
 				  rs_chk = ps_chk.executeQuery();
@@ -117,7 +133,7 @@
 				   <!--
 					---------------------------------------------- Department ---------------------------------------------   
 				  -->  
-				  </td>
+				  </td> --%>
 				  <td align="center">
 				  <%
 				  ps_chk = con.prepareStatement("select * from mst_comp where DMS_CODE="+code);
@@ -171,9 +187,13 @@ Note : <%=rs_data.getString("note")%>"><b><%=rs_data.getString("File_Name")%></b
 			    }
 		  		%>
          </table> 
-         <form action="Add_NewDMSFile" method="post" enctype="multipart/form-data" onSubmit="return validateNewDMSFile();">
+         
+         <%
+			if(!dept_check.contains(7) || ins_check!=7){
+		%>
+		<form action="Add_NewDMSFile" method="post" enctype="multipart/form-data" onSubmit="return validateNewDMSFile();">
          <input type="hidden" name="code" id="code" value="<%=code%>">
-         <input type="hidden" name="folder" id="folder" value="<%=folder%>">       
+         <input type="hidden" name="folder" id="folder" value="<%=folder%>">
 			<table style="width: 100%;" class="tftable">
 				<tr>
 					<th colspan="2"><strong>Add New Document &#8658;</strong></th>
@@ -183,9 +203,9 @@ Note : <%=rs_data.getString("note")%>"><b><%=rs_data.getString("File_Name")%></b
 					<td width="88%" align="left">
                     <table id="tblSample">
 						<tr>&nbsp;&nbsp;&nbsp;
-						<strong><input type="button" value="  Click To ADD Files  " name="button" onclick="addRowToTable();" />
+						<strong><input type="button" value="  Click To ADD Files  " name="button" onClick="addRowToTable();" />
 						</strong> &nbsp;&nbsp;
-						<input type="button" value=" Delete [Selected] " onclick="deleteChecked();" />
+						<input type="button" value=" Delete [Selected] " onClick="deleteChecked();" />
 						&nbsp;&nbsp;<input type="hidden" id="srno" name="srno" value="">
 						</tr>
 						<tbody></tbody>
@@ -201,7 +221,61 @@ Note : <%=rs_data.getString("note")%>"><b><%=rs_data.getString("File_Name")%></b
 						<input type="submit" name="submit" value="   SAVE   " style="height: 30px; width: 200px; font-weight: bold;" />					</td>
 				</tr>
 			</table>
-		</form>
+			</form>
+			<%
+			}else{
+			%>       
+		<form action="Add_NewDMSDEVFile" method="post" enctype="multipart/form-data" onSubmit="return validateDEVDMSFile();">
+         <input type="hidden" name="code" id="code" value="<%=code%>">
+         <input type="hidden" name="folder" id="folder" value="<%=folder%>">
+				<table style="width: 100%;" class="tftable">
+					<tr align="left">
+						<th colspan="2"><strong>Add New Document &#8658;</strong></th>
+					</tr> 
+					<tr>
+					  <td width="16%" align="left"><strong>Work Carried out by</strong></td>
+					  <td width="84%" align="left"><input type="text" name="carriedout" id="carriedout" size="30" style="background-color:#d5f1ff;"></td>
+				  </tr>
+					<tr>
+					  <td align="left"><strong>Vide Bill No</strong></td>
+					  <td align="left"><input type="text" name="videbill" id="videbill" size="30" style="background-color:#d5f1ff;"></td>
+				  </tr>
+					<tr>
+					  <td align="left"><strong>Dated</strong></td>
+					  <td align="left">
+					  <input id="demo4" name="dated" onclick="javascript:NewCal('demo4','ddmmyyyy',true,24)"    style="background-color:#d5f1ff;"
+										type="text" size="25" readonly="readonly"
+										TITLE="Click on Date Picker" /> <a
+										href="javascript:NewCal('demo4','ddmmyyyy',true,24)"> <img
+											src="cal.gif" width="16" height="16" border="0"
+											alt="Pick a date"  style="background-color:#d5f1ff;"/></a> </td>
+				  </tr>
+					<tr>
+					  <td align="left"><strong>For Rs.</strong></td>
+					  <td align="left"><input type="text" name="forrs" id="forrs" size="30" style="background-color:#d5f1ff;"  onkeypress ="return validatenumerics(event);"></td>
+				  </tr>
+				 <tr>
+					  <td align="left"><strong>Purchase/work Order No</strong></td>
+					  <td align="left"><input type="text" name="purorder" id="purorder" size="30" style="background-color:#d5f1ff;"></td>
+				  </tr>
+				  <tr>
+					  <td align="left"><strong>Attach File</strong></td>
+					  <td align="left"><input type="file" name="filename" id="filename" size="30" style="background-color:#d5f1ff;"></td>
+				  </tr>
+					<tr>
+					  <td align="left"><strong>Remark</strong></td>
+				      <td align="left"><textarea name="remark" id="remark" rows="2" cols="50" style="background-color:#d5f1ff;"></textarea></td>
+			      	</tr>
+					<tr>
+						<td colspan="2" align="left" style="padding-left: 20px;">
+							<input type="submit" name="submit" id="submit" value="   SAVE   " style="height: 30px; width: 200px; font-weight: bold;" />						
+						</td>
+					</tr>
+				</table>
+				</form>
+			<%
+			}
+			%>
 	</span>
 	<%
 		} catch (Exception e) {

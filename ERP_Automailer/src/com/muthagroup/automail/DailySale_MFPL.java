@@ -111,7 +111,7 @@ public class DailySale_MFPL extends TimerTask {
 				// *********************************************************************************************
 				// multiple recipients : == >
 				// ********************************************************************************************* 
-				String recipients[] = {"ssgare@muthagroup.com","kunalvm@muthagroup.com","adgadkari@muthagroup.com","internalaudit@muthagroup.com","vmjoshi@muthagroup.com","vahalkar@muthagroup.com","jbaphna@muthagroup.com","nrfirodia@muthagroup.com"};
+				String recipients[] = {"ssgare@muthagroup.com","kunalvm@muthagroup.com","internalaudit@muthagroup.com","vmjoshi@muthagroup.com","vahalkar@muthagroup.com","jbaphna@muthagroup.com","nrfirodia@muthagroup.com"};
 				String cc_recipients[] = {"nileshss@muthagroup.com"};
 				
 				/*String recipients[] = {"vijaybm@muthagroup.com"};

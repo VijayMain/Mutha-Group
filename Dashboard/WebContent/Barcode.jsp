@@ -15,7 +15,7 @@
 </head>
 <body>
 
-	<%--
+	<%
 Document document = new Document(new Rectangle(PageSize.A4));    
 PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("D:\\Barcode_sample.pdf"));    
 
@@ -30,7 +30,7 @@ document.add(new Paragraph("Code128 MuthaGroup"));
 document.close();
 
 System.out.println("Document Generated...!!!!!!");
---%>
+%>
 
 	<b style='color: #0D265E; font-family: Arial; font-size: 11px;'>This is an automatically generated email to notify MOM attached !!!</b>
 	<p><b>To Check ,</b><a href='http://192.168.0.7/muthaplanner/'>Click Here</a></p>	

@@ -60,8 +60,7 @@ public class Report_Generator_Controller extends HttpServlet {
 					+ request.getParameter("first_date"));
 			first_date = request.getParameter("first_date");
 
-			SimpleDateFormat formatter = new SimpleDateFormat(
-					"dd-MM-yyyy HH:mm:ss");
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			try {
 				firstDate = new java.sql.Timestamp(formatter.parse(first_date)
 						.getTime());

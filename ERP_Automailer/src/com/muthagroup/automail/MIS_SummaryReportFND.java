@@ -228,23 +228,19 @@ sb.append("</table></td></tr></table><p><b style='font-family: Arial;'>Disclaime
 "it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons"+
 "or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"+
 "</font></p>");
-				
+
 				msg.setContent(sb.toString(), "text/html");
-				 
 				Transport transport = mailSession.getTransport("smtp");
 				transport.connect(host, user, pass);
 				transport.sendMessage(msg, msg.getAllRecipients());
 				// ******************************************************************************
-				transport.close(); 
+				transport.close();
 				System.out.println("MIS Summary loop End");	
 				con.close();
 				Thread.sleep(60000);
-			}	
-			
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
+		}	
 	}
-
 }

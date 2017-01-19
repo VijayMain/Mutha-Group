@@ -270,7 +270,7 @@ public class Purchase_PendDues_StatMFPL extends TimerTask {
 		// multiple recipients : == >
 		// ********************************************************************************************* 
 		String recipients[] = {"mfplaccounts@muthagroup.com"};
-		String cc_recipients[] = {"bhushan@muthagroup.com","kunalvm@muthagroup.com","adgadkari@muthagroup.com","ankatariya@muthagroup.com","nileshss@muthagroup.com","internalaudit@muthagroup.com"};
+		String cc_recipients[] = {"bhushan@muthagroup.com","kunalvm@muthagroup.com","ankatariya@muthagroup.com","nileshss@muthagroup.com","internalaudit@muthagroup.com"};
 
 		/*String recipients[] = {"vijaybm@muthagroup.com"};
 		String cc_recipients[] = {"vijaybm@muthagroup.com"};*/

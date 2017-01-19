@@ -108,13 +108,34 @@ System.out.println("SQL DATE =  " + sql_date);
 			<td>&nbsp;</td> 
 		</tr>
 	</table>
-
-<% 
-	Date date = new Date(); 
+<%
+	Date date = new Date();
 	java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
 	System.out.println("time = " + timestamp);
 %>
- 
+<p>Please Note : Below attached document is pending for approval, Please Approve using IT Tracker-DMS</p>
+					<table border='1' width='97%' style='font-family: Arial;'>
+					<tr style='font-size: 12px;background-color:#94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'> 
+								<th height="25">File Name</th> 
+								<th>Carried Out By</th> 
+								<th>Vide Bill No</th> 
+								<th>Dated</th> 
+								<th>For Rs.</th> 
+								<th>Work / Purchase Order No</th>
+								<th>Note</th>
+								 <th>Approval</th>
+					</tr>
+					<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+					</tr>
+					</table>
 
 
 

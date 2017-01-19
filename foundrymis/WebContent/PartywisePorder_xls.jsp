@@ -158,7 +158,9 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
 	cs11.setString(7,sup);
 	ResultSet rs = cs11.executeQuery(); 
 	while(rs.next()){  
-		poDate = rs.getString("TRAN_DATE").substring(6,8) +"/"+ rs.getString("TRAN_DATE").substring(4,6) +"/"+ rs.getString("TRAN_DATE").substring(0,4);
+		poDate = rs.getString("AMEND_DATE").substring(6,8) +"/"+ rs.getString("AMEND_DATE").substring(4,6) +"/"+ rs.getString("AMEND_DATE").substring(0,4);
+		
+		
 		Label po_nolbl = new Label(row, col, rs.getString("TRNNO").substring(3, 7) + " - " + rs.getString("PO_NO") ,cellRIghtformat);
 srno ++; 
 row++;
@@ -192,8 +194,8 @@ Number rspclbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),c
 		if(row==9){
 			row=0;
 			col++;   
-		} 
-}
+		}  
+		}
   //************************************************************************************************************************
   //************************************************ File Output Ligic *****************************************************
   //************************************************************************************************************************

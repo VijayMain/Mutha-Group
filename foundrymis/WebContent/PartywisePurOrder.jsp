@@ -264,7 +264,8 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 	cs11.setString(7,sup);
 	ResultSet rs = cs11.executeQuery(); 
 	while(rs.next()){
-		poDate = rs.getString("TRAN_DATE").substring(6,8) +"/"+ rs.getString("TRAN_DATE").substring(4,6) +"/"+ rs.getString("TRAN_DATE").substring(0,4);
+		poDate = rs.getString("AMEND_DATE").substring(6,8) +"/"+ rs.getString("AMEND_DATE").substring(4,6) +"/"+ rs.getString("AMEND_DATE").substring(0,4);
+		
  %>
 			<tr style="font-size: 10px;">
 			 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
@@ -277,7 +278,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
 			 	<td align="right"><%=rs.getString("RATE") %></td> 
 			</tr>
-	<%			 
+	<% 
 	}
 	%>	 
 		</table>

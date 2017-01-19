@@ -548,7 +548,7 @@ function validateMIS_ICS() {
 }	
 
 
-function validateMIS_WOWEB() {  
+function validateMIS_WOWEB() {
 	var FromDate_ICS = document.getElementById("FromDate_Exbr");
 	var ToDate_ICS = document.getElementById("ToDate_Exbr");       
 	 

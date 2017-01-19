@@ -133,7 +133,7 @@ WritableWorkbook writableWorkbook = Workbook.createWorkbook(exlFile);
 			tues++;
 			weekOff.add(i); 
 		}
-	} 
+	}
 	int workdays = dd - tues; 
 	total_dd = workdays; 
 	total_dd = total_dd - holliday; 
@@ -141,7 +141,7 @@ WritableWorkbook writableWorkbook = Workbook.createWorkbook(exlFile);
 	int space = 0;
 	PreparedStatement ps_allHol = conlocal.prepareStatement("select count(montlyWeekdays_id) from montlyweekdays_tbl where month=" + month);
 	ResultSet rs_allHol = ps_allHol.executeQuery();
-	while (rs_allHol.next()) { 
+	while (rs_allHol.next()) {
 		space = Integer.parseInt(rs_allHol.getString("count(montlyWeekdays_id)"));
 	}
 

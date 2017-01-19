@@ -77,7 +77,7 @@ public class Purchase_Approved_statusk1 extends TimerTask {
 		// multiple recipients : == >
 		// ********************************************************************************************* 
 		String recipients[] = {"vishal@muthagroup.com"};
-		String cc_recipients[] = {"internalaudit@muthagroup.com","kunalvm@muthagroup.com","adgadkari@muthagroup.com","ankatariya@muthagroup.com"};
+		String cc_recipients[] = {"internalaudit@muthagroup.com","kunalvm@muthagroup.com","ankatariya@muthagroup.com"};
 		
 		/*String recipients[] = {"vijaybm@muthagroup.com"};
 		String cc_recipients[] = {"vijaybm@muthagroup.com"}; */

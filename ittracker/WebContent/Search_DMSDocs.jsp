@@ -6,17 +6,41 @@
 <%@page import="java.sql.Connection"%>
 <%@page import="java.util.*"%>
 <%@page import="java.sql.PreparedStatement"%>
+<%
+	response.setHeader("Cache-Control", "no-cache");
+	response.setHeader("Pragma", "no-cache");
+	response.setDateHeader("Expires", -1);
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>DMS</title>
+<title>Search DMS</title>
 <link rel="stylesheet" type="text/css" href="styles.css" />
 <script type="text/javascript" src="js/tabledeleterow.js"></script>
 <script language="javascript" type="text/javascript" src="datetimepicker.js"></script>
 <link rel="stylesheet" href="js/jquery-ui.css"/>
 <script src="js/jquery-1.9.1.js"></script>
 <script src="js/jquery-ui.js"></script>
+<script> 
+	function myFunction(str) {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				document.getElementById("searchId").innerHTML = xmlhttp.responseText;
+			}
+		};
+		xmlhttp.open("POST", "Searched_DMSData.jsp?q=" + str , true);
+		xmlhttp.send();
+	};
+</script>
 <script type="text/javascript">
 $(document).ready(
 		  function () {
@@ -38,8 +62,9 @@ function validateNewDMSFile(){
 	if(note.value==""){
 		alert("Note ???");
 		return false;
-	}
+	} 
 }
+
 	function validateForm() {
 		/* var folder = document.getElementById("folder"); */
 		var subject = document.getElementById("subject");
@@ -168,11 +193,12 @@ div.panel.show {
 function validatenumerics(key) {
 //getting key code of pressed key
 var keycode = (key.which) ? key.which : key.keyCode;
-//comparing pressed keycodes 
+//comparing pressed keycodes
+ 
 if (keycode > 31 && (keycode < 48 || keycode > 57) && keycode != 46) {
     alert("Only allow numeric Data entry");
     return false;
-}else
+}else 
 {
 	return true;
 };
@@ -437,7 +463,7 @@ alert("<%=request.getParameter("msg") %>");
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">Add New Document</button> 
 <div class="panel">
   <p style="padding-left: 15px;">
- 	<a onclick="showState(this.value)" style="cursor: pointer;"><b>Add New Document</b></a>
+ 	<a onClick="showState(this.value)" style="cursor: pointer;"><b>Add New Document</b></a>
   </p>
 </div>
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">Search Document</button> 
@@ -454,7 +480,7 @@ alert("<%=request.getParameter("msg") %>");
  while(rs.next()){
  %>
  <p style="padding-left: 15px;">
- 	<a onclick="GetMyDocs('<%=rs.getInt("CODE") %>','<%=rs.getString("FOLDER") %>')" style="cursor: pointer;"><b><%=rs.getString("FOLDER") %></b></a>
+ 	<a onClick="GetMyDocs('<%=rs.getInt("CODE") %>','<%=rs.getString("FOLDER") %>')" style="cursor: pointer;"><b><%=rs.getString("FOLDER") %></b></a>
  	</p>
  <%
  }
@@ -474,7 +500,7 @@ alert("<%=request.getParameter("msg") %>");
 	 }
  %>
  <p style="padding-left: 15px;">
- 	<a onclick="GetMyDocs('<%=rs.getInt("CODE") %>','<%=rs.getString("FOLDER") %>')" style="cursor: pointer;" title="Created By <%=cr_use%>"><b><%=rs.getString("FOLDER") %></b></a>
+ 	<a onClick="GetMyDocs('<%=rs.getInt("CODE") %>','<%=rs.getString("FOLDER") %>')" style="cursor: pointer;" title="Created By <%=cr_use%>"><b><%=rs.getString("FOLDER") %></b></a>
  	</p>
  <%
  }
@@ -485,7 +511,7 @@ alert("<%=request.getParameter("msg") %>");
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">MOM Data</button>
 <div class="panel">
  <p style="padding-left: 15px;">
- <a onclick="GetMyMOMs('<%=uid %>')" style="cursor: pointer;"><b>My MOM Data</b></a>
+ <a onClick="GetMyMOMs('<%=uid %>')" style="cursor: pointer;"><b>My MOM Data</b></a>
  </p>
 </div>
 
@@ -502,11 +528,18 @@ for (i = 0; i < acc.length; i++) {
 </script>
 </div>
 <div style="float:right; width:79%">
-	
-	<span id="new_dms">
-	    <img alt="No Image" src="images/dms.jpg" style="width: 100%;height: 470px;">
-    </span>
-</div>
+<span id="new_dms">
+<table width="100%">
+<tr>
+<td width="16%"><strong>Search Documents</strong></td>
+<td><input type="text" name="search" id="search" size="40"  onkeyup="myFunction(this.value)" style="background-color:#b0dcf7;height: 22px;font-weight: bold;"></td>
+</tr>
+</table>
+<span id="searchId">
+ 
+
+</span>
+</span></div>
 </div>
 		<%
 			} catch (Exception e) {

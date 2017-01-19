@@ -15,9 +15,8 @@
 	src="datetimepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="styles.css" />
 <link href="tab_trial.css" rel="stylesheet" />
-<script language="JavaScript" src="gen_validatorv4.js"
-	type="text/javascript" xml:space="preserve"></script>
-	<link rel="stylesheet" href="js/jquery-ui.css" />
+<script language="JavaScript" src="gen_validatorv4.js" type="text/javascript" xml:space="preserve"></script>
+<link rel="stylesheet" href="js/jquery-ui.css" />
 <script src="js/jquery-1.9.1.js"></script>
 <script src="js/jquery-ui.js"></script>
 <script>

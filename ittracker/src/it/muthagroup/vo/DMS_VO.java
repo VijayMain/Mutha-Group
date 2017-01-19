@@ -1,12 +1,15 @@
 package it.muthagroup.vo;
 
 import java.io.InputStream;
+import java.sql.Timestamp;
 
 public class DMS_VO {
 
 	private int srno, dmscode, shared_access, code;
-	private String folder, subject, file, share_others, blob_name, note;
+	private String folder, subject, file, share_others, blob_name, note,
+			date_dms, carriedout, videbill, forrs, purorder;
 	private InputStream blob_file = null;
+	private Timestamp demo4 = null;
 
 	public int getCode() {
 		return code;
@@ -94,6 +97,54 @@ public class DMS_VO {
 
 	public void setBlob_file(InputStream blob_file) {
 		this.blob_file = blob_file;
+	}
+
+	public String getCarriedout() {
+		return carriedout;
+	}
+
+	public void setCarriedout(String carriedout) {
+		this.carriedout = carriedout;
+	}
+
+	public String getVidebill() {
+		return videbill;
+	}
+
+	public void setVidebill(String videbill) {
+		this.videbill = videbill;
+	}
+
+	public String getForrs() {
+		return forrs;
+	}
+
+	public void setForrs(String forrs) {
+		this.forrs = forrs;
+	}
+
+	public String getPurorder() {
+		return purorder;
+	}
+
+	public void setPurorder(String purorder) {
+		this.purorder = purorder;
+	}
+
+	public Timestamp getDemo4() {
+		return demo4;
+	}
+
+	public void setDemo4(Timestamp demo4) {
+		this.demo4 = demo4;
+	}
+
+	public String getDate_dms() {
+		return date_dms;
+	}
+
+	public void setDate_dms(String date_dms) {
+		this.date_dms = date_dms;
 	}
 
 }

@@ -271,7 +271,7 @@ public class Purchase_PendDues_StatDI extends TimerTask {
 		// multiple recipients : == >
 		// ********************************************************************************************* 
 		String recipients[] = {"diaccounts@muthagroup.com"};
-		String cc_recipients[] = {"srpatekar@muthagroup.com","nileshss@muthagroup.com","internalaudit@muthagroup.com","kunalvm@muthagroup.com","adgadkari@muthagroup.com","ankatariya@muthagroup.com","kamlesh@muthagroup.com"};
+		String cc_recipients[] = {"srpatekar@muthagroup.com","nileshss@muthagroup.com","internalaudit@muthagroup.com","kunalvm@muthagroup.com","ankatariya@muthagroup.com","kamlesh@muthagroup.com"};
 
 		/*String recipients[] = {"vijaybm@muthagroup.com"};
 		String cc_recipients[] = {"vijaybm@muthagroup.com"};*/

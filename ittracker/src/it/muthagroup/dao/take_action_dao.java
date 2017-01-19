@@ -189,8 +189,10 @@ public class take_action_dao {
 					Properties props = System.getProperties();
 					props.put("mail.host", host);
 					props.put("mail.transport.protocol", "smtp");
+					props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 					props.put("mail.smtp.auth", "true");
-					props.put("mail.smtp.port", 2525);
+					props.put("mail.smtp.port", 465);
+					
 					Session mailSession = Session.getDefaultInstance(props,null);
 					mailSession.setDebug(sessionDebug);
 					Message msg = new MimeMessage(mailSession);
@@ -356,8 +358,10 @@ public class take_action_dao {
 					Properties props = System.getProperties();
 					props.put("mail.host", host);
 					props.put("mail.transport.protocol", "smtp");
+					props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 					props.put("mail.smtp.auth", "true");
-					props.put("mail.smtp.port", 2525);
+					props.put("mail.smtp.port", 465);
+					
 					Session mailSession = Session.getDefaultInstance(props,
 							null);
 					mailSession.setDebug(sessionDebug);

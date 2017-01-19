@@ -19,8 +19,7 @@ function disable_me(){
 <body> 
  <div style="height: 550px;overflow: scroll;" id="ajaxID"> 
 <%
-try{
-	
+try{	
 			String str = request.getParameter("q");
 			String sql ="";
 		    java.sql.Date compareDate = null;
@@ -54,7 +53,7 @@ try{
 				while(rsList.next()){
 					momLisl.add(rsList.getInt("event_id"));
 				}
-				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where enable_id=1 and event_id in(SELECT event_id FROM event_users where u_id="+ uid +")  order by event_date desc";
+				sql = "SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where  enable_id=1 and event_id in(SELECT event_id FROM event_users where u_id="+ uid +")  order by event_date desc";
 			}
 			
 		    PreparedStatement ps=null,ps_des = null;
@@ -128,8 +127,6 @@ try{
   }
   %>
   </td>
-		  
-		  
 		<%
 		if(str.equalsIgnoreCase("myMeeting")){
 			ps_hid = con.prepareStatement("select * from events_units where event_date < CURDATE() and event_id="+rs.getInt("event_id")+" and enable_id=1 and created_by ="+ uid +"  order by event_date desc");

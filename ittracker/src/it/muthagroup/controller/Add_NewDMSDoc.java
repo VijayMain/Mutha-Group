@@ -150,8 +150,7 @@ public class Add_NewDMSDoc extends HttpServlet {
 									fieldValue = fileItem.getString(); 
 									for (int k = 1; k <= bean.getSrno(); k++) {  
 						// *************************************************************************************************************
-						// if multiple files then there names are
-						// inputName1,inputName2,inputName3,.......
+						// if multiple files then there names are inputName1,inputName2,inputName3,.......
 						// *************************************************************************************************************
 						if (fieldName.equalsIgnoreCase("inputName" + k)) {
 							file_stored = fileItem.getName(); 

@@ -40,13 +40,13 @@
    <%
    try{
 	   Connection con = Connection_Utility.getConnection();
-	   int code = Integer.parseInt(request.getParameter("q")); 
+	   int code = Integer.parseInt(request.getParameter("q"));
 	   int uid = Integer.parseInt(session.getAttribute("uid").toString());
 	   PreparedStatement ps_use = null,ps_des=null;
 	   ResultSet rs_use = null,rs_des=null;
-	   String cr_use="",cr_note=""; 
+	   String cr_use="",cr_note="";
 	   PreparedStatement psList = con.prepareStatement("SELECT event_id,DATE_FORMAT(event_date, \"%d/%m/%Y \") as event_date,text,DATE_FORMAT(start_time,'%l:%i %p') as start_time, DATE_FORMAT(end_time,'%l:%i %p') as end_time,event_venue,event_desc,created_by FROM  events_units where enable_id=1 and event_id in(SELECT event_id FROM event_users where u_id="+ uid +")  order by event_date desc");
-	   ResultSet rsList = psList.executeQuery();		 
+	   ResultSet rsList = psList.executeQuery();
    %> 
    <div style="float: left;width: 100%"> 
    
