@@ -274,8 +274,7 @@ if(flag_check==false){
 			HttpServletResponse response, String userName) {
 	try {
 			/* 1 approve, 0 declined */
-			Connection con = ConnectionUrl.getLocalDatabase();
-			/*Connection conlocal = Connection_Utility.getConnection();*/
+			Connection con = ConnectionUrl.getLocalDatabase(); 
 			Connection conERP = ConnectionUrl.getBWAYSERPMASTERConnection();
 			Date date = new Date();
 			java.sql.Timestamp todaysDate = new java.sql.Timestamp(date.getTime());

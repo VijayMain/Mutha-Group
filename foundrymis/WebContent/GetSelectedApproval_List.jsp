@@ -39,16 +39,18 @@ try{
     </select>Supplier Names</th> 
     <th>Request Date</th>
     <th>Created By</th>
+    <th>Status</th>
   </tr>
   <%
-  PreparedStatement ps = conlocal.prepareStatement("select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,code,supplier,registered_by from new_item_creation where enable=1 and approval_status='"+app_code+"'");
+  PreparedStatement ps = conlocal.prepareStatement("select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,code,supplier,registered_by from new_item_creation where enable=1 and approval_status='"+app_code+"'  order by registered_date desc");
   ResultSet rs = ps.executeQuery();
   while(rs.next()){
   %>
-  <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">
+  <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);"  onClick="button1('<%=rs.getInt("code")%>')" style="cursor: pointer;">
   <td align="left" style="font-family: Arial;font-size: 10px;"><%=rs.getString("supplier").toUpperCase() %></td>
   <td><%=rs.getString("registered_date") %></td>
   <td><%=rs.getString("registered_by") %></td>
+  <td><%=app_status %></td>
   </tr>
   <%
   }

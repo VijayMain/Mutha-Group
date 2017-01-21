@@ -619,11 +619,10 @@ alert("Done");
     </tr>
   </table>
   </form>
-</div> 
-<div style="height:550px; overflow: scroll;background-color: white;width:41%;float:right;"> 	
-<form action="">
-<input type="hidden" >
-</form>
+</div>
+<div style="height:550px; overflow: scroll;background-color: white;width:41%;float:right;">
+<form action="Supplier_Summary.jsp" method="post" name="edit" id="edit">
+<input type="hidden" name="hid_code" id="hid_code"> 
 <span id="autofind">
 <table class="tftable" style="border: 0px;">
 <tr>
@@ -636,22 +635,41 @@ alert("Done");
     </select> Supplier Names</th>
     <th>Request Date</th>
     <th>Created By</th>
+    <th>Status</th>
   </tr>
   <%
-  ps = conlocal.prepareStatement("select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,code,supplier,registered_by  from new_item_creation where enable=1 and approval_status!=3");
+  ps = conlocal.prepareStatement("select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,code,supplier,registered_by,approval_status  from new_item_creation where enable=1 and approval_status!=3 order by registered_date desc");
   rs = ps.executeQuery();
   while(rs.next()){
   %>
-  <tr  onmouseover="ChangeColor(this, true);" onMouseOut="ChangeColor(this, false);" onClick="button1('<%=rs.getInt("code")%>',0);" style="cursor: pointer;">
+  <tr  onmouseover="ChangeColor(this, true);" onMouseOut="ChangeColor(this, false);" onClick="button1('<%=rs.getInt("code")%>')" style="cursor: pointer;">
   <td align="left" style="font-family: Arial;font-size: 10px;"><%=rs.getString("supplier").toUpperCase() %></td>
   <td><%=rs.getString("registered_date") %></td>
   <td><%=rs.getString("registered_by") %></td>
+  <%
+  if(rs.getString("approval_status").equalsIgnoreCase("0")){
+  %>
+  <td>Pending</td>
+  <%
+  } 
+  if(rs.getString("approval_status").equalsIgnoreCase("1")){
+  %>
+  <td>Approved</td>
+  <%
+  } 
+  if(rs.getString("approval_status").equalsIgnoreCase("3")){
+  %>
+  <td>Declined</td>
+  <%
+  }
+  %>
   </tr>
   <%
   }
   %>
 </table>
 </span>
+</form>
 </div>
 	<%
 		} catch (Exception e) {
