@@ -1,12 +1,11 @@
+<%@page import="jxl.write.BorderLineStyle"%>
+<%@page import="jxl.format.Border"%>
+<%@page import="jxl.write.Alignment"%>
 <%@page import="java.util.Collections"%>
 <%@page import="java.util.HashSet"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.security.AllPermission"%>
 <%@page import="java.text.DecimalFormat"%>
-<%@page import="jxl.format.BoldStyle"%>
-<%@page import="jxl.format.Alignment"%>
-<%@page import="jxl.format.BorderLineStyle"%>
-<%@page import="jxl.format.Border"%>
 <%@page import="java.sql.CallableStatement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
