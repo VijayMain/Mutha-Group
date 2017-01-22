@@ -20,7 +20,7 @@
 <%@page import="java.sql.Connection"%>
 <html>
 <head> 
-<title>MRM Operations</title> 
+<title>ERP New Supplier</title> 
 <link rel="stylesheet" href="js/jquery-ui.css"/>
 <script src="js/jquery-1.9.1.js"></script>
 <script src="js/jquery-ui.js"></script> 
@@ -632,15 +632,18 @@ alert("Done");
     <option value="0">Pending</option>
     <option value="1">Approved</option>
     <option value="3">Declined</option> 
-    </select> Supplier Names</th>
+    </select> Supplier</th>
     <th>Request Date</th>
     <th>Created By</th>
     <th>Status</th>
+    <th>Created in ERP</th>
   </tr>
   <%
-  ps = conlocal.prepareStatement("select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,code,supplier,registered_by,approval_status  from new_item_creation where enable=1 and approval_status!=3 order by registered_date desc");
+  int created_erp =0;
+  ps = conlocal.prepareStatement("select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,created_inERP,code,supplier,registered_by,approval_status  from new_item_creation where enable=1 and approval_status!=3 order by created_inERP");
   rs = ps.executeQuery();
   while(rs.next()){
+	  created_erp = rs.getInt("created_inERP");
   %>
   <tr  onmouseover="ChangeColor(this, true);" onMouseOut="ChangeColor(this, false);" onClick="button1('<%=rs.getInt("code")%>')" style="cursor: pointer;">
   <td align="left" style="font-family: Arial;font-size: 10px;"><%=rs.getString("supplier").toUpperCase() %></td>
@@ -662,7 +665,16 @@ alert("Done");
   <td>Declined</td>
   <%
   }
-  %>
+  if(created_erp==0){
+  %>  
+ <td><b> - - - - </b></td>
+ <%
+  }else{
+%>
+ <td><b>Created</b></td>
+<%	  
+  }
+ %>
   </tr>
   <%
   }

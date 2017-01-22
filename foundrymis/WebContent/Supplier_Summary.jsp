@@ -20,7 +20,7 @@
 <%@page import="java.sql.Connection"%>
 <html>
 <head>
-<title>MRM Operations</title>
+<title>Supplier Summary</title>
 <link rel="stylesheet" href="js/jquery-ui.css" />
 <script src="js/jquery-1.9.1.js"></script>
 <script src="js/jquery-ui.js"></script>
@@ -87,11 +87,26 @@ select {
 	border: 1px solid #963;
 }
 </STYLE>
+<script type="text/javascript">
+function validateForm() {
+	document.getElementById("submit").disabled = true; 
+		return true;
+}
+</script>
 </head>
 <body style="font-family: Arial;">
+<strong style="font-family: Arial;font-size: 14px;font-weight: bold;"><a href="ERPNew_Item.jsp" style="text-decoration: none;">&lArr; BACK</a></strong>
+<%
+if(request.getParameter("createdflag")!=null){
+%>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="font-size: 12px;color:#1650d6"><%=request.getParameter("createdflag") %>........</strong>
+<%
+}
+%>
 	<%
 		try {
 			/* 1 approve, 0 declined */
+			int uid = Integer.parseInt(session.getAttribute("uid").toString());
 			Connection con = ConnectionUrl.getLocalDatabase();
 			Connection conERP = ConnectionUrl.getBWAYSERPMASTERConnection();
 			Date date = new Date();
@@ -124,13 +139,13 @@ select {
 			}
 
 			String reg_by = "", tranf_to = "", tds_method = "", excise_round = "", excise_cessround = "", service_taxround = "", service_cessround = "", vat_round = "", net_amountRound = "", is_overseas = "";
-
-			PreparedStatement ps_rec = con
-					.prepareStatement("select * from new_item_creation where code="
-							+ Integer.parseInt(hid_code));
+			int record_flag = 0;
+			PreparedStatement ps_rec = con.prepareStatement("select * from new_item_creation where code="+ Integer.parseInt(hid_code));
 			ResultSet rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
 				reg_by = rs_rec.getString("registered_by");
+				record_flag = rs_rec.getInt("created_inERP");
+				
 				if (rs_rec.getString("transf_h21") != null) {
 					tranf_to = "MEPL H21" + ", " + tranf_to;
 				}
@@ -173,11 +188,17 @@ select {
 					is_overseas = "Applicable";
 				}
 			} 
-			String city_up = "", sup_cat = "", categ = "", tds_code = "";
+String city_up = "", sup_cat = "", categ = "", tds_code = ""; 
+if(uid==116 && record_flag!=1){
+	%> 
+	<form action="Created_inERP" method="post" onSubmit="return validateForm();">
+	<input type="hidden" name="hid_code" id="hid_code" value="<%=hid_code%>">
+	<input type="submit" name="submit" id="submit" value="Created In ERP" style="height: 30px;width: 200px;font-weight: bold;background-color: #76d7f3">
+	</form> 
+	<%
+			}
 	%>
-	<strong style="font-family: Arial;font-size: 14px;font-weight: bold;"><a href="ERPNew_Item.jsp" style="text-decoration: none;">&lArr; BACK</a></strong>
-
-	<table border='1' width='87%' style='font-family: Arial;'>
+<table border='1' width='80%' style='font-family: Arial;font-size: 12px;'>
 		<tr
 			style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>
 			<th height='24'>Registered By</th>
@@ -227,7 +248,7 @@ select {
 						tds_code = rs.getString("NAME");
 					}
 %>
-		<table border='1' width='87%' style='font-family: Arial;'>
+		<table border='1' width='80%' style='font-family: Arial;font-size: 12px;'>
 			<tr>
 				<td colspan='4' align='left' bgcolor='#999999'><strong>Supplier
 						Details</strong></td>
@@ -419,7 +440,9 @@ select {
 			<tr>
 				<td colspan='3'><%=rs_rec.getString("bank_address3")%></td>
 			</tr>
-			<%
+		</table> 
+	<%
+	
 				}
 				} catch (Exception e) {
 					e.printStackTrace();
