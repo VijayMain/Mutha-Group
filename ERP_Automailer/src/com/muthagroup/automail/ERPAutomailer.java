@@ -145,9 +145,7 @@ private static final long serialVersionUID = 1L;
 			// 10:23
 			TimerTask  issueWithoutWO = new IssueWithoutWO();
 			timer.schedule(issueWithoutWO, 1000, 60000); 
-			
-			
-			
+			 
 			// 10:24
 			TimerTask  valid_limitPOH21 = new Valid_limitPO();
 			timer.schedule(valid_limitPOH21, 1000, 60000);
