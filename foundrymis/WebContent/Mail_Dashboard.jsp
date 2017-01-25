@@ -20,6 +20,7 @@ try{
 	Connection con=null;
 	String CompanyName="";
 	String comp = "101";
+	boolean chk_flag=false;
 	
 	if(comp.equalsIgnoreCase("101")){
 		CompanyName = "H-21"; 
@@ -39,33 +40,31 @@ try{
 	    SimpleDateFormat sdf2 = new SimpleDateFormat(DATE_FORMAT2);
 	    Calendar c2 = Calendar.getInstance(); // today
 	    
-	String datesql = sdf.format(c1.getTime());
-
+		String datesql = sdf.format(c1.getTime());
+		String printdate = sdf2.format(c1.getTime());
+	    
 	ArrayList subgl = new ArrayList();
 	    
 	CallableStatement cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
 	cs.setString(1, comp);
 	cs.setString(2, "0");
-	/* cs.setString(3, datesql); */
-	cs.setString(3, "20170122");
+	cs.setString(3, datesql);
+	/* cs.setString(3, "20170122"); */
 	cs.setString(4, "101102103");
 	ResultSet rs = cs.executeQuery(); 
 	while(rs.next()){
 		subgl.add(rs.getString("SUB_GLACNO"));
+		chk_flag=true;
 	}
-	 
 	Set<String> hs = new HashSet();
 	hs.addAll(subgl);
 	subgl.clear();
 	subgl.addAll(hs);
-	 
 %>
-
 <!--  exec "ENGERP"."dbo"."Sel_RptStockInoutStatus";1 '101', '0', '20170122', '101102103'  -->
-
 <table border='1' width='60%' style='font-family: Arial;text-align: center;font-family: Arial;font-size: 12px;'>
-<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;font-weight: bold;'>
-<td>Stock In/Out Register As On</td>
+<tr style='font-size: 12px; background-color: #c8e6f0; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;font-weight: bold;'>
+<td colspan="3">Stock In/Out Register as on <%=printdate %></td>
 </tr>
 <tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;font-weight: bold;'>
 <td>Part Name</td>
@@ -79,8 +78,7 @@ for(int i=0;i<subgl.size();i++){
 	rs = cs.executeQuery();
 	while(rs.next()){
 		if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
-			
-if(flag==i){	
+if(flag==i){
 %>
 <tr> 
 <td colspan="3" align="left" style="background-color: #fdffaa"><strong><%=sno %> &nbsp; <%=rs.getString("SUBGL_LONGNAME") %></strong></td>

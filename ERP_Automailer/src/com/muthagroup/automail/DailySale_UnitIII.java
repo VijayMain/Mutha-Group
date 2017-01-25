@@ -113,7 +113,7 @@ public class DailySale_UnitIII extends TimerTask {
 				// *********************************************************************************************
 				// multiple recipients : == >
 				// ********************************************************************************************* 
-				String recipients[] = {"jyjagtap@muthagroup.com","ssgare@muthagroup.com","kunalvm@muthagroup.com","internalaudit@muthagroup.com","vmjoshi@muthagroup.com","ankatariya@muthagroup.com","jbaphna@muthagroup.com","nrfirodia@muthagroup.com"};
+				String recipients[] = {"ssgare@muthagroup.com","kunalvm@muthagroup.com","internalaudit@muthagroup.com","vmjoshi@muthagroup.com","ankatariya@muthagroup.com","jbaphna@muthagroup.com","nrfirodia@muthagroup.com"};
 				String cc_recipients[] = {"nileshss@muthagroup.com"};
 				
 				/*String recipients[] = {"vijaybm@muthagroup.com"};
