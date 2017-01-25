@@ -168,7 +168,7 @@ sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
 			"or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"+
 			"</font></p>");
 		 
-			msg.setContent(sb.toString(), "text/html"); 
+			msg.setContent(sb.toString(), "text/html");
 			
 			if(chk_flag==true){
 			Transport transport = mailSession.getTransport("smtp");
