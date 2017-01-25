@@ -19,18 +19,12 @@
 try{
 	Connection con=null;
 	String CompanyName="";
-	String comp = "101";
+	String comp = "";
 	boolean chk_flag=false;
-	
-	if(comp.equalsIgnoreCase("101")){
-		CompanyName = "H-21"; 
-		con = null;
+	/**************************************************************************************************************/
+  		comp = "101";
+		CompanyName = "H-21";
 		con = ConnectionUrl.getMEPLH21ERP();
-	}else{
-		CompanyName = "H-25";
-		con = null;
-		con	= ConnectionUrl.getMEPLH25ERP();
-	}
 	
 	 	String DATE_FORMAT = "yyyyMMdd";
 	    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -43,15 +37,15 @@ try{
 		String datesql = sdf.format(c1.getTime());
 		String printdate = sdf2.format(c1.getTime());
 	    
-	ArrayList subgl = new ArrayList();
-	    
+		ArrayList subgl = new ArrayList();
+		
 	CallableStatement cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
 	cs.setString(1, comp);
 	cs.setString(2, "0");
 	cs.setString(3, datesql);
 	/* cs.setString(3, "20170122"); */
 	cs.setString(4, "101102103");
-	ResultSet rs = cs.executeQuery(); 
+	ResultSet rs = cs.executeQuery();
 	while(rs.next()){
 		subgl.add(rs.getString("SUB_GLACNO"));
 		chk_flag=true;
@@ -73,6 +67,7 @@ try{
 </tr>
 <%
 int flag=0,sno=1;
+double sum_inqty=0,sum_outqty=0;
 for(int i=0;i<subgl.size();i++){
 	flag=i;
 	rs = cs.executeQuery();
@@ -92,11 +87,21 @@ sno++;
 <td align="right"><%=rs.getString("IN_QTY") %></td>
 <td align="right"><%=rs.getString("OUT_QTY") %></td> 
 </tr>
-<%
+<% 
+sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
+sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
 flag++;
 		}
 	}
 }
+%>
+<tr>
+<td><strong>Grand Total </strong> </td>
+<td><%= sum_inqty%></td>
+<td><%= sum_outqty %></td>
+</tr>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+<%
 }catch(Exception e){
 	e.printStackTrace();
 }
