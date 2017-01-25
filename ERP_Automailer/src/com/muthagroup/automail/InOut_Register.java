@@ -29,7 +29,7 @@ public class InOut_Register extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 35)){
+			if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 40)){
 			
 				Connection conlocal = ConnectionUrl.getLocalDatabase(); 
 				 
@@ -37,7 +37,7 @@ public class InOut_Register extends TimerTask {
 			String user = "itsupports@muthagroup.com";
 			String pass = "itsupports@xyz";
 	 		String from = "itsupports@muthagroup.com";
-			String subject = "ERP Pending Approval List !!!";
+			String subject = "ERP Stock In/Out Register";
 			boolean sessionDebug = false;
 			// *********************************************************************************************
 			// multiple recipients : == >
@@ -72,12 +72,7 @@ public class InOut_Register extends TimerTask {
 	 		StringBuilder sb = new StringBuilder();
 			
 	 		
-	 		
-	 		
-	 		
-	 		
-	 		
-	 		
+	 		 
 	 		Connection con=null;
 	 		String CompanyName="";
 	 		String comp = "";
