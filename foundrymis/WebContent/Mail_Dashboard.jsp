@@ -17,15 +17,12 @@
 <body>
 <%
 try{
-	Connection con=null;
-	String CompanyName="";
-	String comp = "";
-	boolean chk_flag=false;
+	Connection con=null; 
+	boolean chk_flag=false,chk_grand=false;
 	/**************************************************************************************************************/
-  		comp = "101";
-		CompanyName = "H-21";
-		con = ConnectionUrl.getMEPLH21ERP();
-	
+  		String CompanyName="";
+		String comp = "";
+		ArrayList subgl = new ArrayList();
 	 	String DATE_FORMAT = "yyyyMMdd";
 	    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 	    Calendar c1 = Calendar.getInstance(); // today
@@ -36,24 +33,7 @@ try{
 	    
 		String datesql = sdf.format(c1.getTime());
 		String printdate = sdf2.format(c1.getTime());
-	    
-		ArrayList subgl = new ArrayList();
-		
-	CallableStatement cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
-	cs.setString(1, comp);
-	cs.setString(2, "0");
-	cs.setString(3, datesql);
-	/* cs.setString(3, "20170122"); */
-	cs.setString(4, "101102103");
-	ResultSet rs = cs.executeQuery();
-	while(rs.next()){
-		subgl.add(rs.getString("SUB_GLACNO"));
-		chk_flag=true;
-	}
-	Set<String> hs = new HashSet();
-	hs.addAll(subgl);
-	subgl.clear();
-	subgl.addAll(hs);
+		System.out.println("Date = " + datesql);
 %>
 <!--  exec "ENGERP"."dbo"."Sel_RptStockInoutStatus";1 '101', '0', '20170122', '101102103'  -->
 <table border='1' width='60%' style='font-family: Arial;text-align: center;font-family: Arial;font-size: 12px;'>
@@ -66,9 +46,108 @@ try{
 <td>Out Qty</td>
 </tr>
 <%
+subgl.clear();
+comp = "101";
+CompanyName = "MEPL H-21";
+con = ConnectionUrl.getMEPLH21ERP();
+CallableStatement cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+cs.setString(1, comp);
+cs.setString(2, "0");
+cs.setString(3, datesql);
+/* cs.setString(3, "20170122"); */
+cs.setString(4, "101102103");
+ResultSet rs = cs.executeQuery();
+while(rs.next()){
+subgl.add(rs.getString("SUB_GLACNO"));
+chk_flag=true;
+}
+Set<String> hs = new HashSet();
+hs.addAll(subgl);
+subgl.clear();
+subgl.addAll(hs);
+ 
 int flag=0,sno=1;
 double sum_inqty=0,sum_outqty=0;
 for(int i=0;i<subgl.size();i++){
+if(i==0){
+%>	
+<tr> 
+ <td colspan="3" align="left" style="background-color: #382891;color: white;"><strong><%=CompanyName %> ===> </strong></td>
+</tr>
+<%	
+} 
+	flag=i;
+	rs = cs.executeQuery();
+	while(rs.next()){
+		if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
+if(flag==i){
+	chk_grand=true;
+%>
+<tr> 
+<td colspan="3" align="left" style="background-color: #fdffaa"><strong><%=sno %> &nbsp; <%=rs.getString("SUBGL_LONGNAME") %></strong></td>
+</tr>
+<%
+sno++;
+}
+%>
+<tr> 
+<td align="left"><%=rs.getString("NAME") %></td>
+<td align="right"><%=rs.getString("IN_QTY") %></td>
+<td align="right"><%=rs.getString("OUT_QTY") %></td> 
+</tr>
+<% 
+sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
+sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
+flag++;
+		}
+	}
+} 
+if(chk_grand==true){
+%>
+<tr style="background-color: #b5fdfd">
+<td><strong>Grand Total </strong> </td>
+<td align="right"><%= sum_inqty%></td>
+<td align="right"><%= sum_outqty %></td>
+</tr> 
+<%
+}
+%>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+
+<%  
+subgl.clear();
+chk_grand=false;
+comp = "102";
+CompanyName = "MEPL H-25";
+con = ConnectionUrl.getMEPLH25ERP();
+cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+cs.setString(1, comp);
+cs.setString(2, "0");
+cs.setString(3, datesql);
+/* cs.setString(3, "20170122"); */
+cs.setString(4, "101102103");
+rs = cs.executeQuery();
+while(rs.next()){
+subgl.add(rs.getString("SUB_GLACNO"));
+chk_flag=true;
+} 
+hs.clear();
+hs.addAll(subgl);
+subgl.clear();
+subgl.addAll(hs);
+ 
+flag=0;sno=1;
+sum_inqty=0;sum_outqty=0;
+for(int i=0;i<subgl.size();i++){
+if(i==0){
+	chk_grand=true;
+%>	
+<tr> 
+ <td colspan="3" align="left" style="background-color: #382891;color: white;"><strong><%=CompanyName %> ===> </strong></td>
+</tr>
+<%	
+} 
 	flag=i;
 	rs = cs.executeQuery();
 	while(rs.next()){
@@ -93,14 +172,237 @@ sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
 flag++;
 		}
 	}
+} 
+if(chk_grand==true){
+%>
+<tr style="background-color: #b5fdfd">
+<td><strong>Grand Total </strong> </td>
+<td align="right"><%= sum_inqty%></td>
+<td align="right"><%= sum_outqty %></td>
+</tr> 
+<%
 }
 %>
-<tr>
-<td><strong>Grand Total </strong> </td>
-<td><%= sum_inqty%></td>
-<td><%= sum_outqty %></td>
-</tr>
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+
+
+<%  
+subgl.clear();
+chk_grand=false;
+comp = "103";
+CompanyName = "MFPL";
+con = ConnectionUrl.getFoundryERPNEWConnection();
+cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+cs.setString(1, comp);
+cs.setString(2, "0");
+cs.setString(3, datesql);
+/* cs.setString(3, "20170122"); */
+cs.setString(4, "101102103");
+rs = cs.executeQuery();
+while(rs.next()){
+subgl.add(rs.getString("SUB_GLACNO"));
+chk_flag=true;
+} 
+hs.clear();
+hs.addAll(subgl);
+subgl.clear();
+subgl.addAll(hs);
+ 
+flag=0;sno=1;
+sum_inqty=0;sum_outqty=0;
+for(int i=0;i<subgl.size();i++){
+if(i==0){
+	chk_grand=true;
+%>	
+<tr> 
+ <td colspan="3" align="left" style="background-color: #382891;color: white;"><strong><%=CompanyName %> ===> </strong></td>
+</tr>
+<%	
+} 
+	flag=i;
+	rs = cs.executeQuery();
+	while(rs.next()){
+		if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
+if(flag==i){
+%>
+<tr> 
+<td colspan="3" align="left" style="background-color: #fdffaa"><strong><%=sno %> &nbsp; <%=rs.getString("SUBGL_LONGNAME") %></strong></td>
+</tr>
+<%
+sno++;
+}
+%>
+<tr> 
+<td align="left"><%=rs.getString("NAME") %></td>
+<td align="right"><%=rs.getString("IN_QTY") %></td>
+<td align="right"><%=rs.getString("OUT_QTY") %></td> 
+</tr>
+<% 
+sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
+sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
+flag++;
+		}
+	}
+} 
+if(chk_grand==true){
+%>
+<tr style="background-color: #b5fdfd">
+<td><strong>Grand Total </strong> </td>
+<td align="right"><%= sum_inqty%></td>
+<td align="right"><%= sum_outqty %></td>
+</tr> 
+<%
+}
+%>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+
+
+
+<%  
+subgl.clear();
+chk_grand=false;
+comp = "105";
+CompanyName = "DI";
+con = ConnectionUrl.getDIERPConnection();
+cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+cs.setString(1, comp);
+cs.setString(2, "0");
+cs.setString(3, datesql);
+/* cs.setString(3, "20170122"); */
+cs.setString(4, "101102103");
+rs = cs.executeQuery();
+while(rs.next()){
+subgl.add(rs.getString("SUB_GLACNO"));
+chk_flag=true;
+} 
+hs.clear();
+hs.addAll(subgl);
+subgl.clear();
+subgl.addAll(hs);
+ 
+flag=0;sno=1;
+sum_inqty=0;sum_outqty=0;
+for(int i=0;i<subgl.size();i++){
+if(i==0){
+	chk_grand=true;
+%>	
+<tr> 
+ <td colspan="3" align="left" style="background-color: #382891;color: white;"><strong><%=CompanyName %> ===> </strong></td>
+</tr>
+<%	
+} 
+	flag=i;
+	rs = cs.executeQuery();
+	while(rs.next()){
+		if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
+if(flag==i){
+%>
+<tr> 
+<td colspan="3" align="left" style="background-color: #fdffaa"><strong><%=sno %> &nbsp; <%=rs.getString("SUBGL_LONGNAME") %></strong></td>
+</tr>
+<%
+sno++;
+}
+%>
+<tr> 
+<td align="left"><%=rs.getString("NAME") %></td>
+<td align="right"><%=rs.getString("IN_QTY") %></td>
+<td align="right"><%=rs.getString("OUT_QTY") %></td> 
+</tr>
+<% 
+sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
+sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
+flag++;
+		}
+	}
+} 
+if(chk_grand==true){
+%>
+<tr style="background-color: #b5fdfd">
+<td><strong>Grand Total </strong> </td>
+<td align="right"><%= sum_inqty%></td>
+<td align="right"><%= sum_outqty %></td>
+</tr> 
+<%
+}
+%>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+
+<%  
+subgl.clear();
+chk_grand=false;
+comp = "106";
+CompanyName = "MEPL UNIT III";
+con = ConnectionUrl.getK1ERPConnection();
+cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+cs.setString(1, comp);
+cs.setString(2, "0");
+cs.setString(3, datesql);
+/* cs.setString(3, "20170122"); */
+cs.setString(4, "101102103");
+rs = cs.executeQuery();
+while(rs.next()){
+subgl.add(rs.getString("SUB_GLACNO"));
+chk_flag=true;
+} 
+hs.clear();
+hs.addAll(subgl);
+subgl.clear();
+subgl.addAll(hs);
+ 
+flag=0;sno=1;
+sum_inqty=0;sum_outqty=0;
+for(int i=0;i<subgl.size();i++){
+if(i==0){
+	chk_grand=true;
+%>	
+<tr> 
+ <td colspan="3" align="left" style="background-color: #382891;color: white;"><strong><%=CompanyName %> ===> </strong></td>
+</tr>
+<%	
+} 
+	flag=i;
+	rs = cs.executeQuery();
+	while(rs.next()){
+		if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
+if(flag==i){
+%>
+<tr> 
+<td colspan="3" align="left" style="background-color: #fdffaa"><strong><%=sno %> &nbsp; <%=rs.getString("SUBGL_LONGNAME") %></strong></td>
+</tr>
+<%
+sno++;
+}
+%>
+<tr> 
+<td align="left"><%=rs.getString("NAME") %></td>
+<td align="right"><%=rs.getString("IN_QTY") %></td>
+<td align="right"><%=rs.getString("OUT_QTY") %></td> 
+</tr>
+<% 
+sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
+sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
+flag++;
+		}
+	}
+} 
+if(chk_grand==true){
+%>
+<tr style="background-color: #b5fdfd">
+<td><strong>Grand Total </strong> </td>
+<td align="right"><%= sum_inqty%></td>
+<td align="right"><%= sum_outqty %></td>
+</tr> 
+<%
+}
+%>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+
+
 <%
 }catch(Exception e){
 	e.printStackTrace();

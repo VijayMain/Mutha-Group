@@ -29,9 +29,9 @@ public class InOut_Register extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 40)){
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 18){
 			
-				Connection conlocal = ConnectionUrl.getLocalDatabase(); 
+				Connection conlocal = ConnectionUrl.getLocalDatabase();
 				 
 			String host = "send.one.com";
 			String user = "itsupports@muthagroup.com";
@@ -72,16 +72,12 @@ public class InOut_Register extends TimerTask {
 	 		StringBuilder sb = new StringBuilder();
 			
 	 		
-	 		 
-	 		Connection con=null;
-	 		String CompanyName="";
-	 		String comp = "";
-	 		boolean chk_flag=false;
+	 		Connection con=null; 
+	 		boolean chk_flag=false,chk_grand=false;
 	 		/**************************************************************************************************************/
-	 	  		comp = "101";
-	 			CompanyName = "H-21";
-	 			con = ConnectionUrl.getMEPLH21ERP();
-	 		
+	 	  		String CompanyName="";
+	 			String comp = "";
+	 			ArrayList subgl = new ArrayList();
 	 		 	String DATE_FORMAT = "yyyyMMdd";
 	 		    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 	 		    Calendar c1 = Calendar.getInstance(); // today
@@ -92,9 +88,23 @@ public class InOut_Register extends TimerTask {
 	 		    
 	 			String datesql = sdf.format(c1.getTime());
 	 			String printdate = sdf2.format(c1.getTime());
-	 		    
-	 			ArrayList subgl = new ArrayList();
-	 			
+	 		
+	 		sb.append("<b style='color: #0D265E;font-family: Arial;font-size: 11px;'>*** This is an automatically generated email of ERP Stock In/Out Register ***</b><table border='1' width='90%' style='font-family: Arial;text-align: center;font-family: Arial;font-size: 12px;'>"+
+	 	"<tr style='font-size: 12px; background-color: #c8e6f0; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;font-weight: bold;'>"+
+	 	"<td colspan='3'>Stock In/Out Register as on "+printdate +"</td>"+
+	 	"</tr>"+
+	 	"<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;font-weight: bold;'>"+
+	 	"<td>Part Name</td>"+
+	 	"<td>In Qty</td>"+
+	 	"<td>Out Qty</td>"+
+	 	"</tr>");
+	 		
+	 		
+	 		
+	 		subgl.clear();
+	 		comp = "101";
+	 		CompanyName = "MEPL H-21";
+	 		con = ConnectionUrl.getMEPLH21ERP();
 	 		CallableStatement cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
 	 		cs.setString(1, comp);
 	 		cs.setString(2, "0");
@@ -103,36 +113,84 @@ public class InOut_Register extends TimerTask {
 	 		cs.setString(4, "101102103");
 	 		ResultSet rs = cs.executeQuery();
 	 		while(rs.next()){
-	 			subgl.add(rs.getString("SUB_GLACNO"));
-	 			chk_flag=true;
+	 		subgl.add(rs.getString("SUB_GLACNO"));
+	 		chk_flag=true;
 	 		}
 	 		Set<String> hs = new HashSet();
 	 		hs.addAll(subgl);
 	 		subgl.clear();
-	 		subgl.addAll(hs); 
-	 		sb.append("<table border='1' width='60%' style='font-family: Arial;text-align: center;font-family: Arial;font-size: 12px;'>"+
-	 	"<tr style='font-size: 12px; background-color: #c8e6f0; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;font-weight: bold;'>"+
-	 	"<td colspan='3'>Stock In/Out Register as on <%=printdate %></td>"+
-	 	"</tr>"+
-	 	"<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;font-weight: bold;'>"+
-	 	"<td>Part Name</td>"+
-	 	"<td>In Qty</td>"+
-	 	"<td>Out Qty</td>"+
-	 	"</tr>"); 
-	 	int flag=0,sno=1;
-	 	double sum_inqty=0,sum_outqty=0;
-	 	for(int i=0;i<subgl.size();i++){
+	 		subgl.addAll(hs);
+	 		 
+	 		int flag=0,sno=1;
+	 		double sum_inqty=0,sum_outqty=0;
+	 		for(int i=0;i<subgl.size();i++){
+	 		if(i==0){
+	 		
+	 		sb.append("<tr><td colspan='3' align='left' style='background-color: #382891;color: white;'><strong>"+CompanyName +" ===> </strong></td></tr>");
+	 		
+	 		} 
 	 		flag=i;
 	 		rs = cs.executeQuery();
 	 		while(rs.next()){
 	 			if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
-	 	if(flag==i){ 
-	 	sb.append("<tr><td colspan='3' align='left' style='background-color: #fdffaa'><strong>"+sno +"&nbsp; "+rs.getString("SUBGL_LONGNAME")+"</strong></td> </tr>");
-	 	sno++;
+	 			   if(flag==i){
+	 		chk_grand=true;
+	 		
+	 		sb.append("<tr><td colspan='3' align='left' style='background-color: #fdffaa'><strong>"+sno +" &nbsp; "+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+	 		
+	 		sno++;
+	 		}
+	 			   
+	 		sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td><td align='right'>"+rs.getString("IN_QTY") +"</td><td align='right'>"+rs.getString("OUT_QTY") +"</td></tr>");	   
+	 		
+	 		sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
+	 		sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
+	 		flag++;
+	 				}
+	 			}
+	 		} 
+	 		if(chk_grand==true){ 
+	 		sb.append("<tr style='background-color: #b5fdfd'><td><strong>Grand Total </strong> </td><td align='right'>"+ sum_inqty+"</td><td align='right'>"+ sum_outqty +"</td></tr> ");
+	 		}
+	 		
+	 		subgl.clear();
+	 		chk_grand=false;
+	 		comp = "102";
+	 		CompanyName = "MEPL H-25";
+	 		con = ConnectionUrl.getMEPLH25ERP();
+	 		cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+	 		cs.setString(1, comp);
+	 		cs.setString(2, "0");
+	 		cs.setString(3, datesql);
+	 		/* cs.setString(3, "20170122"); */
+	 		cs.setString(4, "101102103");
+	 		rs = cs.executeQuery();
+	 		while(rs.next()){
+	 		subgl.add(rs.getString("SUB_GLACNO"));
+	 		chk_flag=true;
+	 		} 
+	 		hs.clear();
+	 		hs.addAll(subgl);
+	 		subgl.clear();
+	 		subgl.addAll(hs);
+	 		 
+	 		flag=0;sno=1;
+	 		sum_inqty=0;sum_outqty=0;
+	 		for(int i=0;i<subgl.size();i++){
+	 		if(i==0){
+	 			chk_grand=true;	 			
+	 		sb.append("<tr><td colspan='3' align='left' style='background-color: #382891;color: white;'><strong>"+CompanyName +" ===> </strong></td></tr>");	
+	 		} 
+	 		flag=i;
+	 		rs = cs.executeQuery();
+	 		while(rs.next()){
+	 			if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
+	 	if(flag==i){	
+	 		
+	 		sb.append("<tr><td colspan='3' align='left' style='background-color: #fdffaa'><strong>"+sno +"&nbsp; "+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+	 		sno++;
 	 	}
-sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
-	 	"<td align='right'>"+rs.getString("IN_QTY") +"</td>"+
-	 	"<td align='right'>"+rs.getString("OUT_QTY") +"</td></tr>");
+	 	sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td><td align='right'>"+rs.getString("IN_QTY") +"</td><td align='right'>"+rs.getString("OUT_QTY") +"</td></tr>");
 	 	
 	 	sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
 	 	sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
@@ -140,24 +198,154 @@ sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
 	 			}
 	 		}
 	 	} 
-	 	sb.append("<tr><td><strong>Grand Total </strong> </td>"+
-	 	"<td><%= sum_inqty%></td>"+
-	 	"<td><%= sum_outqty %></td></tr></table>");
+	 	if(chk_grand==true){
+	 		sb.append("<tr style='background-color: #b5fdfd'><td><strong>Grand Total </strong> </td><td align='right'>"+ sum_inqty +"</td><td align='right'>"+sum_outqty +"</td></tr>");
+	 	}
+	 	subgl.clear();
+	 	chk_grand=false;
+	 	comp = "103";
+	 	CompanyName = "MFPL";
+	 	con = ConnectionUrl.getFoundryERPNEWConnection();
+	 	cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+	 	cs.setString(1, comp);
+	 	cs.setString(2, "0");
+	 	cs.setString(3, datesql);
+	 	/* cs.setString(3, "20170122"); */
+	 	cs.setString(4, "101102103");
+	 	rs = cs.executeQuery();
+	 	while(rs.next()){
+	 	subgl.add(rs.getString("SUB_GLACNO"));
+	 	chk_flag=true;
+	 	} 
+	 	hs.clear();
+	 	hs.addAll(subgl);
+	 	subgl.clear();
+	 	subgl.addAll(hs);
+	 	 
+	 	flag=0;sno=1;
+	 	sum_inqty=0;sum_outqty=0;
+	 	for(int i=0;i<subgl.size();i++){
+	 	if(i==0){
+	 		chk_grand=true;
 	 		
-	 		
-	 		
-	 		
-	 		
-	 		
-	 		
-	 		
-	 		
-	 		
-	 		
-	 		
-	 		
-			sb.append("<p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"+
-			"<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
+	 		sb.append("<tr><td colspan='3' align='left' style='background-color: #382891;color: white;'><strong>"+CompanyName +" ===> </strong></td></tr>");
+	 	} 
+		flag=i;
+		rs = cs.executeQuery();
+		while(rs.next()){
+			if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
+				if(flag==i){
+		sb.append("<tr><td colspan='3' align='left' style='background-color: #fdffaa'><strong>"+sno +" &nbsp; "+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+		sno++;
+		}
+	 	
+		sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td><td align='right'>"+rs.getString("IN_QTY") +"</td><td align='right'>"+rs.getString("OUT_QTY") +"</td></tr>");
+		sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
+		sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
+		flag++;
+				}
+			}
+		} 
+		if(chk_grand==true){
+			
+	 	sb.append("<tr style='background-color: #b5fdfd'><td><strong>Grand Total </strong> </td><td align='right'>"+ sum_inqty+"</td><td align='right'>"+ sum_outqty +"</td></tr>");
+		}
+		
+		subgl.clear();
+		chk_grand=false;
+		comp = "105";
+		CompanyName = "DI";
+		con = ConnectionUrl.getDIERPConnection();
+		cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+		cs.setString(1, comp);
+		cs.setString(2, "0");
+		cs.setString(3, datesql);
+		/* cs.setString(3, "20170122"); */
+		cs.setString(4, "101102103");
+		rs = cs.executeQuery();
+		while(rs.next()){
+		subgl.add(rs.getString("SUB_GLACNO"));
+		chk_flag=true;
+		} 
+		hs.clear();
+		hs.addAll(subgl);
+		subgl.clear();
+		subgl.addAll(hs);
+		 
+		flag=0;sno=1;
+		sum_inqty=0;sum_outqty=0;
+		for(int i=0;i<subgl.size();i++){
+		if(i==0){
+			chk_grand=true;
+			sb.append("<tr><td colspan='3' align='left' style='background-color: #382891;color: white;'><strong>"+CompanyName +" ===> </strong></td></tr>");
+		} 
+		flag=i;
+		rs = cs.executeQuery();
+		while(rs.next()){
+			if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
+	if(flag==i){
+		sb.append("<tr><td colspan='3' align='left' style='background-color: #fdffaa'><strong>"+sno +" &nbsp; "+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>"); 
+		sno++;
+	}
+	sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td><td align='right'>"+rs.getString("IN_QTY") +"</td><td align='right'>"+rs.getString("OUT_QTY") +"</td></tr>");
+	sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
+	sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
+	flag++;
+			}
+		}
+	} 
+	if(chk_grand==true){
+		sb.append("<tr style='background-color: #b5fdfd'><td><strong>Grand Total </strong></td><td align='right'>"+ sum_inqty +"</td><td align='right'>"+ sum_outqty +"</td></tr>");
+	}
+	subgl.clear();
+	chk_grand=false;
+	comp = "106";
+	CompanyName = "MEPL UNIT III";
+	con = ConnectionUrl.getK1ERPConnection();
+	cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+	cs.setString(1, comp);
+	cs.setString(2, "0");
+	cs.setString(3, datesql);
+	/* cs.setString(3, "20170122"); */
+	cs.setString(4, "101102103");
+	rs = cs.executeQuery();
+	while(rs.next()){
+	subgl.add(rs.getString("SUB_GLACNO"));
+	chk_flag=true;
+	} 
+	hs.clear();
+	hs.addAll(subgl);
+	subgl.clear();
+	subgl.addAll(hs);
+	 
+	flag=0;sno=1;
+	sum_inqty=0;sum_outqty=0;
+	for(int i=0;i<subgl.size();i++){
+	if(i==0){
+		chk_grand=true;
+		
+		sb.append("<tr><td colspan='3' align='left' style='background-color: #382891;color: white;'><strong>"+CompanyName +" ===> </strong></td></tr>");
+	} 
+	flag=i;
+	rs = cs.executeQuery();
+	while(rs.next()){
+		if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
+if(flag==i){
+	sb.append("<tr><td colspan='3' align='left' style='background-color: #fdffaa'><strong>"+sno +" &nbsp; "+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+	sno++;
+	}
+sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td><td align='right'>"+rs.getString("IN_QTY") +"</td><td align='right'>"+rs.getString("OUT_QTY") +"</td></tr>");	
+sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
+sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
+flag++;
+		}
+	}
+} 
+if(chk_grand==true){
+
+	sb.append("<tr style='background-color: #b5fdfd'><td><strong>Grand Total </strong> </td><td align='right'>"+ sum_inqty +"</td><td align='right'>"+ sum_outqty +"</td></tr>");
+}	
+			sb.append("</table><b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
 			"<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"+
 			"it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons"+
 			"or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"+
@@ -170,9 +358,10 @@ sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
 			transport.connect(host, user, pass);
 			transport.sendMessage(msg, msg.getAllRecipients());
 			transport.close();
-			System.out.println("msg Sent IN OUT !!!");
+			System.out.println("msg Sent IN/OUT !!!");
 			}
 				con.close(); 
+				Thread.sleep(60000);
 			} 
 		} catch (Exception e) {
 			e.printStackTrace();

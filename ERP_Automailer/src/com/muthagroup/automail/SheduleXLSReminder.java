@@ -200,7 +200,7 @@ public class SheduleXLSReminder extends TimerTask {
 				int workdays = dd - tues; 
 				total_dd = workdays; 
 				total_dd = total_dd - holliday; 
-				System.out.println("Hollidays = " + holliday + " Total dd = " + total_dd);
+				//System.out.println("Hollidays = " + holliday + " Total dd = " + total_dd);
 				// ***************************************************************************************************************
 				int space = 0;
 				PreparedStatement ps_allHol = conlocal.prepareStatement("select count(montlyWeekdays_id) from montlyweekdays_tbl where month=" + month);
