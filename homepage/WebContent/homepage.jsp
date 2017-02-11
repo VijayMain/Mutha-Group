@@ -158,6 +158,7 @@ ArrayList list_news = new ArrayList();
     <a href="https://tradewithtvs.com/Login.aspx">TVS</a>
     <a href="https://mptax.mp.gov.in/mpvatweb/index.jsp">Road Permit MP</a>
     <a href="http://yorkebiz.com/ebp/">York</a>
+    <a href="https://www.heromotocorp.biz/uniquesig57919d5129f13baf4f5e500df3809d0134979942cb6a1fcbf12a514df3e637fe/uniquesig0/irj/portal">Hero MotoCorp</a>
  </div>
  </div>  
  <a href="http://www.getmykaizen.com/">&nbsp;&nbsp;<strong>GetMyKaizen</strong> &nbsp;&nbsp;</a>  
