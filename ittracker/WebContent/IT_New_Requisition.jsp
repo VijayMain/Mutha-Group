@@ -13,9 +13,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>IT New Requisition</title>
 <link rel="stylesheet" type="text/css" href="styles.css" />
-
+<link rel="stylesheet" href="js/jquery-ui.css" />
+<script src="js/jquery-1.9.1.js"></script>
+<script src="js/jquery-ui.js"></script>
 
 <script type="text/javascript">
+
+$(function() {
+	$("#tabs").tabs();
+});
+
 	function ChangeColor(tableRow, highLight) {
 		if (highLight) {
 			tableRow.style.backgroundColor = '#CFCFCF';
@@ -99,7 +106,17 @@
 		
 		
 		 <div style="height: 500px;width:99%; overflow: scroll;">
-			<form method="post" name="edit" action="IT_Take_Action.jsp" id="edit">
+		 
+		 <div id="tabs">
+				<ul>
+					<li><a href="#tabs-1"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL H21</b>&nbsp;&nbsp;</font> </a></li>
+					<li><a href="#tabs-2"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL H25</b>&nbsp;&nbsp;</font></a></li> 
+					<li><a href="#tabs-3"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MFPL</b>&nbsp;&nbsp;</font></a></li>
+					<li><a href="#tabs-4"><font style="font-size: 12px;">&nbsp;&nbsp;<b>DI</b>&nbsp;&nbsp;</font></a></li>
+					<li><a href="#tabs-5"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL UIII</b>&nbsp;&nbsp;</font></a></li> 
+				</ul>
+				<div id="tabs-1">
+				<form method="post" name="edit" action="IT_Take_Action.jsp" id="edit">
 				<table style="width: 100%;" border="0" class="tftable">
 					<thead>
 						<tr>
@@ -115,7 +132,7 @@
 					</thead>
 
 					<%
-						PreparedStatement ps_reqDetails = con.prepareStatement("select * from it_user_requisition where status!='Closed' order by Company_Id,Req_Date desc");
+						PreparedStatement ps_reqDetails = con.prepareStatement("select * from it_user_requisition where status!='Closed' and Company_Id=1  order by Company_Id,Req_Date desc");
 
 							ResultSet rs_reqDetails = ps_reqDetails.executeQuery();
 
@@ -176,19 +193,380 @@
 						%>
 					</tr>
 					<%
-						}
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+						} 
 					%>
 					<tr>
 					</tr>
 				</table>
 				<input type="hidden" name="hid" id="hid">
 			</form>
+				
+				
+				
+				</div>
+				<div id="tabs-2">
+				
+				
+						<form method="post" name="edit" action="IT_Take_Action.jsp" id="edit">
+				<table style="width: 100%;" border="0" class="tftable">
+					<thead>
+						<tr>
+							<th>Req. No.</th>
+							<th>User Name</th>
+							<th>Company Name</th>
+							<th>Related To</th>
+							<th>Type</th>
+							<th>Req. Date</th>
+							<th>Status</th>
+
+						</tr>
+					</thead>
+
+					<%
+							ps_reqDetails = con.prepareStatement("select * from it_user_requisition where status!='Closed' and Company_Id=2  order by Company_Id,Req_Date desc");
+
+							rs_reqDetails = ps_reqDetails.executeQuery();
+
+							while (rs_reqDetails.next()) {
+					%>
+
+					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
+						<td align="center"><%=rs_reqDetails.getInt("U_Req_Id")%></td>
+						<%
+							PreparedStatement ps_name = con.prepareStatement("select U_Name from User_tbl where U_Id="
+													+ rs_reqDetails.getInt("U_Id"));
+									ResultSet rs_name = ps_name.executeQuery();
+									while (rs_name.next()) {
+						%>
+						<td align="left"><%=rs_name.getString("U_Name")%></td>
+						<%
+							}
+									PreparedStatement ps_comp = con.prepareStatement("select Company_Name from User_tbl_Company where Company_Id="
+													+ rs_reqDetails.getInt("Company_Id"));
+									ResultSet rs_comp = ps_comp.executeQuery();
+									while (rs_comp.next()) {
+						%>
+						<td align="left"><%=rs_comp.getString("Company_Name")%></td>
+						<%
+							}
+
+									PreparedStatement ps_related = con.prepareStatement("select Related_To from it_related_problem_tbl where Rel_Id="
+													+ rs_reqDetails.getInt("Rel_Id"));
+									ResultSet rs_related = ps_related.executeQuery();
+									while (rs_related.next()) {
+						%>
+						<td align="left"><%=rs_related.getString("Related_To")%></td>
+						<%
+							}
+									PreparedStatement ps_type = con
+											.prepareStatement("select Req_Type from it_requisition_type_tbl where Req_Type_Id="
+													+ rs_reqDetails.getInt("Req_type_id"));
+									ResultSet rs_type = ps_type.executeQuery();
+									while (rs_type.next()) {
+						%>
+						<td align="left"><%=rs_type.getString("Req_Type")%></td>
+						<%
+							}
+						%>
+						<td align="left"><%=rs_reqDetails.getTimestamp("Req_Date")%></td>
+						<td align="left"><%=rs_reqDetails.getString("Status")%></td>
+						<%
+									PreparedStatement ps_doneBy = con.prepareStatement("select Done_By from it_requisition_remark_tbl where U_Req_Id="
+													+ rs_reqDetails.getInt("U_Req_Id"));
+									ResultSet rs_doneBy = ps_doneBy.executeQuery();
+									while (rs_doneBy.next()) {
+
+									}
+						%>
+					</tr>
+					<%
+						} 
+					%>
+					<tr>
+					</tr>
+				</table>
+				<input type="hidden" name="hid" id="hid">
+			</form>		
+				
+				
+				
+				
+				
+				</div>
+				<div id="tabs-3">
+				<form method="post" name="edit" action="IT_Take_Action.jsp" id="edit">
+				<table style="width: 100%;" border="0" class="tftable">
+					<thead>
+						<tr>
+							<th>Req. No.</th>
+							<th>User Name</th>
+							<th>Company Name</th>
+							<th>Related To</th>
+							<th>Type</th>
+							<th>Req. Date</th>
+							<th>Status</th>
+
+						</tr>
+					</thead>
+
+					<%
+							ps_reqDetails = con.prepareStatement("select * from it_user_requisition where status!='Closed' and Company_Id=3  order by Company_Id,Req_Date desc");
+
+							rs_reqDetails = ps_reqDetails.executeQuery();
+
+							while (rs_reqDetails.next()) {
+					%>
+
+					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
+						<td align="center"><%=rs_reqDetails.getInt("U_Req_Id")%></td>
+						<%
+							PreparedStatement ps_name = con.prepareStatement("select U_Name from User_tbl where U_Id="
+													+ rs_reqDetails.getInt("U_Id"));
+									ResultSet rs_name = ps_name.executeQuery();
+									while (rs_name.next()) {
+						%>
+						<td align="left"><%=rs_name.getString("U_Name")%></td>
+						<%
+							}
+									PreparedStatement ps_comp = con.prepareStatement("select Company_Name from User_tbl_Company where Company_Id="
+													+ rs_reqDetails.getInt("Company_Id"));
+									ResultSet rs_comp = ps_comp.executeQuery();
+									while (rs_comp.next()) {
+						%>
+						<td align="left"><%=rs_comp.getString("Company_Name")%></td>
+						<%
+							}
+
+									PreparedStatement ps_related = con.prepareStatement("select Related_To from it_related_problem_tbl where Rel_Id="
+													+ rs_reqDetails.getInt("Rel_Id"));
+									ResultSet rs_related = ps_related.executeQuery();
+									while (rs_related.next()) {
+						%>
+						<td align="left"><%=rs_related.getString("Related_To")%></td>
+						<%
+							}
+									PreparedStatement ps_type = con
+											.prepareStatement("select Req_Type from it_requisition_type_tbl where Req_Type_Id="
+													+ rs_reqDetails.getInt("Req_type_id"));
+									ResultSet rs_type = ps_type.executeQuery();
+									while (rs_type.next()) {
+						%>
+						<td align="left"><%=rs_type.getString("Req_Type")%></td>
+						<%
+							}
+						%>
+						<td align="left"><%=rs_reqDetails.getTimestamp("Req_Date")%></td>
+						<td align="left"><%=rs_reqDetails.getString("Status")%></td>
+						<%
+									PreparedStatement ps_doneBy = con.prepareStatement("select Done_By from it_requisition_remark_tbl where U_Req_Id="
+													+ rs_reqDetails.getInt("U_Req_Id"));
+									ResultSet rs_doneBy = ps_doneBy.executeQuery();
+									while (rs_doneBy.next()) {
+
+									}
+						%>
+					</tr>
+					<%
+						} 
+					%>
+					<tr>
+					</tr>
+				</table>
+				<input type="hidden" name="hid" id="hid">
+			</form>
+				
+				
+				
+				
+				
+				</div>
+				<div id="tabs-4">
+				<form method="post" name="edit" action="IT_Take_Action.jsp" id="edit">
+				<table style="width: 100%;" border="0" class="tftable">
+					<thead>
+						<tr>
+							<th>Req. No.</th>
+							<th>User Name</th>
+							<th>Company Name</th>
+							<th>Related To</th>
+							<th>Type</th>
+							<th>Req. Date</th>
+							<th>Status</th>
+
+						</tr>
+					</thead>
+
+					<%
+							ps_reqDetails = con.prepareStatement("select * from it_user_requisition where status!='Closed' and Company_Id=5  order by Company_Id,Req_Date desc");
+
+							rs_reqDetails = ps_reqDetails.executeQuery();
+
+							while (rs_reqDetails.next()) {
+					%>
+
+					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
+						<td align="center"><%=rs_reqDetails.getInt("U_Req_Id")%></td>
+						<%
+							PreparedStatement ps_name = con.prepareStatement("select U_Name from User_tbl where U_Id="
+													+ rs_reqDetails.getInt("U_Id"));
+									ResultSet rs_name = ps_name.executeQuery();
+									while (rs_name.next()) {
+						%>
+						<td align="left"><%=rs_name.getString("U_Name")%></td>
+						<%
+							}
+									PreparedStatement ps_comp = con.prepareStatement("select Company_Name from User_tbl_Company where Company_Id="
+													+ rs_reqDetails.getInt("Company_Id"));
+									ResultSet rs_comp = ps_comp.executeQuery();
+									while (rs_comp.next()) {
+						%>
+						<td align="left"><%=rs_comp.getString("Company_Name")%></td>
+						<%
+							}
+
+									PreparedStatement ps_related = con.prepareStatement("select Related_To from it_related_problem_tbl where Rel_Id="
+													+ rs_reqDetails.getInt("Rel_Id"));
+									ResultSet rs_related = ps_related.executeQuery();
+									while (rs_related.next()) {
+						%>
+						<td align="left"><%=rs_related.getString("Related_To")%></td>
+						<%
+							}
+									PreparedStatement ps_type = con
+											.prepareStatement("select Req_Type from it_requisition_type_tbl where Req_Type_Id="
+													+ rs_reqDetails.getInt("Req_type_id"));
+									ResultSet rs_type = ps_type.executeQuery();
+									while (rs_type.next()) {
+						%>
+						<td align="left"><%=rs_type.getString("Req_Type")%></td>
+						<%
+							}
+						%>
+						<td align="left"><%=rs_reqDetails.getTimestamp("Req_Date")%></td>
+						<td align="left"><%=rs_reqDetails.getString("Status")%></td>
+						<%
+									PreparedStatement ps_doneBy = con.prepareStatement("select Done_By from it_requisition_remark_tbl where U_Req_Id="
+													+ rs_reqDetails.getInt("U_Req_Id"));
+									ResultSet rs_doneBy = ps_doneBy.executeQuery();
+									while (rs_doneBy.next()) {
+
+									}
+						%>
+					</tr>
+					<%
+						} 
+					%>
+					<tr>
+					</tr>
+				</table>
+				<input type="hidden" name="hid" id="hid">
+			</form>
+				
+				
+				
+				
+				
+				</div>
+				<div id="tabs-5">
+				<form method="post" name="edit" action="IT_Take_Action.jsp" id="edit">
+				<table style="width: 100%;" border="0" class="tftable">
+					<thead>
+						<tr>
+							<th>Req. No.</th>
+							<th>User Name</th>
+							<th>Company Name</th>
+							<th>Related To</th>
+							<th>Type</th>
+							<th>Req. Date</th>
+							<th>Status</th>
+
+						</tr>
+					</thead>
+
+					<%
+							ps_reqDetails = con.prepareStatement("select * from it_user_requisition where status!='Closed' and Company_Id=4  order by Company_Id,Req_Date desc");
+
+							rs_reqDetails = ps_reqDetails.executeQuery();
+
+							while (rs_reqDetails.next()) {
+					%>
+
+					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
+						<td align="center"><%=rs_reqDetails.getInt("U_Req_Id")%></td>
+						<%
+							PreparedStatement ps_name = con.prepareStatement("select U_Name from User_tbl where U_Id="
+													+ rs_reqDetails.getInt("U_Id"));
+									ResultSet rs_name = ps_name.executeQuery();
+									while (rs_name.next()) {
+						%>
+						<td align="left"><%=rs_name.getString("U_Name")%></td>
+						<%
+							}
+									PreparedStatement ps_comp = con.prepareStatement("select Company_Name from User_tbl_Company where Company_Id="
+													+ rs_reqDetails.getInt("Company_Id"));
+									ResultSet rs_comp = ps_comp.executeQuery();
+									while (rs_comp.next()) {
+						%>
+						<td align="left"><%=rs_comp.getString("Company_Name")%></td>
+						<%
+							}
+
+									PreparedStatement ps_related = con.prepareStatement("select Related_To from it_related_problem_tbl where Rel_Id="
+													+ rs_reqDetails.getInt("Rel_Id"));
+									ResultSet rs_related = ps_related.executeQuery();
+									while (rs_related.next()) {
+						%>
+						<td align="left"><%=rs_related.getString("Related_To")%></td>
+						<%
+							}
+									PreparedStatement ps_type = con
+											.prepareStatement("select Req_Type from it_requisition_type_tbl where Req_Type_Id="
+													+ rs_reqDetails.getInt("Req_type_id"));
+									ResultSet rs_type = ps_type.executeQuery();
+									while (rs_type.next()) {
+						%>
+						<td align="left"><%=rs_type.getString("Req_Type")%></td>
+						<%
+							}
+						%>
+						<td align="left"><%=rs_reqDetails.getTimestamp("Req_Date")%></td>
+						<td align="left"><%=rs_reqDetails.getString("Status")%></td>
+						<%
+									PreparedStatement ps_doneBy = con.prepareStatement("select Done_By from it_requisition_remark_tbl where U_Req_Id="
+													+ rs_reqDetails.getInt("U_Req_Id"));
+									ResultSet rs_doneBy = ps_doneBy.executeQuery();
+									while (rs_doneBy.next()) {
+
+									}
+						%>
+					</tr>
+					<%
+						} 
+					%>
+					<tr>
+					</tr>
+				</table>
+				<input type="hidden" name="hid" id="hid">
+			</form>
+				
+				
+				
+				
+				</div>
+		</div>		
+		 
+		 
+		 
+			
 
 		</div>
 
+
+	<%
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	%>
 		<div id="footer">
 			<p class="style2">
 				<a href="IT_index.jsp">Home</a> <a href="IT_New_Requisition.jsp">New
