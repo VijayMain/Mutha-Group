@@ -151,12 +151,11 @@ public class DMS_DevDAO {
 								+ "or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"
 								+ "</font></p>");
 		 				
-		 				InternetAddress[] addressBcc = new InternetAddress[1];
+		 				InternetAddress[] addressTo = new InternetAddress[to_emails.size()];
 						for (int p = 0; p < to_emails.size(); p++) {
-		 				addressBcc[0] = new InternetAddress(to_emails.get(p).toString()); 
-						msg.setRecipients(Message.RecipientType.TO, addressBcc);  
-						 }   
-						
+							addressTo[p] = new InternetAddress(to_emails.get(p).toString());
+						}
+						msg.setRecipients(Message.RecipientType.TO, addressTo); 
 						msg.setSubject(subject);
 						msg.setSentDate(new Date());
 						msg.setContent(sb.toString(), "text/html"); 

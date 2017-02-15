@@ -155,6 +155,8 @@ public class MIS_SummaryReportFND extends TimerTask {
 				for (int p = 0; p < to_emails.size(); p++) {
 					addressTo[p] = new InternetAddress(to_emails.get(p).toString());
 				}
+				
+				
 				msg.setRecipients(Message.RecipientType.TO, addressTo); 
 				msg.setSubject(subject);
 				msg.setSentDate(new Date()); 
@@ -196,7 +198,7 @@ if (cs.getMoreResults()) {
     rs1 = cs.getResultSet();
     while (rs1.next()) {
     	sb.append("<tr><td>"+rs1.getString("HEAD")+"</td><td align='right'>"+rs1.getString("ON_TOT")+"</td><td align='right'>"+rs1.getString("TO_TOT")+"</td><td align='right'>"+rs1.getString("AVG")+"</td></tr>");
-     } 
+     }
     rs1.close();
 }
 sb.append("</table></td><td>"+
