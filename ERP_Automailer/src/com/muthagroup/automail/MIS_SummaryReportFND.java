@@ -63,6 +63,7 @@ public class MIS_SummaryReportFND extends TimerTask {
 				Connection con = ConnectionUrl.getFoundryFMShopConnection();
 				String OnDateMIS = yes_date;
 				String db = "FOUNDRYERP";
+				
 				String comp = "103";
 				String OnDate = OnDateMIS.substring(6,8) +"/"+ OnDateMIS.substring(4,6) +"/"+ OnDateMIS.substring(0,4);
 			   String batchonDate = "01"+"/"+ OnDateMIS.substring(4,6) +"/"+ OnDateMIS.substring(0,4);
