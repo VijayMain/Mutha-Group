@@ -52,14 +52,14 @@ public class MIS_SummaryReportFND extends TimerTask {
 			String ason_date = dateFormat2.format(cal.getTime()).toString();
 			
 			DecimalFormat twoDForm = new DecimalFormat("###,##0.##");
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 30) {
-			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 53) {*/
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 30) {*/
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 33) {
 				//************************************************************************************************				
 				if(weekday[d.getDay()].equals("Wednesday")){
 					cal.add(Calendar.DATE, -1);
 					yes_date = dateFormat.format(cal.getTime()).toString();
 					ason_date = dateFormat2.format(cal.getTime()).toString();
-				} 
+				}
 				Connection con = ConnectionUrl.getFoundryFMShopConnection();
 				String OnDateMIS = yes_date;
 				String db = "FOUNDRYERP";
@@ -98,7 +98,7 @@ public class MIS_SummaryReportFND extends TimerTask {
 				int dd = convertedCurrentDate.getDate(); 
 				int tues=0;
 				for(int i = 1 ; i < dd ; i++)
-				{      
+				{
 					calAvg.set(Calendar.DAY_OF_MONTH, i);
 				 if (calAvg.get(Calendar.DAY_OF_WEEK) == calAvg.TUESDAY){ 
 				 	tues++;      
@@ -113,6 +113,13 @@ public class MIS_SummaryReportFND extends TimerTask {
 		 		cs.setString(3, OnDateMIS);
 		 		cs.setString(4, db);
 				ResultSet rs1 = cs.executeQuery();
+				
+				CallableStatement cs2 = con.prepareCall("{call Sel_DBFoundryProdMIS(?,?,?,?)}");
+		 		cs2.setString(1, comp);
+		 		cs2.setString(2, "0");
+		 		cs2.setString(3, OnDateMIS);
+		 		cs2.setString(4, db);
+				ResultSet rs_stk = cs2.executeQuery();
 		 		//***************************************************************************************************************
 				System.out.println("ERP MIS Summary Automailer Starts !!!");
 				String host = "send.one.com";
@@ -231,29 +238,64 @@ if (cs.getMoreResults()) {
      } 
     rs1.close();
 }
+sb.append("</table><table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
+	 "<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'><th scope='col'>Item Name</th><th scope='col'>Schedule Qty</th><th scope='col'>Production Qty</th><th scope='col'>Dispatch Qty</th></tr>");
 
+while(rs_stk.next()){
+	//System.out.println("Date  = = " + Double.valueOf(rs1.getString("ON_PRODQTY")) + " = " +  Double.valueOf(rs1.getString("ON_DISPQTY")));
+	if(Double.valueOf(rs_stk.getString("ON_PRODQTY"))==0.0 && Double.valueOf(rs_stk.getString("ON_DISPQTY"))==0.0){
+	}else{
+		if(!rs_stk.getString("MAT_NAME").equalsIgnoreCase("")){
+
+sb.append("<tr><td align='left'>"+rs_stk.getString("MAT_NAME") +"</td>"+
+			"<td align='right'>"+rs_stk.getString("SHEDULE_QTY") +"</td>"+
+			"<td align='right'>"+rs_stk.getString("ON_PRODQTY") +"</td>"+
+			"<td align='right'>"+rs_stk.getString("ON_DISPQTY") +"</td></tr>");
+		}
+		}
+	}
+	rs_stk.close();
+
+	sb.append("</table><table border='1' style='font-size: 12px; color: #333333; width: 60%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>");
+	
+	if (cs2.getMoreResults()) {
+	    rs_stk = cs2.getResultSet();
+	 
+	 sb.append("<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+			"<th scope='col'>Prod Qty MT</th>"+
+			"<th scope='col'>Disp Qty MT</th>"+
+			"<th scope='col'>Opening Stock MT</th>"+
+			"<th scope='col'>Bal Stock MT</th>"+
+			"<th scope='col'>Closing Stock MT</th></tr>");   
+	 
+	 while(rs_stk.next()){
+		 
+		 sb.append(" <tr style='font-size: 12px; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+			"<td align='right'>"+rs_stk.getString("TO_PROD_MT") +"</td>"+
+			"<td align='right'>"+rs_stk.getString("TO_DISP_MT") +"</td>"+
+			"<td align='right'>"+rs_stk.getString("TO_OPESTOCK_MT") +"</td>"+
+			"<td align='right'>"+rs_stk.getString("TO_BALSTOCK_MT") +"</td>"+
+			"<td align='right'>"+rs_stk.getString("CLOSING_STKMT") +"</td></tr>");
+	 }
+	 rs_stk.close();
+	 }
 sb.append("</table></td></tr></table><p><b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
 "<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"+
 "it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons"+
 "or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"+
-"</font></p>");
-				
-				msg.setContent(sb.toString(), "text/html");
-				 
+"</font></p>"); 
+				msg.setContent(sb.toString(), "text/html"); 
 				Transport transport = mailSession.getTransport("smtp");
 				transport.connect(host, user, pass);
 				transport.sendMessage(msg, msg.getAllRecipients());
 				// ******************************************************************************
-				transport.close(); 
-				System.out.println("MIS Summary loop End");	
+				transport.close();
+				System.out.println("MIS Summary loop End");
 				con.close();
 				Thread.sleep(60000);
-			}	
-			
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
-	}
-
-}
+		} 
+	} 
+} 
