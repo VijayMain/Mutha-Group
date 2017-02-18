@@ -1,6 +1,13 @@
 <%@page import="java.sql.PreparedStatement"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@page import="java.text.SimpleDateFormat"%>
+		<%@page import="java.text.DateFormat"%>
+		<%@page import="java.sql.ResultSet"%>
+		<%@page import="it.muthagroup.connectionUtility.Connection_Utility"%>
+		<%@page import="java.sql.Connection"%>
+		<%@page import="java.util.*"%>
+		<%@page import="java.sql.PreparedStatement"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -90,13 +97,7 @@ try {
 				<li><a href="Logout.jsp">Logout<strong style="color: blue; font-size: 8px;"> <%=uname%></strong></a></li>
 			</ul>
 		</div>
-		<%@page import="java.text.SimpleDateFormat"%>
-		<%@page import="java.text.DateFormat"%>
-		<%@page import="java.sql.ResultSet"%>
-		<%@page import="it.muthagroup.connectionUtility.Connection_Utility"%>
-		<%@page import="java.sql.Connection"%>
-		<%@page import="java.util.*"%>
-		<%@page import="java.sql.PreparedStatement"%>
+		
 		<%
 				int req_no=0;
 				req_no=Integer.parseInt(request.getParameter("hid"));

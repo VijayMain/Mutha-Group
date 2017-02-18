@@ -372,6 +372,16 @@ if (keycode > 31 && (keycode < 48 || keycode > 57) && keycode != 46) {
 		 
 		document.getElementById("submit").disabled = true; 
 	} 
+	
+	function validateDeclineForm() {                     
+		var note  = document.getElementById("note");   
+			if (note.value=="0" || note.value==null || note.value=="" || note.value=="null") {
+				alert("Reason ?"); 
+				document.getElementById("submit").disabled = false;
+				return false;
+			}
+			document.getElementById("submit").disabled = true; 
+		}
 </script>
 <%
 	try {
@@ -391,6 +401,13 @@ if (keycode > 31 && (keycode < 48 || keycode > 57) && keycode != 46) {
 			comp_id = rs_uname.getInt("Company_Id");
 			uname = rs_uname.getString("U_Name");
 		}
+		
+		String folder_code = "", tran_no = "", approval = "", decline = "",hid_tranrel="",hid_aprl="";
+		
+		folder_code = request.getParameter("folder_code");
+		tran_no  = request.getParameter("tran_no");
+		approval  = request.getParameter("hid_code");
+		hid_tranrel  = request.getParameter("hid_tranrel");
 %>
 </head>
 <body>
@@ -516,7 +533,82 @@ for (i = 0; i < acc.length; i++) {
 <div style="float:right; width:79%">
 	
 	<span id="new_dms">
-	    <img alt="No Image" src="images/dms.jpg" style="width: 100%;height: 470px;">
+	
+	 <table style="width: 100%;" class="tftable">
+			<tr style="background-color: #acc8cc;height: 25px;"> 
+					<td align="center"><strong>Document</strong></td>
+				    <td align="center"><strong>Note</strong></td>
+	     			<td align="center"><strong>Carried By</strong></td>
+				  <td align="center"><strong>Bill No</strong></td>
+				  <td align="center"><strong>Dated</strong></td>
+				  <td align="center"><strong>For Rs</strong></td>
+				  <td align="center"><strong>Pur Order</strong></td>
+				  <td align="center"><strong>Creator</strong></td> 
+			</tr>
+			<%
+			PreparedStatement ps_folder = null;
+			ResultSet rs_folder	= null;
+			String folder = "",doc="",note="";
+			int mycode=0,tran_dms_code=0,tran_dms_rel=0;
+			ps = con.prepareStatement("select * from tarn_dms_devrel where code="+Integer.valueOf(hid_tranrel));
+			rs = ps.executeQuery();
+			while(rs.next()){
+				tran_dms_code = rs.getInt("tran_code");
+				tran_dms_rel = rs.getInt("code");
+				ps_folder = con.prepareStatement("SELECT FOLDER FROM mst_dmsfolder where code in (SELECT tran_no FROM tarn_dms where code="+rs.getInt("tran_code")+");");
+				rs_folder = ps_folder.executeQuery();
+				while(rs_folder.next()){
+					folder = rs_folder.getString("FOLDER");
+				}
+				
+				ps_folder = con.prepareStatement("SELECT * FROM tarn_dms where code="+rs.getInt("tran_code"));
+				rs_folder = ps_folder.executeQuery();
+				while(rs_folder.next()){
+					doc = rs_folder.getString("FILE_NAME");
+					note = rs_folder.getString("NOTE");
+					mycode = rs_folder.getInt("CODE");
+				}
+			%>
+			<tr>
+					<td><%=folder%> - <a href="Display_Doc.jsp?field=<%=mycode%>" style="color: #3a22c8;"><b><%=doc%></b></a></td>
+					<td><%=note %></td>
+					<td><%=rs.getString("carried_out") %></td>
+					<td><%=rs.getString("bill_no") %></td>
+					<td><%=rs.getString("dated") %></td>
+					<td><%=rs.getString("forrs") %></td>
+					<td><%=rs.getString("pur_order") %></td>
+					<td><%=rs.getString("creator") %></td>
+			</tr>
+			<%
+			}
+			%>
+		</table>
+	    
+	    <form action="DeclineDMSFile" method="post" enctype="multipart/form-data" onSubmit="return validateDeclineForm();">
+	    <input type="hidden" name="tran_dmscode" id="tran_dmscode" value="<%=tran_dms_code%>">
+	    <input type="hidden" name="tran_dms_rel" id="tran_dms_rel" value="<%=tran_dms_rel%>">
+	     	<table style="width: 100%;" class="tftable">
+				<tr align="left">
+					<th colspan="2"><strong style="color: red;font-size: 13px;">Document Decline Note</strong></th>
+				</tr>
+				<tr>
+					<td width="12%" align="left"><strong>Attach file (If any)</strong></td>
+					<td width="88%" align="left">
+					<input type="file" name="decline_file" id="decline_file">
+                    </td>
+			    </tr>
+				<tr>
+				  <td align="left"><strong>Reason</strong></td>
+			      <td align="left"><textarea name="note" id="note" rows="2" cols="50" style="background-color:#d5f1ff;"></textarea></td>
+		      	</tr>
+				<tr>
+				<td colspan="2" align="left" style="padding-left: 20px;">
+				<input type="submit" name="submit" id="submit" value="  Click to Decline   " style="height: 30px; width: 200px; font-weight: bold;" />					</td>
+				</tr>
+			</table>
+			</form>
+	    
+	    
     </span>
 </div>
 </div>

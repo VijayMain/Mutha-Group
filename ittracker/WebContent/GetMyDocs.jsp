@@ -53,10 +53,8 @@
 			ins_check = rs_chk.getInt("dept_id");
 		  }
 	   // System.out.println("dept id = " + ins_check);
-   %> 
+   %>
    <div style="float: left;width: 75%;height: 550px;overflow: scroll;">
-		
-		
 			<table style="width: 100%;" class="tftable">
 				<tr>
 					<th colspan="6" align="center"><%=folder %></th>
@@ -131,8 +129,6 @@
 						  flagchk = 1;
 					  }
 				  }
-				   
-				  
  				  if(flagchk==0){
 				  ps_data = con.prepareStatement("SELECT department FROM complaintzilla.user_tbl_dept where dept_id in (SELECT dept FROM complaintzilla.mst_dept where dms_code="+code+")");
 				  rs_data = ps_data.executeQuery(); 
@@ -185,7 +181,7 @@
 				  <td align="center"><strong>For Rs</strong></td>
 				  <td align="center"><strong>Pur Order</strong></td>
 				  <td align="center"><strong>Creator</strong></td>
-				    <td align="center"><strong>Approval</strong></td> 
+				   <td align="center"><strong>Approval</strong></td> 
 				   <%
 				  }
 				   %>
@@ -193,11 +189,11 @@
 				<% 
 				String carried="",billno="",dated="",forrs="",purorder="",creator="",approval="",approved_by="";
 				int tran_relno=0;
-				  ps_data = con.prepareStatement("SELECT * FROM tarn_dms where tran_no="+code);
+				  ps_data = con.prepareStatement("SELECT * FROM tarn_dms where tran_no="+code +" order by approved");
 				  rs_data = ps_data.executeQuery();
-				  while(rs_data.next()){
-				  %>
-				 <tr>
+				  while(rs_data.next()){ 
+				%>
+				<tr> 
 			    	<td align="left"   style="font-size:11px;word-wrap: break-word;max-width:100px;">
 				  <%
 					  ps_use = con.prepareStatement("select * from user_tbl where u_id="+rs_data.getInt("user"));
@@ -237,17 +233,18 @@
 				   <input type="hidden" name="tran_no" id="tran_no">
 				   <input type="hidden" name="hid_code" id="hid_code">
 				   <input type="hidden" name="hid_tranrel" id="hid_tranrel">
+				   <input type="hidden" name="hid_aprl" id="hid_aprl">
 				   <%
 				   if(my_depid==7 && to_emails.contains(String.valueOf(uid))){
 					   if(approval==null){
 				   %>
 				   <input type="submit" name="approve" value="Approved" id="approve" onclick="validateApproval(this.value,'<%=code%>','<%=rs_data.getInt("CODE")%>','<%=tran_relno%>')" style="font-weight: bold;height: 20px;font-size: 11px;background-color: green;color: white;">
-			       <input type="submit" name="decline" value="Declined"  id="decline" onclick="validateApproval(this.value,'<%=code%>','<%=rs_data.getInt("CODE")%>','<%=tran_relno%>')"  style="font-weight: bold;height: 20px;font-size: 11px;background-color: red;color: white;">
+			       <input type="submit" name="decline" value="Declined"  id="decline" onclick="validateDeclined(this.value,'<%=code%>','<%=rs_data.getInt("CODE")%>','<%=tran_relno%>')"  style="font-weight: bold;height: 20px;font-size: 11px;background-color: red;color: white;">
 			       <%
 					   }else{
-				   %>
-				   <%=approval %> by <%=approved_by %>
-				   <%
+					%>
+						<%=approval %> by <%=approved_by %>
+				  <%		    
 					   }
 				   }else{
 					   if(approval!=null){
@@ -263,11 +260,13 @@
 			       %>
 			       </td>
 			    <%
+			    carried="";billno="";dated="";forrs="";purorder="";creator="";approval="";approved_by="";
+				tran_relno=0;
 				  }
 			    %>
 			    </tr>
 			    <%
-			    sn++;
+			    sn++; 
 				  }
 				%>
             </table>

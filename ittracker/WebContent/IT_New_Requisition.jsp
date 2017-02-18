@@ -55,11 +55,31 @@ $(function() {
 	padding: 5px; 
 }
 </style>
-<script language="javascript">
+<script>
 	function button1(val) {
 		var val1 = val; 
-		document.getElementById("hid").value = val1;
-		edit.submit();
+		document.getElementById("hid1").value = val1;
+		edit1.submit();
+	}
+	function button2(val) {
+		var val1 = val; 
+		document.getElementById("hid2").value = val1;
+		edit2.submit();
+	}
+	function button3(val) {
+		var val1 = val; 
+		document.getElementById("hid3").value = val1;
+		edit3.submit();
+	}
+	function button4(val) {
+		var val1 = val; 
+		document.getElementById("hid4").value = val1;
+		edit4.submit();
+	}
+	function button5(val) {
+		var val1 = val; 
+		document.getElementById("hid5").value = val1;
+		edit5.submit();
 	}
 </script>
 
@@ -116,7 +136,7 @@ $(function() {
 					<li><a href="#tabs-5"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL UIII</b>&nbsp;&nbsp;</font></a></li> 
 				</ul>
 				<div id="tabs-1">
-				<form method="post" name="edit" action="IT_Take_Action.jsp" id="edit">
+				<form method="post" name="edit1" action="IT_Take_Action.jsp" id="edit1">
 				<table style="width: 100%;" border="0" class="tftable">
 					<thead>
 						<tr>
@@ -198,7 +218,7 @@ $(function() {
 					<tr>
 					</tr>
 				</table>
-				<input type="hidden" name="hid" id="hid">
+				<input type="hidden" name="hid" id="hid1">
 			</form>
 				
 				
@@ -207,7 +227,7 @@ $(function() {
 				<div id="tabs-2">
 				
 				
-						<form method="post" name="edit" action="IT_Take_Action.jsp" id="edit">
+						<form method="post" name="edit2" action="IT_Take_Action.jsp" id="edit2">
 				<table style="width: 100%;" border="0" class="tftable">
 					<thead>
 						<tr>
@@ -230,7 +250,7 @@ $(function() {
 							while (rs_reqDetails.next()) {
 					%>
 
-					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
+					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button2('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
 						<td align="center"><%=rs_reqDetails.getInt("U_Req_Id")%></td>
 						<%
 							PreparedStatement ps_name = con.prepareStatement("select U_Name from User_tbl where U_Id="
@@ -285,7 +305,7 @@ $(function() {
 					<tr>
 					</tr>
 				</table>
-				<input type="hidden" name="hid" id="hid">
+				<input type="hidden" name="hid" id="hid2">
 			</form>		
 				
 				
@@ -294,7 +314,7 @@ $(function() {
 				
 				</div>
 				<div id="tabs-3">
-				<form method="post" name="edit" action="IT_Take_Action.jsp" id="edit">
+				<form method="post" name="edit3" action="IT_Take_Action.jsp" id="edit3">
 				<table style="width: 100%;" border="0" class="tftable">
 					<thead>
 						<tr>
@@ -317,7 +337,7 @@ $(function() {
 							while (rs_reqDetails.next()) {
 					%>
 
-					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
+					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button3('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
 						<td align="center"><%=rs_reqDetails.getInt("U_Req_Id")%></td>
 						<%
 							PreparedStatement ps_name = con.prepareStatement("select U_Name from User_tbl where U_Id="
@@ -372,7 +392,7 @@ $(function() {
 					<tr>
 					</tr>
 				</table>
-				<input type="hidden" name="hid" id="hid">
+				<input type="hidden" name="hid" id="hid3">
 			</form>
 				
 				
@@ -381,7 +401,7 @@ $(function() {
 				
 				</div>
 				<div id="tabs-4">
-				<form method="post" name="edit" action="IT_Take_Action.jsp" id="edit">
+				<form method="post" name="edit4" action="IT_Take_Action.jsp" id="edit4">
 				<table style="width: 100%;" border="0" class="tftable">
 					<thead>
 						<tr>
@@ -404,7 +424,7 @@ $(function() {
 							while (rs_reqDetails.next()) {
 					%>
 
-					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
+					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button4('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
 						<td align="center"><%=rs_reqDetails.getInt("U_Req_Id")%></td>
 						<%
 							PreparedStatement ps_name = con.prepareStatement("select U_Name from User_tbl where U_Id="
@@ -459,7 +479,7 @@ $(function() {
 					<tr>
 					</tr>
 				</table>
-				<input type="hidden" name="hid" id="hid">
+				<input type="hidden" name="hid" id="hid4">
 			</form>
 				
 				
@@ -468,7 +488,7 @@ $(function() {
 				
 				</div>
 				<div id="tabs-5">
-				<form method="post" name="edit" action="IT_Take_Action.jsp" id="edit">
+				<form method="post" name="edit5" action="IT_Take_Action.jsp" id="edit5">
 				<table style="width: 100%;" border="0" class="tftable">
 					<thead>
 						<tr>
@@ -491,7 +511,7 @@ $(function() {
 							while (rs_reqDetails.next()) {
 					%>
 
-					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
+					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button5('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
 						<td align="center"><%=rs_reqDetails.getInt("U_Req_Id")%></td>
 						<%
 							PreparedStatement ps_name = con.prepareStatement("select U_Name from User_tbl where U_Id="
@@ -546,7 +566,7 @@ $(function() {
 					<tr>
 					</tr>
 				</table>
-				<input type="hidden" name="hid" id="hid">
+				<input type="hidden" name="hid" id="hid5">
 			</form>
 				
 				

@@ -216,5 +216,15 @@ System.out.println("date sql = " + dateIndate);
 
 
 
+
+<%
+String str="91'95'95354336";
+
+String result = str.replaceAll("\\'","");
+System.out.println("name list  = " + result);
+%>
+
+
+
 </body>
 </html>
