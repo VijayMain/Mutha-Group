@@ -181,13 +181,13 @@
 				  <td align="center"><strong>For Rs</strong></td>
 				  <td align="center"><strong>Pur Order</strong></td>
 				  <td align="center"><strong>Creator</strong></td>
-				   <td align="center"><strong>Approval</strong></td> 
+				   <td align="center"><strong>Approval Status</strong></td> 
 				   <%
 				  }
 				   %>
 			    </tr>
 				<% 
-				String carried="",billno="",dated="",forrs="",purorder="",creator="",approval="",approved_by="";
+				String carried="",billno="",dated="",forrs="",purorder="",creator="",approval="",approved_by="",dec_note="",doc_ref="";
 				int tran_relno=0;
 				  ps_data = con.prepareStatement("SELECT * FROM tarn_dms where tran_no="+code +" order by approved");
 				  rs_data = ps_data.executeQuery();
@@ -208,7 +208,7 @@
 			    	<td align="left" style="font-size: 11px;"><%=cr_note %></td>
 			     <%
 				  if(dept_check.contains(7) && ins_check==7){
-					  ps_use = con.prepareStatement("select code,carried_out,bill_no,forrs,pur_order,creator,approval,approval_by,code,DATE_FORMAT(dated, \"%d/%m/%Y \") as dated  from tarn_dms_devrel where tran_code="+rs_data.getInt("CODE"));
+					  ps_use = con.prepareStatement("select code,decline_note,decline_filename,carried_out,bill_no,forrs,pur_order,creator,approval,approval_by,code,DATE_FORMAT(dated, \"%d/%m/%Y \") as dated  from tarn_dms_devrel where tran_code="+rs_data.getInt("CODE"));
 					  rs_use = ps_use.executeQuery();
 						 while(rs_use.next()){
 							 carried=rs_use.getString("carried_out");
@@ -220,6 +220,8 @@
 							 approval=rs_use.getString("approval");
 							 approved_by=rs_use.getString("approval_by");
 							 tran_relno=rs_use.getInt("code");
+							 dec_note = rs_use.getString("decline_note");
+							 doc_ref = rs_use.getString("decline_filename");
 						}
 				  %>
 				  <td align="left" style="font-size: 11px;"><%=carried %></td>
@@ -258,9 +260,18 @@
 					   }
 				   }
 			       %>
+			       <%
+			       if(dec_note!=null){
+			       %>
+			       - <b><%=dec_note %></b>
+			       <a href="Display_RefDoc.jsp?field=<%=tran_relno%>" style="color: #3a22c8;font-family: Arial;font-size: 12px;" title="Documents Attached !!!"><b><%=doc_ref%></b></a>
+			       
+			       <%
+			       }
+			       %>
 			       </td>
 			    <%
-			    carried="";billno="";dated="";forrs="";purorder="";creator="";approval="";approved_by="";
+			    carried="";billno="";dated="";forrs="";purorder="";creator="";approval="";approved_by="";dec_note="";doc_ref="";
 				tran_relno=0;
 				  }
 			    %>
