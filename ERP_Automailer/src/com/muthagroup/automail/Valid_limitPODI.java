@@ -28,7 +28,8 @@ public class Valid_limitPODI extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			if(d.getHours() == 10 && d.getMinutes() == 27){ 			
+			/*if(d.getHours() == 10 && d.getMinutes() == 27){*/
+			if(d.getHours() == 15 && d.getMinutes() == 12){
 			/*if (d.getHours() == 16 && d.getMinutes() == 10){*/
 				 
 				Connection con = ConnectionUrl.getLocalDatabase();
@@ -141,10 +142,9 @@ public class Valid_limitPODI extends TimerTask {
 				sql_date = sdfFIrstDate.format(cal.getTime()).toString();
 				date_chk.add(sql_date);
 			}
-			while(rs_getapp.next()) {
-			//	System.out.println("in loop" + date_chk + " = "  + rs_getapp.getString("VALID_DATE") + " = " + rs_getapp.getString("STATUS_CODE"));
+			while(rs_getapp.next()) { 
 				if(date_chk.contains(rs_getapp.getString("VALID_DATE")) && rs_getapp.getString("STATUS_CODE").equalsIgnoreCase("0")){
-					
+ 					
 			sb.append("<tr style='font-size: 12px; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 					"<td align='right'>"+rs_getapp.getString("PO_NO")+"</td>"+
 						"<td align='left'>"+rs_getapp.getString("PO_DATE").substring(6,8) +"/"+ rs_getapp.getString("PO_DATE").substring(4,6) +"/"+ rs_getapp.getString("PO_DATE").substring(0,4)+"</td>"+

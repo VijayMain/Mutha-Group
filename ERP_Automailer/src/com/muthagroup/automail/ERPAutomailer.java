@@ -19,8 +19,7 @@ private static final long serialVersionUID = 1L;
 			// ******************************************************************************************************************
 			// Thread No 1
 			// ******************************************************************************************************************
-	  
-			
+	   
 			// 09:40
 			TimerTask  siscompSale =new SisterCompanySale_Report();
 			timer.schedule(siscompSale, 1000, 60000);
@@ -183,6 +182,11 @@ private static final long serialVersionUID = 1L;
 			TimerTask  timerInOut =new InOut_Register();
 			timer.schedule(timerInOut, 1000, 60000); 
 		  
+			
+			// 12:30
+			TimerTask  timerTaskMISDI =new MIS_SummaryReportDI();
+			timer.schedule(timerTaskMISDI, 1000, 60000);
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

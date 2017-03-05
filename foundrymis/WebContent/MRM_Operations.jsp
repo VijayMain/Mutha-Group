@@ -181,6 +181,7 @@ String total_days = "";
 CallableStatement cs = null;		
 ResultSet rs = null;
 double sumsale = 0;
+
 // -----------------------------------------------------------------------------------------------------------------
 %>
 		<table id="t1" border="1" cellpadding=2 style="border: 1px solid #000; font-family: Arial;width: 70%">
@@ -198,7 +199,7 @@ double sumsale = 0;
 		<%
 		// -----------------------------------------------------------------------------------------------------------------
 			//	System.out.println("List Month = " + listmonth);
-			//	System.out.println("Date in Months = " + listmonth.get(h).toString());
+			//	System.out.println("Date in Months = " + listmonth.get(h).toString()); 
 		%>
 		<!----------------------------------------------------------------------------------------------------------->
 		<!------------------------------------------ Actual Days ---------------------------------------------------->

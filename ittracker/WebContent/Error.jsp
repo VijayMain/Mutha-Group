@@ -1,3 +1,6 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.util.Calendar"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -123,9 +126,18 @@
   <table>
   	<tr>
   		<td align="center"><h3 style="color: red;">Error Occured</h3></td>
-  	</tr>
-  
+  	</tr>  
   </table>
+  <%
+  SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyy-MM-dd");  
+  Date tdate = new Date(); 
+  Calendar first_Datecal = Calendar.getInstance();   
+  first_Datecal.set(Calendar.DAY_OF_MONTH, 1);  
+  Date dddd = first_Datecal.getTime();  
+  String firstDate = sdfFIrstDate.format(dddd);
+  String nowDate = sdfFIrstDate.format(tdate);
+  System.out.println("date = " + firstDate + "  =   " + nowDate);
+  %>
   <div id="footer">
    <p class="style2"><a href="IT_index.jsp">Home</a> <a href="IT_New_Requisition.jsp">New Requisition</a> <a href="Closed_Requisitions.jsp">Closed Requisition</a> <a href="IT_All_Requisitions.jsp">All Requisitions</a> <a href="Software_Access.jsp">Software Access</a> <a href="Logout.jsp">Logout</a><br />
     <a href="http://www.muthagroup.com">Mutha Group, Satara </a></p>

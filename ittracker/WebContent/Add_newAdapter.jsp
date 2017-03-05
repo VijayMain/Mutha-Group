@@ -7,7 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head> 
 <script type="text/javascript">
-function validateForm() {   
+function validateForm() {
 	var new_adapter = document.getElementById("new_adapter");
 	var serialno = document.getElementById("serialno");
 	var inputoutput = document.getElementById("inputoutput");  

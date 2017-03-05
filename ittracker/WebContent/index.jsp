@@ -1,4 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="it.muthagroup.connectionUtility.Connection_Utility"%>
@@ -7,12 +10,9 @@
 <head>
 <title>IT Tracker Home</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link rel="stylesheet" type="text/css" href="styles.css" />
-
+<link rel="stylesheet" type="text/css" href="styles.css" /> 
 <%
 try {
-	
-	
 	int uid = Integer.parseInt(session.getAttribute("uid").toString());
 	String uname=null;
 	int d_Id=0;
@@ -46,16 +46,35 @@ try {
 				<li><a href="Logout.jsp">Logout <strong style="color: blue; font-size: small;"> <%=uname%></strong></a></li>
 			</ul>
   </div>
+  <div style="width:100%; height: 100%; padding-left: 5px;padding-bottom: 5px;padding-top: 5px;"> 
+  <%
+  SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyy-MM-dd");  
+  Date tdate = new Date(); 
+  Calendar first_Datecal = Calendar.getInstance();   
+  first_Datecal.set(Calendar.DAY_OF_MONTH, 1);  
+  Date dddd = first_Datecal.getTime();  
+  String firstDate = sdfFIrstDate.format(dddd);
+  String nowDate = sdfFIrstDate.format(tdate);
+  
+  boolean flag = false; 
+  
+  ps_uname = con.prepareStatement("SELECT * FROM complaintzilla.it_user_feedback where created_by=" + uid + " and  feedback_date between '"+firstDate+"' and '"+nowDate+"'");
+  rs_uname = ps_uname.executeQuery();
+  while(rs_uname.next()){
+	flag = true;
+  }
+  if(flag==false){
+	response.sendRedirect("index_feedbackUser.jsp");  
+  }
+  %>
+ <img style="height: 330px;width: 99%"  src="images/helpline.png"></img> 
+  </div>
   <%
 }catch(Exception e)
 {
 	e.printStackTrace();
 }
-  %> 
-  <div style="width:100%; height: 100%; padding-left: 5px;padding-bottom: 5px;padding-top: 5px;"> 
-  		<img style="height: 330px;width: 99%"  src="images/helpline.png"></img> 
-  </div>
-  
+  %>   
   <div id="footer">
     <p class="style2"><a href="index.jsp">Home</a> <a href="New_Requisition.jsp">New Requisition</a> <a href="Requisition_Status.jsp">Requisition Status</a> <a href="All_Requisitions.jsp">All Requisitions</a> <a href="Reports_User.jsp">Reports</a> <a href="Logout.jsp">Logout</a><br />
     <a href="http://www.muthagroup.com">Mutha Group, Satara </a></p>

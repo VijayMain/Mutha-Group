@@ -29,6 +29,7 @@ public class Valid_limitPOK1 extends TimerTask {
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
 			if(d.getHours() == 10 && d.getMinutes() == 28){ 			
+			/*if(d.getHours() == 15 && d.getMinutes() == 16){*/
 			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 45){*/
 				 
 				Connection con = ConnectionUrl.getLocalDatabase();
@@ -133,15 +134,17 @@ public class Valid_limitPOK1 extends TimerTask {
 			while (rs_insSubgl.next()) {
 				cs.setString(7, rs_insSubgl.getString("value"));
 			}
+			
 			ResultSet rs_getapp = cs.executeQuery(); 
 			date_chk.add(sql_date);
-			for(int g=0;g<Integer.valueOf(dateLimit);g++){ 
+			for(int g=0;g<Integer.valueOf(dateLimit);g++){
 				cal.add(Calendar.DATE, +1);
 				sql_date = sdfFIrstDate.format(cal.getTime()).toString();
 				date_chk.add(sql_date);
-			} 
+			}
 			while(rs_getapp.next()) {
 				if(date_chk.contains(rs_getapp.getString("VALID_DATE")) && rs_getapp.getString("STATUS_CODE").equalsIgnoreCase("0")){
+					
 			sb.append("<tr style='font-size: 12px; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 					"<td align='right'>"+rs_getapp.getString("PO_NO")+"</td>"+
 						"<td align='left'>"+rs_getapp.getString("PO_DATE").substring(6,8) +"/"+ rs_getapp.getString("PO_DATE").substring(4,6) +"/"+ rs_getapp.getString("PO_DATE").substring(0,4)+"</td>"+

@@ -29,6 +29,7 @@ public class Valid_limitPOMFPL extends TimerTask {
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
 			if(d.getHours() == 10 && d.getMinutes() == 26){ 			
+			/*if(d.getHours() == 15 && d.getMinutes() == 7){*/ 			
 			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 43){*/
 				 
 				Connection con = ConnectionUrl.getLocalDatabase();
