@@ -2,7 +2,15 @@ package it.muthagroup.vo;
 
 public class Feedback_vo {
 	private int internetandnetwork, pclaptop, inhouse, erp, satisfiedit;
-	private String comment;
+	private String comment, uerrname;
+
+	public String getUerrname() {
+		return uerrname;
+	}
+
+	public void setUerrname(String uerrname) {
+		this.uerrname = uerrname;
+	}
 
 	public int getInternetandnetwork() {
 		return internetandnetwork;

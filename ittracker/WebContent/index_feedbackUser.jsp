@@ -98,18 +98,19 @@ try {
 <body>
 <div id="container">
   <div id="top">
-    <h3>Customer Satisfaction Surve <br/>
-    Mutha Group IT</h3> 
+    <h3>User Satisfaction Survey <br/>
+    Mutha Group IT</h3>  <img src="images/alert.gif" />
   </div>
   <div id="menu">
    <ul>
-		<li><a href="index.jsp">Home</a></li>
-				<li><a href="index_feedbackUser.jsp">IT Survey</a></li>  
+		<li><a href="index.jsp">Home</a></li> 
 				<li><a href="Logout.jsp">Logout <strong style="color: blue; font-size: small;"> <%=uname%></strong></a></li>
 	</ul>
   </div>
-  <div style="width:100%; height: 100%;">
+  <div style="width:45%; height: 100%; float: left;">
   <form action="Feedback_controller" method="post"  onSubmit="return validateForm();">
+  
+  <input type="hidden" name="uerrname" id="uerrname" value="<%=uname%>"/>
   <table width="100%" border="0" style="background-color: white;font-family:sans-serif;"> 
   <tr>
     <td style="background-color: #3599ea; 
@@ -118,14 +119,14 @@ try {
     padding: 15px 32px; 
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
     margin: 4px 2px;
     cursor: pointer; " title="1 = Poor , . , . , . , 5 = Excellent"><strong>1. How do you rate IT Supports for internet and network speed...?</strong><br /> 
-    	 <input type="radio" name="internetandnetwork" id="internetandnetwork1" value="1" style="background : red;">1
-        &nbsp;&nbsp;<input type="radio" name="internetandnetwork" id="internetandnetwork2" value="2"> 2 
-        &nbsp;&nbsp;<input type="radio" name="internetandnetwork" id="internetandnetwork3" value="3"> 3
-        &nbsp;&nbsp;<input type="radio" name="internetandnetwork" id="internetandnetwork4" value="4"> 4
-        &nbsp;&nbsp;<input type="radio" name="internetandnetwork" id="internetandnetwork5" value="5"> 5</td>
+    	 <input type="radio" name="internetandnetwork" id="internetandnetwork1" value="1"/>1
+        &nbsp;&nbsp;<input type="radio" name="internetandnetwork" id="internetandnetwork2" value="2"/> 2 
+        &nbsp;&nbsp;<input type="radio" name="internetandnetwork" id="internetandnetwork3" value="3"/> 3
+        &nbsp;&nbsp;<input type="radio" name="internetandnetwork" id="internetandnetwork4" value="4"/> 4
+        &nbsp;&nbsp;<input type="radio" name="internetandnetwork" id="internetandnetwork5" value="5"/> 5</td>
   </tr>
   <tr>
     <td style="background-color: #3599ea; 
@@ -134,14 +135,14 @@ try {
     padding: 15px 32px;  
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
     margin: 4px 2px;
     cursor: pointer; " title="1 = Poor , . , . , . , 5 = Excellent"><strong>2. How well do our PC,Laptop,printer meets your needs...?</strong><br /> 
-    	 <input type="radio" name="pclaptop" id="pclaptop1" value="1"> 1
-        &nbsp;&nbsp;<input type="radio" name="pclaptop" id="pclaptop2" value="2"> 2 
-        &nbsp;&nbsp;<input type="radio" name="pclaptop" id="pclaptop3" value="3"> 3
-        &nbsp;&nbsp;<input type="radio" name="pclaptop" id="pclaptop4" value="4"> 4
-    &nbsp;&nbsp;<input type="radio" name="pclaptop" id="pclaptop5" value="5"> 5 </td>
+    	 <input type="radio" name="pclaptop" id="pclaptop1" value="1"/> 1
+        &nbsp;&nbsp;<input type="radio" name="pclaptop" id="pclaptop2" value="2"/> 2 
+        &nbsp;&nbsp;<input type="radio" name="pclaptop" id="pclaptop3" value="3"/> 3
+        &nbsp;&nbsp;<input type="radio" name="pclaptop" id="pclaptop4" value="4"/> 4
+    &nbsp;&nbsp;<input type="radio" name="pclaptop" id="pclaptop5" value="5"/> 5 </td>
   </tr>
   <tr>
     <td style="background-color: #3599ea; 
@@ -150,14 +151,14 @@ try {
     padding: 15px 32px; 
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
     margin: 4px 2px;
     cursor: pointer; " title="1 = Poor , . , . , . , 5 = Excellent"><strong>3. In-House Softwares (IT Tracker,ComplaintZilla,ECN,DVPBoss,Mutha Planner etc.)...?</strong><br /> 
-     <input type="radio" name="inhouse" id="inhouse1" value="1"> 1
-        &nbsp;&nbsp;<input type="radio" name="inhouse" id="inhouse2" value="2"> 2 
-        &nbsp;&nbsp;<input type="radio" name="inhouse" id="inhouse3" value="3"> 3
-       &nbsp;&nbsp; <input type="radio" name="inhouse" id="inhouse4" value="4"> 4
-   &nbsp;&nbsp; <input type="radio" name="inhouse" id="inhouse5" value="5"> 5 </td>
+     <input type="radio" name="inhouse" id="inhouse1" value="1"/> 1
+        &nbsp;&nbsp;<input type="radio" name="inhouse" id="inhouse2" value="2"/> 2 
+        &nbsp;&nbsp;<input type="radio" name="inhouse" id="inhouse3" value="3"/> 3
+       &nbsp;&nbsp; <input type="radio" name="inhouse" id="inhouse4" value="4"/> 4
+   &nbsp;&nbsp; <input type="radio" name="inhouse" id="inhouse5" value="5"/> 5 </td>
   </tr>
   <tr>
     <td style="background-color: #3599ea; 
@@ -166,14 +167,14 @@ try {
     padding: 15px 32px; 
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
     margin: 4px 2px;
     cursor: pointer; " title="1 = Poor , . , . , . , 5 = Excellent"><strong>4. How well do our ERP meets your needs...?</strong><br /> 
-     <input type="radio" name="erp" id="erp1" value="1"> 1
-       &nbsp;&nbsp; <input type="radio" name="erp" id="erp2" value="2"> 2 
-       &nbsp;&nbsp; <input type="radio" name="erp" id="erp3" value="3"> 3
-       &nbsp;&nbsp; <input type="radio" name="erp" id="erp4" value="4"> 4
-   &nbsp;&nbsp; <input type="radio" name="erp" id="erp5" value="5"> 5 </td>
+     <input type="radio" name="erp" id="erp1" value="1"/> 1
+       &nbsp;&nbsp; <input type="radio" name="erp" id="erp2" value="2"/> 2 
+       &nbsp;&nbsp; <input type="radio" name="erp" id="erp3" value="3"/> 3
+       &nbsp;&nbsp; <input type="radio" name="erp" id="erp4" value="4"/> 4
+   &nbsp;&nbsp; <input type="radio" name="erp" id="erp5" value="5"/> 5 </td>
   </tr>
   <tr>
     <td style="background-color: #3599ea; 
@@ -182,14 +183,14 @@ try {
     padding: 15px 32px; 
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
     margin: 4px 2px;
     cursor: pointer; " title="1 = Poor , . , . , . , 5 = Excellent"><strong>5. Overall Satisfied with IT Team...?</strong><br /> 
-    <input type="radio" name="satisfiedit" id="satisfiedit1" value="1"> 1
-       &nbsp;&nbsp; <input type="radio" name="satisfiedit" id="satisfiedit2" value="2"> 2 
-       &nbsp;&nbsp; <input type="radio" name="satisfiedit" id="satisfiedit3" value="3"> 3
-       &nbsp;&nbsp; <input type="radio" name="satisfiedit" id="satisfiedit4" value="4"> 4
-    &nbsp;&nbsp;<input type="radio" name="satisfiedit" id="satisfiedit5" value="5"> 5 </td>
+    <input type="radio" name="satisfiedit" id="satisfiedit1" value="1"/> 1
+       &nbsp;&nbsp; <input type="radio" name="satisfiedit" id="satisfiedit2" value="2"/> 2 
+       &nbsp;&nbsp; <input type="radio" name="satisfiedit" id="satisfiedit3" value="3"/> 3
+       &nbsp;&nbsp; <input type="radio" name="satisfiedit" id="satisfiedit4" value="4"/> 4
+    &nbsp;&nbsp;<input type="radio" name="satisfiedit" id="satisfiedit5" value="5"/> 5 </td>
   </tr>
   <tr>
    <td style="background-color: #3599ea; 
@@ -198,7 +199,7 @@ try {
     padding: 15px 32px; 
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
     margin: 4px 2px;
     cursor: pointer; " title="Kindly share your suggestions & comments..."><strong>6. If You Have any questions,suggesions,comments let us know.</strong><br />
   <textarea rows="4" cols="60" name="comment" id="comment"></textarea>
@@ -210,7 +211,7 @@ try {
     padding: 15px 32px; 
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
     margin: 4px 2px;
     font-weight:bold;
     cursor: pointer;"></td>
@@ -218,16 +219,50 @@ try {
 </table>
 </form>
   </div>
+  
+  <div style="width:54.8%; height: 100%; float: right;">
+<table style="width: 100%;" align="center" class="tftable"> 
+<tr>
+<td colspan="8" style="background-color: #3599ea;color: white;font-weight: bold;" align="center">Feedback History</td>
+</tr>
+		<tr style='font-size: 12px;font-weight:bold; background-color: #3599ea;color: white; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>
+			<th height='25'>Network</th>
+			<th>Device Satisfaction</th>
+			<th>In-House Softwares</th>
+			<th>ERP</th>
+			<th>Overall Satisfied</th>
+			<th>Comments</th>  
+			<th>Date (yyyy-mm-dd)</th>
+		</tr> 
+		<%
+		 ps_uname = con.prepareStatement("SELECT * FROM complaintzilla.it_user_feedback where enable=1 and created_by=" + uid +" order by feedback_date desc");
+		  rs_uname = ps_uname.executeQuery();
+		  while(rs_uname.next()){
+		%>
+		<tr style="background-color: white;font-size: 12px;">
+			<td align='right'><%=rs_uname.getInt("internet_speed") %></td>
+			<td align='right'><%=rs_uname.getInt("pc_laptop") %></td>
+			<td align='right'><%=rs_uname.getInt("inhouse") %></td>
+			<td align='right'><%=rs_uname.getInt("erp") %></td>
+			<td align='right'><%=rs_uname.getInt("it_satisfaction") %></td>
+			<td><%=rs_uname.getString("comments") %></td> 
+			<td><%=rs_uname.getString("feedback_date").substring(0,10) %></td>
+		</tr> 
+		<%
+		  }
+		%>
+</table>
+  </div>
   <%
 }catch(Exception e)
 {
 	e.printStackTrace();
 }
   %>   
-  <div id="footer">
+  <!-- <div id="footer">
     <p class="style2"><a href="index.jsp">Home</a> <a href="New_Requisition.jsp">New Requisition</a> <a href="Requisition_Status.jsp">Requisition Status</a> <a href="All_Requisitions.jsp">All Requisitions</a> <a href="Reports_User.jsp">Reports</a> <a href="Logout.jsp">Logout</a><br />
     <a href="http://www.muthagroup.com">Mutha Group, Satara </a></p>
-  </div>
+  </div> -->
 </div>
 </body>
 </html>

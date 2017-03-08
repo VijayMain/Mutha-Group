@@ -22,6 +22,7 @@
     font-size: 16px;
     border: none;
     cursor: pointer;
+    font-family: sans-serif;
 }
 
 .dropdown {
@@ -31,7 +32,7 @@
 
 .dropdown-content {
     display: none;
-	font-family: Arial; 
+	font-family: Arial;
     position: absolute;
     background-color: #3b7687;
     min-width: 160px;
@@ -122,18 +123,19 @@ ArrayList list_news = new ArrayList();
     <div id="content"> 
   <div id="menu" style="font-size: 16px;font-family: Arial;">
   <a href="homepage.jsp">&nbsp; &nbsp;&nbsp;<strong>Home</strong>&nbsp; &nbsp;&nbsp;</a>   
-<div class="dropdown" style="cursor: pointer;">
+<div class="dropdown" style="cursor: pointer;font-family: sans-serif;">
   <strong style="color: white;font-size: 13px"><a href="http://192.168.0.6/companyunits.htm">ERP Login</a></strong>
   <div class="dropdown-content">
-    <a href="http://192.168.0.6/meplbwayserp/">MEPL H21</a>
-    <a href="http://192.168.0.6/H25bwayserp/">MEPL H25</a>
-    <a href="http://192.168.0.6/K1BWAYSERP/">MEPL UNIT III</a>
-    <a href="http://192.168.0.6/UNITIVBWAYSERP/">MEPL UNIT IV</a>
-    <a href="http://192.168.0.6/MFPLBWAYSERP/">MFPL</a>
-    <a href="http://192.168.0.6/DIBWAYSERP">DI</a> 
-    <a href="http://192.168.0.6/ENGH25CONSOLIDATION/">H21 & H25 CON</a>
-    <a href="http://192.168.0.6/UNIT123CONSOLIDATION/">H21,H25 & Unit III CON</a>
-    <a href="http://192.168.0.6/MUTHACONSOLIDATION/">ALL CON</a>
+    <a href="http://192.168.0.6/meplbwayserp/"><strong>MEPL H21</strong></a>
+    <a href="http://192.168.0.6/H25bwayserp/"><strong>MEPL H25</strong></a>
+    <a href="http://192.168.0.6/K1BWAYSERP/"><strong>MEPL UNIT III</strong></a>
+    <a href="http://192.168.0.6/UNITIVBWAYSERP/"><strong>MEPL UNIT IV</strong></a>
+    <a href="http://192.168.0.6/MFPLBWAYSERP/"><strong>MFPL</strong></a>
+    <a href="http://192.168.0.6/DIBWAYSERP"><strong>DI</strong></a> 
+    <a href="http://192.168.0.6/ENGH25CONSOLIDATION/"><strong>H21 & H25 CON</strong></a>
+    <a href="http://192.168.0.6/UNIT123CONSOLIDATION/"><strong>H21,H25 & Unit III CON</strong></a>
+    <a href="http://192.168.0.6/MUTHACONSOLIDATION/"><strong>ALL CON</strong></a>
+    <a href="http://192.168.0.6/payrollunits.htm"><strong>PAYROLL</strong></a>
   </div>
 </div> 
 <div class="dropdown" style="cursor: pointer;">&nbsp;&nbsp;
@@ -152,13 +154,13 @@ ArrayList list_news = new ArrayList();
  <div class="dropdown" style="cursor: pointer;">&nbsp;&nbsp;
  <strong style="color: white;font-size: 13px">Portal</strong> 
  <div class="dropdown-content">
-    <a href="https://srm.inservices.tatamotors.com/irj/portal">Tata Motors</a>
-    <a href="http://its.forcemotors.com/sap/its/homepages/vis/default.html">Force Motors</a>
-    <a href="http://www.mantrucksindia.com/login/">MAN Trucks</a>
-    <a href="https://tradewithtvs.com/Login.aspx">TVS</a>
-    <a href="https://mptax.mp.gov.in/mpvatweb/index.jsp">Road Permit MP</a>
-    <a href="http://yorkebiz.com/ebp/">York</a>
-    <a href="https://www.heromotocorp.biz/uniquesig57919d5129f13baf4f5e500df3809d0134979942cb6a1fcbf12a514df3e637fe/uniquesig0/irj/portal">Hero MotoCorp</a>
+    <a href="https://srm.inservices.tatamotors.com/irj/portal"><strong>Tata Motors</strong></a>
+    <a href="http://its.forcemotors.com/sap/its/homepages/vis/default.html"><strong>Force Motors</strong></a>
+    <a href="http://www.mantrucksindia.com/login/"><strong>MAN Trucks</strong></a>
+    <a href="https://tradewithtvs.com/Login.aspx"><strong>TVS</strong></a>
+    <a href="https://mptax.mp.gov.in/mpvatweb/index.jsp"><strong>Road Permit MP</strong></a>
+    <a href="http://yorkebiz.com/ebp/"><strong>York</strong></a>
+    <a href="https://www.heromotocorp.biz/uniquesig57919d5129f13baf4f5e500df3809d0134979942cb6a1fcbf12a514df3e637fe/uniquesig0/irj/portal"><strong>Hero MotoCorp</strong></a>
  </div>
  </div>  
  <a href="http://www.getmykaizen.com/">&nbsp;&nbsp;<strong>GetMyKaizen</strong> &nbsp;&nbsp;</a>  

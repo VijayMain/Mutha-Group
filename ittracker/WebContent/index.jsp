@@ -42,7 +42,8 @@ try {
 				<li><a href="DMS.jsp">DMS</a></li>
 				<li><a href="Reports_User.jsp">Reports</a></li>
 				<li><a href="Change_Password.jsp">Change Password</a></li>
-				<li><a href="Profile.jsp">My Profile</a></li> 
+				<li><a href="index_feedbackUser.jsp">Feedback</a></li> 
+				<li><a href="Profile.jsp">Profile</a></li> 
 				<li><a href="Logout.jsp">Logout <strong style="color: blue; font-size: small;"> <%=uname%></strong></a></li>
 			</ul>
   </div>
@@ -53,21 +54,27 @@ try {
   Calendar first_Datecal = Calendar.getInstance();   
   first_Datecal.set(Calendar.DAY_OF_MONTH, 1);  
   Date dddd = first_Datecal.getTime();  
-  String firstDate = sdfFIrstDate.format(dddd);
-  String nowDate = sdfFIrstDate.format(tdate);
+   
+  java.sql.Date firstDate = new java.sql.Date(dddd.getTime());
+  java.sql.Date nowDate = new java.sql.Date(tdate.getTime());
   
-  boolean flag = false; 
+/*   
+String firstDate = sdfFIrstDate.format(dddd);
+String nowDate = sdfFIrstDate.format(tdate); 
+*/
   
-  ps_uname = con.prepareStatement("SELECT * FROM complaintzilla.it_user_feedback where created_by=" + uid + " and  feedback_date between '"+firstDate+"' and '"+nowDate+"'");
+  boolean flag = false;
+  
+  ps_uname = con.prepareStatement("SELECT * FROM complaintzilla.it_user_feedback where enable=1 and created_by=" + uid + " and  feedback_date between '"+firstDate+"' and '"+nowDate+"'");
   rs_uname = ps_uname.executeQuery();
   while(rs_uname.next()){
-	flag = true;
+	flag = true; 
   }
   if(flag==false){
-	response.sendRedirect("index_feedbackUser.jsp");  
+	response.sendRedirect("index_feedbackUser.jsp");
   }
   %>
- <img style="height: 330px;width: 99%"  src="images/helpline.png"></img> 
+ <img style="height: 330px;width: 99%"  src="images/helpline.png"></img>
   </div>
   <%
 }catch(Exception e)
@@ -76,7 +83,13 @@ try {
 }
   %>   
   <div id="footer">
-    <p class="style2"><a href="index.jsp">Home</a> <a href="New_Requisition.jsp">New Requisition</a> <a href="Requisition_Status.jsp">Requisition Status</a> <a href="All_Requisitions.jsp">All Requisitions</a> <a href="Reports_User.jsp">Reports</a> <a href="Logout.jsp">Logout</a><br />
+    <p class="style2">
+    <a href="index.jsp">Home</a> 
+    <a href="New_Requisition.jsp">New Requisition</a> 
+    <a href="Requisition_Status.jsp">Requisition Status</a> 
+    <a href="All_Requisitions.jsp">All Requisitions</a> 
+    <a href="Reports_User.jsp">Reports</a> 
+    <a href="Logout.jsp">Logout</a><br />
     <a href="http://www.muthagroup.com">Mutha Group, Satara </a></p>
   </div>
 </div>
