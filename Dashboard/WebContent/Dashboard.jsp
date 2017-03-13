@@ -10,6 +10,51 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<style type="text/css">
+label > input{ /* HIDE RADIO */
+  visibility: hidden; /* Makes input not-clickable */
+  position: absolute; /* Remove input from document flow */
+}
+label > input + img{ /* IMAGE STYLES */
+  cursor:pointer;
+  border:2px solid transparent;
+}
+label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+  border:2px solid #f00;
+}
+</style>
+<style type="text/css">
+.rating-wrapper {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.rating-input {
+  position: absolute;
+  left: 0;
+  top: -50px;
+}
+
+.rating-star:hover,
+.rating-star:hover ~ .rating-star {
+  background-position: 0 0;
+}
+
+.rating-wrapper:hover .rating-star:hover,
+.rating-wrapper:hover .rating-star:hover ~ .rating-star,
+.rating-input:checked ~ .rating-star {
+  background-position: 0 0;
+}
+
+.rating-star,
+.rating-wrapper:hover .rating-star {
+  float: right;
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: url('icons/stars.png') 0 -16px;
+}
+</style>
 </head>
 <body>
 	<%
@@ -96,8 +141,7 @@ System.out.println("SQL DATE =  " + sql_date);
 	
 	
 	<table border='1' width='97%' style='font-family: Arial;'>
-		<tr
-			style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>
+		<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>
 			<th height='24'>Registered By</th>
 			<th>Approval Status</th>
 			<th>Transfer To</th> 
@@ -136,8 +180,28 @@ System.out.println("SQL DATE =  " + sql_date);
 								<td></td>
 					</tr>
 					</table>
+					
+<label>
+  <input type="radio" name="fb" value="small" />
+  <img src="lock.png">
+</label>
 
 
+<input type="radio" name="test" id="test" value="1"> ☆
+<input type="radio" name="test" id="test" value="2"> ☆
+
+<div class="rating-wrapper">
+  <input type="radio" class="rating-star" id="rating-input-1-5" name="rating-input-1" /> 
+  <label for="rating-input-1-5" class="rating-star"></label>
+  <input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1" />
+  <label for="rating-input-1-4" class="rating-star"></label>
+  <input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1" />
+  <label for="rating-input-1-3" class="rating-star"></label>
+  <input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1" />
+  <label for="rating-input-1-2" class="rating-star"></label>
+  <input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1" />
+  <label for="rating-input-1-1" class="rating-star"></label>
+</div>
 
 </body>
 </html>

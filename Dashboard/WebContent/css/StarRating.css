@@ -1,0 +1,252 @@
+ 
+body {
+    background: #333;
+    color: #fff;
+    font-family: "Jaldi",sans-serif;
+    font-size: 100%;
+    line-height: 1.25;
+    margin: 0;
+	padding:0;
+}
+a {
+	font-family: 'Jaldi', sans-serif;
+	text-decoration: none;
+	outline: none;
+}
+
+a:hover, a:focus {
+	color: #373e18;
+}
+
+.text-center{
+	text-align:center;	
+}
+
+fieldset {
+  border: 0;
+  background: #222;
+  border-radius: 1px;
+  padding: 1em 1.5em 0.9em;
+  margin: 1em auto;
+}
+
+#log {
+  margin: 1em auto;
+  width: 5em;
+  text-align: center;
+  background: transparent;
+}
+
+
+.codeconveyHeader {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.codeconveyHeader h1 {
+    color: #fff;
+    font-size: 3em;
+    font-weight: 700;
+    margin: 0;
+}
+
+.codeconveyHeader h1 span {
+	display: block;
+	padding: 0 0 0.6em 0.1em;
+	font-size: 0.6em;
+	opacity: 0.7;
+}
+
+/* To Navigation Style */
+.codeconveyTop {
+    font-size: 0.69em;
+    font-weight: 600;
+    line-height: 2.2;
+    padding: 1em;
+    text-transform: uppercase;
+}
+.codeconveyTop ul{
+	margin:0;
+	padding:0;	
+	text-align:center;
+}
+.codeconveyTop li{
+	list-style:none;	
+	display:inline-block;
+}
+.codeconveyTop li a {
+	display: inline-block;
+	padding: 0 1em;
+	text-decoration: none;
+	color:#fff;
+	font-size:15px;
+}
+
+.codeconveyTop span.right {
+	float: right;
+}
+
+.codeconveyTop span.right a {
+	display: block;
+	float: left;
+	color:#fff;
+}
+.codeconveyDemos a,
+section button {
+	display: inline-block;
+	background: #a9a9a9;
+	color: #fff;
+	font-weight: 400;
+	padding: 10px 20px;
+	margin: 5px;
+	text-transform: uppercase;
+	border-radius: 2px;
+	letter-spacing: 1px;
+}
+
+.codeconveyDemos a:hover,
+.codeconveyDemos a:active,
+.codeconveyDemos a.current-demo {
+	background: #777;
+}
+
+section {
+	color:#fff;
+	padding: 1em 2em 5em;
+	text-align: center;
+	font-size: 1.5em;
+}
+
+section p {
+	color:#fff;
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 20px 0;
+}
+
+section button {
+	border: none;
+	padding: 15px 30px;
+	outline: none;
+	background: #85b91e;
+}
+
+.content {
+    font-family: "Lato","Avenir Next",Arial,sans-serif;
+    font-size: 25px;
+    font-weight: 300;
+    line-height: normal;
+}
+
+
+/* Related Items*/
+.related > a {
+	border: 1px solid #99cc33;
+	display: inline-block;
+	text-align: center;
+	margin: 20px 10px;
+	padding: 25px;
+	color: #99cc33;
+	opacity: 0.8;
+	-webkit-transition: color 0.3s, border-color 0.3s;
+	transition: color 0.3s, border-color 0.3s;
+	-webkit-backface-visibility: hidden;
+}
+
+.related a:hover {
+	border-color: #82b222;
+	color: #82b222;
+}
+
+.related a img {
+	max-width: 100%;
+}
+
+.related a h3 {
+	margin: 0;
+	padding: 0.5em 0 0.3em;
+	max-width: 300px;
+	text-align: left;
+	font-size: 65%;
+	font-weight: 400;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+
+
+.star-cb-group {
+  /* remove inline-block whitespace */
+  font-size: 0;
+  /* flip the order so we can use the + and ~ combinators */
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  /* the hidden clearer */
+}
+.star-cb-group * {
+  font-size: 1rem;
+}
+.star-cb-group > input {
+  display: none;
+}
+.star-cb-group > input + label {
+  /* only enough room for the star */
+  display: inline-block;
+  overflow: hidden;
+  text-indent: 9999px;
+  width: 1em;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size:40px;
+}
+.star-cb-group > input + label:before {
+  display: inline-block;
+  text-indent: -9999px;
+  content: "☆";
+  color: #888;
+}
+.star-cb-group > input:checked ~ label:before, .star-cb-group > input + label:hover ~ label:before, .star-cb-group > input + label:hover:before {
+  content: "★";
+  color: #e52;
+  text-shadow: 0 0 1px #333;
+}
+.star-cb-group > .star-cb-clear + label {
+  text-indent: -9999px;
+  width: .5em;
+  margin-left: -.5em;
+}
+.star-cb-group > .star-cb-clear + label:before {
+  width: .5em;
+}
+.star-cb-group:hover > input + label:before {
+  content: "☆";
+  color: #888;
+  text-shadow: none;
+}
+.star-cb-group:hover > input + label:hover ~ label:before, .star-cb-group:hover > input + label:hover:before {
+  content: "★";
+  color: #e52;
+  text-shadow: 0 0 1px #333;
+}
+
+
+
