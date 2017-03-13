@@ -1,3 +1,4 @@
+<%@page import="com.muthagroup.connectionUtil.ConnectionUrl"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="com.muthagroup.connectionModel.Connection_Utility"%>
@@ -606,6 +607,17 @@ function validateNewItemCreation() {
 	document.getElementById("ADDnewERPItem").disabled = true;
 	document.getElementById("waitnewERPItem").style.visibility = "visible";		
 	return true;
+}
+function validateNewERPItem() {
+	var matType = document.getElementById("matType");
+	if (matType.value=="") {
+		alert("Please Select Material Type first !!!"); 
+		document.getElementById("ADDERPItem").disabled = false;
+		document.getElementById("saveERPItem").style.visibility = "hidden";		
+		return false;
+	}
+	document.getElementById("ADDERPItem").disabled = true;
+	document.getElementById("saveERPItem").style.visibility = "visible"; 
 }
 
 function validateMRMEntries() {
@@ -1933,8 +1945,11 @@ while(rs.next()){
 		</div>
 		<%
 			}if(reportList.contains("ERP New Item Creation")){
+			Connection conMaster = ConnectionUrl.getBWAYSERPMASTERConnection(); 
 		%>
 			<div id="tabs-20">
+			
+			<div style="float: left;width: 50%">
 			
 			<form action="ItemCreate_Controller" method="post" onSubmit="return validateNewItemCreation();">
 			<br/>
@@ -1943,16 +1958,51 @@ while(rs.next()){
 				<td colspan="2"><strong>To Create New Supplier in ERP<br/></strong> <br/>
 			</td>
 			</tr>
-			<tr> 
+			<tr>
 			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADDnewERPItem" value="Click Here" style="background-color: #BABABA;font-weight:bold; width: 85px;height: 35px;"/> </td>
 			</tr>
-			<tr> 
+			<tr>
 			<td colspan="2" align="left"><span id="waitnewERPItem" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
-			</tr>
-						 
+			</tr>	 
 		</table>
 	</form>
-			
+			</div> 
+			<div style="float: right; width: 50%">
+			<form action="New_ItemGenerate.jsp" method="post" onSubmit="return validateNewERPItem();">
+			<br/>
+			<table class="tftable">
+			<tr>
+				<td colspan="2"><strong>To Create New Item in ERP<br/></strong> <br/>
+			</td>
+			</tr>
+			<tr>
+			<td colspan="2" align="center"><strong>Select Material Type :</strong> 
+			<select name="matType" id="matType" style="height: 25px;font-family: sans-serif;font-size: 15px;background-color: #e1e1e1;">
+			<option value=""> - - - Select - - - </option>
+			<%
+			PreparedStatement ps_mst = conMaster.prepareStatement("select * from CNFMATERIALS");
+			ResultSet rs_mst = ps_mst.executeQuery();
+			while(rs_mst.next()){
+			%>
+			<option value="<%=rs_mst.getString("CODE")%>" style="font-family: sans-serif;font-size: 15px;"><%=rs_mst.getString("NAME").toUpperCase()%></option>
+			<%
+			}
+			%>
+			</select> 
+			</td>
+			</tr>
+			<tr>
+			<td colspan="2" align="center">
+			<input type="submit" name="ADD" id="ADDERPItem" value="Click Here" style="background-color: #BABABA;font-weight:bold; width: 85px;height: 35px;"/> 
+			</td>
+			</tr>
+			<tr>
+			<td colspan="2" align="left"><span id="saveERPItem" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
+			</tr>	 
+		</table>
+	</form> 
+			</div> 
+			<br/><br/><br/><br/><br/><br/><br/><br/>
 			</div>
 		<%
 			}if(reportList.size()==0){

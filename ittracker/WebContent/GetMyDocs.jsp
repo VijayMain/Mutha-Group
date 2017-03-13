@@ -147,14 +147,14 @@
 				  </td>
 				  <td align="center" style="width: 2%;background-color: #dcfce8;">
 				  <%
-				  if(rs.getInt("SHARE_FLAG")==1 && rs.getInt("SHARED_ACCESS")==1){
+				  if((rs.getInt("SHARE_FLAG")==1 && rs.getInt("SHARED_ACCESS")==1) || rs.getInt("USER")==uid){
 				  %>
 				  	<img src="images/Add.png" style="height: 18px;cursor: pointer;width: 25px;" title="Add More Files" onClick="AddNewDocs('<%=rs.getInt("CODE") %>','<%=rs.getString("FOLDER") %>')">
 				  <%
 				  }else{
 				  %>
 				  <b title="view only" style="background-color:#e1e38a;cursor: pointer;">---</b>
-				  <%  
+				  <%
 				  }
 				  %>	
 					<!-- <img src="images/edit.png" style="height: 17px;cursor: pointer;" title="Edit"> 
