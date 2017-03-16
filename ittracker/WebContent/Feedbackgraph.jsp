@@ -97,7 +97,7 @@ div.scroll {
 }
 
 .tftable th {
-	font-size: 13px;
+	font-size: 12px;
 	background-color: #acc8cc; 
 	padding: 8px; 
 	text-align: center;
@@ -108,32 +108,24 @@ div.scroll {
 }
 
 .tftable td {
-	font-size: 12px; 
-	padding: 8px; 
+	font-size: 11px; 
+	padding: 3px; 
 }
 </style>
 <%
 	try {
 
-		int uid = Integer.parseInt(session.getAttribute("uid")
-				.toString());
+		int uid = Integer.parseInt(session.getAttribute("uid").toString());
 		String uname = null;
 		Connection con = Connection_Utility.getConnection();
-		PreparedStatement ps_uname = con
-				.prepareStatement("select U_Name from User_tbl where U_Id="
-						+ uid);
+		PreparedStatement ps_uname = con.prepareStatement("select U_Name from User_tbl where U_Id=" + uid);
 		ResultSet rs_uname = ps_uname.executeQuery();
 		while (rs_uname.next()) {
 			uname = rs_uname.getString("U_Name");
 		}
-		Calendar first_Datecal = Calendar.getInstance();   
-		first_Datecal.set(Calendar.DAY_OF_MONTH, 1);  
-		Date dddd = first_Datecal.getTime();  
-		SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyy-MM-dd");  
-		Date tdate = new Date();
+		 String startDate = request.getParameter("fromUserwiseDate");
+		 String endDate = request.getParameter("toUserwiseDate");
 %>
-
-
 </head>
 <body>
 	<div id="container">
@@ -159,67 +151,135 @@ div.scroll {
 			</ul>
 		</div>
 		
-<div style="height: 500px;width:60%;float:left; overflow: scroll;"> 
-	<form method="post" name="edit" action="Feedbackgraph.jsp" id="edit">
-	<table  align="center" border="0" class="tftable">
-								<tr>
-									<td width="12%" align="left" colspan="4"><b>Select Report Dates :</b></td></td>
-				 			 </tr> 	
-				  				<tr>
-									<td align="right"><b style="color: red;">*</b> Company :</td>
-									<td colspan="2" align="left">
-									<select name="company" id="company">
-									<%
-									PreparedStatement ps=con.prepareStatement("select * from user_tbl_company");
-									ResultSet rs = ps.executeQuery();
-									while(rs.next()){
-									%> 
-									<option value="<%=rs.getInt("Company_Id")%>"><%=rs.getString("Company_Name") %></option>
-									<%
-									}
-									%>
-									</select>
-									</td>
-								</tr>
-								<tr>
-									<td align="right"><b style="color: red;">*</b> Department :</td>
-									<td colspan="2" align="left">
-									<select name="department" id="department">
-									<option value="all">ALL</option>
-									<%
-									ps=con.prepareStatement("select * from user_tbl_dept");
-									rs = ps.executeQuery();
-									while(rs.next()){ 
-									%> 
-									<option value="<%=rs.getInt("dept_id")%>"><%=rs.getString("Department") %></option>
-									<%
-									}
-									%>
-									</select>
-									</td>
-								</tr>
-								<tr>
-									<td align="right"><b style="color: red;">*</b> From :</td>
-									<td colspan="2" align="left">
-									<input type="text" name="fromUserwiseDate" id="fromUserwiseDate" readonly="readonly" value="<%=sdfFIrstDate.format(dddd) %>"/>									</td>
-								</tr>
-								<tr>
-									<td align="right"><b style="color: red;">*</b> To Date :</td>
-									<td colspan="2" align="left">
-									<input type="text" name="toUserwiseDate" id="toUserwiseDate" readonly="readonly" value="<%=sdfFIrstDate.format(tdate) %>"/>									</td>
-								</tr>
-								<tr>
-									<td colspan="3"><b style="color: red;">* Contains Mandatory Fields</b></td>
-								</tr>
-								<tr>
-									<td colspan="2" align="center"><input type="submit" value="View Report" style="width: 150px; height: 30px;"/></td>
-								    <td align="center">&nbsp;</td>
-								</tr>
-							</table> 
-	</form>
-	</div>
+		<div style="height: 500px;width:60%;float:left; overflow: scroll;"> 
+			<a href="IT_Feedback.jsp"><strong><<=== BACK</strong></a> 
+			 	<%
+					Connection conn = null;
+						conn = Connection_Utility.getConnection(); 
+						PreparedStatement ps_reqDetails = null;
+						PreparedStatement psRowCnt = null; 
+						String sqlPagination = "SELECT * FROM  it_user_feedback where enable=1 and feedback_date between '"+startDate+"' and '"+endDate+"'"; 
+						ps_reqDetails = conn.prepareStatement(sqlPagination);
+						rs_uname = ps_reqDetails.executeQuery(); 
+				%> 
+					<table border="0" class="tftable"> 
+							<tr>
+								<th height='20'>Network</th>
+								<th>Device Satisfaction</th>
+								<th>In-House Softwares</th>
+								<th>ERP</th>
+								<th>Overall Satisfied</th>
+								<th>Comments</th>  
+								<th>Date (yyyy-mm-dd)</th>
+								<th>User</th>  
+							</tr>
+							<% 
+								while (rs_uname.next()) { 
+							%>
+							<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" style="cursor: pointer;">
+								<td align='right'><%=rs_uname.getInt("internet_speed") %></td>
+								<td align='right'><%=rs_uname.getInt("pc_laptop") %></td>
+								<td align='right'><%=rs_uname.getInt("inhouse") %></td>
+								<td align='right'><%=rs_uname.getInt("erp") %></td>
+								<td align='right'><%=rs_uname.getInt("it_satisfaction") %></td>
+								<td><%=rs_uname.getString("comments") %></td> 
+								<td><%=rs_uname.getString("feedback_date").substring(0,10) %></td>
+								<td><%=rs_uname.getString("user") %></td> 
+							</tr>
+							<%
+								} 
+							%> 
+					</table> 
+ 					  
+		</div>
 		
-  
+<div style="height: 500px;width:39.5%;float:right; overflow: scroll;"> 
+<%
+String rate1 = "SELECT max() FROM  it_user_feedback where enable=1 and feedback_date between '"+startDate+"' and '"+endDate+"'";
+String rate2 = "SELECT * FROM  it_user_feedback where enable=1 and feedback_date between '"+startDate+"' and '"+endDate+"'";
+String rate3 = "SELECT * FROM  it_user_feedback where enable=1 and feedback_date between '"+startDate+"' and '"+endDate+"'";
+String rate4 = "SELECT * FROM  it_user_feedback where enable=1 and feedback_date between '"+startDate+"' and '"+endDate+"'";
+String rate5 = "SELECT * FROM  it_user_feedback where enable=1 and feedback_date between '"+startDate+"' and '"+endDate+"'";
+ps_reqDetails = conn.prepareStatement(sqlPagination);
+rs_uname = ps_reqDetails.executeQuery(); 
+%>
+
+<table border="0">
+<tr>
+<td>
+<script type="text/javascript"> 
+	google.load('visualization','1.0',{'packages': ['corechart']}); 
+	google.setOnLoadCallback(drawChart); 
+	function drawChart(){ 
+	var data = new google.visualization.DataTable();
+<%   
+String d1="1. Network";
+String d2="2. Device Satisfaction";
+String d3="3. In-House Softwares";
+String d4="4. ERP";
+String d5="5. Overall Satisfied";
+double v1=5;
+double v2=2;
+double v3=5;
+double v4=8;
+double v5=10; 
+%>
+		data.addColumn('string','Topping');
+		data.addColumn('number','Slices');
+		data.addRows([['<%=d1%>',<%=v1%>],['<%=d2%>',<%=v2%>],['<%=d3%>',<%=v3%>],['<%=d4%>',<%=v4%>],['<%=d5%>',<%=v5%>]]);
+		var options = {'title':'User Satisfaction Survey Summary','width':500,'height':200}; 
+		var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+		chart.draw(data,options); 
+	}
+</script>
+<div id="chart_div"></div>
+
+</td>
+</tr>
+<tr>
+<td>
+<script type="text/javascript"> 
+	google.load('visualization','1.0',{'packages': ['corechart']}); 
+	google.setOnLoadCallback(drawChart); 
+	function drawChart(){ 
+	var data = new google.visualization.DataTable();
+<%   
+d1="1. Network";
+d2="2. Device Satisfaction";
+d3="3. In-House Softwares";
+d4="4. ERP";
+d5="5. Overall Satisfied";
+v1=5;
+v2=2;
+v3=5;
+v4=8;
+v5=10; 
+%>
+		data.addColumn('string','Topping');
+		data.addColumn('number','Slices');
+		data.addRows([['<%=d1%>',<%=v1%>],['<%=d2%>',<%=v2%>],['<%=d3%>',<%=v3%>],['<%=d4%>',<%=v4%>],['<%=d5%>',<%=v5%>]]);
+		var options = {'title':'User Satisfaction Survey Summary','width':500,'height':200}; 
+		var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+		chart.draw(data,options); 
+	}
+</script>
+<div id="chart_div1"></div>
+
+
+</td>
+</tr>
+</table>
+
+
+<!--_______________________________________________________________________________________________________-->
+
+
+
+
+
+
+ 
+		</div>
 		<div id="footer">
 			<p class="style2">
 				<a href="IT_index.jsp">Home</a> <a href="IT_New_Requisition.jsp">New
@@ -235,6 +295,5 @@ div.scroll {
 	}catch(Exception e){
 		e.printStackTrace();
 	}
-%>
+	%>
 </body>
-</html>

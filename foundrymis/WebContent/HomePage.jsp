@@ -1967,7 +1967,7 @@ while(rs.next()){
 		</table>
 	</form>
 			</div> 
-			<div style="float: right; width: 50%">
+			<%-- <div style="float: right; width: 50%">
 			<form action="New_ItemGenerate.jsp" method="post" onSubmit="return validateNewERPItem();">
 			<br/>
 			<table class="tftable">
@@ -2001,7 +2001,7 @@ while(rs.next()){
 			</tr>	 
 		</table>
 	</form> 
-			</div> 
+			</div>  --%>
 			<br/><br/><br/><br/><br/><br/><br/><br/>
 			</div>
 		<%

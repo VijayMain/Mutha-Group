@@ -124,7 +124,7 @@ System.out.println(sdfFIrstDate.format(lastDateOfPreviousMonth));
 
 
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="js/loader.js"></script>
 
  <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
@@ -201,7 +201,7 @@ System.out.println("list date = " + calarray.get(3) +","+ calarray.get(2) +","+ 
 
 
 
-<%
+<%--
 Calendar c = Calendar.getInstance(); 
 c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY)+1); 
 System.out.println(c.get(Calendar.HOUR_OF_DAY)); 
@@ -212,17 +212,17 @@ java.sql.Date dateIndate = new java.sql.Date(Calendar.getInstance().getTime().ge
 System.out.println("date sql = " + dateIndate);
 
 
-%>
+--%>
 
 
 
 
-<%
+<%--
 String str="91'95'95354336";
 
 String result = str.replaceAll("\\'","");
 System.out.println("name list  = " + result);
-%>
+--%>
 
 
 

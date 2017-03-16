@@ -5,7 +5,7 @@
 <%@page import="java.sql.PreparedStatement"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>IT Tracker Home</title>
+<title>Feedback</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="stylesheet" type="text/css" href="styles.css" />
 <script type="text/javascript">
@@ -98,8 +98,7 @@ try {
 <body>
 <div id="container">
   <div id="top">
-    <h3>User Satisfaction Survey <br/>
-    Mutha Group IT</h3>  <img src="images/alert.gif" />
+    <h3>User Satisfaction Survey <br/> Mutha Group IT</h3>  <img src="images/alert.gif" />
   </div>
   <div id="menu">
    <ul>

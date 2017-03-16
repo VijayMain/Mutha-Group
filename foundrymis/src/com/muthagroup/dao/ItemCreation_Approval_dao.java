@@ -48,7 +48,7 @@ public void add_newERPitems(int uid, HttpServletResponse response, ItemCreation_
 				response.sendRedirect("ERPNew_Item.jsp?repMsg='Supplier is Already Available !!!'");
 			}
 
-			ps = conERP.prepareStatement("select * from MSTACCTGLSUB where SUBGL_LONGNAME='" + vo.getSupplier() + "'");
+			ps = conERP.prepareStatement("select * from MSTACCTGLSUB where SUBGL_LONGNAME='" + vo.getSupplier() + "'  and  SUB_GLCODE=12");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				flag_check = true;
