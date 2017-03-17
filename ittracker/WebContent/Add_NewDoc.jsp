@@ -45,14 +45,16 @@
 					<td align="left"><b>Subject / File Name</b></td>
 					<td colspan="6" align="left"><input type="text" id="subject" name="subject" size="60" readonly="readonly" style="background-color:#d5f1ff;"/></td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td align="left"><b>Share To Others</b></td>
 					<td colspan="6" align="left"><input type="radio" name="share" value="1" id="share_yes" /> Yes
 					<input type="radio" name="share" value="0" id="share_no" /> No</td>
-				</tr>
+				</tr> -->
 				<tr>
-					<td align="left"><b>Shared User Access</b><br>(If Shared)</td>
-					<td colspan="6" align="left"><input type="checkbox" name="add_fileAccess" value="1" id="add_access"/>  Add More Files</td>
+					<td align="left"><input type="hidden" name="share" value="1" id="share_yes">
+					<b>Shared User Access</b><br>(If Shared)</td>
+					<td colspan="6" align="left">
+					<input type="checkbox" name="add_fileAccess" value="1" id="add_access"/>  Add More Files</td>
 				</tr>
 				<tr>
 					<td align="left"><b>Share To (If Yes)</b><br>Use Ctrl to select Multiple </td>
@@ -142,13 +144,13 @@
 					<td align="left"><b>Subject / File Name</b></td>
 					<td colspan="6" align="left"><input type="text" id="subject" name="subject" size="60" readonly="readonly" style="background-color:#d5f1ff;"/></td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td align="left"><b>Share To Others</b></td>
 					<td colspan="6" align="left"><input type="radio" name="share" value="1" id="share_yes" /> Yes
 					<input type="radio" name="share" value="0" id="share_no" /> No</td>
-				</tr>
+				</tr> -->
 				<tr>
-					<td align="left"><b>Shared User Access</b><br>(If Shared)</td>
+					<td align="left"><input type="hidden" name="share" value="1" id="share_yes"> <b>Shared User Access</b><br>(If Shared)</td>
 					<td colspan="6" align="left"><input type="checkbox" name="add_fileAccess" value="1" id="add_access"/>  Add More Files</td>
 				</tr>
 				<tr>

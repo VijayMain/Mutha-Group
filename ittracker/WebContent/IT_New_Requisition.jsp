@@ -143,6 +143,7 @@ $(function() {
 							<th>Req. No.</th>
 							<th>User Name</th>
 							<th>Company Name</th>
+							<th>Department</th>
 							<th>Related To</th>
 							<th>Type</th>
 							<th>Req. Date</th>
@@ -162,8 +163,7 @@ $(function() {
 					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
 						<td align="center"><%=rs_reqDetails.getInt("U_Req_Id")%></td>
 						<%
-							PreparedStatement ps_name = con
-											.prepareStatement("select U_Name from User_tbl where U_Id="
+							PreparedStatement ps_name = con.prepareStatement("select U_Name from User_tbl where U_Id="
 													+ rs_reqDetails.getInt("U_Id"));
 									ResultSet rs_name = ps_name.executeQuery();
 									while (rs_name.next()) {
@@ -171,8 +171,7 @@ $(function() {
 						<td align="left"><%=rs_name.getString("U_Name")%></td>
 						<%
 							}
-									PreparedStatement ps_comp = con
-											.prepareStatement("select Company_Name from User_tbl_Company where Company_Id="
+						PreparedStatement ps_comp = con.prepareStatement("select Company_Name from User_tbl_Company where Company_Id="
 													+ rs_reqDetails.getInt("Company_Id"));
 									ResultSet rs_comp = ps_comp.executeQuery();
 									while (rs_comp.next()) {
@@ -180,6 +179,15 @@ $(function() {
 						<td align="left"><%=rs_comp.getString("Company_Name")%></td>
 						<%
 							}
+							
+PreparedStatement ps_dept = con.prepareStatement("select Department from user_tbl_dept where dept_id in (SELECT dept_id FROM complaintzilla.user_tbl where u_id="+ rs_reqDetails.getInt("U_Id")+")");
+ResultSet rs_dept = ps_dept.executeQuery();
+			while (rs_dept.next()) {
+			%>
+			<td align="left"><%=rs_dept.getString("Department")%></td>
+			<%
+			}		
+									
 
 									PreparedStatement ps_related = con
 											.prepareStatement("select Related_To from it_related_problem_tbl where Rel_Id="
@@ -234,6 +242,7 @@ $(function() {
 							<th>Req. No.</th>
 							<th>User Name</th>
 							<th>Company Name</th>
+							<th>Department</th>
 							<th>Related To</th>
 							<th>Type</th>
 							<th>Req. Date</th>
@@ -270,6 +279,15 @@ $(function() {
 						<%
 							}
 
+									PreparedStatement ps_dept = con.prepareStatement("select Department from user_tbl_dept where dept_id in (SELECT dept_id FROM complaintzilla.user_tbl where u_id="+ rs_reqDetails.getInt("U_Id")+")");
+									ResultSet rs_dept = ps_dept.executeQuery();
+												while (rs_dept.next()) {
+												%>
+												<td align="left"><%=rs_dept.getString("Department")%></td>
+												<%
+												}			
+									
+									
 									PreparedStatement ps_related = con.prepareStatement("select Related_To from it_related_problem_tbl where Rel_Id="
 													+ rs_reqDetails.getInt("Rel_Id"));
 									ResultSet rs_related = ps_related.executeQuery();
@@ -321,6 +339,7 @@ $(function() {
 							<th>Req. No.</th>
 							<th>User Name</th>
 							<th>Company Name</th>
+							<th>Department</th>
 							<th>Related To</th>
 							<th>Type</th>
 							<th>Req. Date</th>
@@ -357,6 +376,15 @@ $(function() {
 						<%
 							}
 
+									PreparedStatement ps_dept = con.prepareStatement("select Department from user_tbl_dept where dept_id in (SELECT dept_id FROM complaintzilla.user_tbl where u_id="+ rs_reqDetails.getInt("U_Id")+")");
+									ResultSet rs_dept = ps_dept.executeQuery();
+												while (rs_dept.next()) {
+												%>
+												<td align="left"><%=rs_dept.getString("Department")%></td>
+												<%
+												}			
+									
+									
 									PreparedStatement ps_related = con.prepareStatement("select Related_To from it_related_problem_tbl where Rel_Id="
 													+ rs_reqDetails.getInt("Rel_Id"));
 									ResultSet rs_related = ps_related.executeQuery();
@@ -408,6 +436,7 @@ $(function() {
 							<th>Req. No.</th>
 							<th>User Name</th>
 							<th>Company Name</th>
+							<th>Department</th>
 							<th>Related To</th>
 							<th>Type</th>
 							<th>Req. Date</th>
@@ -444,6 +473,14 @@ $(function() {
 						<%
 							}
 
+									PreparedStatement ps_dept = con.prepareStatement("select Department from user_tbl_dept where dept_id in (SELECT dept_id FROM complaintzilla.user_tbl where u_id="+ rs_reqDetails.getInt("U_Id")+")");
+									ResultSet rs_dept = ps_dept.executeQuery();
+												while (rs_dept.next()) {
+												%>
+												<td align="left"><%=rs_dept.getString("Department")%></td>
+												<%
+												}			
+									
 									PreparedStatement ps_related = con.prepareStatement("select Related_To from it_related_problem_tbl where Rel_Id="
 													+ rs_reqDetails.getInt("Rel_Id"));
 									ResultSet rs_related = ps_related.executeQuery();
@@ -495,6 +532,7 @@ $(function() {
 							<th>Req. No.</th>
 							<th>User Name</th>
 							<th>Company Name</th>
+							<th>Department</th>
 							<th>Related To</th>
 							<th>Type</th>
 							<th>Req. Date</th>
@@ -531,6 +569,14 @@ $(function() {
 						<%
 							}
 
+									PreparedStatement ps_dept = con.prepareStatement("select Department from user_tbl_dept where dept_id in (SELECT dept_id FROM complaintzilla.user_tbl where u_id="+ rs_reqDetails.getInt("U_Id")+")");
+									ResultSet rs_dept = ps_dept.executeQuery();
+												while (rs_dept.next()) {
+												%>
+												<td align="left"><%=rs_dept.getString("Department")%></td>
+												<%
+												}			
+									
 									PreparedStatement ps_related = con.prepareStatement("select Related_To from it_related_problem_tbl where Rel_Id="
 													+ rs_reqDetails.getInt("Rel_Id"));
 									ResultSet rs_related = ps_related.executeQuery();

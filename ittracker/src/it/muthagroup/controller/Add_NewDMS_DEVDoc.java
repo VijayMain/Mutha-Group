@@ -43,7 +43,10 @@ public class Add_NewDMS_DEVDoc extends HttpServlet {
 								bean.setFolder(request.getParameter("folder"));  
 								bean.setSubject(request.getParameter("subject")); 
 								bean.setShare_others(request.getParameter("share")); 
-								bean.setShared_access(Integer.parseInt(request.getParameter("add_fileAccess")));
+								 
+								if(request.getParameter("add_fileAccess")!=null){ 
+									bean.setShared_access(Integer.valueOf(request.getParameter("add_fileAccess")));	
+								}
 								
 							/*DMSDept_list.add(request.getParameter("department")); 
 								DMSComp_list.add(request.getParameter("company"));  

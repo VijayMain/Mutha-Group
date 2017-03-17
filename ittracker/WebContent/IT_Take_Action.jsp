@@ -110,6 +110,7 @@ try {
   				<th align="center"><b>Requisition No</b></th>
   				<th align="center"><b>User Name</b></th>
   				<th align="center"><b>Company Name</b></th>
+  				<th align="center">Department</th>
   				<th align="center"><b>Related To</b></th>
   				<th align="center"><b>Req Type</b></th>
   				<th align="center"><b>Req Date</b></th>
@@ -144,6 +145,15 @@ try {
 					<td align="center"><%=rs_comp.getString("Company_Name") %></td>
 					<%
 						}
+						
+						PreparedStatement ps_dept = con.prepareStatement("select Department from user_tbl_dept where dept_id in (SELECT dept_id FROM complaintzilla.user_tbl where u_id="+ rs_reqDetails.getInt("U_Id")+")");
+						ResultSet rs_dept = ps_dept.executeQuery();
+									while (rs_dept.next()) {
+									%>
+									<td align="center"><%=rs_dept.getString("Department")%></td>
+									<%
+									}	
+						
 						PreparedStatement ps_rel=con.prepareStatement("select Related_To from it_related_problem_tbl where Rel_Id="+rs_reqDetails.getString("Rel_Id"));
 						ResultSet rs_rel=ps_rel.executeQuery();
 						while(rs_rel.next())
@@ -165,15 +175,15 @@ try {
 					<td align="center"><%=rs_reqDetails.getString("Req_Date") %></td>
 					<td align="center"><%=rs_reqDetails.getString("Status")%></td>
 					</tr>
-					<tr><td colspan="7" align="center"><b>Requisition Details</b></td></tr>
-					<tr><td colspan="7" align="center"><%=rs_reqDetails.getString("Req_Details") %></td></tr>	
+					<tr><td colspan="8" align="center"><b>Requisition Details</b></td></tr>
+					<tr><td colspan="8" align="center"><%=rs_reqDetails.getString("Req_Details") %></td></tr>	
 					<%
 						
 						}
 					%> 
   				<tr>
 						<th align="center"><b>Action Date</b></th>
-						<th colspan="4" align="center"><b>Remark</b></th>
+						<th colspan="5" align="center"><b>Remark</b></th>
 						<th colspan="1" align="center"><b>Status</b></th>
 						<th align="center"><b>Done By</b></th>
 					</tr>
@@ -186,7 +196,7 @@ try {
 					%>
 					<tr>
 						<td align="center"><%=rs_reqRemark.getTimestamp("Remark_Date") %></td>
-						<td colspan="4" align="center"><%=rs_reqRemark.getString("Action_Details") %></td>
+						<td colspan="5" align="center"><%=rs_reqRemark.getString("Action_Details") %></td>
 						<td colspan="1" align="center"><%=rs_reqRemark.getString("Status") %></td>
 						<%
 						PreparedStatement ps_doneBy=con.prepareStatement("select U_Name from user_tbl where U_Id="+rs_reqRemark.getInt("U_Id"));

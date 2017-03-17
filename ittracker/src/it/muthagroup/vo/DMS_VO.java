@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 public class DMS_VO {
 
-	private int srno, dmscode, shared_access, code, tran_dmscode, tranrelCode;
+	private int srno, dmscode, shared_access=0, code, tran_dmscode, tranrelCode;
 	private String folder, subject, file, share_others, blob_name, note,
 			date_dms, carriedout, videbill, forrs, purorder;
 	private InputStream blob_file = null;

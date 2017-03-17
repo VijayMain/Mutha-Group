@@ -2,27 +2,37 @@ package it.muthagroup.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement; 
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date; 
+
 import it.muthagroup.connectionUtility.Connection_Utility;
 import it.muthagroup.vo.Feedback_vo;  
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class Feedback_dao {
 	public void send_Feedback(Feedback_vo vo, HttpSession session, HttpServletResponse response) {
 try{
-	int uid = 0; 
-	uid = Integer.parseInt(session.getAttribute("uid").toString());
+	int uid = Integer.parseInt(session.getAttribute("uid").toString());
+	Connection con = Connection_Utility.getConnection();
+	int dept=0,comp=0;
+	
+	PreparedStatement ps = con.prepareStatement("select * from user_tbl where u_id="+uid);
+	ResultSet rs = ps.executeQuery();
+	while (rs.next()) {
+		comp = rs.getInt("Company_Id");
+		dept=rs.getInt("Dept_Id");
+	}
 	
 	  SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyy-MM-dd");  
-	  Date tdate = new Date(); 
-	  java.sql.Date nowDate = new java.sql.Date(tdate.getTime()); 
+	  Date tdate = new Date();
+	  java.sql.Date nowDate = new java.sql.Date(tdate.getTime());
 	  
-	Date date = new Date();
-	Connection con = Connection_Utility.getConnection();
- 
-		PreparedStatement ps_feedback = con.prepareStatement("insert into it_user_feedback(internet_speed,pc_laptop,inhouse,erp,it_satisfaction,comments,feedback_date,created_by,user,enable)values(?,?,?,?,?,?,?,?,?,?)");
+	  Date date = new Date();
+	
+		PreparedStatement ps_feedback = con.prepareStatement("insert into it_user_feedback(internet_speed,pc_laptop,inhouse,erp,it_satisfaction,comments,feedback_date,created_by,user,enable,company_id,dept_id)values(?,?,?,?,?,?,?,?,?,?,?,?)");
 		ps_feedback.setInt(1, vo.getInternetandnetwork());
 		ps_feedback.setInt(2, vo.getPclaptop());
 		ps_feedback.setInt(3, vo.getInhouse());
@@ -33,6 +43,8 @@ try{
 		ps_feedback.setInt(8, uid);
 		ps_feedback.setString(9, vo.getUerrname());
 		ps_feedback.setInt(10, 1);
+		ps_feedback.setInt(11, comp);
+		ps_feedback.setInt(12, dept);
 		
 		int up = ps_feedback.executeUpdate();
  

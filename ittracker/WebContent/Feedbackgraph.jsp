@@ -125,6 +125,19 @@ div.scroll {
 		}
 		 String startDate = request.getParameter("fromUserwiseDate");
 		 String endDate = request.getParameter("toUserwiseDate");
+		 String company = request.getParameter("company");
+		 String department = request.getParameter("department"); 
+		 
+		 if(company.equalsIgnoreCase(String.valueOf("6"))){ 
+			 company = "";
+		 }else{
+			  company = " and company_id="+company;
+		 }
+		 if(department.equalsIgnoreCase("all")){ 
+			 department="";
+		 }else{
+			 department = " and dept_id=" + department;
+		 }
 %>
 </head>
 <body>
@@ -151,27 +164,28 @@ div.scroll {
 			</ul>
 		</div>
 		
-		<div style="height: 500px;width:60%;float:left; overflow: scroll;"> 
+		<div style="height: 500px;width:49.5%;float:left; overflow: scroll;"> 
 			<a href="IT_Feedback.jsp"><strong><<=== BACK</strong></a> 
 			 	<%
 					Connection conn = null;
 						conn = Connection_Utility.getConnection(); 
 						PreparedStatement ps_reqDetails = null;
 						PreparedStatement psRowCnt = null; 
-						String sqlPagination = "SELECT * FROM  it_user_feedback where enable=1 and feedback_date between '"+startDate+"' and '"+endDate+"'"; 
+						
+						String sqlPagination = "SELECT * FROM  it_user_feedback where enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department; 
 						ps_reqDetails = conn.prepareStatement(sqlPagination);
 						rs_uname = ps_reqDetails.executeQuery(); 
 				%> 
 					<table border="0" class="tftable"> 
-							<tr>
-								<th height='20'>Network</th>
-								<th>Device Satisfaction</th>
-								<th>In-House Softwares</th>
-								<th>ERP</th>
-								<th>Overall Satisfied</th>
-								<th>Comments</th>  
-								<th>Date (yyyy-mm-dd)</th>
-								<th>User</th>  
+							<tr style="font-weight: bold;background-color: #305fc0;color: white;font-size: 10px;text-align: center;">
+								<td height='20'>Network</td>
+								<td>Device Satisfaction</td>
+								<td>In-House Softwares</td>
+								<td>ERP</td>
+								<td>Overall Satisfied</td>
+								<td>Comments</td>  
+								<td>Date (yyyy-mm-dd)</td>
+								<td>User</td>  
 							</tr>
 							<% 
 								while (rs_uname.next()) { 
@@ -190,44 +204,71 @@ div.scroll {
 								} 
 							%> 
 					</table> 
- 					  
 		</div>
-		
-<div style="height: 500px;width:39.5%;float:right; overflow: scroll;"> 
-<%
-String rate1 = "SELECT max() FROM  it_user_feedback where enable=1 and feedback_date between '"+startDate+"' and '"+endDate+"'";
-String rate2 = "SELECT * FROM  it_user_feedback where enable=1 and feedback_date between '"+startDate+"' and '"+endDate+"'";
-String rate3 = "SELECT * FROM  it_user_feedback where enable=1 and feedback_date between '"+startDate+"' and '"+endDate+"'";
-String rate4 = "SELECT * FROM  it_user_feedback where enable=1 and feedback_date between '"+startDate+"' and '"+endDate+"'";
-String rate5 = "SELECT * FROM  it_user_feedback where enable=1 and feedback_date between '"+startDate+"' and '"+endDate+"'";
-ps_reqDetails = conn.prepareStatement(sqlPagination);
-rs_uname = ps_reqDetails.executeQuery(); 
-%>
 
+<div style="height: 500px;width:50%;float:right; overflow: scroll;">
 <table border="0">
 <tr>
 <td>
+<%
+String rate1 = "SELECT count(*) as count FROM  it_user_feedback where internet_speed=1 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+String rate2 = "SELECT count(*) as count FROM  it_user_feedback where internet_speed=2 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+String rate3 = "SELECT count(*) as count FROM  it_user_feedback where internet_speed=3 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+String rate4 = "SELECT count(*) as count FROM  it_user_feedback where internet_speed=4 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+String rate5 = "SELECT count(*) as count FROM  it_user_feedback where internet_speed=5 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+
+ps_reqDetails = conn.prepareStatement(rate1);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate1=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate2);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate2=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate3);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate3=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate4);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate4=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate5);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate5=String.valueOf(rs_uname.getInt("count"));
+}
+%>
+
 <script type="text/javascript"> 
 	google.load('visualization','1.0',{'packages': ['corechart']}); 
 	google.setOnLoadCallback(drawChart); 
 	function drawChart(){ 
 	var data = new google.visualization.DataTable();
 <%   
-String d1="1. Network";
-String d2="2. Device Satisfaction";
-String d3="3. In-House Softwares";
-String d4="4. ERP";
-String d5="5. Overall Satisfied";
-double v1=5;
-double v2=2;
-double v3=5;
-double v4=8;
-double v5=10; 
+String d1="Rating 1";
+String d2="Rating 2";
+String d3="Rating 3";
+String d4="Rating 4";
+String d5="Rating 5";
+double v1=Double.valueOf(rate1);
+double v2=Double.valueOf(rate2);
+double v3=Double.valueOf(rate3);
+double v4=Double.valueOf(rate4);
+double v5=Double.valueOf(rate5); 
 %>
 		data.addColumn('string','Topping');
 		data.addColumn('number','Slices');
 		data.addRows([['<%=d1%>',<%=v1%>],['<%=d2%>',<%=v2%>],['<%=d3%>',<%=v3%>],['<%=d4%>',<%=v4%>],['<%=d5%>',<%=v5%>]]);
-		var options = {'title':'User Satisfaction Survey Summary','width':500,'height':200}; 
+		var options = {'title':'Internet and network speed','width':360,'height':200}; 
 		var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
 		chart.draw(data,options); 
 	}
@@ -235,36 +276,294 @@ double v5=10;
 <div id="chart_div"></div>
 
 </td>
-</tr>
-<tr>
+
 <td>
+
+<%
+rate1="";rate2="";rate3="";rate4="";rate5="";
+rate1 = "SELECT count(*) as count FROM  it_user_feedback where pc_laptop=1 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate2 = "SELECT count(*) as count FROM  it_user_feedback where pc_laptop=2 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate3 = "SELECT count(*) as count FROM  it_user_feedback where pc_laptop=3 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate4 = "SELECT count(*) as count FROM  it_user_feedback where pc_laptop=4 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate5 = "SELECT count(*) as count FROM  it_user_feedback where pc_laptop=5 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+
+ps_reqDetails = conn.prepareStatement(rate1);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate1=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate2);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate2=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate3);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate3=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate4);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate4=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate5);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate5=String.valueOf(rs_uname.getInt("count"));
+}
+%>
+ 
 <script type="text/javascript"> 
 	google.load('visualization','1.0',{'packages': ['corechart']}); 
 	google.setOnLoadCallback(drawChart); 
 	function drawChart(){ 
 	var data = new google.visualization.DataTable();
-<%   
-d1="1. Network";
-d2="2. Device Satisfaction";
-d3="3. In-House Softwares";
-d4="4. ERP";
-d5="5. Overall Satisfied";
-v1=5;
-v2=2;
-v3=5;
-v4=8;
-v5=10; 
+<%
+d1="";d2="";d3="";d4="";d5="";
+v1=0;v2=0;v3=0;v4=0;v5=0;
+d1="Rating 1";
+d2="Rating 2";
+d3="Rating 3";
+d4="Rating 4";
+d5="Rating 5";
+
+v1=Double.valueOf(rate1);
+v2=Double.valueOf(rate2);
+v3=Double.valueOf(rate3);
+v4=Double.valueOf(rate4);
+v5=Double.valueOf(rate5); 
 %>
 		data.addColumn('string','Topping');
 		data.addColumn('number','Slices');
 		data.addRows([['<%=d1%>',<%=v1%>],['<%=d2%>',<%=v2%>],['<%=d3%>',<%=v3%>],['<%=d4%>',<%=v4%>],['<%=d5%>',<%=v5%>]]);
-		var options = {'title':'User Satisfaction Survey Summary','width':500,'height':200}; 
+		var options = {'title':'(PC,Laptop,Printer)Device Satisfaction','width':360,'height':200}; 
 		var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
 		chart.draw(data,options); 
 	}
 </script>
-<div id="chart_div1"></div>
+<div id="chart_div1"></div> 
+</td> 
+</tr>
+ 
+<tr>
+<td>
 
+<%
+rate1="";rate2="";rate3="";rate4="";rate5="";
+rate1 = "SELECT count(*) as count FROM  it_user_feedback where inhouse=1 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate2 = "SELECT count(*) as count FROM  it_user_feedback where inhouse=2 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate3 = "SELECT count(*) as count FROM  it_user_feedback where inhouse=3 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate4 = "SELECT count(*) as count FROM  it_user_feedback where inhouse=4 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate5 = "SELECT count(*) as count FROM  it_user_feedback where inhouse=5 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+
+ps_reqDetails = conn.prepareStatement(rate1);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate1=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate2);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate2=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate3);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate3=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate4);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate4=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate5);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate5=String.valueOf(rs_uname.getInt("count"));
+}
+%>
+ 
+<script type="text/javascript"> 
+	google.load('visualization','1.0',{'packages': ['corechart']}); 
+	google.setOnLoadCallback(drawChart); 
+	function drawChart(){ 
+	var data = new google.visualization.DataTable();
+<%
+d1="";d2="";d3="";d4="";d5="";
+v1=0;v2=0;v3=0;v4=0;v5=0;
+d1="Rating 1";
+d2="Rating 2";
+d3="Rating 3";
+d4="Rating 4";
+d5="Rating 5";
+
+v1=Double.valueOf(rate1);
+v2=Double.valueOf(rate2);
+v3=Double.valueOf(rate3);
+v4=Double.valueOf(rate4);
+v5=Double.valueOf(rate5); 
+%>
+		data.addColumn('string','Topping');
+		data.addColumn('number','Slices');
+		data.addRows([['<%=d1%>',<%=v1%>],['<%=d2%>',<%=v2%>],['<%=d3%>',<%=v3%>],['<%=d4%>',<%=v4%>],['<%=d5%>',<%=v5%>]]);
+		var options = {'title':'In-House Softwares','width':360,'height':200}; 
+		var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
+		chart.draw(data,options); 
+	}
+</script>
+<div id="chart_div2"></div> 
+</td>
+<td>
+  <%
+rate1="";rate2="";rate3="";rate4="";rate5="";
+rate1 = "SELECT count(*) as count FROM  it_user_feedback where erp=1 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate2 = "SELECT count(*) as count FROM  it_user_feedback where erp=2 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate3 = "SELECT count(*) as count FROM  it_user_feedback where erp=3 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate4 = "SELECT count(*) as count FROM  it_user_feedback where erp=4 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate5 = "SELECT count(*) as count FROM  it_user_feedback where erp=5 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+
+ps_reqDetails = conn.prepareStatement(rate1);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate1=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate2);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate2=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate3);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate3=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate4);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate4=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate5);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate5=String.valueOf(rs_uname.getInt("count"));
+}
+%>
+ 
+<script type="text/javascript"> 
+	google.load('visualization','1.0',{'packages': ['corechart']}); 
+	google.setOnLoadCallback(drawChart); 
+	function drawChart(){ 
+	var data = new google.visualization.DataTable();
+<%
+d1="";d2="";d3="";d4="";d5="";
+v1=0;v2=0;v3=0;v4=0;v5=0;
+d1="Rating 1";
+d2="Rating 2";
+d3="Rating 3";
+d4="Rating 4";
+d5="Rating 5";
+
+v1=Double.valueOf(rate1);
+v2=Double.valueOf(rate2);
+v3=Double.valueOf(rate3);
+v4=Double.valueOf(rate4);
+v5=Double.valueOf(rate5); 
+%>
+		data.addColumn('string','Topping');
+		data.addColumn('number','Slices');
+		data.addRows([['<%=d1%>',<%=v1%>],['<%=d2%>',<%=v2%>],['<%=d3%>',<%=v3%>],['<%=d4%>',<%=v4%>],['<%=d5%>',<%=v5%>]]);
+		var options = {'title':'In-House Softwares','width':360,'height':200}; 
+		var chart = new google.visualization.PieChart(document.getElementById('chart_div3'));
+		chart.draw(data,options); 
+	}
+</script>
+<div id="chart_div3"></div> 
+</td>
+</tr>
+<tr>
+<td colspan="2">
+ 
+<%
+rate1="";rate2="";rate3="";rate4="";rate5="";
+rate1 = "SELECT count(*) as count FROM  it_user_feedback where it_satisfaction=1 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate2 = "SELECT count(*) as count FROM  it_user_feedback where it_satisfaction=2 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate3 = "SELECT count(*) as count FROM  it_user_feedback where it_satisfaction=3 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate4 = "SELECT count(*) as count FROM  it_user_feedback where it_satisfaction=4 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+rate5 = "SELECT count(*) as count FROM  it_user_feedback where it_satisfaction=5 and enable=1 and feedback_date between '" + startDate + "' and '" + endDate+"'" + company + department;
+
+ps_reqDetails = conn.prepareStatement(rate1);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate1=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate2);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate2=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate3);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate3=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate4);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate4=String.valueOf(rs_uname.getInt("count"));
+}
+
+ps_reqDetails = conn.prepareStatement(rate5);
+rs_uname = ps_reqDetails.executeQuery(); 
+while(rs_uname.next()){
+	rate5=String.valueOf(rs_uname.getInt("count"));
+}
+%>
+ 
+<script type="text/javascript"> 
+	google.load('visualization','1.0',{'packages': ['corechart']}); 
+	google.setOnLoadCallback(drawChart); 
+	function drawChart(){ 
+	var data = new google.visualization.DataTable();
+<%
+d1="";d2="";d3="";d4="";d5="";
+v1=0;v2=0;v3=0;v4=0;v5=0;
+d1="Rating 1";
+d2="Rating 2";
+d3="Rating 3";
+d4="Rating 4";
+d5="Rating 5";
+
+v1=Double.valueOf(rate1);
+v2=Double.valueOf(rate2);
+v3=Double.valueOf(rate3);
+v4=Double.valueOf(rate4);
+v5=Double.valueOf(rate5); 
+%>
+		data.addColumn('string','Topping');
+		data.addColumn('number','Slices');
+		data.addRows([['<%=d1%>',<%=v1%>],['<%=d2%>',<%=v2%>],['<%=d3%>',<%=v3%>],['<%=d4%>',<%=v4%>],['<%=d5%>',<%=v5%>]]);
+		var options = {'title':'Overall Satisfied with IT','width':360,'height':200}; 
+		var chart = new google.visualization.PieChart(document.getElementById('chart_div4'));
+		chart.draw(data,options); 
+	}
+</script>
+<div id="chart_div4"></div>
 
 </td>
 </tr>
