@@ -29,7 +29,7 @@
 				if(deptId!=7){
 		%>
 		<form action="Add_NewDMSDoc" method="post" enctype="multipart/form-data" onSubmit="return validateForm();">
-			<table style="width: 100%;" class="tftable">
+			<table style="width: 80%;" class="tftable">
 				<tr>
 					<th colspan="7" align="center"><strong>Add New Document</strong></th>
 				</tr>
@@ -128,7 +128,7 @@
 				}else{
 	%>
 	<form action="Add_NewDMS_DEVDoc" method="post"  onSubmit="return validateForm();">
-			<table style="width: 100%;" class="tftable">
+			<table style="width: 80%;" class="tftable">
 				<tr>
 					<th colspan="7" align="center"><strong>Add New Document</strong></th>
 				</tr>
