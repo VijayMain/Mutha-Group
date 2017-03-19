@@ -403,11 +403,11 @@ alert("<%=request.getParameter("msg") %>");
 <%
 	}
 %>
-	<div id="container">
-		<div id="top">
+<div id="container">
+	<div id="top" style="width: 120%">
 			<h3>Document Management System (DMS)</h3>
-		</div>
-		<div id="menu">
+	</div>
+	<div id="menu" style="width: 120%">
 			<%
 			if(d_Id!=18){
 			%>
@@ -444,8 +444,8 @@ alert("<%=request.getParameter("msg") %>");
 			}
 			%>
 </div>
-<div style="height: 530px;width:99%; overflow: scroll;">
-<div style="float:left;width:20.8%;text-align: left; height: 470px;background-color: #006999;overflow: scroll;">    	 
+<div style="height: 530px;width:120%; overflow: scroll;">
+<div style="float:left;width:15%;text-align: left; height: 500px;background-color: #006999;overflow: scroll;">    	 
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">Add New Document</button> 
 <div class="panel">
   <p style="padding-left: 15px;">
@@ -513,10 +513,10 @@ for (i = 0; i < acc.length; i++) {
 }
 </script>
 </div>
-<div style="float:right; width:79%">
+<div style="float:right; width:84.9%">
 	
 	<span id="new_dms">
-	    <img alt="No Image" src="images/dms.jpg" style="width: 100%;height: 470px;">
+	    <img alt="No Image" src="images/dms.jpg" style="width: 100%;height: 500px;">
     </span>
 </div>
 </div>
@@ -525,7 +525,7 @@ for (i = 0; i < acc.length; i++) {
 				e.printStackTrace();
 			}
 		%>
-		<div id="footer">
+		<div id="footer" style="width: 120%">
 			<p class="style2">
 				<a href="index.jsp">Home</a><a href="New_Requisition.jsp">New Requisition</a> <a href="Requisition_Status.jsp">Requisition Status</a>
 				<a href="All_Requisitions.jsp">All Requisitions</a> <a href="Reports_User.jsp">Reports</a> <a href="Logout.jsp">Logout</a>

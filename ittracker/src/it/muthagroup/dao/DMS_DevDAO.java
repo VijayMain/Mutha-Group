@@ -33,10 +33,9 @@ public class DMS_DevDAO {
 		        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		        String strDate = sdf.format(cal.getTime());
 				
-				
 				Connection con = Connection_Utility.getConnection();
 				int uid = Integer.parseInt(session.getAttribute("uid").toString());
-				PreparedStatement ps = con.prepareStatement("insert into tarn_dms(TRAN_NO,FILE,FILE_NAME,USER,TRAN_DATE,STATUS,NOTE,SYS_DATE)values(?,?,?,?,?,?,?,?)");
+				PreparedStatement ps = con.prepareStatement("insert into tarn_dms(TRAN_NO,FILE,FILE_NAME,USER,TRAN_DATE,STATUS,NOTE,SYS_DATE,subject_title)values(?,?,?,?,?,?,?,?,?)");
 				ps.setInt(1, bean.getCode());
 				ps.setBlob(2, bean.getBlob_file());
 				ps.setString(3, bean.getBlob_name());
@@ -45,6 +44,7 @@ public class DMS_DevDAO {
 				ps.setInt(6, 1);
 				ps.setString(7, bean.getNote());
 				ps.setTimestamp(8, sqlDate);
+				ps.setString(9, bean.getSubject_title());
 				
 				int up = ps.executeUpdate();
 				if(up>0){
@@ -52,7 +52,7 @@ public class DMS_DevDAO {
 					int trncode=0;
 					PreparedStatement ps_uname = con.prepareStatement("select * from User_tbl where U_Id="+ uid);
 					ResultSet rs_uname = ps_uname.executeQuery();
-					while (rs_uname.next()) { 
+					while (rs_uname.next()) {
 						reg_uname = rs_uname.getString("U_Name");
 					}
 					
@@ -115,12 +115,14 @@ public class DMS_DevDAO {
 						Session mailSession = Session.getDefaultInstance(props, null);
 						mailSession.setDebug(sessionDebug);
 						Message msg = new MimeMessage(mailSession);
-						msg.setFrom(new InternetAddress(from)); 
-						StringBuilder sb = new StringBuilder(); 
+						msg.setFrom(new InternetAddress(from));
+						StringBuilder sb = new StringBuilder();
 						sb.append("<b style='color: #0D265E;font-size: 9px;'>This is an automatically generated email from IT Tracker - Document Approval system</p>");
 						sb.append("<p style='font-size: 12px;'>Please Note : Below attached document is pending for approval, Please Approve using IT Tracker-DMS</p>"+
 								"<table border='1' width='97%' style='font-family: Arial;'><tr style='font-size: 12px;background-color:#94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+ 
 								"<th height='25'>File Name</th>"+
+								"<th>DMS Folder Name</th>"+
+								"<th>Subject/Title</th>"+
 								"<th>Carried Out By</th>"+
 								"<th>Vide Bill No</th>"+
 								"<th>Dated</th>"+
@@ -133,6 +135,8 @@ public class DMS_DevDAO {
 						
 							sb.append("<tr>"+
 								"<td>"+bean.getBlob_name()+"</td>"+
+								"<td>"+bean.getFolder()+"</td>"+
+								"<td>"+bean.getSubject_title()+"</td>"+
 								"<td>"+bean.getCarriedout()+"</td>"+
 								"<td align='right'>"+bean.getVidebill()+"</td>"+
 								"<td>"+bean.getDate_dms()+"</td>"+

@@ -56,22 +56,21 @@
    %>
    <div style="float: left;width: 75%;height: 550px;overflow: scroll;">
 			<table style="width: 100%;" class="tftable">
-				<tr>
+				<%-- <tr>
 					<th colspan="6" align="center"><%=folder %></th>
-				</tr>
-				<tr style="background-color: #acc8cc;"> 
-					<td align="center"><strong>Subject / File Name</strong></td>
+				</tr> --%>
+				<tr style="background-color:#3d6f74;color: white;"> 
+					<td align="center" height="25"><strong>Folder Name</strong></td>
 					<td align="center"><strong>Shared Rights</strong></td>
 			        <td width="12%" align="center"><strong>Companies</strong></td>
 				    <td width="15%" align="center"><strong>Departments</strong></td>
 				    <!-- <td align="center"><strong>Document</strong></td>
-				    <td align="center"><strong>Note</strong></td> --> 
-				    <td align="center" width="12%"><strong>Add More</strong></td>
+				    <td align="center"><strong>Note</strong></td> -->
+				    <td align="center" width="12%"><strong>Add More Files</strong></td>
 				</tr>
 				<%
 				int sn=1,flagchk=0;
-				String rights="",folderName="";
-				
+				String rights="",folderName="",subjectName="";
 				PreparedStatement ps  = con.prepareStatement("select * from mst_dmsfolder where CODE=" + code);
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()){
@@ -79,20 +78,20 @@
 					if(rs.getInt("SHARED_ACCESS")==1){
 					rights = "Full";
 					}else{
-					rights = "Read Only";	
+					rights = "Read Only";
 					}
 					if(rs.getInt("SHARE_FLAG")==0){
 						rights = "Sharing Off";
 					}
-					
+					subjectName = rs.getString("SUBJECT");
 				%>
 				<tr> 
-				  <td align="left"><%=rs.getString("SUBJECT") %></td>
-				  <td align="left"><%=rights %></td> 
+				  <td align="center"><%-- <%=rs.getString("SUBJECT") %> --%><strong><%=folder %></strong></td>
+				  <td align="center"><%=rights %></td> 
 				 <!--
 					---------------------------------------------- Company ---------------------------------------------   
 				 -->  
-				  <td align="left">
+				  <td align="center">
 				  <%
 				  ps_chk = con.prepareStatement("select * from mst_comp where DMS_CODE="+code);
 				  rs_chk = ps_chk.executeQuery();
@@ -120,7 +119,7 @@
 				  <!--
 					---------------------------------------------- Department ---------------------------------------------   
 				  -->  
-				  <td align="left">
+				  <td align="center">
 				  <%
 				  ps_chk = con.prepareStatement("select * from mst_comp where DMS_CODE="+code);
 				  rs_chk = ps_chk.executeQuery();
@@ -145,11 +144,11 @@
  				  flagchk = 0;
 				  %>
 				  </td>
-				  <td align="center" style="width: 2%;background-color: #dcfce8;">
+				  <td align="center" style="width: 2%;">
 				  <%
 				  if((rs.getInt("SHARE_FLAG")==1 && rs.getInt("SHARED_ACCESS")==1) || rs.getInt("USER")==uid){
 				  %>
-				  	<img src="images/Add.png" style="height: 18px;cursor: pointer;width: 25px;" title="Add More Files" onClick="AddNewDocs('<%=rs.getInt("CODE") %>','<%=rs.getString("FOLDER") %>')">
+				  <img src="images/Add.png" style="height: 20px;cursor: pointer;width: 28px;" title="Add More Files" onClick="AddNewDocs('<%=rs.getInt("CODE") %>','<%=rs.getString("FOLDER") %>')">
 				  <%
 				  }else{
 				  %>
@@ -169,7 +168,8 @@
 			</table> 
 			<form action="Send_DMSApproval" method="post">
             <table style="width: 100%;" class="tftable">
-				<tr style="background-color: #acc8cc;height: 25px;"> 
+				<tr style="background-color:#3d6f74;color: white;height: 23px;">
+					<td align="center"><strong>Title</strong></td> 
 					<td align="center"><strong>Document</strong></td>
 				    <td align="center"><strong>Note</strong></td>
 				  <%
@@ -187,14 +187,26 @@
 				   %>
 			    </tr>
 				<% 
-				String carried="",billno="",dated="",forrs="",purorder="",creator="",approval="",approved_by="",dec_note="",doc_ref="";
+				String carried="",billno="",dated="",forrs="",purorder="",creator="",approval="",approved_by="",dec_note="",doc_ref="",subject_title=subjectName;
+				
 				int tran_relno=0;
 				  ps_data = con.prepareStatement("SELECT * FROM tarn_dms where tran_no="+code +" order by approved");
 				  rs_data = ps_data.executeQuery();
-				  while(rs_data.next()){ 
+				  while(rs_data.next()){
 				%>
-				<tr> 
-			    	<td align="left"   style="font-size:11px;word-wrap: break-word;max-width:100px;">
+				<tr>
+				<%
+				subject_title = rs_data.getString("subject_title"); 
+				
+				  if(subject_title==null){
+					subject_title=subjectName;
+				  }
+				%>
+				<td><%=subject_title %></td>
+				<%
+				subject_title=subjectName; 
+				%>
+			    <td align="left"   style="font-size:11px;word-wrap: break-word;max-width:100px;">
 				  <%
 					  ps_use = con.prepareStatement("select * from user_tbl where u_id="+rs_data.getInt("user"));
 					  rs_use = ps_use.executeQuery();
@@ -202,15 +214,15 @@
 							 cr_use = rs_use.getString("u_name");
 					  }
 					  cr_note = rs_data.getString("note");
-				  %>
-				  <a href="Display_Doc.jsp?field=<%=rs_data.getInt("CODE")%>" style="color: #3a22c8;"  title="Created By <%=cr_use%>"><b><%=rs_data.getString("File_Name")%></b></a>
-				  </td>
-			    	<td align="left" style="font-size: 11px;"><%=cr_note %></td>
+				%>
+				<a href="Display_Doc.jsp?field=<%=rs_data.getInt("CODE")%>" style="color: #3a22c8;"  title="Created By <%=cr_use%>"><b><%=rs_data.getString("File_Name")%></b></a>
+				</td>
+			    <td align="left" style="font-size: 11px;"><%=cr_note %></td>
 			     <%
 				  if(dept_check.contains(7) && ins_check==7){
 					  ps_use = con.prepareStatement("select code,decline_note,decline_filename,carried_out,bill_no,forrs,pur_order,creator,approval,approval_by,code,DATE_FORMAT(dated, \"%d/%m/%Y \") as dated  from tarn_dms_devrel where tran_code="+rs_data.getInt("CODE"));
 					  rs_use = ps_use.executeQuery();
-						 while(rs_use.next()){
+						while(rs_use.next()){
 							 carried=rs_use.getString("carried_out");
 							 billno=rs_use.getString("bill_no");
 							 dated=rs_use.getString("dated");
@@ -252,7 +264,7 @@
 					   if(approval!=null){
 					%>
 					<%=approval %> by <%=approved_by %>
-					<%	 
+					<%
 					   }else{
 					%>
 					Pending
@@ -265,7 +277,6 @@
 			       %>
 			       - <b><%=dec_note %></b>
 			       <a href="Display_RefDoc.jsp?field=<%=tran_relno%>" style="color: #3a22c8;font-family: Arial;font-size: 12px;" title="Documents Attached !!!"><b><%=doc_ref%></b></a>
-			       
 			       <%
 			       }
 			       %>
@@ -277,7 +288,7 @@
 			    %>
 			    </tr>
 			    <%
-			    sn++; 
+			    sn++;
 				  }
 				%>
             </table>
@@ -285,10 +296,10 @@
 </div>
 			<div style="float: right;width: 25%;height: 500px;overflow: scroll;">
 			<table style="width: 100%;" class="tftable">
-				<tr style="background-color: #c9fada">
+				<tr style="background-color:#3d6f74;color: white;">
 					<td colspan="8" align="center"><b>FILE VIEW HISTORY</b></td>
 				</tr>
-				<tr style="background-color: #acc8cc;height: 22px;">
+				<tr style="background-color:#3d6f74;color: white;">
 					<!-- <td align="center"><strong>Subject / File Name</strong></td> -->
 					<td align="center"><strong>Document</strong></td>
 			        <td align="center"><strong>Checked by</strong></td>

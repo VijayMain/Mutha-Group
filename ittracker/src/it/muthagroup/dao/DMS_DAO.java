@@ -180,7 +180,7 @@ public class DMS_DAO {
 			
 			Connection con = Connection_Utility.getConnection();
 			int uid = Integer.parseInt(session.getAttribute("uid").toString());
-			PreparedStatement ps = con.prepareStatement("insert into tarn_dms(TRAN_NO,FILE,FILE_NAME,USER,TRAN_DATE,STATUS,NOTE,SYS_DATE)values(?,?,?,?,?,?,?,?)");
+			PreparedStatement ps = con.prepareStatement("insert into tarn_dms(TRAN_NO,FILE,FILE_NAME,USER,TRAN_DATE,STATUS,NOTE,SYS_DATE,subject_title)values(?,?,?,?,?,?,?,?,?)");
 			ps.setInt(1, bean.getCode());
 			ps.setBlob(2, bean.getBlob_file());
 			ps.setString(3, bean.getBlob_name());
@@ -189,6 +189,7 @@ public class DMS_DAO {
 			ps.setInt(6, 1);
 			ps.setString(7, bean.getNote());
 			ps.setTimestamp(8, sqlDate);
+			ps.setString(9, bean.getSubject_title());
 			
 			int up = ps.executeUpdate();
 			if(up>0){

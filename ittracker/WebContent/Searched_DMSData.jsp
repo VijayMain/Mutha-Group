@@ -18,6 +18,7 @@ if(code!=""){
  <table style="width: 100%;" class="tftable">
 				<tr style="background-color: #acc8cc;height: 25px;">
 					<td align="center"><strong>Folder</strong></td>
+					<td align="center"><strong>Subject/Title</strong></td>
 					<td align="center"><strong>Document</strong></td>
 				    <td align="center"><strong>Note</strong></td>
 				  </tr>
@@ -31,7 +32,7 @@ if(code!=""){
 	   ResultSet rs = null,rs_dms=null,rs_use=null;
 	   String uname = "",cr_use="";
 	  int d_Id=0,comp_id=0;
-	  String folder = "";
+	  String folder = "",subject_name="";
 	  PreparedStatement ps_uname = con.prepareStatement("select * from User_tbl where U_Id="+ uid);
 		ResultSet rs_uname = ps_uname.executeQuery();
 		while (rs_uname.next()) {
@@ -42,10 +43,11 @@ if(code!=""){
 	   ps = con.prepareStatement("SELECT * FROM complaintzilla.tarn_dms where FILE_NAME like '%"+code+"%' and tran_no in (SELECT code FROM complaintzilla.mst_dmsfolder where user="+uid+")");
 	   rs = ps.executeQuery();
 	   while(rs.next()){
+		   subject_name = rs.getString("subject_title");
 		   ps_dms = con.prepareStatement("select * from mst_dmsfolder where CODE="+rs.getInt("TRAN_NO"));
 		   rs_dms = ps_dms.executeQuery();
 		   while(rs_dms.next()){
-			   folder=rs_dms.getString("FOLDER");
+			   folder=rs_dms.getString("FOLDER"); 
 		   }
 		   ps_use = con.prepareStatement("select * from user_tbl where u_id="+rs.getInt("user"));
 			  rs_use = ps_use.executeQuery();
@@ -55,6 +57,7 @@ if(code!=""){
 	%>
 	<tr>
 	<td><%=folder %></td>
+	<td><%=subject_name %></td>
 	<td align="left"  style="font-size:11px;word-wrap: break-word;max-width:100px;">
 <a href="Display_Doc.jsp?field=<%=rs.getInt("CODE")%>" style="color: #3a22c8;"  title="Created By <%=cr_use%>"><b><%=rs.getString("File_Name")%></b></a>
 	</td>
@@ -63,12 +66,14 @@ if(code!=""){
 	<% 
 	folder="";
 	cr_use="";
+	subject_name = "";
 	   }
 	   ps = con.prepareStatement("SELECT * FROM complaintzilla.tarn_dms where FILE_NAME like '%" +code+ "%' and tran_no in (SELECT code FROM mst_dmsfolder where code in (SELECT dms_code FROM mst_comp where company in("+comp_id+",0)) and "+
 			   " code in(SELECT dms_code FROM mst_dept where dept in("+d_Id+",0)) and code in(SELECT dms_code FROM mst_dmsuser "+ 
 			   " where USER in('"+uname+"','0')) and share_flag=1 and user!="+uid +")");
 	   rs = ps.executeQuery();
 	   while(rs.next()){
+		   subject_name = rs.getString("subject_title");
 		   ps_dms = con.prepareStatement("select * from mst_dmsfolder where CODE="+rs.getInt("TRAN_NO"));
 		   rs_dms = ps_dms.executeQuery();
 		   while(rs_dms.next()){
@@ -82,6 +87,7 @@ if(code!=""){
 	%>
 	<tr>
 	<td><%=folder %></td>
+	<td><%=subject_name %></td>
 	<td align="left"  style="font-size:11px;word-wrap: break-word;max-width:100px;">
 <a href="Display_Doc.jsp?field=<%=rs.getInt("CODE")%>" style="color: #3a22c8;"  title="Created By <%=cr_use%>"><b><%=rs.getString("File_Name")%></b></a>
 	</td>
@@ -90,6 +96,7 @@ if(code!=""){
 	<% 
 	folder="";
 	cr_use="";
+	subject_name="";
 	   }
 	   
 	}catch(Exception e){

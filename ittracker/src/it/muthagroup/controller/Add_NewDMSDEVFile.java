@@ -87,9 +87,12 @@ public class Add_NewDMSDEVFile extends HttpServlet {
 							}	
 							if (fieldName.equalsIgnoreCase("purorder")) {
 								bean.setPurorder(fieldValue);
-							}	
+							}
 							if (fieldName.equalsIgnoreCase("remark")) {
 								bean.setNote(fieldValue);
+							}
+							if (fieldName.equalsIgnoreCase("subject_title")) {
+								bean.setSubject_title(fieldValue);
 							}
 					} else {
 							fileItem = fileItemTemp;

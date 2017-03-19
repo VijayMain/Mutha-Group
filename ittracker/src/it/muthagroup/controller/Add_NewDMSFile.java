@@ -71,7 +71,7 @@ public class Add_NewDMSFile extends HttpServlet {
 							// folder    subject   share  add_access   company    department   note  
 						 	if (fieldName.equalsIgnoreCase("srno")) {
 								bean.setSrno(Integer.parseInt(fieldValue)); 
-							} 
+							}
 							if (fieldName.equalsIgnoreCase("code")) {
 								bean.setCode(Integer.parseInt(fieldValue));
 							}
@@ -81,13 +81,13 @@ public class Add_NewDMSFile extends HttpServlet {
 							if (fieldName.equalsIgnoreCase("note")) {
 								bean.setNote(fieldValue);
 							}
+							if (fieldName.equalsIgnoreCase("subject_title")) {
+								bean.setSubject_title(fieldValue);
+							}
 							// *****************************************************************************
 							// Get Complaint date ===== >
-							// ******************************************************************************
-											
-					}
-
-						else {
+							// ****************************************************************************** 
+						} else {
 							// *************************************************************************************************************
 							// IF FILE inputs === >
 							// *************************************************************************************************************

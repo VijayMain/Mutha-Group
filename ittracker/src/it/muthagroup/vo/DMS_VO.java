@@ -5,11 +5,20 @@ import java.sql.Timestamp;
 
 public class DMS_VO {
 
-	private int srno, dmscode, shared_access=0, code, tran_dmscode, tranrelCode;
+	private int srno, dmscode, shared_access = 0, code, tran_dmscode,
+			tranrelCode;
 	private String folder, subject, file, share_others, blob_name, note,
-			date_dms, carriedout, videbill, forrs, purorder;
+			date_dms, carriedout, videbill, forrs, purorder, subject_title;
 	private InputStream blob_file = null;
 	private Timestamp demo4 = null;
+
+	public String getSubject_title() {
+		return subject_title;
+	}
+
+	public void setSubject_title(String subject_title) {
+		this.subject_title = subject_title;
+	}
 
 	public int getTranrelCode() {
 		return tranrelCode;

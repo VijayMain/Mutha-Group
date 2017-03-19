@@ -121,11 +121,12 @@ try {
     font-size: 14px;
     margin: 4px 2px;
     cursor: pointer; " title="1 = Poor , . , . , . , 5 = Excellent"><strong>1. How do you rate IT Supports for internet and network speed...?</strong><br /> 
-    	 <input type="radio" name="internetandnetwork" id="internetandnetwork1" value="1"/>1
+    	<strong style="color: #ea0000;">Poor</strong> <input type="radio" name="internetandnetwork" id="internetandnetwork1" value="1"/>1
         &nbsp;&nbsp;<input type="radio" name="internetandnetwork" id="internetandnetwork2" value="2"/> 2 
         &nbsp;&nbsp;<input type="radio" name="internetandnetwork" id="internetandnetwork3" value="3"/> 3
         &nbsp;&nbsp;<input type="radio" name="internetandnetwork" id="internetandnetwork4" value="4"/> 4
-        &nbsp;&nbsp;<input type="radio" name="internetandnetwork" id="internetandnetwork5" value="5"/> 5</td>
+        &nbsp;&nbsp;<input type="radio" name="internetandnetwork" id="internetandnetwork5" value="5"/> 5 
+        <strong style="color: #007d00;">Excellent</strong></td>
   </tr>
   <tr>
     <td style="background-color: #3599ea; 
@@ -137,11 +138,11 @@ try {
     font-size: 14px;
     margin: 4px 2px;
     cursor: pointer; " title="1 = Poor , . , . , . , 5 = Excellent"><strong>2. How well do our PC,Laptop,printer meets your needs...?</strong><br /> 
-    	 <input type="radio" name="pclaptop" id="pclaptop1" value="1"/> 1
+    	<strong style="color: #ea0000;">Poor</strong><input type="radio" name="pclaptop" id="pclaptop1" value="1"/> 1
         &nbsp;&nbsp;<input type="radio" name="pclaptop" id="pclaptop2" value="2"/> 2 
         &nbsp;&nbsp;<input type="radio" name="pclaptop" id="pclaptop3" value="3"/> 3
         &nbsp;&nbsp;<input type="radio" name="pclaptop" id="pclaptop4" value="4"/> 4
-    &nbsp;&nbsp;<input type="radio" name="pclaptop" id="pclaptop5" value="5"/> 5 </td>
+    &nbsp;&nbsp;<input type="radio" name="pclaptop" id="pclaptop5" value="5"/> 5 <strong style="color: #007d00;">Excellent</strong></td>
   </tr>
   <tr>
     <td style="background-color: #3599ea; 
@@ -153,11 +154,11 @@ try {
     font-size: 14px;
     margin: 4px 2px;
     cursor: pointer; " title="1 = Poor , . , . , . , 5 = Excellent"><strong>3. How well do our In-House Softwares (IT-Tracker,ComplaintZilla,ECN,DVPBoss,Mutha Planner etc.) meets your needs...?</strong><br /> 
-     <input type="radio" name="inhouse" id="inhouse1" value="1"/> 1
+     <strong style="color: #ea0000;">Poor</strong><input type="radio" name="inhouse" id="inhouse1" value="1"/> 1
         &nbsp;&nbsp;<input type="radio" name="inhouse" id="inhouse2" value="2"/> 2 
         &nbsp;&nbsp;<input type="radio" name="inhouse" id="inhouse3" value="3"/> 3
        &nbsp;&nbsp; <input type="radio" name="inhouse" id="inhouse4" value="4"/> 4
-   &nbsp;&nbsp; <input type="radio" name="inhouse" id="inhouse5" value="5"/> 5 </td>
+   &nbsp;&nbsp; <input type="radio" name="inhouse" id="inhouse5" value="5"/> 5 <strong style="color: #007d00;">Excellent</strong></td>
   </tr>
   <tr>
     <td style="background-color: #3599ea; 
@@ -169,11 +170,11 @@ try {
     font-size: 14px;
     margin: 4px 2px;
     cursor: pointer; " title="1 = Poor , . , . , . , 5 = Excellent"><strong>4. How well do our ERP meets your needs...?</strong><br /> 
-     <input type="radio" name="erp" id="erp1" value="1"/> 1
+     <strong style="color: #ea0000;">Poor</strong><input type="radio" name="erp" id="erp1" value="1"/> 1
        &nbsp;&nbsp; <input type="radio" name="erp" id="erp2" value="2"/> 2 
        &nbsp;&nbsp; <input type="radio" name="erp" id="erp3" value="3"/> 3
        &nbsp;&nbsp; <input type="radio" name="erp" id="erp4" value="4"/> 4
-   &nbsp;&nbsp; <input type="radio" name="erp" id="erp5" value="5"/> 5 </td>
+   &nbsp;&nbsp; <input type="radio" name="erp" id="erp5" value="5"/> 5 <strong style="color: #007d00;">Excellent</strong></td>
   </tr>
   <tr>
     <td style="background-color: #3599ea; 
@@ -185,11 +186,11 @@ try {
     font-size: 14px;
     margin: 4px 2px;
     cursor: pointer; " title="1 = Poor , . , . , . , 5 = Excellent"><strong>5. Overall Satisfied with IT Team...?</strong><br /> 
-    <input type="radio" name="satisfiedit" id="satisfiedit1" value="1"/> 1
+    <strong style="color: #ea0000;">Poor</strong><input type="radio" name="satisfiedit" id="satisfiedit1" value="1"/> 1
        &nbsp;&nbsp; <input type="radio" name="satisfiedit" id="satisfiedit2" value="2"/> 2 
        &nbsp;&nbsp; <input type="radio" name="satisfiedit" id="satisfiedit3" value="3"/> 3
        &nbsp;&nbsp; <input type="radio" name="satisfiedit" id="satisfiedit4" value="4"/> 4
-    &nbsp;&nbsp;<input type="radio" name="satisfiedit" id="satisfiedit5" value="5"/> 5 </td>
+    &nbsp;&nbsp;<input type="radio" name="satisfiedit" id="satisfiedit5" value="5"/> 5 <strong style="color: #007d00;">Excellent</strong></td>
   </tr>
   <tr>
    <td style="background-color: #3599ea; 
