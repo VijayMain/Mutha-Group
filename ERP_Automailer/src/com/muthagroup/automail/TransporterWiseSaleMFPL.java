@@ -92,7 +92,7 @@ public class TransporterWiseSaleMFPL extends TimerTask {
 		// multiple recipients : == >
 		// ********************************************************************************************* 
 		String recipients[] = {"ankatariya@muthagroup.com"};
-		String cc_recipients[] = {"nileshss@muthagroup.com","internalaudit@muthagroup.com","vrkadam@muthagroup.com","bhushan@muthagroup.com","rgjadhav@muthagroup.com","nrfirodia@muthagroup.com"};
+		String cc_recipients[] = {"nileshss@muthagroup.com","internalaudit@muthagroup.com","vrkadam@muthagroup.com","bhushan@muthagroup.com","rgjadhav@muthagroup.com","nrfirodia@muthagroup.com","jginamdar@muthagroup.com","parikshitap@muthagroup.com","marketing@muthagroup.com"};
 		
 		/*String recipients[] = {"vijaybm@muthagroup.com"};
 		String cc_recipients[] = {"vijaybm@muthagroup.com"};*/

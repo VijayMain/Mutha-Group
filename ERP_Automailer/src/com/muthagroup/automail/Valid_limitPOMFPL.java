@@ -176,7 +176,6 @@ public class Valid_limitPOMFPL extends TimerTask {
 			transport.close();
 			System.out.println("msg Sent !!!");
 			}
-			 
 		/******************************************************************************************************** */
 			Thread.sleep(60000);
 			}

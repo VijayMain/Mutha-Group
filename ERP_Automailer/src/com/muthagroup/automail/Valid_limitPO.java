@@ -30,7 +30,7 @@ public class Valid_limitPO extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			if(d.getHours() == 10 && d.getMinutes() == 24){ 
+			if(d.getHours() == 10 && d.getMinutes() == 24){
 			/*	if(d.getHours() == 14 && d.getMinutes() == 52){*/ 
 			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 41){*/
 				

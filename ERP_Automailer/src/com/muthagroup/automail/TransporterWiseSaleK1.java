@@ -91,7 +91,7 @@ public class TransporterWiseSaleK1 extends TimerTask {
 		// multiple recipients : == >
 		// ********************************************************************************************* 
 		String recipients[] = {"ankatariya@muthagroup.com"};
-		String cc_recipients[] = {"nileshss@muthagroup.com","internalaudit@muthagroup.com","brchourasiya@muthagroup.com","vishal@muthagroup.com","dmvhankade@muthagroup.com"};
+		String cc_recipients[] = {"nileshss@muthagroup.com","internalaudit@muthagroup.com","brchourasiya@muthagroup.com","vishal@muthagroup.com","dmvhankade@muthagroup.com","jginamdar@muthagroup.com","parikshitap@muthagroup.com","marketing@muthagroup.com"};
 		
 		/*String recipients[] = {"vijaybm@muthagroup.com"};
 		String cc_recipients[] = {"vijaybm@muthagroup.com"};*/

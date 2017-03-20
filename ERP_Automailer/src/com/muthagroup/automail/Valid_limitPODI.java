@@ -28,8 +28,8 @@ public class Valid_limitPODI extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			/*if(d.getHours() == 10 && d.getMinutes() == 27){*/
-			if(d.getHours() == 15 && d.getMinutes() == 12){
+			if(d.getHours() == 10 && d.getMinutes() == 27){
+			/*if(d.getHours() == 15 && d.getMinutes() == 12){*/
 			/*if (d.getHours() == 16 && d.getMinutes() == 10){*/
 				 
 				Connection con = ConnectionUrl.getLocalDatabase();

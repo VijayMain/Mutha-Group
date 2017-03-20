@@ -51,8 +51,8 @@ public class MIS_SummaryReportDI extends TimerTask {
 			String ason_date = dateFormat2.format(cal.getTime()).toString();
 			
 			DecimalFormat twoDForm = new DecimalFormat("###,##0.##");
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 59) {
-			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 9) {*/
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 59) {*/
+			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 9) {
 				//************************************************************************************************				
 				if(weekday[d.getDay()].equals("Wednesday")){
 					cal.add(Calendar.DATE, -1);
