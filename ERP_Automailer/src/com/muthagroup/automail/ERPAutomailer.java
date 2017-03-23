@@ -19,7 +19,7 @@ private static final long serialVersionUID = 1L;
 			// ******************************************************************************************************************
 			// Thread No 1
 			// ******************************************************************************************************************
-	   
+	    	
 			// 09:40
 			TimerTask  siscompSale =new SisterCompanySale_Report();
 			timer.schedule(siscompSale, 1000, 60000);
@@ -52,7 +52,7 @@ private static final long serialVersionUID = 1L;
 		  
 		  	// 10:10
 			TimerTask timerTask10 = new DailySale_MFPL();
-			timer.schedule(timerTask10, 1000, 60000);			
+			timer.schedule(timerTask10, 1000, 60000);
 			
 			// 10:11
 			TimerTask timerTask7 = new DailySale_H21();
@@ -60,7 +60,7 @@ private static final long serialVersionUID = 1L;
 			
 			// 10:12
 			TimerTask timerTask8 = new DailySale_H25();
-			timer.schedule(timerTask8, 1000, 60000); 
+			timer.schedule(timerTask8, 1000, 60000);
 			
 			// 10:13
 			TimerTask timerTask6 = new DailySale_UnitIII();
@@ -152,21 +152,11 @@ private static final long serialVersionUID = 1L;
 			
 			// 10:30
 			TimerTask  timerTaskSupplier =new Supplier_ReportFND();
-			timer.schedule(timerTaskSupplier, 1000, 60000);
-			
-			// 12:30
-			TimerTask  timerTaskMISF =new MIS_SummaryReportFND();
-			timer.schedule(timerTaskMISF, 1000, 60000); 
+			timer.schedule(timerTaskSupplier, 1000, 60000); 
 			 
 			// 10:10
 			TimerTask  timerInOut =new InOut_Register();
-			timer.schedule(timerInOut, 1000, 60000); 
-		   
-			// 14:59
-			TimerTask  timerTaskMISDI =new MIS_SummaryReportDI();
-			timer.schedule(timerTaskMISDI, 1000, 60000);
-			
-			
+			timer.schedule(timerInOut, 1000, 60000);  
 			
 						// 10:24
 						TimerTask  valid_limitPOH21 = new Valid_limitPO();
@@ -189,8 +179,16 @@ private static final long serialVersionUID = 1L;
 						timer.schedule(valid_limitPOK1, 1000, 60000);
 			
 			
-			
-			
+						// 12:30
+						TimerTask  timerTaskMISF =new MIS_SummaryReportFND();
+						timer.schedule(timerTaskMISF, 1000, 60000); 
+						
+						
+			 			
+			 			// 14:59
+						TimerTask  timerTaskMISDI =new MIS_SummaryReportDI();
+						timer.schedule(timerTaskMISDI, 1000, 60000);
+						
 			
 			
 			

@@ -37,8 +37,7 @@ public class DailySale_MFPL extends TimerTask {
 			 
 			Calendar calform1 = Calendar.getInstance();
 			calform1.add(Calendar.DATE, -1); 
-			String nowDate= sdfFIrstDate.format(calform1.getTime()).toString();
-			 
+			String nowDate= sdfFIrstDate.format(calform1.getTime()).toString(); 
 			//___________________________________________________________________________
 			
 			Date d = new Date();

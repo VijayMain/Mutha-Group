@@ -34,11 +34,11 @@ public class MIS_SummaryReportDI extends TimerTask {
 			first_Datecal.set(Calendar.DAY_OF_MONTH, 1);  
 			Date dddd = first_Datecal.getTime();
 			String firstDate = sdfFIrstDate.format(dddd); 			
-			
+			double achPer=0;
 			Calendar calform1 = Calendar.getInstance();
 			calform1.add(Calendar.DATE, -1);
 			String nowDate= sdfFIrstDate.format(calform1.getTime()).toString();
-			//___________________________________________________________________________ 
+			//___________________________________________________________________________
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -50,15 +50,15 @@ public class MIS_SummaryReportDI extends TimerTask {
 			String yes_date = dateFormat.format(cal.getTime()).toString();
 			String ason_date = dateFormat2.format(cal.getTime()).toString();
 			
-			DecimalFormat twoDForm = new DecimalFormat("###,##0.##");
-			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 59) {*/
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 9) {
-				//************************************************************************************************				
-				if(weekday[d.getDay()].equals("Wednesday")){
+			DecimalFormat twoDForm = new DecimalFormat("###,##0.00");
+			 if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 59) {
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 16) {*/
+			//************************************************************************************************				
+			if(weekday[d.getDay()].equals("Wednesday")){
 					cal.add(Calendar.DATE, -1);
 					yes_date = dateFormat.format(cal.getTime()).toString();
 					ason_date = dateFormat2.format(cal.getTime()).toString();
-				}
+			}
 				Connection con = ConnectionUrl.getDIFMShopConnection();
 				String OnDateMIS = yes_date;
 				String db = "DIERP";
@@ -238,7 +238,7 @@ if (cs.getMoreResults()) {
     rs1.close();
 }
 sb.append("</table><table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
-	 "<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'><th scope='col'>Item Name</th><th scope='col'>Schedule Qty</th><th scope='col'>Production Qty</th><th scope='col'>Dispatch Qty</th></tr>");
+	 "<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'><th scope='col'>Item Name</th><th scope='col'>Schedule Qty</th><th scope='col'>Achieved %</th><th scope='col'>On Date Production Qty</th><th scope='col'>To Date Production Qty</th><th scope='col'>On Date Dispatch Qty</th><th scope='col'>To Date Dispatch Qty</th></tr>");
 
 while(rs_stk.next()){
 	//System.out.println("Date  = = " + Double.valueOf(rs1.getString("ON_PRODQTY")) + " = " +  Double.valueOf(rs1.getString("ON_DISPQTY")));
@@ -246,10 +246,19 @@ while(rs_stk.next()){
 	}else{
 		if(!rs_stk.getString("MAT_NAME").equalsIgnoreCase("")){
 
+			if(Double.valueOf(rs_stk.getString("SHEDULE_QTY"))!=0){ 
+				achPer = Double.valueOf(rs_stk.getString("TO_DISPQTY")) / Double.valueOf(rs_stk.getString("SHEDULE_QTY")) * 100;
+				}
+			 
 sb.append("<tr><td align='left'>"+rs_stk.getString("MAT_NAME") +"</td>"+
 			"<td align='right'>"+rs_stk.getString("SHEDULE_QTY") +"</td>"+
+			"<td align='right'>"+ twoDForm.format(Math.round(achPer*100)/100D) +"</td>"+
 			"<td align='right'>"+rs_stk.getString("ON_PRODQTY") +"</td>"+
-			"<td align='right'>"+rs_stk.getString("ON_DISPQTY") +"</td></tr>");
+			"<td align='right'>"+rs_stk.getString("TO_PRODQTY") +"</td>"+
+			"<td align='right'>"+rs_stk.getString("ON_DISPQTY") +"</td>"+
+			"<td align='right'>"+rs_stk.getString("TO_DISPQTY") +"</td></tr>");
+
+			achPer=0;
 		}
 		}
 	}

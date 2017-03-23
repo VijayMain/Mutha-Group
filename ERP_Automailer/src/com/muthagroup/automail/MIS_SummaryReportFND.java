@@ -12,13 +12,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import java.util.TimerTask;
-
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import com.muthagroup.connectionERPUtil.ConnectionUrl;
 
 public class MIS_SummaryReportFND extends TimerTask {
@@ -28,18 +26,17 @@ public class MIS_SummaryReportFND extends TimerTask {
 		try {
 			System.out.println("MIS Report MF");
 			//-------------------------------------------------------- Date Logic ---------------------------------------------------------
-			SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("dd-MM");  
+			SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("dd-MM");
 			Date tdate = new Date();
-			Calendar first_Datecal = Calendar.getInstance();   
-			first_Datecal.set(Calendar.DAY_OF_MONTH, 1);  
+			Calendar first_Datecal = Calendar.getInstance();
+			first_Datecal.set(Calendar.DAY_OF_MONTH, 1);
 			Date dddd = first_Datecal.getTime();
-			String firstDate = sdfFIrstDate.format(dddd); 			
-			
+			String firstDate = sdfFIrstDate.format(dddd);
+			double achPer=0;
 			Calendar calform1 = Calendar.getInstance();
 			calform1.add(Calendar.DATE, -1);
 			String nowDate= sdfFIrstDate.format(calform1.getTime()).toString();
 			//___________________________________________________________________________
-			
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -51,9 +48,9 @@ public class MIS_SummaryReportFND extends TimerTask {
 			String yes_date = dateFormat.format(cal.getTime()).toString();
 			String ason_date = dateFormat2.format(cal.getTime()).toString();
 			
-			DecimalFormat twoDForm = new DecimalFormat("###,##0.##");
+			DecimalFormat twoDForm = new DecimalFormat("###,##0.00");
 			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 30) {
-			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 9) {*/
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 15) {*/
 				//************************************************************************************************				
 				if(weekday[d.getDay()].equals("Wednesday")){
 					cal.add(Calendar.DATE, -1);
@@ -74,11 +71,11 @@ public class MIS_SummaryReportFND extends TimerTask {
 				Date convertedCurrentDate = sdfparse.parse(OnDate);
 				//***************************************************************************************************************
 						Date today = new Date();
-				        Calendar calendar = Calendar.getInstance();  
-				        calendar.setTime(today);  
-				        calendar.add(Calendar.MONTH, 1);  
+				        Calendar calendar = Calendar.getInstance();
+				        calendar.setTime(today);
+				        calendar.add(Calendar.MONTH, 1);
 				        calendar.set(Calendar.DAY_OF_MONTH, 1);  
-				        calendar.add(Calendar.DATE, -1); 
+				        calendar.add(Calendar.DATE, -1);
 				        Date lastDayOfMonth = calendar.getTime(); 
 				//***************************************************************************************************************
 				Calendar calAvg = Calendar.getInstance();
@@ -236,33 +233,41 @@ if (cs.getMoreResults()) {
     rs1 = cs.getResultSet();
     while (rs1.next()) {
     	sb.append("<tr><td align='right'>"+rs1.getString("SHIFT1_PLAN")+"</td><td align='right'>"+rs1.getString("SHIFT1_ACT")+"</td><td align='right'>"+rs1.getString("SHIFT2_PLAN")+"</td><td align='right'>"+rs1.getString("SHIFT2_ACT")+"</td><td align='right'>"+rs1.getString("SHIFT3_PLAN")+"</td><td align='right'>"+rs1.getString("SHIFT3_ACT")+"</td><td align='right'>"+rs1.getString("TOT_PLAN")+"</td><td align='right'>"+rs1.getString("TOT_ACTPLAN")+"</td></tr>");
-     } 
+    }
     rs1.close();
 }
 sb.append("</table><table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
-	 "<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'><th scope='col'>Item Name</th><th scope='col'>Schedule Qty</th><th scope='col'>Production Qty</th><th scope='col'>Dispatch Qty</th></tr>");
+	 "<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"
+	 + "<th scope='col'>Item Name</th><th scope='col'>Schedule Qty</th><th scope='col'>Achieved %</th><th scope='col'>On Date Production Qty</th><th scope='col'>To Date Production Qty</th><th scope='col'>On Date Dispatch Qty</th><th scope='col'>To Date Dispatch Qty</th></tr>");
 
 while(rs_stk.next()){
 	//System.out.println("Date  = = " + Double.valueOf(rs1.getString("ON_PRODQTY")) + " = " +  Double.valueOf(rs1.getString("ON_DISPQTY")));
 	if(Double.valueOf(rs_stk.getString("ON_PRODQTY"))==0.0 && Double.valueOf(rs_stk.getString("ON_DISPQTY"))==0.0){
 	}else{
 		if(!rs_stk.getString("MAT_NAME").equalsIgnoreCase("")){
-
-sb.append("<tr><td align='left'>"+rs_stk.getString("MAT_NAME") +"</td>"+
+			if(Double.valueOf(rs_stk.getString("SHEDULE_QTY"))!=0){
+			achPer = Double.valueOf(rs_stk.getString("TO_DISPQTY")) / Double.valueOf(rs_stk.getString("SHEDULE_QTY")) * 100;
+			}
+			
+			sb.append("<tr><td align='left'>"+rs_stk.getString("MAT_NAME") +"</td>"+
 			"<td align='right'>"+rs_stk.getString("SHEDULE_QTY") +"</td>"+
+			"<td align='right'>"+ twoDForm.format(Math.round(achPer*100)/100D) +"</td>"+
 			"<td align='right'>"+rs_stk.getString("ON_PRODQTY") +"</td>"+
-			"<td align='right'>"+rs_stk.getString("ON_DISPQTY") +"</td></tr>");
-		}
+			"<td align='right'>"+rs_stk.getString("TO_PRODQTY") +"</td>"+
+			"<td align='right'>"+rs_stk.getString("ON_DISPQTY") +"</td>"+
+			"<td align='right'>"+rs_stk.getString("TO_DISPQTY") +"</td></tr>");			
+			achPer=0;
 		}
 	}
-	rs_stk.close();
+}
+rs_stk.close();
 
-	sb.append("</table><table border='1' style='font-size: 12px; color: #333333; width: 60%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>");
+sb.append("</table><table border='1' style='font-size: 12px; color: #333333; width: 60%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>");
 	
-	if (cs2.getMoreResults()) {
-	    rs_stk = cs2.getResultSet();
+if (cs2.getMoreResults()) {
+ rs_stk = cs2.getResultSet();
 	 
-	 sb.append("<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
+ sb.append("<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 			"<th scope='col'>Prod Qty MT</th>"+
 			"<th scope='col'>Disp Qty MT</th>"+
 			"<th scope='col'>Opening Stock MT</th>"+
