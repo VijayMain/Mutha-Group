@@ -154,7 +154,7 @@ private static final long serialVersionUID = 1L;
 			TimerTask  timerTaskSupplier =new Supplier_ReportFND();
 			timer.schedule(timerTaskSupplier, 1000, 60000); 
 			 
-			// 10:10
+			// 10:18
 			TimerTask  timerInOut =new InOut_Register();
 			timer.schedule(timerInOut, 1000, 60000);  
 			
@@ -177,14 +177,11 @@ private static final long serialVersionUID = 1L;
 						// 10:28
 						TimerTask  valid_limitPOK1 = new Valid_limitPOK1();
 						timer.schedule(valid_limitPOK1, 1000, 60000);
-			
-			
+			 
 						// 12:30
 						TimerTask  timerTaskMISF =new MIS_SummaryReportFND();
 						timer.schedule(timerTaskMISF, 1000, 60000); 
-						
-						
-			 			
+			  			
 			 			// 14:59
 						TimerTask  timerTaskMISDI =new MIS_SummaryReportDI();
 						timer.schedule(timerTaskMISDI, 1000, 60000);
