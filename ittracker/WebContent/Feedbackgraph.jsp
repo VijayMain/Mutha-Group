@@ -485,7 +485,7 @@ v5=Double.valueOf(rate5);
 		data.addColumn('string','Topping');
 		data.addColumn('number','Slices');
 		data.addRows([['<%=d1%>',<%=v1%>],['<%=d2%>',<%=v2%>],['<%=d3%>',<%=v3%>],['<%=d4%>',<%=v4%>],['<%=d5%>',<%=v5%>]]);
-		var options = {'title':'In-House Softwares','width':360,'height':200}; 
+		var options = {'title':'ERP','width':360,'height':200}; 
 		var chart = new google.visualization.PieChart(document.getElementById('chart_div3'));
 		chart.draw(data,options); 
 	}
