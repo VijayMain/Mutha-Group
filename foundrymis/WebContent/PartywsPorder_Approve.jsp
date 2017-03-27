@@ -1,168 +1,17 @@
-<%@page import="java.text.Normalizer.Form"%>
-<%@page import="java.util.Set"%>
-<%@page import="java.util.Map"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.sql.PreparedStatement"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="java.text.DecimalFormat"%>
-<%@page import="java.util.Arrays"%>
-<%@page import="java.util.Iterator"%>
-<%@page import="java.util.LinkedHashSet"%>
-<%@page import="java.util.Collections"%>
-<%@page import="java.util.HashSet"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.CallableStatement"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
 <%@page import="com.muthagroup.connectionUtil.ConnectionUrl"%>
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="java.sql.Connection"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<script language="JavaScript"> 
-var nHist = window.history.length;
-if(window.history[nHist] != window.location)
-  window.history.forward(); 
-</script>
-<title>Party Wise Purchase Order</title>
-<STYLE TYPE="text/css" MEDIA=all>
-.td1 {
-	font-size: 10px;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #729ea5;
-}
-
-.tftable tr {
-	background-color: white;
-	font-size: 10px;
-}
-
-.th {
-	font-size: 12px;
-	background-color: #acc8cc;
-	border-width: 1px;
-	padding: 8px;
-	border-style: solid;
-	border-color: #729ea5;
-	text-align: center;
-}
-
-A:link {
-	COLOR: #0000EE;
-}
-
-A:hover {
-	COLOR: #0000EE;
-}
-
-A:visited {
-	COLOR: #0000EE;
-}
-
-A:hover {
-	COLOR: #0000EE;
-}
-
-.div_freezepanes_wrapper {
-	font-size: 10px;
-	position: relative;
-	width: 99%;
-	height: 550px;
-	overflow: hidden;
-	background: #fff;
-	border-style: ridge;
-}
-
-.div_verticalscroll {
-	font-size: 10px;
-	position: absolute;
-	right: 0px;
-	width: 18px;
-	height: 100%;
-	background: #EAEAEA;
-	border: 1px solid #C0C0C0;
-}
-
-.buttonUp {
-	width: 20px;
-	position: absolute;
-	top: 2px;
-}
-
-.buttonDn {
-	width: 20px;
-	position: absolute;
-	bottom: 22px;
-}
-
-.div_horizontalscroll {
-	font-size: 10px;
-	position: absolute;
-	bottom: 0px;
-	width: 0%;
-	height: 0px;
-	background: #EAEAEA;
-	border: 1px solid #C0C0C0;
-}
-
-.buttonRight {
-	width: 20px;
-	position: absolute;
-	left: 0px;
-	padding-top: 2px;
-}
-
-.buttonLeft {
-	width: 20px;
-	position: absolute;
-	right: 22px;
-	padding-top: 2px;
-}
-</STYLE>
-<script type="text/javascript">
-	function getExcel_Report(comp,sup,from,to) {
-		document.getElementById("fileloading").style.visibility = "visible";
-		document.getElementById("filebutton").disabled = true; 
-		var xmlhttp;
-		if (window.XMLHttpRequest) {
-			// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {
-			// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				document.getElementById("exportId").innerHTML = xmlhttp.responseText;
-			}
-		};
-		xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup="+sup+"&from="+from+"&to="+to, true);
-		xmlhttp.send();
-	};
-	
-	function ApprovedOrder(comp,sup,from,to) {
-		document.getElementById("fileloading").style.visibility = "visible";
-		document.getElementById("filebutton").disabled = true;
-		var xmlhttp;
-		var flag = document.getElementById("approved").checked;
-		var flag_close = document.getElementById("closed").checked;
- 		
-		if (window.XMLHttpRequest) {
-			// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {
-			// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				document.getElementById("MyApproval").innerHTML = xmlhttp.responseText;
-			}
-		};
-		xmlhttp.open("POST", "PartywsPorder_Approve.jsp?comp=" + comp +"&sup="+sup+"&from="+from+"&to="+to+"&flag="+flag+"&flag_close="+flag_close, true);
-		xmlhttp.send();
-	};
-</script>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
 </head>
-<body bgcolor="#DEDEDE" style="font-family: Arial;">
+<body>
 <span id="MyApproval">
 <%
 try{
@@ -170,11 +19,15 @@ Connection con =null;
 String comp =request.getParameter("comp");
 String sup =request.getParameter("sup"); 
 String from =request.getParameter("fromdate");
-String to =request.getParameter("todate"); 
+String to =request.getParameter("todate");
+String tick_flag =request.getParameter("flag"); 
+String flag_close =request.getParameter("flag_close");
 String poDate="";
+
+ 
+
 String fromDate = from.substring(6,8) +"/"+ from.substring(4,6) +"/"+ from.substring(0,4);
 String toDate = to.substring(6,8) +"/"+ to.substring(4,6) +"/"+ to.substring(0,4);
- 
 
 DecimalFormat twoDForm = new DecimalFormat("###0.00");
 DecimalFormat noDForm = new DecimalFormat("####0");
@@ -231,7 +84,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 }
 %>
 <input type="checkbox" name="approved" id="approved" onclick="ApprovedOrder('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Approved</strong> 
-<input type="checkbox" name="closed" id="closed" onclick="ApprovedOrder('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Closed</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="checkbox" name="closed" id="closed"><strong style="font-size: 10px;">Closed</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 	<span id="exportId">
 		<button id="filebutton"
@@ -267,7 +120,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			
 		<!--  PO NO.	PO DATE	Amd 	wef	Sr No	DHANASHREE IND.	Wgt kgs	Rs/kg	Rs/Pc No. -->						
 			
-			<tr style="font-size: 12px; font-family: Arial;"> 
+			<tr style="font-size: 12px; font-family: Arial;">
 				<th scope="col" class="th" width="5%">PO NO.</th>
 				<th scope="col" class="th">PO DATE</th>
 				<th scope="col" class="th">Amend No</th>
@@ -278,9 +131,8 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 				<th scope="col" class="th">Rs/kg</th>
 				<th scope="col" class="th">Rs/Pc</th>
 			</tr>
-			<%	
+			<%
 			// exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1  '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
-
  	CallableStatement cs11 = con.prepareCall("{call Sel_RptPartyWsPurchOrderRegister(?,?,?,?,?,?,?)}");
 	cs11.setString(1,comp);
 	cs11.setString(2,"0");
@@ -289,10 +141,12 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 	cs11.setString(5,to);
 	cs11.setString(6,"0");
 	cs11.setString(7,sup);
-	ResultSet rs = cs11.executeQuery(); 
-	while(rs.next()){
-		poDate = rs.getString("AMEND_DATE").substring(6,8) +"/"+ rs.getString("AMEND_DATE").substring(4,6) +"/"+ rs.getString("AMEND_DATE").substring(0,4);
-		
+	ResultSet rs = cs11.executeQuery();
+while(rs.next()){
+poDate = rs.getString("AMEND_DATE").substring(6,8) +"/"+ rs.getString("AMEND_DATE").substring(4,6) +"/"+ rs.getString("AMEND_DATE").substring(0,4);
+if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag=="true") && 
+   ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12")) && flag_close=="true")){
+	System.out.println("Status Code = " + rs.getString("STATUS_CODE"));
  %>
 			<tr style="font-size: 10px;">
 			 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
@@ -305,12 +159,61 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
 			 	<td align="right"><%=rs.getString("RATE") %></td> 
 			</tr>
-	<% 
-	}
-	%>	 
-		</table>
+	<%
+		}
+		if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag=="true") && flag_close=="false"){
+			System.out.println("Status Code = " + rs.getString("STATUS_CODE"));
+    %>
+					<tr style="font-size: 10px;">
+					 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+					 	<td align="right"><%=poDate%></td>
+					 	<td align="right"><%=rs.getString("AMEND_NO") %></td>
+					 	<td><%=rs.getString("REMRK") %></td>
+					 	<td align="right"><%=rs.getString("SR_NO") %></td>
+					 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
+					 	<td align="right"><%=rs.getString("WEIGHT") %></td>
+					 	<td align="right"><%=rs.getString("REJ_RATE") %></td>
+					 	<td align="right"><%=rs.getString("RATE") %></td>
+					</tr>
+	<%
+		}
+		if(tick_flag=="false" && ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12")) && flag_close=="true")){
+			System.out.println("Status Code = " + rs.getString("STATUS_CODE"));
+				 %>
+							<tr style="font-size: 10px;">
+							 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+							 	<td align="right"><%=poDate%></td>
+							 	<td align="right"><%=rs.getString("AMEND_NO") %></td>
+							 	<td><%=rs.getString("REMRK") %></td>
+							 	<td align="right"><%=rs.getString("SR_NO") %></td>
+							 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
+							 	<td align="right"><%=rs.getString("WEIGHT") %></td>
+							 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
+							 	<td align="right"><%=rs.getString("RATE") %></td> 
+							</tr>
+	<%
+		}
+		if(tick_flag=="false" && flag_close=="false"){
+			System.out.println("Status Code = " + rs.getString("STATUS_CODE"));
+	%>
+							<tr style="font-size: 10px;">
+							 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+							 	<td align="right"><%=poDate%></td>
+							 	<td align="right"><%=rs.getString("AMEND_NO") %></td>
+							 	<td><%=rs.getString("REMRK") %></td>
+							 	<td align="right"><%=rs.getString("SR_NO") %></td>
+							 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
+							 	<td align="right"><%=rs.getString("WEIGHT") %></td>
+							 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
+							 	<td align="right"><%=rs.getString("RATE") %></td> 
+							</tr>
+	<%
+		}
+	  }
+	%>
+</table>
 <%
-	// System.out.println("Update = " + DayWIseSum);
+// System.out.println("Update = " + DayWIseSum);
 con.close();
 } catch (Exception e) {
 e.printStackTrace();
@@ -378,7 +281,6 @@ e.getMessage();
 				}
 				myCol++;
 				ID = window.setTimeout('left()', speed);
-
 			}
 		}
 

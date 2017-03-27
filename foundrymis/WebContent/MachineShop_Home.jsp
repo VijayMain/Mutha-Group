@@ -771,7 +771,7 @@ while(rs.next()){
 			<li><a href="#tabs-14">ASN Generation</a></li>
 		<%
 		}if(reportList.contains("Bill Wise Purchase Details")){
-			%>
+		%>
 				<li><a href="#tabs-15">Bill Wise Purchase Details</a></li> 
 		<%
 		}if(reportList.contains("Outstanding Bajaj and Umasons")){

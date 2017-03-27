@@ -259,11 +259,11 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 		<!--  PO NO.	PO DATE	Amd 	wef	Sr No	DHANASHREE IND.	Wgt kgs	Rs/kg	Rs/Pc No. -->						
 			
 			<tr style="font-size: 12px; font-family: Arial;">
+			<th scope="col" class="th" width="5%">PO NO.</th>
+			<th scope="col" class="th">Amend No</th> 
+			<th scope="col" class="th">PO DATE</th>
 			<th scope="col" class="th">Supplier Name</th>
-			<th scope="col" class="th">Part Name</th> 
-				<th scope="col" class="th" width="5%">PO NO.</th>
-				<th scope="col" class="th">Amend No</th> 
-				<th scope="col" class="th">PO DATE</th>
+			<th scope="col" class="th">Part Name</th>  
 				<th scope="col" class="th">Sr No</th>
 				<th scope="col" class="th">Wgt kgs</th> 
 				<th scope="col" class="th">Rs/Pc</th> 
@@ -285,12 +285,12 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 	if(allFlag==true){
 		while(rs.next()){
  %>
-			 <tr style="font-size: 10px;"> 
+			 <tr style="font-size: 10px;">
+			 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+			 <td align="right"><%=rs.getString("AMEND_NO") %></td>
+			 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
 			 <td><%=rs.getString("SUPP_NAME") %></td>
-			 <td><%=rs.getString("MAT_NAME") %></td>
-			 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
-			 	<td align="right"><%=rs.getString("NEW_AMENDNO") %></td> 
-			 	<td align="right"><%=rs.getString("PRN_PODATE")%></td>
+			 <td><%=rs.getString("MAT_NAME") %></td> 
 			 	<td align="right"><%=rs.getString("SR_NO") %></td> 
 			 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
 			 	<td align="right"><%=rs.getString("RATE") %></td> 
@@ -301,14 +301,14 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 	}else{
 		while(rs.next()){
 			if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){
-				System.out.println("rs.getString" + rs.getString("NEW_AMENDNO"));
+				System.out.println("rs.getString" + rs.getString("AMEND_NO"));
 		%>
-			 <tr style="font-size: 10px;"> 
+			 <tr style="font-size: 10px;">
+			 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+			 <td align="right"><%=rs.getString("AMEND_NO") %></td>
+			 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
 						 <td><%=rs.getString("SUPP_NAME") %></td>
 						 <td><%=rs.getString("MAT_NAME") %></td>
-						 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
-						 	<td align="right"><%=rs.getString("NEW_AMENDNO") %></td> 
-						 	<td align="right"><%=rs.getString("PRN_PODATE")%></td>
 						 	<td align="right"><%=rs.getString("SR_NO") %></td>
 						 	<td align="right"><%=rs.getString("WEIGHT") %></td>  
 						 	<td align="right"><%=rs.getString("RATE") %></td> 

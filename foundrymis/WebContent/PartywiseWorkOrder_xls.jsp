@@ -148,13 +148,13 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
     cellleftformat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
     font.setColour(Colour.BLACK); 
     cellleftformat.setFont(font); 				
-        
-    Label label = new Label(0, 0, "Supplier Name",cellFormat);
-    Label label1 = new Label(1, 0, "Part Name",cellFormat);
-    Label label2 = new Label(2, 0, "PO NO.",cellFormat); 
-    Label label3 = new Label(3, 0, "Amend No",cellFormat);
-    Label label4 = new Label(4, 0, "PO DATE",cellFormat);
-    /* Label label5 = new Label(5, 0, "With Effect From",cellFormat); */
+    
+    Label label = new Label(0, 0, "PO NO.",cellFormat);
+    Label label1 = new Label(1, 0, "Amend No",cellFormat);
+    Label label2 = new Label(2, 0, "PO DATE",cellFormat);
+    Label label3 = new Label(3, 0, "Supplier Name",cellFormat);
+    Label label4 = new Label(4, 0, "Part Name",cellFormat);
+     /* Label label5 = new Label(5, 0, "With Effect From",cellFormat); */
     Label label5 = new Label(5, 0, "Sr No",cellFormat); 
     Label label6 = new Label(6, 0, "Wgt kgs",cellFormat);
     Label label7 = new Label(7, 0, "Rs/Pc",cellFormat);
@@ -185,16 +185,17 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
 	
 	if(allFlag==true){
 while(rs.next()){
+	Label po_nolbl = new Label(row, col, rs.getString("TRNNO").substring(3, 7) + " - " + rs.getString("PO_NO") ,cellRIghtformat); 
+	row++;
+	Number amdatelbl = new Number(row, col, Double.parseDouble(rs.getString("AMEND_NO")),cellRIghtformat); 
+	row++;
+	Label po_datelbl = new Label(row, col,rs.getString("PRN_PODATE"),cellleftformat); 
+	row++; 
 		Label supnamelbl = new Label(row, col, rs.getString("SUPP_NAME"),cellRIghtformat);
 		row++;
 		Label partnamelbl = new Label(row, col, rs.getString("MAT_NAME"),cellRIghtformat);
 		row++;
-Label po_nolbl = new Label(row, col, rs.getString("TRNNO").substring(3, 7) + " - " + rs.getString("PO_NO") ,cellRIghtformat); 
-row++; 
-Number amdatelbl = new Number(row, col, Double.parseDouble(rs.getString("NEW_AMENDNO")),cellRIghtformat); 
-row++; 
-Label po_datelbl = new Label(row, col,rs.getString("PRN_PODATE"),cellleftformat); 
-row++; 
+
 Number srnolbl = new Number(row, col,Integer.parseInt(rs.getString("SR_NO")),cellRIghtformat); 
 row++;
 Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
@@ -203,12 +204,11 @@ Number ratepplbl = new Number(row, col, Double.parseDouble(rs.getString("RATE"))
 row++;
 Label remarklbl = new Label(row, col, rs.getString("PAY_REMRK"),cellleftformat);
 
-
+writableSheet.addCell(po_nolbl);
+writableSheet.addCell(amdatelbl);
+writableSheet.addCell(po_datelbl);
 writableSheet.addCell(supnamelbl);
-writableSheet.addCell(partnamelbl);
-		writableSheet.addCell(po_nolbl);
-		writableSheet.addCell(amdatelbl);
-		writableSheet.addCell(po_datelbl); 
+writableSheet.addCell(partnamelbl);  
 		/* writableSheet.addCell(witheffectlbl); */
 		writableSheet.addCell(srnolbl); 
 		writableSheet.addCell(wtkglbl);
@@ -224,17 +224,20 @@ writableSheet.addCell(partnamelbl);
 	}
 	if(allFlag==false){
 		while(rs.next()){
-			if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){ 
+			if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){
+				Label po_nolbl = new Label(row, col, rs.getString("TRNNO").substring(3, 7) + " - " + rs.getString("PO_NO") ,cellRIghtformat); 
+				row++;
+				Number amdatelbl = new Number(row, col, Double.parseDouble(rs.getString("AMEND_NO")),cellRIghtformat);
+				row++;
+				Label po_datelbl = new Label(row, col,rs.getString("PRN_PODATE"),cellleftformat); 
+				row++; 
 			Label supnamelbl = new Label(row, col, rs.getString("SUPP_NAME"),cellRIghtformat);
 			row++;
 			Label partnamelbl = new Label(row, col, rs.getString("MAT_NAME"),cellRIghtformat);
 			row++;
-	Label po_nolbl = new Label(row, col, rs.getString("TRNNO").substring(3, 7) + " - " + rs.getString("PO_NO") ,cellRIghtformat); 
-	row++;
-	Number amdatelbl = new Number(row, col, Double.parseDouble(rs.getString("NEW_AMENDNO")),cellRIghtformat);
-	row++;
-	Label po_datelbl = new Label(row, col,rs.getString("PRN_PODATE"),cellleftformat); 
-	row++; 
+	
+	
+	
 	Number srnolbl = new Number(row, col,Integer.parseInt(rs.getString("SR_NO")),cellRIghtformat); 
 	row++;
 	Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
@@ -243,13 +246,12 @@ writableSheet.addCell(partnamelbl);
 	row++;
 	Label remarklbl = new Label(row, col, rs.getString("PAY_REMRK"),cellleftformat);
 
-
+	writableSheet.addCell(po_nolbl);
+	writableSheet.addCell(amdatelbl);
+	writableSheet.addCell(po_datelbl);
 	writableSheet.addCell(supnamelbl);
 	writableSheet.addCell(partnamelbl);
-			writableSheet.addCell(po_nolbl); 
-			writableSheet.addCell(amdatelbl);
-			writableSheet.addCell(po_datelbl);
-			/* writableSheet.addCell(witheffectlbl); */
+			 /* writableSheet.addCell(witheffectlbl); */
 			writableSheet.addCell(srnolbl); 
 			writableSheet.addCell(wtkglbl);
 			writableSheet.addCell(ratepplbl);	 
@@ -274,7 +276,7 @@ writableSheet.addCell(partnamelbl);
     
     String filePath = "C:/reportxls/ReportWO"+val+".xls";
     
-    File downloadFile = new File(filePath);
+   /*  File downloadFile = new File(filePath);
     FileInputStream inStream = new FileInputStream(downloadFile);
       
     ServletContext context = getServletContext();
@@ -293,7 +295,7 @@ writableSheet.addCell(partnamelbl);
     String headerKey = "Content-Disposition";
     String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
     response.setHeader(headerKey, headerValue); 
-    inStream.close(); 
+    inStream.close();  */
 %>
 <span id="exportId"> 
 <button id="filebutton" onclick="getExcel_Report('<%=comp%>','<%=from%>','<%=to%>')" style="cursor: pointer;" disabled="disabled">Generate Excel</button>
