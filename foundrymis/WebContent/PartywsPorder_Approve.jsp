@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>PO Approved</title>
 </head>
 <body>
 <span id="MyApproval">
@@ -18,13 +18,11 @@ try{
 Connection con =null;  
 String comp =request.getParameter("comp");
 String sup =request.getParameter("sup"); 
-String from =request.getParameter("fromdate");
-String to =request.getParameter("todate");
+String from =request.getParameter("from");
+String to =request.getParameter("to");
 String tick_flag =request.getParameter("flag"); 
 String flag_close =request.getParameter("flag_close");
 String poDate="";
-
- 
 
 String fromDate = from.substring(6,8) +"/"+ from.substring(4,6) +"/"+ from.substring(0,4);
 String toDate = to.substring(6,8) +"/"+ to.substring(4,6) +"/"+ to.substring(0,4);
@@ -83,19 +81,36 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 <%
 }
 %>
-<input type="checkbox" name="approved" id="approved" onclick="ApprovedOrder('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Approved</strong> 
-<input type="checkbox" name="closed" id="closed"><strong style="font-size: 10px;">Closed</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+<%
+if(tick_flag.equalsIgnoreCase("true")){
+%>
+<input type="checkbox" checked="checked" name="approved" id="approved" onclick="ApprovedOrder('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Approved</strong>
+<%
+}else{
+%>
+<input type="checkbox"  name="approved" id="approved" onclick="ApprovedOrder('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Approved</strong>
+<%	
+}
+if(flag_close.equalsIgnoreCase("true")){
+%> 
+<input type="checkbox" checked="checked" name="closed" id="closed" onclick="ApprovedOrder('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Closed</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<%
+}else{
+%> 
+<input type="checkbox" name="closed" id="closed" onclick="ApprovedOrder('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Closed</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<%	
+}
+%>
 	<span id="exportId">
-		<button id="filebutton"
-			onclick="getExcel_Report('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')"
+		<button id="filebutton" 
 			style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate
 			Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading"
 		style="visibility: hidden;" />
 	</span>
+	
 
-	<div class="div_freezepanes_wrapper">
-		<div class="div_verticalscroll"
+	<!-- <div class="div_freezepanes_wrapper"> -->
+		<!-- <div class="div_verticalscroll"
 			onmouseover="this.style.cursor='pointer'">
 			<div style="height: 50%;" onmousedown="upp();" onmouseup="upp(1);">
 				<img class="buttonUp" src="images/up.png">
@@ -114,10 +129,8 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 				onmousedown="left();" onmouseup="left(1);">
 				<img class="buttonLeft" src="images/forward.png">
 			</div>
-		</div>
-		<table id="t1" class="t1" border="1"
-			style="width: 96%; border: 1px solid #000;">
-			
+		</div> -->
+		<table id="t1" class="t1" border="1" style="width: 96%; border: 1px solid #000;"> 
 		<!--  PO NO.	PO DATE	Amd 	wef	Sr No	DHANASHREE IND.	Wgt kgs	Rs/kg	Rs/Pc No. -->						
 			
 			<tr style="font-size: 12px; font-family: Arial;">
@@ -131,8 +144,8 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 				<th scope="col" class="th">Rs/kg</th>
 				<th scope="col" class="th">Rs/Pc</th>
 			</tr>
-			<%
-			// exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1  '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
+	<%
+	// exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1  '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
  	CallableStatement cs11 = con.prepareCall("{call Sel_RptPartyWsPurchOrderRegister(?,?,?,?,?,?,?)}");
 	cs11.setString(1,comp);
 	cs11.setString(2,"0");
@@ -144,9 +157,10 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 	ResultSet rs = cs11.executeQuery();
 while(rs.next()){
 poDate = rs.getString("AMEND_DATE").substring(6,8) +"/"+ rs.getString("AMEND_DATE").substring(4,6) +"/"+ rs.getString("AMEND_DATE").substring(0,4);
-if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag=="true") && 
-   ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12")) && flag_close=="true")){
-	System.out.println("Status Code = " + rs.getString("STATUS_CODE"));
+if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("true")) &&  
+		 ((!rs.getString("STATUS_CODE").equalsIgnoreCase("11") || !rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("false"))){
+	//System.out.println("true false " + rs.getString("STATUS_CODE"));
+	
  %>
 			<tr style="font-size: 10px;">
 			 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
@@ -161,54 +175,56 @@ if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag=="true") &&
 			</tr>
 	<%
 		}
-		if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag=="true") && flag_close=="false"){
-			System.out.println("Status Code = " + rs.getString("STATUS_CODE"));
-    %>
-					<tr style="font-size: 10px;">
-					 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
-					 	<td align="right"><%=poDate%></td>
-					 	<td align="right"><%=rs.getString("AMEND_NO") %></td>
-					 	<td><%=rs.getString("REMRK") %></td>
-					 	<td align="right"><%=rs.getString("SR_NO") %></td>
-					 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
-					 	<td align="right"><%=rs.getString("WEIGHT") %></td>
-					 	<td align="right"><%=rs.getString("REJ_RATE") %></td>
-					 	<td align="right"><%=rs.getString("RATE") %></td>
-					</tr>
-	<%
-		}
-		if(tick_flag=="false" && ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12")) && flag_close=="true")){
-			System.out.println("Status Code = " + rs.getString("STATUS_CODE"));
-				 %>
-							<tr style="font-size: 10px;">
-							 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
-							 	<td align="right"><%=poDate%></td>
-							 	<td align="right"><%=rs.getString("AMEND_NO") %></td>
-							 	<td><%=rs.getString("REMRK") %></td>
-							 	<td align="right"><%=rs.getString("SR_NO") %></td>
-							 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
-							 	<td align="right"><%=rs.getString("WEIGHT") %></td>
-							 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
-							 	<td align="right"><%=rs.getString("RATE") %></td> 
-							</tr>
-	<%
-		}
-		if(tick_flag=="false" && flag_close=="false"){
-			System.out.println("Status Code = " + rs.getString("STATUS_CODE"));
+		if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("true")) || 
+		   ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("true"))){
+			//System.out.println("true true" + rs.getString("STATUS_CODE"));
 	%>
-							<tr style="font-size: 10px;">
-							 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
-							 	<td align="right"><%=poDate%></td>
-							 	<td align="right"><%=rs.getString("AMEND_NO") %></td>
-							 	<td><%=rs.getString("REMRK") %></td>
-							 	<td align="right"><%=rs.getString("SR_NO") %></td>
-							 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
-							 	<td align="right"><%=rs.getString("WEIGHT") %></td>
-							 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
-							 	<td align="right"><%=rs.getString("RATE") %></td> 
-							</tr>
-	<%
-		}
+				<tr style="font-size: 10px;">
+				 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+				 	<td align="right"><%=poDate%></td>
+				 	<td align="right"><%=rs.getString("AMEND_NO") %></td>
+				 	<td><%=rs.getString("REMRK") %></td>
+				 	<td align="right"><%=rs.getString("SR_NO") %></td>
+				 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
+				 	<td align="right"><%=rs.getString("WEIGHT") %></td>
+				 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
+				 	<td align="right"><%=rs.getString("RATE") %></td> 
+				</tr>
+		<%
+			}
+		if((!rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("false")) &&  
+				   ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("true"))){
+			//System.out.println("false true" + rs.getString("STATUS_CODE"));
+			%>
+						<tr style="font-size: 10px;">
+						 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+						 	<td align="right"><%=poDate%></td>
+						 	<td align="right"><%=rs.getString("AMEND_NO") %></td>
+						 	<td><%=rs.getString("REMRK") %></td>
+						 	<td align="right"><%=rs.getString("SR_NO") %></td>
+						 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
+						 	<td align="right"><%=rs.getString("WEIGHT") %></td>
+						 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
+						 	<td align="right"><%=rs.getString("RATE") %></td> 
+						</tr>
+				<%
+					}
+		if(tick_flag.equalsIgnoreCase("false") && flag_close.equalsIgnoreCase("false")){
+			//System.out.println("false false" + rs.getString("STATUS_CODE"));
+			%>
+						<tr style="font-size: 10px;">
+						 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+						 	<td align="right"><%=poDate%></td>
+						 	<td align="right"><%=rs.getString("AMEND_NO") %></td>
+						 	<td><%=rs.getString("REMRK") %></td>
+						 	<td align="right"><%=rs.getString("SR_NO") %></td>
+						 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
+						 	<td align="right"><%=rs.getString("WEIGHT") %></td>
+						 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
+						 	<td align="right"><%=rs.getString("RATE") %></td> 
+						</tr>
+				<%
+					}
 	  }
 	%>
 </table>
@@ -220,10 +236,10 @@ e.printStackTrace();
 e.getMessage();
 }
 %>
-	</div>
+	<!-- </div> -->
 	<br>
 	<br>
-	<script type="text/javascript">
+<!-- 	<script type="text/javascript">
 		var freezeRow = 1; //change to row to freeze at
 		var freezeCol = 7; //change to column to freeze at
 		var myRow = freezeRow;
@@ -317,7 +333,7 @@ e.getMessage();
 				ID = window.setTimeout('upp()', speed);
 			}
 		}
-	</script>
+	</script> -->
 </span>
 </body>
 </html>
