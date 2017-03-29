@@ -1,6 +1,5 @@
 package com.muthagroup.automail;
-
-import java.sql.CallableStatement;
+ 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,14 +8,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
-import java.util.TimerTask;
-
+import java.util.TimerTask; 
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
+import javax.mail.internet.MimeMessage; 
 import com.muthagroup.connectionERPUtil.ConnectionUrl;
 
 public class Valid_limitPODI extends TimerTask {
@@ -28,8 +25,8 @@ public class Valid_limitPODI extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			if(d.getHours() == 10 && d.getMinutes() == 27){
-			/*if(d.getHours() == 15 && d.getMinutes() == 12){*/
+			if(d.getHours() == 9 && d.getMinutes() == 49){
+			/*if(d.getHours() == 13 && d.getMinutes() == 59){*/
 			/*if (d.getHours() == 16 && d.getMinutes() == 10){*/
 				 
 				Connection con = ConnectionUrl.getLocalDatabase();
@@ -45,19 +42,13 @@ public class Valid_limitPODI extends TimerTask {
 	 		String from = "itsupports@muthagroup.com";
 			String subject = "PO validity limit alert !!!";
 			boolean sessionDebug = false;
-			
 			Properties props = System.getProperties();
 			props.put("mail.host", host);
-			
-			/*props.put("mail.transport.protocol", "smtp");
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.port", 2525);*/
 			
 			props.put("mail.transport.protocol", "smtp");
 			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.port", 465);
-			
+			props.put("mail.smtp.port", 465); 
 			
 			Session mailSession = Session.getDefaultInstance(props, null);
 			mailSession.setDebug(sessionDebug);
@@ -84,7 +75,8 @@ public class Valid_limitPODI extends TimerTask {
 				dateLimit = Integer.parseInt(rs_rec.getString("validlimit"));
 			}
 			
- 			ArrayList codes = new ArrayList();
+ 			/*
+ 			 ArrayList codes = new ArrayList();
 			 PreparedStatement ps=conerp.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE='12'");
 			 ResultSet rs3=ps.executeQuery();
 			 while(rs3.next()){
@@ -114,14 +106,15 @@ public class Valid_limitPODI extends TimerTask {
 					  }
 				  }
 			  }
+			  */
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append("<b style='color: #0D265E;'>This is an automatically generated email for ERP - PO Validity Limit Alert for " + company + " !!!</b>"); 
 			sb.append("<table border='1' width='97%' style='font-family: Arial;'>"+
 					"<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
-					"<th height='24'>PO No</th><th>PO Date</th><th>Supplier</th><th>Material</th><th>Validity Date</th></tr>");
+					"<th height='24'>PO No</th><th>PO Date</th><th>Amend No</th><th>Order Type</th><th>Supplier</th><th style='color: white;background-color: #c10000'>Validity Date</th></tr>");
 			
-			//	exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1  '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
+			/*//	exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1  '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
 			CallableStatement cs = conerp.prepareCall("{call  Sel_RptPartyWsPurchOrderRegister(?,?,?,?,?,?,?)}");
 			cs.setString(1, comp);
 			cs.setString(2, "0");
@@ -136,22 +129,43 @@ public class Valid_limitPODI extends TimerTask {
 				cs.setString(7, rs_insSubgl.getString("value"));
 			}
 			ResultSet rs_getapp = cs.executeQuery();
+			*/
+			
+
 			date_chk.add(sql_date);
 			for(int g=0;g<Integer.valueOf(dateLimit);g++){
 				cal.add(Calendar.DATE, +1);
 				sql_date = sdfFIrstDate.format(cal.getTime()).toString();
 				date_chk.add(sql_date);
 			}
+			
+			String valid_date="",valid_date1="",valid_date2="";
+			valid_date = date_chk.get(0).toString();
+			valid_date1 = date_chk.get(1).toString();
+			valid_date2 = date_chk.get(2).toString();
+			
+			String supplierName="";
+			PreparedStatement ps_sup=null;
+			ResultSet rs_sup=null;
+			PreparedStatement cs = conerp.prepareStatement("select * from TRNPRCHPOH WHERE VALID_DATE in ('"+valid_date+"','"+valid_date1+"','"+valid_date2+"') and STATUS_CODE=0 ORDER BY TRAN_SUBTYPE ");
+			ResultSet rs_getapp = cs.executeQuery();
 			while(rs_getapp.next()) { 
-				if(date_chk.contains(rs_getapp.getString("VALID_DATE")) && rs_getapp.getString("STATUS_CODE").equalsIgnoreCase("0")){
- 					
+				if(date_chk.contains(rs_getapp.getString("VALID_DATE")) && rs_getapp.getString("STATUS_CODE").equalsIgnoreCase("0")){ 
+			ps_sup = conerp.prepareStatement("select * from MSTACCTGLSUB where SUB_GLACNO='"+rs_getapp.getString("SUB_GLACNO")+"'");
+			rs_sup = ps_sup.executeQuery();
+			while (rs_sup.next()) {
+				supplierName = rs_sup.getString("SUBGL_LONGNAME");
+			}
+					
 			sb.append("<tr style='font-size: 12px; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
-					"<td align='right'>"+rs_getapp.getString("PO_NO")+"</td>"+
-						"<td align='left'>"+rs_getapp.getString("PO_DATE").substring(6,8) +"/"+ rs_getapp.getString("PO_DATE").substring(4,6) +"/"+ rs_getapp.getString("PO_DATE").substring(0,4)+"</td>"+
-						"<td align='left'>"+rs_getapp.getString("SUPP_NAME")+"</td>"+
-						"<td align='left'>"+rs_getapp.getString("MAT_NAME")+"</td>"+
-						"<td align='left'>"+rs_getapp.getString("VALID_DATE").substring(6,8) +"/"+ rs_getapp.getString("VALID_DATE").substring(4,6) +"/"+ rs_getapp.getString("VALID_DATE").substring(0,4)+"</td></tr>");
-			sent=true;
+					"<td align='right'>"+rs_getapp.getString("TRAN_NO").substring(rs_getapp.getString("TRAN_NO").length()-6)+"</td>"+
+					"<td align='left'>"+rs_getapp.getString("TRAN_DATE").substring(6,8) +"/"+ rs_getapp.getString("TRAN_DATE").substring(4,6) +"/"+ rs_getapp.getString("TRAN_DATE").substring(0,4)+"</td>"+
+					"<td align='right'>"+rs_getapp.getString("AMEND_NO")+"</td>"+
+					"<td align='left'>"+rs_getapp.getString("SHORT_NAME")+"</td>"+
+					"<td align='left'>"+supplierName+"</td>"+ 
+					"<td align='left'><strong>"+rs_getapp.getString("VALID_DATE").substring(6,8) +"/"+ rs_getapp.getString("VALID_DATE").substring(4,6) +"/"+ rs_getapp.getString("VALID_DATE").substring(0,4)+"</strong></td></tr>");
+		sent=true;
+		supplierName="";
 			}
 			}
 		sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"+

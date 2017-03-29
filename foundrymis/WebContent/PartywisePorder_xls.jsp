@@ -125,7 +125,7 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
     cellleftformat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
     font.setColour(Colour.BLACK); 
     cellleftformat.setFont(font); 				
-        
+   
     Label label = new Label(0, 0, "PO NO.",cellFormat);
     Label label1 = new Label(1, 0, "PO DATE",cellFormat);
     Label label2 = new Label(2, 0, "Amend No",cellFormat);
@@ -166,7 +166,7 @@ srno ++;
 row++;
 Label po_datelbl = new Label(row, col,poDate,cellleftformat);
 row++;
-Number amdatelbl = new Number(row, col, Double.parseDouble(rs.getString("NEW_AMENDNO")),cellRIghtformat);
+Number amdatelbl = new Number(row, col, Double.parseDouble(rs.getString("AMEND_NO")),cellRIghtformat);
 row++;
 Label witheffectlbl = new Label(row, col,rs.getString("REMRK"),cellRIghtformat);
 row++;
@@ -187,7 +187,7 @@ Number rspclbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),c
 		writableSheet.addCell(srnolbl);
 		writableSheet.addCell(supnamelbl);
 		writableSheet.addCell(wtkglbl);
-		writableSheet.addCell(rskglbl);	 
+		writableSheet.addCell(rskglbl);	
 		writableSheet.addCell(rspclbl);
 		row++;
 		

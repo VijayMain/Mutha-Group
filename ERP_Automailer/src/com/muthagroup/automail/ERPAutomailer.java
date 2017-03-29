@@ -157,26 +157,6 @@ private static final long serialVersionUID = 1L;
 			// 10:18
 			TimerTask  timerInOut =new InOut_Register();
 			timer.schedule(timerInOut, 1000, 60000);  
-			
-						// 10:24
-						TimerTask  valid_limitPOH21 = new Valid_limitPO();
-						timer.schedule(valid_limitPOH21, 1000, 60000);
-						
-						// 10:25
-						TimerTask  valid_limitPOH25 = new Valid_limitPOH25();
-						timer.schedule(valid_limitPOH25, 1000, 60000);
-						
-						// 10:26
-						TimerTask  valid_limitPOMFPL = new Valid_limitPOMFPL();
-						timer.schedule(valid_limitPOMFPL, 1000, 60000);
-						
-						// 10:27
-						TimerTask  valid_limitPODI = new Valid_limitPODI();
-						timer.schedule(valid_limitPODI, 1000, 60000);
-						
-						// 10:28
-						TimerTask  valid_limitPOK1 = new Valid_limitPOK1();
-						timer.schedule(valid_limitPOK1, 1000, 60000);
 			 
 						// 12:30
 						TimerTask  timerTaskMISF =new MIS_SummaryReportFND();
@@ -185,11 +165,27 @@ private static final long serialVersionUID = 1L;
 			 			// 14:59
 						TimerTask  timerTaskMISDI =new MIS_SummaryReportDI();
 						timer.schedule(timerTaskMISDI, 1000, 60000);
+			
+						// 09:43
+						TimerTask  valid_limitPOH21 = new Valid_limitPO();
+						timer.schedule(valid_limitPOH21, 1000, 60000);
 						
-			
-			
-			
-			 
+						// 09:45
+						TimerTask  valid_limitPOH25 = new Valid_limitPOH25();
+						timer.schedule(valid_limitPOH25, 1000, 60000);
+						
+						// 09:47
+						TimerTask  valid_limitPOMFPL = new Valid_limitPOMFPL();
+						timer.schedule(valid_limitPOMFPL, 1000, 60000);
+						
+						// 09:49
+						TimerTask  valid_limitPODI = new Valid_limitPODI();
+						timer.schedule(valid_limitPODI, 1000, 60000);
+						
+						// 09:51
+						TimerTask  valid_limitPOK1 = new Valid_limitPOK1();
+						timer.schedule(valid_limitPOK1, 1000, 60000);
+						 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -270,7 +270,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			<tr style="font-size: 10px;">
 			 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
 			 	<td align="right"><%=poDate%></td>
-			 	<td align="right"><%=rs.getString("NEW_AMENDNO") %></td>
+			 	<td align="right"><%=rs.getString("AMEND_NO") %></td>
 			 	<td><%=rs.getString("REMRK") %></td>
 			 	<td align="right"><%=rs.getString("SR_NO") %></td>
 			 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>

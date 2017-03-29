@@ -58,6 +58,8 @@ label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
 </head>
 <body>
 	<%
+	String name = "mydatais validfortheupdateinsystem";
+	System.out.println("Data = = = = " + name.substring(name.length()-6));
 		/* 
 		 Calendar cal = Calendar.getInstance();  
 		 cal.set(2010, 4, 14);
@@ -167,7 +169,7 @@ System.out.println("SQL DATE =  " + sql_date);
 								<th>For Rs.</th> 
 								<th>Work / Purchase Order No</th>
 								<th>Note</th>
-								 <th>Approval</th>
+								 <th style='color: white;background-color: #c10000'><strong></strong>Approval</th>
 					</tr>
 					<tr>
 								<td></td>
