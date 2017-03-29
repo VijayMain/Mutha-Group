@@ -9,14 +9,12 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar; 
-import java.util.Collections;
+import java.util.Calendar;  
 import java.util.Date; 
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
-import java.util.TimerTask;
-
+import java.util.TimerTask; 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -53,11 +51,10 @@ public class SheduleXLSReminder extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };  
 			boolean flag = true;
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 21) {
-				/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 52) {*/
+			 if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 21) { 
+				 /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 8) {*/
 			//******************************************************************************************************************************
-				ArrayList weekOff = new ArrayList();
-				
+				ArrayList weekOff = new ArrayList(); 
 					int cnt = 0;
 					DecimalFormat zeroDForm = new DecimalFormat("#####0");
 					DecimalFormat twoDForm = new DecimalFormat("#####0.00"); 
@@ -155,10 +152,10 @@ public class SheduleXLSReminder extends TimerTask {
 
 					String dayCNT = sql_date.substring(6,8);
 					
-					System.err.println("Day = " + sql_date.substring(6,8) + "    " + dayCNT);
+				//	System.err.println("Day = " + sql_date.substring(6,8) + "    " + dayCNT);
 					
 					int month = Integer.parseInt(sql_date.substring(4,6));
-					String fromDate = sql_date.substring(0,4)+sql_date.substring(4,6) +"01";					 
+					String fromDate = sql_date.substring(0,4)+sql_date.substring(4,6) +"01";			 
 
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(today);
@@ -196,16 +193,15 @@ public class SheduleXLSReminder extends TimerTask {
 						weekOff.add(i); 
 					}
 				}
-				
 				int workdays = dd - tues; 
-				total_dd = workdays; 
+				total_dd = workdays;
 				total_dd = total_dd - holliday; 
-				//System.out.println("Hollidays = " + holliday + " Total dd = " + total_dd);
+				// System.out.println("Hollidays = " + holliday + " Total dd = " + total_dd);
 				// ***************************************************************************************************************
 				int space = 0;
 				PreparedStatement ps_allHol = conlocal.prepareStatement("select count(montlyWeekdays_id) from montlyweekdays_tbl where month=" + month);
 				ResultSet rs_allHol = ps_allHol.executeQuery();
-				while (rs_allHol.next()) { 
+				while (rs_allHol.next()) {
 					space = Integer.parseInt(rs_allHol.getString("count(montlyWeekdays_id)"));
 				}
 
@@ -226,7 +222,7 @@ public class SheduleXLSReminder extends TimerTask {
 				}
 				count_mnt = count_mnt - tue_month;
 				count_mnt = count_mnt - space;
-				System.out.println("Total Woring Days = " + count_mnt);
+				// System.out.println("Total Woring Days = " + count_mnt);
 				// ***************************************************************************************************************
 
 				ArrayList getdata = new ArrayList();
@@ -250,7 +246,7 @@ public class SheduleXLSReminder extends TimerTask {
 					while (rs_code.next()) {
 						matcode += rs_code.getString("SUB_GLACNO");
 					}
-					
+					// System.out.println("mat code  " + matcode);
 					ArrayList condition = new ArrayList();
 					CallableStatement cs = con.prepareCall("{call Sel_RptDespatchPlanSale(?,?,?,?)}");
 					cs.setString(1, comp_id);
@@ -295,9 +291,6 @@ public class SheduleXLSReminder extends TimerTask {
 					    writableSheet.setColumnView(6, 8);
 					    writableSheet.setColumnView(7, 8);
 					    writableSheet.setColumnView(8, 8);
-					     
-					   
-					     
 					    writableSheet.mergeCells(0, 2,0, 3);
 					    writableSheet.mergeCells(1, 2,0, 3);
 					    writableSheet.mergeCells(2, 2,0, 3);
@@ -305,7 +298,7 @@ public class SheduleXLSReminder extends TimerTask {
 					    writableSheet.mergeCells(4, 2,5, 2);
 					    writableSheet.mergeCells(6, 2,7, 2); 
 					    writableSheet.mergeCells(8, 2,9, 2);
-					     
+					    
 					    int mrg = 10,ext=0;
 					    for(int i=0;i<setdata.size();i++){
 					    	ext = mrg+2; 
@@ -315,14 +308,9 @@ public class SheduleXLSReminder extends TimerTask {
 					    
 					    Label label_1 = new Label(0, 0, "Working Days",cellRIghtformat);
 					    Label label_2 = new Label(0, 1, "Days Completed",cellRIghtformat);
-					    
-					     Label wofflable = new Label(3, 0, "Weekly Off / Holliday",cellFormat_header);
-					    
-					    
-					    
+					    Label wofflable = new Label(3, 0, "Weekly Off / Holliday",cellFormat_header);
 					    Label label_val1 = new Label(1, 0, zeroDForm.format(count_mnt) , cellRIghtformat); 
 					    Label label_val2 = new Label(1, 1, zeroDForm.format(total_dd), cellRIghtformat);
-					    
 					    Label label = new Label(0, 2, "Name of Item",cellFormat); 
 					    Label label1 = new Label(1, 2, "REQ/DAY",cellFormat);
 					    Label label2 = new Label(2, 2, "Sale AVG/DAY",cellFormat);
@@ -418,6 +406,7 @@ public class SheduleXLSReminder extends TimerTask {
 										//***************************************************************************************************************************************************************************************************
 										 rssale = cssale.executeQuery();
 											while(rssale.next()){
+												// System.out.println("data logger = " + rssale.getString("MAT_CODE") + "  = =  "  + rs_disp.getString("MAT_CODE"));
 												if(rssale.getString("MAT_CODE").equalsIgnoreCase(rs_disp.getString("MAT_CODE"))){
 												compareList.add(rssale.getString("SALE_QTY1"));
 												compareList.add(rssale.getString("SALE_QTY2"));
@@ -453,9 +442,10 @@ public class SheduleXLSReminder extends TimerTask {
 												}
 											}
 											mrg = 10; 
- 											
+ 											 
+ 											if(compareList.size()!=0){
 											for(int i1=0;i1<setdata.size();i1++){
-												if(weekOff.contains(Integer.parseInt(setdata.get(i1).toString()))){ 
+												if(weekOff.contains(Integer.parseInt(setdata.get(i1).toString()))){
 													if(Math.round(Double.parseDouble(compareList.get(i1).toString())) !=0){
 														perShed = (Double.parseDouble(compareList.get(i1).toString())/shedule_id)*100;
 														
@@ -490,9 +480,10 @@ public class SheduleXLSReminder extends TimerTask {
 													mrg++;
 													Label label_dayrows2 = new Label(mrg+i1, r,twoDForm.format(perShed)  ,cellRIghtformat);
 													writableSheet.addCell(label_dayrows2);
-													perShed=0;
+													perShed=0; 
 												}
 											}
+ 											}
 											compareList.clear();
 										//***************************************************************************************************************************************************************************************************
 										r++;
@@ -719,6 +710,7 @@ public class SheduleXLSReminder extends TimerTask {
 																}
 															}
 															mrg = 10;
+															if(compareList.size()!=0){
 															for(int i1=0;i1<setdata.size();i1++){
 																if(weekOff.contains(Integer.parseInt(setdata.get(i1).toString()))){
 																	
@@ -758,6 +750,7 @@ public class SheduleXLSReminder extends TimerTask {
 																	writableSheet1.addCell(label_dayrows2);
 																	perShed=0;
 																}
+															}
 															}
 															compareList.clear();
 														//***************************************************************************************************************************************************************************************************
@@ -984,6 +977,7 @@ public class SheduleXLSReminder extends TimerTask {
 																	}
 																}
 																mrg = 10;
+																if(compareList.size()!=0){
 																for(int i1=0;i1<setdata.size();i1++){
 																	if(weekOff.contains(Integer.parseInt(setdata.get(i1).toString()))){
 
@@ -1023,6 +1017,7 @@ public class SheduleXLSReminder extends TimerTask {
 																		writableSheet2.addCell(label_dayrows2);
 																		perShed=0;
 																	}
+																}
 																}
 																compareList.clear();
 															//***************************************************************************************************************************************************************************************************
@@ -1248,6 +1243,7 @@ public class SheduleXLSReminder extends TimerTask {
 																		}
 																	}
 																	mrg = 10;
+																	if(compareList.size()!=0){
 																	for(int i1=0;i1<setdata.size();i1++){
 																		if(weekOff.contains(Integer.parseInt(setdata.get(i1).toString()))){
 
@@ -1287,6 +1283,7 @@ public class SheduleXLSReminder extends TimerTask {
 																			writableSheet3.addCell(label_dayrows2);
 																			perShed=0;
 																		}
+																	}
 																	}
 																	compareList.clear();
 																//***************************************************************************************************************************************************************************************************
@@ -1511,6 +1508,7 @@ public class SheduleXLSReminder extends TimerTask {
 																			}
 																		}
 																		mrg = 10;
+																		if(compareList.size()!=0){
 																		for(int i1=0;i1<setdata.size();i1++){
 																			if(weekOff.contains(Integer.parseInt(setdata.get(i1).toString()))){
 
@@ -1551,6 +1549,7 @@ public class SheduleXLSReminder extends TimerTask {
 																				perShed=0;
 																			}
 																		}
+																		}
 																		compareList.clear();
 																	//***************************************************************************************************************************************************************************************************
 																	r++;
@@ -1584,11 +1583,11 @@ public class SheduleXLSReminder extends TimerTask {
 				// multiple recipients : == >
 				// *********************************************************************************************
 								
-				String recipients[] = {"nandkumar@muthagroup.com","h25supervisor@muthagroup.com","asshete@muthagroup.com","arif@muthagroup.com","dmvhankade@muthagroup.com","ankatariya@muthagroup.com","vmjoshi@muthagroup.com","meplunit3production@muthagroup.com" ,"pdpatil@muthagroup.com","jangam@muthagroup.com","sunilpb@muthagroup.com","takalena@muthagroup.com","brchourasiya@muthagroup.com","anoop@muthagroup.com","marketing@muthagroup.com","parikshitap@muthagroup.com","nrfirodia@muthagroup.com","kunalvm@muthagroup.com" ,"vahalkar@muthagroup.com","asbe@muthagroup.com","sanjay@muthagroup.com","prbhosale@muthagroup.com","prmallewadikar@muthagroup.com","kamlesh@muthagroup.com","gdc@muthagroup.com","srpatekar@muthagroup.com","jbaphna@muthagroup.com","ssgare@muthagroup.com","vvsamant@muthagroup.com","jginamdar@muthagroup.com"};
-				String cc_recipients[] = {"nileshss@muthagroup.com"};
+				/*String recipients[] = {"nandkumar@muthagroup.com","h25supervisor@muthagroup.com","asshete@muthagroup.com","arif@muthagroup.com","dmvhankade@muthagroup.com","ankatariya@muthagroup.com","vmjoshi@muthagroup.com","meplunit3production@muthagroup.com" ,"pdpatil@muthagroup.com","jangam@muthagroup.com","sunilpb@muthagroup.com","takalena@muthagroup.com","brchourasiya@muthagroup.com","anoop@muthagroup.com","marketing@muthagroup.com","parikshitap@muthagroup.com","nrfirodia@muthagroup.com","kunalvm@muthagroup.com" ,"vahalkar@muthagroup.com","asbe@muthagroup.com","sanjay@muthagroup.com","prbhosale@muthagroup.com","prmallewadikar@muthagroup.com","kamlesh@muthagroup.com","gdc@muthagroup.com","srpatekar@muthagroup.com","jbaphna@muthagroup.com","ssgare@muthagroup.com","vvsamant@muthagroup.com","jginamdar@muthagroup.com"};
+				String cc_recipients[] = {"nileshss@muthagroup.com"};*/
 								
-				/*String recipients[] = {"nileshss@muthagroup.com"};
-				String cc_recipients[] = {"vijaybm@muthagroup.com"};*/
+				String recipients[] = {"vijaybm@muthagroup.com"};
+				String cc_recipients[] = {"vijaybm@muthagroup.com"};
 
 				Properties props = System.getProperties();
 				props.put("mail.host", host);
@@ -1663,7 +1662,11 @@ public class SheduleXLSReminder extends TimerTask {
 	Transport transport = mailSession.getTransport("smtp");
 	transport.connect(host, user, pass);
 	transport.sendMessage(msg, msg.getAllRecipients());
-	transport.close(); 
+	transport.close();
+	
+	
+	// System.out.println("Data file sent to host....");
+	
 	// ********************************************************************************************************************
 			
 			System.out.println("Shedule Mailer End");

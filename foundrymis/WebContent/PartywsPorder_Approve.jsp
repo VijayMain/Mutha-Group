@@ -102,8 +102,7 @@ if(flag_close.equalsIgnoreCase("true")){
 }
 %>
 	<span id="exportId">
-		<button id="filebutton" 
-			style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate
+		<button id="filebutton" disabled="disabled" style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate
 			Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading"
 		style="visibility: hidden;" />
 	</span>

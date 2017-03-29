@@ -339,14 +339,14 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 						 	<td align="right"><%=rs.getString("RATE") %></td> 
 						 	<td><%=rs.getString("PAY_REMRK") %></td>
 			</tr>
-		<%		
+	<%		
 		}
-		}
+	  }
 	}
 	%>	 
-		</table>
+</table>
 <%
-	// System.out.println("Update = " + DayWIseSum);
+// System.out.println("Update = " + DayWIseSum);
 con.close();
 } catch (Exception e) {
 e.printStackTrace();
@@ -356,7 +356,7 @@ e.getMessage();
 	</div>
 	<br>
 	<br>
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		var freezeRow = 1; //change to row to freeze at
 		var freezeCol = 9; //change to column to freeze at
 		var myRow = freezeRow;
@@ -451,7 +451,7 @@ e.getMessage();
 				ID = window.setTimeout('upp()', speed);
 			}
 		}
-	</script>
+	</script> -->
 
 </body>
 </html>

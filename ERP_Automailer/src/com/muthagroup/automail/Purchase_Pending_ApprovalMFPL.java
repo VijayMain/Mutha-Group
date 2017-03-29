@@ -23,8 +23,7 @@ public class Purchase_Pending_ApprovalMFPL extends TimerTask {
 	@Override
 	public void run() {
 		Date d = new Date();
-		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday",
-				"Thursday", "Friday", "Saturday" };
+		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday","Thursday", "Friday", "Saturday" };
 		ArrayList rem = new ArrayList(); 
 		if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 03)||(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 03)) {
 		try {

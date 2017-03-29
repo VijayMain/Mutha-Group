@@ -19,7 +19,7 @@ private static final long serialVersionUID = 1L;
 			// ******************************************************************************************************************
 			// Thread No 1
 			// ******************************************************************************************************************
-	    	
+	    	 
 			// 09:40
 			TimerTask  siscompSale =new SisterCompanySale_Report();
 			timer.schedule(siscompSale, 1000, 60000);
@@ -185,7 +185,7 @@ private static final long serialVersionUID = 1L;
 						// 09:51
 						TimerTask  valid_limitPOK1 = new Valid_limitPOK1();
 						timer.schedule(valid_limitPOK1, 1000, 60000);
-						 
+				 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
