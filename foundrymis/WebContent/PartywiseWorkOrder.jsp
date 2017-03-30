@@ -292,7 +292,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			 	<td align="right"><%=rs.getString("NEW_AMENDNO") %></td> 
 			 	<td align="right"><%=rs.getString("PRN_PODATE")%></td>
 			 	<td align="right"><%=rs.getString("SR_NO") %></td> 
-			 	<td align="right"><%=rs.getString("WEIGHT") %></td>  
+			 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
 			 	<td align="right"><%=rs.getString("RATE") %></td> 
 			 	<td><%=rs.getString("PAY_REMRK") %></td>
 			</tr>

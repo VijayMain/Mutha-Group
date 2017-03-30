@@ -252,8 +252,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 				<th scope="col" class="th">Rs/Pc</th>
 			</tr>
 			<%	
-			// exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1 
-			//  '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
+			// exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1  '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
 
  	CallableStatement cs11 = con.prepareCall("{call Sel_RptPartyWsPurchOrderRegister(?,?,?,?,?,?,?)}");
 	cs11.setString(1,comp);

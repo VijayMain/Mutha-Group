@@ -61,7 +61,7 @@ public class Purchase_PendDues_Stat21 extends TimerTask {
 			 PreparedStatement ps=con.prepareStatement("select * from ENGERP..MSTACCTGLSUB where SUB_GLCODE='12'");
 			  ResultSet rs3=ps.executeQuery();
 			  while(rs3.next()){
-				  		  codes.add(rs3.getString("SUB_GLACNO"));
+				  codes.add(rs3.getString("SUB_GLACNO"));
 			  }
 			  ArrayList removecode=new ArrayList();
 			  rem.add("101120645");
