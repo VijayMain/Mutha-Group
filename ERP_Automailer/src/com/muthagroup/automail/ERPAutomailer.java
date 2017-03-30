@@ -12,13 +12,14 @@ public class ERPAutomailer extends HttpServlet {
 private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*______________________________________________________________________________________________________________________________*/
+		/*______________________________________________________________________________________________________________________________*/
 		try {
 			Timer timer = new Timer();
-			
 			// ******************************************************************************************************************
 			// Thread No 1
 			// ******************************************************************************************************************
-		 
+	 
 			// 09:40
 			TimerTask  siscompSale =new SisterCompanySale_Report();
 			timer.schedule(siscompSale, 1000, 60000);
@@ -145,6 +146,8 @@ private static final long serialVersionUID = 1L;
 			TimerTask  issueWithoutWO = new IssueWithoutWO();
 			timer.schedule(issueWithoutWO, 1000, 60000); 
 			
+			
+			
 			// 10:24
 			TimerTask  valid_limitPOH21 = new Valid_limitPO();
 			timer.schedule(valid_limitPOH21, 1000, 60000);
@@ -169,13 +172,15 @@ private static final long serialVersionUID = 1L;
 			TimerTask  poWithoutGRN_1000 =new POWithoutGRN_1000();
 			timer.schedule(poWithoutGRN_1000, 1000, 60000);
 			
+			 
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 }
-
-
+/*____________________________________________________ End of AutoMailer___________________________________________________________*/
+/*______________________________________________________________________________________________________________________________*/
  
 
 

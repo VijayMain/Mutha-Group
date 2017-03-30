@@ -28,7 +28,7 @@ public class Valid_limitPOH25 extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
-			if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 25){ 			
+			if(d.getHours() == 10 && d.getMinutes() == 25){ 			
 			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 42){*/
 				 
 				Connection con = ConnectionUrl.getLocalDatabase();
