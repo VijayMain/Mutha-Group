@@ -15,13 +15,8 @@
 <%@page import="java.sql.CallableStatement"%>
 <%@page import="com.muthagroup.connectionUtil.ConnectionUrl"%>
 <html>
-<head>
-<script language="JavaScript"> 
-var nHist = window.history.length;
-if(window.history[nHist] != window.location)
-  window.history.forward(); 
-</script>
-<title>Party Wise Purchase Order</title>
+<head> 
+<title>Party Wise Work Order</title>
 <STYLE TYPE="text/css" MEDIA=all>
 .td1 {
 	font-size: 10px;
@@ -163,14 +158,16 @@ A:hover {
 </script>
 </head>
 <body bgcolor="#DEDEDE" style="font-family: Arial;">
+<span id="MyApproval">
 <%
 try{
 Connection con =null;
 String comp =request.getParameter("comp");
-String sup =request.getParameter("sup"); 
+String sup =request.getParameter("sup");
+
 String from =request.getParameter("fromdate");
-String to =request.getParameter("todate"); 
-String passSuppliers = sup; 
+String to =request.getParameter("todate");
+String passSuppliers = sup;
 String fromDate = from.substring(6,8) +"/"+ from.substring(4,6) +"/"+ from.substring(0,4);
 String toDate = to.substring(6,8) +"/"+ to.substring(4,6) +"/"+ to.substring(0,4);
 
@@ -325,8 +322,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 		}
 	}else{
 		while(rs.next()){
-			if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){
-				System.out.println("rs.getString" + rs.getString("AMEND_NO"));
+			if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){ 
 		%>
 			 <tr style="font-size: 10px;">
 			 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
@@ -452,6 +448,6 @@ e.getMessage();
 			}
 		}
 	</script>
-
+</span>
 </body>
 </html>

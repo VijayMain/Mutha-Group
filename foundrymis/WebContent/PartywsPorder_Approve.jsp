@@ -98,7 +98,7 @@ if(flag_close.equalsIgnoreCase("true")){
 }else{
 %> 
 <input type="checkbox" name="closed" id="closed" onclick="ApprovedOrder('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Closed</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<%	
+<%
 }
 %>
 	<span id="exportId">
@@ -174,7 +174,7 @@ if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreC
 			</tr>
 	<%
 		}
-		if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("true")) || 
+		if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("true")) &&
 		   ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("true"))){
 			//System.out.println("true true" + rs.getString("STATUS_CODE"));
 	%>

@@ -15,13 +15,8 @@
 <%@page import="java.sql.CallableStatement"%>
 <%@page import="com.muthagroup.connectionUtil.ConnectionUrl"%>
 <html>
-<head>
-<script language="JavaScript"> 
-var nHist = window.history.length;
-if(window.history[nHist] != window.location)
-  window.history.forward(); 
-</script>
-<title>Party Wise Purchase Order</title>
+<head> 
+<title>Party Wise Work Order</title>
 <STYLE TYPE="text/css" MEDIA=all>
 .td1 {
 	font-size: 10px;
@@ -116,61 +111,27 @@ A:hover {
 	right: 22px;
 	padding-top: 2px;
 }
-</STYLE>
-<script type="text/javascript">
-	function getExcel_Report(comp,sup,from,to) { 
-		document.getElementById("fileloading").style.visibility = "visible";
-		document.getElementById("filebutton").disabled = true; 
-		var xmlhttp;
-		if (window.XMLHttpRequest) {
-			// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {
-			// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				document.getElementById("exportId").innerHTML = xmlhttp.responseText;
-			}
-		};
-		xmlhttp.open("POST", "PartywiseWorkOrder_xls.jsp?comp=" + comp +"&sup="+sup+"&from="+from+"&to="+to, true);
-		xmlhttp.send();
-	};
-	
-	function ApprovedOrder(comp,sup,from,to) {
-		document.getElementById("fileloading").style.visibility = "visible";
-		document.getElementById("filebutton").disabled = true;
-		var xmlhttp;
-		var flag = document.getElementById("approved").checked;
-		var flag_close = document.getElementById("closed").checked;
- 		
-		if (window.XMLHttpRequest) {
-			// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {
-			// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				document.getElementById("MyApproval").innerHTML = xmlhttp.responseText;
-			}
-		};
-		xmlhttp.open("POST", "PartywsWorder_Approve.jsp?comp=" + comp +"&sup="+sup+"&from="+from+"&to="+to+"&flag="+flag+"&flag_close="+flag_close, true);
-		xmlhttp.send();
-	};
-</script>
+</STYLE> 
 </head>
 <body bgcolor="#DEDEDE" style="font-family: Arial;">
+<span id="MyApproval">
 <%
 try{
 Connection con =null;
 String comp =request.getParameter("comp");
-String sup =request.getParameter("sup"); 
-String from =request.getParameter("fromdate");
-String to =request.getParameter("todate"); 
-String passSuppliers = sup; 
+String sup =request.getParameter("sup");
+String from =request.getParameter("from");
+String to =request.getParameter("to");
+
+
+
+String tick_flag =request.getParameter("flag"); 
+String flag_close =request.getParameter("flag_close");
+
+System.out.println("work order" + tick_flag + " = " + flag_close);
+
+String passSuppliers = sup;
+
 String fromDate = from.substring(6,8) +"/"+ from.substring(4,6) +"/"+ from.substring(0,4);
 String toDate = to.substring(6,8) +"/"+ to.substring(4,6) +"/"+ to.substring(0,4);
 
@@ -244,20 +205,36 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 <strong style="font-family: Arial; font-size: 13px;"><a href="HomePage.jsp" style="text-decoration: none;">&lArr;BACK</a></strong>
 	&nbsp;&nbsp;&nbsp;&nbsp;
 <%
+} 
+if(tick_flag.equalsIgnoreCase("true")){
+%>
+<input type="checkbox" checked="checked" name="approved" id="approved" onclick="ApprovedOrder('<%=comp%>','<%=passSuppliers%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Approved</strong>
+<%
+}else{
+%>
+<input type="checkbox"  name="approved" id="approved" onclick="ApprovedOrder('<%=comp%>','<%=passSuppliers%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Approved</strong>
+<%	
+}
+if(flag_close.equalsIgnoreCase("true")){
+%> 
+<input type="checkbox" checked="checked" name="closed" id="closed" onclick="ApprovedOrder('<%=comp%>','<%=passSuppliers%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Closed</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<%
+}else{
+%> 
+<input type="checkbox" name="closed" id="closed" onclick="ApprovedOrder('<%=comp%>','<%=passSuppliers%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Closed</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<%
 }
 %>
-<input type="checkbox" name="approved" id="approved" onclick="ApprovedOrder('<%=comp%>','<%=passSuppliers%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Approved</strong> 
-<input type="checkbox" name="closed" id="closed" onclick="ApprovedOrder('<%=comp%>','<%=passSuppliers%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Closed</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 	<span id="exportId">
-		<button id="filebutton"
+		<button id="filebutton" disabled="disabled"
 			onclick="getExcel_Report('<%=comp%>','<%=passSuppliers%>','<%=from%>','<%=to%>')"
 			style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate
 			Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading"
 		style="visibility: hidden;" />
 	</span>
 
-	<div class="div_freezepanes_wrapper">
+	<!-- <div class="div_freezepanes_wrapper">
 		<div class="div_verticalscroll"
 			onmouseover="this.style.cursor='pointer'">
 			<div style="height: 50%;" onmousedown="upp();" onmouseup="upp(1);">
@@ -277,7 +254,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 				onmousedown="left();" onmouseup="left(1);">
 				<img class="buttonLeft" src="images/forward.png">
 			</div>
-		</div>
+		</div> -->
 		<table id="t1" class="t1" border="1"
 			style="width: 98%; border: 1px solid #000;">
 			
@@ -305,10 +282,12 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 	cs11.setString(4,from);
 	cs11.setString(5,to);
 	cs11.setString(6,"0"); 
-	ResultSet rs = cs11.executeQuery(); 
-	
-	if(allFlag==true){
+	ResultSet rs = cs11.executeQuery();
+	if(allFlag==true){ 
 		while(rs.next()){
+			if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("true")) &&  
+					 ((!rs.getString("STATUS_CODE").equalsIgnoreCase("11") || !rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("false"))){
+				
  %>
 			 <tr style="font-size: 10px;">
 			 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
@@ -322,41 +301,151 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			 	<td><%=rs.getString("PAY_REMRK") %></td>
 			</tr>
 	<%			 
-		}
-	}else{
-		while(rs.next()){
-			if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){
-				System.out.println("rs.getString" + rs.getString("AMEND_NO"));
+			}
+			if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("true")) && 
+					   ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("true"))){
+				%>
+				 <tr style="font-size: 10px;">
+				 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+				 <td align="right"><%=rs.getString("AMEND_NO") %></td>
+				 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
+				 <td><%=rs.getString("SUPP_NAME") %></td>
+				 <td><%=rs.getString("MAT_NAME") %></td> 
+				 	<td align="right"><%=rs.getString("SR_NO") %></td> 
+				 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
+				 	<td align="right"><%=rs.getString("RATE") %></td> 
+				 	<td><%=rs.getString("PAY_REMRK") %></td>
+				</tr>
+		<%						
+			} 
+			if((!rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("false")) &&  
+					   ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("true"))){
+				
 		%>
-			 <tr style="font-size: 10px;">
-			 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
-			 <td align="right"><%=rs.getString("AMEND_NO") %></td>
-			 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
-						 <td><%=rs.getString("SUPP_NAME") %></td>
-						 <td><%=rs.getString("MAT_NAME") %></td>
-						 	<td align="right"><%=rs.getString("SR_NO") %></td>
-						 	<td align="right"><%=rs.getString("WEIGHT") %></td>  
-						 	<td align="right"><%=rs.getString("RATE") %></td> 
-						 	<td><%=rs.getString("PAY_REMRK") %></td>
-			</tr>
-	<%		
+		<tr style="font-size: 10px;">
+				 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+				 <td align="right"><%=rs.getString("AMEND_NO") %></td>
+				 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
+				 <td><%=rs.getString("SUPP_NAME") %></td>
+				 <td><%=rs.getString("MAT_NAME") %></td> 
+				 <td align="right"><%=rs.getString("SR_NO") %></td> 
+				 <td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
+				 <td align="right"><%=rs.getString("RATE") %></td> 
+				  <td><%=rs.getString("PAY_REMRK") %></td>
+		</tr>
+		<%		
+			}
+			if(tick_flag.equalsIgnoreCase("false") && flag_close.equalsIgnoreCase("false")){
+				%>
+				 <tr style="font-size: 10px;">
+				 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+				 <td align="right"><%=rs.getString("AMEND_NO") %></td>
+				 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
+				 <td><%=rs.getString("SUPP_NAME") %></td>
+				 <td><%=rs.getString("MAT_NAME") %></td> 
+				 	<td align="right"><%=rs.getString("SR_NO") %></td> 
+				 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
+				 	<td align="right"><%=rs.getString("RATE") %></td> 
+				 	<td><%=rs.getString("PAY_REMRK") %></td>
+				</tr>
+		<%		
+			}
 		}
-	  }
-	}
+		
+		
+		
+		
+		
+		
+	}else{
+		
+		while(rs.next()){
+			 	if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME")) && (rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("true")) &&  
+						 ((!rs.getString("STATUS_CODE").equalsIgnoreCase("11") || !rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("false"))){
+					
+			System.out.println("one = ");		
+					%>
+					 <tr style="font-size: 10px;">
+					 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+					 <td align="right"><%=rs.getString("AMEND_NO") %></td>
+					 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
+								 <td><%=rs.getString("SUPP_NAME") %></td>
+								 <td><%=rs.getString("MAT_NAME") %></td>
+								 	<td align="right"><%=rs.getString("SR_NO") %></td>
+								 	<td align="right"><%=rs.getString("WEIGHT") %></td>  
+								 	<td align="right"><%=rs.getString("RATE") %></td> 
+								 	<td><%=rs.getString("PAY_REMRK") %></td>
+					</tr>
+				<%				 
+						 }
+						 if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME")) && (rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("true")) && 
+						   ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("true"))){
+							 System.out.println("two = ");
+							 %>
+							 <tr style="font-size: 10px;">
+							 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+							 <td align="right"><%=rs.getString("AMEND_NO") %></td>
+							 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
+										 <td><%=rs.getString("SUPP_NAME") %></td>
+										 <td><%=rs.getString("MAT_NAME") %></td>
+										 	<td align="right"><%=rs.getString("SR_NO") %></td>
+										 	<td align="right"><%=rs.getString("WEIGHT") %></td>  
+										 	<td align="right"><%=rs.getString("RATE") %></td> 
+										 	<td><%=rs.getString("PAY_REMRK") %></td>
+							</tr>
+						<%	   
+						   }
+						   
+						   if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME")) && (!rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("false")) &&  
+						   ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("true"))){
+							   System.out.println("three ");
+							   %>
+								 <tr style="font-size: 10px;">
+								 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+								 <td align="right"><%=rs.getString("AMEND_NO") %></td>
+								 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
+											 <td><%=rs.getString("SUPP_NAME") %></td>
+											 <td><%=rs.getString("MAT_NAME") %></td>
+											 	<td align="right"><%=rs.getString("SR_NO") %></td>
+											 	<td align="right"><%=rs.getString("WEIGHT") %></td>  
+											 	<td align="right"><%=rs.getString("RATE") %></td> 
+											 	<td><%=rs.getString("PAY_REMRK") %></td>
+								</tr>
+							<%
+						   }
+						   
+						   if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME")) && tick_flag.equalsIgnoreCase("false") && flag_close.equalsIgnoreCase("false")){
+							   System.out.println("four = ");
+							   %>
+								 <tr style="font-size: 10px;">
+								 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+								 <td align="right"><%=rs.getString("AMEND_NO") %></td>
+								 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
+											 <td><%=rs.getString("SUPP_NAME") %></td>
+											 <td><%=rs.getString("MAT_NAME") %></td>
+											 	<td align="right"><%=rs.getString("SR_NO") %></td>
+											 	<td align="right"><%=rs.getString("WEIGHT") %></td>  
+											 	<td align="right"><%=rs.getString("RATE") %></td> 
+											 	<td><%=rs.getString("PAY_REMRK") %></td>
+								</tr>
+							<%	
+						}
+		}
+		} 
 	%>	 
-</table>
+		</table>
 <%
-// System.out.println("Update = " + DayWIseSum);
+	// System.out.println("Update = " + DayWIseSum);
 con.close();
 } catch (Exception e) {
 e.printStackTrace();
 e.getMessage();
 }
 %>
-	</div>
+	<!-- </div> -->
 	<br>
 	<br>
-	<!-- <script type="text/javascript">
+<!-- 	<script type="text/javascript">
 		var freezeRow = 1; //change to row to freeze at
 		var freezeCol = 9; //change to column to freeze at
 		var myRow = freezeRow;
@@ -452,6 +541,6 @@ e.getMessage();
 			}
 		}
 	</script> -->
-
+</span>
 </body>
 </html>
