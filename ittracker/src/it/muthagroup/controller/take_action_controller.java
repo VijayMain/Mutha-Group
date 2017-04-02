@@ -18,8 +18,9 @@ public class take_action_controller extends HttpServlet {
 		HttpSession session=request.getSession();
 		
 		String status=null,remark=null,done_by=null;
-		int req_no=0,uid=0;
+		int req_no=0,uid=0,transfer_status=0;;
 		
+		transfer_status=Integer.parseInt(request.getParameter("transfer_status"));
 		status=request.getParameter("status");
 		remark=request.getParameter("remark_details");
 		done_by=request.getParameter("done_by");
@@ -33,6 +34,7 @@ public class take_action_controller extends HttpServlet {
 		vo.setReq_no(req_no);
 		vo.setStatus(status);
 		vo.setUid(uid); 
+		vo.setTransfer_status(transfer_status);
 		
 		take_action_bo bo=new take_action_bo();
 		

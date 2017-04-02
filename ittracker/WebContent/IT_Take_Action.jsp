@@ -203,7 +203,6 @@ try {
 			 			ResultSet rs_doneBy=ps_doneBy.executeQuery();
 			 			while(rs_doneBy.next())
 			 			{
-						
 						%>
 						<td align="center"><%=rs_doneBy.getString("U_Name") %></td>
 					</tr>
@@ -225,6 +224,23 @@ try {
   				</td>
   			</tr>
   			<tr>
+  				<td align="right"><b>Transfer Status</b></td>
+  				<td align="left">
+  					<select name="transfer_status" id="transfer_status">
+  						<option value="0">None</option>
+  						<%
+  						PreparedStatement ps_doneBY = con.prepareStatement("select * from it_requisition_handover_tbl where enable=1");
+  		  				ResultSet rs_doneBy = ps_doneBY.executeQuery();
+  		  				while(rs_doneBy.next()){
+  						%>
+  						<option value="<%=rs_doneBy.getInt("code")%>"><%=rs_doneBy.getString("name")%></option>
+  						<%
+  		  				}
+  						%>
+  					</select>
+  				</td>
+  			</tr>
+  			<tr>
   				<td align="right"><b>Remark</b></td>
   				<td align="left">
   				<textarea rows="6" cols="40" name="remark_details"></textarea>
@@ -235,8 +251,8 @@ try {
   				<td align="left">
   				<select name="done_by" id="done_by">
   				<%
-  				PreparedStatement ps_doneBY = con.prepareStatement("select * from user_tbl where dept_id=18 and Enable_id=1 and u_id="+uid);
-  				ResultSet rs_doneBy = ps_doneBY.executeQuery();
+  				ps_doneBY = con.prepareStatement("select * from user_tbl where dept_id=18 and Enable_id=1 and u_id="+uid);
+  				rs_doneBy = ps_doneBY.executeQuery();
   				while(rs_doneBy.next()){
   				%>
   				 <option value="<%=rs_doneBy.getString("U_Name")%>"><%=rs_doneBy.getString("U_Name")%></option>
@@ -263,16 +279,10 @@ try {
   </form>
 
 <br/>
-<script language="JavaScript" type="text/javascript"
-							xml:space="preserve">
-							var frmvalidator = new Validator(
-									"Take_Action");
-
-							frmvalidator.addValidation("remark_details",
-									"req", "Please Provide the Remark..!!");
-							
-							frmvalidator.addValidation("done_by",
-									"req", "Please Provide the Done By ..!!");
+<script language="JavaScript" type="text/javascript" xml:space="preserve">
+	var frmvalidator = new Validator("Take_Action");
+	frmvalidator.addValidation("remark_details","req", "Please Provide the Remark..!!"); 
+	frmvalidator.addValidation("done_by", "req", "Please Provide the Done By ..!!");
 </script>
 		</div>
 		<%

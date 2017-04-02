@@ -32,31 +32,21 @@ public class take_action_dao {
 			// To get Todays Date ====== >>>
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			// get current date time with Date()
-			Date date = new Date();
-			System.out.println("by date..:" + dateFormat.format(date));
-
-			java.sql.Timestamp timestamp = new java.sql.Timestamp(
-					date.getTime());
-
-			System.out.println("by TIMESTAMP..:" + timestamp);
-
+			Date date = new Date(); 
+			java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime()); 
 			Connection con = Connection_Utility.getConnection();
-
-			PreparedStatement ps_addRemark = con
-					.prepareStatement("insert into it_requisition_remark_tbl(U_Req_Id,U_Id,Remark_Date,Action_Details,Done_By,Status)values(?,?,?,?,?,?)");
+			PreparedStatement ps_addRemark = con.prepareStatement("insert into it_requisition_remark_tbl(U_Req_Id,U_Id,Remark_Date,Action_Details,Done_By,Status)values(?,?,?,?,?,?)");
 			ps_addRemark.setInt(1, vo.getReq_no());
 			ps_addRemark.setInt(2, vo.getUid());
 			ps_addRemark.setTimestamp(3, timestamp);
 			ps_addRemark.setString(4, vo.getRemark());
 			ps_addRemark.setString(5, vo.getDone_by());
-			ps_addRemark.setString(6, vo.getStatus());
-
+			ps_addRemark.setString(6, vo.getStatus()); 
 			i = ps_addRemark.executeUpdate();
 			int j = 0;
 			int k = 0;
 			if (i > 0) {
-				PreparedStatement ps_status = con
-						.prepareStatement("update it_user_requisition set status = '"
+				PreparedStatement ps_status = con.prepareStatement("update it_user_requisition set status = '"
 								+ vo.getStatus()
 								+ "' where U_req_id ="
 								+ vo.getReq_no());
@@ -79,7 +69,6 @@ public class take_action_dao {
 						while(rs_reqName.next()){
 							req_name = rs_reqName.getString("U_Name");
 						}
-						
 						rel_id = rs_getDetails.getInt("Rel_Id");
 						req_type_id = rs_getDetails.getInt("Req_Type_Id");
 						comp_id = rs_getDetails.getInt("Company_Id");
@@ -101,7 +90,6 @@ public class take_action_dao {
 
 					k = ps_addReq_hist.executeUpdate();
 				}
-
 			}
 			int dept_id = 0;
 			PreparedStatement ps_userDept = con
@@ -114,6 +102,33 @@ public class take_action_dao {
 
 			if (k > 0) {
 				if (dept_id == 18) {
+					String transferCall="None";
+					int up_code =0;
+					if(vo.getTransfer_status()!=0){ 
+						PreparedStatement ps_trStat = con.prepareStatement("select * from it_requisition_handover_tbl where code="+vo.getTransfer_status());
+						ResultSet rs_trstat = ps_trStat.executeQuery();
+						while (rs_trstat.next()) {
+							transferCall = rs_trstat.getString("name");
+						}
+						ps_trStat =con.prepareStatement("insert into it_user_reqcalltransfer(transfer_to,date_transfer,req_id,transfer_status)values(?,?,?,?)");
+						ps_trStat.setInt(1, vo.getTransfer_status());
+						ps_trStat.setTimestamp(2, timestamp);
+						ps_trStat.setInt(3, vo.getReq_no());
+						ps_trStat.setString(4, transferCall);
+						int upload = ps_trStat.executeUpdate();
+						
+						ps_trStat =con.prepareStatement("SELECT * FROM complaintzilla.it_requisition_remark_tbl where req_remark_id = (select max(req_remark_id) from complaintzilla.it_requisition_remark_tbl where U_req_id="+vo.getReq_no()+");");
+						rs_trstat = ps_trStat.executeQuery();
+						while (rs_trstat.next()) {
+							up_code = rs_trstat.getInt("Req_Remark_Id");
+						}
+						ps_trStat = con.prepareStatement("update it_requisition_remark_tbl set transfer_call='"+transferCall+"' where Req_Remark_Id="+up_code);
+						upload = ps_trStat.executeUpdate();
+						
+						ps_trStat = con.prepareStatement("update it_user_requisition set transfer_call='"+transferCall+"' where U_Req_Id="+vo.getReq_no());
+						upload = ps_trStat.executeUpdate();
+						
+					}
 					//**************************************************************************************************************
 					//********************************************* Send an Email **************************************************
 					//**************************************************************************************************************
@@ -122,8 +137,7 @@ public class take_action_dao {
 					PreparedStatement ps_reqDetails=con.prepareStatement("select * from IT_User_Requisition where U_Req_Id="+vo.getReq_no());
 					ResultSet rs_reqDetails=ps_reqDetails.executeQuery();
 					while(rs_reqDetails.next())
-					{
-					 							
+								{				
 								PreparedStatement ps_user=con.prepareStatement("select U_Name,U_Email from User_tbl where U_Id="+rs_reqDetails.getString("U_Id"));
 								ResultSet rs_user=ps_user.executeQuery();
 								while(rs_user.next())
@@ -131,7 +145,6 @@ public class take_action_dao {
 									userNm = rs_user.getString("U_Name");
 									email = rs_user.getString("U_Email");
 								}
-								
 								PreparedStatement ps_comp=con.prepareStatement("select Company_Name from User_tbl_Company where Company_Id="+rs_reqDetails.getString("Company_Id"));
 								ResultSet rs_comp=ps_comp.executeQuery();
 								while(rs_comp.next())
@@ -167,7 +180,7 @@ public class take_action_dao {
 											while(rs_userName.next())
 											{
 												doneBy = rs_userName.getString("U_Name");
-											} 
+											}
 								}
 					System.out.println("Email Set Up..................");
 					String host = "send.one.com";
@@ -183,7 +196,8 @@ public class take_action_dao {
 					// *********************************************************************************************
 				
 					// *********************************************************************************************
-					String recipients[] = {"itsupports@muthagroup.com",email};
+					/*String recipients[] = {"itsupports@muthagroup.com",email};*/
+					String recipients[] = {"vijaybm@muthagroup.com",email};
 					
 
 					Properties props = System.getProperties();
@@ -222,24 +236,26 @@ public class take_action_dao {
 									"<th align='center'><b>Related To</b></th>"+
 									"<th align='center'><b>Req Type</b></th>"+
 									"<th align='center'><b>Req Date</b></th> "+
+									"<th align='center'><b>Call Transfer Status</b></th> "+
 									"</tr><tr><td align='center'>"+vo.getReq_no() +"</td> "+
 									"<td align='center'>"+userNm+"</td> "+
 									"<td align='center'>"+company+"</td> "+
 									"<td align='center'>"+relate+"</td> "+
 									"<td align='center'>"+typ+"</td> "+
 									"<td align='center'>"+da +"</td>"+
+									"<td align='center'><b>"+transferCall+"</b></td>"+
 									"</tr>" +
 									"<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid;border-color: #729ea5;text-align: center;'>" +
-									"<td colspan='6' align='center'><b>Requisition Details</b></td></tr>"+
-									"<tr><td colspan='6' align='center'>"+details+"</td></tr>"+	 
+									"<td colspan='7' align='center'><b>Requisition Details</b></td></tr>"+
+									"<tr><td colspan='7' align='center'>"+details+"</td></tr>"+	 
 									"<tr></tr>" +
 									"<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid;border-color: #729ea5;text-align: center;'>" +
 									"<th align='center'><b>Action Date</b></th>"+
-									"<th colspan='3' align='center'><b>Remark</b></th>"+
+									"<th colspan='4' align='center'><b>Remark</b></th>"+
 									"<th align='center'><b>Status</b></th>"+
 									"<th align='center'><b>Done By</b></th>"+
 									"</tr><tr><td align='center'>"+remarKDate+"</td>"+
-									"<td colspan='3' align='center'>"+actionDet+"</td>"+
+									"<td colspan='4' align='center'>"+actionDet+"</td>"+
 									"<td align='center'>"+status+"</td> "+
 									"<td align='center'>"+doneBy+"</td> "+
 									"</tr><tr><td></td></tr></table>"	 
@@ -251,13 +267,10 @@ public class take_action_dao {
 									+ "<font face='Times New Roman' size='1'>"
 									+ "<p><b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b></p></font>",
 							"Text/html");
-
 					Transport transport = mailSession.getTransport("smtp");
 					transport.connect(host, user, pass);
 					transport.sendMessage(msg, msg.getAllRecipients());
-
 					// ******************************************************************************
-
 					transport.close();
 					response.sendRedirect("IT_New_Requisition.jsp"); 
 					
