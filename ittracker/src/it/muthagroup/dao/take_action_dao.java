@@ -88,13 +88,13 @@ public class take_action_dao {
 				}
 			}
 			int dept_id = 0;
-			/*String userName="";
+			String userName="";
 			PreparedStatement ps_userDept = con.prepareStatement("select dept_id,U_Name from user_tbl where u_id=" + vo.getUid());
 			ResultSet rs_userDept = ps_userDept.executeQuery();
 			while (rs_userDept.next()) {
 				dept_id = rs_userDept.getInt("Dept_ID");
 				userName = rs_userDept.getString("U_Name");
-			}*/
+			}
 
 			if (k > 0) {
 				if (dept_id == 18) {
@@ -141,8 +141,7 @@ public class take_action_dao {
 					Timestamp remarKDate=null;
 					PreparedStatement ps_reqDetails=con.prepareStatement("select * from IT_User_Requisition where U_Req_Id="+vo.getReq_no());
 					ResultSet rs_reqDetails=ps_reqDetails.executeQuery();
-					while(rs_reqDetails.next())
-								{				
+					while(rs_reqDetails.next()){				
 								PreparedStatement ps_user=con.prepareStatement("select U_Name,U_Email from User_tbl where U_Id="+rs_reqDetails.getString("U_Id"));
 								ResultSet rs_user=ps_user.executeQuery();
 								while(rs_user.next())
