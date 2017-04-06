@@ -28,7 +28,7 @@ public class take_action_dao {
 			take_action_vo vo) {
 		try {
 			int i = 0;
-			String req_name="";
+			String req_name="",email_transferto="";
 			// To get Todays Date ====== >>>
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			// get current date time with Date()
@@ -57,10 +57,7 @@ public class take_action_dao {
 					String req_details = null;
 					Timestamp original_date = null;
 
-					PreparedStatement ps_getDetails = con
-							.prepareStatement("select * from it_user_requisition where U_req_id ="
-									+ vo.getReq_no());
-
+					PreparedStatement ps_getDetails = con.prepareStatement("select * from it_user_requisition where U_req_id =" + vo.getReq_no());
 					ResultSet rs_getDetails = ps_getDetails.executeQuery();
 
 					while (rs_getDetails.next()) { 
@@ -76,8 +73,7 @@ public class take_action_dao {
 						original_date = rs_getDetails.getTimestamp("Req_Date");
 					}
 
-					PreparedStatement ps_addReq_hist = con
-							.prepareStatement("insert into it_user_requisition_Hist(U_Req_Date_Hist,U_Req_Id,U_Id,Rel_Id,Req_Type_Id,Req_Date,Req_Details,Status,Company_Id)values(?,?,?,?,?,?,?,?,?)");
+					PreparedStatement ps_addReq_hist = con.prepareStatement("insert into it_user_requisition_Hist(U_Req_Date_Hist,U_Req_Id,U_Id,Rel_Id,Req_Type_Id,Req_Date,Req_Details,Status,Company_Id)values(?,?,?,?,?,?,?,?,?)");
 					ps_addReq_hist.setTimestamp(1, timestamp);
 					ps_addReq_hist.setInt(2, vo.getReq_no());
 					ps_addReq_hist.setInt(3, vo.getUid());
@@ -92,32 +88,34 @@ public class take_action_dao {
 				}
 			}
 			int dept_id = 0;
-			PreparedStatement ps_userDept = con
-					.prepareStatement("select dept_id from user_tbl where u_id="
-							+ vo.getUid());
+			/*String userName="";
+			PreparedStatement ps_userDept = con.prepareStatement("select dept_id,U_Name from user_tbl where u_id=" + vo.getUid());
 			ResultSet rs_userDept = ps_userDept.executeQuery();
 			while (rs_userDept.next()) {
 				dept_id = rs_userDept.getInt("Dept_ID");
-			}
+				userName = rs_userDept.getString("U_Name");
+			}*/
 
 			if (k > 0) {
 				if (dept_id == 18) {
 					String transferCall="None";
 					int up_code =0;
-					if(vo.getTransfer_status()!=0){ 
+					if(vo.getTransfer_status()!=0){
 						PreparedStatement ps_trStat = con.prepareStatement("select * from it_requisition_handover_tbl where code="+vo.getTransfer_status());
 						ResultSet rs_trstat = ps_trStat.executeQuery();
 						while (rs_trstat.next()) {
 							transferCall = rs_trstat.getString("name");
 						}
-						ps_trStat =con.prepareStatement("insert into it_user_reqcalltransfer(transfer_to,date_transfer,req_id,transfer_status)values(?,?,?,?)");
+						ps_trStat =con.prepareStatement("insert into it_user_reqcalltransfer(transfer_to,date_transfer,req_id,transfer_status,created_by,explained)values(?,?,?,?,?,?)");
 						ps_trStat.setInt(1, vo.getTransfer_status());
 						ps_trStat.setTimestamp(2, timestamp);
 						ps_trStat.setInt(3, vo.getReq_no());
 						ps_trStat.setString(4, transferCall);
+						ps_trStat.setString(5, vo.getDone_by());
+						ps_trStat.setString(6, vo.getRemark());
 						int upload = ps_trStat.executeUpdate();
 						
-						ps_trStat =con.prepareStatement("SELECT * FROM complaintzilla.it_requisition_remark_tbl where req_remark_id = (select max(req_remark_id) from complaintzilla.it_requisition_remark_tbl where U_req_id="+vo.getReq_no()+");");
+						ps_trStat =con.prepareStatement("SELECT * FROM complaintzilla.it_requisition_remark_tbl where req_remark_id = (select max(req_remark_id) from complaintzilla.it_requisition_remark_tbl where U_req_id="+vo.getReq_no()+")");
 						rs_trstat = ps_trStat.executeQuery();
 						while (rs_trstat.next()) {
 							up_code = rs_trstat.getInt("Req_Remark_Id");
@@ -127,6 +125,13 @@ public class take_action_dao {
 						
 						ps_trStat = con.prepareStatement("update it_user_requisition set transfer_call='"+transferCall+"' where U_Req_Id="+vo.getReq_no());
 						upload = ps_trStat.executeUpdate();
+						
+						ps_trStat =con.prepareStatement("select * from it_requisition_handover_tbl where code="+vo.getTransfer_status());
+						rs_trstat = ps_trStat.executeQuery();
+						while (rs_trstat.next()) {
+							email_transferto = rs_trstat.getString("email");
+						}
+						
 						
 					}
 					//**************************************************************************************************************
@@ -236,7 +241,7 @@ public class take_action_dao {
 									"<th align='center'><b>Related To</b></th>"+
 									"<th align='center'><b>Req Type</b></th>"+
 									"<th align='center'><b>Req Date</b></th> "+
-									"<th align='center'><b>Call Transfer Status</b></th> "+
+									"<th align='center'><b>Call Transferred To</b></th> "+
 									"</tr><tr><td align='center'>"+vo.getReq_no() +"</td> "+
 									"<td align='center'>"+userNm+"</td> "+
 									"<td align='center'>"+company+"</td> "+

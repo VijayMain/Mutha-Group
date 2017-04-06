@@ -203,6 +203,27 @@ try {
 									}
 								%>
 					</tr>
+					<tr>
+						<th align="center"><b>Call Transfer Date</b></th>
+						<th colspan="3" align="center"><b>Transferred Reason</b></th>
+						<th colspan="1" align="center"><b>Transfer/Send To</b></th>
+						<th align="center"><b>Transferred By</b></th>
+					</tr>
+					<%
+						ps_reqRemark=con.prepareStatement("select * from it_user_reqcalltransfer where req_id="+req_no);
+						rs_reqRemark=ps_reqRemark.executeQuery();
+						while(rs_reqRemark.next())
+						{
+					%>
+					<tr>
+						<td align="left"><%=rs_reqRemark.getTimestamp("date_transfer") %></td>
+						<td colspan="3" align="left"><%=rs_reqRemark.getString("explained") %></td>
+						<td colspan="1" align="left"><%=rs_reqRemark.getString("transfer_status") %></td>
+						<td align="left"><%=rs_reqRemark.getString("created_by") %></td>
+					</tr>
+					<%
+						}
+					%>
   				<%
 
 						}

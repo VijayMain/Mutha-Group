@@ -103,7 +103,7 @@ try {
 				req_no=Integer.parseInt(request.getParameter("hid"));
 				
 		%>
-<div style="height: 550px;overflow: scroll;">  
+<div style="height: 600px;overflow: scroll;"> 
 		<form action="take_action_controller" name="Take_Action" id="Take_Action" method="post">
   		<table align="center" border="0" class="tftable">
   			<tr>
@@ -148,11 +148,11 @@ try {
 						
 						PreparedStatement ps_dept = con.prepareStatement("select Department from user_tbl_dept where dept_id in (SELECT dept_id FROM complaintzilla.user_tbl where u_id="+ rs_reqDetails.getInt("U_Id")+")");
 						ResultSet rs_dept = ps_dept.executeQuery();
-									while (rs_dept.next()) {
-									%>
-									<td align="center"><%=rs_dept.getString("Department")%></td>
-									<%
-									}	
+						while (rs_dept.next()) {
+						%>
+							<td align="center"><%=rs_dept.getString("Department")%></td>
+						<%
+						}
 						
 						PreparedStatement ps_rel=con.prepareStatement("select Related_To from it_related_problem_tbl where Rel_Id="+rs_reqDetails.getString("Rel_Id"));
 						ResultSet rs_rel=ps_rel.executeQuery();
@@ -192,7 +192,6 @@ try {
 						ResultSet rs_reqRemark=ps_reqRemark.executeQuery();
 						while(rs_reqRemark.next())
 						{
-							
 					%>
 					<tr>
 						<td align="center"><%=rs_reqRemark.getTimestamp("Remark_Date") %></td>
@@ -210,8 +209,33 @@ try {
 			 			}
 						}
   				%>
+  					<tr>
+						<th align="center"><b>Call Transfer Date</b></th>
+						<th colspan="5" align="center"><b>Transferred Reason</b></th>
+						<th colspan="1" align="center"><b>Transfer/Send To</b></th>
+						<th align="center"><b>Transferred By</b></th>
+					</tr>
+					<%
+						ps_reqRemark=con.prepareStatement("select * from it_user_reqcalltransfer where req_id="+req_no);
+						rs_reqRemark=ps_reqRemark.executeQuery();
+						while(rs_reqRemark.next())
+						{
+					%>
+					<tr>
+						<td align="left"><%=rs_reqRemark.getTimestamp("date_transfer") %></td>
+						<td colspan="5" align="left"><%=rs_reqRemark.getString("explained") %></td>
+						<td colspan="1" align="left"><%=rs_reqRemark.getString("transfer_status") %></td>
+						<td align="left"><%=rs_reqRemark.getString("created_by") %></td>
+					</tr>
+					<%
+						}
+					%>
   		</table>
   		<hr>
+  		
+  	
+  		
+  		
   		<table align="center" border="0" class="tftable">
   			<tr>
   				<td align="right"><b>Status</b></td>
@@ -224,7 +248,7 @@ try {
   				</td>
   			</tr>
   			<tr>
-  				<td align="right"><b>Transfer Status</b></td>
+  				<td align="right"><b>Transfer To (If Any)</b></td>
   				<td align="left">
   					<select name="transfer_status" id="transfer_status">
   						<option value="0">None</option>
@@ -277,6 +301,33 @@ try {
   			</tr> 
   		</table>
   </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br/>
 <script language="JavaScript" type="text/javascript" xml:space="preserve">

@@ -136,6 +136,7 @@ try {
   		<th>Req. Date</th>
   		<th>Status</th>
  		<th>Done By</th>
+ 		<th>Call Transfer To (if any)</th>
   	</tr>
   	<input type="hidden" name="hid" id="hid">
   	<%
@@ -193,6 +194,7 @@ try {
 			}
  		}
  		%> 
+ 		<td align="left"><%=rs_reqDetails.getString("transfer_call")%></td>
  	</tr>
  	<%
    		} 

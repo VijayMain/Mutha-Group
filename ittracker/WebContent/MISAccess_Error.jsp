@@ -1,6 +1,13 @@
 <%@page import="java.sql.PreparedStatement"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@page import="java.text.SimpleDateFormat"%>
+		<%@page import="java.text.DateFormat"%>
+		<%@page import="java.sql.ResultSet"%>
+		<%@page import="it.muthagroup.connectionUtility.Connection_Utility"%>
+		<%@page import="java.sql.Connection"%>
+		<%@page import="java.util.*"%>
+		<%@page import="java.sql.PreparedStatement"%>
 <%
 	response.setHeader("Cache-Control", "no-cache"); //Forces caches to obtain a new copy of the page from the origin server
 	response.setHeader("Cache-Control", "no-store"); //Directs caches not to store the page under any circumstance
@@ -153,28 +160,23 @@
 			<h3>MIS  Access</h3>
 
 		</div>
-		<div id="menu">
+		<div id="menu"> 
 			<ul>
 				<li><a href="IT_index.jsp">Home</a></li>
-				<li><a href="IT_New_Requisition.jsp">New Requisitions</a></li>
-				<li><a href="Closed_Requisitions.jsp">Closed Requisition</a></li>
-				<li><a href="IT_All_Requisitions.jsp">All Requisitions</a></li> 
-				<li><a href="Asset_info.jsp">Asset Info </a></li>
-				<li><a href="Asset_Master.jsp">Asset Master </a></li> 
+				<li><a href="IT_New_Requisition.jsp">New</a></li>
+				<li><a href="Closed_Requisitions.jsp">Closed</a></li>
+				<li><a href="IT_All_Requisitions.jsp">All</a></li>
+				<!-- <li><a href="Asset_info.jsp">Asset Info </a></li>
+				<li><a href="Asset_Master.jsp">Asset Master </a></li> -->
 				<li><a href="Software_Access.jsp">Software Access</a></li>
-				<li><a href="MISAccess.jsp">MIS Access</a></li> 
+				<li><a href="MISAccess.jsp">MIS Access</a></li>
 				<li><a href="IT_Reports.jsp">Reports</a></li>
-				<li><a href="Graphs.jsp">Graphs</a></li>
-				<li><a href="Logout.jsp">Logout<strong style="color: blue; font-size: x-small;"> <%=uname%></strong></a></li>
+				<li><a href="DMS.jsp">DMS</a></li>
+				<li><a href="Profile.jsp">My Profile</a></li>
+				<li><a href="Logout.jsp">Logout<strong style="color: blue; font-size: 8px;"> <%=uname%></strong></a></li>
 			</ul>
 		</div>
-		<%@page import="java.text.SimpleDateFormat"%>
-		<%@page import="java.text.DateFormat"%>
-		<%@page import="java.sql.ResultSet"%>
-		<%@page import="it.muthagroup.connectionUtility.Connection_Utility"%>
-		<%@page import="java.sql.Connection"%>
-		<%@page import="java.util.*"%>
-		<%@page import="java.sql.PreparedStatement"%>
+		
 
 		<form action="MIS_AccessController" method="post" id="myForm" name="myForm" onsubmit="return(validate());"> 
  			<br>

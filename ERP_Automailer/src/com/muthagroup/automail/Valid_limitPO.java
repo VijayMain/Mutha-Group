@@ -1,19 +1,14 @@
 package com.muthagroup.automail;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TimerTask;
-
+import java.util.Date; 
+import java.util.Properties; 
+import java.util.TimerTask; 
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -50,10 +45,6 @@ public class Valid_limitPO extends TimerTask {
 			
 			Properties props = System.getProperties();
 			props.put("mail.host", host);
-			
-			/*props.put("mail.transport.protocol", "smtp");
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.port", 2525);*/
 			
 			props.put("mail.transport.protocol", "smtp");
 			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");

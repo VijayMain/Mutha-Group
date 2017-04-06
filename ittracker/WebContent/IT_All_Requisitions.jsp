@@ -128,6 +128,7 @@ response.setDateHeader("Expires", -1);
 								<th>Status</th>
 								<th>Closed Date</th>
 								<th>Done By</th>
+								<th>Transfer To</th>
 							</tr>
 							<%
 								//PreparedStatement ps_reqDetails = con
@@ -227,6 +228,7 @@ response.setDateHeader("Expires", -1);
 
 											}
 								%>
+								<td align="left"><%=rs_reqDetails.getString("transfer_call")%></td>
 							</tr>
 							<%
 								}

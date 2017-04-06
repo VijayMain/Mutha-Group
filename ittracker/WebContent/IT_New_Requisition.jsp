@@ -148,6 +148,7 @@ $(function() {
 							<th>Type</th>
 							<th>Req. Date</th>
 							<th>Status</th>
+							<th>Transfer To</th>
 
 						</tr>
 					</thead>
@@ -219,6 +220,7 @@ ResultSet rs_dept = ps_dept.executeQuery();
 
 									}
 						%>
+						<td align="left"><%=rs_reqDetails.getString("transfer_call")%></td>
 					</tr>
 					<%
 						} 
@@ -247,7 +249,7 @@ ResultSet rs_dept = ps_dept.executeQuery();
 							<th>Type</th>
 							<th>Req. Date</th>
 							<th>Status</th>
-
+							<th>Transfer To</th>
 						</tr>
 					</thead>
 
@@ -316,6 +318,7 @@ ResultSet rs_dept = ps_dept.executeQuery();
 
 									}
 						%>
+						<td align="left"><%=rs_reqDetails.getString("transfer_call")%></td>
 					</tr>
 					<%
 						} 
@@ -344,7 +347,7 @@ ResultSet rs_dept = ps_dept.executeQuery();
 							<th>Type</th>
 							<th>Req. Date</th>
 							<th>Status</th>
-
+							<th>Transfer To</th>
 						</tr>
 					</thead>
 
@@ -413,6 +416,7 @@ ResultSet rs_dept = ps_dept.executeQuery();
 
 									}
 						%>
+						<td align="left"><%=rs_reqDetails.getString("transfer_call")%></td>
 					</tr>
 					<%
 						} 
@@ -441,7 +445,7 @@ ResultSet rs_dept = ps_dept.executeQuery();
 							<th>Type</th>
 							<th>Req. Date</th>
 							<th>Status</th>
-
+							<th>Transfer To</th>
 						</tr>
 					</thead>
 
@@ -509,9 +513,10 @@ ResultSet rs_dept = ps_dept.executeQuery();
 
 									}
 						%>
+						<td align="left"><%=rs_reqDetails.getString("transfer_call")%></td>
 					</tr>
 					<%
-						} 
+						}
 					%>
 					<tr>
 					</tr>
@@ -537,7 +542,7 @@ ResultSet rs_dept = ps_dept.executeQuery();
 							<th>Type</th>
 							<th>Req. Date</th>
 							<th>Status</th>
-
+							<th>Transfer To</th>
 						</tr>
 					</thead>
 
@@ -605,12 +610,12 @@ ResultSet rs_dept = ps_dept.executeQuery();
 
 									}
 						%>
+						<td align="left"><%=rs_reqDetails.getString("transfer_call")%></td>
 					</tr>
 					<%
 						} 
 					%>
-					<tr>
-					</tr>
+					
 				</table>
 				<input type="hidden" name="hid" id="hid5">
 			</form>

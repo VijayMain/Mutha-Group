@@ -140,6 +140,7 @@ function ChangeColor(tableRow, highLight) {
 							<th align="center">Req. Date</th>
 							<th align="center">Status</th>
 							<th align="center">Done By</th>
+							<th>Transfer To</th>
 						</tr>
 					</thead>
 					<%
@@ -223,6 +224,7 @@ function ChangeColor(tableRow, highLight) {
 										}
 									}
 						%>
+						<td align="left"><%=rs_reqDetails.getString("transfer_call")%></td>
 					</tr>
 					<%
 						}
