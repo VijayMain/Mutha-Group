@@ -158,7 +158,7 @@ private static final long serialVersionUID = 1L;
 			TimerTask  timerInOut =new InOut_Register();
 			timer.schedule(timerInOut, 1000, 60000);  
 			 
-						// 12:30
+						// 14:57
 						TimerTask  timerTaskMISF =new MIS_SummaryReportFND();
 						timer.schedule(timerTaskMISF, 1000, 60000); 
 			  			
