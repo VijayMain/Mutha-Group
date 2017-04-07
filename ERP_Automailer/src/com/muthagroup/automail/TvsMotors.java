@@ -26,7 +26,7 @@ public class TvsMotors extends TimerTask {
 		try {
 		Date d = new Date();
 		System.out.println("ERP TVS Loop");	
-		if (d.getHours() == 14 && d.getMinutes() == 17) { 
+		if (d.getHours() == 22 && d.getMinutes() == 12) {
 		boolean flag=false;
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd"); 
