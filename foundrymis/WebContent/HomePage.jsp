@@ -104,6 +104,15 @@ if(window.history[nHist] != window.location)
 				      changeMonth: true,
 				      changeYear: true 				         
 				}); 
+			    
+			    $( "#FromDate_heattrend" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true 				         
+				}); 
+			    $( "#ToDate_heattrend" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true 				         
+				}); 
 			  } 
 			); 
 </script> 
@@ -589,7 +598,21 @@ function validateMIS_INR() {
 		document.getElementById("ADD_IntR").disabled = true;
 		document.getElementById("waitImage_IntR").style.visibility = "visible";		
 		return true;
-}	
+}
+
+function validateHeatTrend() {
+	// companyheattrend   FromDate_heattrend  ToDate_heattrend  ADD_heattrend   waitImage_heattrend
+		document.getElementById("ADD_heattrend").disabled = true;
+		document.getElementById("waitImage_heattrend").style.visibility = "visible";
+		return true;
+}
+
+
+
+
+
+
+
 
 function validateCashBook() {
 		document.getElementById("ADD_cashbook").disabled = true;
@@ -798,14 +821,18 @@ while(rs.next()){
 		}if(reportList.contains("Bill Wise Purchase Details")){
 		%>
 				<li><a href="#tabs-19">Bill Wise Purchase Details</a></li> 
-		<% 
+		<%
 		}if(reportList.contains("ERP New Item Creation")){
 		%>
-				<li><a href="#tabs-20">ERP New Supplier Creation</a></li> 
+				<li><a href="#tabs-20">ERP New Supplier Creation</a></li>
+		<%
+		}if(reportList.contains("Heat_Trend")){
+		%>
+				<li><a href="#tabs-21">Heat Trend</a></li>		 
 		<%
 		}if(reportList.size()==0){
 		%>
-			<li><a href="#tabs-21">Work In Progress</a></li>
+			<li><a href="#tabs-22">Work In Progress</a></li>
 		<%
 		}
 		%>
@@ -2005,14 +2032,55 @@ while(rs.next()){
 			<br/><br/><br/><br/><br/><br/><br/><br/>
 			</div>
 		<%
+			}if(reportList.contains("Heat_Trend")){
+		%>
+	<div id="tabs-21">
+		<form action="Heat_Trend.jsp" method="post"  onSubmit="return validateHeatTrend();">
+		<br/>
+			<table class="tftable" style="border: 0px;">
+			<tr>
+				<td colspan="2"><strong>Internal Rejection<br/> </strong> <br/>
+			</td>
+			</tr>  
+			<tr>
+				<td>Select Company :</td>
+				<td>
+				<select name="company" id="companyheattrend">
+ 				<option value="103">MFPL</option> 
+ 				<option value="105">DI</option> 
+ 				<option value="106">MEPL Unit III</option>  
+ 			</select>
+				 </td>
+			</tr> 
+			<tr>
+				<td>From Date :</td>
+				<td> <input type="text" name="FromDate_heattrend" value="<%=sdfFIrstDate.format(dddd) %>" id="FromDate_heattrend" readonly="readonly" style="font-size: 10px;width: 200px;"/>  
+				 </td>
+			</tr> 
+			<tr>
+				<td>To Date :</td>
+				<td> <input type="text" name="ToDate_heattrend" value="<%=sdfFIrstDate.format(tdate) %>" id="ToDate_heattrend" readonly="readonly" style="font-size: 10px;width: 200px;"/>  
+				 </td>
+			</tr>  
+			<tr> 
+			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADD_heattrend" value="Get Heat Trend Report" style="background-color: #BABABA;width: 285px;height: 35px;"/> </td>
+			</tr>
+			<tr> 
+			<td colspan="2" align="left"><span id="waitImage_heattrend" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
+			</tr>	 
+			</table>
+		</form>
+			</div>
+		<%
 			}if(reportList.size()==0){
 		%>
-			<div id="tabs-21">
+			<div id="tabs-22">
 			<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
 			</div>
 		<%
 			}
-		%>	
+		%>
+			
 	</div>	
 		
 	<%

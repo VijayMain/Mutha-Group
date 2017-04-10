@@ -167,37 +167,27 @@ try {
  		<td align="left"><%=rs_reqDetails.getTimestamp("Req_Date") %></td>
  		<td align="left"><%=rs_reqDetails.getString("Status") %></td>
  		<%
- 		PreparedStatement ps_doneBy_Id=con.prepareStatement("select max(Req_Remark_Id) from it_requisition_remark_tbl where U_Req_Id="+rs_reqDetails.getInt("U_Req_Id"));
-		
+ 		String req_rem=" - - - - - ";
+ 		PreparedStatement ps_doneBy_Id=con.prepareStatement("select max(Req_Remark_Id) from it_requisition_remark_tbl where U_Req_Id="+rs_reqDetails.getInt("U_Req_Id")); 
  		ResultSet rs_doneBy_Id=ps_doneBy_Id.executeQuery();
  		while(rs_doneBy_Id.next())
  		{
- 			PreparedStatement ps_doneBy=con.prepareStatement("select U_Name from user_tbl where U_Id=(select U_Id from it_requisition_remark_tbl where Req_Remark_Id="+rs_doneBy_Id.getInt("max(Req_Remark_Id)")+")");
- 			ResultSet rs_doneBy=ps_doneBy.executeQuery();
- 			
- 			rs_doneBy.last();
-			int ctData = rs_doneBy.getRow();
-			rs_doneBy.beforeFirst();
-
-			if (ctData > 0) {
- 			
- 			while(rs_doneBy.next())
+ 			PreparedStatement ps_doneBy=con.prepareStatement("select * from it_requisition_remark_tbl where Req_Remark_Id="+rs_doneBy_Id.getInt("max(Req_Remark_Id)"));
+ 			ResultSet rs_doneBy=ps_doneBy.executeQuery(); 
+  			while(rs_doneBy.next())
  			{
- 		%>
- 		<td align="left"><%=rs_doneBy.getString("U_Name") %></td>
- 		<%
+  				req_rem = rs_doneBy.getString("Done_by");
  			}
-			}else{
-		%>
-		<td align="center">--</td>
-		<%		
-			}
  		}
- 		%> 
+ 		%>
+ 		<td align="left"><%= req_rem %></td>
+ 		<%
+ 		req_rem=" - - - - - ";
+ 		%>
  		<td align="left"><%=rs_reqDetails.getString("transfer_call")%></td>
  	</tr>
  	<%
-   		} 
+   		}
  	%>
   </table>
   </form>	

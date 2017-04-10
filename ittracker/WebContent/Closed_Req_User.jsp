@@ -15,7 +15,7 @@ function ChangeColor(tableRow, highLight) {
 	} else {
 		tableRow.style.backgroundColor = '#FFFFFF';
 	}
-} 
+}
 </script>
 <style type="text/css">
 .tftable {
@@ -119,7 +119,7 @@ try {
 					//// this will count total number of rows
 					String sqlRowCnt = "SELECT FOUND_ROWS() as cnt";
 					psRowCnt = conn.prepareStatement(sqlRowCnt);
-					rsRowCnt = psRowCnt.executeQuery(); 
+					rsRowCnt = psRowCnt.executeQuery();
 			%> 
   <table style="width: 100%;" align="center" class="tftable"> 
   	<tr>
@@ -130,10 +130,10 @@ try {
   		<th>Status</th>
  		<th>Done By</th>
   	</tr>
-  	<% 
+  	<%
   		while(rs_reqDetails.next())
-  		{ 
-  	%> 
+  		{
+  	%>
  	<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
  		<td align="center"><%=rs_reqDetails.getInt("U_Req_Id") %></td>
  		<%
@@ -158,27 +158,22 @@ try {
  		<td align="left"><%=rs_reqDetails.getTimestamp("Req_Date") %></td>
  		<td align="left"><%=rs_reqDetails.getString("Status") %></td>
  		<%
- 		PreparedStatement ps_doneBy_Id=con.prepareStatement("select max(Req_Remark_Id) from it_requisition_remark_tbl where U_Req_Id="+rs_reqDetails.getInt("U_Req_Id"));
-		
+ 		PreparedStatement ps_doneBy_Id=con.prepareStatement("select max(Req_Remark_Id) from it_requisition_remark_tbl where U_Req_Id="+rs_reqDetails.getInt("U_Req_Id"));		
  		ResultSet rs_doneBy_Id=ps_doneBy_Id.executeQuery();
  		while(rs_doneBy_Id.next())
  		{
- 			
- 		
- 			PreparedStatement ps_doneBy=con.prepareStatement("select U_Name from user_tbl where U_Id=(select U_Id from it_requisition_remark_tbl where Req_Remark_Id="+rs_doneBy_Id.getInt("max(Req_Remark_Id)")+")");
+ 			PreparedStatement ps_doneBy=con.prepareStatement("select * from it_requisition_remark_tbl where Req_Remark_Id="+rs_doneBy_Id.getInt("max(Req_Remark_Id)"));
  			ResultSet rs_doneBy=ps_doneBy.executeQuery();
- 			while(rs_doneBy.next())
- 			{
+ 			while(rs_doneBy.next()){
  		%>
- 		<td align="left"><%=rs_doneBy.getString("U_Name") %></td>
+ 		<td align="left"><%=rs_doneBy.getString("Done_by") %></td>
  		<%
  			}
  		}
  		%>
- 		
  	</tr>
  	<%
-   		} 
+   		}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

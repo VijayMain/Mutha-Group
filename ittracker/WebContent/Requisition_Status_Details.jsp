@@ -198,19 +198,9 @@ try {
 						<td align="left"><%=rs_reqRemark.getTimestamp("Remark_Date") %></td>
 						<td colspan="3" align="left"><%=rs_reqRemark.getString("Action_Details") %></td>
 						<td align="left"><%=rs_reqRemark.getString("Status") %></td>
-						<%
-							PreparedStatement ps_UserName=con.prepareStatement("select U_Name from User_tbl where U_Id="+rs_reqRemark.getInt("U_Id"));
-							ResultSet rs_UserName=ps_UserName.executeQuery();
-							
-							while(rs_UserName.next())
-							{
-						%>
-						
-						<td align="left"><%=rs_UserName.getString("U_Name") %></td>
+						 <td align="left"><%=rs_reqRemark.getString("Done_by") %></td>
 					</tr>
-  				<% 
-							}
-							
+  				<%  	
 						}
   				%>
   				

@@ -11,12 +11,7 @@
 <%@page import="com.muthagroup.connectionUtil.ConnectionUrl"%>
 <%@page import="java.sql.Connection"%>
 <html>
-<head> 
-<script language="JavaScript"> 
-var nHist = window.history.length;
-if(window.history[nHist] != window.location)
-  window.history.forward(); 
-</script> 
+<head>  
 <title>Category Wise Outstanding</title>
 <STYLE TYPE="text/css" MEDIA=all>
 .td1 { 

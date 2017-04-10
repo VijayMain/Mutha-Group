@@ -88,12 +88,12 @@ public class take_action_dao {
 				}
 			}
 			int dept_id = 0;
-			String userName="";
+			//String userName="";
 			PreparedStatement ps_userDept = con.prepareStatement("select dept_id,U_Name from user_tbl where u_id=" + vo.getUid());
 			ResultSet rs_userDept = ps_userDept.executeQuery();
 			while (rs_userDept.next()) {
 				dept_id = rs_userDept.getInt("Dept_ID");
-				userName = rs_userDept.getString("U_Name");
+				//userName = rs_userDept.getString("U_Name");
 			}
 
 			if (k > 0) {
@@ -113,6 +113,7 @@ public class take_action_dao {
 						ps_trStat.setString(4, transferCall);
 						ps_trStat.setString(5, vo.getDone_by());
 						ps_trStat.setString(6, vo.getRemark());
+						
 						int upload = ps_trStat.executeUpdate();
 						
 						ps_trStat =con.prepareStatement("SELECT * FROM complaintzilla.it_requisition_remark_tbl where req_remark_id = (select max(req_remark_id) from complaintzilla.it_requisition_remark_tbl where U_req_id="+vo.getReq_no()+")");
@@ -131,8 +132,6 @@ public class take_action_dao {
 						while (rs_trstat.next()) {
 							email_transferto = rs_trstat.getString("email");
 						}
-						
-						
 					}
 					//**************************************************************************************************************
 					//********************************************* Send an Email **************************************************
@@ -198,12 +197,27 @@ public class take_action_dao {
 					// *********************************************************************************************
 					// multiple recipients : == >
 					// *********************************************************************************************
-				
-					// *********************************************************************************************
-					/*String recipients[] = {"itsupports@muthagroup.com",email};*/
-					String recipients[] = {"vijaybm@muthagroup.com",email};
 					
-
+					/*String recipients[] = {"itsupports@muthagroup.com",email};*/
+					
+					String mail_id = "itsupports@muthagroup.com";
+					
+					String recipients[]=new String[3];
+					
+					if(vo.getTransfer_status()!=0){
+						recipients[0] = mail_id;
+						recipients[1] = email;
+						recipients[2] = email_transferto; 
+					}else{
+						recipients[0] = mail_id;
+						recipients[1] = email;
+						recipients[2] = mail_id;
+					}
+					
+					System.out.println("Mail id = = " + mail_id);
+					
+				//	String recipients[] = {mail_id.toString()};
+					
 					Properties props = System.getProperties();
 					props.put("mail.host", host);
 					props.put("mail.transport.protocol", "smtp");
@@ -226,12 +240,14 @@ public class take_action_dao {
 					msg.setSubject(subject);
 					msg.setSentDate(new Date());
 
-					// Create the message part
+				// Create the message part
 					BodyPart messageBodyPart = new MimeBodyPart();
 					// Fill the message
 					// messageBodyPart.setText("This is message body");
-					msg.setContent(
-							"<p><b style='color: #0D265E;'>*** This is an automatically generated email from IT-Tracker ***</b>"
+					
+					
+					StringBuilder sb = new StringBuilder();
+					sb.append("<p><b style='color: #0D265E;'>*** This is an automatically generated email from IT-Tracker ***</b>"
 									+ "</p>" +
 									"<table border='1' width='100%'><tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid;border-color: #729ea5;text-align: center;'>"+
 									"<th align='center'><b>Requisition No</b></th>"+
@@ -240,7 +256,7 @@ public class take_action_dao {
 									"<th align='center'><b>Related To</b></th>"+
 									"<th align='center'><b>Req Type</b></th>"+
 									"<th align='center'><b>Req Date</b></th> "+
-									"<th align='center'><b>Call Transferred To</b></th> "+
+									"<th align='center'><b>Call Transferred To/Remark</b></th> "+
 									"</tr><tr><td align='center'>"+vo.getReq_no() +"</td> "+
 									"<td align='center'>"+userNm+"</td> "+
 									"<td align='center'>"+company+"</td> "+
@@ -262,15 +278,18 @@ public class take_action_dao {
 									"<td colspan='4' align='center'>"+actionDet+"</td>"+
 									"<td align='center'>"+status+"</td> "+
 									"<td align='center'>"+doneBy+"</td> "+
-									"</tr><tr><td></td></tr></table>"	 
-									+ "<p><b>For more details ,</b> "
+									"</tr></table>");
+					
+					sb.append("<p><b>For more details ,</b>"
 									+ "<a href='http://192.168.0.7/ittracker/'>Click Here</a>"
 									+ " </p><p><b style='color: #330B73;'>Thanks & Regards </b></P><p> Mutha Group Satara </p>"
 									+ "<hr>"
 									+ "<p><b>Disclaimer :</b></p>"
 									+ "<font face='Times New Roman' size='1'>"
-									+ "<p><b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b></p></font>",
-							"Text/html");
+									+ "<p><b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b></p></font>");
+					
+					msg.setContent(sb.toString(), "text/html");
+					
 					Transport transport = mailSession.getTransport("smtp");
 					transport.connect(host, user, pass);
 					transport.sendMessage(msg, msg.getAllRecipients());
@@ -288,20 +307,13 @@ public class take_action_dao {
 
 					String user_name = null, company = null;
 					int company_id = 0;
-					PreparedStatement ps_uname = con
-							.prepareStatement("select * from User_Tbl where U_Id="
-									+ vo.getUid());
+					PreparedStatement ps_uname = con.prepareStatement("select * from User_Tbl where U_Id=" + vo.getUid());
 					ResultSet rs_uname = ps_uname.executeQuery();
-
 					while (rs_uname.next()) {
 						user_name = rs_uname.getString("U_Name");
 						company_id = rs_uname.getInt("Company_id");
-						PreparedStatement ps_companyName = con
-								.prepareStatement("select company_name from User_Tbl_Company where Company_Id="
-										+ company_id);
-						ResultSet rs_companyName = ps_companyName
-								.executeQuery();
-
+						PreparedStatement ps_companyName = con.prepareStatement("select company_name from User_Tbl_Company where Company_Id=" + company_id);
+						ResultSet rs_companyName = ps_companyName.executeQuery();
 						while (rs_companyName.next()) {
 							company = rs_companyName.getString("Company_Name");
 						}

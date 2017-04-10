@@ -186,22 +186,12 @@ try {
 						ResultSet rs_reqRemark=ps_reqRemark.executeQuery();
 						while(rs_reqRemark.next())
 						{
-							
 					%>
 					<tr>
 						<td align="center"><%=rs_reqRemark.getTimestamp("Remark_Date") %></td>
 						<td colspan="3" align="center"><%=rs_reqRemark.getString("Action_Details") %></td>
-						<td align="center"><%=rs_reqRemark.getString("Status") %></td>
-						<%
-									PreparedStatement ps_userName=con.prepareStatement("select U_Name from User_Tbl where U_Id="+rs_reqRemark.getInt("U_Id"));
-									ResultSet rs_userName=ps_userName.executeQuery();
-									while(rs_userName.next())
-									{
-								%>
-								<td align="center"><%=rs_userName.getString("U_Name")%></td>
-								<%
-									}
-								%>
+						<td align="center"><%=rs_reqRemark.getString("Status") %></td> 
+								<td align="center"><%=rs_reqRemark.getString("Done_by")%></td> 
 					</tr>
 					<tr>
 						<th align="center"><b>Call Transfer Date</b></th>
@@ -223,9 +213,6 @@ try {
 					</tr>
 					<%
 						}
-					%>
-  				<%
-
 						}
   				%>
   				<tr><td colspan="6" align="center"><a href="IT_All_Requisitions.jsp"><font style="font-size: 18px; color: blue;">&#8656; Go Back</font></a></td></tr>

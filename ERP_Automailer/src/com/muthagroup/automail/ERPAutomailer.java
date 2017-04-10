@@ -19,7 +19,7 @@ private static final long serialVersionUID = 1L;
 			// ******************************************************************************************************************
 			// Thread No 1
 			// ******************************************************************************************************************
-
+ 
 			// 09:40
 			TimerTask  siscompSale =new SisterCompanySale_Report();
 			timer.schedule(siscompSale, 1000, 60000);
@@ -166,6 +166,10 @@ private static final long serialVersionUID = 1L;
 						TimerTask  timerTaskMISDI =new MIS_SummaryReportDI();
 						timer.schedule(timerTaskMISDI, 1000, 60000);
 			
+						// 14:55
+						TimerTask  timerTaskMISUIII=new MIS_SummaryReportK1();
+						timer.schedule(timerTaskMISUIII, 1000, 60000);
+						
 						// 09:43
 						TimerTask  valid_limitPOH21 = new Valid_limitPO();
 						timer.schedule(valid_limitPOH21, 1000, 60000);
@@ -181,7 +185,7 @@ private static final long serialVersionUID = 1L;
 						// 09:49
 						TimerTask  valid_limitPODI = new Valid_limitPODI();
 						timer.schedule(valid_limitPODI, 1000, 60000);
-						
+			
 						// 09:51
 						TimerTask  valid_limitPOK1 = new Valid_limitPOK1();
 						timer.schedule(valid_limitPOK1, 1000, 60000);
@@ -189,7 +193,11 @@ private static final long serialVersionUID = 1L;
 			// 22:12
 				TimerTask tvsMotors = new TvsMotors();
 				timer.schedule(tvsMotors, 1000, 60000);
-				 
+	 
+			
+			
+			 
+			
 				 
 		} catch (Exception e) {
 			e.printStackTrace();

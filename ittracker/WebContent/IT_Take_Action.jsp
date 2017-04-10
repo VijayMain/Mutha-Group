@@ -188,6 +188,7 @@ try {
 						<th align="center"><b>Done By</b></th>
 					</tr>
 					<%
+					String curr_status="Pending";
 						PreparedStatement ps_reqRemark=con.prepareStatement("select * from it_requisition_remark_tbl where U_Req_Id="+req_no);
 						ResultSet rs_reqRemark=ps_reqRemark.executeQuery();
 						while(rs_reqRemark.next())
@@ -196,17 +197,11 @@ try {
 					<tr>
 						<td align="center"><%=rs_reqRemark.getTimestamp("Remark_Date") %></td>
 						<td colspan="5" align="center"><%=rs_reqRemark.getString("Action_Details") %></td>
-						<td colspan="1" align="center"><%=rs_reqRemark.getString("Status") %></td>
-						<%
-						PreparedStatement ps_doneBy=con.prepareStatement("select U_Name from user_tbl where U_Id="+rs_reqRemark.getInt("U_Id"));
-			 			ResultSet rs_doneBy=ps_doneBy.executeQuery();
-			 			while(rs_doneBy.next())
-			 			{
-						%>
-						<td align="center"><%=rs_doneBy.getString("U_Name") %></td>
+						<td colspan="1" align="center"><%=rs_reqRemark.getString("Status") %></td> 
+						<td align="center"><%=rs_reqRemark.getString("Done_by") %></td>
 					</tr>
-  				<%
-			 			}
+  				<% 
+  				curr_status = rs_reqRemark.getString("status");
 						}
   				%>
   					<tr>
@@ -216,6 +211,8 @@ try {
 						<th align="center"><b>Transferred By</b></th>
 					</tr>
 					<%
+					int transfer_to=0;
+					String transfer_status="None";
 						ps_reqRemark=con.prepareStatement("select * from it_user_reqcalltransfer where req_id="+req_no);
 						rs_reqRemark=ps_reqRemark.executeQuery();
 						while(rs_reqRemark.next())
@@ -228,19 +225,18 @@ try {
 						<td align="left"><%=rs_reqRemark.getString("created_by") %></td>
 					</tr>
 					<%
+					transfer_to = rs_reqRemark.getInt("transfer_to");
+					transfer_status = rs_reqRemark.getString("transfer_status");
 						}
 					%>
   		</table>
   		<hr>
-  		
-  	
-  		
-  		
-  		<table align="center" border="0" class="tftable">
+  	 	<table align="center" border="0" class="tftable">
   			<tr>
   				<td align="right"><b>Status</b></td>
   				<td align="left">
   					<select name="status">
+  					<option value="<%=curr_status%>"><%=curr_status%></option>
   						<option value="Pending">Pending</option>
   						<option value="In Progress">In Progress</option>
   						<option value="Closed">Closed</option>
@@ -251,7 +247,7 @@ try {
   				<td align="right"><b>Transfer To (If Any)</b></td>
   				<td align="left">
   					<select name="transfer_status" id="transfer_status">
-  						<option value="0">None</option>
+  						<option value="<%=transfer_to%>"><%=transfer_status %></option>
   						<%
   						PreparedStatement ps_doneBY = con.prepareStatement("select * from it_requisition_handover_tbl where enable=1");
   		  				ResultSet rs_doneBy = ps_doneBY.executeQuery();
@@ -267,7 +263,7 @@ try {
   			<tr>
   				<td align="right"><b>Remark</b></td>
   				<td align="left">
-  				<textarea rows="6" cols="40" name="remark_details"></textarea>
+  				<textarea rows="4" cols="40" name="remark_details"></textarea>
    				</td>
   			</tr>
   			<tr>

@@ -198,32 +198,22 @@ div.scroll {
 											while (rs_doneBy_Id.next()) {
 
 												PreparedStatement ps_doneBy = con
-														.prepareStatement("select U_Id,Remark_Date from it_requisition_remark_tbl where Req_Remark_Id="
+														.prepareStatement("select U_Id,Remark_Date,Done_by from it_requisition_remark_tbl where Req_Remark_Id="
 																+ rs_doneBy_Id
 																		.getInt("max(Req_Remark_Id)"));
 												ResultSet rs_doneBy = ps_doneBy.executeQuery();
 												while (rs_doneBy.next()) {
 								%>
 								<td align="left"><%=rs_doneBy.getTimestamp("Remark_Date")%></td>
-								<%
-									PreparedStatement ps_userName = con
-															.prepareStatement("select U_Name from User_Tbl where U_Id="
-																	+ rs_doneBy.getInt("U_Id"));
-													ResultSet rs_userName = ps_userName.executeQuery();
-													while (rs_userName.next()) {
-								%>
-								<td align="left"><%=rs_userName.getString("U_Name")%></td>
-								<%
-									}
+								<td align="left"><%=rs_doneBy.getString("Done_by") %></td>
+								<% 
 												}
-
 											}
 								%>
-
 							</tr>
 							<%
-								} 
-							%> 
+								}
+							%>
 					</table>
 					<input type="hidden" name="hid" id="hid">
  					<%	

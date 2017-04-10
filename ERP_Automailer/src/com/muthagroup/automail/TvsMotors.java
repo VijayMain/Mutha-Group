@@ -87,9 +87,7 @@ public class TvsMotors extends TimerTask {
 		int cnt=1;
 		double tot_wt =0;
 		// exec "FOUNDRYERP"."dbo"."Sel_CustomerwiseDespatchmutha";1 '103', '0', '20170402', '20170405', '101110048', '115'
-		// MFPL
-		
-		
+		// MFPL 
 		sb.append("<b style='color: #0D265E;font-size: 10px;'>This is an automatically generated email for TVS Dispatch Report  dated "+CurrentDate+" !!!</b>");
 		
 sb.append("<table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
@@ -175,7 +173,6 @@ cnt++;
 			flag_avail=true;
 			cnt++;		
 	}
-	
 	// H21
 			cnt=1;
 			tot_wt=0;
