@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Heats Trend</title> 
+<title>Rejection Trend</title> 
 <STYLE TYPE="text/css" MEDIA=all>
 .tftable tr {
 	background-color: white;
@@ -25,25 +25,47 @@
 	border-width: 1px;
 	padding: 3px;
 	border-style: solid;
-	border-color: #729ea5;
-	text-align: center;
-}   
+	border-color: #729ea5; 
+} 
 button.accordion {
-    background-color: #35006a;
-    color: white;
+    background-color: #d2e1f9; 
     cursor: pointer;
-    padding: 8px;
+    padding: 4px;
     width: 100%;
     border: none;
     text-align: left;
     outline: none;
-    font-size: 13px;
+    font-size: 12px;
+    font-weight:bold;
+    transition: 0.4s;
+}
+button.accordion2 {
+    background-color: #d2e1f9; 
+    cursor: pointer;
+    padding: 4px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 12px;
+    font-weight:bold;
+    transition: 0.4s;
+}
+button.accordion3 {
+    background-color: #d2e1f9; 
+    cursor: pointer;
+    padding: 4px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 12px;
     font-weight:bold;
     transition: 0.4s;
 }
 
 button.accordion.active, button.accordion:hover {
-    background-color: #35006a; 
+    background-color: #d2e1f9; 
 }
 
 div.panel { 
@@ -53,7 +75,6 @@ div.panel {
     overflow: scroll;
 }
 </style>  
-
 </head>
 <body  style="font-family: Arial;">
 <%
@@ -71,12 +92,11 @@ String dateto =request.getParameter("ToDate_rejectiontrend");
  
 dateto = dateto.replaceAll("[-+.^:,]","");
 String datefrom = dateto.substring(0,4) + dateto.substring(4,6) + "01";
-
-String date_From = datefrom.substring(6,8) +"/"+ datefrom.substring(4,6) +"/"+ datefrom.substring(0,4);
-String date_to = dateto.substring(6,8) +"/"+ dateto.substring(4,6) +"/"+ dateto.substring(0,4);
-
 DecimalFormat zeroDForm = new DecimalFormat("###,##0");
 DecimalFormat twoDForm = new DecimalFormat("###,##0.00");
+String date_From = datefrom.substring(6,8) +"/"+ datefrom.substring(4,6) +"/"+ datefrom.substring(0,4);
+String date_to = dateto.substring(6,8) +"/"+ dateto.substring(4,6) +"/"+ dateto.substring(0,4);
+ 
 String datetab = datefrom.substring(4,6);
 String nameComp = "";
 String db="";
@@ -92,7 +112,7 @@ if(comp.equalsIgnoreCase("105")){
 }
 if(comp.equalsIgnoreCase("106")){
 	con = ConnectionUrl.getK1ERPConnection();
-	nameComp = "UNIT III "; 
+	nameComp = "MEPL UNIT III "; 
 }
 if(comp.equalsIgnoreCase("101")){
 	con = ConnectionUrl.getMEPLH21ERP();
@@ -120,8 +140,14 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102") || comp.equalsIg
 </strong>
 </div>
 <div style="width: 33.2%;float: left;">
-<h3><strong><%=nameComp %> Rejection</strong> </h3>
-
+<strong><%=nameComp %> Rejection</strong> 
+<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;"> 
+			<tr align="center">
+					<th class="th" width="60%">Part Name</th>   
+					<th class="th" width="20%">Total Challan Qty</th> 
+					<th class="th" width="20%">Total Weight</th>
+			</tr>
+</table>			 
 <%
 //Cust Return
 //exec "ENGERP"."dbo"."Sel_RptMatSalesReturn";1 '101', '0', '2024', '20170301', '20170412'
@@ -166,41 +192,41 @@ for(int i=0;i<custno.size();i++){
 	}
 	}
 %>
-<button class="accordion"><strong><%=viewCust %></strong>&</button>
+<button class="accordion">
+<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;">
+			<tr>
+					<th class="th" width="60%"><strong><%=viewCust %></strong></th>
+					<th class="th" width="20%" align="right"><strong style="color: #e97914;"><%= zeroDForm.format(viewChlQty) %></strong></th> 
+					<th class="th" width="20%" align="right"><strong style="color: #e97914;"><%=twoDForm.format(viewTotwt) %></strong> </th>
+			</tr>
+</table>
+<%-- <strong><%=viewCust %>&nbsp;</strong><br/><strong style="color: #e97914;">Challan Qty : <%= zeroDForm.format(viewChlQty) %>&nbsp;&nbsp; Total Weight : <%=twoDForm.format(viewTotwt) %></strong> --%> 
+
+</button>
 <div class="panel">
 <p>
 <table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;"> 
 			<tr align="center">
-					<th class="th">Part</th>
+					<th class="th">Part Name</th>
 					<th class="th">Date</th>  
 					<th class="th">Challan Qty</th>   
 					<th class="th">Wgt</th>
 					<th class="th">Tot Wgt</th>
 			</tr>
-<% 
+		<% 
 				chqty=0;
 				totWt=0;
 				rs122 = cs11.executeQuery();
 				while(rs122.next()){
 					if(rs122.getString("SUBGLACNO").equalsIgnoreCase(custno.get(i).toString())){
 						custName=rs122.getString("SUBGLACNO");
-						if(cnt==0){
-			%>
-			<tr>
-					<td colspan="2" style="background-color: #35006a;font-weight:bold; color:white; cursor: pointer;font-family: Arial;font-size: 11px;"><strong><%=rs122.getString("CUST_NAME") %></strong></td>
-					<td style="background-color: #35006a;font-weight:bold; color:white; cursor: pointer;font-family: Arial;font-size: 11px;" align="right"><strong><%=chqty%></strong></td>
-					<td style="background-color: #35006a;font-weight:bold; color:white; cursor: pointer;font-family: Arial;font-size: 11px;">&nbsp;</td>
-					<td style="background-color: #35006a;font-weight:bold; color:white; cursor: pointer;font-family: Arial;font-size: 11px;" align="right"><strong><%=totWt %></strong></td> 
-			</tr>
-			<%
-					}
-			%>
+			%> 
 			<tr  style="background-color: #f7f7f7;cursor: pointer;font-family: Arial;font-size: 10px;">
 					<td><%=rs122.getString("MAT_NAME") %></td>
 					<td><%=rs122.getString("PRN_TRANDATE") %></td>
-					<td><%=rs122.getString("CHLN_QTY") %></td>
-					<td><%=rs122.getString("WEIGHT") %></td>
-					<td><%=rs122.getString("TOTALWEIGHT") %></td>
+					<td align="right"><%= zeroDForm.format(Double.valueOf(rs122.getString("CHLN_QTY"))) %></td>
+					<td align="right"><%=twoDForm.format(Double.valueOf(rs122.getString("WEIGHT"))) %></td>
+					<td align="right"><%=twoDForm.format(Double.valueOf(rs122.getString("TOTALWEIGHT"))) %></td>
 			</tr>
 			<%
 			cnt++;
@@ -214,8 +240,7 @@ for(int i=0;i<custno.size();i++){
 				custName="";
 				cnt=0;
 			}
-			%> 
-			
+			%>
 <script>
 var acc = document.getElementsByClassName("accordion");
 var i; 
@@ -233,147 +258,270 @@ for (i = 0; i < acc.length; i++) {
 </script>
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
 <%
 if(flag==true){
+	con.close();
 	comp="105";
 	con = ConnectionUrl.getDIERPConnection();
 	nameComp = "DI";
-	custno.clear();
+	custno.clear(); 
 %> 
 <div style="width: 33.2%;float: right;">
-<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;">
+<strong><%=nameComp %> Rejection</strong> 
+<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;"> 
 			<tr align="center">
-					<th class="th" colspan="5"><%=nameComp %> Rejection</th> 
+					<th class="th" width="60%">Part Name</th>   
+					<th class="th" width="20%">Total Challan Qty</th> 
+					<th class="th" width="20%">Total Weight</th>
 			</tr>
+</table>
+<%
+//Cust Return
+//exec "ENGERP"."dbo"."Sel_RptMatSalesReturn";1 '101', '0', '2024', '20170301', '20170412'
+custName="";
+cnt=0;
+chqty=0;
+totWt=0;
+custno.clear();  
+cs11 = con.prepareCall("{call Sel_RptMatSalesReturn(?,?,?,?,?)}");
+cs11.setString(1, comp);
+cs11.setString(2, "0");
+cs11.setString(3, "2024");
+cs11.setString(4, datefrom);
+cs11.setString(5, dateto);
+rs122 = cs11.executeQuery();
+while (rs122.next()) {
+custno.add(rs122.getString("SUBGLACNO"));
+}
+ 
+hashSet.clear();
+hashSet.addAll(custno);
+custno.clear();
+custno.addAll(hashSet);
+Collections.sort(custno);
+
+viewCust="";
+viewChlQty=0;
+viewTotwt=0;
+
+for(int i=0;i<custno.size();i++){
+	viewCust ="";
+	viewChlQty=0;viewTotwt=0;
+	rs122 = cs11.executeQuery();
+	while(rs122.next()){
+		if(rs122.getString("SUBGLACNO").equalsIgnoreCase(custno.get(i).toString())){
+			custName=rs122.getString("SUBGLACNO");
+			if(cnt==0){
+			 viewCust = rs122.getString("CUST_NAME");
+			 viewChlQty = viewChlQty + Double.valueOf(rs122.getString("CHLN_QTY"));
+			 viewTotwt = viewTotwt + Double.valueOf(rs122.getString("TOTALWEIGHT")); 
+	   }
+	 }
+	}
+%>
+<button class="accordion2">
+<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;"> 
+			<tr>
+					<th class="th" width="60%"><strong><%=viewCust %></strong></th>   
+					<th class="th" width="20%" align="right"><strong style="color: #e97914;"><%= zeroDForm.format(viewChlQty) %></strong></th> 
+					<th class="th" width="20%" align="right"><strong style="color: #e97914;"><%=twoDForm.format(viewTotwt) %></strong> </th>
+			</tr>
+</table>			
+<%-- <strong><%=viewCust %>&nbsp;</strong><br/><strong style="color: #e97914;">Challan Qty : <%= zeroDForm.format(viewChlQty) %>&nbsp;&nbsp; Total Weight : <%=twoDForm.format(viewTotwt) %></strong> --%> 
+</button>
+<div class="panel">
+<p>
+<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;"> 
 			<tr align="center">
-					<th class="th">Part</th>
+					<th class="th">Part Name</th>
 					<th class="th">Date</th>  
 					<th class="th">Challan Qty</th>   
 					<th class="th">Wgt</th>
 					<th class="th">Tot Wgt</th>
 			</tr>
-			<% 
-			cs11 = con.prepareCall("{call Sel_RptMatSalesReturn(?,?,?,?,?)}");
-			cs11.setString(1, comp);
-			cs11.setString(2, "0");
-			cs11.setString(3, "2024");
-			cs11.setString(4, datefrom);
-			cs11.setString(5, dateto); 
-			rs122 = cs11.executeQuery();
-			while (rs122.next()) {
-				custno.add(rs122.getString("SUBGLACNO"));
-			}
-			
-			hashSet.clear();
-			hashSet.addAll(custno);
-			custno.clear();
-			custno.addAll(hashSet);
-			Collections.sort(custno); 
-			
-			custName="";
-			cnt=0;
-			for(int i=0;i<custno.size();i++){
+<% 
+				chqty=0;
+				totWt=0;
 				rs122 = cs11.executeQuery();
 				while(rs122.next()){
-					if(rs122.getString("SUBGLACNO").equalsIgnoreCase(custno.get(i).toString())){ 			
-						custName=rs122.getString("SUBGLACNO");
-						if(cnt==0){
-			%>
-			<tr>
-					<td colspan="5" style="background-color: #35006a;font-weight:bold; color:white; cursor: pointer;font-family: Arial;font-size: 11px;"><strong><%=rs122.getString("CUST_NAME") %></strong></td> 
-			</tr>
-			<%
-					}
-			%>
+					if(rs122.getString("SUBGLACNO").equalsIgnoreCase(custno.get(i).toString())){
+						custName=rs122.getString("SUBGLACNO"); 
+			%> 
 			<tr  style="background-color: #f7f7f7;cursor: pointer;font-family: Arial;font-size: 10px;">
 					<td><%=rs122.getString("MAT_NAME") %></td>
 					<td><%=rs122.getString("PRN_TRANDATE") %></td>
-					<td><%=rs122.getString("CHLN_QTY") %></td>
-					<td><%=rs122.getString("WEIGHT") %></td>
-					<td><%=rs122.getString("TOTALWEIGHT") %></td>
+					<td align="right"><%= zeroDForm.format(Double.valueOf(rs122.getString("CHLN_QTY"))) %></td>
+					<td align="right"><%=twoDForm.format(Double.valueOf(rs122.getString("WEIGHT"))) %></td>
+					<td align="right"><%=twoDForm.format(Double.valueOf(rs122.getString("TOTALWEIGHT"))) %></td>
 			</tr>
-			<% 			
+			<%
 			cnt++;
 					}
 			}
+		%>
+		</table>
+</p>
+</div> 
+			<%		
 				custName="";
 				cnt=0;
 			}
-			%>
-</table>
+			%> 
+			
+<script>
+var acc = document.getElementsByClassName("accordion2");
+var i; 
+for (i = 0; i < acc.length; i++) {
+    acc[i].onclick = function(){
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    }
+}
+</script>
 </div>
 <%
+	con.close();
 	comp="106";
 	con = ConnectionUrl.getK1ERPConnection();
 	nameComp = "MEPL UIII";
 	custno.clear();
-%> 
+%>
 <div style="width: 33.2%;float: right;">
-<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;">
+<strong><%=nameComp %> Rejection</strong>
+<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;"> 
 			<tr align="center">
-					<th class="th" colspan="5"><%=nameComp %> Rejection</th> 
+					<th class="th" width="60%">Part Name</th>   
+					<th class="th" width="20%">Total Challan Qty</th> 
+					<th class="th" width="20%">Total Weight</th>
 			</tr>
+</table>
+<%
+//Cust Return
+//exec "ENGERP"."dbo"."Sel_RptMatSalesReturn";1 '101', '0', '2024', '20170301', '20170412'
+custName="";
+cnt=0;
+chqty=0;
+totWt=0;
+custno.clear();  
+cs11 = con.prepareCall("{call Sel_RptMatSalesReturn(?,?,?,?,?)}");
+cs11.setString(1, comp);
+cs11.setString(2, "0");
+cs11.setString(3, "2024");
+cs11.setString(4, datefrom);
+cs11.setString(5, dateto);
+rs122 = cs11.executeQuery();
+while (rs122.next()) {
+custno.add(rs122.getString("SUBGLACNO"));
+}
+ 
+hashSet.clear();
+hashSet.addAll(custno);
+custno.clear();
+custno.addAll(hashSet);
+Collections.sort(custno);
+
+viewCust="";
+viewChlQty=0;
+viewTotwt=0;
+
+for(int i=0;i<custno.size();i++){
+	viewCust ="";
+	viewChlQty=0;viewTotwt=0;
+	rs122 = cs11.executeQuery();
+	while(rs122.next()){
+		if(rs122.getString("SUBGLACNO").equalsIgnoreCase(custno.get(i).toString())){
+			custName=rs122.getString("SUBGLACNO");
+			if(cnt==0){
+			 viewCust = rs122.getString("CUST_NAME");
+			 viewChlQty = viewChlQty + Double.valueOf(rs122.getString("CHLN_QTY"));
+			 viewTotwt = viewTotwt + Double.valueOf(rs122.getString("TOTALWEIGHT")); 
+	   }
+	 }
+	}
+%>
+<button class="accordion3">
+<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;"> 
+			<tr>
+					<th class="th" width="60%"><strong><%=viewCust %></strong></th>   
+					<th class="th" width="20%" align="right"><strong style="color: #e97914;"><%= zeroDForm.format(viewChlQty) %></strong></th> 
+					<th class="th" width="20%" align="right"><strong style="color: #e97914;"><%=twoDForm.format(viewTotwt) %></strong> </th>
+			</tr>
+</table>			
+<%-- <strong><%=viewCust %>&nbsp;</strong><br/><strong style="color: #e97914;">Challan Qty : <%= zeroDForm.format(viewChlQty) %>&nbsp;&nbsp; Total Weight : <%=twoDForm.format(viewTotwt) %></strong> --%> 
+</button>
+<div class="panel">
+<p>
+<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;"> 
 			<tr align="center">
-					<th class="th">Part</th>
+					<th class="th">Part Name</th>
 					<th class="th">Date</th>  
 					<th class="th">Challan Qty</th>   
 					<th class="th">Wgt</th>
 					<th class="th">Tot Wgt</th>
 			</tr>
-			<% 
-			cs11 = con.prepareCall("{call Sel_RptMatSalesReturn(?,?,?,?,?)}");
-			cs11.setString(1, comp);
-			cs11.setString(2, "0");
-			cs11.setString(3, "2024");
-			cs11.setString(4, datefrom);
-			cs11.setString(5, dateto); 
-			rs122 = cs11.executeQuery();
-			while (rs122.next()) {
-				custno.add(rs122.getString("SUBGLACNO"));
-			}
-			
-			hashSet.clear(); 
-			hashSet.addAll(custno);
-			custno.clear();
-			custno.addAll(hashSet);
-			Collections.sort(custno); 
-			
-			custName="";
-			cnt=0;
-			for(int i=0;i<custno.size();i++){
+<% 
+				chqty=0;
+				totWt=0;
 				rs122 = cs11.executeQuery();
 				while(rs122.next()){
-					if(rs122.getString("SUBGLACNO").equalsIgnoreCase(custno.get(i).toString())){ 			
-						custName=rs122.getString("SUBGLACNO");
-						if(cnt==0){
-			%>
-			<tr>
-					<td colspan="5" style="background-color: #35006a;font-weight:bold; color:white; cursor: pointer;font-family: Arial;font-size: 11px;"><strong><%=rs122.getString("CUST_NAME") %></strong></td> 
-			</tr>
-			<%
-					}
-			%>
+					if(rs122.getString("SUBGLACNO").equalsIgnoreCase(custno.get(i).toString())){
+						custName=rs122.getString("SUBGLACNO"); 
+			%> 
 			<tr  style="background-color: #f7f7f7;cursor: pointer;font-family: Arial;font-size: 10px;">
 					<td><%=rs122.getString("MAT_NAME") %></td>
 					<td><%=rs122.getString("PRN_TRANDATE") %></td>
-					<td><%=rs122.getString("CHLN_QTY") %></td>
-					<td><%=rs122.getString("WEIGHT") %></td>
-					<td><%=rs122.getString("TOTALWEIGHT") %></td>
+					<td align="right"><%= zeroDForm.format(Double.valueOf(rs122.getString("CHLN_QTY"))) %></td>
+					<td align="right"><%=twoDForm.format(Double.valueOf(rs122.getString("WEIGHT"))) %></td>
+					<td align="right"><%=twoDForm.format(Double.valueOf(rs122.getString("TOTALWEIGHT"))) %></td>
 			</tr>
-			<% 			
+			<%
 			cnt++;
 					}
 			}
+		%>
+		</table>
+</p>
+</div> 
+			<%		
 				custName="";
 				cnt=0;
 			}
-			%>
-</table>
+			%> 
+<script>
+var acc = document.getElementsByClassName("accordion3");
+var i; 
+for (i = 0; i < acc.length; i++) {
+    acc[i].onclick = function(){
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    }
+}
+</script>
 </div>
 <%
-}
-%>  
-<%  
+}  
 }catch(Exception e){
 	e.printStackTrace();
 }
