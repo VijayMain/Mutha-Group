@@ -95,15 +95,15 @@ table {
 }
 
 .ui-accordion .ui-accordion-icons {
-	padding-left: 2.2em;
+	/* padding-left: 2.2em; */
 }
 
 .ui-accordion .ui-accordion-noicons {
-	padding-left: .7em;
+	/* padding-left: .7em; */
 }
 
 .ui-accordion .ui-accordion-icons .ui-accordion-icons {
-	padding-left: 2.2em;
+	/* padding-left: 2.2em; */
 }
 
 .ui-accordion .ui-accordion-header .ui-accordion-header-icon {
@@ -114,7 +114,7 @@ table {
 }
 
 .ui-accordion .ui-accordion-content {
-	padding: 1em 2.2em;
+	/* padding: 1em 2.2em; */ 
 	border-top: 0;
 	overflow: auto;
 }

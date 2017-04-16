@@ -263,9 +263,6 @@ String dateTo =  to_date.substring(6,8)+"/"+ to_date.substring(4,6) +"/"+ to_dat
 		
 		<!-- ******************************************************************************************************************** -->
 		
-		
-			
-			
 				<%
 				double sumH25_ToH21 = 0;
 				double sumH25_Total = 0;
@@ -291,7 +288,7 @@ String dateTo =  to_date.substring(6,8)+"/"+ to_date.substring(4,6) +"/"+ to_dat
 				//H25 to mfpl exec "H25ERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '102', '0', '101110070101110032101110060101110100', '20141201', '20141231' 
 				
 				CallableStatement H25_tomfpl = con_H25_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				H25_tomfpl.setString(1, "102");
+				H25_tomfpl.setString(1, "103");
 				H25_tomfpl.setString(2, "0");
 				H25_tomfpl.setString(3, "101110070101110032101110060101110100");
 				H25_tomfpl.setString(4, from_date);

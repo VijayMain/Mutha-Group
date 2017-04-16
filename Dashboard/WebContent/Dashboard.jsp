@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.HashSet"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
@@ -204,6 +206,41 @@ System.out.println("SQL DATE =  " + sql_date);
   <input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1" />
   <label for="rating-input-1-1" class="rating-star"></label>
 </div>
+
+<%
+ArrayList city = new ArrayList();
+		  city.add("31");
+		  city.add("31");
+		  city.add("12");
+		  city.add("12");
+
+
+HashSet<String> hashSet = new HashSet<String>();
+hashSet.addAll(city);
+city.clear();
+city.addAll(hashSet);
+
+String nameSubstring = "20170301";
+System.out.println("NameString = " + nameSubstring.substring(6) + " = " + city);
+%>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>

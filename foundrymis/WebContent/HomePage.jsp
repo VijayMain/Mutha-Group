@@ -105,7 +105,7 @@ if(window.history[nHist] != window.location)
 				      changeYear: true 				         
 				}); 
 			    
-			    $( "#FromDate_heattrend" ).datepicker({
+			   $( "#ToDate_rejectiontrend" ).datepicker({
 				      changeMonth: true,
 				      changeYear: true 				         
 				}); 
@@ -115,7 +115,7 @@ if(window.history[nHist] != window.location)
 				}); 
 			  } 
 			); 
-</script> 
+</script>
 <script type="text/javascript">
 	function navigateToMIS(target, newWindow) {
 		window.location = "MachineShop_Home.jsp";
@@ -606,7 +606,12 @@ function validateHeatTrend() {
 		document.getElementById("waitImage_heattrend").style.visibility = "visible";
 		return true;
 }
-
+function validateRejectionTrend() {
+	// companyrejectiontrend   ToDate_rejectiontrend  ADD_rejectiontrend  waitImage_rejectiontrend  
+		document.getElementById("ADD_rejectiontrend").disabled = true;
+		document.getElementById("waitImage_rejectiontrend").style.visibility = "visible";
+		return true;
+}
 
 
 
@@ -830,11 +835,15 @@ while(rs.next()){
 		%>
 				<li><a href="#tabs-21">Heat Trend</a></li>		 
 		<%
+		}if(reportList.contains("Rejection_Trend")){
+		%>
+			<li><a href="#tabs-22">Rejection Trend</a></li>
+		<%
 		}if(reportList.size()==0){
 		%>
-			<li><a href="#tabs-22">Work In Progress</a></li>
+				<li><a href="#tabs-23">Work In Progress</a></li>
 		<%
-		}
+			}
 		%>
 		</ul>		
 		<%
@@ -1087,9 +1096,9 @@ while(rs.next()){
 				<td> 
 				<select name="company" id="companydPlan" onchange="getAllCustomers(this.value)">
 				<option value="">- - - - Select - - - - </option>
- 			 	<option value="103">MFPL</option> 
- 				<option value="105">DI</option> 
- 				<option value="106">MEPL Unit III</option>  
+ 			 	<option value="103">MFPL</option>
+ 				<option value="105">DI</option>
+ 				<option value="106">MEPL Unit III</option>
  			</select>
 				 </td>
 			</tr> 
@@ -2039,26 +2048,22 @@ while(rs.next()){
 		<br/>
 			<table class="tftable" style="border: 0px;">
 			<tr>
-				<td colspan="2"><strong>Internal Rejection<br/> </strong> <br/>
+				<td colspan="2"><strong>Heat Trend<br/> </strong> <br/>
 			</td>
-			</tr>  
+			</tr>
 			<tr>
 				<td>Select Company :</td>
 				<td>
 				<select name="company" id="companyheattrend">
  				<option value="103">MFPL</option> 
  				<option value="105">DI</option> 
- 				<option value="106">MEPL Unit III</option>  
+ 				<option value="106">MEPL Unit III</option>
+ 				<option value="all">All Foundries</option>  
  			</select>
 				 </td>
-			</tr> 
+			</tr>  
 			<tr>
-				<td>From Date :</td>
-				<td> <input type="text" name="FromDate_heattrend" value="<%=sdfFIrstDate.format(dddd) %>" id="FromDate_heattrend" readonly="readonly" style="font-size: 10px;width: 200px;"/>  
-				 </td>
-			</tr> 
-			<tr>
-				<td>To Date :</td>
+				<td>On Date :</td>
 				<td> <input type="text" name="ToDate_heattrend" value="<%=sdfFIrstDate.format(tdate) %>" id="ToDate_heattrend" readonly="readonly" style="font-size: 10px;width: 200px;"/>  
 				 </td>
 			</tr>  
@@ -2072,13 +2077,49 @@ while(rs.next()){
 		</form>
 			</div>
 		<%
-			}if(reportList.size()==0){
+			}if(reportList.contains("Rejection_Trend")){
 		%>
 			<div id="tabs-22">
-			<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
+			<form action="Rejection_Trend.jsp" method="post"  onSubmit="return validateRejectionTrend();">
+			<br/>
+			<table class="tftable" style="border: 0px;">
+			<tr>
+				<td colspan="2"><strong>Rejection Trend<br/> </strong> <br/>
+			</td>
+			</tr>
+			<tr>
+				<td>Select Company :</td>
+				<td>
+				<select name="company" id="companyrejectiontrend">
+ 				<option value="103">MFPL</option> 
+ 				<option value="105">DI</option> 
+ 				<option value="106">MEPL Unit III</option>
+ 				<option value="all">All Foundries</option>  
+ 			</select>
+			</td>
+			</tr>
+			<tr>
+				<td>On Date :</td>
+				<td> <input type="text" name="ToDate_rejectiontrend" value="<%=sdfFIrstDate.format(tdate) %>" id="ToDate_rejectiontrend" readonly="readonly" style="font-size: 10px;width: 200px;"/>  
+				 </td>
+			</tr>
+			<tr> 
+			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADD_rejectiontrend" value="Get Rejection Trend Report" style="background-color: #BABABA;width: 285px;height: 35px;"/> </td>
+			</tr>
+			<tr> 
+			<td colspan="2" align="left"><span id="waitImage_rejectiontrend" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
+			</tr>	 
+			</table>
+		</form>
 			</div>
 		<%
-			}
+			}if(reportList.size()==0){
+		%>
+		 <div id="tabs-23">
+			<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
+		 </div>
+		<%
+					}
 		%>
 			
 	</div>	

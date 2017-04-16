@@ -12,11 +12,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import java.util.TimerTask;  
+
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage; 
+
 import com.muthagroup.connectionERPUtil.ConnectionUrl;
 
 public class MIS_SummaryReportK1 extends TimerTask {
@@ -49,8 +51,8 @@ public class MIS_SummaryReportK1 extends TimerTask {
 			String ason_date = dateFormat2.format(cal.getTime()).toString();
 			
 			DecimalFormat twoDForm = new DecimalFormat("###,##0.00");
-			/* if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 9 && d.getMinutes() == 27) { */
 			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 55) {
+			 /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 52) { */
 			//************************************************************************************************				
 			if(weekday[d.getDay()].equals("Wednesday")){
 					cal.add(Calendar.DATE, -1);
@@ -235,9 +237,10 @@ sb.append("</table><table border='1' style='font-size: 12px; color: #333333; wid
 	 "<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'><th scope='col'>Item Name</th><th scope='col'>Schedule Qty</th><th scope='col'>Achieved %</th><th scope='col'>On Date Production Qty</th><th scope='col'>To Date Production Qty</th><th scope='col'>On Date Dispatch Qty</th><th scope='col'>To Date Dispatch Qty</th></tr>");
 
 while(rs_stk.next()){
-	//System.out.println("Date  = = " + Double.valueOf(rs1.getString("ON_PRODQTY")) + " = " +  Double.valueOf(rs1.getString("ON_DISPQTY")));
-	if(Double.valueOf(rs_stk.getString("ON_PRODQTY"))==0.0 && Double.valueOf(rs_stk.getString("ON_DISPQTY"))==0.0){
-	}else{
+/*	//System.out.println("Date  = = " + Double.valueOf(rs1.getString("ON_PRODQTY")) + " = " +  Double.valueOf(rs1.getString("ON_DISPQTY")));	
+	if((Double.valueOf(rs_stk.getString("ON_PRODQTY"))==0.0 && Double.valueOf(rs_stk.getString("ON_DISPQTY"))==0.0)
+			|| (Double.valueOf(rs_stk.getString("TO_PRODQTY"))==0.0 && Double.valueOf(rs_stk.getString("TO_DISPQTY"))==0.0)){
+	}else{ */
 		if(!rs_stk.getString("MAT_NAME").equalsIgnoreCase("")){
 
 			if(Double.valueOf(rs_stk.getString("SHEDULE_QTY"))!=0){ 
@@ -254,7 +257,7 @@ sb.append("<tr><td align='left'>"+rs_stk.getString("MAT_NAME") +"</td>"+
 
 			achPer=0;
 		}
-		}
+		/*}*/
 	}
 	rs_stk.close();
 

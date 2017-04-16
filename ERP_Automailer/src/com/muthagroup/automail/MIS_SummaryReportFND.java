@@ -50,7 +50,7 @@ public class MIS_SummaryReportFND extends TimerTask {
 			
 			DecimalFormat twoDForm = new DecimalFormat("###,##0.00");
 			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 57) {
-			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 15) {*/
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 48) {*/
 				//************************************************************************************************				
 				if(weekday[d.getDay()].equals("Wednesday")){
 					cal.add(Calendar.DATE, -1);
@@ -242,8 +242,9 @@ sb.append("</table><table border='1' style='font-size: 12px; color: #333333; wid
 
 while(rs_stk.next()){
 	//System.out.println("Date  = = " + Double.valueOf(rs1.getString("ON_PRODQTY")) + " = " +  Double.valueOf(rs1.getString("ON_DISPQTY")));
-	if(Double.valueOf(rs_stk.getString("ON_PRODQTY"))==0.0 && Double.valueOf(rs_stk.getString("ON_DISPQTY"))==0.0){
-	}else{
+	/*if((Double.valueOf(rs_stk.getString("ON_PRODQTY"))==0.0 && Double.valueOf(rs_stk.getString("ON_DISPQTY"))==0.0)
+		 || (Double.valueOf(rs_stk.getString("TO_PRODQTY"))==0.0 && Double.valueOf(rs_stk.getString("TO_DISPQTY"))==0.0)){
+	}else{*/
 		if(!rs_stk.getString("MAT_NAME").equalsIgnoreCase("")){
 			if(Double.valueOf(rs_stk.getString("SHEDULE_QTY"))!=0){
 			achPer = Double.valueOf(rs_stk.getString("TO_DISPQTY")) / Double.valueOf(rs_stk.getString("SHEDULE_QTY")) * 100;
@@ -257,8 +258,7 @@ while(rs_stk.next()){
 			"<td align='right'>"+rs_stk.getString("ON_DISPQTY") +"</td>"+
 			"<td align='right'>"+rs_stk.getString("TO_DISPQTY") +"</td></tr>");			
 			achPer=0;
-		}
-	}
+		} 
 }
 rs_stk.close();
 

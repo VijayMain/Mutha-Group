@@ -120,7 +120,7 @@ public class Purchase_Approved_statusH21 extends TimerTask {
 		"<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+
 		"<th width='8%' height='25'>PO. No</th><th width='15%'>PO Date</th><th width='40%'>Supplier Name</th><th width='20%'>Created By</th> "+
 		"<th width='20%'>Approved Date</th><th width='20%'>Approved By</th> "+
-		"</tr>"); 
+		"</tr>");
 		String pono="",aprDate=""; 
 		
 		while (rs.next()) {

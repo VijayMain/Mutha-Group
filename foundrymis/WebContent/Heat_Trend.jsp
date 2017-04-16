@@ -1,3 +1,8 @@
+<%@page import="java.util.Collections"%>
+<%@page import="java.util.HashSet"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.CallableStatement"%>
 <%@page import="com.muthagroup.connectionUtil.ConnectionUrl"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.sql.Connection"%>
@@ -7,15 +12,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Category Wise Outstanding</title>
+<title>Heats Trend</title> 
 <STYLE TYPE="text/css" MEDIA=all>
-.td1 { 
-	font-size: 10px;
-	border-width: 1px;
-	padding: 3px;
-	border-style: solid;
-	border-color: #729ea5;
-}
 .tftable tr {
 	background-color: white;
 	font-size: 10px;
@@ -29,92 +27,25 @@
 	border-style: solid;
 	border-color: #729ea5;
 	text-align: center;
-}
-
-A:link {
-	COLOR: #0000EE;
-}
-
-A:hover {
-	COLOR: #0000EE;
-}
-
-A:visited {
-	COLOR: #0000EE;
-}
-
-A:hover {
-	COLOR: #0000EE;
-}
-
-.div_freezepanes_wrapper {
-	font-size:10px;
-	position: relative; 
-	width: 99%;
-	height: 550px;
-	overflow: hidden;
-	background: #fff;
-	border-style: ridge;
-	
-}
-
-.div_verticalscroll {
-	font-size:10px;
-	position: absolute;
-	right: 0px;
-	width: 18px;
-	height: 100%;
-	background: #EAEAEA;
-	border: 1px solid #C0C0C0;
-}
-
-.buttonUp {
-	width: 20px;
-	position: absolute;
-	top: 2px;
-}
-
-.buttonDn {
-	width: 20px;
-	position: absolute;
-	bottom: 22px;
-}
-
-.div_horizontalscroll {
-	font-size:10px;
-	position: absolute;
-	bottom: 0px;
-	width: 98%;
-	height: 18px;
-	background: #EAEAEA;
-	border: 1px solid #C0C0C0;
-}
-
-.buttonRight {
-	width: 20px;
-	position: absolute;
-	left: 0px;
-	padding-top: 2px;
-}
-
-.buttonLeft {
-	width: 20px;
-	position: absolute;
-	right: 22px;
-	padding-top: 2px;
-}
+}  
 </STYLE> 
 </head>
 <body bgcolor="#DEDEDE" style="font-family: Arial;">
-<% 
+<%
 try {
 Connection con = null;
 String comp =request.getParameter("company");
-String datefrom =request.getParameter("FromDate_heattrend");  
-String dateto =request.getParameter("ToDate_heattrend"); 
+boolean flag =false;
+if(comp.equalsIgnoreCase("all")){
+	comp = "103";
+	flag=true;
+}
 
-datefrom = datefrom.replaceAll("[-+.^:,]","");
+/*  String datefrom =request.getParameter("FromDate_heattrend");   */
+String dateto =request.getParameter("ToDate_heattrend"); 
+ 
 dateto = dateto.replaceAll("[-+.^:,]","");
+String datefrom = dateto.substring(0,4) + dateto.substring(4,6) + "01";
 
 String date_From = datefrom.substring(6,8) +"/"+ datefrom.substring(4,6) +"/"+ datefrom.substring(0,4);
 String date_to = dateto.substring(6,8) +"/"+ dateto.substring(4,6) +"/"+ dateto.substring(0,4);
@@ -123,35 +54,60 @@ DecimalFormat zeroDForm = new DecimalFormat("###,##0");
 DecimalFormat twoDForm = new DecimalFormat("###,##0.00");
 String datetab = datefrom.substring(4,6);
 String nameComp = "";
+String db="";
+
+//System.out.println("date = " + datefrom + " = " + dateto);
 
 if(comp.equalsIgnoreCase("103")){
-	con = ConnectionUrl.getFoundryERPNEWConnection(); 
-	nameComp = "MUTHA FOUNDERS PVT.LTD.";
+	con = ConnectionUrl.getFoundryFMShopConnection();
+	nameComp = "MFPL";
+	db = "FOUNDRYERP";
 }
 if(comp.equalsIgnoreCase("105")){
-	con = ConnectionUrl.getDIERPConnection();
-	nameComp = "DHANASHREE INDUSTRIES";
+	con = ConnectionUrl.getDIFMShopConnection();
+	nameComp = "DI";
+	db = "DIERP";
 }
 if(comp.equalsIgnoreCase("106")){
-	con = ConnectionUrl.getK1ERPConnection(); 
-	nameComp = "MUTHA ENGINEERING PVT.LTD.UNIT III ";
+	con = ConnectionUrl.getK1FMShopConnection();
+	nameComp = "UNIT III ";
+	db = "K1ERP";
 }
 if(comp.equalsIgnoreCase("101")){
-	con = ConnectionUrl.getMEPLH21ERP();
-	nameComp = "H21 MUTHA ENGINEERING PVT.LTD.";
+	con = ConnectionUrl.getMEPLH21FMShop();
+	nameComp = "MEPL H21";
+	db = "ENGERP";
 }
 if(comp.equalsIgnoreCase("102")){
-	con = ConnectionUrl.getMEPLH25ERP();
-	nameComp = "H25 MUTHA ENGINEERING PVT.LTD.";
+	con = ConnectionUrl.getMEPLH25FMShop();
+	nameComp = "MEPL H25";
+	db = "H25ERP";
 }
 if(comp.equalsIgnoreCase("111")){
 	con = ConnectionUrl.getENGH25CONSConnection();
 	nameComp = "MEPL H21 & MEPL H25 Consolidated";
 }
+
+// exec "DIFMSHOP"."dbo"."Sel_TransactionsFoundry";1 '105', '65202', 'ADMIN', '20170301', '20170331', 'FOUNDRYERP'
+ArrayList days = new ArrayList();
+				CallableStatement cs11 = con.prepareCall("{call Sel_TransactionsFoundry(?,?,?,?,?,?)}");
+				cs11.setString(1, comp);
+				cs11.setString(2, "65202");
+				cs11.setString(3, "ADMIN");
+				cs11.setString(4, datefrom);
+				cs11.setString(5, dateto);
+				cs11.setString(6, db);
+				ResultSet rs122 = cs11.executeQuery();
+				while (rs122.next()) {
+					days.add(rs122.getString("TRAN_DATE").substring(6));
+				}
+				HashSet<Integer> hashSet = new HashSet<Integer>();
+				hashSet.addAll(days);
+				days.clear();
+				days.addAll(hashSet);
+				Collections.sort(days);
 %>
 <div>
-<strong style="color: blue;font-family: Arial;font-size: 14px;"><%=nameComp %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
 <strong style="color: #1B5869;font-family: Arial;font-size: 14px;">Heat Trend Report from <%=date_From %> to <%=date_to %>&nbsp;&nbsp;&nbsp;&nbsp;</strong><br/>
 <strong style="font-family: Arial;font-size: 13px;">
 <%
@@ -166,21 +122,207 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102") || comp.equalsIg
 }
 %>
 </strong>
-<table id="t1" border="1" cellpadding=2 style="width:50%; border: 1px solid #000;"> 
+</div> 
+<div style="width: 80%;float: left;">
+<div style="width: 33.3%;float: left;"> 
+<table id="tbl1" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;"> 
+		<tr align="center">
+					<th class="th" colspan="5"><%=nameComp %> HEATS</th> 
+		</tr>
+		<tr align="center">
+					<th class="th">Day</th>
+					<th class="th">Shift1</th>
+					<th class="th">Shift2</th>
+					<th class="th">Shift3</th>
+					<th class="th">Total</th>
+		</tr>
+			<%
+			int s1=0,s2=0,s3=0,sum=0;
+			for(int i=0;i<days.size();i++){
+				rs122 = cs11.executeQuery();
+				while(rs122.next()){
+					if(rs122.getString("TRAN_DATE").substring(6).equalsIgnoreCase(days.get(i).toString()) && rs122.getString("SHIFT").equalsIgnoreCase("1") && rs122.getString("STATUS_CODE").equalsIgnoreCase("0")){
+						s1++;
+					}
+					if(rs122.getString("TRAN_DATE").substring(6).equalsIgnoreCase(days.get(i).toString()) && rs122.getString("SHIFT").equalsIgnoreCase("2") && rs122.getString("STATUS_CODE").equalsIgnoreCase("0")){
+						s2++;
+					}
+					if(rs122.getString("TRAN_DATE").substring(6).equalsIgnoreCase(days.get(i).toString()) && rs122.getString("SHIFT").equalsIgnoreCase("3") && rs122.getString("STATUS_CODE").equalsIgnoreCase("0")){
+						s3++;
+					}
+				}
+				sum = s1+s2+s3;
+			%>
+			<tr align="center" style="background-color: #f7f7f7;cursor: pointer;font-family: Arial;font-size: 10px;" align="center">
+					<td align="right"><b><%=days.get(i).toString() %></b></td>
+					<td align="right"><b><%=s1 %></b></td>
+					<td align="right"><b><%=s2 %></b></td>
+					<td align="right"><b><%=s3 %></b></td>
+					<td align="right"><b><%=sum %></b></td>
+			</tr>
+			<%
+			sum = 0;
+			s1=0;
+			s2=0;
+			s3=0;
+			}
+			%>
+			</table>
+
+</div>
+<%
+if(flag==true){
+%>
+<div style="width: 33.3%;float: left;">
+<%
+//exec "DIFMSHOP"."dbo"."Sel_TransactionsFoundry";1 '105', '65202', 'ADMIN', '20170301', '20170331', 'FOUNDRYERP'
+comp="105";
+days.clear();
+con = ConnectionUrl.getDIFMShopConnection();
+nameComp = "DI";
+db = "DIERP";
+
+cs11 = con.prepareCall("{call Sel_TransactionsFoundry(?,?,?,?,?,?)}");
+cs11.setString(1, comp);
+cs11.setString(2, "65202");
+cs11.setString(3, "ADMIN");
+cs11.setString(4, datefrom);
+cs11.setString(5, dateto);
+cs11.setString(6, db);
+rs122 = cs11.executeQuery();
+while (rs122.next()) {
+	days.add(rs122.getString("TRAN_DATE").substring(6));
+}
+hashSet.clear();
+hashSet.addAll(days);
+days.clear();
+days.addAll(hashSet);
+Collections.sort(days);
+%>
+<table id="tbl2" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;"> 
+		<tr align="center">
+					<th class="th" colspan="5"><%=nameComp %> HEATS</th> 
+			</tr>
 			<tr align="center">
 					<th class="th">Day</th>
-					<th class="th">Shift 1</th>  
-					<th class="th">Shift 2</th>   
-					<th class="th">Shift 3</th>
-			</tr> 
-			<tr align="center" style="background-color: #FEFCFF;cursor: pointer;font-family: Arial;font-size: 10px;" align="center">
-					<td align="right"></td>
-					<td align="right"></td>
-					<td align="right"></td>
-					<td align="right"></td>				 				 
+					<th class="th">Shift1</th>  
+					<th class="th">Shift2</th>   
+					<th class="th">Shift3</th>
+					<th class="th">Total</th>
 			</tr>
+			<%
+			
+			
+			s1=0;s2=0;s3=0;sum=0;
+			for(int i=0;i<days.size();i++){
+				rs122 = cs11.executeQuery();
+				while(rs122.next()){
+					if(rs122.getString("TRAN_DATE").substring(6).equalsIgnoreCase(days.get(i).toString()) && rs122.getString("SHIFT").equalsIgnoreCase("1") && rs122.getString("STATUS_CODE").equalsIgnoreCase("0")){
+						s1++;
+					}
+					if(rs122.getString("TRAN_DATE").substring(6).equalsIgnoreCase(days.get(i).toString()) && rs122.getString("SHIFT").equalsIgnoreCase("2") && rs122.getString("STATUS_CODE").equalsIgnoreCase("0")){
+						s2++;
+					}
+					if(rs122.getString("TRAN_DATE").substring(6).equalsIgnoreCase(days.get(i).toString()) && rs122.getString("SHIFT").equalsIgnoreCase("3") && rs122.getString("STATUS_CODE").equalsIgnoreCase("0")){
+						s3++;
+					}
+				}
+				sum=s1+s2+s3;
+			%>
+			<tr align="center" style="background-color: #f7f7f7;cursor: pointer;font-family: Arial;font-size: 10px;" align="center">
+					<td align="right"><b><%=days.get(i).toString() %></b></td>
+					<td align="right"><b><%=s1 %></b></td>
+					<td align="right"><b><%=s2 %></b></td>
+					<td align="right"><b><%=s3 %></b></td>
+					<td align="right"><b><%=sum %></b></td>
+			</tr>
+			<%
+			sum=0;
+			s1=0;
+			s2=0;
+			s3=0;
+			}
+			%>
+			</table>
+
+
+</div>
+<div style="width: 33.3%;float: right;">
+<%
+//exec "DIFMSHOP"."dbo"."Sel_TransactionsFoundry";1 '105', '65202', 'ADMIN', '20170301', '20170331', 'FOUNDRYERP'
+comp="105";
+days.clear();
+	comp = "106";
+	con = ConnectionUrl.getK1FMShopConnection();
+	nameComp = "MEPL UNIT III ";
+	db = "K1ERP";
+
+cs11 = con.prepareCall("{call Sel_TransactionsFoundry(?,?,?,?,?,?)}");
+cs11.setString(1, comp);
+cs11.setString(2, "65202");
+cs11.setString(3, "ADMIN");
+cs11.setString(4, datefrom);
+cs11.setString(5, dateto);
+cs11.setString(6, db);
+rs122 = cs11.executeQuery();
+while (rs122.next()) {
+	days.add(rs122.getString("TRAN_DATE").substring(6));
+}
+hashSet.clear();
+hashSet.addAll(days);
+days.clear();
+days.addAll(hashSet);
+Collections.sort(days);
+%>
+<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;"> 
+		<tr align="center">
+					<th class="th" colspan="5"><%=nameComp %> HEATS</th> 
+			</tr>
+			<tr align="center">
+					<th class="th">Day</th>
+					<th class="th">Shift1</th>  
+					<th class="th">Shift2</th>   
+					<th class="th">Shift3</th>
+					<th class="th">Total</th>
+			</tr>
+			<% 
+			s1=0;s2=0;s3=0;sum=0;
+			for(int i=0;i<days.size();i++){
+				rs122 = cs11.executeQuery();
+				while(rs122.next()){
+					if(rs122.getString("TRAN_DATE").substring(6).equalsIgnoreCase(days.get(i).toString()) && rs122.getString("SHIFT").equalsIgnoreCase("1") && rs122.getString("STATUS_CODE").equalsIgnoreCase("0")){
+						s1++;
+					}
+					if(rs122.getString("TRAN_DATE").substring(6).equalsIgnoreCase(days.get(i).toString()) && rs122.getString("SHIFT").equalsIgnoreCase("2") && rs122.getString("STATUS_CODE").equalsIgnoreCase("0")){
+						s2++;
+					}
+					if(rs122.getString("TRAN_DATE").substring(6).equalsIgnoreCase(days.get(i).toString()) && rs122.getString("SHIFT").equalsIgnoreCase("3") && rs122.getString("STATUS_CODE").equalsIgnoreCase("0")){
+						s3++;
+					}
+				}
+				sum = s1+s2+s3;
+			%>
+			<tr  style="background-color: #f7f7f7;cursor: pointer;font-family: Arial;font-size: 10px;">
+					<td align="right"><b><%=days.get(i).toString() %></b></td>
+					<td align="right"><b><%=s1 %></b></td>
+					<td align="right"><b><%=s2 %></b></td>
+					<td align="right"><b><%=s3 %></b></td>
+					<td align="right"><b><%=sum %></b></td>
+			</tr>
+			<%
+			sum=0;
+			s1=0;
+			s2=0;
+			s3=0;
+			}
+			%>
 			</table>
 </div>
+</div>
+<%
+}
+%>
+ 
 <%
 }catch(Exception e){
 	e.printStackTrace();
