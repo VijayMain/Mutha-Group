@@ -6,8 +6,7 @@
 <%@page import="com.muthagroup.connectionUtil.ConnectionUrl"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.sql.Connection"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -35,7 +34,7 @@ button.accordion {
     border: none;
     text-align: left;
     outline: none;
-    font-size: 12px;
+    font-size: 11px;
     font-weight:bold;
     transition: 0.4s;
 }
@@ -47,7 +46,7 @@ button.accordion2 {
     border: none;
     text-align: left;
     outline: none;
-    font-size: 12px;
+    font-size: 11px;
     font-weight:bold;
     transition: 0.4s;
 }
@@ -59,7 +58,7 @@ button.accordion3 {
     border: none;
     text-align: left;
     outline: none;
-    font-size: 12px;
+    font-size: 11px;
     font-weight:bold;
     transition: 0.4s;
 }
@@ -154,7 +153,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102") || comp.equalsIg
 String custName="";
 int cnt=0;
 double chqty=0,totWt=0;
-
+double sumChqty=0,sumTotWt=0;
 ArrayList custno = new ArrayList(); 
 CallableStatement cs11 = con.prepareCall("{call Sel_RptMatSalesReturn(?,?,?,?,?)}");
 cs11.setString(1, comp);
@@ -191,13 +190,16 @@ for(int i=0;i<custno.size();i++){
 		}
 	}
 	}
+	sumChqty = sumChqty + viewChlQty;
+	sumTotWt = sumTotWt + viewTotwt;
+	// System.out.println("qty = " + sumChqty + " = " + sumTotWt);
 %>
 <button class="accordion">
 <table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;">
 			<tr>
 					<th class="th" width="60%"><strong><%=viewCust %></strong></th>
-					<th class="th" width="20%" align="right"><strong style="color: #e97914;"><%= zeroDForm.format(viewChlQty) %></strong></th> 
-					<th class="th" width="20%" align="right"><strong style="color: #e97914;"><%=twoDForm.format(viewTotwt) %></strong> </th>
+					<td bgcolor="#ffffff" width="20%" align="right"><strong style="color: #e97914;"><%= zeroDForm.format(viewChlQty) %></strong></td> 
+					<td bgcolor="#ffffff" width="20%" align="right"><strong style="color: #e97914;"><%=twoDForm.format(viewTotwt) %></strong> </td>
 			</tr>
 </table>
 <%-- <strong><%=viewCust %>&nbsp;</strong><br/><strong style="color: #e97914;">Challan Qty : <%= zeroDForm.format(viewChlQty) %>&nbsp;&nbsp; Total Weight : <%=twoDForm.format(viewTotwt) %></strong> --%> 
@@ -233,14 +235,21 @@ for(int i=0;i<custno.size();i++){
 					}
 			}
 		%>
-		</table>
+		</table> 
 </p>
 </div> 
-			<%		
+			<%	
 				custName="";
 				cnt=0;
 			}
 			%>
+			<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;">
+			<tr>
+					<th class="th" width="60%" align="right"><strong>Total  ===></strong></th>
+					<td width="20%" align="right" bgcolor="#ffffff"><strong style="color: #e97914;"><%= zeroDForm.format(sumChqty) %></strong></td> 
+					<td width="20%" align="right" bgcolor="#ffffff"><strong style="color: #e97914;"><%=twoDForm.format(sumTotWt) %></strong> </td>
+			</tr>
+		</table>
 <script>
 var acc = document.getElementsByClassName("accordion");
 var i; 
@@ -277,6 +286,7 @@ if(flag==true){
 	con = ConnectionUrl.getDIERPConnection();
 	nameComp = "DI";
 	custno.clear(); 
+	sumChqty=0;sumTotWt=0;
 %> 
 <div style="width: 33.2%;float: right;">
 <strong><%=nameComp %> Rejection</strong> 
@@ -330,13 +340,15 @@ for(int i=0;i<custno.size();i++){
 	   }
 	 }
 	}
+	sumChqty = sumChqty + viewChlQty;
+	sumTotWt = sumTotWt + viewTotwt;
 %>
 <button class="accordion2">
 <table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;"> 
 			<tr>
 					<th class="th" width="60%"><strong><%=viewCust %></strong></th>   
-					<th class="th" width="20%" align="right"><strong style="color: #e97914;"><%= zeroDForm.format(viewChlQty) %></strong></th> 
-					<th class="th" width="20%" align="right"><strong style="color: #e97914;"><%=twoDForm.format(viewTotwt) %></strong> </th>
+					<td bgcolor="#ffffff" width="20%" align="right"><strong style="color: #e97914;"><%= zeroDForm.format(viewChlQty) %></strong></td> 
+					<td bgcolor="#ffffff" width="20%" align="right"><strong style="color: #e97914;"><%=twoDForm.format(viewTotwt) %></strong> </td>
 			</tr>
 </table>			
 <%-- <strong><%=viewCust %>&nbsp;</strong><br/><strong style="color: #e97914;">Challan Qty : <%= zeroDForm.format(viewChlQty) %>&nbsp;&nbsp; Total Weight : <%=twoDForm.format(viewTotwt) %></strong> --%> 
@@ -374,12 +386,19 @@ for(int i=0;i<custno.size();i++){
 		</table>
 </p>
 </div> 
+
 			<%		
 				custName="";
 				cnt=0;
 			}
 			%> 
-			
+<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;">
+			<tr>
+					<th class="th" width="60%" align="right"><strong>Total  ===></strong></th>
+					<td width="20%" align="right" bgcolor="#ffffff"><strong style="color: #e97914;"><%= zeroDForm.format(sumChqty) %></strong></td> 
+					<td width="20%" align="right" bgcolor="#ffffff"><strong style="color: #e97914;"><%=twoDForm.format(sumTotWt) %></strong> </td>
+			</tr>
+		</table>			
 <script>
 var acc = document.getElementsByClassName("accordion2");
 var i; 
@@ -402,6 +421,7 @@ for (i = 0; i < acc.length; i++) {
 	con = ConnectionUrl.getK1ERPConnection();
 	nameComp = "MEPL UIII";
 	custno.clear();
+	sumChqty=0;sumTotWt=0;
 %>
 <div style="width: 33.2%;float: right;">
 <strong><%=nameComp %> Rejection</strong>
@@ -455,13 +475,15 @@ for(int i=0;i<custno.size();i++){
 	   }
 	 }
 	}
+	sumChqty = sumChqty + viewChlQty;
+	sumTotWt = sumTotWt + viewTotwt;
 %>
 <button class="accordion3">
 <table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;"> 
 			<tr>
 					<th class="th" width="60%"><strong><%=viewCust %></strong></th>   
-					<th class="th" width="20%" align="right"><strong style="color: #e97914;"><%= zeroDForm.format(viewChlQty) %></strong></th> 
-					<th class="th" width="20%" align="right"><strong style="color: #e97914;"><%=twoDForm.format(viewTotwt) %></strong> </th>
+					<td bgcolor="#ffffff" width="20%" align="right"><strong style="color: #e97914;"><%= zeroDForm.format(viewChlQty) %></strong></td> 
+					<td bgcolor="#ffffff" width="20%" align="right"><strong style="color: #e97914;"><%=twoDForm.format(viewTotwt) %></strong> </td>
 			</tr>
 </table>			
 <%-- <strong><%=viewCust %>&nbsp;</strong><br/><strong style="color: #e97914;">Challan Qty : <%= zeroDForm.format(viewChlQty) %>&nbsp;&nbsp; Total Weight : <%=twoDForm.format(viewTotwt) %></strong> --%> 
@@ -498,12 +520,19 @@ for(int i=0;i<custno.size();i++){
 		%>
 		</table>
 </p>
-</div> 
+</div>  
 			<%		
 				custName="";
 				cnt=0;
 			}
-			%> 
+			%>
+			<table id="tbl3" class="table2excel" border="1" cellpadding=2 style="width:100%; border: 1px solid #000;">
+			<tr>
+					<th class="th" width="60%" align="right"><strong>Total  ===></strong></th>
+					<td width="20%" align="right" bgcolor="#ffffff"><strong style="color: #e97914;"><%= zeroDForm.format(sumChqty) %></strong></td> 
+					<td width="20%" align="right" bgcolor="#ffffff"><strong style="color: #e97914;"><%=twoDForm.format(sumTotWt) %></strong> </td>
+			</tr>
+		</table> 
 <script>
 var acc = document.getElementsByClassName("accordion3");
 var i; 

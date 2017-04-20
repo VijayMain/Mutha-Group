@@ -149,6 +149,7 @@ ArrayList list_news = new ArrayList();
   <a href="http://192.168.0.7/foundrymis/">&nbsp;&nbsp;<strong>Foundry MIS</strong>&nbsp;</a>
   <a href="http://192.168.0.7/dailyreports/">&nbsp;&nbsp;<strong>Daily Reports</strong>&nbsp;</a>
   <a href="http://192.168.0.7/muthaplanner/">&nbsp;&nbsp;<strong>Mutha Planner</strong>&nbsp;</a>  
+  <a href="http://192.168.0.7/WebPivot/">&nbsp;&nbsp;<strong>Web Pivot</strong>&nbsp;</a>  
   </div>
 </div> 
  <div class="dropdown" style="cursor: pointer;">&nbsp;&nbsp;

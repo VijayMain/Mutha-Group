@@ -173,7 +173,7 @@ if(window.history[nHist] != window.location)
 		var current2 = 0;
 		var attribute;
 
-		//assign what select attribute treat as attribute1 and attribute2
+		// Assign what select attribute treat as attribute1 and attribute2
 		if (side == "right") {
 			attribute1 = document.getElementById('track_userlist');
 			attribute2 = document.getElementById('selected_users');
