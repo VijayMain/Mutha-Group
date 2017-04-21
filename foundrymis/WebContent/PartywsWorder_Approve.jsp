@@ -255,22 +255,20 @@ if(flag_close.equalsIgnoreCase("true")){
 				<img class="buttonLeft" src="images/forward.png">
 			</div>
 		</div> -->
-		<table id="t1" class="t1" border="1"
-			style="width: 98%; border: 1px solid #000;">
-			
+		<table id="t1" class="t1" border="1" style="width: 98%; border: 1px solid #000;"> 
 		<!--  PO NO.	PO DATE	Amd 	wef	Sr No	DHANASHREE IND.	Wgt kgs	Rs/kg	Rs/Pc No. -->						
-			
-			<tr style="font-size: 12px; font-family: Arial;">
+		<tr style="font-size: 12px; font-family: Arial;">
 			<th scope="col" class="th" width="5%">PO NO.</th>
 			<th scope="col" class="th">Amend No</th> 
 			<th scope="col" class="th">PO DATE</th>
 			<th scope="col" class="th">Supplier Name</th>
 			<th scope="col" class="th">Part Name</th>  
-				<th scope="col" class="th">Sr No</th>
-				<th scope="col" class="th">Wgt kgs</th> 
-				<th scope="col" class="th">Rs/Pc</th> 
-				<th scope="col" class="th">Remark</th>
-			</tr>
+			<th scope="col" class="th">Sr No</th>
+			<th scope="col" class="th">Wgt kgs</th> 
+			<th scope="col" class="th">Boring Wgt kgs</th> 
+			<th scope="col" class="th">Rs/Pc</th> 
+			<th scope="col" class="th">Remark</th>
+		</tr>
 			<%	
 // exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1 '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
 // exec "H25ERP"."dbo"."Sel_RptPORegister";1 '102', '0', '4038,4034,4033,4039', '20110401', '20160813', 0
@@ -289,13 +287,14 @@ if(flag_close.equalsIgnoreCase("true")){
 					 ((!rs.getString("STATUS_CODE").equalsIgnoreCase("11") || !rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("false"))){
 				
  %>
-			 <tr style="font-size: 10px;">
+			 <tr style="font-size: 10px;background-color: white;">
 			 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
 			 <td align="right"><%=rs.getString("AMEND_NO") %></td>
 			 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
 			 <td><%=rs.getString("SUPP_NAME") %></td>
 			 <td><%=rs.getString("MAT_NAME") %></td> 
-			 	<td align="right"><%=rs.getString("SR_NO") %></td> 
+			 	<td align="right"><%=rs.getString("SR_NO") %></td>
+			 	<td align="right"><%=rs.getString("WEIGHT") %></td> 
 			 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
 			 	<td align="right"><%=rs.getString("RATE") %></td> 
 			 	<td><%=rs.getString("PAY_REMRK") %></td>
@@ -305,14 +304,15 @@ if(flag_close.equalsIgnoreCase("true")){
 			if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("true")) && 
 					   ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("true"))){
 				%>
-				 <tr style="font-size: 10px;">
+				 <tr style="font-size: 10px;background-color: white;">
 				 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
 				 <td align="right"><%=rs.getString("AMEND_NO") %></td>
 				 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
 				 <td><%=rs.getString("SUPP_NAME") %></td>
 				 <td><%=rs.getString("MAT_NAME") %></td> 
 				 	<td align="right"><%=rs.getString("SR_NO") %></td> 
-				 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
+				 	<td align="right"><%=rs.getString("WEIGHT") %></td> 
+			 		<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
 				 	<td align="right"><%=rs.getString("RATE") %></td> 
 				 	<td><%=rs.getString("PAY_REMRK") %></td>
 				</tr>
@@ -322,14 +322,15 @@ if(flag_close.equalsIgnoreCase("true")){
 					   ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("true"))){
 				
 		%>
-		<tr style="font-size: 10px;">
+		<tr style="font-size: 10px;background-color: white;">
 				 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
 				 <td align="right"><%=rs.getString("AMEND_NO") %></td>
 				 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
 				 <td><%=rs.getString("SUPP_NAME") %></td>
 				 <td><%=rs.getString("MAT_NAME") %></td> 
 				 <td align="right"><%=rs.getString("SR_NO") %></td> 
-				 <td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
+				 <td align="right"><%=rs.getString("WEIGHT") %></td> 
+			 	 <td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
 				 <td align="right"><%=rs.getString("RATE") %></td> 
 				  <td><%=rs.getString("PAY_REMRK") %></td>
 		</tr>
@@ -337,14 +338,15 @@ if(flag_close.equalsIgnoreCase("true")){
 			}
 			if(tick_flag.equalsIgnoreCase("false") && flag_close.equalsIgnoreCase("false")){
 				%>
-				 <tr style="font-size: 10px;">
+				 <tr style="font-size: 10px;background-color: white;">
 				 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
 				 <td align="right"><%=rs.getString("AMEND_NO") %></td>
 				 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
 				 <td><%=rs.getString("SUPP_NAME") %></td>
 				 <td><%=rs.getString("MAT_NAME") %></td> 
 				 	<td align="right"><%=rs.getString("SR_NO") %></td> 
-				 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
+				 	<td align="right"><%=rs.getString("WEIGHT") %></td> 
+			 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
 				 	<td align="right"><%=rs.getString("RATE") %></td> 
 				 	<td><%=rs.getString("PAY_REMRK") %></td>
 				</tr>
@@ -365,14 +367,15 @@ if(flag_close.equalsIgnoreCase("true")){
 					
 			System.out.println("one = ");		
 					%>
-					 <tr style="font-size: 10px;">
+					 <tr style="font-size: 10px;background-color: white;">
 					 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
 					 <td align="right"><%=rs.getString("AMEND_NO") %></td>
 					 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
 								 <td><%=rs.getString("SUPP_NAME") %></td>
 								 <td><%=rs.getString("MAT_NAME") %></td>
 								 	<td align="right"><%=rs.getString("SR_NO") %></td>
-								 	<td align="right"><%=rs.getString("WEIGHT") %></td>  
+								 	<td align="right"><%=rs.getString("WEIGHT") %></td> 
+			 						<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
 								 	<td align="right"><%=rs.getString("RATE") %></td> 
 								 	<td><%=rs.getString("PAY_REMRK") %></td>
 					</tr>
@@ -382,14 +385,15 @@ if(flag_close.equalsIgnoreCase("true")){
 						   ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("true"))){
 							 System.out.println("two = ");
 							 %>
-							 <tr style="font-size: 10px;">
+							 <tr style="font-size: 10px;background-color: white;">
 							 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
 							 <td align="right"><%=rs.getString("AMEND_NO") %></td>
 							 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
 										 <td><%=rs.getString("SUPP_NAME") %></td>
 										 <td><%=rs.getString("MAT_NAME") %></td>
 										 	<td align="right"><%=rs.getString("SR_NO") %></td>
-										 	<td align="right"><%=rs.getString("WEIGHT") %></td>  
+										 	<td align="right"><%=rs.getString("WEIGHT") %></td> 
+			 								<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
 										 	<td align="right"><%=rs.getString("RATE") %></td> 
 										 	<td><%=rs.getString("PAY_REMRK") %></td>
 							</tr>
@@ -400,14 +404,15 @@ if(flag_close.equalsIgnoreCase("true")){
 						   ((rs.getString("STATUS_CODE").equalsIgnoreCase("11") || rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("true"))){
 							   System.out.println("three ");
 							   %>
-								 <tr style="font-size: 10px;">
+								 <tr style="font-size: 10px;background-color: white;">
 								 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
 								 <td align="right"><%=rs.getString("AMEND_NO") %></td>
 								 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
 											 <td><%=rs.getString("SUPP_NAME") %></td>
 											 <td><%=rs.getString("MAT_NAME") %></td>
 											 	<td align="right"><%=rs.getString("SR_NO") %></td>
-											 	<td align="right"><%=rs.getString("WEIGHT") %></td>  
+											 	<td align="right"><%=rs.getString("WEIGHT") %></td> 
+			 									<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
 											 	<td align="right"><%=rs.getString("RATE") %></td> 
 											 	<td><%=rs.getString("PAY_REMRK") %></td>
 								</tr>
@@ -417,14 +422,15 @@ if(flag_close.equalsIgnoreCase("true")){
 						   if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME")) && tick_flag.equalsIgnoreCase("false") && flag_close.equalsIgnoreCase("false")){
 							   System.out.println("four = ");
 							   %>
-								 <tr style="font-size: 10px;">
+								 <tr style="font-size: 10px;background-color: white;">
 								 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
 								 <td align="right"><%=rs.getString("AMEND_NO") %></td>
 								 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
 											 <td><%=rs.getString("SUPP_NAME") %></td>
 											 <td><%=rs.getString("MAT_NAME") %></td>
 											 	<td align="right"><%=rs.getString("SR_NO") %></td>
-											 	<td align="right"><%=rs.getString("WEIGHT") %></td>  
+											 	<td align="right"><%=rs.getString("WEIGHT") %></td> 
+			 									<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
 											 	<td align="right"><%=rs.getString("RATE") %></td> 
 											 	<td><%=rs.getString("PAY_REMRK") %></td>
 								</tr>

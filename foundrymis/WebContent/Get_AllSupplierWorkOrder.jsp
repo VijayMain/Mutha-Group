@@ -35,7 +35,7 @@
 			<option value=""> - - - - - Select - - - - - </option> 
 			<option value="All_Supplier">All Supplier</option>
 			<%
-			 PreparedStatement ps=con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE=12");
+			 PreparedStatement ps=con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE=12 order by SUBGL_LONGNAME");
 			 ResultSet rs=ps.executeQuery();
 			  while(rs.next()){ 
 			%>			

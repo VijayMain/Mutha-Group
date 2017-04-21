@@ -128,16 +128,17 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
     cellFormat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK); 
     cellFormat.setFont(fontbold); 
     
-    writableSheet.setColumnView(0, 30);
-    writableSheet.setColumnView(1, 30);
-    writableSheet.setColumnView(2, 9);
-    writableSheet.setColumnView(3, 9);
-    writableSheet.setColumnView(4, 9);
-    writableSheet.setColumnView(5, 30);
-    writableSheet.setColumnView(6, 9);
-    writableSheet.setColumnView(7, 9);
-    writableSheet.setColumnView(8, 9);
-    writableSheet.setColumnView(9, 30);
+    writableSheet.setColumnView(0, 15);
+    writableSheet.setColumnView(1, 15);
+    writableSheet.setColumnView(2, 15);
+    writableSheet.setColumnView(3, 15);
+    writableSheet.setColumnView(4, 15);
+    writableSheet.setColumnView(5, 15);
+    writableSheet.setColumnView(6, 15);
+    writableSheet.setColumnView(7, 15);
+    writableSheet.setColumnView(8, 15);
+    writableSheet.setColumnView(9, 15);
+    writableSheet.setColumnView(10, 15);
     
     WritableCellFormat cellRIghtformat = new WritableCellFormat(); 
     cellRIghtformat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
@@ -155,10 +156,11 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
     Label label3 = new Label(3, 0, "Supplier Name",cellFormat);
     Label label4 = new Label(4, 0, "Part Name",cellFormat);
      /* Label label5 = new Label(5, 0, "With Effect From",cellFormat); */
-    Label label5 = new Label(5, 0, "Sr No",cellFormat); 
+    Label label5 = new Label(5, 0, "Sr No",cellFormat);
     Label label6 = new Label(6, 0, "Wgt kgs",cellFormat);
-    Label label7 = new Label(7, 0, "Rs/Pc",cellFormat);
-    Label label8 = new Label(8, 0, "Remark",cellFormat);
+    Label label7 = new Label(7, 0, "Boring Wgt kgs",cellFormat);
+    Label label8 = new Label(8, 0, "Rs/Pc",cellFormat);
+    Label label9 = new Label(9, 0, "Remark",cellFormat);
 
   // Add the created Cells to the sheet
     writableSheet.addCell(label);
@@ -171,6 +173,7 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
     writableSheet.addCell(label6);
     writableSheet.addCell(label7);
     writableSheet.addCell(label8);
+    writableSheet.addCell(label9);
   	//***********************************************************************************************************************************
     //***********************************************************************************************************************************
     CallableStatement cs11 = con.prepareCall("{call Sel_RptPORegister(?,?,?,?,?,?)}");
@@ -200,6 +203,8 @@ Number srnolbl = new Number(row, col,Integer.parseInt(rs.getString("SR_NO")),cel
 row++;
 Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
 row++;
+Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
+row++;
 Number ratepplbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),cellRIghtformat); 
 row++;
 Label remarklbl = new Label(row, col, rs.getString("PAY_REMRK"),cellleftformat);
@@ -212,11 +217,12 @@ writableSheet.addCell(partnamelbl);
 		/* writableSheet.addCell(witheffectlbl); */
 		writableSheet.addCell(srnolbl); 
 		writableSheet.addCell(wtkglbl);
+		writableSheet.addCell(boriwtkglbl);
 		writableSheet.addCell(ratepplbl);	 
 		writableSheet.addCell(remarklbl);
 		row++;
 		
-		if(row==9){
+		if(row==10){
 			row=0;
 			col++;   
 		} 
@@ -242,6 +248,8 @@ writableSheet.addCell(partnamelbl);
 	row++;
 	Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
 	row++;
+	Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
+	row++;
 	Number ratepplbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),cellRIghtformat); 
 	row++;
 	Label remarklbl = new Label(row, col, rs.getString("PAY_REMRK"),cellleftformat);
@@ -254,19 +262,18 @@ writableSheet.addCell(partnamelbl);
 			 /* writableSheet.addCell(witheffectlbl); */
 			writableSheet.addCell(srnolbl); 
 			writableSheet.addCell(wtkglbl);
+			writableSheet.addCell(boriwtkglbl);
 			writableSheet.addCell(ratepplbl);	 
 			writableSheet.addCell(remarklbl);
 			row++;
 			
-			if(row==9){
+			if(row==10){
 				row=0;
 				col++;   
 			} 
 	}
 	}
 	}
-	
-	
   //************************************************************************************************************************
   //************************************************ File Output Ligic *****************************************************
   //************************************************************************************************************************
