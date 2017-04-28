@@ -298,15 +298,17 @@ cnt++;
 	 
 		msg.setContent(sb.toString(), "text/html");
  
+		if(flag_avail==true){
 		Transport transport = mailSession.getTransport("smtp");
 		transport.connect(host, user, pass);
 		transport.sendMessage(msg, msg.getAllRecipients());
-		// ******************************************************************************
 		transport.close();
-		System.out.println("ERP TVS Loop End");		 
-			con.close();
-			Thread.sleep(60000);
-		}  
+		}
+		
+		System.out.println("ERP TVS Loop End");
+		con.close();
+		Thread.sleep(60000);
+		}
 	} catch (Exception e) {
 	 e.printStackTrace();
 	}
