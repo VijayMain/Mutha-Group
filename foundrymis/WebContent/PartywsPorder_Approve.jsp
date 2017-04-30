@@ -140,15 +140,17 @@ if(flag_close.equalsIgnoreCase("true")){
 				<th scope="col" class="th">Sr No</th>
 				<th scope="col" class="th"><%=supName %></th>
 				<th scope="col" class="th">Wgt kgs</th>
+				<th scope="col" class="th">Boring Wgt kgs</th>
 				<th scope="col" class="th">Rs/kg</th>
 				<th scope="col" class="th">Rs/Pc</th>
 			</tr>
 	<%
 	// exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1  '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
+	//  Updated New SP  ====>   exec "H25ERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1 '102', '0', '4031,4032,4038,4039', '20160401', '20170430', 0, '101124269'
  	CallableStatement cs11 = con.prepareCall("{call Sel_RptPartyWsPurchOrderRegister(?,?,?,?,?,?,?)}");
 	cs11.setString(1,comp);
 	cs11.setString(2,"0");
-	cs11.setString(3,"4031,4032");
+	cs11.setString(3,"4031,4032,4038,4039");
 	cs11.setString(4,from);
 	cs11.setString(5,to);
 	cs11.setString(6,"0");
@@ -169,6 +171,7 @@ if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreC
 			 	<td align="right"><%=rs.getString("SR_NO") %></td>
 			 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
 			 	<td align="right"><%=rs.getString("WEIGHT") %></td>
+			 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>
 			 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
 			 	<td align="right"><%=rs.getString("RATE") %></td> 
 			</tr>
@@ -186,6 +189,7 @@ if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreC
 				 	<td align="right"><%=rs.getString("SR_NO") %></td>
 				 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
 				 	<td align="right"><%=rs.getString("WEIGHT") %></td>
+				 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>
 				 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
 				 	<td align="right"><%=rs.getString("RATE") %></td> 
 				</tr>
@@ -203,6 +207,7 @@ if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreC
 						 	<td align="right"><%=rs.getString("SR_NO") %></td>
 						 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
 						 	<td align="right"><%=rs.getString("WEIGHT") %></td>
+						 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>
 						 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
 						 	<td align="right"><%=rs.getString("RATE") %></td> 
 						</tr>
@@ -219,6 +224,7 @@ if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreC
 						 	<td align="right"><%=rs.getString("SR_NO") %></td>
 						 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
 						 	<td align="right"><%=rs.getString("WEIGHT") %></td>
+						 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>
 						 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
 						 	<td align="right"><%=rs.getString("RATE") %></td> 
 						</tr>

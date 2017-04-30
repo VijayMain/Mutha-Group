@@ -275,24 +275,24 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 				<th scope="col" class="th">Sr No</th>
 				<th scope="col" class="th"><%=supName %></th>
 				<th scope="col" class="th">Wgt kgs</th>
+				<th scope="col" class="th">Boring Wgt kgs</th>		
 				<th scope="col" class="th">Rs/kg</th>
 				<th scope="col" class="th">Rs/Pc</th>
 			</tr>
 			<%	
-			// exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1  '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
-
+// exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1  '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
+//  Updated New SP  ====>   exec "H25ERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1 '102', '0', '4031,4032,4038,4039', '20160401', '20170430', 0, '101124269'
  	CallableStatement cs11 = con.prepareCall("{call Sel_RptPartyWsPurchOrderRegister(?,?,?,?,?,?,?)}");
 	cs11.setString(1,comp);
 	cs11.setString(2,"0");
-	cs11.setString(3,"4031,4032");
+	cs11.setString(3,"4031,4032,4038,4039");
 	cs11.setString(4,from);
 	cs11.setString(5,to);
 	cs11.setString(6,"0");
 	cs11.setString(7,sup);
 	ResultSet rs = cs11.executeQuery(); 
 	while(rs.next()){
-		poDate = rs.getString("AMEND_DATE").substring(6,8) +"/"+ rs.getString("AMEND_DATE").substring(4,6) +"/"+ rs.getString("AMEND_DATE").substring(0,4);
-		
+		poDate = rs.getString("AMEND_DATE").substring(6,8) +"/"+ rs.getString("AMEND_DATE").substring(4,6) +"/"+ rs.getString("AMEND_DATE").substring(0,4); 
  %>
 			<tr style="font-size: 10px;">
 			 	<td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
@@ -302,12 +302,13 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			 	<td align="right"><%=rs.getString("SR_NO") %></td>
 			 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
 			 	<td align="right"><%=rs.getString("WEIGHT") %></td>
+			 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>
 			 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
 			 	<td align="right"><%=rs.getString("RATE") %></td> 
 			</tr>
 	<% 
 	}
-	%>	 
+	%>
 		</table>
 <%
 	// System.out.println("Update = " + DayWIseSum);
