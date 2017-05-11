@@ -1,3 +1,4 @@
+<%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.Iterator"%>
@@ -176,7 +177,8 @@ if(comp.equalsIgnoreCase("101")){
 }if(comp.equalsIgnoreCase("106")){
 	CompanyName = "MUTHA ENGINEERING PVT.LTD.UNIT III";
 	con	= ConnectionUrl.getK1ERPConnection(); 
-} 
+}
+Connection con_local = ConnectionUrl.getLocalDatabase();
 %> 
 <strong style="color: blue; font-family: Arial; font-size: 14px;"><%=CompanyName %>&nbsp;
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -199,11 +201,13 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 }
 %> 
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-	<%-- <span id="exportId">
-		<button id="filebutton" onclick="getExcel_Report('<%=comp%>','<%=from%>','<%=to%>')" style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading" style="visibility: hidden;" />
-	</span>  --%>
-	<table id="t1" class="t1" border="1" style="border: 1px solid #000;">
-			<tr style="font-family: Arial;font-size: 12px;">
+	<%-- 
+	<span id="exportId">
+	<button id="filebutton" onclick="getExcel_Report('<%=comp%>','<%=from%>','<%=to%>')" style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading" style="visibility: hidden;" />
+	</span>  
+	--%>
+	<table border="1" style="border: 1px solid #000;width: 40%">
+			<tr style="font-family: Arial;font-size: 12px;font-weight: bold;">
 				<th scope="col" class="th">Parameter</th>
 				<th scope="col" class="th">DR Amt</th>
 				<th scope="col" class="th">CR Amt</th>
@@ -214,52 +218,102 @@ VAT Ledger
 exec "DIERP"."dbo"."Sel_RptAcctLedger";1 '105', '0',
 '101001024101001056101000928101000110101000144101001210101000145101000146101000147101000148101001080101001211101000149101000150101000179101001212101000180101000181101001144101001213', 
 '20170401', '20170428', 0
-*/
-String concat = "";
-ArrayList listglcode = new ArrayList();
-HashSet<String> hashSet = new HashSet<String>();
+*/ 
+PreparedStatement ps=null,ps1=null,ps3=null;
+ResultSet rs=null,rs1=null,rs3=null;
+int up=0;
+String type="";
+double cr=0,dr=0;
+String cr1="",dr1="";
+boolean flag = false;
 
 CallableStatement sp = con.prepareCall("{call Sel_RptAcctLedger(?,?,?,?,?,?)}");
 sp.setString(1, comp);
 sp.setString(2, "0");
 sp.setString(3, "101001024101001056101000928101000110101000144101001210101000145101000146101000147101000148101001080101001211101000149101000150101000179101001212101000180101000181101001144101001213");
-sp.setString(4, comp);
-sp.setString(5, from);
+sp.setString(4, from);
+sp.setString(5, to);
 sp.setString(6, "0");
 ResultSet rs_getData = sp.executeQuery();
 while(rs_getData.next()){
-	listglcode.add(rs_getData.getString("GL_NAME"));
+	 ps = con_local.prepareStatement("insert into vat_ledger(label,type,dr_amt,cr_amt)values(?,?,?,?)");
+	 ps.setString(1, rs_getData.getString("GL_NAME"));
+	 ps.setString(2, rs_getData.getString("SHORT_NAME"));
+	 ps.setString(3, rs_getData.getString("DR_AMT"));
+	 ps.setString(4, rs_getData.getString("CR_AMT"));
+	 up=ps.executeUpdate();
 }
-hashSet.addAll(listglcode);
-listglcode.clear();
-listglcode.addAll(hashSet);
-Collections.sort(listglcode);
-
-System.out.println("List code = " + listglcode);
-ResultSet rs = null;
-for(int i=0;i<listglcode.size();i++){
-rs = sp.executeQuery();
+ArrayList listglname = new ArrayList();
+ArrayList typename = new ArrayList();
+ps = con_local.prepareStatement("select distinct(label) as label from vat_ledger");
+rs = ps.executeQuery();
 while(rs.next()){
-	if(listglcode.get(i).toString().equalsIgnoreCase(rs.getString("GL_NAME"))){
-System.out.println("list =  " + listglcode.get(i).toString());
-	}
+listglname.add(rs.getString("label"));
+}
+ps = con_local.prepareStatement("select distinct(type) as type from vat_ledger");
+rs = ps.executeQuery();
+while(rs.next()){
+	typename.add(rs.getString("type"));
+}
+for(int i=0;i<listglname.size();i++){
+%>
+<tr  style="background-color: #0c2cc2;color: white;font-size: 12px;font-weight: bold;">
+	<td><strong><%=listglname.get(i).toString() %></strong></td>
+<%
+ps1 = con_local.prepareStatement("select sum(dr_amt) as dr_amt FROM erp_database.vat_ledger where label='"+listglname.get(i).toString()+"'");
+rs1 = ps1.executeQuery();
+while(rs1.next()){
+	dr = Double.valueOf(rs1.getString("dr_amt"));
+}
+ps1 = con_local.prepareStatement("select sum(cr_amt) as cr_amt FROM erp_database.vat_ledger where label='"+listglname.get(i).toString()+"'");
+rs1 = ps1.executeQuery();
+while(rs1.next()){
+	cr = Double.valueOf(rs1.getString("cr_amt"));
 }
 %>
-<tr style="font-size: 11px;">
-<td><%=concat %></td>
-<td><%=rs.getString("SHORT_NAME") %></td>
-<td><%=rs.getString("SHORT_NAME") %></td>
- </tr>
+	<td align="right"><%=dr %></td>
+	<td align="right"><%=cr %></td>
+</tr>
 <%
+ps1 = con_local.prepareStatement("SELECT distinct(type) FROM erp_database.vat_ledger where label='"+listglname.get(i).toString()+"'");
+rs = ps1.executeQuery();
+while(rs.next()){ 
+			type = rs.getString("type");
+			ps3 = con_local.prepareStatement("SELECT sum(dr_amt) as dr FROM erp_database.vat_ledger where label='"+listglname.get(i).toString()+"' and type='"+type+"'");
+			rs3 = ps3.executeQuery();
+			while(rs3.next()){
+			dr1= rs3.getString("dr");
+			flag=true;
+			}
+			ps3 = con_local.prepareStatement("SELECT sum(cr_amt) as cr FROM erp_database.vat_ledger where label='"+listglname.get(i).toString()+"' and type='"+type+"'");
+			rs3 = ps3.executeQuery();
+			while(rs3.next()){
+			cr1= rs3.getString("cr");
+			flag=true;
+			}
+			if(flag==true){
+	%>
+	<tr style="font-size: 12px;">
+		<td><strong><%=type %></strong></td>
+		<td align="right"><%=dr1 %></td>
+		<td align="right"><%=cr1 %></td>
+	</tr>
+	<%			
+			} 
+} 
 }
 %>
 </table>
 <% 
+ps = con_local.prepareStatement("delete from vat_ledger");
+up=ps.executeUpdate();
+ps = con_local.prepareStatement("ALTER TABLE vat_ledger AUTO_INCREMENT=1");
+up=ps.executeUpdate();  
 } catch (Exception e) {
-e.printStackTrace();
-e.getMessage();
+	e.printStackTrace();
+	e.getMessage();
 }
-%> 
-<br> <br>
+%>
+<br><br>
 </body>
 </html>

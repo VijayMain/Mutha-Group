@@ -52,7 +52,7 @@ public class Purchase_PendDues_Stat21 extends TimerTask {
 			SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
 			Date tdate = new Date();
 			String nowDate = sdfFIrstDate.format(tdate);
-			  
+			
 			Connection con = ConnectionUrl.getMEPLH21ERP();
 			PreparedStatement ps_category=null;
 			ResultSet rs_category=null;

@@ -323,7 +323,6 @@ function validateVAT_ledger(){
 	return true;
 }
 
-
 function validateForm() {
 	var company = document.getElementById("company");
 	var month = document.getElementById("month");

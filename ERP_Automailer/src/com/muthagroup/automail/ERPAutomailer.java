@@ -19,7 +19,7 @@ private static final long serialVersionUID = 1L;
 			// ******************************************************************************************************************
 			// Thread No 1
 			// ******************************************************************************************************************
-  /*
+	/*
 			// 09:40
 			TimerTask  siscompSale =new SisterCompanySale_Report();
 			timer.schedule(siscompSale, 1000, 60000);
@@ -189,13 +189,27 @@ private static final long serialVersionUID = 1L;
 						// 09:51
 						TimerTask  valid_limitPOK1 = new Valid_limitPOK1();
 						timer.schedule(valid_limitPOK1, 1000, 60000);
-			
-			 */
 			 
-			// 22:12
-				TimerTask tvsMotors = new TvsMotors();
-				timer.schedule(tvsMotors, 1000, 60000);
-	  	 
+						// 22:12
+						TimerTask tvsMotors = new TvsMotors();
+						timer.schedule(tvsMotors, 1000, 60000);
+	  	 */
+						// 22:12
+						TimerTask pending57f4 = new Pending_Challan57f4();
+						timer.schedule(pending57f4, 1000, 60000); 
+						// 22:12
+						TimerTask pending57f4_h25 = new Pending_Challan57f4_h25();
+						timer.schedule(pending57f4_h25, 1000, 60000); 
+						// 22:12
+						TimerTask pending57f4_di = new Pending_Challan57f4_di();
+						timer.schedule(pending57f4_di, 1000, 60000); 
+						// 22:12
+						TimerTask pending57f4_UIII = new Pending_Challan57f4_UIII();
+						timer.schedule(pending57f4_UIII, 1000, 60000); 
+						// 22:12
+						TimerTask pending57f4_MFPL = new Pending_Challan57f4_MFPL();
+						timer.schedule(pending57f4_MFPL, 1000, 60000);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

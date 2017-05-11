@@ -387,6 +387,11 @@ function validateBillWisePurchase() {
 	document.getElementById("waitImagebillwisepurchase").style.visibility = "visible";		
 	return true;
 }
+function validateVAT_ledger(){
+	document.getElementById("ADD_vatledger").disabled = true;
+	document.getElementById("waitImage_vatledger").style.visibility = "visible";		
+	return true;
+}
 </script>
 <script type="text/javascript">
 function validateMacRejForm() {                  
@@ -778,9 +783,13 @@ while(rs.next()){
 		%> 	
 			<li><a href="#tabs-16">Outstanding Bajaj and Umasons</a></li>
 		<%  
+		}if(reportList.contains("VAT_ledger")){
+		%>
+			<li><a href="#tabs-17">VAT Ledger</a></li>
+		<%
 		}if(reportList.size()==0){			
 		%> 	
-			<li><a href="#tabs-17">Work In Progress</a></li>
+			<li><a href="#tabs-18">Work In Progress</a></li>
 		<%
 		}
 		%>
@@ -1695,9 +1704,53 @@ while(rs.next()){
 		
 			</div>
 		<%
-			}if(reportList.size()==0){
+			}if(reportList.contains("VAT_ledger")){
+				%>
+				 <div id="tabs-17">
+				<!--
+				exec "DIERP"."dbo"."Sel_RptAcctLedger";1 
+				'105', '0', '101001024101001056101000928101000110101000144101001210101000145101000146101000147101000148101001080101001211101000149101000150101000179101001212101000180101000181101001144101001213', 
+				'20170401', '20170428', 0
+				 -->
+				<form action="VAT_ledger.jsp" method="post"  onSubmit="return validateVAT_ledger();">
+					<br/>
+					<table class="tftable" style="border: 0px;">
+					<tr>
+						<td colspan="2"><strong>VAT Ledger<br/> </strong> <br/>
+					</td>
+					</tr>
+					<tr>
+						<td>Select Company :</td>
+						<td>
+						<select name="company" id="companyvatledger"> 
+ 							<option value="101">MEPL H21</option> 
+ 							<option value="102">MEPL H25</option>    
+		 				</select>
+					</td>
+					</tr>
+					<tr>
+						<td>From Date :</td>
+						<td> <input type="text" name="FromDatevatledger" value="<%=sdfFIrstDate.format(dddd) %>" id="FromDatevatledger" readonly="readonly" style="width: 200px;"/>  
+						 </td>
+					</tr>
+					<tr>
+						<td>To Date :</td>
+						<td> <input type="text" name="ToDate_vatledger" value="<%=sdfFIrstDate.format(tdate) %>" id="ToDate_vatledger" readonly="readonly" style="width: 200px;"/> </td>
+					</tr>
+					<tr>
+					<td colspan="2" align="center"><input type="submit" name="ADD" id="ADD_vatledger" value="Get VAT Ledger Report" style="background-color: #BABABA;width: 285px;height: 35px;"/> </td>
+					</tr>
+					<tr> 
+					<td colspan="2" align="left"><span id="waitImage_vatledger" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
+					</tr>
+					</table>
+				</form>
+		 		
+				 </div>
+						<%
+							}if(reportList.size()==0){
 		%>
-			<div id="tabs-17">
+			<div id="tabs-18">
 			<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
 			</div>
 		<%

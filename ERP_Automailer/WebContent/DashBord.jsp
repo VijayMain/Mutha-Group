@@ -44,7 +44,7 @@
 	<table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>
 	 <tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>
 			<th scope='col'>S.No</th>
-			<th scope='col'>Invoice No</th>
+			<th align='center' scope='col'>Invoice No</th>
 			<th scope='col'>Invoice Date</th>
 			<th scope='col'>Part Name</th>
 			<th scope='col'>Sale Rate</th>
