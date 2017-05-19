@@ -211,7 +211,7 @@ private static final long serialVersionUID = 1L;
 						timer.schedule(pending57f4_MFPL, 1000, 60000);						
 			*/
 						// 22:12
-						TimerTask closedIndent = new ClosedIndent();
+						TimerTask closedIndent = new OpenIndent();
 						timer.schedule(closedIndent, 1000, 60000);
 						
 		} catch (Exception e) {

@@ -20,14 +20,14 @@ import javax.mail.internet.MimeMessage;
 
 import com.muthagroup.connectionERPUtil.ConnectionUrl;
 
-public class ClosedIndent extends TimerTask {
+public class OpenIndent extends TimerTask {
 
 	@Override
 	public void run() {
 		try {
 		Date d = new Date();
-		System.out.println("ERP Closed Indents");
-		if (d.getHours() == 11 && d.getMinutes() == 17) {
+		System.out.println("ERP Open Indents");
+		if (d.getHours() == 11 && d.getMinutes() == 26) {
 		boolean flag=false;
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
@@ -41,14 +41,14 @@ public class ClosedIndent extends TimerTask {
 		String user = "erp@muthagroup.com";
 		String pass = "erp@xyz";
  		String from = "erp@muthagroup.com";
-		String subject = "ERP Closed Indent dated "+CurrentDate; 
+		String subject = "ERP Open Indent dated "+CurrentDate;
 		boolean sessionDebug = false;
 		// *********************************************************************************************
 		// multiple recipients : == >
 		// ********************************************************************************************* 
 		ArrayList listemailTo = new ArrayList();
 		/* ArrayList listemailCc = new ArrayList();  */
-		String report = "ERPClosed_Indent";
+		String report = "ERPOpen_Indent";
 		Connection con = ConnectionUrl.getLocalDatabase();
 		PreparedStatement psauto = con.prepareStatement("select * from pending_approvee where report='"+report+"'");
 		ResultSet rsauto = psauto.executeQuery();
@@ -79,14 +79,11 @@ public class ClosedIndent extends TimerTask {
 		msg.setRecipients(Message.RecipientType.TO, addressTo); 
 		msg.setSubject(subject);
 		msg.setSentDate(new Date());
-		StringBuilder sb = new StringBuilder();
-		
+		StringBuilder sb = new StringBuilder(); 
 		Boolean flag_avail=false;
-		 
 		// Closed Indent : 
 		// exec "ENGERP"."dbo"."Sel_TransactionsPurchase";1 '101', '50201', 'ADMIN', '20100507', '20170517' 
-		sb.append("<b style='color: #0D265E;font-size: 10px;'>This is an automatically generated email for ERP Closed Indent  dated "+CurrentDate+" !!!</b>");
-		
+		sb.append("<b style='color: #0D265E;font-size: 10px;'>This is an automatically generated email for ERP Open Indent  dated "+CurrentDate+" !!!</b>");
 		sb.append("<table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
 		"<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;height: 25px;'>"+
 		"<th scope='col'>Indent No</th>"+
@@ -96,50 +93,23 @@ public class ClosedIndent extends TimerTask {
 		"<th scope='col'>Approved By</th>"+ 
 		"<th scope='col'>Approved Date</th></tr>");
 
-/*********************************************************************************************************/		
-	sb.append("<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;height: 25px;'>"
-		+ "<td colspan='6'><b>MFPL</b></td>"
-		+ "</tr>");
-Connection con_erp = ConnectionUrl.getFoundryERPNEWConnection(); 
-// exec "ENGERP"."dbo"."Sel_TransactionsPurchase";1 '101', '50201', 'ADMIN', '20100507', '20170517' 
-CallableStatement cs = con_erp.prepareCall("{call Sel_TransactionsPurchase(?,?,?,?,?)}");
-cs.setString(1, "103");
-cs.setString(2, "50201");
-cs.setString(3, "ADMIN");
-cs.setString(4, "20100507");
-cs.setString(5, nowDate); 
-ResultSet rs = cs.executeQuery();
-
-while(rs.next()){
-	if(rs.getString("STATUS_CODE").equalsIgnoreCase("1") && rs.getString("CHANGEDON").equalsIgnoreCase(nowDate)){
-sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
-	"<td align='right'>"+rs.getString("PRN_TRANDATE") +"</td>"+
-	"<td>"+rs.getString("AC_NAME") +"</td>"+
-	"<td>"+rs.getString("CREATED_BY") +"</td>"+
-	"<td>"+rs.getString("APPROVED_BY") +"</td>"+
-	"<td align='right'>"+rs.getString("APPROVED_ON") +"</td></tr>");
-//System.out.println("Approval Status = " + rs.getString("STATUS_CODE"));
-	flag_avail=true;
-	}
-	}
-/*********************************************************************************************************/
 
 /*********************************************************************************************************/		
 sb.append("<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;height: 25px;'>"
 		+ "<td colspan='6'><b>MEPL H21</b></td>"
 		+ "</tr>");
-con_erp = ConnectionUrl.getMEPLH21ERP(); 
+Connection con_erp = ConnectionUrl.getMEPLH21ERP(); 
 //exec "ENGERP"."dbo"."Sel_TransactionsPurchase";1 '101', '50201', 'ADMIN', '20100507', '20170517' 
-cs = con_erp.prepareCall("{call Sel_TransactionsPurchase(?,?,?,?,?)}");
+PreparedStatement cs = con_erp.prepareCall("{call Sel_TransactionsPurchase(?,?,?,?,?)}");
 cs.setString(1, "101");
 cs.setString(2, "50201");
 cs.setString(3, "ADMIN");
 cs.setString(4, "20100507");
 cs.setString(5, nowDate);
-rs = cs.executeQuery();
+ResultSet rs = cs.executeQuery();
 
 while(rs.next()){
-if(rs.getString("STATUS_CODE").equalsIgnoreCase("1") && rs.getString("CHANGEDON").equalsIgnoreCase(nowDate)){
+if(rs.getString("STATUS_CODE").equalsIgnoreCase("0")){
 sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
 "<td align='right'>"+rs.getString("PRN_TRANDATE") +"</td>"+
 "<td>"+rs.getString("AC_NAME") +"</td>"+
@@ -148,6 +118,8 @@ sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
 "<td align='right'>"+rs.getString("APPROVED_ON") +"</td></tr>");
 //System.out.println("Approval Status = " + rs.getString("STATUS_CODE"));
 flag_avail=true;
+
+//System.out.println("status code = " + rs.getString("STATUS_CODE"));
 }
 }
 /*********************************************************************************************************/
@@ -167,7 +139,7 @@ cs.setString(5, nowDate);
 rs = cs.executeQuery();
 
 while(rs.next()){
-if(rs.getString("STATUS_CODE").equalsIgnoreCase("1") && rs.getString("CHANGEDON").equalsIgnoreCase(nowDate)){
+if(rs.getString("STATUS_CODE").equalsIgnoreCase("0")){
 sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
 "<td align='right'>"+rs.getString("PRN_TRANDATE") +"</td>"+
 "<td>"+rs.getString("AC_NAME") +"</td>"+
@@ -176,9 +148,43 @@ sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
 "<td align='right'>"+rs.getString("APPROVED_ON") +"</td></tr>");
 //System.out.println("Approval Status = " + rs.getString("STATUS_CODE"));
 flag_avail=true;
+
+//System.out.println("status code = " + rs.getString("STATUS_CODE"));
 }
 }
 /*********************************************************************************************************/
+
+/*********************************************************************************************************/		
+sb.append("<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;height: 25px;'>"
+	+ "<td colspan='6'><b>MFPL</b></td>"
+	+ "</tr>");
+con_erp = ConnectionUrl.getFoundryERPNEWConnection();
+//exec "ENGERP"."dbo"."Sel_TransactionsPurchase";1 '101', '50201', 'ADMIN', '20100507', '20170517'
+cs = con_erp.prepareCall("{call Sel_TransactionsPurchase(?,?,?,?,?)}");
+cs.setString(1, "103");
+cs.setString(2, "50201");
+cs.setString(3, "ADMIN");
+cs.setString(4, "20100507");
+cs.setString(5, nowDate); 
+rs = cs.executeQuery();
+
+while(rs.next()){
+if(rs.getString("STATUS_CODE").equalsIgnoreCase("0")){
+sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
+"<td align='right'>"+rs.getString("PRN_TRANDATE") +"</td>"+
+"<td>"+rs.getString("AC_NAME") +"</td>"+
+"<td>"+rs.getString("CREATED_BY") +"</td>"+
+"<td>"+rs.getString("APPROVED_BY") +"</td>"+
+"<td align='right'>"+rs.getString("APPROVED_ON") +"</td></tr>");
+//System.out.println("Approval Status = " + rs.getString("STATUS_CODE"));
+flag_avail=true;
+
+//System.out.println("status code = " + rs.getString("STATUS_CODE"));
+
+}
+}
+/*********************************************************************************************************/
+
 
 /*********************************************************************************************************/		
 sb.append("<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;height: 25px;'>"
@@ -195,7 +201,7 @@ cs.setString(5, nowDate);
 rs = cs.executeQuery();
 
 while(rs.next()){
-if(rs.getString("STATUS_CODE").equalsIgnoreCase("1") && rs.getString("CHANGEDON").equalsIgnoreCase(nowDate)){
+if(rs.getString("STATUS_CODE").equalsIgnoreCase("0")){
 sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
 "<td align='right'>"+rs.getString("PRN_TRANDATE") +"</td>"+
 "<td>"+rs.getString("AC_NAME") +"</td>"+
@@ -204,6 +210,8 @@ sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
 "<td align='right'>"+rs.getString("APPROVED_ON") +"</td></tr>");
 //System.out.println("Approval Status = " + rs.getString("STATUS_CODE"));
 flag_avail=true;
+
+//System.out.println("status code = " + rs.getString("STATUS_CODE"));
 }
 }
 /*********************************************************************************************************/
@@ -223,7 +231,7 @@ cs.setString(5, nowDate);
 rs = cs.executeQuery();
 
 while(rs.next()){
-if(rs.getString("STATUS_CODE").equalsIgnoreCase("1") && rs.getString("CHANGEDON").equalsIgnoreCase(nowDate)){
+if(rs.getString("STATUS_CODE").equalsIgnoreCase("0")){
 sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
 "<td align='right'>"+rs.getString("PRN_TRANDATE") +"</td>"+
 "<td>"+rs.getString("AC_NAME") +"</td>"+
@@ -232,14 +240,15 @@ sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
 "<td align='right'>"+rs.getString("APPROVED_ON") +"</td></tr>");
 //System.out.println("Approval Status = " + rs.getString("STATUS_CODE"));
 flag_avail=true;
+
+//System.out.println("status code = " + rs.getString("STATUS_CODE"));
 }
 }
 /*********************************************************************************************************/
 
 
 
-		sb.append("</table> <p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>Mutha Group Satara </p><hr><p>"+
-		"<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
+		sb.append("</table><b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
 		"<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"+
 		"it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons"+
 		"or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"+
