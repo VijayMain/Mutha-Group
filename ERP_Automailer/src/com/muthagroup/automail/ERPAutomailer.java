@@ -19,7 +19,7 @@ private static final long serialVersionUID = 1L;
 			// ******************************************************************************************************************
 			// Thread No 1
 			// ******************************************************************************************************************
-	 /*
+	 
 			// 09:40
 			TimerTask  siscompSale =new SisterCompanySale_Report();
 			timer.schedule(siscompSale, 1000, 60000);
@@ -209,7 +209,7 @@ private static final long serialVersionUID = 1L;
 						// 08:18
 						TimerTask pending57f4_MFPL = new Pending_Challan57f4_MFPL();
 						timer.schedule(pending57f4_MFPL, 1000, 60000);						
-			*/
+			
 						// 09:30
 						TimerTask closedIndent = new OpenIndent();
 						timer.schedule(closedIndent, 1000, 60000);
