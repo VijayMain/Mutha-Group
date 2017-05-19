@@ -23,7 +23,7 @@ public class OpenIndent extends TimerTask {
 
 	@Override
 	public void run() {
-		try { 
+		try {
 		System.out.println("ERP Open Indents");
 		Date d = new Date();
 		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
