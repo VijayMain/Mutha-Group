@@ -80,7 +80,65 @@ public class MIS_SummaryReportDI extends TimerTask {
 				        calendar.add(Calendar.DATE, -1); 
 				        Date lastDayOfMonth = calendar.getTime(); 
 				//***************************************************************************************************************
-				Calendar calAvg = Calendar.getInstance();
+				        double avg2=0;
+				        Connection conlocal = ConnectionUrl.getLocalDatabase();
+				        Calendar calAvg = Calendar.getInstance();
+				        int month = Integer.parseInt(OnDateMIS.substring(4,6)); 
+				        int total_dd = 0;
+				        int holliday = 0;
+				        Date datesq = new Date();
+				        int day = Integer.parseInt(OnDateMIS.substring(6,8) );
+
+				       // System.out.println("day = = = = " + month + "  " + day);
+
+				        PreparedStatement ps_week = conlocal.prepareStatement("select count(*) from montlyweekdays_tbl where month=" + month + " and day<" + day);
+				        ResultSet rs_week = ps_week.executeQuery();
+				        while (rs_week.next()) {
+				        holliday = Integer.parseInt(rs_week.getString("count(*)"));
+				        }
+
+				      //  System.out.println("Hollidays= = " + month + "  " + day);
+
+				        int dd = today.getDate();
+				        int tues = 0;
+				        for (int i = 1; i < dd; i++) {
+				        calAvg.set(Calendar.DAY_OF_MONTH, i);
+				        if (calAvg.get(Calendar.DAY_OF_WEEK) == calAvg.TUESDAY) {
+				        	tues++;
+				        }
+				        }
+
+				        int workdays = dd - tues;
+				        total_dd = workdays;
+				        //System.out.println("ALl tuesdays = " + total_dd);
+
+				        total_dd = total_dd - holliday;
+
+
+				        // ***************************************************************************************************************
+				        int space = 0;
+				        PreparedStatement ps_allHol = conlocal.prepareStatement("select count(montlyWeekdays_id) from montlyweekdays_tbl where month=" + month);
+				        ResultSet rs_allHol = ps_allHol.executeQuery();
+				        while (rs_allHol.next()) {
+				        space = Integer.parseInt(rs_allHol.getString("count(montlyWeekdays_id)"));
+				        } 
+
+				        int count_mnt = lastDayOfMonth.getDate();
+
+				        int tue_month = 0;
+				        for (int i = 1; i < count_mnt; i++) {
+				        calAvg.set(Calendar.DAY_OF_MONTH, i);
+				        if (calAvg.get(Calendar.DAY_OF_WEEK) == calAvg.TUESDAY) {
+				        	tue_month++;
+				        }
+				        }
+
+				        count_mnt = count_mnt - tue_month; 
+				        count_mnt = count_mnt - space;
+				    //    System.out.println("Total Woring Days = " + count_mnt);     
+				        
+				        
+				/*Calendar calAvg = Calendar.getInstance();
 				int total_dd = lastDayOfMonth.getDate();
 				int tue_month=0;
 				for(int i = 1 ; i < total_dd ; i++)
@@ -94,7 +152,7 @@ public class MIS_SummaryReportDI extends TimerTask {
 				total_dd = total_dd - tue_month;
 
 				double avg2=0; 
-				/*System.out.println("Date = " + convertedCurrentDate); */
+				System.out.println("Date = " + convertedCurrentDate); 
 				int dd = convertedCurrentDate.getDate(); 
 				int tues=0;
 				for(int i = 1 ; i < dd ; i++)
@@ -104,7 +162,7 @@ public class MIS_SummaryReportDI extends TimerTask {
 				 	tues++;      
 				 }
 				} 
-				int workdays = dd-tues; 
+				int workdays = dd-tues; */
 				//***************************************************************************************************************
 				// exec "FOUNDRYFMSHOP"."dbo"."Sel_DBFoundryMIS";1 '103', '0', '20161207', 'FOUNDRYERP'
 				CallableStatement cs = con.prepareCall("{call Sel_DBFoundryMIS(?,?,?,?)}");
@@ -171,7 +229,7 @@ public class MIS_SummaryReportDI extends TimerTask {
 				sb.append("<b style='color: #0D265E;font-family: Arial;font-size: 11px;'>*** This is an automatically generated email of MIS Summary Report !!! ***</b> <br />"+
 				"<div style='width: 65%;float: left;'><b style='font-family: Arial;font-size: 14px;'>DI MIS Summary Report as on "+ason_date +"</b></div>");
 				
-sb.append("<span style='font-family: Arial;font-size: 12px;'>Total Working Days : <b>"+total_dd +"&nbsp;&nbsp;&nbsp;</b>Working Days Over : <b>"+workdays +"</b></span>"+
+sb.append("<span style='font-family: Arial;font-size: 12px;'>Total Working Days : <b>"+count_mnt +"&nbsp;&nbsp;&nbsp;</b>Working Days Over : <b>"+total_dd +"</b></span>"+
 "<table border='0' width='99%' style='font-family: Arial;text-align: center;'><tr><td><table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>"+
 "<tr><th scope='col' colspan='4'  style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>On Date</th>"+
 "</tr><tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>"+

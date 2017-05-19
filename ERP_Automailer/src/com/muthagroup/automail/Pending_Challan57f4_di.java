@@ -27,16 +27,22 @@ public class Pending_Challan57f4_di extends TimerTask {
 
 		try{
 			System.out.println("ERP 57f4 Pending Approval DI !!!");
-			Date d = new Date();
-			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+
+			Date d = new Date(); 
+			Date datesq = new Date();
+			int day = datesq.getDate(); 
 			
-			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 22){*/
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 3){
+			if (day==1 && d.getHours() == 8 && d.getMinutes() == 14) {
+			
 				Connection conLocal = ConnectionUrl.getLocalDatabase();
-				Calendar cal = Calendar.getInstance();
+				
 				SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
-				Date tdate = new Date();
-				String nowDate = sdfFIrstDate.format(tdate);
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.DATE, -30);  
+				String nowDate = sdfFIrstDate.format(cal.getTime());
+				
+				/*System.out.println("Date DI = " + nowDate);*/
+				
 				DecimalFormat twoDForm = new DecimalFormat("###,##0.00");
 				
 				String CurrentDate = nowDate.substring(6,8) +"/"+ nowDate.substring(4,6) +"/"+ nowDate.substring(0,4);
@@ -46,7 +52,7 @@ public class Pending_Challan57f4_di extends TimerTask {
 			String user = "itsupports@muthagroup.com";
 			String pass = "itsupports@xyz";
 	 		String from = "itsupports@muthagroup.com";
-			String subject = "Pending Challan 57f4 List DI !!!";
+			String subject = "57F4 challans pending for over 30 days of DI";
 			boolean sessionDebug = false;
 			// *********************************************************************************************
 			// multiple recipients : == >
@@ -87,7 +93,7 @@ public class Pending_Challan57f4_di extends TimerTask {
 			"<th>Bal Qty</th>"+
 			"<th>Rate</th>"+
 			"</tr>");
-			/*____________________________________________ MEPL H21 __________________________________________*/
+			/*____________________________________________ DI __________________________________________*/
  
 			String comp = "105";
 			Connection con_DI = ConnectionUrl.getDIERPConnection();
@@ -168,7 +174,7 @@ public class Pending_Challan57f4_di extends TimerTask {
 			System.out.println("msg Sent !!!");
 			}
 		conLocal.close();
-		Thread.sleep(60000);
+	//	Thread.sleep(60000);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

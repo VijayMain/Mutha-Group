@@ -19,17 +19,24 @@ public class Get_PartyWorkOrder_Controller extends HttpServlet {
 			String company="", sup="",supName="";
 			company = request.getParameter("company");					 
 			sup = request.getParameter("sup");
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
 			
+			String operationwise = request.getParameter("op");
+			
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
 			Date convertedDatefrom = formatter.parse(request.getParameter("date_fromWorkOrder"));
 			Date convertedDateto = formatter.parse(request.getParameter("date_toWorkOrder"));
 			
 			String fromDate= new SimpleDateFormat("yyyyMMdd").format(convertedDatefrom);
 			String toDate= new SimpleDateFormat("yyyyMMdd").format(convertedDateto);
 			//*************************************************************************************************************
-			System.out.println(" Company  = " + company +" Sup = "+ sup + "conv from = " + convertedDatefrom + " conv to = " + convertedDateto);
-			if(company!="" && sup!=""){
+			//System.out.println(" Company  = " + company +" Sup = "+ sup + "conv from = " + convertedDatefrom + " conv to = " + convertedDateto);
+			
+			if(company!="" && sup!="" && operationwise==null){
 					response.sendRedirect("PartywiseWorkOrder.jsp?comp="+company+"&sup="+sup+"&fromdate="+fromDate+"&todate="+toDate);
+			}else{
+				System.out.println("Operation wise");
+				response.sendRedirect("PartywiseWorkOrder.jsp?comp="+company+"&sup="+sup+"&fromdate="+fromDate+"&todate="+toDate);
 			}
 //		Example :  exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1 '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
 //  	select * from MSTACCTGLSUB where SUB_GLCODE=12

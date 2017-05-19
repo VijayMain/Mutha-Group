@@ -1480,7 +1480,6 @@ while(rs.next()){
 			 </select>  &nbsp;
 				 <span id="waitWorkOrder" style="visibility: hidden;"><strong style="color: blue; font-family: Arial;font-size: 10px;">Please Wait.....</strong></span>
 				  </span>
-				 
 				 </td> 
 			</tr>
 			<tr>    
@@ -1492,11 +1491,15 @@ while(rs.next()){
 				<td>To Date :</td>
 				<td> <input type="text" name="date_toWorkOrder" value="<%=sdfFIrstDate.format(tdate) %>" id="date_toWorkOrder" readonly="readonly"/>  
 				</td>
+			</tr>
+			<tr>
+				<td>Operation Wise :</td>
+				<td><input type="checkbox" name="op" id="op" value="1"> </td>
 			</tr>  
   			<tr> 
 			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADDWorkOrder" value="Get Party Wise Work Order Report" style="background-color: #BABABA;width: 320px;height: 35px;"/> </td>
 			</tr>
-			<tr> 
+			<tr>
 			<td colspan="2" align="center"><span id="waitWorkOrder" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
 			</tr>						 
 		</table>

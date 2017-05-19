@@ -26,16 +26,23 @@ public class Pending_Challan57f4_h25 extends TimerTask {
 	public void run() {
 		try{
 			System.out.println("ERP 57f4 Pending Approval H25 !!!");
-			Date d = new Date();
-			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+			Date d = new Date(); 
+			Date datesq = new Date();
+			int day = datesq.getDate(); 
 			
-			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 22){*/
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 15 && d.getMinutes() == 18){
+			if (day==1 && d.getHours() == 8 && d.getMinutes() == 12) {
+				
 				Connection conLocal = ConnectionUrl.getLocalDatabase();
-				Calendar cal = Calendar.getInstance();
+				
 				SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
-				Date tdate = new Date();
-				String nowDate = sdfFIrstDate.format(tdate);
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.DATE, -30);  
+				String nowDate = sdfFIrstDate.format(cal.getTime());
+				
+				/*System.out.println("Date H25 = " + nowDate);*/
+				
+				
+								
 				DecimalFormat twoDForm = new DecimalFormat("###,##0.00");
 				
 				String CurrentDate = nowDate.substring(6,8) +"/"+ nowDate.substring(4,6) +"/"+ nowDate.substring(0,4);
@@ -45,7 +52,7 @@ public class Pending_Challan57f4_h25 extends TimerTask {
 			String user = "itsupports@muthagroup.com";
 			String pass = "itsupports@xyz";
 	 		String from = "itsupports@muthagroup.com";
-			String subject = "Pending Challan 57f4 List MEPL H25 !!!";
+			String subject = "57F4 challans pending for over 30 days of MEPL H25";
 			boolean sessionDebug = false;
 			// *********************************************************************************************
 			// multiple recipients : == >
@@ -86,7 +93,7 @@ public class Pending_Challan57f4_h25 extends TimerTask {
 			"<th>Bal Qty</th>"+
 			"<th>Rate</th>"+
 			"</tr>");
-			/*____________________________________________ MEPL H21 __________________________________________*/
+			/*____________________________________________ MEPL H25 __________________________________________*/
  
 			String comp = "102";
 			Connection con_25 = ConnectionUrl.getMEPLH25ERP();
@@ -167,7 +174,7 @@ public class Pending_Challan57f4_h25 extends TimerTask {
 			System.out.println("msg Sent !!!");
 			}
 		conLocal.close();
-		Thread.sleep(60000);
+	//	Thread.sleep(60000);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

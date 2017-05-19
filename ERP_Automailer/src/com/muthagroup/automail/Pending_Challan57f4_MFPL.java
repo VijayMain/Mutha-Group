@@ -24,19 +24,24 @@ public class Pending_Challan57f4_MFPL extends TimerTask {
 
 	@Override
 	public void run() {
-
 		try{
 			System.out.println("ERP 57f4 Pending Approval MFPL !!!");
+
 			Date d = new Date();
-			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+			Date datesq = new Date();
+			int day = datesq.getDate();
 			
-			/*if(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 22){*/
-			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 3){
+			if (day==1 && d.getHours() == 8 && d.getMinutes() == 18) {
+				
 				Connection conLocal = ConnectionUrl.getLocalDatabase();
-				Calendar cal = Calendar.getInstance();
+				
 				SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
-				Date tdate = new Date();
-				String nowDate = sdfFIrstDate.format(tdate);
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.DATE, -30);
+				String nowDate = sdfFIrstDate.format(cal.getTime());
+				
+				/*System.out.println("Date K1 = " + nowDate);*/
+				
 				DecimalFormat twoDForm = new DecimalFormat("###,##0.00");
 				
 				String CurrentDate = nowDate.substring(6,8) +"/"+ nowDate.substring(4,6) +"/"+ nowDate.substring(0,4);
@@ -46,7 +51,7 @@ public class Pending_Challan57f4_MFPL extends TimerTask {
 			String user = "itsupports@muthagroup.com";
 			String pass = "itsupports@xyz";
 	 		String from = "itsupports@muthagroup.com";
-			String subject = "Pending Challan 57f4 List MFPL !!!";
+			String subject = "57F4 challans pending for over 30 days of MFPL";
 			boolean sessionDebug = false;
 			// *********************************************************************************************
 			// multiple recipients : == >
@@ -87,12 +92,12 @@ public class Pending_Challan57f4_MFPL extends TimerTask {
 			"<th>Bal Qty</th>"+
 			"<th>Rate</th>"+
 			"</tr>");
-			/*____________________________________________ MEPL H21 __________________________________________*/
+			/*____________________________________________ MFPL __________________________________________*/
  
 			String comp = "103";
-			Connection con_21 = ConnectionUrl.getFoundryERPNEWConnection();
+			Connection con_MFPL = ConnectionUrl.getFoundryERPNEWConnection();
 			ArrayList codes = new ArrayList();
-			 PreparedStatement ps=con_21.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE='12'");
+			 PreparedStatement ps=con_MFPL.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE='12'");
 			 ResultSet rs3=ps.executeQuery();
 			 while(rs3.next()){
 				  codes.add(rs3.getString("SUB_GLACNO"));
@@ -126,7 +131,7 @@ public class Pending_Challan57f4_MFPL extends TimerTask {
 				exec "ENGERP"."dbo"."Sel_RptPendingChlnState";1 '101', '20170506', '21341,2136,2137,21310,2138','101122701101123768101120010101120013101122665101120020101122301101120043101120050101120051101123240101124490101121443101120069101120070101121562101123523101122050101120099101120111101123681101120118101121798101122471101120136101120146101123952101122804101120172101123203101122256101120185101121771101121718101123096101120192101122246101123557101120203101122598101120207101120219101121381101120228101124334101121721101120238101122434101121584101123541101120257101122629101123599101122318101123342101123429101120303101120307101120324101122128101124828101121719101122196101122114101120354101122977101122315101120380101120386101120402101120404101122197101122526101123335101120421101122738101120428101123531101120429101120431101121486101120440101120441101121974101124008101121388101120466101120469101120470101120472101120478101120487101122292101122707101120520101120525101123744101123537101121782101122388101123248101121536101120551101121738101120553101120556101123450101123590101120583101124649101120589101120592101122545101120609101123723101120616101123846101120643101122002101124452101123158101120646101124915101120647101120648101123098101120657101120669101123634101120679101123026101120684101123219101122680101122072101120697101125097101120738101120743101120744101120745101122106101122766101122603101120780101120789101122590101123214101120804101121622101120816101122673101124085101121561101120856101121924101122687101120887101122765101122322101122684101122854101121061101120929101122626101124214101120947101122112101122416101120966101120979101121744101122561101121007101122421101121024101122715101124414101122891101122617101121979101121048101121596101123400101121059101121063101121062101121067101121074101121087101121088101123530101123205101122859101121720101121131101121135101123451101121942101122270101124062101123584101121175101123418101122971101121195101122706101121220101121606101121777101122622101121251101123247101121266101121272101121274101121290101121288101122667101122538101121322101122206101124424101121350101122396101121994'
 				select * from MSTACCTGLSUB where SUB_GLCODE =12
 			*/
-			CallableStatement cs = con_21.prepareCall("{call Sel_RptPendingChlnState(?,?,?,?)}");
+			CallableStatement cs = con_MFPL.prepareCall("{call Sel_RptPendingChlnState(?,?,?,?)}");
 			cs.setString(1, comp);
 			cs.setString(2, nowDate);
 			cs.setString(3, "21341,2136,2137,21310,2138");
@@ -148,7 +153,7 @@ public class Pending_Challan57f4_MFPL extends TimerTask {
 			"</tr>");
 			sent = true;
 			}
-			con_21.close();
+			con_MFPL.close();
 			
 			
             sb.append("</table><p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'>IT | Software Development | Mutha Group Satara </p><hr><p>"+
@@ -168,7 +173,7 @@ public class Pending_Challan57f4_MFPL extends TimerTask {
 			System.out.println("msg Sent !!!");
 			}
 		conLocal.close();
-		Thread.sleep(60000);
+	//	Thread.sleep(60000);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
