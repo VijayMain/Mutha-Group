@@ -1,6 +1,5 @@
 package com.muthagroup.automail;
-
-import java.sql.CallableStatement;
+ 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,10 +23,12 @@ public class OpenIndent extends TimerTask {
 
 	@Override
 	public void run() {
-		try {
-		Date d = new Date();
+		try { 
 		System.out.println("ERP Open Indents");
-		if (d.getHours() == 11 && d.getMinutes() == 26) {
+		Date d = new Date();
+		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+		
+		if (weekday[d.getDay()].equals("Wednesday") && d.getHours() == 9 && d.getMinutes() == 30) {
 		boolean flag=false;
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
