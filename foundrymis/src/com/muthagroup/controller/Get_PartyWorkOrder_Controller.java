@@ -36,7 +36,7 @@ public class Get_PartyWorkOrder_Controller extends HttpServlet {
 					response.sendRedirect("PartywiseWorkOrder.jsp?comp="+company+"&sup="+sup+"&fromdate="+fromDate+"&todate="+toDate);
 			}else{
 				System.out.println("Operation wise");
-				response.sendRedirect("PartywiseWorkOrder.jsp?comp="+company+"&sup="+sup+"&fromdate="+fromDate+"&todate="+toDate);
+				response.sendRedirect("PartywiseWorkOrderOp.jsp?comp="+company+"&sup="+sup+"&fromdate="+fromDate+"&todate="+toDate);
 			}
 //		Example :  exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1 '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
 //  	select * from MSTACCTGLSUB where SUB_GLCODE=12

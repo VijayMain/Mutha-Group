@@ -43,7 +43,7 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
 	    String to =request.getParameter("to");  
 	    int row=0,col=1; 
 
-	    
+	    System.out.println("in loop....");
 	    
 	    String group="";
 	    int ct=1; ;

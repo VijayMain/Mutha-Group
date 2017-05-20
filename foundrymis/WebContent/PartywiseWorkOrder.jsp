@@ -113,7 +113,7 @@ A:hover {
 }
 </STYLE>
 <script type="text/javascript">
-	function getExcel_Report(comp,sup,from,to) { 
+	function getExcel_Report1(comp,sup,from,to) {		
 		document.getElementById("fileloading").style.visibility = "visible";
 		document.getElementById("filebutton").disabled = true; 
 		var xmlhttp;
@@ -132,6 +132,28 @@ A:hover {
 		xmlhttp.open("POST", "PartywiseWorkOrder_xls.jsp?comp=" + comp +"&sup="+sup+"&from="+from+"&to="+to, true);
 		xmlhttp.send();
 	};
+	
+	function getExcel_Report(comp,sup,from,to,appr,close) {
+		document.getElementById("fileloading").style.visibility = "visible";
+		document.getElementById("filebutton").disabled = true; 
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				document.getElementById("exportId").innerHTML = xmlhttp.responseText;
+			}
+		};
+		xmlhttp.open("POST", "PartywiseWorkOrderApp_xls.jsp?comp=" + comp +"&sup="+sup+"&from="+from+"&to="+to+"&approved="+appr+"&closed="+close, true);
+		xmlhttp.send();
+	};
+	
+	
 	
 	function ApprovedOrder(comp,sup,from,to) {
 		document.getElementById("fileloading").style.visibility = "visible";
@@ -247,16 +269,11 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 <input type="checkbox" name="closed" id="closed" onclick="ApprovedOrder('<%=comp%>','<%=passSuppliers%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Closed</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 	<span id="exportId">
-		<button id="filebutton"
-			onclick="getExcel_Report('<%=comp%>','<%=passSuppliers%>','<%=from%>','<%=to%>')"
-			style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate
-			Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading"
-		style="visibility: hidden;" />
+		<button id="filebutton" onclick="getExcel_Report1('<%=comp%>','<%=passSuppliers%>','<%=from%>','<%=to%>')" style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading" style="visibility: hidden;" />
 	</span>
 
 	<div class="div_freezepanes_wrapper">
-		<div class="div_verticalscroll"
-			onmouseover="this.style.cursor='pointer'">
+		<div class="div_verticalscroll" onmouseover="this.style.cursor='pointer'">
 			<div style="height: 50%;" onmousedown="upp();" onmouseup="upp(1);">
 				<img class="buttonUp" src="images/up.png">
 			</div>
@@ -302,8 +319,8 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 	cs11.setString(3,"4038,4034,4033,4039");
 	cs11.setString(4,from);
 	cs11.setString(5,to);
-	cs11.setString(6,"0"); 
-	ResultSet rs = cs11.executeQuery(); 
+	cs11.setString(6,"0");
+	ResultSet rs = cs11.executeQuery();
 	
 	if(allFlag==true){
 		while(rs.next()){
@@ -338,7 +355,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 						 	<td align="right"><%=rs.getString("RATE") %></td> 
 						 	<td><%=rs.getString("PAY_REMRK") %></td>
 			</tr>
-		<%
+	<%
 		}
 		}
 	}

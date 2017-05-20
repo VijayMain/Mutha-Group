@@ -96,17 +96,15 @@ if(flag_close.equalsIgnoreCase("true")){
 <input type="checkbox" checked="checked" name="closed" id="closed" onclick="ApprovedOrder('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Closed</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <%
 }else{
-%> 
+%>
 <input type="checkbox" name="closed" id="closed" onclick="ApprovedOrder('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Closed</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <%
 }
 %>
-	<span id="exportId">
-		<button id="filebutton" disabled="disabled" style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate
-			Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading"
-		style="visibility: hidden;" />
+<span id="exportId">
+		<button id="filebutton" onclick="getExcel_Report('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>','<%=tick_flag %>','<%=flag_close %>')"
+			style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading" style="visibility: hidden;" />
 	</span>
-	
 
 	<!-- <div class="div_freezepanes_wrapper"> -->
 		<!-- <div class="div_verticalscroll"

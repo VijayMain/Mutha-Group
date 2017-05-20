@@ -118,7 +118,7 @@ A:hover {
 }
 </STYLE>
 <script type="text/javascript">
-	function getExcel_Report(comp,sup,from,to) {
+	function getExcel_Report1(comp,sup,from,to) {
 		document.getElementById("fileloading").style.visibility = "visible";
 		document.getElementById("filebutton").disabled = true; 
 		var xmlhttp;
@@ -137,6 +137,27 @@ A:hover {
 		xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup="+sup+"&from="+from+"&to="+to, true);
 		xmlhttp.send();
 	};
+	
+	function getExcel_Report(comp,sup,from,to,appr,close) {
+		document.getElementById("fileloading").style.visibility = "visible";
+		document.getElementById("filebutton").disabled = true; 
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				document.getElementById("exportId").innerHTML = xmlhttp.responseText;
+			}
+		};
+		xmlhttp.open("POST", "PartywisePorderApp_xls.jsp?comp=" + comp +"&sup="+sup+"&from="+from+"&to="+to+"&approved="+appr+"&closed="+close, true);
+		xmlhttp.send();
+	};
+	
 	
 	function ApprovedOrder(comp,sup,from,to) {
 		document.getElementById("fileloading").style.visibility = "visible";
@@ -234,11 +255,8 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 <input type="checkbox" name="closed" id="closed" onclick="ApprovedOrder('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')"><strong style="font-size: 10px;">Closed</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 	<span id="exportId">
-		<button id="filebutton"
-			onclick="getExcel_Report('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')"
-			style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate
-			Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading"
-		style="visibility: hidden;" />
+		<button id="filebutton" onclick="getExcel_Report1('<%=comp%>','<%=sup%>','<%=from%>','<%=to%>')" style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate Excel</button> 
+		<img alt="#" src="images/fileload.gif" id="fileloading" style="visibility: hidden;" />
 	</span>
 
 	<div class="div_freezepanes_wrapper">
@@ -279,7 +297,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 				<th scope="col" class="th">Rs/kg</th>
 				<th scope="col" class="th">Rs/Pc</th>
 			</tr>
-			<%	
+<%
 // exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1  '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
 //  Updated New SP  ====>   exec "H25ERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1 '102', '0', '4031,4032,4038,4039', '20160401', '20170430', 0, '101124269'
  	CallableStatement cs11 = con.prepareCall("{call Sel_RptPartyWsPurchOrderRegister(?,?,?,?,?,?,?)}");

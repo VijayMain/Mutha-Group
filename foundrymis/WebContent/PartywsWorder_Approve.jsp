@@ -227,11 +227,8 @@ if(flag_close.equalsIgnoreCase("true")){
 %>
 
 	<span id="exportId">
-		<button id="filebutton" disabled="disabled"
-			onclick="getExcel_Report('<%=comp%>','<%=passSuppliers%>','<%=from%>','<%=to%>')"
-			style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate
-			Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading"
-		style="visibility: hidden;" />
+		<button id="filebutton" onclick="getExcel_Report('<%=comp%>','<%=passSuppliers%>','<%=from%>','<%=to%>','<%=tick_flag %>','<%=flag_close %>')"
+			style="cursor: pointer; font-family: Arial; font-size: 12px;">Generate Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading" style="visibility: hidden;" />
 	</span>
 
 	<!-- <div class="div_freezepanes_wrapper">
@@ -281,7 +278,7 @@ if(flag_close.equalsIgnoreCase("true")){
 	cs11.setString(5,to);
 	cs11.setString(6,"0"); 
 	ResultSet rs = cs11.executeQuery();
-	if(allFlag==true){ 
+	if(allFlag==true){
 		while(rs.next()){
 			if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("true")) &&  
 					 ((!rs.getString("STATUS_CODE").equalsIgnoreCase("11") || !rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("false"))){
@@ -362,10 +359,10 @@ if(flag_close.equalsIgnoreCase("true")){
 	}else{
 		
 		while(rs.next()){
-			 	if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME")) && (rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("true")) &&  
+			 	if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME")) && (rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("true")) &&
 						 ((!rs.getString("STATUS_CODE").equalsIgnoreCase("11") || !rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("false"))){
 					
-			System.out.println("one = ");		
+			System.out.println("one = ");
 					%>
 					 <tr style="font-size: 10px;background-color: white;">
 					 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
