@@ -322,6 +322,15 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 	cs11.setString(6,"0");
 	ResultSet rs = cs11.executeQuery();
 	
+	CallableStatement cs = con.prepareCall("{call Sel_RptPORegister(?,?,?,?,?,?)}");
+	cs.setString(1,comp);
+	cs.setString(2,"0");
+	cs.setString(3,"4038,4034,4033,4039");
+	cs.setString(4,from);
+	cs.setString(5,to);
+	cs.setString(6,"11");
+	ResultSet rs_close = cs.executeQuery();
+	
 	if(allFlag==true){
 		while(rs.next()){
  %>
@@ -339,9 +348,26 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			</tr>
 	<%			 
 		}
+		while(rs_close.next()){
+			 %>
+						 <tr style="font-size: 10px;">
+						 <td width="6%" align="right"><%=rs_close.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs_close.getString("PO_NO") %></td>
+						 <td align="right"><%=rs_close.getString("AMEND_NO") %></td>
+						 <td align="right"><%=rs_close.getString("PRN_PODATE")%></td>  
+						 <td><%=rs_close.getString("SUPP_NAME") %></td>
+						 <td><%=rs_close.getString("MAT_NAME") %></td> 
+						 	<td align="right"><%=rs_close.getString("SR_NO") %></td>
+						 	<td align="right"><%=rs_close.getString("WEIGHT") %></td> 
+						 	<td align="right"><%=rs_close.getString("BORI_WEIGHT") %></td>  
+						 	<td align="right"><%=rs_close.getString("RATE") %></td> 
+						 	<td><%=rs_close.getString("PAY_REMRK") %></td>
+						</tr>
+				<%			 
+					} 
+		
 	}else{
 		while(rs.next()){
-			if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){ 
+			if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){
 		%>
 			 <tr style="font-size: 10px;">
 			 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
@@ -358,6 +384,28 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 	<%
 		}
 		}
+		
+		while(rs_close.next()){
+			if(sup.equalsIgnoreCase(rs_close.getString("SUPP_NAME"))){
+		%>
+			 <tr style="font-size: 10px;">
+			 <td width="6%" align="right"><%=rs_close.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs_close.getString("PO_NO") %></td>
+			 <td align="right"><%=rs_close.getString("AMEND_NO") %></td>
+			 <td align="right"><%=rs_close.getString("PRN_PODATE")%></td>  
+						 <td><%=rs_close.getString("SUPP_NAME") %></td>
+						 <td><%=rs_close.getString("MAT_NAME") %></td>
+						 	<td align="right"><%=rs_close.getString("SR_NO") %></td>
+						 	<td align="right"><%=rs_close.getString("WEIGHT") %></td>
+						 	<td align="right"><%=rs_close.getString("BORI_WEIGHT") %></td>  
+						 	<td align="right"><%=rs_close.getString("RATE") %></td> 
+						 	<td><%=rs_close.getString("PAY_REMRK") %></td>
+			</tr>
+	<%
+		}
+		}
+		
+		
+		
 	}
 	%>	 
 		</table>

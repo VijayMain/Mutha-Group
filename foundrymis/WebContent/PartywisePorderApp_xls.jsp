@@ -167,6 +167,9 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
 	ResultSet rs = cs11.executeQuery(); 
 	while(rs.next()){
 		
+		
+		
+		
 		if((rs.getString("STATUS_CODE").equalsIgnoreCase("0") && tick_flag.equalsIgnoreCase("true")) &&  
 				 ((!rs.getString("STATUS_CODE").equalsIgnoreCase("11") || !rs.getString("STATUS_CODE").equalsIgnoreCase("12"))  && flag_close.equalsIgnoreCase("false"))){
 

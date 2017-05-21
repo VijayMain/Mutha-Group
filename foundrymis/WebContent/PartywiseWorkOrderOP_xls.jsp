@@ -35,6 +35,7 @@
 <body> 
 <%
 try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup="+sup+"&from="+from+"&to="+to, true);
+	System.out.println("OP wise 2");
 	 	String CompanyName="";
 	    Connection con =null;    
 	    String comp =request.getParameter("comp");
@@ -179,7 +180,7 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
     CallableStatement cs11 = con.prepareCall("{call Sel_RptPORegister(?,?,?,?,?,?)}");
 	cs11.setString(1,comp);
 	cs11.setString(2,"0");
-	cs11.setString(3,"4038,4034,4033,4039");
+	cs11.setString(3,"4038,4039");
 	cs11.setString(4,from);
 	cs11.setString(5,to);
 	cs11.setString(6,"0");  
@@ -188,192 +189,192 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
 	CallableStatement cs = con.prepareCall("{call Sel_RptPORegister(?,?,?,?,?,?)}");
 	cs.setString(1,comp);
 	cs.setString(2,"0");
-	cs.setString(3,"4038,4034,4033,4039");
+	cs.setString(3,"4038,4039");
 	cs.setString(4,from);
 	cs.setString(5,to);
 	cs.setString(6,"11");
 	ResultSet rs_close = cs.executeQuery();
 	
 	if(allFlag==true){
-while(rs.next()){
-	Label po_nolbl = new Label(row, col, rs.getString("TRNNO").substring(3, 7) + " - " + rs.getString("PO_NO") ,cellRIghtformat); 
-	row++;
-	Number amdatelbl = new Number(row, col, Double.parseDouble(rs.getString("AMEND_NO")),cellRIghtformat); 
-	row++;
-	Label po_datelbl = new Label(row, col,rs.getString("PRN_PODATE"),cellleftformat); 
-	row++; 
-		Label supnamelbl = new Label(row, col, rs.getString("SUPP_NAME"),cellRIghtformat);
-		row++;
-		Label partnamelbl = new Label(row, col, rs.getString("MAT_NAME"),cellRIghtformat);
-		row++;
-
-Number srnolbl = new Number(row, col,Integer.parseInt(rs.getString("SR_NO")),cellRIghtformat); 
-row++;
-Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
-row++;
-Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
-row++;
-Number ratepplbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),cellRIghtformat); 
-row++;
-Label remarklbl = new Label(row, col, rs.getString("PAY_REMRK"),cellleftformat);
-
-writableSheet.addCell(po_nolbl);
-writableSheet.addCell(amdatelbl);
-writableSheet.addCell(po_datelbl);
-writableSheet.addCell(supnamelbl);
-writableSheet.addCell(partnamelbl);  
-		/* writableSheet.addCell(witheffectlbl); */
-		writableSheet.addCell(srnolbl); 
-		writableSheet.addCell(wtkglbl);
-		writableSheet.addCell(boriwtkglbl);
-		writableSheet.addCell(ratepplbl);	 
-		writableSheet.addCell(remarklbl);
-		row++;
-		
-		if(row==10){
-			row=0;
-			col++;   
-		} 
-} 
-while(rs_close.next()){
-	Label po_nolbl = new Label(row, col, rs_close.getString("TRNNO").substring(3, 7) + " - " + rs_close.getString("PO_NO") ,cellRIghtformat); 
-	row++;
-	Number amdatelbl = new Number(row, col, Double.parseDouble(rs_close.getString("AMEND_NO")),cellRIghtformat); 
-	row++;
-	Label po_datelbl = new Label(row, col,rs_close.getString("PRN_PODATE"),cellleftformat); 
-	row++; 
-		Label supnamelbl = new Label(row, col, rs_close.getString("SUPP_NAME"),cellRIghtformat);
-		row++;
-		Label partnamelbl = new Label(row, col, rs_close.getString("MAT_NAME"),cellRIghtformat);
-		row++;
-
-Number srnolbl = new Number(row, col,Integer.parseInt(rs_close.getString("SR_NO")),cellRIghtformat); 
-row++;
-Number wtkglbl = new Number(row, col,Double.parseDouble(rs_close.getString("WEIGHT")),cellRIghtformat);
-row++;
-Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs_close.getString("BORI_WEIGHT")),cellRIghtformat);
-row++;
-Number ratepplbl = new Number(row, col, Double.parseDouble(rs_close.getString("RATE")),cellRIghtformat); 
-row++;
-Label remarklbl = new Label(row, col, rs_close.getString("PAY_REMRK"),cellleftformat);
-
-writableSheet.addCell(po_nolbl);
-writableSheet.addCell(amdatelbl);
-writableSheet.addCell(po_datelbl);
-writableSheet.addCell(supnamelbl);
-writableSheet.addCell(partnamelbl);  
-		/* writableSheet.addCell(witheffectlbl); */
-		writableSheet.addCell(srnolbl); 
-		writableSheet.addCell(wtkglbl);
-		writableSheet.addCell(boriwtkglbl);
-		writableSheet.addCell(ratepplbl);	 
-		writableSheet.addCell(remarklbl);
-		row++;
-		
-		if(row==10){
-			row=0;
-			col++;   
-		} 
-}
-
-
-
-
-
-	}
-	if(allFlag==false){
 		while(rs.next()){
-			if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){
-				Label po_nolbl = new Label(row, col, rs.getString("TRNNO").substring(3, 7) + " - " + rs.getString("PO_NO") ,cellRIghtformat); 
-				row++;
-				Number amdatelbl = new Number(row, col, Double.parseDouble(rs.getString("AMEND_NO")),cellRIghtformat);
-				row++;
-				Label po_datelbl = new Label(row, col,rs.getString("PRN_PODATE"),cellleftformat); 
-				row++; 
-			Label supnamelbl = new Label(row, col, rs.getString("SUPP_NAME"),cellRIghtformat);
+			Label po_nolbl = new Label(row, col, rs.getString("TRNNO").substring(3, 7) + " - " + rs.getString("PO_NO") ,cellRIghtformat); 
 			row++;
-			Label partnamelbl = new Label(row, col, rs.getString("MAT_NAME"),cellRIghtformat);
+			Number amdatelbl = new Number(row, col, Double.parseDouble(rs.getString("AMEND_NO")),cellRIghtformat); 
 			row++;
-	
-	
-	
-	Number srnolbl = new Number(row, col,Integer.parseInt(rs.getString("SR_NO")),cellRIghtformat); 
-	row++;
-	Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
-	row++;
-	Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
-	row++;
-	Number ratepplbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),cellRIghtformat); 
-	row++;
-	Label remarklbl = new Label(row, col, rs.getString("PAY_REMRK"),cellleftformat);
+			Label po_datelbl = new Label(row, col,rs.getString("PRN_PODATE"),cellleftformat); 
+			row++; 
+				Label supnamelbl = new Label(row, col, rs.getString("SUPP_NAME"),cellRIghtformat);
+				row++;
+				Label partnamelbl = new Label(row, col, rs.getString("MAT_NAME"),cellRIghtformat);
+				row++;
 
-	writableSheet.addCell(po_nolbl);
-	writableSheet.addCell(amdatelbl);
-	writableSheet.addCell(po_datelbl);
-	writableSheet.addCell(supnamelbl);
-	writableSheet.addCell(partnamelbl);
-			 /* writableSheet.addCell(witheffectlbl); */
-			writableSheet.addCell(srnolbl); 
-			writableSheet.addCell(wtkglbl);
-			writableSheet.addCell(boriwtkglbl);
-			writableSheet.addCell(ratepplbl);	 
-			writableSheet.addCell(remarklbl);
-			row++;
-			
-			if(row==10){
-				row=0;
-				col++;   
-			} 
-	}
-	}
-		
+		Number srnolbl = new Number(row, col,Integer.parseInt(rs.getString("SR_NO")),cellRIghtformat); 
+		row++;
+		Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
+		row++;
+		Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
+		row++;
+		Number ratepplbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),cellRIghtformat); 
+		row++;
+		Label remarklbl = new Label(row, col, rs.getString("PAY_REMRK"),cellleftformat);
+
+		writableSheet.addCell(po_nolbl);
+		writableSheet.addCell(amdatelbl);
+		writableSheet.addCell(po_datelbl);
+		writableSheet.addCell(supnamelbl);
+		writableSheet.addCell(partnamelbl);  
+				/* writableSheet.addCell(witheffectlbl); */
+				writableSheet.addCell(srnolbl); 
+				writableSheet.addCell(wtkglbl);
+				writableSheet.addCell(boriwtkglbl);
+				writableSheet.addCell(ratepplbl);	 
+				writableSheet.addCell(remarklbl);
+				row++;
+				
+				if(row==10){
+					row=0;
+					col++;   
+				}
+		}
 		while(rs_close.next()){
-			if(sup.equalsIgnoreCase(rs_close.getString("SUPP_NAME"))){
-				Label po_nolbl = new Label(row, col, rs_close.getString("TRNNO").substring(3, 7) + " - " + rs_close.getString("PO_NO") ,cellRIghtformat); 
-				row++;
-				Number amdatelbl = new Number(row, col, Double.parseDouble(rs_close.getString("AMEND_NO")),cellRIghtformat);
-				row++;
-				Label po_datelbl = new Label(row, col,rs_close.getString("PRN_PODATE"),cellleftformat); 
-				row++; 
-			Label supnamelbl = new Label(row, col, rs_close.getString("SUPP_NAME"),cellRIghtformat);
+			Label po_nolbl = new Label(row, col, rs_close.getString("TRNNO").substring(3, 7) + " - " + rs_close.getString("PO_NO") ,cellRIghtformat); 
 			row++;
-			Label partnamelbl = new Label(row, col, rs_close.getString("MAT_NAME"),cellRIghtformat);
+			Number amdatelbl = new Number(row, col, Double.parseDouble(rs_close.getString("AMEND_NO")),cellRIghtformat); 
 			row++;
-	
-	
-	
-	Number srnolbl = new Number(row, col,Integer.parseInt(rs_close.getString("SR_NO")),cellRIghtformat); 
-	row++;
-	Number wtkglbl = new Number(row, col,Double.parseDouble(rs_close.getString("WEIGHT")),cellRIghtformat);
-	row++;
-	Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs_close.getString("BORI_WEIGHT")),cellRIghtformat);
-	row++;
-	Number ratepplbl = new Number(row, col, Double.parseDouble(rs_close.getString("RATE")),cellRIghtformat); 
-	row++;
-	Label remarklbl = new Label(row, col, rs_close.getString("PAY_REMRK"),cellleftformat);
+			Label po_datelbl = new Label(row, col,rs_close.getString("PRN_PODATE"),cellleftformat); 
+			row++; 
+				Label supnamelbl = new Label(row, col, rs_close.getString("SUPP_NAME"),cellRIghtformat);
+				row++;
+				Label partnamelbl = new Label(row, col, rs_close.getString("MAT_NAME"),cellRIghtformat);
+				row++;
 
-	writableSheet.addCell(po_nolbl);
-	writableSheet.addCell(amdatelbl);
-	writableSheet.addCell(po_datelbl);
-	writableSheet.addCell(supnamelbl);
-	writableSheet.addCell(partnamelbl);
-			 /* writableSheet.addCell(witheffectlbl); */
-			writableSheet.addCell(srnolbl); 
-			writableSheet.addCell(wtkglbl);
-			writableSheet.addCell(boriwtkglbl);
-			writableSheet.addCell(ratepplbl);	 
-			writableSheet.addCell(remarklbl);
-			row++;
+		Number srnolbl = new Number(row, col,Integer.parseInt(rs_close.getString("SR_NO")),cellRIghtformat); 
+		row++;
+		Number wtkglbl = new Number(row, col,Double.parseDouble(rs_close.getString("WEIGHT")),cellRIghtformat);
+		row++;
+		Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs_close.getString("BORI_WEIGHT")),cellRIghtformat);
+		row++;
+		Number ratepplbl = new Number(row, col, Double.parseDouble(rs_close.getString("RATE")),cellRIghtformat); 
+		row++;
+		Label remarklbl = new Label(row, col, rs_close.getString("PAY_REMRK"),cellleftformat);
+
+		writableSheet.addCell(po_nolbl);
+		writableSheet.addCell(amdatelbl);
+		writableSheet.addCell(po_datelbl);
+		writableSheet.addCell(supnamelbl);
+		writableSheet.addCell(partnamelbl);  
+				/* writableSheet.addCell(witheffectlbl); */
+				writableSheet.addCell(srnolbl); 
+				writableSheet.addCell(wtkglbl);
+				writableSheet.addCell(boriwtkglbl);
+				writableSheet.addCell(ratepplbl);	 
+				writableSheet.addCell(remarklbl);
+				row++;
+				
+				if(row==10){
+					row=0;
+					col++;   
+				} 
+		}
+
+
+
+
+
+			}
+			if(allFlag==false){
+				while(rs.next()){
+					if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){
+						Label po_nolbl = new Label(row, col, rs.getString("TRNNO").substring(3, 7) + " - " + rs.getString("PO_NO") ,cellRIghtformat); 
+						row++;
+						Number amdatelbl = new Number(row, col, Double.parseDouble(rs.getString("AMEND_NO")),cellRIghtformat);
+						row++;
+						Label po_datelbl = new Label(row, col,rs.getString("PRN_PODATE"),cellleftformat); 
+						row++; 
+					Label supnamelbl = new Label(row, col, rs.getString("SUPP_NAME"),cellRIghtformat);
+					row++;
+					Label partnamelbl = new Label(row, col, rs.getString("MAT_NAME"),cellRIghtformat);
+					row++;
 			
-			if(row==10){
-				row=0;
-				col++;   
-			} 
-	}
-	}
-		
-		
-	}
+			
+			
+			Number srnolbl = new Number(row, col,Integer.parseInt(rs.getString("SR_NO")),cellRIghtformat); 
+			row++;
+			Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
+			row++;
+			Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
+			row++;
+			Number ratepplbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),cellRIghtformat); 
+			row++;
+			Label remarklbl = new Label(row, col, rs.getString("PAY_REMRK"),cellleftformat);
+
+			writableSheet.addCell(po_nolbl);
+			writableSheet.addCell(amdatelbl);
+			writableSheet.addCell(po_datelbl);
+			writableSheet.addCell(supnamelbl);
+			writableSheet.addCell(partnamelbl);
+					 /* writableSheet.addCell(witheffectlbl); */
+					writableSheet.addCell(srnolbl); 
+					writableSheet.addCell(wtkglbl);
+					writableSheet.addCell(boriwtkglbl);
+					writableSheet.addCell(ratepplbl);	 
+					writableSheet.addCell(remarklbl);
+					row++;
+					
+					if(row==10){
+						row=0;
+						col++;   
+					} 
+			}
+			}
+				
+				while(rs_close.next()){
+					if(sup.equalsIgnoreCase(rs_close.getString("SUPP_NAME"))){
+						Label po_nolbl = new Label(row, col, rs_close.getString("TRNNO").substring(3, 7) + " - " + rs_close.getString("PO_NO") ,cellRIghtformat); 
+						row++;
+						Number amdatelbl = new Number(row, col, Double.parseDouble(rs_close.getString("AMEND_NO")),cellRIghtformat);
+						row++;
+						Label po_datelbl = new Label(row, col,rs_close.getString("PRN_PODATE"),cellleftformat); 
+						row++; 
+					Label supnamelbl = new Label(row, col, rs_close.getString("SUPP_NAME"),cellRIghtformat);
+					row++;
+					Label partnamelbl = new Label(row, col, rs_close.getString("MAT_NAME"),cellRIghtformat);
+					row++;
+			
+			
+			
+			Number srnolbl = new Number(row, col,Integer.parseInt(rs_close.getString("SR_NO")),cellRIghtformat); 
+			row++;
+			Number wtkglbl = new Number(row, col,Double.parseDouble(rs_close.getString("WEIGHT")),cellRIghtformat);
+			row++;
+			Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs_close.getString("BORI_WEIGHT")),cellRIghtformat);
+			row++;
+			Number ratepplbl = new Number(row, col, Double.parseDouble(rs_close.getString("RATE")),cellRIghtformat); 
+			row++;
+			Label remarklbl = new Label(row, col, rs_close.getString("PAY_REMRK"),cellleftformat);
+
+			writableSheet.addCell(po_nolbl);
+			writableSheet.addCell(amdatelbl);
+			writableSheet.addCell(po_datelbl);
+			writableSheet.addCell(supnamelbl);
+			writableSheet.addCell(partnamelbl);
+					 /* writableSheet.addCell(witheffectlbl); */
+					writableSheet.addCell(srnolbl); 
+					writableSheet.addCell(wtkglbl);
+					writableSheet.addCell(boriwtkglbl);
+					writableSheet.addCell(ratepplbl);	 
+					writableSheet.addCell(remarklbl);
+					row++;
+					
+					if(row==10){
+						row=0;
+						col++;   
+					} 
+			}
+			}
+				
+				
+			}
   //************************************************************************************************************************
   //************************************************ File Output Ligic *****************************************************
   //************************************************************************************************************************

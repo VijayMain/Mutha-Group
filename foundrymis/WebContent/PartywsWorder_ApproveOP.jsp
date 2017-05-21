@@ -117,6 +117,7 @@ A:hover {
 <span id="MyApproval">
 <%
 try{
+	System.out.println("OP wise 1");
 Connection con =null;
 String comp =request.getParameter("comp");
 String sup =request.getParameter("sup");
@@ -190,7 +191,7 @@ boolean allFlag = false;
 	<strong style="color: blue; font-family: Arial; font-size: 14px;"><%=CompanyName %>&nbsp;
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
-	<strong style="color: #1B5869; font-family: Arial; font-size: 14px;">Party Wise Work Order from &nbsp;<%=fromDate %>&nbsp; to &nbsp;<%=toDate %>
+	<strong style="color: #1B5869; font-family: Arial; font-size: 14px;">Party Wise WO OP wise from &nbsp;<%=fromDate %>&nbsp; to &nbsp;<%=toDate %>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	</strong>
 	<br />
@@ -273,7 +274,7 @@ if(flag_close.equalsIgnoreCase("true")){
  	CallableStatement cs11 = con.prepareCall("{call Sel_RptPORegister(?,?,?,?,?,?)}");
 	cs11.setString(1,comp);
 	cs11.setString(2,"0");
-	cs11.setString(3,"4038,4034,4033,4039");
+	cs11.setString(3,"4038,4039");
 	cs11.setString(4,from);
 	cs11.setString(5,to);
 	cs11.setString(6,"0"); 
@@ -282,7 +283,7 @@ if(flag_close.equalsIgnoreCase("true")){
 	CallableStatement cs = con.prepareCall("{call Sel_RptPORegister(?,?,?,?,?,?)}");
 	cs.setString(1,comp);
 	cs.setString(2,"0");
-	cs.setString(3,"4038,4034,4033,4039");
+	cs.setString(3,"4038,4039");
 	cs.setString(4,from);
 	cs.setString(5,to);
 	cs.setString(6,"11");
@@ -290,163 +291,163 @@ if(flag_close.equalsIgnoreCase("true")){
 	
 	if(allFlag==true){
 		
-	if(tick_flag.equalsIgnoreCase("true") && flag_close.equalsIgnoreCase("false")){
-		System.out.println("approved..........");
-		while(rs.next()){		
-%>		
-		 <tr style="font-size: 10px;background-color: white;">
-		 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
-		 <td align="right"><%=rs.getString("AMEND_NO") %></td>
-		 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
-		 <td><%=rs.getString("SUPP_NAME") %></td>
-		 <td><%=rs.getString("MAT_NAME") %></td> 
-		 	<td align="right"><%=rs.getString("SR_NO") %></td>
-		 	<td align="right"><%=rs.getString("WEIGHT") %></td> 
-		 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
-		 	<td align="right"><%=rs.getString("RATE") %></td> 
-		 	<td><%=rs.getString("PAY_REMRK") %></td>
-		</tr>
-<%	
-		}
-	}
-	if(tick_flag.equalsIgnoreCase("false") && flag_close.equalsIgnoreCase("true")){
-		System.out.println("Closed.........");
-		while(rs_close.next()){		
-			%>		
-					 <tr style="font-size: 10px;background-color: white;">
-					 <td width="6%" align="right"><%=rs_close.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs_close.getString("PO_NO") %></td>
-					 <td align="right"><%=rs_close.getString("AMEND_NO") %></td>
-					 <td align="right"><%=rs_close.getString("PRN_PODATE")%></td>  
-					 <td><%=rs_close.getString("SUPP_NAME") %></td>
-					 <td><%=rs_close.getString("MAT_NAME") %></td> 
-					 	<td align="right"><%=rs_close.getString("SR_NO") %></td>
-					 	<td align="right"><%=rs_close.getString("WEIGHT") %></td> 
-					 	<td align="right"><%=rs_close.getString("BORI_WEIGHT") %></td>  
-					 	<td align="right"><%=rs_close.getString("RATE") %></td> 
-					 	<td><%=rs_close.getString("PAY_REMRK") %></td>
-					</tr>
-			<%	
-					}		
-	}
-	if((tick_flag.equalsIgnoreCase("true") && flag_close.equalsIgnoreCase("true")) || (tick_flag.equalsIgnoreCase("false") && flag_close.equalsIgnoreCase("false"))){
-		System.out.println("approved/closed..........");
-		while(rs.next()){
-			%>		
-					 <tr style="font-size: 10px;background-color: white;">
-					 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
-					 <td align="right"><%=rs.getString("AMEND_NO") %></td>
-					 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
-					 <td><%=rs.getString("SUPP_NAME") %></td>
-					 <td><%=rs.getString("MAT_NAME") %></td> 
-					 	<td align="right"><%=rs.getString("SR_NO") %></td>
-					 	<td align="right"><%=rs.getString("WEIGHT") %></td> 
-					 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
-					 	<td align="right"><%=rs.getString("RATE") %></td> 
-					 	<td><%=rs.getString("PAY_REMRK") %></td>
-					</tr>
-			<%	
-		}		
-		while(rs_close.next()){		
-			%>		
-					 <tr style="font-size: 10px;background-color: white;">
-					 <td width="6%" align="right"><%=rs_close.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs_close.getString("PO_NO") %></td>
-					 <td align="right"><%=rs_close.getString("AMEND_NO") %></td>
-					 <td align="right"><%=rs_close.getString("PRN_PODATE")%></td>  
-					 <td><%=rs_close.getString("SUPP_NAME") %></td>
-					 <td><%=rs_close.getString("MAT_NAME") %></td> 
-					 	<td align="right"><%=rs_close.getString("SR_NO") %></td>
-					 	<td align="right"><%=rs_close.getString("WEIGHT") %></td> 
-					 	<td align="right"><%=rs_close.getString("BORI_WEIGHT") %></td>  
-					 	<td align="right"><%=rs_close.getString("RATE") %></td> 
-					 	<td><%=rs_close.getString("PAY_REMRK") %></td>
-					</tr>
-			<%	
-					}
-	} 
-	
-	}else{
-	 	
-		if((tick_flag.equalsIgnoreCase("true") && flag_close.equalsIgnoreCase("true")) || (tick_flag.equalsIgnoreCase("false") && flag_close.equalsIgnoreCase("false"))){
-			while(rs.next()){
-				if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){
-		%>	
-			<tr style="font-size: 10px;background-color: white;">
-			 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
-			 <td align="right"><%=rs.getString("AMEND_NO") %></td>
-			 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
-			<td><%=rs.getString("SUPP_NAME") %></td>
-			<td><%=rs.getString("MAT_NAME") %></td>
-			<td align="right"><%=rs.getString("SR_NO") %></td>
-			<td align="right"><%=rs.getString("WEIGHT") %></td> 
-	 		<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
-			<td align="right"><%=rs.getString("RATE") %></td> 
-			<td><%=rs.getString("PAY_REMRK") %></td>
-			</tr>
-		<%
-				}
-				}
-			
-			while(rs_close.next()){
-				if(sup.equalsIgnoreCase(rs_close.getString("SUPP_NAME"))){
-		%>	
-			<tr style="font-size: 10px;background-color: white;">
-			 <td width="6%" align="right"><%=rs_close.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs_close.getString("PO_NO") %></td>
-			 <td align="right"><%=rs_close.getString("AMEND_NO") %></td>
-			 <td align="right"><%=rs_close.getString("PRN_PODATE")%></td>  
-			<td><%=rs_close.getString("SUPP_NAME") %></td>
-			<td><%=rs_close.getString("MAT_NAME") %></td>
-			<td align="right"><%=rs_close.getString("SR_NO") %></td>
-			<td align="right"><%=rs_close.getString("WEIGHT") %></td> 
-	 		<td align="right"><%=rs_close.getString("BORI_WEIGHT") %></td>  
-			<td align="right"><%=rs_close.getString("RATE") %></td> 
-			<td><%=rs_close.getString("PAY_REMRK") %></td>
-			</tr>
-		<%
-				}
-				}		
-			
-			} 
 		if(tick_flag.equalsIgnoreCase("true") && flag_close.equalsIgnoreCase("false")){
-			while(rs.next()){
-				if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){
-		%>	
-			<tr style="font-size: 10px;background-color: white;">
+			System.out.println("approved..........");
+			while(rs.next()){		
+	%>		
+			 <tr style="font-size: 10px;background-color: white;">
 			 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
 			 <td align="right"><%=rs.getString("AMEND_NO") %></td>
 			 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
-			<td><%=rs.getString("SUPP_NAME") %></td>
-			<td><%=rs.getString("MAT_NAME") %></td>
-			<td align="right"><%=rs.getString("SR_NO") %></td>
-			<td align="right"><%=rs.getString("WEIGHT") %></td> 
-	 		<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
-			<td align="right"><%=rs.getString("RATE") %></td> 
-			<td><%=rs.getString("PAY_REMRK") %></td>
+			 <td><%=rs.getString("SUPP_NAME") %></td>
+			 <td><%=rs.getString("MAT_NAME") %></td> 
+			 	<td align="right"><%=rs.getString("SR_NO") %></td>
+			 	<td align="right"><%=rs.getString("WEIGHT") %></td> 
+			 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
+			 	<td align="right"><%=rs.getString("RATE") %></td> 
+			 	<td><%=rs.getString("PAY_REMRK") %></td>
 			</tr>
-		<%
-				}
-				}	
+	<%	
+			}
 		}
 		if(tick_flag.equalsIgnoreCase("false") && flag_close.equalsIgnoreCase("true")){
-			while(rs_close.next()){
-				if(sup.equalsIgnoreCase(rs_close.getString("SUPP_NAME"))){
-		%>	
-			<tr style="font-size: 10px;background-color: white;">
-			 <td width="6%" align="right"><%=rs_close.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs_close.getString("PO_NO") %></td>
-			 <td align="right"><%=rs_close.getString("AMEND_NO") %></td>
-			 <td align="right"><%=rs_close.getString("PRN_PODATE")%></td>  
-			<td><%=rs_close.getString("SUPP_NAME") %></td>
-			<td><%=rs_close.getString("MAT_NAME") %></td>
-			<td align="right"><%=rs_close.getString("SR_NO") %></td>
-			<td align="right"><%=rs_close.getString("WEIGHT") %></td> 
-	 		<td align="right"><%=rs_close.getString("BORI_WEIGHT") %></td>  
-			<td align="right"><%=rs_close.getString("RATE") %></td> 
-			<td><%=rs_close.getString("PAY_REMRK") %></td>
-			</tr>
-		<%
-				}
-				}
+			System.out.println("Closed.........");
+			while(rs_close.next()){		
+				%>		
+						 <tr style="font-size: 10px;background-color: white;">
+						 <td width="6%" align="right"><%=rs_close.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs_close.getString("PO_NO") %></td>
+						 <td align="right"><%=rs_close.getString("AMEND_NO") %></td>
+						 <td align="right"><%=rs_close.getString("PRN_PODATE")%></td>  
+						 <td><%=rs_close.getString("SUPP_NAME") %></td>
+						 <td><%=rs_close.getString("MAT_NAME") %></td> 
+						 	<td align="right"><%=rs_close.getString("SR_NO") %></td>
+						 	<td align="right"><%=rs_close.getString("WEIGHT") %></td> 
+						 	<td align="right"><%=rs_close.getString("BORI_WEIGHT") %></td>  
+						 	<td align="right"><%=rs_close.getString("RATE") %></td> 
+						 	<td><%=rs_close.getString("PAY_REMRK") %></td>
+						</tr>
+				<%	
+						}		
 		}
-	}
+		if((tick_flag.equalsIgnoreCase("true") && flag_close.equalsIgnoreCase("true")) || (tick_flag.equalsIgnoreCase("false") && flag_close.equalsIgnoreCase("false"))){
+			System.out.println("approved/closed..........");
+			while(rs.next()){
+				%>		
+						 <tr style="font-size: 10px;background-color: white;">
+						 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+						 <td align="right"><%=rs.getString("AMEND_NO") %></td>
+						 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
+						 <td><%=rs.getString("SUPP_NAME") %></td>
+						 <td><%=rs.getString("MAT_NAME") %></td> 
+						 	<td align="right"><%=rs.getString("SR_NO") %></td>
+						 	<td align="right"><%=rs.getString("WEIGHT") %></td> 
+						 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
+						 	<td align="right"><%=rs.getString("RATE") %></td> 
+						 	<td><%=rs.getString("PAY_REMRK") %></td>
+						</tr>
+				<%	
+			}		
+			while(rs_close.next()){		
+				%>		
+						 <tr style="font-size: 10px;background-color: white;">
+						 <td width="6%" align="right"><%=rs_close.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs_close.getString("PO_NO") %></td>
+						 <td align="right"><%=rs_close.getString("AMEND_NO") %></td>
+						 <td align="right"><%=rs_close.getString("PRN_PODATE")%></td>  
+						 <td><%=rs_close.getString("SUPP_NAME") %></td>
+						 <td><%=rs_close.getString("MAT_NAME") %></td> 
+						 	<td align="right"><%=rs_close.getString("SR_NO") %></td>
+						 	<td align="right"><%=rs_close.getString("WEIGHT") %></td> 
+						 	<td align="right"><%=rs_close.getString("BORI_WEIGHT") %></td>  
+						 	<td align="right"><%=rs_close.getString("RATE") %></td> 
+						 	<td><%=rs_close.getString("PAY_REMRK") %></td>
+						</tr>
+				<%	
+						}
+		} 
+		
+		}else{
+		 	
+			if((tick_flag.equalsIgnoreCase("true") && flag_close.equalsIgnoreCase("true")) || (tick_flag.equalsIgnoreCase("false") && flag_close.equalsIgnoreCase("false"))){
+				while(rs.next()){
+					if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){
+			%>	
+				<tr style="font-size: 10px;background-color: white;">
+				 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+				 <td align="right"><%=rs.getString("AMEND_NO") %></td>
+				 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
+				<td><%=rs.getString("SUPP_NAME") %></td>
+				<td><%=rs.getString("MAT_NAME") %></td>
+				<td align="right"><%=rs.getString("SR_NO") %></td>
+				<td align="right"><%=rs.getString("WEIGHT") %></td> 
+		 		<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
+				<td align="right"><%=rs.getString("RATE") %></td> 
+				<td><%=rs.getString("PAY_REMRK") %></td>
+				</tr>
+			<%
+					}
+					}
+				
+				while(rs_close.next()){
+					if(sup.equalsIgnoreCase(rs_close.getString("SUPP_NAME"))){
+			%>	
+				<tr style="font-size: 10px;background-color: white;">
+				 <td width="6%" align="right"><%=rs_close.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs_close.getString("PO_NO") %></td>
+				 <td align="right"><%=rs_close.getString("AMEND_NO") %></td>
+				 <td align="right"><%=rs_close.getString("PRN_PODATE")%></td>  
+				<td><%=rs_close.getString("SUPP_NAME") %></td>
+				<td><%=rs_close.getString("MAT_NAME") %></td>
+				<td align="right"><%=rs_close.getString("SR_NO") %></td>
+				<td align="right"><%=rs_close.getString("WEIGHT") %></td> 
+		 		<td align="right"><%=rs_close.getString("BORI_WEIGHT") %></td>  
+				<td align="right"><%=rs_close.getString("RATE") %></td> 
+				<td><%=rs_close.getString("PAY_REMRK") %></td>
+				</tr>
+			<%
+					}
+					}		
+				
+				} 
+			if(tick_flag.equalsIgnoreCase("true") && flag_close.equalsIgnoreCase("false")){
+				while(rs.next()){
+					if(sup.equalsIgnoreCase(rs.getString("SUPP_NAME"))){
+			%>	
+				<tr style="font-size: 10px;background-color: white;">
+				 <td width="6%" align="right"><%=rs.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs.getString("PO_NO") %></td>
+				 <td align="right"><%=rs.getString("AMEND_NO") %></td>
+				 <td align="right"><%=rs.getString("PRN_PODATE")%></td>  
+				<td><%=rs.getString("SUPP_NAME") %></td>
+				<td><%=rs.getString("MAT_NAME") %></td>
+				<td align="right"><%=rs.getString("SR_NO") %></td>
+				<td align="right"><%=rs.getString("WEIGHT") %></td> 
+		 		<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>  
+				<td align="right"><%=rs.getString("RATE") %></td> 
+				<td><%=rs.getString("PAY_REMRK") %></td>
+				</tr>
+			<%
+					}
+					}	
+			}
+			if(tick_flag.equalsIgnoreCase("false") && flag_close.equalsIgnoreCase("true")){
+				while(rs_close.next()){
+					if(sup.equalsIgnoreCase(rs_close.getString("SUPP_NAME"))){
+			%>	
+				<tr style="font-size: 10px;background-color: white;">
+				 <td width="6%" align="right"><%=rs_close.getString("TRNNO").substring(3, 7)%> <b>-</b> <%=rs_close.getString("PO_NO") %></td>
+				 <td align="right"><%=rs_close.getString("AMEND_NO") %></td>
+				 <td align="right"><%=rs_close.getString("PRN_PODATE")%></td>  
+				<td><%=rs_close.getString("SUPP_NAME") %></td>
+				<td><%=rs_close.getString("MAT_NAME") %></td>
+				<td align="right"><%=rs_close.getString("SR_NO") %></td>
+				<td align="right"><%=rs_close.getString("WEIGHT") %></td> 
+		 		<td align="right"><%=rs_close.getString("BORI_WEIGHT") %></td>  
+				<td align="right"><%=rs_close.getString("RATE") %></td> 
+				<td><%=rs_close.getString("PAY_REMRK") %></td>
+				</tr>
+			<%
+					}
+					}
+			}
+		}
 	%>	 
 		</table>
 <%

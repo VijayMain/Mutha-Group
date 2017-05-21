@@ -178,7 +178,7 @@ try {   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup="
     CallableStatement cs11 = con.prepareCall("{call Sel_RptPORegister(?,?,?,?,?,?)}");
 	cs11.setString(1,comp);
 	cs11.setString(2,"0");
-	cs11.setString(3,"4038,4034,4033,4039");
+	cs11.setString(3,"4038,4039");
 	cs11.setString(4,from);
 	cs11.setString(5,to);
 	cs11.setString(6,"0"); 
@@ -187,7 +187,7 @@ try {   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup="
 	CallableStatement cs = con.prepareCall("{call Sel_RptPORegister(?,?,?,?,?,?)}");
 	cs.setString(1,comp);
 	cs.setString(2,"0");
-	cs.setString(3,"4038,4034,4033,4039");
+	cs.setString(3,"4038,4039");
 	cs.setString(4,from);
 	cs.setString(5,to);
 	cs.setString(6,"11");
