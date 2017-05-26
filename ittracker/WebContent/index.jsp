@@ -50,14 +50,24 @@ try {
   <div style="width:100%; height: 100%; padding-left: 5px;padding-bottom: 5px;padding-top: 5px;"> 
   <%
   SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyy-MM-dd");  
-  Date tdate = new Date(); 
-  Calendar first_Datecal = Calendar.getInstance();   
+  // Date tdate = new Date(); 
+  
+  /* Calendar first_Datecal = Calendar.getInstance();   
   first_Datecal.set(Calendar.DAY_OF_MONTH, 1);  
-  Date dddd = first_Datecal.getTime();  
+  Date dddd = first_Datecal.getTime();   */
+   
+  Calendar aCalendar = Calendar.getInstance(); 
+  aCalendar.set(Calendar.DATE, aCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)); 
+  Date tdate = aCalendar.getTime();
+  
+  aCalendar.add(Calendar.MONTH, -2); 
+  aCalendar.set(Calendar.DATE, 1); 
+  Date dddd = aCalendar.getTime(); 
    
   java.sql.Date firstDate = new java.sql.Date(dddd.getTime());
   java.sql.Date nowDate = new java.sql.Date(tdate.getTime());
-  
+
+  // System.out.println("first and last date = " + firstDate + "  =  " + nowDate);
 /*   
 String firstDate = sdfFIrstDate.format(dddd);
 String nowDate = sdfFIrstDate.format(tdate); 
