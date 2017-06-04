@@ -27,10 +27,8 @@ public class Customer_Request_BO {
 			Date date = new Date();
 			System.out.println("by date..:" + dateFormat.format(date));
 
-			java.sql.Timestamp timestamp = new java.sql.Timestamp(
-					date.getTime());
-
-			System.out.println("by TIMESTAMP..:" + timestamp);
+			java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
+			// System.out.println("by TIMESTAMP..:" + timestamp);
 
 			// ****************************************************************************************
 			bean.setCRC_Date(timestamp);

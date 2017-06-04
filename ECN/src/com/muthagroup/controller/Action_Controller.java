@@ -92,38 +92,32 @@ public class Action_Controller extends HttpServlet {
 								if (bean.getAction_disc().equalsIgnoreCase("")) {
 									response.sendRedirect("Cab_Home.jsp");
 								}
-								System.out.println("action disc... : "
-										+ bean.getAction_disc());
+								// System.out.println("action disc... : " + bean.getAction_disc());
 
 							}
 							if (fieldName.equalsIgnoreCase("proposeddate")) {
 								bean.setPdate(fieldValue);
-								System.out.println("Proposed Date = "
-										+ bean.getPdate());
+								// System.out.println("Proposed Date = " + bean.getPdate());
 							}
 							if (fieldName.equalsIgnoreCase("actualimpldate")) {
 								if (fieldValue.equals("")) {
 									String nulldate = "0000-00-00 00:00:00";
 									bean.setAdate(nulldate);
-									System.out.println("Actual Date = "
-											+ bean.getAdate());
+									// System.out.println("Actual Date = " + bean.getAdate());
 								} else {
 									bean.setAdate(fieldValue);
-									System.out.println("Actual Date = "
-											+ bean.getAdate());
+									// System.out.println("Actual Date = " + bean.getAdate());
 								}
 
 							}
 							if (fieldName.equalsIgnoreCase("Prop_output")) {
 								bean.setProp_output(fieldValue);
-								System.out.println("Proposed Output... :"
-										+ bean.getProp_output());
+								// System.out.println("Proposed Output... :" + bean.getProp_output());
 							}
 
 							if (fieldName.equalsIgnoreCase("srno")) {
 								bean.setSrNo(Integer.parseInt(fieldValue));
-								System.out.println("sr no... :"
-										+ Integer.parseInt(fieldValue));
+								// System.out.println("sr no... :" + Integer.parseInt(fieldValue));
 							}
 
 							if (fieldName.equalsIgnoreCase("req_date")) {
@@ -138,59 +132,46 @@ public class Action_Controller extends HttpServlet {
 										.parse(rdate).getTime());
 
 								bean.setCrrDate(CR_Date);
-								System.out.println("request date..:" + CR_Date
-										+ "Get date " + bean.getCrrDate());
+								// System.out.println("request date..:" + CR_Date + "Get date " + bean.getCrrDate());
 
 							}
 
 							if (fieldName.equalsIgnoreCase("mytext")) {
 								bean.setMytext(fieldValue);
-								System.out.println("Input Request is... :"
-										+ bean.getMytext());
+								// System.out.println("Input Request is... :" + bean.getMytext());
 
 							}
 
 							if (fieldName.equalsIgnoreCase("mytextAct")) {
 								bean.setMytextAct(fieldValue);
-								System.out.println("Input mytextAct .. :"
-										+ bean.getMytextAct());
+								// System.out.println("Input mytextAct .. :" + bean.getMytextAct());
 
 							}
 							if (fieldName.equalsIgnoreCase("button1")) {
 								bean.setTestActualop(fieldValue);
 
-								System.out.println("Input Request is... :"
-										+ bean.getTestActualop());
+								// System.out.println("Input Request is... :" + bean.getTestActualop());
 
 							}
 							if (fieldName.equalsIgnoreCase("Action_No")) {
 								bean.setAction_No(Integer.parseInt(fieldValue));
 
-								System.out.println("Input Action No is... :"
-										+ bean.getAction_No());
+								// System.out.println("Input Action No is... :" + bean.getAction_No());
 
 							}
 							if (fieldName.equalsIgnoreCase("actual_output")) {
-								bean.setActual_Output(fieldValue);
-
-								System.out
-										.println("Input Actual output is... :"
-												+ bean.getActual_Output());
-
+								bean.setActual_Output(fieldValue); 
+								// System.out.println("Input Actual output is... :" + bean.getActual_Output()); 
 							}
 
 							if (fieldName.equalsIgnoreCase("act_impl_date_op")) {
-								SimpleDateFormat formatter = new SimpleDateFormat(
-										"dd-MM-yyyy HH:mm:ss");
+								SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 								Timestamp convertedDate = null;
 
-								convertedDate = new java.sql.Timestamp(
-										formatter.parse(fieldValue).getTime());
+								convertedDate = new java.sql.Timestamp(formatter.parse(fieldValue).getTime());
 
 								bean.setActaul_ImplDate_Act(convertedDate);
-								System.out
-										.println("Get input actaul output date = "
-												+ bean.getActaul_ImplDate_Act());
+								// System.out.println("Get input actaul output date = "+ bean.getActaul_ImplDate_Act());
 
 							}
 
@@ -203,10 +184,10 @@ public class Action_Controller extends HttpServlet {
 							fieldName = fileItem.getFieldName();
 							fieldValue = fileItem.getString();
 
-							System.out.println("I am in else..........");
+							// System.out.println("I am in else..........");
 
 							for (int k = 1; k <= bean.getSrNo(); k++) {
-								System.out.println("K is = " + k);
+							//	System.out.println("K is = " + k);
 
 								// *************************************************************************************************************
 								// if multiple files then there names are
@@ -214,22 +195,18 @@ public class Action_Controller extends HttpServlet {
 								// *************************************************************************************************************
 
 								if (fieldName.equalsIgnoreCase("inputName" + k)) {
-									System.out.println("File Name in java : "
-											+ fieldName);
+									// System.out.println("File Name in java : " + fieldName);
 
 									file_stored = fileItem.getName();
 
 									bean.setFile_Name_ext(FilenameUtils
 											.getName(file_stored));
 
-									System.out.println(FilenameUtils
-											.getName(file_stored));
+									// System.out.println(FilenameUtils.getName(file_stored));
 
-									file_Input = new DataInputStream(
-											fileItem.getInputStream());
-									System.out.println("Input sr no is = " + k);
-									System.out.println("Action Disc. is = "
-											+ bean.getAction_disc());
+									file_Input = new DataInputStream(fileItem.getInputStream());
+									/*System.out.println("Input sr no is = " + k);
+									System.out.println("Action Disc. is = "+ bean.getAction_disc());*/
 
 									/*************************************************************************************************************************
 									 * Register complaint using data form fields
@@ -244,9 +221,7 @@ public class Action_Controller extends HttpServlet {
 										action_id = bo.addActualOP(bean,
 												session);
 
-										System.out
-												.println("i am in if action id is returned..."
-														+ action_id);
+										//System.out.println("i am in if action id is returned..."+ action_id);
 
 										bean.setActionId(action_id);
 
@@ -257,20 +232,17 @@ public class Action_Controller extends HttpServlet {
 
 										action_id = bo.addAction(bean, session);
 
-										System.out
-												.println("i am in Else if action id is returned..."
-														+ action_id);
+										//System.out.println("i am in Else if action id is returned..."+ action_id);
 
 										bean.setActionId(action_id);
 									} else {
-										System.out.print("Some Error Found...");
+										//System.out.print("Some Error Found...");
 									}
 									// Attach file ====>
 									bean.setFile_blob(file_Input);
 									if (bean.getFile_Name_ext() != null) {
 
-										System.out
-												.println("Inside file loop!!!!!!!!");
+										//System.out.println("Inside file loop!!!!!!!!");
 										dao.attach_File(bean, session);
 									}
 								}
@@ -286,8 +258,7 @@ public class Action_Controller extends HttpServlet {
 						Transfer = bean.getMytextAct();
 					}
 
-					System.out.println("CRNO ANd TID ==== " + crno + "\n"
-							+ Transfer);
+					// System.out.println("CRNO ANd TID ==== " + crno + "\n" + Transfer);
 					if (Transfer.equalsIgnoreCase("1")) {
 
 						response.sendRedirect("Cab_Home.jsp");

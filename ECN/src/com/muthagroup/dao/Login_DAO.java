@@ -40,11 +40,10 @@ public class Login_DAO {
 						vo.getLogin_Name())
 						&& rs_user.getString("Login_Password")
 								.equalsIgnoreCase(vo.getLogin_Password())) {
-					System.out.println("User Id matched = " + uid);
+					// System.out.println("User Id matched = " + uid);
 					dept_id = rs_user.getInt("dept_id");
-					System.out.println("Department Id . . " + dept_id);
-					PreparedStatement ps_swAccess = con
-							.prepareStatement("select * from it_software_access_tbl where U_Id="
+					// System.out.println("Department Id . . " + dept_id);
+					PreparedStatement ps_swAccess = con.prepareStatement("select * from it_software_access_tbl where U_Id="
 									+ uid);
 					ResultSet rs_swAccess = ps_swAccess.executeQuery();
 
@@ -54,8 +53,7 @@ public class Login_DAO {
 							session.setAttribute("uid", rs_user.getInt("U_Id"));
 							flag = true;
 						} else {
-							System.out
-									.println("Access Not Provided for the ECN");
+							// System.out.println("Access Not Provided for the ECN");
 							str = "Access Denide..";
 						}
 					}

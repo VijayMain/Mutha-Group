@@ -21,27 +21,22 @@ public class Action_BO {
 	public int addAction(Action_VO bean, HttpSession session) {
 		try {
 
-			SimpleDateFormat formatter = new SimpleDateFormat(
-					"dd-MM-yyyy HH:mm:ss");
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			String pdate = null, adate = null;
 			pdate = bean.getPdate();
 			adate = bean.getAdate();
-			System.out.println("Action Dates ==== " + pdate + " \ntesting === "
-					+ adate);
+			// System.out.println("Action Dates ==== " + pdate + " \ntesting === " + adate);
 			Timestamp ProposedDate = null, ActualDate = null;
 
-			ProposedDate = new java.sql.Timestamp(formatter.parse(pdate)
-					.getTime());
+			ProposedDate = new java.sql.Timestamp(formatter.parse(pdate).getTime());
 
-			ActualDate = new java.sql.Timestamp(formatter.parse(adate)
-					.getTime());
+			ActualDate = new java.sql.Timestamp(formatter.parse(adate).getTime());
 			bean.setProposed_date(ProposedDate);
 			bean.setActual_impl_date(ActualDate);
 
-			System.out.println("Actual Impl Date = "
-					+ bean.getActual_impl_date());
-			System.out.println("Proposed Date = " + bean.getProposed_date());
-			System.out.print("\n I am in  bo...");
+			// System.out.println("Actual Impl Date = " + bean.getActual_impl_date());
+			// System.out.println("Proposed Date = " + bean.getProposed_date());
+			// System.out.print("\n I am in  bo...");
 
 			action_id = dao.addAction(bean, session);
 

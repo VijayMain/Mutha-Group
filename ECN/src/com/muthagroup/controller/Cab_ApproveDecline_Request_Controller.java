@@ -42,14 +42,11 @@ public class Cab_ApproveDecline_Request_Controller extends HttpServlet {
 			int cr_status_id = 0;
 			ArrayList appsellist = new ArrayList();
 
-			System.out.println("input values ======== "
-					+ request.getParameterValues("approver_selected"));
+			//System.out.println("input values ======== " + request.getParameterValues("approver_selected"));
 			if (request.getParameterValues("approver_selected") != null)
 			{
-				System.out.println("input values ======== "
-						+ request.getParameterValues("approver_selected"));
-				String[] appSel = request
-						.getParameterValues("approver_selected");
+				/*System.out.println("input values ======== " + request.getParameterValues("approver_selected"));*/
+				String[] appSel = request.getParameterValues("approver_selected");
 
 				for (int i = 0; i < appSel.length; i++) {
 					appsellist.add(appSel[i]);
@@ -59,25 +56,19 @@ public class Cab_ApproveDecline_Request_Controller extends HttpServlet {
 				// to remove duplicate approvers==========>
 				Connection con = Connection_Utility.getConnection();
 				ArrayList dup = new ArrayList();
-				PreparedStatement ps_dup = con
-						.prepareStatement("select * from cr_approver_relation_tbl where CR_No="
-								+ request.getParameter("crno"));
+				PreparedStatement ps_dup = con.prepareStatement("select * from cr_approver_relation_tbl where CR_No=" + request.getParameter("crno"));
 				ResultSet rs_dup = ps_dup.executeQuery();
 				while (rs_dup.next()) {
 					dup.add(rs_dup.getInt("U_Id"));
 				}
 
 				// ************************************************************************************************************
-
-				System.out.println("Approvers Selected ==== " + appsellist);
+				//System.out.println("Approvers Selected ==== " + appsellist);
 			}
 			uid = Integer.parseInt(session.getAttribute("uid").toString());
 
-			approval_type = Integer.parseInt(request
-					.getParameter("approval_name"));
-
+			approval_type = Integer.parseInt(request.getParameter("approval_name"));
 			remark = request.getParameter("remark");
-
 			cr_no = Integer.parseInt(request.getParameter("crno"));
 
 			// Initialize input parameters ======== >>>
@@ -90,7 +81,7 @@ public class Cab_ApproveDecline_Request_Controller extends HttpServlet {
 			bean.setRemark(remark);
 			bean.setUid(uid);
 
-			System.out.println("Approval Type" + bean.getApproval_type());
+//			System.out.println("Approval Type" + bean.getApproval_type());
 
 			boolean flag = bo.Cab_ApproveDecline(bean, session, appsellist);
 

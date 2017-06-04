@@ -109,32 +109,25 @@ public class Action_DAO {
 			PreparedStatement ps_file = null;
 			String sr = session.getAttribute("uid").toString();
 			int uid = Integer.parseInt(sr);
-			
-
 			String file_Name = bean.getFile_Name_ext();
 			int del = 1;
-
 			// ****************************************************************************************************************************
 			// Save attachment to database
 			// ****************************************************************************************************************************
 			InputStream file_blob1 = bean.getFile_blob();
-			ps_file = con
-					.prepareStatement("insert into cr_tbl_action_attachment(Cr_Action_Id,Atachment,Attach_Date,delete_status,File_Name,cr_no)values(?,?,?,?,?,?)");
+			ps_file = con.prepareStatement("insert into cr_tbl_action_attachment(Cr_Action_Id,Atachment,Attach_Date,delete_status,File_Name,cr_no)values(?,?,?,?,?,?)");
 			ps_file.setInt(1, bean.getActionId());
 			ps_file.setBinaryStream(2, file_blob1);
 			ps_file.setTimestamp(3, today_date);
 			ps_file.setInt(4, del);
 			ps_file.setString(5, bean.getFile_Name_ext());
-			ps_file.setInt(6,
-					Integer.parseInt(session.getAttribute("crno").toString()));
+			ps_file.setInt(6, Integer.parseInt(session.getAttribute("crno").toString()));
 			int k = ps_file.executeUpdate();
 			// ****************************************************************************************************************************
-
-			PreparedStatement ps_del = con
-					.prepareStatement("delete from cr_tbl_action_attachment where File_Name='"
-							+ "" + "'");
+			if(bean.getFile_Name_ext()==""){
+			PreparedStatement ps_del = con.prepareStatement("delete from cr_tbl_action_attachment where File_Name='"+ "" + "'");
 			ps_del.executeUpdate();
-
+			}
 			// ****************************************************************************************
 
 			PreparedStatement ps_history = con
@@ -145,15 +138,14 @@ public class Action_DAO {
 
 			ps_history.setInt(4, del);
 			ps_history.setString(5, bean.getFile_Name_ext());
-			ps_history.setInt(6,
-					Integer.parseInt(session.getAttribute("crno").toString()));
+			ps_history.setInt(6, Integer.parseInt(session.getAttribute("crno").toString()));
 
 			int l = ps_history.executeUpdate();
 
-			PreparedStatement ps_del1 = con
-					.prepareStatement("delete from cr_tbl_action_attachment_hist where File_Name='"
-							+ "" + "'");
+			if(bean.getFile_Name_ext()==""){
+			PreparedStatement ps_del1 = con.prepareStatement("delete from cr_tbl_action_attachment_hist where File_Name='"+ "" + "'");
 			ps_del1.executeUpdate();
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

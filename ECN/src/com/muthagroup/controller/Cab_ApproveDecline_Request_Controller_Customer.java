@@ -23,48 +23,30 @@ public class Cab_ApproveDecline_Request_Controller_Customer extends HttpServlet 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		try {
-
+		try { 
 			// ************************************************************************************************************************
-
-			HttpSession session = request.getSession();
-
+ 			HttpSession session = request.getSession();
 			int uid = 0;
 			int approval_type = 0;
 			String remark = null;
 			int cr_no = 0;
 			int cr_status_id = 0;
-
 			ArrayList appsellist = new ArrayList();
-
-			System.out.println("input values ======== "
-					+ request.getParameterValues("approver_selected"));
+			//System.out.println("input values ======== " + request.getParameterValues("approver_selected"));
 			if (request.getParameterValues("approver_selected") != null) {
-				System.out.println("input values ======== "
-						+ request.getParameterValues("approver_selected"));
-				String[] appSel = request
-						.getParameterValues("approver_selected");
-
+				//System.out.println("input values ======== " + request.getParameterValues("approver_selected"));
+				String[] appSel = request.getParameterValues("approver_selected");
 				for (int i = 0; i < appSel.length; i++) {
-
 					appsellist.add(appSel[i]);
 				}
-
-				System.out.println("Approvers Selected ==== " + appsellist);
-			}
-
+				//System.out.println("Approvers Selected ==== " + appsellist);
+			} 
 			uid = Integer.parseInt(session.getAttribute("uid").toString());
-
-			approval_type = Integer.parseInt(request
-					.getParameter("approval_name"));
-
+			approval_type = Integer.parseInt(request.getParameter("approval_name"));
 			remark = request.getParameter("remark");
-
 			cr_no = Integer.parseInt(request.getParameter("crno"));
-
 			// Initialize input parameters ======== >>>
-			Cab_ApproveDecline_Request_Customer_Vo bean = new Cab_ApproveDecline_Request_Customer_Vo(
-					request);
+			Cab_ApproveDecline_Request_Customer_Vo bean = new Cab_ApproveDecline_Request_Customer_Vo(request);
 			Cab_ApproveDecline_Request_Customer_BO bo = new Cab_ApproveDecline_Request_Customer_BO();
 
 			bean.setApproval_type(approval_type);
@@ -72,7 +54,7 @@ public class Cab_ApproveDecline_Request_Controller_Customer extends HttpServlet 
 			bean.setCr_status_id(cr_status_id);
 			bean.setRemark(remark);
 			bean.setUid(uid);
-			System.out.println("Approval Type" + bean.getApproval_type());
+			//System.out.println("Approval Type" + bean.getApproval_type());
 			boolean flag = bo.Cab_ApproveDecline(bean, session, appsellist);
 
 			if (flag == true) {

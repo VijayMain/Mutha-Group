@@ -21,30 +21,18 @@ public class Change_Request_BO {
 		boolean flag = false;
 		try {
 
-			// ********************************************************************************************************
 			// ****************************************************************************************
-
-			System.out.println("Approvers list ===== " + app_list.size());
-
+			// System.out.println("Approvers list ===== " + app_list.size());
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			// get current date time with Date()
+			// Get current date time with Date()
 			Date date = new Date();
-			System.out.println("by date..:" + dateFormat.format(date));
-
-			java.sql.Timestamp timestamp = new java.sql.Timestamp(
-					date.getTime());
-
-			System.out.println("by TIMESTAMP..:" + timestamp);
-
-			// ****************************************************************************************
+			// System.out.println("by date..:" + dateFormat.format(date));
+			java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
 			bean.setCR_Date(timestamp);
-			System.out.println("change = " + chang_list + "app list = "
-					+ app_list + "trk list = " + trk_list);
+			//System.out.println("change = " + chang_list + "app list = " + app_list + "trk list = " + trk_list);
 			Change_Request_DAO dao = new Change_Request_DAO();
-			flag = dao.registerChange(bean, app_list, chang_list, session,
-					trk_list);
-
-			// ********************************************************************************************************
+			flag = dao.registerChange(bean, app_list, chang_list, session, trk_list);
+			// ****************************************************************************************
 
 		} catch (Exception e) {
 			e.printStackTrace();

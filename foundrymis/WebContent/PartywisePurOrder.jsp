@@ -303,7 +303,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
  	CallableStatement cs11 = con.prepareCall("{call Sel_RptPartyWsPurchOrderRegister(?,?,?,?,?,?,?)}");
 	cs11.setString(1,comp);
 	cs11.setString(2,"0");
-	cs11.setString(3,"4031,4032,4038,4039");
+	cs11.setString(3,"4031,4032");
 	cs11.setString(4,from);
 	cs11.setString(5,to);
 	cs11.setString(6,"0");

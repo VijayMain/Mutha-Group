@@ -1,23 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@page import="com.mysql.jdbc.ResultSetRow"%>
 <%@page import="java.util.ArrayList"%>
-<%
-	response.setHeader("Cache-Control", "no-cache");
-	response.setHeader("Pragma", "no-cache");
-	response.setDateHeader("Expires", -1);
-%>
+<%@page import="com.muthagroup.connectionUtility.Connection_Utility"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.ResultSet"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>ECN Home</title>
-<!--=================== Design Script ====================================-->
-<!--============================================================================-->
-<meta name="keywords"
-	content="graphite theme, free templates, website templates, CSS, HTML" />
-<meta name="description"
-	content="Graphite Theme, Contact page, free CSS template provided by templatemo.com" />
-<link href="css/templatemo_style.css" rel="stylesheet" type="text/css" />
-
+<title>ECN Internal Req</title> 
+<link href="css/templatemo_style.css" rel="stylesheet" type="text/css" /> 
 <style>
 div.scroll {
 	background-color: #F0EBF2;
@@ -26,8 +18,29 @@ div.scroll {
 	overflow: scroll;
 }
 </style>
+<style type="text/css">
+.tftable {
+	font-size: 10px;
+	color: #333333;
+	width: 100%;  
+}
 
+.tftable th {
+	font-size: 11px;
+	background-color: #388EAB; 
+	padding: 3px; 
+	color: white;
+	text-align: center;
+}
 
+.tftable tr {
+	background-color: white;
+}
+.tftable td {
+	font-size: 10px; 
+	padding: 3px; 
+}
+</style>
 <script language="javascript" type="text/javascript">
 	function clearText(field) {
 		if (field.defaultValue == field.value)
@@ -35,19 +48,10 @@ div.scroll {
 		else if (field.value == '')
 			field.value = field.defaultValue;
 	}
-</script>
-
-<link rel="stylesheet" type="text/css" href="css/ddsmoothmenu.css" />
-
+</script> 
+<link rel="stylesheet" type="text/css" href="css/ddsmoothmenu.css" /> 
 <script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/ddsmoothmenu.js">
-	/***********************************************
-	 * Smooth Navigational Menu- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
-	 * This notice MUST stay intact for legal use
-	 * Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
-	 ***********************************************/
-</script>
-
+<script type="text/javascript" src="js/ddsmoothmenu.js"></script> 
 <script type="text/javascript">
 	ddsmoothmenu.init({
 		mainmenuid : "templatemo_menu", //menu DIV id
@@ -56,75 +60,29 @@ div.scroll {
 		//customtheme: ["#1c5a80", "#18374a"],
 		contentsource : "markup" //"markup" or ["container_id", "path_to_menu_file"]
 	});
-</script>
-
-<!--////// CHOOSE ONE OF THE 3 PIROBOX STYLES  \\\\\\\-->
-<link href="css_pirobox/white/style.css" media="screen" title="shadow"
-	rel="stylesheet" type="text/css" />
-<!--<link href="css_pirobox/white/style.css" media="screen" title="white" rel="stylesheet" type="text/css" />
-<link href="css_pirobox/black/style.css" media="screen" title="black" rel="stylesheet" type="text/css" />-->
-<!--////// END  \\\\\\\-->
-
-<!--////// INCLUDE THE JS AND PIROBOX OPTION IN YOUR HEADER  \\\\\\\-->
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/piroBox.1_2.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$().piroBox({
-			my_speed : 600, //animation speed
-			bg_alpha : 0.5, //background opacity
-			radius : 4, //caption rounded corner
-			scrollImage : false, // true == image follows the page, false == image remains in the same open position
-			pirobox_next : 'piro_next', // Nav buttons -> piro_next == inside piroBox , piro_next_out == outside piroBox
-			pirobox_prev : 'piro_prev',// Nav buttons -> piro_prev == inside piroBox , piro_prev_out == outside piroBox
-			close_all : '.piro_close',// add class .piro_overlay(with comma)if you want overlay click close piroBox
-			slideShow : 'slideshow', // just delete slideshow between '' if you don't want it.
-			slideSpeed : 4
-		//slideshow duration in seconds(3 to 6 Recommended)
-		});
-	});
-</script>
-
-<script src="js/script.js"></script>
-
+</script>  
 <script type="text/javascript">
 	function ChangeColor(tableRow, highLight) {
 		if (highLight) {
 			tableRow.style.backgroundColor = '#CFCFCF';
 		} else {
-			tableRow.style.backgroundColor = '#EDEDED';
+			tableRow.style.backgroundColor = 'white';
 		}
 	}
-
-	/* function DoNav(theUrl) {
-		document.location.href = theUrl;
-		//	document.getElementById("frm1").submit();
-	} */
 </script>
-
 <script language="javascript">
 	function button1(val) {
 		var val1 = val;
-		//alert(val1);
 		document.getElementById("hid").value = val1;
 		edit.submit();
 	}
-</script>
-<!--////// END  \\\\\\\-->
+</script> 
 <!--============================================================================-->
 <!--============================================================================-->
 </head>
-
-<%@page import="com.muthagroup.connectionUtility.Connection_Utility"%>
-<%@page import="java.sql.PreparedStatement"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="java.sql.ResultSet"%>
-
 <%
-	try {
-
-		int uid = 0;
-
+	try { 
+		int uid = 0; 
 		int ap_id = 0;
 		int cr_no1 = 0;
 		ArrayList cr_list = new ArrayList();
@@ -135,9 +93,7 @@ div.scroll {
 
 		uid = Integer.parseInt(session.getAttribute("uid").toString());
 
-		PreparedStatement ps_uidappr = con
-				.prepareStatement("select * from user_tbl where U_Id="
-						+ uid);
+		PreparedStatement ps_uidappr = con.prepareStatement("select * from user_tbl where U_Id=" + uid);
 		String UName = null;
 		ArrayList id1 = new ArrayList();
 		ResultSet rs_uname = ps_uidappr.executeQuery();
@@ -150,11 +106,7 @@ div.scroll {
 
 		rs_uname.close();
 %>
-<body id="sub_page">
-	<div id="templatemo_wrapper">
-		<div id="templatemo_top"></div>
-		<!-- end of top -->
-		<!--============================================================================-->
+<body id="sub_page"> 
 		<!--========================== Menu Bar ==========================-->
 		<div id="templatemo_header1" class="ddsmoothmenu">
 			<ul>
@@ -165,151 +117,81 @@ div.scroll {
 				<li><a href="My_Approvals.jsp">My Approvals</a></li>
 				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
 				<li><a href="Reports.jsp">Reports</a></li>
-				<li><a href="logout.jsp">Log Out</a></li>
-			</ul>
-			<br style="clear: left" />
+				<li style="text-align: center;"><a href="logout.jsp">Log Out <b style="font-size: 9px;">( <%=user_name%> )</b></a></li>
+			</ul> 
 		</div>
-		<!--============================================================================-->
-		<!--============================================================================-->
-		
-		<!-- end of templatemo_menu -->
-		<div id="templatemo_menu">
-			<div id="site_title">
-				<h1 style="color: orange;">ECN</h1>
-			</div>
-		</div>
-
-		<!-- end of header -->
-
-		<div id="templatemo_main">
-			<table>
-				<tr>
-
-					<td colspan="1"><h4 style="color: white; margin-bottom: 12px;"><%=user_name%>
-							Home
-						</h4></td>
-				</tr>
-			</table>
-
-			<div class="col_w630 float_l">
-				<div id="contact_form">
-
-					<div id="templatemo_header" class="ddsmoothmenu">
-
-						<ul>
-
-							<li style="background-color: #B3A6AA;"><a
-								href="Cab_Home.jsp">Home Internal</a></li>
-							<li style="background-color: #B3A6AA;"><a
-								href="Cab_Home_Customer.jsp">Home Customer</a></li>
+		<!--============================================================================--> 
+					<div id="templatemo_header" class="ddsmoothmenu" style="width: 100%"> 
+						<ul> 
+							<li  style="background-color: #1c6f8a;color: white;"><a href="Cab_Home.jsp"><b>Internal Approvals</b></a></li>
+							<li style="background-color: #B3A6AA;"><a href="Cab_Home_Customer.jsp">Customer Approvals</a></li>
 						</ul>
-					</div>
-
+					</div> 
 					<%
 						ResultSet rs_uidappr = ps_uidappr.executeQuery();
 							while (rs_uidappr.next()) {
 								UName = rs_uidappr.getString("U_Name");
-								PreparedStatement ps_id = con
-										.prepareStatement("select * from user_tbl where U_Name='"
-												+ UName + "'");
+								PreparedStatement ps_id = con.prepareStatement("select * from user_tbl where U_Name='" + UName + "'");
 								ResultSet rs_id = ps_id.executeQuery();
 								while (rs_id.next()) {
 									id1.add(rs_id.getInt("U_Id"));
 								}
 							}
-							System.out.println("U_Id Testing........." + id1);
-
 							for (int s = 0; s < id1.size(); s++) {
-								PreparedStatement ps_ap_id = con
-										.prepareStatement("select cr_no from cr_tbl_approval where u_id="
+								PreparedStatement ps_ap_id = con.prepareStatement("select cr_no from cr_tbl_approval where u_id="
 												+ Integer.parseInt(id1.get(s).toString())
 												+ " and Approval_id=2");
-
 								ResultSet rs_ap_id = ps_ap_id.executeQuery();
-								System.out.println("List Cr_No ===== "
-										+ Integer.parseInt(id1.get(s).toString()));
 								while (rs_ap_id.next()) {
-
-									System.out.print("CR No..." + rs_ap_id.getInt("CR_No"));
 									approval_list.add(rs_ap_id.getInt("CR_No"));
-
 								}
 							}
-							System.out.println("List Cr_No = " + approval_list);
 					%>
-					<!-- <form method="post" name="contact" action="Edit_Request.jsp"> -->
-					<form method="post" name="edit"
-						action="Cab_ApproveDecline_Request.jsp" id="edit">
-						<table width="1100px">
-							<thead style="color: #FAF7F2; background-color: #2B2A29;">
-								<tr>
-									<td align="center" width="50px">CR NO</td>
-									<td align="center" width="50px">Supplier Name</td>
-									<td align="center" width="230px">Item Name</td>
-									<td align="center" width="110px">Category</td>
-									<td align="center" width="110px">Change Request Date</td>
-									<td align="center" width="110px">Proposed Impl. Date</td>
-									<td align="center" width="110px">Actual Impl. Date</td>
-									<td align="center" width="110px">Requested By</td>
-									<td align="center" width="110px">Approval Status</td>
-									<!-- 	<td align="center" width="110px">Action</td> -->
-								</tr>
-							</thead>
-						</table>
-
-						<div class="scroll">
-
-
-							<table width="1100">
-
-
-								<tbody>
-
-
+					<div style="height: 550px;width: 100%;overflow: scroll;"> 
+					<form method="post" name="edit" action="Cab_ApproveDecline_Request.jsp" id="edit">
+					<table style="width: 100%;" class="tftable">  
+					<tr style="height: 27px;">
+									<th align="center">CR NO</th>
+									<th align="center">Supplier Name</th>
+									<th align="center">Item Name</th>
+									<th align="center">Category</th>
+									<th align="center">Change Request Date</th>
+									<th align="center">Proposed Impl. Date</th>
+									<th align="center">Actual Impl. Date</th>
+									<th align="center">Requested By</th>
+									<th align="center">Approval Status</th>
+									<!-- 	<th align="center">Action</th> -->
+					</tr>
 									<%
 										for (int f = 0; f < approval_list.size(); f++) {
-
-												PreparedStatement ps_CR_Details = con
-														.prepareStatement("select * from CR_tbl where CR_No="
-																+ Integer.parseInt(approval_list.get(f)
-																		.toString()) + " order by CR_date");
-
+												PreparedStatement ps_CR_Details = con.prepareStatement("select * from CR_tbl where CR_No=" + Integer.parseInt(approval_list.get(f).toString()) + " order by CR_date");
 												ResultSet rs_CR_Details = ps_CR_Details.executeQuery();
 												int cr_no = 0;
 												while (rs_CR_Details.next()) {
 													cr_no = rs_CR_Details.getInt("CR_No");
 									%>
-									<tr onmouseover="ChangeColor(this, true);"
-										onmouseout="ChangeColor(this, false);"
-										onclick="button1('<%=cr_no%>');">
-										<td align="center" width="50px"><%=cr_no%></td>
+									<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" style="cursor: pointer;" onclick="button1('<%=cr_no%>');">
+										<td align="right" width="50px"><%=cr_no%></td>
 										<%
-											PreparedStatement ps_company = con
-																.prepareStatement("select Company_Name from User_tbl_Company where Company_Id="
-																		+ rs_CR_Details.getInt("Company_Id"));
+											PreparedStatement ps_company = con.prepareStatement("select Company_Name from User_tbl_Company where Company_Id=" + rs_CR_Details.getInt("Company_Id"));
 														ResultSet rs_company = ps_company.executeQuery();
 														while (rs_company.next()) {
 										%>
-										<td align="center" width="50px"><%=rs_company.getString("Company_Name")%></td>
+										<td align="left"><%=rs_company.getString("Company_Name")%></td>
 										<%
 											}
-														PreparedStatement ps_item = con
-																.prepareStatement("select Item_Name from customer_tbl_item where Item_Id="
-																		+ rs_CR_Details.getInt("Item_Id"));
+														PreparedStatement ps_item = con.prepareStatement("select Item_Name from customer_tbl_item where Item_Id=" + rs_CR_Details.getInt("Item_Id"));
 														ResultSet rs_item = ps_item.executeQuery();
 														while (rs_item.next()) {
 										%>
-										<td align="center" width="230px"><%=rs_item.getString("Item_Name")%></td>
-										<td align="center" width="110px"><select
-											class="required input_field" style="width: 70px">
+										<td align="left"><%=rs_item.getString("Item_Name")%></td>
+										<%
+											}
+										%>
+										<td align="left">
 												<%
-													}
-																PreparedStatement ps_category_id = con
-																		.prepareStatement("select CR_Category_Id from CR_category_relation_tbl where CR_No="
-																				+ cr_no);
-																ResultSet rs_category_id = ps_category_id
-																		.executeQuery();
-
+																PreparedStatement ps_category_id = con.prepareStatement("select CR_Category_Id from CR_category_relation_tbl where CR_No=" + cr_no);
+																ResultSet rs_category_id = ps_category_id.executeQuery(); 
 																ArrayList cat_id = new ArrayList();
 
 																while (rs_category_id.next()) {
@@ -324,38 +206,31 @@ div.scroll {
 																	ResultSet rs_category = ps_category.executeQuery();
 																	while (rs_category.next()) {
 												%>
-												<option value="<%=rs_category.getInt("CR_Category_Id")%>"><%=rs_category.getString("CR_Category")%></option>
+												<span><%=rs_category.getString("CR_Category")%></span> 
 												<%
 													}
 																}
 												%>
-										</select></td>
-										<td align="center" width="110px"><%=rs_CR_Details.getString("CR_Date")%></td>
-										<td align="center" width="110px"><%=rs_CR_Details.getString("Proposed_Impl_Date")%></td>
-
+										</td>
+										<td align="left"><%=rs_CR_Details.getString("CR_Date")%></td>
+										<td align="left"><%=rs_CR_Details.getString("Proposed_Impl_Date")%></td>
 										<%
-											if (rs_CR_Details.getString("Actual_Impl_Date").equals(
-																"0002-11-30 00:00:00.0")) {
+											if (rs_CR_Details.getString("Actual_Impl_Date").equals("0002-11-30 00:00:00.0")) {
 										%>
-										<td align="center" width="110px">0000-00-00 00:00:00.0</td>
+										<td align="left"></td>
 										<%
 											} else {
 										%>
-										<td align="center" width="110px"><%=rs_CR_Details
-									.getString("Actual_Impl_Date")%></td>
+										<td align="left"><%=rs_CR_Details.getString("Actual_Impl_Date")%></td>
 										<%
-											}
-
-														PreparedStatement ps_U_Name = con
-																.prepareStatement("select U_Name from User_Tbl where U_Id="
+											} 
+														PreparedStatement ps_U_Name = con.prepareStatement("select U_Name from User_Tbl where U_Id="
 																		+ rs_CR_Details.getString("U_Id"));
 
 														ResultSet rs_U_Name = ps_U_Name.executeQuery();
 														while (rs_U_Name.next()) {
-										%>
-
-
-										<td align="center" width="110px"><%=rs_U_Name.getString("U_Name")%></td>
+										%> 
+										<td align="left"><%=rs_U_Name.getString("U_Name")%></td>
 
 
 										<%
@@ -363,10 +238,8 @@ div.scroll {
 
 														ArrayList appr_list = new ArrayList();
 														ArrayList appr_id_list = new ArrayList();
-														PreparedStatement ps_appr_list = con
-																.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
+														PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
 																		+ cr_no);
-
 														ResultSet rs_appr_list = ps_appr_list.executeQuery();
 
 														while (rs_appr_list.next()) {
@@ -374,8 +247,7 @@ div.scroll {
 														}
 
 														for (int appr = 0; appr < appr_list.size(); appr++) {
-															PreparedStatement ps_appr = con
-																	.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No="
+															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No="
 																			+ cr_no
 																			+ " and U_Id="
 																			+ Integer.parseInt(appr_list.get(
@@ -415,23 +287,18 @@ div.scroll {
 
 														if (cnt3 > 0) {
 										%>
-										<td align="center" width="110px">Declined</td>
+										<td align="left">Declined</td>
 										<%
 											} else if (cnt1 == appr_id_list.size()) {
 										%>
-										<td align="center" width="110px">Approved</td>
+										<td align="left">Approved</td>
 										<%
 											} else {
 										%>
-										<td align="center" width="110px">Pending</td>
+										<td align="left">Pending</td>
 										<%
 											}
-										%>
-										<%-- 	<td align="center" width="110px">
-											<button onclick="button1(this.value)" name="edit_button"
-												id="edit_button" value="<%=cr_no%>">Approval</button>
-										</td> --%>
-
+										%> 
 										<input type="hidden" name="hid" id="hid">
 									</tr>
 
@@ -442,37 +309,12 @@ div.scroll {
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
-									%>
-
-								</tbody>
-							</table>
-						</div>
-
-					</form>
-
-				</div>
-
-			</div>
-
-			<div class="cleaner"></div>
-		</div>
-		<!-- end of main -->
-	</div>
-	<!-- end of wrapper -->
-
-	<div id="templatemo_footer_wrapper">
-		<div id="templatemo_footer">
-			| Copyright 2013 <a href="http://www.muthagroup.com">Muthagroup
-				Satara</a> |
-			<div class="cleaner"></div>
-		</div>
-	</div>
-
+									%> 
+							</table> 
+					</form> 
+					</div>
+			
 <!--============================================================================-->
 <!--============================================================================-->
-</body>
-<HEAD>
-<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
-	<META HTTP-EQUIV="Expires" CONTENT="-1">
-</HEAD>
+</body> 
 </html>

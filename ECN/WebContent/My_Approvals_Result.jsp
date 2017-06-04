@@ -7,14 +7,10 @@
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.PreparedStatement"%>
 <html>
-<head>
-<!--============================================================================-->
-<!--======================== Design Script ================================-->
-<!--============================================================================-->
+<head> 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>My Approvals Results</title>
 <link href="css/templatemo_style.css" rel="stylesheet" type="text/css" />
-
 <script type="text/javascript">
 	function showState(str) {
 		var xmlhttp;

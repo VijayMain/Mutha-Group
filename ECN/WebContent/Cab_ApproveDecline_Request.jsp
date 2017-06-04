@@ -10,11 +10,33 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>ECN Approve Request</title>
-<!--============================================================================-->
+<title>ECN Approve Req</title>
 <!--============================================================================-->
 <link href="css/templatemo_style.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.tftable {
+	font-size: 11px;
+	color: #333333;
+	width: 100%;  
+}
 
+.tftable th {
+	font-size: 11px;
+	background-color: #388EAB; 
+	padding: 3px; 
+	color: white;
+	text-align: center;
+}
+
+.tftable tr {
+	background-color: white;
+	font-size: 11px;
+}
+.tftable td {
+	font-size: 11px; 
+	padding: 3px; 
+}
+</style>
 <script language="javascript" type="text/javascript">
 	function clearText(field) {
 		if (field.defaultValue == field.value)
@@ -77,15 +99,8 @@
 		contentsource : "markup" //"markup" or ["container_id", "path_to_menu_file"]
 	});
 </script>
-
-<!--////// CHOOSE ONE OF THE 3 PIROBOX STYLES  \\\\\\\-->
-<link href="css_pirobox/white/style.css" media="screen" title="shadow"
-	rel="stylesheet" type="text/css" />
-<!--<link href="css_pirobox/white/style.css" media="screen" title="white" rel="stylesheet" type="text/css" />
-<link href="css_pirobox/black/style.css" media="screen" title="black" rel="stylesheet" type="text/css" />-->
-<!--////// END  \\\\\\\-->
-
-<!--////// INCLUDE THE JS AND PIROBOX OPTION IN YOUR HEADER  \\\\\\\-->
+ 
+<link href="css_pirobox/white/style.css" media="screen" title="shadow" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/piroBox.1_2.js"></script>
 <script type="text/javascript">
@@ -103,8 +118,7 @@
 		//slideshow duration in seconds(3 to 6 Recommended)
 		});
 	});
-</script>
-<!--////// END  \\\\\\\-->
+</script> 
 <script type="text/javascript">
 	function ClearList(OptionList, TitleName) {
 		OptionList.length = 0;
@@ -244,14 +258,20 @@
 <!--============================================================================-->
 </head>
 <body id="sub_page">
-
-
-	<div id="templatemo_wrapper1">
-		<div id="templatemo_top"></div>
-		<!-- end of top -->
-
+<%
+try { 
+	String user_name = ""; 
+	int uid = Integer.parseInt(session.getAttribute("uid").toString());
+	Connection con = Connection_Utility.getConnection();
+	PreparedStatement ps_uidappr = con.prepareStatement("select * from user_tbl where U_Id=" + uid); 
+	ResultSet rs_uname = ps_uidappr.executeQuery(); 
+	while (rs_uname.next()) {
+		user_name = rs_uname.getString("u_name");
+	} 
+	rs_uname.close();
+%>
 <!--======================= Menu Bar ====================================-->
-<!--============================================================================-->
+<!--====================================================================-->
 		<div id="templatemo_header" class="ddsmoothmenu">
 			<ul>
 				<li><a href="Cab_Home.jsp">Home</a></li>
@@ -261,42 +281,25 @@
 				<li><a href="My_Approvals.jsp">My Approvals</a></li>
 				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
 				<li><a href="Reports.jsp">Reports</a></li>
-				<li><a href="logout.jsp">Log Out</a></li>
-			</ul>
-			<br style="clear: left" />
+				<li><a href="logout.jsp">Log Out <b style="font-size: 9px;">( <%=user_name%> )</b></a></li>
+			</ul> 
 		</div>
 		<!--============================================================================-->
-		<!--============================================================================-->
-		<!-- end of templatemo_menu -->
-		<div id="templatemo_menu">
-			<div id="site_title">
-				<h1 style="color: orange;">ECN</h1>
-			</div>
-		</div>
-
-		<!-- end of header -->
-
-		<div id="templatemo_main">
-			<h1 style="color: white;">Approve Request</h1>
-			<div class="col_w630 float_l">
-
-				<div id="contact_form">
-					<form method="post" action="Cab_ApproveDecline_Request_Controller"
-						onsubmit="return(validate());" name="myForm">
-						<table width="1050px" border="1" bordercolor="F70727">
-
-
-							<%
-								try {
-
-									Connection con = Connection_Utility.getConnection();
-									ArrayList name = new ArrayList();
-
+		  
+			
+			<div style="width: 100%;overflow: scroll;">
+			<!-- <h4 style="color: #1222e9">Approve/Decline Request Form</h4> -->
+					<form method="post" action="Cab_ApproveDecline_Request_Controller" onsubmit="return(validate());" name="myForm">
+						<table style="width: 100%;" class="tftable"> 
+						<tr style="background-color: #e66a0f">
+							<td colspan="10"><b style="color: white;font-size: 13px;">Internal Approve/Decline ECN Change</b></td>
+						</tr>
+							<% 
+									ArrayList name = new ArrayList(); 
 									int cr_No = 0;
 									cr_No = Integer.parseInt(request.getParameter("hid"));
 
-									PreparedStatement ps_edit = con
-											.prepareStatement("select * from CR_tbl where CR_No="
+									PreparedStatement ps_edit = con.prepareStatement("select * from CR_tbl where CR_No="
 													+ cr_No);
 
 									ResultSet rs_edit = ps_edit.executeQuery();
@@ -304,16 +307,16 @@
 									while (rs_edit.next()) {
 							%>
 							<input type="hidden" name="crno" value="<%=cr_No%>">
-							<tr>
-								<td align="center"><b>R No</b></td>
-								<td><b>R Date/Time</b></td>
-								<td><b>Supplier Name</b></td>
-								<td><b>Part Name</b></td>
-								<td><b>Category Of Change</b></td>
-								<td><b>Type Of Change</b></td>
-								<td><b>Proposed date</b></td>
-								<td><b>Actual Impl date</b></td>
-								<td><b>ComplaintNo</b></td>
+							<tr style="height: 27px;"> 
+								<th align="center"><b>R No</b></th>
+								<th><b>R Date/Time</b></th>
+								<th><b>Supplier Name</b></th>
+								<th><b>Part Name</b></th>
+								<th><b>Category Of Change</b></th>
+								<th><b>Type Of Change</b></th>
+								<th><b>Proposed date</b></th>
+								<th><b>Actual Impl date</b></th>
+								<th colspan="2"><b>ComplaintNo</b></th>
 							</tr>
 							<tr>
 								<td align="center"><label><%=cr_No%></label></td>
@@ -359,10 +362,11 @@
 																	+ rs_cat_list.getInt("CR_Category_Id"));
 													ResultSet rs_cat_name = ps_cat_name.executeQuery();
 													while (rs_cat_name.next()) {
-									%> <label><%=rs_cat_name.getString("CR_Category")%></label> <%
- 	}
- 			}
- %>
+									%> <label>-> <%=rs_cat_name.getString("CR_Category")%></label><br> 
+									<%
+ 									}
+ 											}	
+ 									%>
 
 								</td>
 								<td>
@@ -378,7 +382,7 @@
 																	+ rs_type_list.getInt("CR_Type_Id"));
 													ResultSet rs_type = ps_type.executeQuery();
 													while (rs_type.next()) {
-									%> <b>-></b><label><%=rs_type.getString("CR_Type")%></label> <%
+									%> <b>-></b><label><%=rs_type.getString("CR_Type")%></label><br> <%
  	}
  			}
  %>
@@ -389,7 +393,7 @@
 									if (rs_edit.getString("Actual_Impl_Date").equals(
 													"0002-11-30 00:00:00.0")) {
 								%>
-								<td align="center" width="110px">0000-00-00 00:00:00.0</td>
+								<td align="center" width="110px"></td>
 								<%
 									} else {
 								%>
@@ -399,40 +403,30 @@
 								<%
 									}
 								%>
-								<td><label><%=rs_edit.getString("Complaint_No")%></label></td>
+								<td colspan="2"><label><%=rs_edit.getString("Complaint_No")%></label></td>
 
-							</tr>
-						</table>
-
-						<table width="1050px" border="1" bordercolor="F70727">
-
+							</tr> 
 							<tr>
-								<td colspan="2" align="center"><b>Tracking Changes</b></td>
-								<td colspan="2" align="center"><b>Present System</b></td>
-								<td colspan="3" align="center"><b>Proposed System</b></td>
-								<td colspan="3" align="center"><b>Objective</b></td>
-
+								<th colspan="2" align="center"><b>Tracking Changes</b></th>
+								<th colspan="2" align="center"><b>Present System</b></th>
+								<th colspan="2" align="center"><b>Proposed System</b></th>
+								<th colspan="2" align="center"><b>Objective</b></th>
+								<th colspan="1" align="center"><b>Requestor </b></th>
+								<th colspan="1" align="center"><b>Attachments </b></th>
 							</tr>
 							<tr>
 
-								<td colspan="2" align="center">
+								<td colspan="2">
 									<%
-										PreparedStatement ps_tc_id = con
-														.prepareStatement("select TC_Id from cr_tc_rel_tbl where Cr_No="
-																+ cr_No);
-
-												ResultSet rs_tc_id = ps_tc_id.executeQuery();
-
-												while (rs_tc_id.next()) {
-
-													PreparedStatement ps_tc = con
-															.prepareStatement("Select * from cr_tracking_change where TC_Id="
-																	+ rs_tc_id.getInt("TC_Id"));
-
-													ResultSet rs_tc = ps_tc.executeQuery();
-
+										PreparedStatement ps_tc_id = con.prepareStatement("select TC_Id from cr_tc_rel_tbl where Cr_No="
+																+ cr_No); 
+												ResultSet rs_tc_id = ps_tc_id.executeQuery(); 
+												while (rs_tc_id.next()) { 
+													PreparedStatement ps_tc = con.prepareStatement("Select * from cr_tracking_change where TC_Id="
+																	+ rs_tc_id.getInt("TC_Id")); 
+													ResultSet rs_tc = ps_tc.executeQuery(); 
 													while (rs_tc.next()) {
-									%> <label> -><%=rs_tc.getString("TC_Type")%>
+									%> <label> -> <%=rs_tc.getString("TC_Type")%><br>
 								</label> <%
  	}
 
@@ -440,32 +434,18 @@
  %>
 								</td>
 
-								<td colspan="2" align="center"><%=rs_edit.getString("Present_System")%>
+								<td colspan="2"><%=rs_edit.getString("Present_System")%>
 
 									<div class="cleaner h10"></div></td>
 
-								<td colspan="3" align="center"><%=rs_edit.getString("Proposed_System")%>
+								<td colspan="2"><%=rs_edit.getString("Proposed_System")%>
 
 									<div class="cleaner h10"></div></td>
 
-								<td colspan="3" align="center"><%=rs_edit.getString("Objective")%>
+								<td colspan="2"><%=rs_edit.getString("Objective")%>
 									<div class="cleaner h10"></div></td>
-							</tr>
-
-							<%
-								
-							%>
-						</table>
-
-						<table width="1050px" border="1" bordercolor="F70727">
-
-
-							<tr>
-								<td colspan="1" align="center"><b>Requestor </b></td>
-								<td colspan="1" align="center"><b>Attachments </b></td>
-							</tr>
-							<tr>
-								<td colspan="1" align="center">
+							  
+								<td colspan="1">
 									<%
 										PreparedStatement ps_UName = con
 														.prepareStatement("select distinct(U_Name) from User_tbl where U_Id="
@@ -478,9 +458,8 @@
 								</label> <%
  	}
  		}
- %>
-								
-								<td colspan="1" align="center">
+ %> 							
+								<td colspan="1">
 									<%
 										/****************************************************************************************************************
 																																																																																																																																																																																																																																																																																																																																																																																	TO SELECT ATTACHMENTS RELATED TO Action NUMBER 							
@@ -493,37 +472,19 @@
 											ResultSet rs_file1 = ps_file1.executeQuery();
 											while (rs_file1.next()) {
 									%>
-									<table width="390px">
-										<tr>
-											<td width="270px" align="center"><a
-												href="Display_Attach.jsp?field=<%=rs_file1.getString("File_Name")%>"
+									<a href="Display_Attach.jsp?field=<%=rs_file1.getString("File_Name")%>"
 												style="color: #396E2F"><b> <%=rs_file1.getString("File_Name")%></b></a>
-
-												<%--<input
-												type="button" value=" Remove "
-												onclick="showState111(<%=rs_file1.getInt("Cr_Attach_Id")%>)">
-											 --%></td>
-										</tr>
-									</table> <%
- 	}
- %>
+ 									<%
+ 										}
+ 									%>
 								</td>
 
 							</tr>
-
-						</table>
-
-
-						<table width="1050px" border="1" bordercolor="F70727">
-							<tr>
-								<td align="center" colspan="3"><b>Approver Name</b>
-									<div class="cleaner h10"></div></td>
-								<td align="center" colspan="2"><b>Approve Type</b>
-									<div class="cleaner h10"></div></td>
-								<td align="center" colspan="1"><b>Approve Date</b>
-									<div class="cleaner h10"></div></td>
-								<td align="center" colspan="3"><b>Remark</b>
-									<div class="cleaner h10"></div></td>
+ 							<tr>
+								<th align="center" colspan="3"><b>Approver Name</b> </th>
+								<th align="center" colspan="2"><b>Approve Type</b></th>
+								<th align="center" colspan="2"><b>Approve Date</b></th>
+								<th align="center" colspan="3"><b>Remark</b></th>
 							</tr>
 							<%
 								PreparedStatement ps_appr_details = con
@@ -545,8 +506,7 @@
 											while (rs_U_Name.next()) {
 												name.add(rs_U_Name.getString("U_Name"));
 								%>
-								<td colspan="3" align="center"><%=rs_U_Name.getString("U_Name")%><div
-										class="cleaner h10"></div></td>
+								<td colspan="3" align="left"><%=rs_U_Name.getString("U_Name")%></td>
 								<%
 									}
 											//System.out.println("Name List ====== " + name);
@@ -559,11 +519,9 @@
 
 											while (rs_A_Name.next()) {
 								%>
-								<td colspan="2" align="center"><%=rs_A_Name.getString("Approval_Type")%><div
-										class="cleaner h10"></div></td>
+								<td colspan="2" align="left"><%=rs_A_Name.getString("Approval_Type")%></td>
 								<%
 									}
-
 											PreparedStatement ps_Remark = con
 													.prepareStatement("select Remark,CR_Approval_Date from Cr_tbl_Approval where U_Id="
 															+ rs_appr_details.getInt("U_Id")
@@ -573,32 +531,22 @@
 
 											while (rs_Remark.next()) {
 								%>
-								<td colspan="1" align="center"><%=rs_Remark.getTimestamp("CR_Approval_Date")%></td>
-								<td colspan="3" align="center"><%=rs_Remark.getString("Remark")%><div
-										class="cleaner h10"></div></td>
+								<td colspan="2" align="left"><%=rs_Remark.getTimestamp("CR_Approval_Date")%></td>
+								<td colspan="3" align="left"><%=rs_Remark.getString("Remark")%></td>
 								<%
 									}
-								%>
-
+								%> 
 							</tr>
 							<%
 								}
 							%>
-
-						</table>
-
-						<table width="1050px" border="1" bordercolor="F70727">
 							<tr>
-								<td align="center" width="10px"><b>Action No</b></td>
-								<td align="center" width="200px"><b>Action Description</b></td>
-								<td align="center" width="110px"><b>Action Date</b></td>
-								<td align="center" width="110px"><b>Proposed Output</b></td>
-								<td align="center" width="110px"><b>Actual Output</b></td>
-
-								<!-- <td align="center" width="110px"><b>Proposed Date</b></td>
-								<td align="center" width="110px"><b>Implementation Date</b></td> -->
-
-								<td align="center" width="390px"><b>Attachments</b></td>
+								<th align="center" colspan="1"><b>Action No</b></th>
+								<th align="center" colspan="2"><b>Action Description</b></th>
+								<th align="center" colspan="2"><b>Action Date</b></th>
+								<th align="center" colspan="2"><b>Proposed Output</b></th>
+								<th align="center" colspan="2"><b>Actual Output</b></th>
+								<th align="center" colspan="2"><b>Attachments</b></th>
 							</tr>
 							<%
 								PreparedStatement ps_action_no = con
@@ -612,70 +560,46 @@
 										cnt++;
 							%>
 							<tr>
-								<td align="center" width="10px"><%=cnt%></td>
-
-								<td align="left" width="250px"><textarea
-										style="width: 250px; height: 50px;"><%=rs_action_no.getString("Action_Discription")%></textarea></td>
-
-								<td align="center" width="110px"><%=rs_action_no.getString("Action_Date")%></td>
-
-								<td align="center" width="110px"><%=rs_action_no.getString("proposed_Output")%></td>
-								<td align="center" width="110px"><%=rs_action_no.getString("Actual_Output")%></td>
-
-
-								<td width="390px">
-									<%
-										/****************************************************************************************************************
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																				TO SELECT ATTACHMENTS RELATED TO Action NUMBER 							
-												 ****************************************************************************************************************/
-												PreparedStatement ps_file = null;
-
-												ps_file = con
-														.prepareStatement("select * from cr_tbl_action_attachment where CR_Action_Id="
+								<td align="center" colspan="1"><%=cnt%></td> 
+								<td align="left" colspan="2"><textarea style="width: 250px; height: 50px;"><%=rs_action_no.getString("Action_Discription")%></textarea></td>
+								<td colspan="2"><%=rs_action_no.getString("Action_Date")%></td> 
+								<td colspan="2"><%=rs_action_no.getString("proposed_Output")%></td>
+								<td colspan="2"><%=rs_action_no.getString("Actual_Output")%></td> 
+								<td colspan="2">
+									<% 
+									PreparedStatement ps_file = null;
+ 									ps_file = con.prepareStatement("select * from cr_tbl_action_attachment where CR_Action_Id="
 																+ rs_action_no.getInt("CR_Action_Id")
 																+ " and delete_Status=1");
-												ResultSet rs_file = ps_file.executeQuery();
-												while (rs_file.next()) {
+									ResultSet rs_file = ps_file.executeQuery();
+									while (rs_file.next()) {
 									%>
-									<table width="390px">
+									<table>
 										<tr>
-											<td width="270px" align="center"><a
-												href="Display.jsp?field=<%=rs_file.getString("File_Name")%>"><%=rs_file.getString("File_Name")%></a>
+											<td align="left"><a href="Display.jsp?field=<%=rs_file.getString("File_Name")%>"><%=rs_file.getString("File_Name")%></a>
 											</td>
 										</tr>
-									</table> <%
- 	}
- 		}
- %>
+									</table> 
+							<%
+ 								}
+ 							}
+ 							%>
 								</td>
-
-							</tr>
-						</table>
-
-
-
-						<table width="1050px" border="1" bordercolor="F70727">
+							</tr> 
 							<tr>
-								<td align="left" width="10px"><b>Do you want Approval
-										from (Optional) :</b></td>
-
+								<th align="left" colspan="10" style="font-size: 11px; background-color: #644970;padding: 3px;color: white; text-align: left;"><b>Do you want to add Approvee ( Optional ) :</b></th> 
 							</tr>
-
-
 							<tr>
-								<td colspan="1"><b>Approvers</b></td>
-								<td></td>
-								<td colspan="1"><b>Selected Approvers</b></td>
-							</tr>
-
-
+								<td colspan="3" style="font-size: 11px; background-color: #644970;padding: 3px;color: white; text-align: center;"><b>Approvers</b></td>
+								<td style="font-size: 11px; background-color: #644970;padding: 3px;color: white; text-align: center;"></td>
+								<td colspan="3" style="font-size: 11px; background-color: #644970;padding: 3px;color: white; text-align: center;"><b>Selected Approvers</b></td>
+							</tr> 
 							<tr>
-								<td colspan="1"><select id="approver_name"
+								<td colspan="3" align="center"><select id="approver_name"
 									name="approver_name" multiple="multiple" size="5"
 									style="width: 310px" title="Approvers"
 									onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
 									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}">
-
 										<%
 											//******************************************************************************************************************
 												ArrayList depthd = new ArrayList();
@@ -803,9 +727,8 @@
 
 												}
 
-												System.out.println("Users LIst new Logic ===== "
-														+ selectedUsers);
-												System.out.println("Users LIst new Logic ===== " + users);
+												/* System.out.println("Users LIst new Logic ===== " + selectedUsers);
+												System.out.println("Users LIst new Logic ===== " + users); */
 
 												if (users.size() != 0 && selectedUsers.size() != 0) {
 													for (int a1 = 0; a1 < selectedUsers.size(); a1++) {
@@ -820,10 +743,8 @@
 													}
 
 												}
-												System.out
-														.println("Users LIst after removing selected users ===== "
-																+ users);
-												System.out.println("users Size Updated " + users.size());
+												/* System.out.println("Users LIst after removing selected users ===== " + users);
+												System.out.println("users Size Updated " + users.size()); */
 												//******************************************************************************************************************
 												for (int aa = 0; aa < users.size(); aa++) {
 										%><option value="<%=users.get(aa).toString()%>"><%=users.get(aa).toString()%></option>
@@ -832,71 +753,35 @@
 										%>
 
 								</select></td>
-								<td style="width: 50px;" align="center"><input
-									value="&gt;&gt;" onclick="move1('right', 'rep')" type="button"><br>
-									<input value="&lt;&lt;" onclick="move1('left', 'rep')"
-									type="button"></td>
-								<td colspan="1"><select id="approver_selected"
+								<td style="width: 50px;" align="center">
+								<input value="&gt;&gt;" onclick="move1('right', 'rep')" type="button" style="font-weight: bold;"><br>
+								<input value="&lt;&lt;" onclick="move1('left', 'rep')" type="button" style="font-weight: bold;">
+								</td>
+								<td colspan="3" align="center"><select id="approver_selected"
 									name="approver_selected" multiple="multiple" size="5"
 									style="width: 310px" title="Selected Approvers"
 									onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
-									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}">
-					 
-								</select></td>
-							</tr>
-
-
-
-						</table>
-
-
-
-						<table width="1050px" border="1" bordercolor="F70727">
-
-
-							<tr>
-								<td colspan="1" align="center"><b>Do you want to add
-										Actions </b></td>
-
-							</tr>
-
-
-
-							<tr>
+									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}"> 
+								</select></td> 
+							</tr> 
+							<tr style="background-color: #388eab;"> 
+								<td colspan="10" align="left"><b style="font-size: 14px;color: white;">Provide Approval </b><a href="NewRequest_AddAction.jsp?hid=<%=cr_No%>"><b style="font-size: 12px;color: white;">( Add More Actions if any )</b></a></td>
+							</tr> 
+							<tr> 
 								<%
-									System.out.println("CR No Is == " + cr_No);
-								%>
-								<td colspan="1" align="center"><a
-									href="NewRequest_AddAction.jsp?hid=<%=cr_No%>"><b
-										style="font-size: 14px;">ADD ACTIONS</b></a></td>
-							</tr>
-
-						</table>
-
-						<table width="1050px" border="1" bordercolor="F70727">
-
-							<tr>
-
-								<%
-									int uid = 0;
 										boolean flag = false;
-										uid = Integer.parseInt(session.getAttribute("uid").toString());
-
-										int ap_id = 0;
-
-										PreparedStatement ps_check = con
-												.prepareStatement("select * from cr_tbl_approval");
+									 	int ap_id = 0;
+										PreparedStatement ps_check = con.prepareStatement("select * from cr_tbl_approval");
 										ResultSet rs_check = ps_check.executeQuery();
 										while (rs_check.next()) {
 											int cr_No1 = rs_check.getInt("CR_No");
 											int uid1 = rs_check.getInt("U_Id");
-
 											if (cr_No == cr_No1 && uid == uid1) {
 												flag = true;
 								%>
-								<td><b>Action</b></td>
-								<td><select name="approval_name">
-
+								<td><b style="font-size: 13px;">Action</b></td>
+								<td align="left" colspan="9">
+								<select name="approval_name" style="font-size: 14px;width: 200px;height: 26px;background-color: #d2e9f0"> 
 										<%
 											ap_id = rs_check.getInt("Approval_Id");
 
@@ -919,30 +804,25 @@
 																	.executeQuery();
 															while (rs_apprval_type.next()) {
 										%>
-										<option value="<%=rs_apprval_type.getInt("Approval_id")%>"><%=rs_apprval_type
-										.getString("Approval_Type")%></option>
+										<option value="<%=rs_apprval_type.getInt("Approval_id")%>"><%=rs_apprval_type.getString("Approval_Type")%></option>
 										<%
 											}
-														} else {
-															PreparedStatement ps_apprval_type = con
-																	.prepareStatement("select * from cr_tbl_approval_type where approval_id!="
-																			+ ap_id);
-															ResultSet rs_apprval_type = ps_apprval_type
-																	.executeQuery();
-															while (rs_apprval_type.next()) {
+										} else {
+												PreparedStatement ps_apprval_type = con.prepareStatement("select * from cr_tbl_approval_type where approval_id!=" + ap_id);
+												ResultSet rs_apprval_type = ps_apprval_type.executeQuery();
+												while (rs_apprval_type.next()) {
 										%>
-										<option value="<%=rs_apprval_type.getInt("Approval_id")%>"><%=rs_apprval_type
-										.getString("Approval_Type")%></option>
+										<option value="<%=rs_apprval_type.getInt("Approval_id")%>"><%=rs_apprval_type.getString("Approval_Type")%></option>
 										<%
 											}
-														}
+												}
 										%>
-								</select>
+								</select> 
 							</tr>
 							<tr>
-								<td><b>Remark</b></td>
-								<td rowspan="1" colspan="1"><textarea name="remark"><%=rs_check.getString("Remark")%></textarea>
-								</td>
+								<td><b style="font-size: 13px;">Remark</b></td>
+								<td colspan="9" align="left"><textarea name="remark" cols="30" rows="4" style="background-color: #d2e9f0"><%=rs_check.getString("Remark")%></textarea>
+								</td> 
 							</tr>
 							<%
 								}
@@ -950,15 +830,14 @@
 									if (flag == false) {
 							%>
 							<tr>
-								<td><b>Action</b></td>
-								<td><select name="approval_name">
+								<td><b style="font-size: 13px;">Action</b></td> 
+								<td align="left" colspan="9">
+								<select name="approval_name" style="font-size: 14px;width: 200px;height: 26px; background-color: #d2e9f0"> 
 										<option selected="selected" value="0">----select-----</option>
 										<%
-											PreparedStatement ps_apprval_type1 = con
-															.prepareStatement("select * from cr_tbl_approval_type");
-													ResultSet rs_apprval_type1 = ps_apprval_type1
-															.executeQuery();
-													while (rs_apprval_type1.next()) {
+											PreparedStatement ps_apprval_type1 = con.prepareStatement("select * from cr_tbl_approval_type");
+											ResultSet rs_apprval_type1 = ps_apprval_type1.executeQuery();
+											while (rs_apprval_type1.next()) {
 										%>
 										<option value="<%=rs_apprval_type1.getInt("Approval_id")%>"><%=rs_apprval_type1.getString("Approval_Type")%></option>
 										<%
@@ -967,46 +846,21 @@
 								</select></td>
 							</tr>
 							<tr>
-								<td><b>Remark</b></td>
-								<td rowspan="1" colspan="1"><textarea name="remark"
-										id="remark"></textarea></td>
-
-							</tr>
-
+								<td><b style="font-size: 13px;">Remark</b></td>
+								<td colspan="9" align="left"><textarea name="remark" cols="30" rows="4" style="background-color: #d2e9f0"><%=rs_check.getString("Remark")%></textarea></td>
+							</tr> 
 							<%
 								}
-							%>
-
-
+							%> 
 						</table>
 						<%
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 						%>
-						<input type="submit" value="Take Action"
-							style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;">
+						<input type="submit" value="Take Action" style="font-weight:bold;height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;">
 
 					</form>
-
-				</div>
-			</div>
-
-<!--============================================================================-->
-<!--============================================================================-->
-
-			<div class="cleaner"></div>
-		</div>
-		<!-- end of main -->
-	</div>
-	<!-- end of wrapper -->
-
-	<div id="templatemo_footer_wrapper">
-		<div id="templatemo_footer">
-			Copyright 2013 <a href="http://www.muthagroup.com">Muthagroup
-				Satara</a> |
-			<div class="cleaner"></div>
-		</div>
-	</div>
+				</div> 
 </body>
 </html>

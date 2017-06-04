@@ -1,22 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@page import="java.util.ArrayList"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-
+<head> 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>ECN Search Request</title>
-
-<!--============================================================================-->
-<!--================= Design Script ==================================-->
-<!--============================================================================-->
-<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
-
-<meta name="keywords"
-	content="graphite theme, free templates, website templates, CSS, HTML" />
-<meta name="description"
-	content="Graphite Theme, Contact page, free CSS template provided by templatemo.com" />
-<link href="css/templatemo_style.css" rel="stylesheet" type="text/css" />
-
+<title>ECN Search Request</title> 
+<script type="text/javascript" src="jquery-1.7.1.min.js"></script> 
+<meta name="keywords" content="graphite theme, free templates, website templates, CSS, HTML" />
+<meta name="description" content="Graphite Theme, Contact page, free CSS template provided by templatemo.com" />
+<link href="css/templatemo_style.css" rel="stylesheet" type="text/css" /> 
 <script language="javascript" type="text/javascript">
 	function clearText(field) {
 		if (field.defaultValue == field.value)
@@ -24,20 +15,10 @@
 		else if (field.value == '')
 			field.value = field.defaultValue;
 	}
-</script>
-
-
-<link rel="stylesheet" type="text/css" href="css/ddsmoothmenu.css" />
-
+</script>  
+<link rel="stylesheet" type="text/css" href="css/ddsmoothmenu.css" /> 
 <script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/ddsmoothmenu.js">
-	/***********************************************
-	 * Smooth Navigational Menu- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
-	 * This notice MUST stay intact for legal use
-	 * Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
-	 ***********************************************/
-</script>
-
+<script type="text/javascript" src="js/ddsmoothmenu.js"> </script> 
 <script type="text/javascript">
 	ddsmoothmenu.init({
 		mainmenuid : "templatemo_menu", //menu DIV id
@@ -46,16 +27,8 @@
 		//customtheme: ["#1c5a80", "#18374a"],
 		contentsource : "markup" //"markup" or ["container_id", "path_to_menu_file"]
 	});
-</script>
-
-<!--////// CHOOSE ONE OF THE 3 PIROBOX STYLES  \\\\\\\-->
-<link href="css_pirobox/white/style.css" media="screen" title="shadow"
-	rel="stylesheet" type="text/css" />
-<!--<link href="css_pirobox/white/style.css" media="screen" title="white" rel="stylesheet" type="text/css" />
-<link href="css_pirobox/black/style.css" media="screen" title="black" rel="stylesheet" type="text/css" />-->
-<!--////// END  \\\\\\\-->
-
-<!--////// INCLUDE THE JS AND PIROBOX OPTION IN YOUR HEADER  \\\\\\\-->
+</script> 
+<link href="css_pirobox/white/style.css" media="screen" title="shadow" rel="stylesheet" type="text/css" /> 
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/piroBox.1_2.js"></script>
 
@@ -111,16 +84,7 @@
 		});
 	});
 </script>
-
-
-<%
-	response.setHeader("Cache-Control", "no-cache");
-	response.setHeader("Pragma", "no-cache");
-	response.setDateHeader("Expires", 0);
-%>
-
-<style type="text/css">
-<!--
+<style type="text/css"> 
 .center {
 	width: 60%;
 	margin: 20px auto 0 auto;
@@ -170,8 +134,7 @@ ul.tabs li.current {
 	display: none;
 	width: 100%;
 	text-align: justify;
-}
--->
+} 
 </style>
 <!--============================================================================-->
 <!--============================================================================-->

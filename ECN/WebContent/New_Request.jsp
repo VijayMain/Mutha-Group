@@ -1,114 +1,117 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.muthagroup.connectionUtility.Connection_Utility"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.util.*"%>
 <%@page import="java.sql.PreparedStatement"%>
-
-<%
-	response.setHeader("Cache-Control", "no-cache");
-	response.setHeader("Pragma", "no-cache");
-	response.setDateHeader("Expires", -1);
-%>
 <html>
-<head>
-
-<!--============================================================================-->
-<!--======================== Design Script ================================-->
-<!--============================================================================-->
+<head> 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>ECN New Request</title>
-
 <script type="text/javascript" src="tabledeleterow.js"></script>
-
-
-<script language="javascript" type="text/javascript"
-	src="datetimepicker.js"></script>
+<script type="text/javascript">
+function validatenumerics(key) {
+//getting key code of pressed key
+var keycode = (key.which) ? key.which : key.keyCode;
+//comparing pressed keycodes
+ 
+if (keycode > 31 && (keycode < 48 || keycode > 57) && keycode != 46) {
+    alert("Only allow numeric Data entry");
+    return false;
+}else 
+{
+	return true;
+};
+}
+</script>
 <script type="text/javascript">
 	function SendRequest() {
+//		alert("loop 1");
 		var current = document.getElementById("valReq");
-		current.value = 1;
+		current.value = 1; 
 	}
 	function Action() {
+	//	alert("loop 2");
 		var current = document.getElementById("valReq");
 		current.value = 2;
 	}
+	function validateForm() {
+//		var rel_to = document.getElementById("rel_to");
+		var supplier  = document.getElementById("supplier");
+		var item_name  = document.getElementById("item_name"); 
+		var quality   = document.getElementById("quality");
+		var cost   = document.getElementById("cost");
+		var Dimensional   = document.getElementById("Dimensional");
+		var delivery    = document.getElementById("delivery");
+		var material    = document.getElementById("material");
+		var safety    = document.getElementById("safety"); 
+		var change_selected     = document.getElementById("change_selected"); 
+		var Present    = document.getElementById("Present");
+		var Proposed   = document.getElementById("Proposed");
+		var Objective    = document.getElementById("Objective");
+		var tracking_selected   = document.getElementById("tracking_selected"); 
+		
+			if (supplier.value=="0" || supplier.value==null || supplier.value=="" || supplier.value=="null") {
+				alert("Company Name ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			} 
+			if (item_name.value=="0" || item_name.value==null || item_name.value=="" || item_name.value=="null") {
+				alert("Part Name ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			} 
+			if (quality.checked == false && cost.checked == false &&  Dimensional.checked ==false &&  delivery.checked == false && material.checked == false && safety.checked == false) {
+				alert("Category Of Change ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			} 
+			if (change_selected.value=="0" || change_selected.value==null || change_selected.value=="" || change_selected.value=="null") {
+				alert("Selected Change Type ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			} 
+			if (Present.value=="0" || Present.value==null || Present.value=="" || Present.value=="null") {
+				alert("Present System ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			} 
+			if (Proposed.value=="0" || Proposed.value==null || Proposed.value=="" || Proposed.value=="null") {
+				alert("Proposed System ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			} 
+			if (Objective.value=="0" || Objective.value==null || Objective.value=="" || Objective.value=="null") {
+				alert("Objective ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			} 
+			if (tracking_selected.value=="0" || tracking_selected.value==null || tracking_selected.value=="" || tracking_selected.value=="null") {
+				alert("Selected Tracking Change ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}  
+			
+			
+			document.getElementById("NewRequest").disabled = true;
+			document.getElementById("NewAction").disabled = true;
+			return true;
+		} 
+	
 </script>
-
-<!--============================================================================-->
-<!--========================= Validation ==================================-->
-
-<script type="text/javascript">
-<!--
-	// Form validation code will come here.
-	function validate() {
-
-		if (document.myForm.item_name.value == "") {
-			alert("Please provide Supplier Name and Part Name!");
-			document.myForm.item_name.focus();
-			return false;
-		}
-
-		if (document.myForm.change_selected.value == "") {
-			alert("Please provide Change Type!");
-			document.myForm.change_selected.focus();
-			return false;
-		}
-
-		if (document.myForm.Present.value == "") {
-			alert("Please provide Present System!");
-			document.myForm.Present.focus();
-			return false;
-		}
-		if (document.myForm.Proposed.value == "") {
-			alert("Please provide Proposed System!");
-			document.myForm.Proposed.focus();
-			return false;
-		}
-		if (document.myForm.Objective.value == "") {
-			alert("Please provide Objective!");
-			document.myForm.Objective.focus();
-			return false;
-		}
-		if (document.myForm.proposeddate.value == "") {
-			alert("Please provide Proposed date!");
-			document.myForm.proposeddate.focus();
-			return false;
-		}
-		/* if (document.myForm.actualimpldate.value == "") {
-			alert("Please provide Actual Implementation date!");
-			document.myForm.actualimpldate.focus();
-			return false;
-		} */
-		if (document.myForm.approver_selected.value == "") {
-			alert("Please provide Selected Approvers!");
-			document.myForm.approver_selected.focus();
-			return false;
-		}
-		if (document.myForm.quality.checked == false
-				&& document.myForm.cost.checked == false
-				&& document.myForm.delivery.checked == false
-				&& document.myForm.material.checked == false
-				&& document.myForm.safety.checked == false
-				&& document.myForm.Dimensional.checked == false) {
-			alert("Please provide Category Of Change");
-			document.myForm.quality.focus();
-			return false;
-		}
-
-		return (true);
-	}
-//-->
-</script>
-<!--============================================================================-->
-<!--============================================================================-->
-
 <link href="css/templatemo_style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="tabledeleterow.js"></script>
+<!-- <script type="text/javascript" src="tabledeleterow.js"></script> -->
 <script language="javascript" type="text/javascript">
 	function clearText(field) {
 		if (field.defaultValue == field.value)
@@ -139,34 +142,60 @@
 		xmlhttp.send();
 	};
 </script>
-
 <link rel="stylesheet" type="text/css" href="css/ddsmoothmenu.css" />
 
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/ddsmoothmenu.js">
-	
-</script>
+<script type="text/javascript" src="js/ddsmoothmenu.js"> </script>
+<link rel="stylesheet" href="js/jquery-ui.css" />
+<script src="js/jquery-1.9.1.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script type="text/javascript">
+$(document).ready(
+		  function () {
+		    $( "#proposeddate" ).datepicker({
+		      changeMonth: true,
+		      changeYear: true 
+		    });
+		    $( "#actualimpldate" ).datepicker({
+			      changeMonth: true,
+			      changeYear: true 
+			    });   
+		  } 
+		); 
 
+</script>
+<style type="text/css">
+.tftable {
+	background-color: white;
+	font-size: 12px;
+	color: #333333;
+	width: 80%;   
+}
+
+.tftable th {
+	font-size: 12px;
+	background-color: #388EAB; 
+	padding: 4px; 
+	color: white;
+	text-align: center;
+}
+
+.tftable tr {
+	background-color: white;
+	font-size: 12px;
+}
+.tftable td {
+	font-size: 12px; 
+	padding: 6px; 
+}
+</style>
 <script type="text/javascript">
 	ddsmoothmenu.init({
 		mainmenuid : "templatemo_menu", //menu DIV id
 		orientation : 'h', //Horizontal or vertical menu: Set to "h" or "v"
-		classname : 'ddsmoothmenu', //class added to menu's outer DIV
-		//customtheme: ["#1c5a80", "#18374a"],
+		classname : 'ddsmoothmenu', //class added to menu's outer DIV 
 		contentsource : "markup" //"markup" or ["container_id", "path_to_menu_file"]
 	});
 </script>
-
-<!--////// CHOOSE ONE OF THE 3 PIROBOX STYLES  \\\\\\\-->
-<link href="css_pirobox/white/style.css" media="screen" title="shadow"
-	rel="stylesheet" type="text/css" />
-<!--<link href="css_pirobox/white/style.css" media="screen" title="white" rel="stylesheet" type="text/css" />
-<link href="css_pirobox/black/style.css" media="screen" title="black" rel="stylesheet" type="text/css" />-->
-<!--////// END  \\\\\\\-->
-
-<!--////// INCLUDE THE JS AND PIROBOX OPTION IN YOUR HEADER  \\\\\\\-->
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/piroBox.1_2.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$().piroBox({
@@ -182,21 +211,17 @@
 		//slideshow duration in seconds(3 to 6 Recommended)
 		});
 	});
-</script>
-<!--////// END  \\\\\\\-->
+</script> 
 <script type="text/javascript">
 	function ClearList2(OptionList, TitleName) {
 		OptionList.length = 0;
-	}
-
+	} 
 	function movedata(side, form_name) {
 		var temp1 = new Array();
 		var temp2 = new Array();
 		var current1 = 0;
 		var current2 = 0;
-		var attribute;
-
-		//assign what select attribute treat as attribute1 and attribute2
+		var attribute; 
 		if (side == "right") {
 			attribute1 = document.getElementById('tracking_change');
 			attribute2 = document.getElementById('tracking_selected');
@@ -352,27 +377,12 @@
 			}
 		}
 	}
-</script>
-
+</script> 
 <link href="jquery-ui-1.8.18.custom.css" rel="stylesheet" />
-<script src="js/jquery-1.7.2.min.js">
-	
-</script>
-<script src="js/jquery-ui-1.8.18.custom.min.js">
-	
-</script>
-<!--============================================================================-->
-<!--============================================================================-->
-
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/jquery-ui-1.8.18.custom.min.js"></script>
 </head>
-<body id="sub_page">
-	<div id="templatemo_wrapper">
-		<div id="templatemo_top"></div>
-		<!-- end of top -->
-
-<!--============================================================================-->
-<!--====================== Menu Bar ===============================-->
-<!--============================================================================-->
+<body id="sub_page" style="background-color: white;">
 		<div id="templatemo_header" class="ddsmoothmenu">
 			<ul>
 				<li><a href="Cab_Home.jsp">Home</a></li>
@@ -383,76 +393,48 @@
 				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
 				<li><a href="Reports.jsp">Reports</a></li>
 				<li><a href="logout.jsp">Log Out</a></li>
-			</ul>
-			<br style="clear: left" />
+			</ul> 
 		</div>
-		<!-- end of templatemo_menu -->
-		
-		<!--============================================================================-->
-		<!--============================================================================-->
-		
-		<div id="templatemo_menu">
-			<div id="site_title">
-				<h1 style="color: orange;">ECN</h1>
-			</div>
-		</div>
-
-		<!-- end of header -->
-
-		<div id="templatemo_main">
-			<h4 style="color: white;">Change Request Internal</h4>
-			<div class="col_w630 float_l">
-				<div id="contact_form">
-
-
-					<div id="templatemo_header" class="ddsmoothmenu">
-
-						<ul>
-
-							<li style="background-color: #B3A6AA;"><a
-								href="New_Request.jsp">Change Request Internal</a></li>
-							<li style="background-color: #B3A6AA;"><a
-								href="NewRequestCustomer.jsp">Change Request Customer</a></li>
+ 					<div id="templatemo_header" class="ddsmoothmenu" style="width: 100%">
+ 						<ul>
+ 							<li style="background-color: #1c6f8a;color: white;"><a href="New_Request.jsp"><b>Change Request Internal</b></a></li>
+							<li style="background-color: #B3A6AA;"><a href="NewRequestCustomer.jsp">Change Request Customer</a></li>
 						</ul>
-
 					</div>
-
-					<form name="myForm" method="post"
-						action="Change_Request_Controller" enctype="multipart/form-data"
-						onsubmit="return(validate());">
-						<table>
+				<div style="height: 550px;width: 100%;">				
+					<form name="myForm" method="post" action="Change_Request_Controller" enctype="multipart/form-data" onSubmit="return validateForm();">
+						<table style="width: 100%;" class="tftable">
 							<tr>
 								<%
 									try {
-
+										Calendar first_Datecal = Calendar.getInstance();   
+										first_Datecal.set(Calendar.DAY_OF_MONTH, 1);  
+										Date dddd = first_Datecal.getTime();  
+										SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyy-MM-dd");  
 										Connection con = Connection_Utility.getConnection();
-
-										PreparedStatement ps_crno = con
-												.prepareStatement("select Max(CR_No) from cr_tbl");
+										PreparedStatement ps_crno = con.prepareStatement("select Max(CR_No) from cr_tbl");
 										ResultSet rs_crno = ps_crno.executeQuery();
 										int cr_No = 0;
 										while (rs_crno.next()) {
 											cr_No = rs_crno.getInt("Max(CR_No)") + 1;
 										}
 								%>
-								<td colspan="1"><b>Request Number</b> <input type="text"
-									id="author" name="author" value="<%=cr_No%>"
-									disabled="disabled" class="required input_field" /> <input
-									type="hidden" name="crno" value="<%=cr_No%>" />
-									<div class="cleaner h10"></div></td>
-
+								<td colspan="1"><b>Request Number :</b></td>
+								<td colspan="5"> 
+								<input type="text" id="author" name="author" value="<%=cr_No%>" disabled="disabled" class="required input_field" style="background-color: #dcf1f8;font-weight: bold;"/> 
+								<input type="hidden" name="crno" value="<%=cr_No%>" /> 
+								</td>
 							</tr>
-							<tr>
-								<td colspan="1"><b>Company Name</b> <Select id="supplier"
+							 <tr> 
+							 <td colspan="1"><b>Company Name :</b></td>
+								<td colspan="5"> 
+								<Select id="supplier" style="height: 27px; width: 300px;  text-align: center;background-color: #dcf1f8"
 									name="supplier" class="required input_field"
-									title="Supplier Name"
-									onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
-									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}"
+									title="Supplier Name" 
 									onchange="showState(this.value)">
-										<option value="<%=0%>">----Select----</option>
+										<option value="0">----Select----</option>
 										<%
-											PreparedStatement ps = con
-														.prepareStatement("select * from user_tbl_company where Company_Id!=6 order by company_name");
+											PreparedStatement ps = con.prepareStatement("select * from user_tbl_company where Company_Id!=6 order by company_name");
 												ResultSet rs = ps.executeQuery();
 												while (rs.next()) {
 										%>
@@ -461,121 +443,103 @@
 											}
 										%>
 								</Select>
-									<div class="cleaner h10"></div></td>
-								<td colspan="1"><b>Part Name</b>
-									<div id="item">
-										<Select id="item_name" class="required input_field"
-											name="item_name" title="Part Name"
-											onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
-											onfocus="if (this.innerHTML == '') {this.innerHTML = '';}">
+								</td>
+								</tr>
+								<tr>
+								<td colspan="1"><b>Part Name : </b></td>
+								<td colspan="5"> 								
+								<div id="item">
+										<Select id="item_name" name="item_name" class="required input_field" style="background-color: #dcf1f8;height: 27px;width: 300px;" title="Part Name">
 											<option value="0">----Select----</option>
 										</select>
-									</div>
-									<div class="cleaner h10"></div></td>
+								</div>
+								</td>
 							</tr>
-
-
+							
+							
 							<tr>
-								<td><b>Category Of Change</b></td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" value="2" name="quality"
-									id="quality">Quality</td>
-								<td><input type="checkbox" value="1" name="cost" id="cost">Cost</td>
-								<td><input type="checkbox" value="6" name="Dimensional"
-									id="Dimensional">Dimensional</td>
+								<td colspan="6"><b>Category Of Change :</b></td>
 							</tr>
 							<tr>
-								<td><input type="checkbox" value="3" name="delivery"
-									id="delivery">Delivery</td>
-								<td><input type="checkbox" value="4" name="material"
-									id="material">Material</td>
-
-								<td colspan="2"><input type="checkbox" value="5"
-									name="safety" id="safety">Safety</td>
-
-
+								<td colspan="6"><input type="checkbox" value="2" name="quality" id="quality" style="background-color: #dcf1f8">Quality &nbsp;&nbsp;
+								<input type="checkbox" value="1" name="cost" id="cost" style="background-color: #dcf1f8">Cost &nbsp;&nbsp;
+								<input type="checkbox" value="6" name="Dimensional" id="Dimensional" style="background-color: #dcf1f8">Dimensional &nbsp;&nbsp; 
+								<input type="checkbox" value="3" name="delivery" id="delivery" style="background-color: #dcf1f8">Delivery &nbsp;&nbsp;
+								<input type="checkbox" value="4" name="material" id="material" style="background-color: #dcf1f8">Material &nbsp;&nbsp;
+								<input type="checkbox" value="5" name="safety" id="safety" style="background-color: #dcf1f8">Safety</td>
 							</tr>
-
-
-							<tr></tr>
+							
+							
+							
 							<tr>
-								<td colspan="1"><b>Change Type</b></td>
-								<td></td>
-								<td colspan="1"><b>Selected Change Type</b></td>
+								<td colspan="2"><b>Change Type</b></td>
+								<td colspan="2" align="center"><b><= Select =></b></td>
+								<td colspan="2"><b>Selected Change Type</b></td>
 							</tr>
 							<tr>
-								<td colspan="1" align="left"><select id="change_name"
-									name="change_name" multiple="multiple" size="5"
-									style="width: 310px" title="Change Type"
+								<td colspan="2" align="left"><select id="change_name"
+									name="change_name" multiple="multiple" size="6"
+									style="width: 330px;background-color: #dcf1f8" title="Change Type;"
 									onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
-									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}">
-
+									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}"> 
 										<%
-											PreparedStatement ps_ct = con
-														.prepareStatement("select * from cr_tbl_type order by cr_type");
+											PreparedStatement ps_ct = con.prepareStatement("select * from cr_tbl_type order by cr_type");
 												ResultSet rs_ct = ps_ct.executeQuery();
 												while (rs_ct.next()) {
-										%>
-
+										%> 
 										<option value="<%=rs_ct.getString("CR_Type")%>"><%=rs_ct.getString("CR_Type")%></option>
 										<%
 											}
-										%>
-
+										%> 
 								</select></td>
-								<td style="width: 50px;" align="center" align="center"><input
-									value="&gt;&gt;" onclick="move('right', 'rep')" type="button"><br>
+								<td  colspan="2" style="width: 50px;" align="center"><input value="&gt;&gt;" onclick="move('right', 'rep')" type="button"><br>
 									<input value="&lt;&lt;" onclick="move('left', 'rep')"
 									type="button"></td>
-								<td colspan="1" align="right"><select id="change_selected"
-									name="change_selected" multiple="multiple" size="5"
-									style="width: 310px" title="Selected Change Type"
+								<td colspan="2" align="left"><select id="change_selected"
+									name="change_selected" multiple="multiple" size="6"
+									style="width: 330px;background-color: #dcf1f8" title="Selected Change Type"
 									onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
 									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}"></select></td>
 							</tr>
+							
+							
+							
 							<tr>
-								<td><b>Present System</b></td>
-								<td><b>Proposed System</b></td>
-								<td><b>Objective</b></td>
+								<td colspan="2"><b>Present System</b></td>
+								<td colspan="2"><b>Proposed System</b></td>
+								<td colspan="2"><b>Objective</b></td>
 							</tr>
 
 
 
 
 							<tr>
-								<td><textarea class="validate-subject required input_field"
-										name="Present" id="Present" style="height: 75px"
+								<td colspan="2"><textarea class="validate-subject required input_field" 
+										name="Present" id="Present" style="height: 75px;width: 330px;background-color: #dcf1f8"
 										title="Present System"
 										onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
-										onfocus="if (this.innerHTML == '') {this.innerHTML = '';}"></textarea>
-									<div class="cleaner h10"></div></td>
-								<td><textarea class="validate-subject required input_field"
-										name="Proposed" id="Proposed" style="height: 75px"
+										onfocus="if (this.innerHTML == '') {this.innerHTML = '';}"></textarea> </td>
+								<td colspan="2"><textarea class="validate-subject required input_field"
+										name="Proposed" id="Proposed" style="height: 75px;width: 330px;background-color: #dcf1f8"
 										title="Proposed System"
 										onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
-										onfocus="if (this.innerHTML == '') {this.innerHTML = '';}"></textarea>
-									<div class="cleaner h10"></div></td>
-								<td><textarea class="validate-subject required input_field"
-										name="Objective" id="Objective" style="height: 75px"
+										onfocus="if (this.innerHTML == '') {this.innerHTML = '';}"></textarea> </td>
+								<td colspan="2"><textarea class="validate-subject required input_field"
+										name="Objective" id="Objective" style="height: 75px;width: 330px;background-color: #dcf1f8"
 										title="Objective"
 										onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
-										onfocus="if (this.innerHTML == '') {this.innerHTML = '';}"></textarea>
-									<div class="cleaner h10"></div></td>
+										onfocus="if (this.innerHTML == '') {this.innerHTML = '';}"></textarea> </td>
 							</tr>
 
-							<tr>
-								<!-- ****************************************************************************************************************** -->
-							<tr>
-
-								<td colspan="1"><b>Tracking Change</b></td>
-								<td></td>
-								<td colspan="1"><b>Selected Tracking Change</b></td>
+						 <tr> 
+								<td colspan="2"><b>Tracking Change</b></td>
+								<td colspan="2" align="center"><b><= Select =></b></td>
+								<td colspan="2"><b>Selected Tracking Change</b></td>
 							</tr>
 							<tr>
-								<td colspan="1" align="left"><select id="tracking_change"
+								<td colspan="2" align="left"><select id="tracking_change"
 									name="tracking_change" multiple="multiple" size="5"
-									style="width: 310px" title="Tracking Change"
+									style="width: 330px;background-color: #dcf1f8" title="Tracking Change"
 									onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
 									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}">
 
@@ -592,84 +556,67 @@
 										%>
 
 								</select></td>
-								<td style="width: 50px;" align="center" align="center"><input
+								<td colspan="2" style="width: 50px;" align="center" align="center"><input
 									value="&gt;&gt;" onclick="movedata('right', 'rep')"
 									type="button"><br> <input value="&lt;&lt;"
 									onclick="movedata('left', 'rep')" type="button"></td>
-								<td colspan="1" align="right"><select
+								<td colspan="2" align="left"><select
 									id="tracking_selected" name="tracking_selected"
-									multiple="multiple" size="5" style="width: 310px"
+									multiple="multiple" size="5" style="width: 330px;background-color: #dcf1f8"
 									title="Selected Tracking Change"
 									onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
 									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}"></select></td>
 							</tr>
 							<!-- ****************************************************************************************************************** -->
 
-
-
-
 							<tr>
-
-								<td><b>Proposed date</b></td>
-								<td><b>Actual Implementation date</b></td>
+							<td colspan="1"><b>Proposed date :</b></td>
+							<td colspan="5"><input type="text" name="proposeddate" id="proposeddate" readonly="readonly" value="<%=sdfFIrstDate.format(dddd) %>" style="height: 22px; width: 150px; font-weight:bold;  background-color: #dcf1f8"/></td>
 							</tr>
 							<tr>
-
-								<td><input id="demo3" name="proposeddate" type="text"
-									size="25" readonly="readonly" title="Click on DatePicker">
-									<a href="javascript:NewCal('demo3','ddmmyyyy',true,24)"> <img
-										src="cal.gif" width="16" height="16" border="0"
-										alt="Pick a date"></td>
-
-								<div class="cleaner h10"></div>
-
-								<td><input id="demo4" name="actualimpldate" type="text"
-									size="25" readonly="readonly" title="Click on DatePicker">
-									<a href="javascript:NewCal('demo4','ddmmyyyy',true,24)"> <img
-										src="cal.gif" width="16" height="16" border="0"
-										alt="Pick a date"></td>
-
-								<div class="cleaner h10"></div>
-
+							<td colspan="1"><b>Actual Implementation date :</b></td>
+							<td colspan="5"><input type="text" name="actualimpldate" id="actualimpldate" readonly="readonly" style="height: 22px; width: 150px; font-weight:bold;  background-color: #dcf1f8"/></td>
 							</tr>
-
-
-							<tr>
-
-								<td><b>Complaint No(Optional)</b></td>
-							</tr>
-							<tr>
-								<td><input name="complaintno" type="text"
+ 							<tr> 
+								<td colspan="1"><b>ComplaintZilla Complaint No ( Optional ) :</b></td> 
+								<td colspan="5">
+								<Select id="complaintno" style="height: 27px; width: 150px;background-color: #dcf1f8;font-weight: bold;" 
+									name="complaintno"
+									title="ComplaintZilla Software Complaint No(Optional)" > 
+								<option value="Related Complaint No(If any)">- - - - N.A. - - - - </option>
+								<%
+								PreparedStatement ps_cz = con.prepareStatement("select * from complaint_tbl");
+								ResultSet rs_cz = ps_cz.executeQuery();
+								while(rs_cz.next()){
+								%>
+								<option value="<%=rs_cz.getString("complaint_no")%>"><%=rs_cz.getString("complaint_no") %></option>
+								<%
+								}
+								%>	
+								</Select>
+								<!-- <input name="complaintno" type="text"
 									class="validate-email required input_field" size="16"
 									onfocus="if(this.value==this.defaultValue)this.value='';"
 									onblur="if(this.value=='')this.value=this.defaultValue;"
 									value="Related Complaint No(If any)"
 									title="ComplaintNo(Optional)"
 									onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
-									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}" />
-
-									<div class="cleaner h10"></div></td>
-								<div class="cleaner h10"></div>
-
+									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}" /> -->
+								</td>
 							</tr>
 
-
-
-							<%-- 
+						<%--
 							<tr>
-								<td colspan="1"><b>Approvers</b></td>
-								<td></td>
-								<td colspan="1"><b>Selected Approvers</b></td>
-							</tr>
-
-
-							<tr>
-								<td colspan="1"><select id="approver_name"
+								<td colspan="2"><b>Approvers</b></td>
+								<td colspan="2"></td>
+								<td colspan="2"><b>Selected Approvers</b></td>
+							</tr> 
+						 <tr>
+								<td colspan="2"><select id="approver_name"
 									name="approver_name" multiple="multiple" size="5"
-									style="width: 310px" title="Approvers"
+									style="width: 330px" title="Approvers"
 									onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
-									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}">
-
+									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}"> 
 										<%
 											PreparedStatement ps_user = con
 														.prepareStatement("select distinct(U_Name) from user_tbl where Enable_id=1 order by U_name");
@@ -680,95 +627,52 @@
 										<option value="<%=rs_user.getString("U_Name")%>"><%=rs_user.getString("U_Name")%></option>
 										<%
 											}
-										%>
-
+										%> 
 								</select></td>
-								<td style="width: 50px;" align="center"><input
+								<td colspan="2" style="width: 50px;" align="center"><input
 									value="&gt;&gt;" onclick="move1('right', 'rep')" type="button"><br>
 									<input value="&lt;&lt;" onclick="move1('left', 'rep')"
 									type="button"></td>
-								<td colspan="1"><select id="approver_selected"
+								<td colspan="2"><select id="approver_selected"
 									name="approver_selected" multiple="multiple" size="5"
-									style="width: 310px" title="Selected Approvers"
+									style="width: 330px;background-color: #dcf1f8;" title="Selected Approvers"
 									onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
 									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}">
 								</select></td>
-							</tr>
- --%>
+							</tr> --%>
+
 
 							<tr>
-								<td><b>Attachments </b></td>
-							</tr>
-
-
-
-
-
-							<table id="tblSample">
-
+								<td colspan="6"><b>Attachments </b></td> 
+							</tr>	
+							<tr>	
+							<td colspan="6">
+							<table id="tblSample"> 
 								<tr>
 									&nbsp;&nbsp;&nbsp;
-									<strong> <input type="button"
-										value="  ADD More Files  " name="button"
-										onclick="addRowToTable();" /></strong> &nbsp;&nbsp;
-									<input type="button" value=" Delete [Selected] "
-										onclick="deleteChecked();" />&nbsp;&nbsp;
+									<strong> <input type="button" value="  ADD More Files  " name="button" onclick="addRowToTable();" /></strong> &nbsp;&nbsp;
+									<input type="button" value=" Delete [Selected] " onclick="deleteChecked();" />&nbsp;&nbsp;
 									<input type="hidden" id="srno" name="srno" value="">
 								</tr>
 								<tbody></tbody>
-							</table>
-
-
-							<tr>
-								<td></td>
+							</table> 
+							</td>
 							</tr>
-
-
-
-							<tr>
-								<td colspan="3" align="Center"><input type="submit"
-									value="Suggestion" name="NewRequest"
-									style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"
-									onclick="SendRequest();"> <input type="submit"
-									value="Send Request & Add Action" name="NewAction"
-									style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"
-									onclick="Action();"> <input type="hidden" name="valReq"
-									id="valReq"></td>
+ 							<tr>
+								<td colspan="6" align="left">
+<input type="submit" value="Suggestion / Send Request" name="NewRequest" id="NewRequest" style="height: 35px; width: 250px; background-color: #C4C4C4; border-radius: 20px/20px;font-weight: bold;cursor: pointer;"
+onclick="SendRequest();" title="Send for approval direcltly.."> 
+&nbsp;&nbsp;&nbsp;
+<input type="submit" value="Send Request & Add Action" name="NewAction" id="NewAction"  style="height: 35px; width: 250px; background-color: #C4C4C4; border-radius: 20px/20px;font-weight: bold;cursor: pointer;"
+onclick="Action();" title="If Actions known at the time of request click here...."> <input type="hidden" name="valReq" id="valReq"></td>
 							</tr>
 							<%
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
 							%>
-						</table>
-
-					</form>
-				</div>
-			</div>
-
-
-
-			<div class="cleaner"></div>
-		</div>
-		<!-- end of main -->
-	</div>
-	<!-- end of wrapper -->
-
-	<div id="templatemo_footer_wrapper">
-		<div id="templatemo_footer">
-			| Copyright 2013 <a href="http://www.muthagroup.com">Muthagroup
-				Satara</a> |
-			<div class="cleaner"></div>
-		</div>
-	</div>
-<!--============================================================================-->
-<!--============================================================================-->
-
-
-
+						</table> 
+					</form> 
+					</div>
 </body>
-<HEAD>
-<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
-<META HTTP-EQUIV="Expires" CONTENT="-1">
-</HEAD>
 </html>

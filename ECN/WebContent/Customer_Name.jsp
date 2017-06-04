@@ -13,27 +13,21 @@
 
 </head>
 <body>
-<!--============================================================================-->
-<!--============= AJAX for Cust Name =======================================-->
-
-	<select name="cust_name" onchange="showState(this.value)"
-		class="validate-email required input_field">
+<div id="cust"> 
+	
+	<select class="validate-email required input_field" onchange="showState(this.value)" style="font-weight:bold;  background-color: #dcf1f8" id="cust_name" name="cust_name">
 		<option value="0">--------Select--------</option>
-		<%
-			String str = request.getParameter("p");
-			System.out.println("Ajax code string = " + str);
-			i = Integer.parseInt(str);
+		<% 
 			try {
 				Connection con = Connection_Utility.getConnection();
-
+				String str = request.getParameter("p");
+				System.out.println("Ajax code string = " + str);
+				i = Integer.parseInt(str);
 				PreparedStatement stmt = null;
 				PreparedStatement stmt1 = null;
 				ArrayList ar = new ArrayList();
-				stmt = con
-						.prepareStatement("select Cust_Id from company_customer_relation_tbl where company_Id="
-								+ i);
-				ResultSet rs = stmt.executeQuery();
-
+				stmt = con.prepareStatement("select Cust_Id from company_customer_relation_tbl where company_Id=" + i);
+				ResultSet rs = stmt.executeQuery(); 
 				while (rs.next()) {
 					ar.add(rs.getInt("Cust_Id"));
 				}
@@ -42,9 +36,7 @@
 
 				while (it.hasNext()) {
 
-					stmt1 = con
-							.prepareStatement("select * from customer_tbl where Cust_Id="
-									+ it.next() + " order by Cust_Name");
+					stmt1 = con.prepareStatement("select * from customer_tbl where Cust_Id=" + it.next() + " order by Cust_Name");
 					ResultSet rs1 = stmt1.executeQuery();
 					while (rs1.next()) {
 		%>
@@ -57,9 +49,7 @@
 				return;
 			}
 		%>
-	</select>
-<!--============================================================================-->
-<!--============================================================================-->
-
+	</select> 
+</div>
 </body>
 </html>

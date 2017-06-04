@@ -56,8 +56,7 @@ public class Customer_Request_DAO {
 			// Save attachment to database
 			// ****************************************************************************************************************************
 
-			ps_file = con
-					.prepareStatement("insert into crc_tbl_attachment(CRC_No,CRC_Attachment,CRC_Attach_Date,U_Id,CRC_File_Name,Del_Status)values(?,?,?,?,?,?)");
+			ps_file = con.prepareStatement("insert into crc_tbl_attachment(CRC_No,CRC_Attachment,CRC_Attach_Date,U_Id,CRC_File_Name,Del_Status)values(?,?,?,?,?,?)");
 			ps_file.setInt(1, bean.getCrcno());
 			ps_file.setBinaryStream(2, bean.getFile_blob());
 			ps_file.setTimestamp(3, attach_date);
@@ -116,8 +115,7 @@ public class Customer_Request_DAO {
 			String Name = "", Cust = "", Comp = "", Item = "";
 			System.out.println("UID IS ==== " + uid);
 
-			PreparedStatement ps_crc = con
-					.prepareStatement("insert into crc_tbl(CRC_Date,Company_Id,Cust_Id,Item_Id,Change_For,Existing_Change_level,Existing_Change_level_Date,New_Change_level,New_Change_level_Date,Nature_Of_Change,Reason_For_Change,Existing_WIP_Stock,Existing_As_Cast_Stock,Total_Stock,Tooling_Old,Tooling_New,Fixture_Old,Fixture_New,Gauges_Old,Gauges_New,PPAP,Targated_Impl_Date,Actual_Impl_Date,U_Id,Mail_Status,Change_Level)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			PreparedStatement ps_crc = con.prepareStatement("insert into crc_tbl(CRC_Date,Company_Id,Cust_Id,Item_Id,Change_For,Existing_Change_level,Existing_Change_level_Date,New_Change_level,New_Change_level_Date,Nature_Of_Change,Reason_For_Change,Existing_WIP_Stock,Existing_As_Cast_Stock,Total_Stock,Tooling_Old,Tooling_New,Fixture_Old,Fixture_New,Gauges_Old,Gauges_New,PPAP,Targated_Impl_Date,Actual_Impl_Date,U_Id,Mail_Status,Change_Level)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			ps_crc.setTimestamp(1, bean.getCRC_Date());
 			ps_crc.setInt(2, bean.getCompany_Id());
 			ps_crc.setInt(3, bean.getCust_Id());
@@ -187,14 +185,14 @@ public class Customer_Request_DAO {
 
 			ResultSet rs_app = null;
 			
-			if(app_list.contains(17)){
+			/*if(app_list.contains(17)){
 				System.out.println("total list" + app_list);
 				System.out.println("In loop Approval = Anoop Sir");
 			}else {
 				app_list.add(17);
 				System.out.println("total list else loop = " + app_list);
 				
-			}
+			}*/
 			
 			PreparedStatement ps_app = null;
 
@@ -271,8 +269,7 @@ public class Customer_Request_DAO {
 			ResultSet rstype = null;
 			ArrayList changedept_list = new ArrayList();
 			for (int ch = 0; ch < chang_dept.size(); ch++) {
-				PreparedStatement pstype_change = con
-						.prepareStatement("select * from user_tbl_dept where Department='"
+				PreparedStatement pstype_change = con.prepareStatement("select * from user_tbl_dept where Department='"
 								+ chang_dept.get(ch).toString() + "'");
 				rstype = pstype_change.executeQuery();
 				while (rstype.next()) {
@@ -282,41 +279,35 @@ public class Customer_Request_DAO {
 
 			for (int ct = 0; ct < changedept_list.size(); ct++) {
 
-				PreparedStatement ps_cr_change = con
-						.prepareStatement("insert into crc_tbl_cocern_dept(CRC_No,Dept_Id)values(?,?)");
+				PreparedStatement ps_cr_change = con.prepareStatement("insert into crc_tbl_cocern_dept(CRC_No,Dept_Id)values(?,?)");
 				ps_cr_change.setInt(1, bean.getCrcno());
-				ps_cr_change.setInt(2,
-						Integer.parseInt(changedept_list.get(ct).toString()));
+				ps_cr_change.setInt(2, Integer.parseInt(changedept_list.get(ct).toString()));
 
 				int ctype = ps_cr_change.executeUpdate();
 			}
 
 			// *********************************************************************************************************************
 
-			PreparedStatement ps_uid = con
-					.prepareStatement("select * from user_tbl where U_Id="
+			PreparedStatement ps_uid = con.prepareStatement("select * from user_tbl where U_Id="
 							+ uid);
 			ResultSet rs_uid = ps_uid.executeQuery();
 			while (rs_uid.next()) {
 				Name = rs_uid.getString("U_Name");
 			}
-			PreparedStatement ps_cust = con
-					.prepareStatement("select * from customer_tbl where Cust_Id="
+			PreparedStatement ps_cust = con.prepareStatement("select * from customer_tbl where Cust_Id="
 							+ bean.getCust_Id());
 			ResultSet rs_cust = ps_cust.executeQuery();
 			while (rs_cust.next()) {
 				Cust = rs_cust.getString("Cust_Name");
 			}
-			PreparedStatement ps_comp = con
-					.prepareStatement("select * from user_tbl_company where Company_Id="
+			PreparedStatement ps_comp = con.prepareStatement("select * from user_tbl_company where Company_Id="
 							+ bean.getCompany_Id());
 			ResultSet rs_comp = ps_comp.executeQuery();
 			while (rs_comp.next()) {
 				Comp = rs_comp.getString("Company_Name");
 			}
 
-			PreparedStatement ps_item = con
-					.prepareStatement("select * from customer_tbl_item where Item_Id="
+			PreparedStatement ps_item = con.prepareStatement("select * from customer_tbl_item where Item_Id="
 							+ bean.getItem_Id());
 			ResultSet rs_item = ps_item.executeQuery();
 			while (rs_item.next()) {
@@ -327,8 +318,7 @@ public class Customer_Request_DAO {
 
 			for (int p = 0; p < app_list.size(); p++) {
 
-				PreparedStatement ps_p = con
-						.prepareStatement("select * from user_tbl where U_Id="
+				PreparedStatement ps_p = con.prepareStatement("select * from user_tbl where U_Id="
 								+ Integer.parseInt(app_list.get(p).toString()));
 				ResultSet rs_p = ps_p.executeQuery();
 				while (rs_p.next()) {
@@ -336,7 +326,7 @@ public class Customer_Request_DAO {
 				}
 			}
 			// ***********************************************************************************************************
-			// Email Configuration =======>>
+			// Email Configuration ======= >>
 
 			flag = true;
 
@@ -362,7 +352,7 @@ public class Customer_Request_DAO {
 				count = rs6.getInt("count(Email)");
 			}*/
 
-			PreparedStatement ps6 = con
+			/*PreparedStatement ps6 = con
 					.prepareStatement("select count(Email) from automail where Company_id=6 or company_id="
 							+ bean.getCompany_Id());
 			ResultSet rs6 = ps6.executeQuery();
@@ -392,7 +382,33 @@ public class Customer_Request_DAO {
 			while (rs_auto.next()) {
 				recipients[j] = rs_auto.getString("Email");
 				j++;
+			}*/
+			ArrayList listemailTo = new ArrayList();
+			
+			for (int mail = 0; mail < app_list.size(); mail++) {
+				PreparedStatement ps_assign = con.prepareStatement("select * from user_tbl where U_Id=" + app_list.get(mail));
+				ResultSet rs_assign = ps_assign.executeQuery();
+				while (rs_assign.next()) {
+					if(rs_assign.getString("U_Email")!=null){
+					listemailTo.add(rs_assign.getString("U_Email"));
+					}
+				}
 			}
+			
+			PreparedStatement ps_assign = con.prepareStatement("select * from user_tbl where U_Id=" + uid);
+			ResultSet rs_assign = ps_assign.executeQuery();
+			while (rs_assign.next()) {
+				if(rs_assign.getString("U_Email")!=null){
+				listemailTo.add(rs_assign.getString("U_Email"));
+				}
+			}
+			 
+			String recipients[] = new String[listemailTo.size()];  
+			for(int i=0;i<listemailTo.size();i++){
+				recipients[i] = listemailTo.get(i).toString();
+			} 
+			
+			
 			// *********************************************************************************************
 			// String recipients[] = { "vijaybm@muthagroup.com",
 			// "amitcp@muthagroup.com" };

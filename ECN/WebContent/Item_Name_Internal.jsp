@@ -16,20 +16,20 @@
 <!--============================================================================-->
 </head>
 <body>
-	<select name="item_name" class="validate-email required input_field">
+<div id="item">
+	<!-- <select name="item_name" class="validate-email required input_field"> -->
+	<Select id="item_name" name="item_name" class="required input_field" style="background-color: #dcf1f8;height: 27px;">
 		<option value="0">---Select---</option>
 		<%
 			String str = request.getParameter("q");
 
 			i = Integer.parseInt(str);
-			System.out.println("Company ID.."+i);
+		//	System.out.println("Company ID.."+i);
 			Connection connection = null;
 			try {
 				connection = Connection_Utility.getConnection();
 				PreparedStatement stmt = null;
-				stmt = connection
-						.prepareStatement("select Cust_Id from company_customer_relation_tbl where Company_Id="
-								+ i);
+				stmt = connection.prepareStatement("select Cust_Id from company_customer_relation_tbl where Company_Id="+ i);
 				ResultSet rs = null;
 				rs = stmt.executeQuery();
 				ArrayList ar = new ArrayList();
@@ -38,7 +38,7 @@
 					ar.add(rs.getInt("Cust_Id"));
 				}
 				
-				System.out.println("Customer_IDs " +ar);
+			//	System.out.println("Customer_IDs " +ar);
 				
 				Iterator it = ar.iterator();
 				
@@ -58,19 +58,18 @@
 					}
 				}
 				
-				System.out.println("Item_IDs " +ar_cust);
+			//	System.out.println("Item_IDs " +ar_cust);
 				Iterator it_cust=ar_cust.iterator();
 				
 				while (it_cust.hasNext()) 
 				{
 					PreparedStatement stmt1 = null;
-					stmt1 = connection
-							.prepareStatement("select * from customer_tbl_item where item_id="
+					stmt1 = connection.prepareStatement("select * from customer_tbl_item where item_id="
 									+ it_cust.next());
 					ResultSet rs1 = stmt1.executeQuery();
 					while (rs1.next()) 
 					{
-						out.print(rs1.getString("Item_Name"));
+						//System.out.println("this is data " + rs1.getString("Item_Name"));
 		%>
 		<option value="<%=rs1.getInt("Item_Id")%>"><%=rs1.getString("Item_Name")%></option>
 		<%
@@ -85,5 +84,6 @@
 	</select>
 <!--============================================================================-->
 <!--============================================================================-->
+</div>
 </body>
 </html>

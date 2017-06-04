@@ -11,25 +11,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>State Page</title>
-<!--============================================================================-->
-<!--====================== Item Name AJAX ================================-->
-<!--============================================================================-->
 </head>
 <body>
-	<select name="item_name" class="validate-email required input_field">
-		<option value="0">---Select---</option>
+<div id="item">
+	<select name="item_name" id="item_name" class="validate-email required input_field" style="font-weight:bold;  background-color: #dcf1f8">
+		<option value="0"> - - - Select - - - </option>
 		<%
-			String str = request.getParameter("q");
-
-			i = Integer.parseInt(str);
-
 			Connection connection = null;
 			try {
 				connection = Connection_Utility.getConnection();
+				String str = request.getParameter("q");
+				i = Integer.parseInt(str); 
 				PreparedStatement stmt = null;
-				stmt = connection
-						.prepareStatement("select Item_Id from customer_item_tbl where Cust_Id="
-								+ i);
+				stmt = connection.prepareStatement("select Item_Id from customer_item_tbl where Cust_Id=" + i);
 				ResultSet rs = null;
 				rs = stmt.executeQuery();
 				ArrayList ar = new ArrayList();
@@ -41,12 +35,10 @@
 
 				while (it.hasNext()) {
 					PreparedStatement stmt1 = null;
-					stmt1 = connection
-							.prepareStatement("select * from customer_tbl_item where Item_Id="
-									+ it.next());
+					stmt1 = connection.prepareStatement("select * from customer_tbl_item where Item_Id=" + it.next());
 					ResultSet rs1 = stmt1.executeQuery();
 					while (rs1.next()) {
-						out.print(rs1.getString("Item_Name"));
+						// System.out.print(rs1.getString("Item_Name"));
 		%>
 		<option value="<%=rs1.getInt("Item_Id")%>"><%=rs1.getString("Item_Name")%></option>
 		<%
@@ -58,8 +50,6 @@
 			}
 		%>
 	</select>
-<!--============================================================================-->
-<!--============================================================================-->
-
+</div>
 </body>
 </html>

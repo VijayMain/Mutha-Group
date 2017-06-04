@@ -1,32 +1,18 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.muthagroup.connectionUtility.Connection_Utility"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.util.*"%>
 <%@page import="java.sql.PreparedStatement"%>
-
-<%
-	response.setHeader("Cache-Control", "no-cache");
-	response.setHeader("Pragma", "no-cache");
-	response.setDateHeader("Expires", -1);
-%>
-<html>
-<head>
-<!--============================================================================-->
-<!--===================== Design Script =================================-->
-<!--============================================================================-->
+ <html>
+<head> 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>ECN New Request</title>
-
 <script type="text/javascript" src="tabledeleterow.js"></script>
-
-
-<script language="javascript" type="text/javascript"
-	src="datetimepicker.js"></script>
+<script language="javascript" type="text/javascript" src="datetimepicker.js"></script>
 <script type="text/javascript">
 	function SendRequest() {
 		var current = document.getElementById("valReq");
@@ -36,15 +22,182 @@
 		var current = document.getElementById("valReq");
 		current.value = 2;
 	}
+	function validateForm() {
+		var cust_company_name = document.getElementById("cust_company_name");   
+		var cust_name = document.getElementById("cust_name");    
+		var item_name = document.getElementById("item_name");
+		var change_cast   = document.getElementById("change_cast");
+		var change_mac = document.getElementById("change_mac"); 
+		var targetdate = document.getElementById("targetdate");
+		var extchg  = document.getElementById("extchg");
+		var extchgdate  = document.getElementById("extchgdate");
+		var newchg = document.getElementById("newchg");
+		var newchgdate = document.getElementById("newchgdate");
+		var naturechg = document.getElementById("naturechg");
+		var reasonchg = document.getElementById("reasonchg");   
+		var level1 = document.getElementById("level1"); 
+		var level2 = document.getElementById("level2");
+		var level3 = document.getElementById("level3");
+		var level4 = document.getElementById("level4");  
+		var wip = document.getElementById("wip");
+		var ascast = document.getElementById("ascast"); 
+		var oldtool = document.getElementById("oldtool");
+		var newtool = document.getElementById("newtool");
+		var old_fixture = document.getElementById("old_fixture");
+		var new_fixture = document.getElementById("new_fixture");
+		var old_gauges = document.getElementById("old_gauges");
+		var new_gauges = document.getElementById("new_gauges");
+		var ppapr = document.getElementById("ppapr");
+		var ppapnr = document.getElementById("ppapnr");
+		var department_selected = document.getElementById("department_selected");
+		
+			if (cust_company_name.value=="0" || cust_company_name.value==null || cust_company_name.value=="" || cust_company_name.value=="null") {
+				alert("COMPANY NAME ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (cust_name.value=="0" || cust_name.value==null || cust_name.value=="" || cust_name.value=="null") {
+				alert("Customer  Name ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (item_name.value=="0" || item_name.value==null || item_name.value=="" || item_name.value=="null") {
+				alert("Component  Name ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			
+			if (change_cast.checked == false && change_mac.checked == false) {
+				alert("Change Type ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}     
+			if (targetdate.value=="0" || targetdate.value==null || targetdate.value=="" || targetdate.value=="null") {
+				alert("Targeted cut-off date for implementation ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (extchg.value=="0" || extchg.value==null || extchg.value=="" || extchg.value=="null") {
+				alert("Existing change level ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (extchgdate.value=="0" || extchgdate.value==null || extchgdate.value=="" || extchgdate.value=="null") {
+				alert("Existing change level Date ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			
+			if (newchg.value=="0" || newchg.value==null || newchg.value=="" || newchg.value=="null") {
+				alert("New change level ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (newchgdate.value=="0" || newchgdate.value==null || newchgdate.value=="" || newchgdate.value=="null") {
+				alert("New change level Date ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (naturechg.value=="0" || naturechg.value==null || naturechg.value=="" || naturechg.value=="null") {
+				alert("Nature of Change ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (reasonchg.value=="0" || reasonchg.value==null || reasonchg.value=="" || reasonchg.value=="null") {
+				alert("Reason for change ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			} 
+			if (level1.checked == false && level2.checked == false && level3.checked == false && level4.checked == false) {
+				alert("Level of Change ?");
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (wip.value==null || wip.value=="" || wip.value=="null") {
+				alert("Existing Stock WIP ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (ascast.value==null || ascast.value=="" || ascast.value=="null") {
+				alert("Existing Stock As Cast ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			} 
+			if (oldtool.value==null || oldtool.value=="" || oldtool.value=="null") {
+				alert("Old Tooling ?"); 
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			} 
+			if (newtool.value==null || newtool.value=="" || newtool.value=="null") {
+				alert("New Tooling ?");
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (old_fixture.value==null || old_fixture.value=="" || old_fixture.value=="null") {
+				alert("Old Fixture ?");
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (new_fixture.value==null || new_fixture.value=="" || new_fixture.value=="null") {
+				alert("New Fixture ?");
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (old_gauges.value==null || old_gauges.value=="" || old_gauges.value=="null") {
+				alert("Old Gauges ?");
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (new_gauges.value==null || new_gauges.value=="" || new_gauges.value=="null") {
+				alert("New Gauges ?");
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+		//  cust_company_name   cust_name   item_name   change_cast   change_mac   targetdate    extchg   extchgdate   newchg  newchgdate    naturechg   reasonchg   
+		//  level1  level2   level3   level4   wip   ascast   total   oldtool   newtool   old_fixture   new_fixture   old_gauges    new_gauges   ppapr   ppapnr   department_selected
+			if (ppapr.checked == false && ppapnr.checked == false) {
+				alert("Re PPAP ?");
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			if (department_selected.value==null || department_selected.value=="" || department_selected.value=="null") {
+				alert("Selected Department ?");
+				document.getElementById("NewRequest").disabled = false;
+				document.getElementById("NewAction").disabled = false;
+				return false;
+			}
+			
+			document.getElementById("NewRequest").disabled = true;
+			document.getElementById("NewAction").disabled = true;
+			return true;
+		}
 </script>
-
-
-
 
 <script type="text/javascript">
 	function totalsum() {
 		var a = document.getElementById("wip");
-		var b = document.getElementById("cst");
+		var b = document.getElementById("ascast");
 
 		if (a.value == "") {
 			a.value = 0;
@@ -58,147 +211,7 @@
 		document.getElementById("total").value = f;
 	}
 </script>
-
-
-
-
-
-
-<!--============================================================================-->
-<!--================== Validation ==================================-->
-<!--============================================================================-->
-
-<script type="text/javascript">
-<!--
-	// Form validation code will come here.
-	function validate() {
-
-		if (document.myForm.cust_company_name.value == "") {
-			alert("Please provide Company Name !!!");
-			document.myForm.cust_company_name.focus();
-			return false;
-		}
-
-		if (document.myForm.item_name.value == "") {
-			alert("Please provide  Customer and Part Name !!!");
-			document.myForm.item_name.focus();
-			return false;
-		}
-
-		if (document.myForm.extchg.value == "") {
-			alert("Please provide Existing change level !!!");
-			document.myForm.extchg.focus();
-			return false;
-		}
-
-		if (document.myForm.demo3.value == "") {
-			alert("Please provide Existing change level date !!!");
-			document.myForm.demo3.focus();
-			return false;
-		}
-
-		if (document.myForm.newchg.value == "") {
-			alert("Please provide New change level !!!");
-			document.myForm.newchg.focus();
-			return false;
-		}
-
-		if (document.myForm.demo4.value == "") {
-			alert("Please provide New change level date !!!");
-			document.myForm.demo4.focus();
-			return false;
-		}
-
-		if (document.myForm.naturechg.value == "") {
-			alert("Please provide Nature of change !!!");
-			document.myForm.naturechg.focus();
-			return false;
-		}
-
-		if (document.myForm.reasonchg.value == "") {
-			alert("Please provide Reason for change !!!");
-			document.myForm.reasonchg.focus();
-			return false;
-		}
-
-		if (document.myForm.demo.value == "") {
-			alert("Please provide Targeted cut-off date for implementation !!!");
-			document.myForm.demo.focus();
-			return false;
-		}
-
-		if (document.myForm.wip.value == "") {
-			alert("Please provide Existing Stock WIP !!!");
-			document.myForm.wip.focus();
-			return false;
-		}
-
-		if (document.myForm.cst.value == "") {
-			alert("Please provide Existing Stock AsCast !!!");
-			document.myForm.cst.focus();
-			return false;
-		}
-
-		if (document.myForm.oldtool.value == "") {
-			alert("Please provide Tooling old !!!");
-			document.myForm.oldtool.focus();
-			return false;
-		}
-
-		if (document.myForm.newtool.value == "") {
-			alert("Please provide Tooling new !!!");
-			document.myForm.newtool.focus();
-			return false;
-		}
-
-		if (document.myForm.old_fixture.value == "") {
-			alert("Please provide Fixture !!!");
-			document.myForm.old_fixture.focus();
-			return false;
-		}
-
-		if (document.myForm.old_gauges.value == "") {
-			alert("Please provide Gauges !!!");
-			document.myForm.old_gauges.focus();
-			return false;
-		}
-		if (document.myForm.new_gauges.value == "") {
-			alert("Please provide Gauges  !!!");
-			document.myForm.new_gauges.focus();
-			return false;
-		}
-
-		if (document.myForm.approver_selected.value == "") {
-			alert("Please provide Approvers !!!");
-			document.myForm.approver_selected.focus();
-			return false;
-		}
-
-		if (document.myForm.department_selected.value == "") {
-			alert("Please provide Concern Department !!!");
-			document.myForm.department_selected.focus();
-			return false;
-		}
-
-		if (document.myForm.quality.checked == false
-				&& document.myForm.cost.checked == false
-				&& document.myForm.delivery.checked == false
-				&& document.myForm.material.checked == false
-				&& document.myForm.safety.checked == false) {
-			alert("Please provide Category Of Change");
-			document.myForm.quality.focus();
-			return false;
-		}
-
-		return (true);
-	}
-//-->
-</script>
-<!--============================================================================-->
-<!--============================================================================-->
-
-
-
+ 
 <link href="css/templatemo_style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="tabledeleterow.js"></script>
 <script language="javascript" type="text/javascript">
@@ -249,15 +262,24 @@
 
 		xmlhttp1.send();
 	};
-</script>
-
+</script> 
 <link rel="stylesheet" type="text/css" href="css/ddsmoothmenu.css" />
-
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/ddsmoothmenu.js">
-	
+<script type="text/javascript" src="js/ddsmoothmenu.js"> </script>
+<script type="text/javascript">
+function validatenumerics(key) {
+//getting key code of pressed key
+var keycode = (key.which) ? key.which : key.keyCode;
+//comparing pressed keycodes
+ 
+if (keycode > 31 && (keycode < 48 || keycode > 57) && keycode != 46) {
+    alert("Only allow numeric Data entry");
+    return false;
+}else 
+{
+	return true;
+};
+}
 </script>
-
 <script type="text/javascript">
 	ddsmoothmenu.init({
 		mainmenuid : "templatemo_menu", //menu DIV id
@@ -267,17 +289,33 @@
 		contentsource : "markup" //"markup" or ["container_id", "path_to_menu_file"]
 	});
 </script>
+<link href="css_pirobox/white/style.css" media="screen" title="shadow" rel="stylesheet" type="text/css" /> 
+<link rel="stylesheet" href="js/jquery-ui.css" />
+<script src="js/jquery-1.9.1.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script type="text/javascript">
+$(document).ready(
+		  function () {			              
+		    $( "#extchgdate" ).datepicker({
+		      changeMonth: true,
+		      changeYear: true 
+		    });
+		    $( "#newchgdate" ).datepicker({
+			      changeMonth: true,
+			      changeYear: true 
+			 });
+		    $( "#targetdate" ).datepicker({
+			      changeMonth: true,
+			      changeYear: true 
+			 });
+			 $( "#Actualimpldate" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true 
+			 });
+		  } 
+		); 
 
-<!--////// CHOOSE ONE OF THE 3 PIROBOX STYLES  \\\\\\\-->
-<link href="css_pirobox/white/style.css" media="screen" title="shadow"
-	rel="stylesheet" type="text/css" />
-<!--<link href="css_pirobox/white/style.css" media="screen" title="white" rel="stylesheet" type="text/css" />
-<link href="css_pirobox/black/style.css" media="screen" title="black" rel="stylesheet" type="text/css" />-->
-<!--////// END  \\\\\\\-->
-
-<!--////// INCLUDE THE JS AND PIROBOX OPTION IN YOUR HEADER  \\\\\\\-->
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/piroBox.1_2.js"></script>
+</script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$().piroBox({
@@ -293,8 +331,7 @@
 		//slideshow duration in seconds(3 to 6 Recommended)
 		});
 	});
-</script>
-<!--////// END  \\\\\\\-->
+</script> 
 <script type="text/javascript">
 	function ClearList2(OptionList, TitleName) {
 		OptionList.length = 0;
@@ -350,8 +387,30 @@
 		}
 	}
 </script>
+<style type="text/css">
+.tftable {
+	font-size: 11px;
+	color: #333333;
+	width: 90%;  
+}
 
+.tftable th {
+	font-size: 11px;
+	background-color: #388EAB; 
+	padding: 4px; 
+	color: white;
+	text-align: center;
+}
 
+.tftable tr {
+	background-color: white;
+	font-size: 11px;
+}
+.tftable td {
+	font-size: 11px; 
+	padding: 6px; 
+}
+</style>
 <script type="text/javascript">
 	function ClearList(OptionList, TitleName) {
 		OptionList.length = 0;
@@ -465,26 +524,18 @@
 	}
 </script>
 
+<!-- 
 <link href="jquery-ui-1.8.18.custom.css" rel="stylesheet" />
 <script src="js/jquery-1.7.2.min.js">
 	
 </script>
 <script src="js/jquery-ui-1.8.18.custom.min.js">
 	
-</script>
-<!--============================================================================-->
-<!--============================================================================-->
-
+</script> 
+-->
+ 
 </head>
 <body id="sub_page">
-	<div id="templatemo_wrapper">
-		<div id="templatemo_top"></div>
-		<!-- end of top -->
-
-<!--============================================================================-->
-<!--===================== Menu Bar ============================-->
-<!--============================================================================-->
-
 		<div id="templatemo_header" class="ddsmoothmenu">
 			<ul>
 				<li><a href="Cab_Home.jsp">Home</a></li>
@@ -496,42 +547,39 @@
 				<li><a href="Reports.jsp">Reports</a></li>
 				<li><a href="logout.jsp">Log Out</a></li>
 			</ul>
-			<br style="clear: left" />
 		</div>
-		<!-- end of templatemo_menu -->
-		<!--============================================================================-->
-		<!--============================================================================-->
+		<!-- end of templatemo_menu 
 		<div id="templatemo_menu">
 			<div id="site_title">
 				<h1 style="color: orange;">ECN</h1>
 			</div>
-		</div>
+		</div> 
+		end of header -->
 
-		<!-- end of header -->
-
-		<div id="templatemo_main">
+		<!-- <div id="templatemo_main">
 			<h4 style="color: white;">Change Request Customer</h4>
 			<div class="col_w630 float_l">
-				<div id="contact_form">
+				<div id="contact_form"> -->
 
 
-					<div id="templatemo_header" class="ddsmoothmenu">
-
+					<!-- <div id="templatemo_header" class="ddsmoothmenu"> 
 						<ul>
-
 							<li style="background-color: #B3A6AA;"><a
 								href="New_Request.jsp">Change Request Internal</a></li>
 							<li style="background-color: #B3A6AA;"><a
 								href="NewRequestCustomer.jsp">Change Request Customer</a></li>
+						</ul> 
+					</div> -->
+				<div id="templatemo_header" class="ddsmoothmenu" style="width: 100%">
+ 						<ul>
+ 							<li style="background-color: #B3A6AA;"><a href="New_Request.jsp">Change Request Internal</a></li>
+							<li style="background-color: #1c6f8a;color: white;"><a href="NewRequestCustomer.jsp"><b>Change Request Customer</b></a></li>
 						</ul>
-
 					</div>
 
-					<form name="myForm" method="post"
-						action="Customer_Request_Controller" enctype="multipart/form-data"
-						onsubmit="return(validate());">
-						<table>
-							<tr>
+				<div style="height: 550px;width: 100%;">	
+					<form name="myForm" method="post" action="Customer_Request_Controller" enctype="multipart/form-data" onSubmit="return validateForm();">
+						<table style="width: 100%;" class="tftable"> 
 								<%
 									try {
 
@@ -563,22 +611,17 @@
 											ECN = rs_crcno.getInt("Max(CRC_No)") + 1;
 										}
 								%>
-								<td colspan="1"><b>Request Number</b></td>
-							<tr>
-								<td><input type="text" id="author" name="author"
-									value="<%=ECN%>" disabled="disabled"
+							<tr>		
+								<td colspan="1"><b>Request Number :</b></td>
+								<td colspan="5" align="left"><input type="text" id="author" name="author"
+									value="<%=ECN%>" disabled="disabled" style="font-weight: bold;"
 									class="required input_field" /> <input type="hidden"
-									name="crcno" value="<%=ECN%>" />
-									<div class="cleaner h10"></div></td>
-
-							</tr>
-
-							<tr>
-
-								<td colspan="1"><b>COMPANY NAME</b></td>
-							</tr>
-							<tr>
-								<td><select class="validate-email required input_field"
+									name="crcno" value="<%=ECN%>" /></td> 
+							</tr> 
+							<tr> 
+								<td colspan="1"><b>Company Name :</b></td> 
+								<td colspan="5" align="left">
+								<select class="validate-email required input_field" style="font-weight:bold;  background-color: #dcf1f8"
 									id="cust_company_name" name="cust_company_name"
 									onchange="showState2(this.value)">
 										<option value="">-------SELECT-------</option>
@@ -589,219 +632,140 @@
 										<%
 											}
 										%>
-								</select></td>
-
-								<td colspan="1"><b>CUSTOMER NAME</b>
-									<div id="cust">
-
-										<select class="validate-email required input_field"
-											id="cust_name" name="cust_name"
+								</select>
+								</td> 
+								</tr>
+								<tr>
+								<td colspan="1"><b>Customer Name : </b></td>
+								<td colspan="5" align="left">
+									<div id="cust"> 
+										<select class="validate-email required input_field" style="font-weight:bold;  background-color: #dcf1f8" id="cust_name" name="cust_name"
 											onchange="showState(this.value)">
 											<option value="">-------SELECT-------</option>
-
 										</select>
 									</div></td>
-								<td colspan="1"><b>Component NAME</b>
+								</tr>
+								<tr>	
+								<td colspan="1"><b>Component Name :</b></td>
+								<td colspan="5">
 									<div id="item">
-										<select class="validate-email required input_field"
-											id="item_name" name="item_name">
-											<option value="">-------SELECT-------</option>
-
+										<select class="validate-email required input_field" style="font-weight:bold;  background-color: #dcf1f8"  id="item_name" name="item_name">
+											<option value="">-------SELECT-------</option> 
 										</select>
 									</div></td>
-							</tr>
+							</tr>  
 							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-
-
+								<td colspan="1"><b>Change Type : </b></td>
+								<td colspan="1" align="left">&nbsp;&nbsp;&nbsp;
+								<input type="radio" name="change" id="change_cast" value="casting" style="width: 40px;font-weight:bold;  background-color: #dcf1f8"><b>Casting Change</b>		
+								<input type="radio" name="change"id="change_mac"  value="machining" style="width: 40px;font-weight:bold;  background-color: #dcf1f8"><b>Machining Change</b>
+								</td>
+								<td colspan="1"><b>Targeted cut-off date for implementation :</b> 
+								<td colspan="3">
+								<input type="text" name="targetdate" id="targetdate" readonly="readonly" style="height: 22px; width: 150px; font-weight:bold;  background-color: #dcf1f8"/>
+									<!-- <input id="demo" name="targetdate" type="text"
+									size="25" readonly="readonly" title="Click on DatePicker">
+									<a href="javascript:NewCal('demo','ddmmyyyy',true,24)"><img
+										src="cal.gif" width="16" height="16" border="0"
+										alt="Pick a date"></a> --> 
+								</td>
+							</tr> 
 							<tr>
-								<td><b><input type="radio" name="change" id="change"
-										value="casting" style="width: 40px;">Casting Change<input
-										type="radio" name="change" value="machining" id="change"
-										style="width: 40px;">Machining Change</b></td>
-							</tr>
-
-
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td colspan="1"><b>Existing change level</b><input
-									type="text" class="required input_field" name="extchg"
-									id="extchg" />
-									<div class="cleaner h10"></div></td>
-								<td colspan="1"><b>Existing change level Date</b><input
+								<td colspan="1"><b>Existing change level : </b></td>
+								<td colspan="1"> <input type="text" class="required input_field" name="extchg" id="extchg" style="font-weight:bold;  background-color: #dcf1f8"/> </td>
+								<td colspan="1"><b>Existing change level Date :</b></td>
+								<td colspan="3"><input type="text" name="extchgdate" id="extchgdate" readonly="readonly" style="height: 22px; width: 150px; font-weight:bold;  background-color: #dcf1f8"/>
+								<!-- <input
 									id="demo3" name="extchgdate" type="text" size="25"
 									readonly="readonly" title="Click on DatePicker"> <a
 									href="javascript:NewCal('demo3','ddmmyyyy',true,24)"> <img
 										src="cal.gif" width="16" height="16" border="0"
-										alt="Pick a date"></a></td>
-
+										alt="Pick a date"></a> -->
+								</td> 
 							</tr>
 
 							<tr>
-								<td colspan="1"><b>New change level</b><input type="text"
-									class="required input_field" name="newchg" id="newchg" />
-									<div class="cleaner h10"></div></td>
-								<td colspan="1"><b> New change level Date</b><input
+								<td colspan="1"><b>New change level :</b></td>
+								<td colspan="1"> <input type="text" class="required input_field" name="newchg" id="newchg" style="font-weight:bold;  background-color: #dcf1f8"/> </td>
+								<td colspan="1"><b> New change level Date :</b></td>
+								<td colspan="3"> <input type="text" name="newchgdate" id="newchgdate" readonly="readonly" style="height: 22px; width: 150px; font-weight:bold;  background-color: #dcf1f8"/>
+							<!-- 	<input
 									id="demo4" name="newchgdate" type="text" size="25"
 									readonly="readonly" title="Click on DatePicker"> <a
 									href="javascript:NewCal('demo4','ddmmyyyy',true,24)"><img
 										src="cal.gif" width="16" height="16" border="0"
-										alt="Pick a date"></a></td>
-
-							</tr>
-
-
-
+										alt="Pick a date"></a> -->
+								</td> 
+							</tr> 
 							<tr>
-								<td colspan="1"><b>Nature of Change</b> <textarea
-										class="validate-subject required input_field" name="naturechg"
-										id="naturechg" style="height: 75px" title="Nature of Change"></textarea>
-									<div class="cleaner h10"></div></td>
-								<td colspan="1"><b>Reason for change</b> <textarea
-										class="validate-subject required input_field" name="reasonchg"
-										id="reasonchg" style="height: 75px" title="Reason for change"></textarea>
-									<div class="cleaner h10"></div></td>
-
-							</tr>
-
-
-
-							<tr>
-
-								<td colspan="1"><b>Targeted cut-off date for
-										implementation</b><input id="demo" name="targetdate" type="text"
-									size="25" readonly="readonly" title="Click on DatePicker">
-									<a href="javascript:NewCal('demo','ddmmyyyy',true,24)"><img
-										src="cal.gif" width="16" height="16" border="0"
-										alt="Pick a date"></a></td>
-
-							</tr>
-
-							<tr>
-								<td></td>
+								<td colspan="1"><b>Nature of Change :</b>
+								<td colspan="1"> 
+								<textarea class="validate-subject required input_field" name="naturechg" id="naturechg" rows="4" cols="30" style="font-weight:bold;  background-color: #dcf1f8" title="Nature of Change"></textarea> </td>
+								<td colspan="2"><b>Reason for change :</b>
+								<td colspan="2"> 
+								<textarea class="validate-subject required input_field" name="reasonchg" id="reasonchg" rows="4" cols="30" style="font-weight:bold;  background-color: #dcf1f8" title="Reason for change"></textarea> </td> 
 							</tr>
 							<tr>
-								<td><b> Level Change</b></td>
+								<td><b> Level of Change :</b></td> 
+								<td colspan="5" align="left">
+								<b>Level 1 </b> <input type="radio" name="level" value="level1" id="level1" style="width: 40px;font-weight:bold;  background-color: #dcf1f8">&nbsp;
+								<b>Level 2 </b> <input id="level2" type="radio" name="level" value="level2" style="width: 40px;font-weight:bold;  background-color: #dcf1f8">&nbsp;
+								<b>Level 3 </b> <input type="radio" name="level" value="level3" id="level3" style="width: 40px;font-weight:bold;  background-color: #dcf1f8">&nbsp;
+								<b>Level 4 </b> <input type="radio" name="level" value="level4" id="level4" style="width: 40px;font-weight:bold;  background-color: #dcf1f8">&nbsp;
+								</td>
 							</tr>
 							<tr>
-								<td>Level 1<input type="radio" name="level" value="level1"
-									id="level1" style="width: 40px;">Level 2<input
-									id="level2" type="radio" name="level" value="level2"
-									style="width: 40px;"></td>
-							</tr>
-
-
-							<tr>
-								<td>Level 3<input type="radio" name="level" value="level3"
-									id="level3" style="width: 40px;">Level 4<input
-									type="radio" name="level" value="level4" style="width: 40px;"
-									id="level4"></td>
+								<td colspan="1"><b>Existing Stock : </b></td>  
+								<td colspan="5">
+									<b>WIP : </b>
+<input type="text" onkeypress="return validatenumerics(event);" style="font-weight:bold;  background-color: #dcf1f8;text-align: right;" class="required input_field" name="wip" id="wip" onkeyup="totalsum();" />&nbsp;&nbsp;
+									<b>As Cast : </b>
+<input type="text" onkeypress="return validatenumerics(event);" style="font-weight:bold;  background-color: #dcf1f8;text-align: right;" class="required input_field" name="ascast" id="ascast" onkeyup="totalsum();" />&nbsp; &nbsp; 
+									<b>Total : </b> <b>
+<input type="text" readonly="readonly" class="required input_field" onkeypress="return validatenumerics(event);" style="font-weight:bold;text-align: right;  background-color: #dcf1f8" name="total" id="total" /></b>
+								</td>
 							</tr>
 							<tr>
-								<td><b>Existing Stock ===> </b></td>
+								<td colspan="1"><b>Tooling : </b></td>
+								<td colspan="5"><b>Old : </b><input type="text" id="oldtool" onkeypress="return validatenumerics(event);" style="font-weight:bold; text-align: right; background-color: #dcf1f8" class="required input_field" name="oldtool" />&nbsp;&nbsp;
+								<b>New : </b><input type="text" id="newtool" onkeypress="return validatenumerics(event);" style="font-weight:bold; text-align: right; background-color: #dcf1f8" class="required input_field" name="newtool" />&nbsp;&nbsp;
+								</td>
 							</tr>
 							<tr>
-								<td><b>WIP</b><input type="text"
-									class="required input_field" name="wip" id="wip"
-									onkeyup="totalsum();" />
-									<div class="cleaner h10"></div></td>
-								<td><b>As Cast</b><input type="text"
-									class="required input_field" name="ascast" id="cst"
-									onkeyup="totalsum();" />
-									<div class="cleaner h10"></div></td>
+								<td colspan="1"><b>Fixture : </b></td>
+								<td colspan="5"><b>Old Fixture : </b><input type="text" id="old_fixture" onkeypress="return validatenumerics(event);" style="font-weight:bold; text-align: right; background-color: #dcf1f8" class="required input_field" name="old_fixture" />&nbsp;&nbsp;
+								<b>New Fixture : </b><input type="text" id="new_fixture" onkeypress="return validatenumerics(event);" style="font-weight:bold; text-align: right; background-color: #dcf1f8" class="required input_field" name="new_fixture" />&nbsp;&nbsp; </td>
 							</tr>
+ 
 							<tr>
-								<td><b>Total ===></b></td>
-							</tr>
-							<tr>
-								<td><b><input type="text" class="required input_field"
-										name="total" id="total" /></b></td>
-							</tr>
-
-
-
-
-
-							<tr>
-								<td><b>Tooling ===> </b></td>
-							</tr>
-							<tr>
-								<td><b>Old</b><input type="text" id="oldtool"
-									class="required input_field" name="oldtool" />
-									<div class="cleaner h10"></div></td>
-								<td><b>New</b><input type="text" id="newtool"
-									class="required input_field" name="newtool" />
-									<div class="cleaner h10"></div></td>
-							</tr>
-							<tr>
-								<td><b>Old Fixture</b><input type="text" id="old_fixture"
-									class="required input_field" name="old_fixture" />
-									<div class="cleaner h10"></div></td>
-								<td><b>New Fixture</b><input type="text" id="new_fixture"
-									class="required input_field" name="new_fixture" />
-									<div class="cleaner h10"></div></td>
-							</tr>
-
-
-
-
-							<tr>
-								<td><b>Gauges ===> </b></td>
-							</tr>
-							<tr>
-								<td><b>Old Gauges</b><input type="text" id="old_gauges"
-									class="required input_field" name="old_gauges" />
-									<div class="cleaner h10"></div></td>
-								<td><b>New Gauges</b><input type="text" id="new_gauges"
-									class="required input_field" name="new_gauges" />
-									<div class="cleaner h10"></div></td>
+								<td colspan="1"><b>Gauges : </b></td>
+								<td colspan="5"><b>Old Gauges : </b><input type="text" id="old_gauges" onkeypress="return validatenumerics(event);" style="font-weight:bold; text-align: right; background-color: #dcf1f8" class="required input_field" name="old_gauges" />&nbsp;&nbsp;
+								<b>New Gauges : </b><input type="text" id="new_gauges" onkeypress="return validatenumerics(event);" style="font-weight:bold; text-align: right; background-color: #dcf1f8" class="required input_field" name="new_gauges" />&nbsp;&nbsp;</td>
 							</tr>
 
 							<tr>
-								<td><b>Re PPAP ===> </b></td>
+								<td colspan="1"><b>Re PPAP : </b></td>
+								<td colspan="5"><b><input type="radio" name="ppap" value="Required" id="ppapr" style="width: 40px;font-weight:bold;  background-color: #dcf1f8"> Required &nbsp;
+									<input id="ppapnr" type="radio" name="ppap" value="Not Required" style="width: 40px;font-weight:bold;  background-color: #dcf1f8"> Not Required &nbsp;</b></td>
 							</tr>
 							<tr>
-
-
-
-								<td><b><input type="radio" name="ppap" value="Required"
-										id="ppapr" style="width: 40px;">Required<input
-										id="ppapnr" type="radio" name="ppap" value="Not Required"
-										style="width: 40px;">Not Required</b></td>
-
-
-
-
-								<td colspan="1"><b>Actual date of implementation</b><input
-									id="demo5" name="Actualimpldate" type="text" size="25"
-									readonly="readonly" title="Click on DatePicker"> <a
-									href="javascript:NewCal('demo5','ddmmyyyy',true,24)"> <img
-										src="cal.gif" width="16" height="16" border="0"
-										alt="Pick a date"></a></td>
+								<td colspan="1"><b>Actual date of implementation (Optional) : </b></td>
+								<td colspan="5">
+								<input type="text" name="Actualimpldate" id="Actualimpldate" readonly="readonly" style="height: 22px; width: 150px; font-weight:bold;  background-color: #dcf1f8"/>
+								<!-- <input id="demo5" name="Actualimpldate" type="text" size="25" readonly="readonly" title="Click on DatePicker"> 
+									   <a href="javascript:NewCal('demo5','ddmmyyyy',true,24)"> <img src="cal.gif" width="16" height="16" border="0" alt="Pick a date"></a> --> 
+								</td>
 							</tr>
-
-
-
-
-
+ 
 							<tr>
-								<td colspan="1"><b>Concern Department</b></td>
-								<td></td>
-								<td colspan="1"><b>Selected Department</b></td>
+								<td colspan="2" align="left"><b>Concern Department</b></td>
+								<td colspan="1" align="left"><b><= Select =></b></td>
+								<td colspan="3"><b>Selected Department</b></td>
 							</tr>
 							<tr>
-								<td colspan="1" align="left"><select id="department"
+								<td colspan="2" align="left"><select id="department"
 									name="department" multiple="multiple" size="5"
-									style="width: 310px" title="Concern Department">
+									style="width: 310px;font-weight:bold;  background-color: #dcf1f8" title="Concern Department">
 
 										<%
 											PreparedStatement ps_ct1 = con
@@ -813,48 +777,36 @@
 										<option value="<%=rs_ct1.getString("Department")%>"><%=rs_ct1.getString("Department")%></option>
 										<%
 											}
-										%>
-
+										%> 
 								</select></td>
-								<td style="width: 50px;" align="center" align="center"><input
-									value="&gt;&gt;" onclick="movedata('right', 'rep')"
-									type="button"><br> <input value="&lt;&lt;"
-									onclick="movedata('left', 'rep')" type="button"></td>
-								<td colspan="1" align="right"><select
-									id="department_selected" name="department_selected"
-									multiple="multiple" size="5" style="width: 310px"
-									title="Selected Concern Department"></select></td>
+								<td colspan="1">
+								<input value="&gt;&gt;" onclick="movedata('right', 'rep')" style="font-weight:bold;" type="button"><br> 
+								<input value="&lt;&lt;" onclick="movedata('left', 'rep')" type="button" style="font-weight:bold;"></td>
+								<td colspan="3" align="left">
+								<select id="department_selected" name="department_selected" multiple="multiple" size="5" style="width: 310px;font-weight:bold;  background-color: #dcf1f8" title="Selected Concern Department"></select>
+								</td>
 							</tr>
-
-
-
-
-							<%-- 
-
-							<tr>
+ 							<%-- 
+ 							<tr>
 								<td><b>Approver Name</b></td>
 							</tr>
-
-								<tr>
+ 								<tr>
 								<td colspan="1"><select id="approver_name"
 									name="approver_name" multiple="multiple" size="5"
 									style="width: 310px" title="Approvers"
 									onblur="if (this.innerHTML == '') {this.innerHTML = '';}"
 									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}">
-
-										<%
+ 										<%
 											PreparedStatement ps_user = con
 														.prepareStatement("select distinct(U_Name) from user_tbl where Enable_id=1 order by U_name");
 												ResultSet rs_user = ps_user.executeQuery();
 												while (rs_user.next()) {
 										%>
-
-										<option value="<%=rs_user.getString("U_Name")%>"><%=rs_user.getString("U_Name")%></option>
+ 										<option value="<%=rs_user.getString("U_Name")%>"><%=rs_user.getString("U_Name")%></option>
 										<%
 											}
 										%>
-
-								</select></td>
+ 								</select></td>
 								<td style="width: 50px;" align="center"><input
 									value="&gt;&gt;" onclick="move1('right', 'rep')" type="button"><br>
 									<input value="&lt;&lt;" onclick="move1('left', 'rep')"
@@ -866,45 +818,28 @@
 									onfocus="if (this.innerHTML == '') {this.innerHTML = '';}">
 								</select></td>
 							</tr>
- --%>
-
-
-
+ --%> 
 							<tr>
-								<td><b>Attachments </b></td>
-							</tr>
-
-
-							<table id="tblSample">
-
+								<td colspan="1"><b>Attachments (If Any) :</b></td> 
+								<td colspan="5">
+							<table id="tblSample"> 
 								<tr>
-									&nbsp;&nbsp;&nbsp;
-									<strong> <input type="button"
-										value="  ADD More Files  " name="button"
-										onclick="addRowToTable();" /></strong> &nbsp;&nbsp;
-									<input type="button" value=" Delete [Selected] "
-										onclick="deleteChecked();" />&nbsp;&nbsp;
+									&nbsp;&nbsp;&nbsp; 
+									<input type="button" style="font-weight:bold;" value="  ADD More Files  " name="button" onclick="addRowToTable();" /></strong> &nbsp;&nbsp;
+									<input type="button" value=" Delete [Selected] " onclick="deleteChecked();" style="font-weight:bold;"/>&nbsp;&nbsp;
 									<input type="hidden" id="srno" name="srno" value="">
 								</tr>
 								<tbody></tbody>
 							</table>
-
-
+							</td>
+						</tr> 
 							<tr>
-								<td></td>
-							</tr>
-
-
-
-							<tr>
-								<td colspan="3" align="Center"><input type="submit"
-									value="Suggestion" name="NewRequest"
-									style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"
-									onclick="SendRequest();"> <input type="submit"
-									value="Send Request & Add Action" name="NewAction"
-									style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"
-									onclick="Action();"> <input type="hidden" name="valReq"
-									id="valReq"></td>
+								<td colspan="6" align="left">
+									<input type="submit" value="Suggestion / Send Request" name="NewRequest" id="NewRequest" style="cursor:pointer; height: 35px; width: 250px; background-color: #C4C4C4; border-radius: 20px/20px;font-weight: bold;" onclick="SendRequest();" title="Send for approval direcltly.."> 
+									&nbsp;&nbsp;&nbsp; 
+									<input type="submit" value="Send Request & Add Action" name="NewAction" id="NewAction" style="cursor:pointer; height: 35px; width: 250px; background-color: #C4C4C4; border-radius: 20px/20px;font-weight: bold;" onclick="Action();" title="If Actions known at the time of request click here...."> 
+									<input type="hidden" name="valReq" id="valReq">
+								</td>
 							</tr>
 							<%
 								} catch (Exception e) {
@@ -913,33 +848,7 @@
 							%>
 						</table>
 
-					</form>
-				</div>
-			</div>
-
-
-
-			<div class="cleaner"></div>
-		</div>
-		<!-- end of main -->
-	</div>
-	<!-- end of wrapper -->
-
-	<div id="templatemo_footer_wrapper">
-		<div id="templatemo_footer">
-			| Copyright 2013 <a href="http://www.muthagroup.com">Muthagroup
-				Satara</a> |
-			<div class="cleaner"></div>
-		</div>
-	</div>
-<!--============================================================================-->
-<!--============================================================================-->
-
-
-
-</body>
-<HEAD>
-<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
-<META HTTP-EQUIV="Expires" CONTENT="-1">
-</HEAD>
+					</form> 
+						 </div>
+</body> 
 </html>
