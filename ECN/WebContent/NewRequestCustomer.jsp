@@ -536,17 +536,31 @@ $(document).ready(
  
 </head>
 <body id="sub_page">
+<%
+try {
+	Connection con = Connection_Utility.getConnection();
+	int uid = Integer.parseInt(session.getAttribute("uid").toString());
+	PreparedStatement ps_uidappr = con.prepareStatement("select * from user_tbl where U_Id=" + uid);
+	String UName = null;
+	ArrayList id1 = new ArrayList();
+	ResultSet rs_uname = ps_uidappr.executeQuery(); 
+	String user_name = null; 
+	while (rs_uname.next()) {
+		user_name = rs_uname.getString("u_name");
+	} 
+	rs_uname.close();
+%>
 		<div id="templatemo_header" class="ddsmoothmenu">
 			<ul>
 				<li><a href="Cab_Home.jsp">Home</a></li>
-				<li><a href="New_Request.jsp">New Request</a></li>
-				<li><a href="Cab_Edit_Request.jsp">Edit Request</a></li>
+				<li><a href="New_Request.jsp" style="background-color: #808080"><b>New Request</b></a></li>
+				<!-- <li><a href="Cab_Edit_Request.jsp">Edit Request</a></li> -->
 				<li><a href="Add_Action.jsp">Add Action</a></li>
-				<li><a href="My_Approvals.jsp">My Approvals</a></li>
+				<li><a href="My_Approvals.jsp">Details</a></li>
 				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
 				<li><a href="Reports.jsp">Reports</a></li>
-				<li><a href="logout.jsp">Log Out</a></li>
-			</ul>
+				<li style="text-align: center;"><a href="logout.jsp">Log Out <b style="font-size: 9px;">( <%=user_name%> )</b></a></li>
+			</ul> 
 		</div>
 		<!-- end of templatemo_menu 
 		<div id="templatemo_menu">
@@ -580,14 +594,9 @@ $(document).ready(
 				<div style="height: 550px;width: 100%;">	
 					<form name="myForm" method="post" action="Customer_Request_Controller" enctype="multipart/form-data" onSubmit="return validateForm();">
 						<table style="width: 100%;" class="tftable"> 
-								<%
-									try {
-
-										Connection con = Connection_Utility.getConnection();
-										PreparedStatement ps = con
-												.prepareStatement("select * from customer_tbl order by Cust_name");
-										PreparedStatement ps1 = con
-												.prepareStatement("select * from customer_tbl_item order by Item_name");
+								<%	
+										PreparedStatement ps = con.prepareStatement("select * from customer_tbl order by Cust_name");
+										PreparedStatement ps1 = con.prepareStatement("select * from customer_tbl_item order by Item_name");
 
 										//PreparedStatement ps3 = con.prepareStatement("select * from user_tbl where enable_id=1");
 										PreparedStatement ps4 = con

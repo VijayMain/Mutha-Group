@@ -383,16 +383,30 @@ $(document).ready(
 <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
 </head>
 <body id="sub_page" style="background-color: white;">
+<%
+try {
+	Connection con = Connection_Utility.getConnection();
+	int uid = Integer.parseInt(session.getAttribute("uid").toString());
+	PreparedStatement ps_uidappr = con.prepareStatement("select * from user_tbl where U_Id=" + uid);
+	String UName = null;
+	ArrayList id1 = new ArrayList();
+	ResultSet rs_uname = ps_uidappr.executeQuery(); 
+	String user_name = null; 
+	while (rs_uname.next()) {
+		user_name = rs_uname.getString("u_name");
+	} 
+	rs_uname.close();
+%>
 		<div id="templatemo_header" class="ddsmoothmenu">
 			<ul>
 				<li><a href="Cab_Home.jsp">Home</a></li>
-				<li><a href="New_Request.jsp">New Request</a></li>
-				<li><a href="Cab_Edit_Request.jsp">Edit Request</a></li>
+				<li><a href="New_Request.jsp" style="background-color: #808080"><b>New Request</b></a></li>
+				<!-- <li><a href="Cab_Edit_Request.jsp">Edit Request</a></li> -->
 				<li><a href="Add_Action.jsp">Add Action</a></li>
-				<li><a href="My_Approvals.jsp">My Approvals</a></li>
+				<li><a href="My_Approvals.jsp">Details</a></li>
 				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
 				<li><a href="Reports.jsp">Reports</a></li>
-				<li><a href="logout.jsp">Log Out</a></li>
+				<li style="text-align: center;"><a href="logout.jsp">Log Out <b style="font-size: 9px;">( <%=user_name%> )</b></a></li>
 			</ul> 
 		</div>
  					<div id="templatemo_header" class="ddsmoothmenu" style="width: 100%">
@@ -406,12 +420,11 @@ $(document).ready(
 						<table style="width: 100%;" class="tftable">
 							<tr>
 								<%
-									try {
+									
 										Calendar first_Datecal = Calendar.getInstance();   
 										first_Datecal.set(Calendar.DAY_OF_MONTH, 1);  
 										Date dddd = first_Datecal.getTime();  
-										SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyy-MM-dd");  
-										Connection con = Connection_Utility.getConnection();
+										SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyy-MM-dd"); 
 										PreparedStatement ps_crno = con.prepareStatement("select Max(CR_No) from cr_tbl");
 										ResultSet rs_crno = ps_crno.executeQuery();
 										int cr_No = 0;

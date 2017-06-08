@@ -595,6 +595,42 @@ alert("Done");
       <td>Attach cheque/other for ref.</td>
       <td colspan="3"><input type="file" name="attachment" id="attachment" size="40"></td>
     </tr>
+   
+   
+    <!--
+    		GST Data Details ======>  
+    --->
+    <tr>
+      <td colspan="4" align="left" bgcolor="#c3c3c3"><strong>GST Details</strong></td>
+    </tr>
+    <tr>
+      <td>Supplier GSTIN Registered ?</td>
+      <td colspan="3">&nbsp;&nbsp;
+	  <input type="radio" name="gstin_reg" id="gstin_regyes" value="yes">Yes &nbsp; &nbsp;
+      <input type="radio" name="gstin_reg" id="gstin_regno" value="no">No &nbsp;  
+	</td>
+    </tr>
+    <tr>
+      <td>GSTIN Number (If Yes)</td>
+      <td colspan="3"><input type="text" name="GSTIN_number" id="GSTIN_number" size="30" maxlength="50" style="text-transform: uppercase;"></td>
+    </tr>
+    <tr>
+      <td>Is Line Item GST Round</td>
+      <td colspan="3"> &nbsp; &nbsp;
+      <input type="radio" name="line_itemgstround" id="line_itemgstroundyes" value="yes">Yes &nbsp; &nbsp;
+      <input type="radio" name="line_itemgstround" id="line_itemgstroundno" value="no">No &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td>State</td>
+      <td colspan="3"><input type="text" name="state_gst" id="state_gst" size="40"></td>
+    </tr>
+   
+   <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+   
+   
+   
+   
     
     <!--
     		Transfer data to company selected  
@@ -612,7 +648,7 @@ alert("Done");
       <input type="checkbox" name="meplunitIII" id="meplunitIII"> MEPL UNIT III
       <br> <br>      </td>
     </tr>
-    
+   
     <tr>
       <td>&nbsp;</td>
       <td colspan="3"><input type="submit" name="submit" id="submit" value="Submit for Approval" style="font-weight:bold;height: 29px;width: 200px;background-color: #9ae9ef;"></td>

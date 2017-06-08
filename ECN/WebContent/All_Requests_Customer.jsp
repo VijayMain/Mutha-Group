@@ -80,17 +80,39 @@ function ChangeColor(tableRow, highLight) {
 </script> 
 </head> 
 <body id="sub_page">
+<%
+						try {
+
+							int uid = 0;
+
+							int ap_id = 0;
+							int cr_no1 = 0;
+							ArrayList cr_list = new ArrayList();
+							ArrayList cr_list1 = new ArrayList();
+							ArrayList approval_list = new ArrayList();
+							Connection con = Connection_Utility.getConnection();
+							uid = Integer.parseInt(session.getAttribute("uid").toString());
+							
+							PreparedStatement ps_uidappr = con.prepareStatement("select * from user_tbl where U_Id=" + uid);
+							String UName = null; 
+							ResultSet rs_uname = ps_uidappr.executeQuery(); 
+							String user_name = null; 
+							while (rs_uname.next()) {
+								user_name = rs_uname.getString("u_name");
+							}
+							rs_uname.close();
+					%>
 			<div id="templatemo_header" class="ddsmoothmenu">
 			<ul>
 				<li><a href="Cab_Home.jsp">Home</a></li>
 				<li><a href="New_Request.jsp">New Request</a></li>
-				<li><a href="Cab_Edit_Request.jsp">Edit Request</a></li>
+				<!-- <li><a href="Cab_Edit_Request.jsp">Edit Request</a></li> -->
 				<li><a href="Add_Action.jsp">Add Action</a></li>
-				<li><a href="My_Approvals.jsp">Details</a></li>
+				<li style="background-color: #808080"><a href="My_Approvals.jsp"><b>Details</b></a></li>
 				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
 				<li><a href="Reports.jsp">Reports</a></li>
-				<li><a href="logout.jsp">Log Out</a></li>
-			</ul> 
+				<li><a href="logout.jsp">Log Out  <b style="font-size: 9px;">( <%=user_name%> )</b></a></li>
+			</ul>
 		</div>  
 				<div id="templatemo_header" class="ddsmoothmenu" style="width: 100%">
 						<ul>
@@ -104,21 +126,7 @@ function ChangeColor(tableRow, highLight) {
 
 
 
-					<%
-						try {
-
-							int uid = 0;
-
-							int ap_id = 0;
-							int cr_no1 = 0;
-							ArrayList cr_list = new ArrayList();
-							ArrayList cr_list1 = new ArrayList();
-							ArrayList approval_list = new ArrayList();
-
-							Connection con = Connection_Utility.getConnection();
-
-							uid = Integer.parseInt(session.getAttribute("uid").toString());
-					%>
+					
 					<!-- <form method="post" name="contact" action="Edit_Request.jsp"> -->
 					<form method="post" name="approve" action="Customer_Requests_Result.jsp" id="approve">
 						<%

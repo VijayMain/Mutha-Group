@@ -251,6 +251,21 @@ private static final long serialVersionUID = 1L;
 					vo.setMeplunitIII(fieldValue);
 				}
 				
+				
+				if (fieldName.equalsIgnoreCase("gstin_reg")) {
+					vo.setGstin_reg(fieldValue);
+				}
+				if (fieldName.equalsIgnoreCase("GSTIN_number")) {
+					vo.setGSTIN_number(fieldValue);
+				}
+				if (fieldName.equalsIgnoreCase("line_itemgstround")) {
+					vo.setLine_itemgstround(fieldValue);
+				}
+				if (fieldName.equalsIgnoreCase("state_gst")) {
+					vo.setState_gst(fieldValue);
+				} 
+				// gstin_reg, GSTIN_number, line_itemgstround,state_gst;
+				
 				}else {
 							// *************************************************************************************************************
 							// IF FILE inputs === >

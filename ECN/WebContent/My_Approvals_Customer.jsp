@@ -5,11 +5,7 @@
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.ResultSet"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<!--==============================================================-->
-<!--=================== Design Script ===============================-->
-<!--==============================================================-->
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head> 
 <title>My Approvals</title>
 <meta name="keywords" content="graphite theme, free templates, website templates, CSS, HTML" />
 <meta name="description" content="Graphite Theme, Contact page, free CSS template provided by templatemo.com" />
@@ -88,31 +84,7 @@ div.scroll {
 </script>
 </head>
 <body id="sub_page"> 
-		<!--=========================================================-->
-		<!--========================= Menu Bar =======================-->
-		<!--=========================================================-->
-		<div id="templatemo_header" class="ddsmoothmenu">
-			<ul>
-				<li><a href="Cab_Home.jsp">Home</a></li>
-				<li><a href="New_Request.jsp">New Request</a></li>
-				<li><a href="Cab_Edit_Request.jsp">Edit Request</a></li>
-				<li><a href="Add_Action.jsp">Add Action</a></li>
-				<li><a href="My_Approvals.jsp">Details</a></li>
-				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
-				<li><a href="Reports.jsp">Reports</a></li>
-				<li><a href="logout.jsp">Log Out</a></li>
-			</ul> 
-		</div>
-		  		<div id="templatemo_header" class="ddsmoothmenu" style="width: 100%">
-						<ul>
-							<li style="background-color: #B3A6AA;"><a href="My_Approvals.jsp">Internal</a></li>
-							<li style="background-color: #1c6f8a;color: white;"><a href="My_Approvals_Customer.jsp"><b>Customer</b></a></li>
-														
-							<li style="background-color: #B3A6AA;"><a href="All_Requests.jsp">All Internal</a></li>
-							<li style="background-color: #B3A6AA;"><a href="All_Requests_Customer.jsp">All Customer</a></li>
-						</ul>
-					</div>
-					<%
+		<%
 						try { 
 							int uid = 0; 
 							int ap_id = 0;
@@ -152,6 +124,28 @@ div.scroll {
 								}
 							}
 					%> 
+		<div id="templatemo_header" class="ddsmoothmenu">
+			<ul>
+				<li><a href="Cab_Home.jsp">Home</a></li>
+				<li><a href="New_Request.jsp">New Request</a></li>
+				<!-- <li><a href="Cab_Edit_Request.jsp">Edit Request</a></li> -->
+				<li><a href="Add_Action.jsp">Add Action</a></li>
+				<li style="background-color: #808080"><a href="My_Approvals.jsp"><b>Details</b></a></li>
+				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
+				<li><a href="Reports.jsp">Reports</a></li>
+				<li><a href="logout.jsp">Log Out  <b style="font-size: 9px;">( <%=UName%> )</b></a></li>
+			</ul>
+		</div>
+		  		<div id="templatemo_header" class="ddsmoothmenu" style="width: 100%">
+						<ul>
+							<li style="background-color: #B3A6AA;"><a href="My_Approvals.jsp">Internal</a></li>
+							<li style="background-color: #1c6f8a;color: white;"><a href="My_Approvals_Customer.jsp"><b>Customer</b></a></li>
+														
+							<li style="background-color: #B3A6AA;"><a href="All_Requests.jsp">All Internal</a></li>
+							<li style="background-color: #B3A6AA;"><a href="All_Requests_Customer.jsp">All Customer</a></li>
+						</ul>
+					</div>
+					
 					<form method="post" name="approve" action="My_Approvals_Result_Customer.jsp" id="approve">
 						<%
 							ArrayList cr = new ArrayList();

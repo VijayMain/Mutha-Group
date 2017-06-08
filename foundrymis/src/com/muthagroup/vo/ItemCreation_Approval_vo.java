@@ -17,8 +17,8 @@ public class ItemCreation_Approval_vo {
 			supplier_phone3, relativeinMutha, relative_name, turnYear1,
 			turnover1, turnover2, turnover3, turnYear2, turnYear3, owners_name,
 			phone_number3, attachment_name, meplH21, meplH25, mfpl, di,
-			meplunitIII, purpose;
-
+			meplunitIII, purpose, gstin_reg, GSTIN_number, line_itemgstround,
+			state_gst;
 	private InputStream attachment;
 
 	public String getSupplier() {
@@ -571,6 +571,38 @@ public class ItemCreation_Approval_vo {
 
 	public void setPurpose(String purpose) {
 		this.purpose = purpose;
+	}
+
+	public String getGstin_reg() {
+		return gstin_reg;
+	}
+
+	public void setGstin_reg(String gstin_reg) {
+		this.gstin_reg = gstin_reg;
+	}
+
+	public String getGSTIN_number() {
+		return GSTIN_number;
+	}
+
+	public void setGSTIN_number(String gSTIN_number) {
+		GSTIN_number = gSTIN_number;
+	}
+
+	public String getLine_itemgstround() {
+		return line_itemgstround;
+	}
+
+	public void setLine_itemgstround(String line_itemgstround) {
+		this.line_itemgstround = line_itemgstround;
+	}
+
+	public String getState_gst() {
+		return state_gst;
+	}
+
+	public void setState_gst(String state_gst) {
+		this.state_gst = state_gst;
 	}
 
 }

@@ -294,7 +294,7 @@ if(uid==116 && record_flag!=1){
 				<td colspan='3'><%=rs_rec.getString("email_supplier")%></td>
 			</tr>
 			<tr>
-				<td><strong>Website</strong></td>
+				<td><strong>Web site</strong></td>
 				<td colspan='3'><%= rs_rec.getString("website_supplier")%></td>
 			</tr>
 			<tr>
@@ -314,26 +314,61 @@ if(uid==116 && record_flag!=1){
 				<td><strong>TIN/SST Number</strong></td>
 				<td><%= rs_rec.getString("tin_sst")%></td>
 				<td><strong>Date</strong></td>
-				<td><%=rs_rec.getString("tin_sst_date")%></td>
+				<td>
+				<%
+				String tin_sst_date="";
+				if(rs_rec.getString("tin_sst_date")!=""){
+					tin_sst_date = rs_rec.getString("tin_sst_date").substring(8, 10) + "/" + rs_rec.getString("tin_sst_date").substring(5, 7) + "/" +  rs_rec.getString("tin_sst_date").substring(0, 4); 
+				} 
+				%>
+				<label><%=tin_sst_date %></label>
+				<%
+				tin_sst_date="";
+				%>
+				</td>
 			</tr>
 			<tr>
 				<td><strong>CST Number</strong></td>
 				<td><%=rs_rec.getString("cst_number")%></td>
 				<td><strong>Date</strong></td>
-				<td><%= rs_rec.getString("cst_number_date") %></td>
+				<td> 
+				<%
+				String cst_number_date="";
+				if(rs_rec.getString("cst_number_date")!=""){
+					cst_number_date = rs_rec.getString("cst_number_date").substring(8, 10) + "/" + rs_rec.getString("cst_number_date").substring(5, 7) + "/" +  rs_rec.getString("cst_number_date").substring(0, 4); 
+				}
+				%>
+				<label><%=cst_number_date %></label>
+				<%
+				cst_number_date="";
+				%>
+					
+				</td>
 			</tr>
 			<tr>
 				<td><strong>Service Tax Number</strong></td>
 				<td><%=rs_rec.getString("service_tax")%></td>
-				<td><strong>Date</strong></td>
-				<td><%= rs_rec.getString("service_tax_date")%></td>
+				<td><strong>Date</strong></td> 
+				<td> 
+				<%
+				String service_tax_date="";
+				if(rs_rec.getString("service_tax_date")!=""){
+					service_tax_date = rs_rec.getString("service_tax_date").substring(8, 10) + "/" + rs_rec.getString("service_tax_date").substring(5, 7) + "/" +  rs_rec.getString("service_tax_date").substring(0, 4); 
+				} 
+				%>
+				<label><%=service_tax_date %></label>
+				<%
+				service_tax_date="";
+				%>
+				</td>
+				
 			</tr>
 			<tr>
 				<td><strong>ECC Number</strong></td>
 				<td colspan='3'><%= rs_rec.getString("ecc_no")%></td>
 			</tr>
 			<tr>
-				<td><strong>Exceise Range</strong></td>
+				<td><strong>Excise Range</strong></td>
 				<td><%= rs_rec.getString("excise_range") %></td>
 				<td><strong>Division</strong></td>
 				<td><%= rs_rec.getString("division") %></td>
@@ -439,15 +474,18 @@ if(uid==116 && record_flag!=1){
 			</tr>
 			<tr>
 				<td colspan='3'><%=rs_rec.getString("bank_address3")%></td>
-			</tr>
+			</tr> 
+				<tr><td colspan='4' align='left' bgcolor='#c3c3c3'><strong>GST Details</strong></td></tr>
+				<tr><td>Supplier GSTIN Registered ?</td><td colspan='3'><%= rs_rec.getString("gstin_reg") %></td>
+				</tr><tr><td>GSTIN Number (If Yes)</td><td colspan='3'><%= rs_rec.getString("GSTIN_number") %></td>
+				</tr><tr><td>Is Line Item GST Round</td><td colspan='3'><%= rs_rec.getString("line_itemgstround") %></td>
+				</tr><tr><td>State</td><td colspan='3'><%= rs_rec.getString("state_gst") %></td></tr> 
 		</table> 
 	<%
-	
 				}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			%>
-		
+	%>
 </body>
 </html>

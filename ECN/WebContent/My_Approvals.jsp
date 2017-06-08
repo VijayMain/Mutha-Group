@@ -98,19 +98,52 @@ div.scroll {
 </head>
 
 <body id="sub_page">
-		<!--===============================================================-->
-		<!--========================= Menu Bar =============================-->
-		<!--===============================================================-->
+		<%
+						try { 
+							int uid = 0;
+ 							int ap_id = 0;
+							int cr_no1 = 0;
+							ArrayList cr_list = new ArrayList();
+							ArrayList cr_list1 = new ArrayList();
+							ArrayList approval_list = new ArrayList();
+ 							Connection con = Connection_Utility.getConnection();
+ 							uid = Integer.parseInt(session.getAttribute("uid").toString());
+ 							PreparedStatement ps_uidappr = con.prepareStatement("select * from user_tbl where U_Id=" + uid);
+							String UName = null;
+							ArrayList id1 = new ArrayList();
+							ResultSet rs_uidappr = ps_uidappr.executeQuery();
+							while (rs_uidappr.next()) {
+								UName = rs_uidappr.getString("U_Name");
+								PreparedStatement ps_id = con.prepareStatement("select * from user_tbl where U_Name='" + UName + "'");
+								ResultSet rs_id = ps_id.executeQuery();
+								while (rs_id.next()) {
+									id1.add(rs_id.getInt("U_Id"));
+								}
+							}
+
+							for (int s = 0; s < id1.size(); s++) {
+								PreparedStatement ps_ap_id = con.prepareStatement("select cr_no from cr_tbl_approval where u_id="
+												+ Integer.parseInt(id1.get(s).toString())
+												+ " and Approval_id=2");
+
+								ResultSet rs_ap_id = ps_ap_id.executeQuery();
+
+								while (rs_ap_id.next()) { 
+									// System.out.print("CR No..." + rs_ap_id.getInt("CR_No"));
+									approval_list.add(rs_ap_id.getInt("CR_No")); 
+								}
+							}
+					%>
 		<div id="templatemo_header" class="ddsmoothmenu">
 			<ul>
 				<li><a href="Cab_Home.jsp">Home</a></li>
 				<li><a href="New_Request.jsp">New Request</a></li>
-				<li><a href="Cab_Edit_Request.jsp">Edit Request</a></li>
+				<!-- <li><a href="Cab_Edit_Request.jsp">Edit Request</a></li> -->
 				<li><a href="Add_Action.jsp">Add Action</a></li>
-				<li><a href="My_Approvals.jsp">Details</a></li>
+				<li style="background-color: #808080"><a href="My_Approvals.jsp"><b>Details</b></a></li>
 				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
 				<li><a href="Reports.jsp">Reports</a></li>
-				<li><a href="logout.jsp">Log Out</a></li>
+				<li><a href="logout.jsp">Log Out  <b style="font-size: 9px;">( <%=UName%> )</b></a></li>
 			</ul>
 		</div>
 
@@ -139,57 +172,13 @@ div.scroll {
 					</div> -->
 					
 					<div id="templatemo_header" class="ddsmoothmenu" style="width: 100%"> 
-						<ul> 
-							<!-- <li  style="background-color: #1c6f8a;color: white;"><a href="Cab_Home.jsp"><b>Internal Approvals</b></a></li>
-							<li style="background-color: #B3A6AA;"><a href="Cab_Home_Customer.jsp">Customer Approvals</a></li> -->
+						<ul>
 							<li style="background-color: #1c6f8a;color: white;"><a href="My_Approvals.jsp"><b>Internal</b></a></li>
 							<li style="background-color: #B3A6AA;"><a href="My_Approvals_Customer.jsp">Customer</a></li>
-							
 							<li style="background-color: #B3A6AA;"><a href="All_Requests.jsp">All Internal</a></li>
 							<li style="background-color: #B3A6AA;"><a href="All_Requests_Customer.jsp">All Customer</a></li>
 						</ul>
-					</div> 
-					<%
-						try {
-
-							int uid = 0;
-
-							int ap_id = 0;
-							int cr_no1 = 0;
-							ArrayList cr_list = new ArrayList();
-							ArrayList cr_list1 = new ArrayList();
-							ArrayList approval_list = new ArrayList();
-
-							Connection con = Connection_Utility.getConnection();
-
-							uid = Integer.parseInt(session.getAttribute("uid").toString());
-
-							PreparedStatement ps_uidappr = con.prepareStatement("select * from user_tbl where U_Id=" + uid);
-							String UName = null;
-							ArrayList id1 = new ArrayList();
-							ResultSet rs_uidappr = ps_uidappr.executeQuery();
-							while (rs_uidappr.next()) {
-								UName = rs_uidappr.getString("U_Name");
-								PreparedStatement ps_id = con.prepareStatement("select * from user_tbl where U_Name='" + UName + "'");
-								ResultSet rs_id = ps_id.executeQuery();
-								while (rs_id.next()) {
-									id1.add(rs_id.getInt("U_Id"));
-								}
-							}
-
-							for (int s = 0; s < id1.size(); s++) {
-								PreparedStatement ps_ap_id = con.prepareStatement("select cr_no from cr_tbl_approval where u_id="
-												+ Integer.parseInt(id1.get(s).toString())
-												+ " and Approval_id=2");
-
-								ResultSet rs_ap_id = ps_ap_id.executeQuery();
-
-								while (rs_ap_id.next()) { 
-									// System.out.print("CR No..." + rs_ap_id.getInt("CR_No"));
-									approval_list.add(rs_ap_id.getInt("CR_No")); 
-								}
-							}
-					%>
+					</div>  
 					<!-- <form method="post" name="contact" action="Edit_Request.jsp"> -->
 					<form method="post" name="approve" action="My_Approvals_Result.jsp" id="approve">
 						<%

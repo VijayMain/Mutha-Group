@@ -127,15 +127,15 @@ div.scroll {
 		<!-- ======================= Menu Bar ================================ -->
 		<!-- ================================================================ -->
 		<div id="templatemo_header1" class="ddsmoothmenu">
-			<ul>
-				<li><a href="Cab_Home.jsp">Home</a></li>
+		<ul>
+				<li><a href="Cab_Home.jsp" style="background-color: #808080"><b>Home</b></a></li>
 				<li><a href="New_Request.jsp">New Request</a></li>
-				<li><a href="Cab_Edit_Request.jsp">Edit Request</a></li>
+				<!-- <li><a href="Cab_Edit_Request.jsp">Edit Request</a></li> -->
 				<li><a href="Add_Action.jsp">Add Action</a></li>
-				<li><a href="My_Approvals.jsp">My Approvals</a></li>
+				<li><a href="My_Approvals.jsp">Details</a></li>
 				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
 				<li><a href="Reports.jsp">Reports</a></li>
-				<li><a href="logout.jsp">Log Out <b style="font-size: 9px;">( <%=user_name%> )</b></a></li>
+				<li style="text-align: center;"><a href="logout.jsp">Log Out <b style="font-size: 9px;">( <%=user_name%> )</b></a></li>
 			</ul> 
 		</div>
  					<div id="templatemo_header" class="ddsmoothmenu" style="width: 100%"> 

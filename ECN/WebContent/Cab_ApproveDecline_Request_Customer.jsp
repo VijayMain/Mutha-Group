@@ -238,19 +238,31 @@
 </script>
 </head>
 <body id="sub_page"> 
-<!--===================== Menu Bar ================================-->
-<!--==============================================================-->
+<%
+try {
+	Connection con = Connection_Utility.getConnection();
+	int uid = Integer.parseInt(session.getAttribute("uid").toString());
+	PreparedStatement ps_uidappr = con.prepareStatement("select * from user_tbl where U_Id=" + uid);
+	String UName = null;
+	ArrayList id1 = new ArrayList();
+	ResultSet rs_uname = ps_uidappr.executeQuery(); 
+	String user_name = null; 
+	while (rs_uname.next()) {
+		user_name = rs_uname.getString("u_name");
+	} 
+	rs_uname.close();
+%>
 		<div id="templatemo_header" class="ddsmoothmenu">
 			<ul>
-				<li><a href="Cab_Home.jsp">Home</a></li>
+				<li><a href="Cab_Home.jsp" style="background-color: #808080"><b>Home</b></a></li>
 				<li><a href="New_Request.jsp">New Request</a></li>
-				<li><a href="Cab_Edit_Request.jsp">Edit Request</a></li>
+				<!-- <li><a href="Cab_Edit_Request.jsp">Edit Request</a></li> -->
 				<li><a href="Add_Action.jsp">Add Action</a></li>
-				<li><a href="My_Approvals.jsp">My Approvals</a></li>
+				<li><a href="My_Approvals.jsp">Details</a></li>
 				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
 				<li><a href="Reports.jsp">Reports</a></li>
-				<li><a href="logout.jsp">Log Out</a></li>
-			</ul>
+				<li style="text-align: center;"><a href="logout.jsp">Log Out <b style="font-size: 9px;">( <%=user_name%> )</b></a></li>
+			</ul> 
 		</div> 
 				<div style="width: 100%;"> 
 					<form method="post" action="Cab_ApproveDecline_Request_Controller_Customer" onsubmit="return(validate());" name="myForm">
@@ -258,9 +270,7 @@
 						<tr style="background-color: #e66a0f">
 							<td colspan="9" align="left"><b style="color: white;font-size: 13px;">Customer Approve/Decline ECN Change</b></td>
 						</tr>
-							<%
-								try {
-									Connection con = Connection_Utility.getConnection();
+							<% 
 									ArrayList name = new ArrayList();
 									int cr_No = 0;
 									cr_No = Integer.parseInt(request.getParameter("hid"));
@@ -598,19 +608,12 @@
 							</tr> --> 
 							<tr style="background-color: #388eab;">
 								<td colspan="10" align="left"><b style="font-size: 14px;color: white;">Provide Approval </b><a href="NewRequestCustomer_AddAction.jsp?hid=<%=cr_No%>"><b style="font-size: 12px;color: white;">( Add More Actions if any )</b></a></td>
-							</tr> 
-							
-							
+							</tr>
 							<tr> 
-								<%
-									int uid = 0;
-										boolean flag = false;
-										uid = Integer.parseInt(session.getAttribute("uid").toString());
-
-										int ap_id = 0;
-
-										PreparedStatement ps_check = con
-												.prepareStatement("select * from cr_tbl_approval");
+								<% 
+										boolean flag = false;  
+										int ap_id = 0; 
+										PreparedStatement ps_check = con.prepareStatement("select * from cr_tbl_approval");
 										ResultSet rs_check = ps_check.executeQuery();
 										while (rs_check.next()) {
 											int cr_No1 = rs_check.getInt("CR_No");

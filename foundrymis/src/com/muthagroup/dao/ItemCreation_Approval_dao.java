@@ -61,8 +61,8 @@ if(flag_check==false){
 					+ "service_cessround,vat_round,net_amountRound,is_overseas,account_name,account_number,bank_name,branch,ifsc_rtgs,ifsc_neft,micr_code,phone_number1,"
 					+ "phone_number2,bank_address1,bank_address2,bank_address3,registered_by,registered_date,update_by,update_date,enable,approval_status,supplier_phone1,"
 					+ "supplier_phone2,email_logger,relative_flag,relative_name,turnover_year1,turnover_year2,turnover_year3,turnover1,turnover2,turnover3,owner_name,"
-					+ "supplier_phone3,phone_number3,transf_h21,transf_h25,transf_mfpl,transf_di,transf_u3,purpose)"
-					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					+ "supplier_phone3,phone_number3,transf_h21,transf_h25,transf_mfpl,transf_di,transf_u3,purpose, gstin_reg, GSTIN_number, line_itemgstround, state_gst)"
+					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			ps.setString(1, vo.getSupplier().toUpperCase());
 			ps.setString(2, vo.getShort_supplier());
 			ps.setString(3, vo.getSupp_address().toUpperCase());
@@ -137,6 +137,11 @@ if(flag_check==false){
 			ps.setString(72, vo.getDi());
 			ps.setString(73, vo.getMeplunitIII());
 			ps.setString(74, vo.getPurpose());
+			// gstin_reg, GSTIN_number, line_itemgstround, state_gst;
+			ps.setString(75, vo.getGstin_reg());
+			ps.setString(76, vo.getGSTIN_number());
+			ps.setString(77, vo.getLine_itemgstround());
+			ps.setString(78, vo.getState_gst());
 			
 			int up = ps.executeUpdate();
 
@@ -469,10 +474,14 @@ tds_method +"* Checked TDS Posting Entry Wise and Unchecked for TDS Debit Note"+
 "</tr><tr><td><strong>IFSC Code NEFT</strong></td><td colspan='3'>"+rs_rec.getString("ifsc_neft")+"&nbsp;</td></tr><tr><td><strong>MICR Code</strong></td>"+
 "<td colspan='3'>"+rs_rec.getString("micr_code")+"&nbsp;</td></tr><tr><td><strong>Phone Number</strong></td><td>"+rs_rec.getString("phone_number1")+"&nbsp;</td>"+
 "<td>"+rs_rec.getString("phone_number2")+"&nbsp;</td><td>"+rs_rec.getString("phone_number3")+"&nbsp;</td></tr><tr><td rowspan='3'><strong>Bank Address</strong></td><td colspan='3'>"+rs_rec.getString("bank_address1")+"&nbsp;</td></tr><tr>"+
-"<td colspan='3'>"+rs_rec.getString("bank_address2")+"&nbsp;</td></tr><tr><td colspan='3'>"+rs_rec.getString("bank_address3")+"&nbsp;</td></tr>");
+"<td colspan='3'>"+rs_rec.getString("bank_address2")+"&nbsp;</td></tr><tr><td colspan='3'>"+rs_rec.getString("bank_address3")+"&nbsp;</td></tr>"+
+"<tr><td colspan='4' align='left' bgcolor='#c3c3c3'><strong>GST Details</strong></td></tr>"+
+"<tr><td>Supplier GSTIN Registered ?</td><td colspan='3'>"+rs_rec.getString("gstin_reg")+"</td>"+
+"</tr><tr><td>GSTIN Number (If Yes)</td><td colspan='3'>"+rs_rec.getString("GSTIN_number")+"</td>"+
+"</tr><tr><td>Is Line Item GST Round</td><td colspan='3'>"+rs_rec.getString("line_itemgstround")+"</td>"+
+"</tr><tr><td>State</td><td colspan='3'>"+rs_rec.getString("state_gst")+"</td></tr>");
 }
-				sb.append("</table><p>"
-						+ "<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"
+				sb.append("</table><p><b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"
 						+ "<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"
 						+ "it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons"
 						+ "or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"

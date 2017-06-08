@@ -1,17 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@page import="java.util.ArrayList"%>
+<%@page import="com.muthagroup.connectionUtility.Connection_Utility"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.ResultSet"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Add Action</title>
-<!--======================== Design Script ====================================-->
-<!--============================================================================-->
-<meta name="keywords"
-	content="graphite theme, free templates, website templates, CSS, HTML" />
-<meta name="description"
-	content="Graphite Theme, Contact page, free CSS template provided by templatemo.com" />
-<link href="css/templatemo_style.css" rel="stylesheet" type="text/css" />
-
+<title>Add Action</title> 
+<link href="css/templatemo_style.css" rel="stylesheet" type="text/css" /> 
 <style>
 div.scroll {
 	background-color: #F0EBF2;
@@ -28,19 +25,10 @@ div.scroll {
 		else if (field.value == '')
 			field.value = field.defaultValue;
 	}
-</script>
-
-<link rel="stylesheet" type="text/css" href="css/ddsmoothmenu.css" />
-
+</script> 
+<link rel="stylesheet" type="text/css" href="css/ddsmoothmenu.css" /> 
 <script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/ddsmoothmenu.js">
-	/***********************************************
-	 * Smooth Navigational Menu- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
-	 * This notice MUST stay intact for legal use
-	 * Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
-	 ***********************************************/
-</script>
-
+<script type="text/javascript" src="js/ddsmoothmenu.js"> 
 <script type="text/javascript">
 	ddsmoothmenu.init({
 		mainmenuid : "templatemo_menu", //menu DIV id
@@ -50,48 +38,15 @@ div.scroll {
 		contentsource : "markup" //"markup" or ["container_id", "path_to_menu_file"]
 	});
 </script>
-
-<!--////// CHOOSE ONE OF THE 3 PIROBOX STYLES  \\\\\\\-->
-<link href="css_pirobox/white/style.css" media="screen" title="shadow"
-	rel="stylesheet" type="text/css" />
-<!--<link href="css_pirobox/white/style.css" media="screen" title="white" rel="stylesheet" type="text/css" />
-<link href="css_pirobox/black/style.css" media="screen" title="black" rel="stylesheet" type="text/css" />-->
-<!--////// END  \\\\\\\-->
-
-<!--////// INCLUDE THE JS AND PIROBOX OPTION IN YOUR HEADER  \\\\\\\-->
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/piroBox.1_2.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$().piroBox({
-			my_speed : 600, //animation speed
-			bg_alpha : 0.5, //background opacity
-			radius : 4, //caption rounded corner
-			scrollImage : false, // true == image follows the page, false == image remains in the same open position
-			pirobox_next : 'piro_next', // Nav buttons -> piro_next == inside piroBox , piro_next_out == outside piroBox
-			pirobox_prev : 'piro_prev',// Nav buttons -> piro_prev == inside piroBox , piro_prev_out == outside piroBox
-			close_all : '.piro_close',// add class .piro_overlay(with comma)if you want overlay click close piroBox
-			slideShow : 'slideshow', // just delete slideshow between '' if you don't want it.
-			slideSpeed : 4
-		//slideshow duration in seconds(3 to 6 Recommended)
-		});
-	});
-</script>
-<script src="js/script.js"></script>
-
+ <script src="js/script.js"></script>
 <script type="text/javascript">
 	function ChangeColor(tableRow, highLight) {
 		if (highLight) {
 			tableRow.style.backgroundColor = '#CFCFCF';
 		} else {
-			tableRow.style.backgroundColor = '#EDEDED';
+			tableRow.style.backgroundColor = 'white';
 		}
 	}
-
-	/* function DoNav(theUrl) {
-		document.location.href = theUrl;
-		//	document.getElementById("frm1").submit();
-	} */
 </script>
 <script language="javascript">
 	function button1(val) {
@@ -101,73 +56,46 @@ div.scroll {
 		action.submit();
 	}
 </script>
-<!--////// END  \\\\\\\-->
-<!--============================================================================-->
-<!--============================================================================-->
 </head>
-
-<%@page import="com.muthagroup.connectionUtility.Connection_Utility"%>
-<%@page import="java.sql.PreparedStatement"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="java.sql.ResultSet"%>
-
-
 <body id="sub_page">
-	<div id="templatemo_wrapper">
-		<div id="templatemo_top"></div>
-		<!-- end of top -->
+				<%
+						try {
 
-<!--============================================================================-->
-<!--===================== Menu Bar =====================================-->
+							int uid = 0;
+							uid = Integer.parseInt(session.getAttribute("uid").toString()); 
+							Connection con = Connection_Utility.getConnection();
+							
+							PreparedStatement ps_uidappr = con.prepareStatement("select * from user_tbl where U_Id=" + uid);
+							String UName = null; 
+							ResultSet rs_uname = ps_uidappr.executeQuery(); 
+							String user_name = null; 
+							while (rs_uname.next()) {
+								user_name = rs_uname.getString("u_name");
+							} 
+							rs_uname.close();
+					%>
 		<div id="templatemo_header" class="ddsmoothmenu">
 			<ul>
 				<li><a href="Cab_Home.jsp">Home</a></li>
 				<li><a href="New_Request.jsp">New Request</a></li>
-				<li><a href="Cab_Edit_Request.jsp">Edit Request</a></li>
-				<li><a href="Add_Action.jsp">Add Action</a></li>
-				<li><a href="My_Approvals.jsp">My Approvals</a></li>
+				<!-- <li><a href="Cab_Edit_Request.jsp">Edit Request</a></li> -->
+				<li><a href="Add_Action.jsp" style="background-color: #808080"><b>Add Action</b></a></li>
+				<li><a href="My_Approvals.jsp">Details</a></li>
 				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
 				<li><a href="Reports.jsp">Reports</a></li>
-				<li><a href="logout.jsp">Log Out</a></li>
-			</ul>
-			<br style="clear: left" />
+				<li style="text-align: center;"><a href="logout.jsp">Log Out <b style="font-size: 9px;">( <%=user_name%> )</b></a></li>
+			</ul> 
 		</div>
-		<!--============================================================================-->
-		<!--============================================================================-->
-		<!-- end of templatemo_menu -->
-		<div id="templatemo_menu">
-			<div id="site_title">
-				<h1 style="color: orange;">ECN</h1>
-			</div>
-		</div>
-
-		<!-- end of header -->
-
-		<div id="templatemo_main">
-			<h4 style="color: white;">Add Action Customer</h4>
-			<div class="col_w630 float_l">
-				<div id="contact_form">
-				<div id="templatemo_header" class="ddsmoothmenu">
-
+			<div id="templatemo_header" class="ddsmoothmenu" style="width: 100%"> 
 						<ul>
-
-							<li style="background-color: #B3A6AA;"><a
-								href="Add_Action.jsp">Add Action Internal</a></li>
-							<li style="background-color: #B3A6AA;"><a
-								href="Add_Action_Customer.jsp">Add Action Customer</a></li>
+							<li style="background-color: #B3A6AA;">
+							<a href="Add_Action.jsp">Add Action Internal</a>
+							</li>
+							<li style="background-color: #1c6f8a;color: white;">
+							<a href="Add_Action_Customer.jsp"><b>Add Action Customer</b></a>
+							</li>
 						</ul>
-				</div>
-					<%
-						try {
-
-							int uid = 0;
-							uid = Integer.parseInt(session.getAttribute("uid").toString());
-
-							System.out.print("user id at action " + uid);
-
-							Connection con = Connection_Utility.getConnection();
-					%>
-					
+			</div> 
 					<form method="post" name="action" action="Add_Action_Details_Customer.jsp"
 						id="action">
 							<%
