@@ -8,13 +8,9 @@
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.PreparedStatement"%>
 <html>
-<head>
-<!--======================== Design Script ====================================-->
-<!--============================================================================-->
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<head> 
 <title>ECN Approve Request</title>
-<link href="css/templatemo_style.css" rel="stylesheet" type="text/css" />
-
+<link href="css/templatemo_style.css" rel="stylesheet" type="text/css" /> 
 <script language="javascript" type="text/javascript">
 	function clearText(field) {
 		if (field.defaultValue == field.value)
@@ -22,25 +18,42 @@
 		else if (field.value == '')
 			field.value = field.defaultValue;
 	}
-</script>
+</script> 
+<style type="text/css">
+.tftable {
+	font-size: 10px;
+	color: #333333;
+	width: 100%;  
+}
 
-<script type="text/javascript">
+.tftable th {
+	font-size: 11px;
+	background-color: #388EAB; 
+	padding: 3px; 
+	color: white;
+	text-align: center;
+}
 
+.tftable tr {
+	background-color: white;
+}
+.tftable td {
+	font-size: 10px; 
+	padding: 3px; 
+}
+</style>
+<script type="text/javascript"> 
 function Go(){
 	var current = document.getElementById("mytext");
 	current.value = 3;
 	///document.myForm.submit();
-}
-
+} 
 function Go1(){
 	var current = document.getElementById("mytextAct");
 	current.value = 3;
 	///document.myForm.submit();
-}
-
-
-
-	// Form validation code will come here.
+} 
+// Form validation code will come here.
 	function validate() {
 
 		if (document.myForm.Action_disc.value == "") {
@@ -66,34 +79,11 @@ function Go1(){
 			return false;
 		}
 		return (true);
-	}
-
+	} 
 </script>
-
-
-
-
 <link rel="stylesheet" type="text/css" href="css/ddsmoothmenu.css" />
-
 <script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/ddsmoothmenu.js">
-	
-</script>
-
-<script type="text/javascript">
-	function ChangeColor(tableRow, highLight) {
-		if (highLight) {
-			tableRow.style.backgroundColor = '#CFCFCF';
-		} else {
-			tableRow.style.backgroundColor = 'white';
-		}
-	}
-
-	/* function DoNav(theUrl) {
-		document.location.href = theUrl;
-		//	document.getElementById("frm1").submit();
-	} */
-</script>
+<script type="text/javascript" src="js/ddsmoothmenu.js"></script>
 <script type="text/javascript">
 	ddsmoothmenu.init({
 		mainmenuid : "templatemo_menu", //menu DIV id
@@ -103,46 +93,16 @@ function Go1(){
 		contentsource : "markup" //"markup" or ["container_id", "path_to_menu_file"]
 	});
 </script>
-
-<!--////// CHOOSE ONE OF THE 3 PIROBOX STYLES  \\\\\\\-->
-<link href="css_pirobox/white/style.css" media="screen" title="shadow"
-	rel="stylesheet" type="text/css" />
-<!--<link href="css_pirobox/white/style.css" media="screen" title="white" rel="stylesheet" type="text/css" />
-<link href="css_pirobox/black/style.css" media="screen" title="black" rel="stylesheet" type="text/css" />-->
-<!--////// END  \\\\\\\-->
-
-<!--////// INCLUDE THE JS AND PIROBOX OPTION IN YOUR HEADER  \\\\\\\-->
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/piroBox.1_2.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$().piroBox({
-			my_speed : 600, //animation speed
-			bg_alpha : 0.5, //background opacity
-			radius : 4, //caption rounded corner
-			scrollImage : false, // true == image follows the page, false == image remains in the same open position
-			pirobox_next : 'piro_next', // Nav buttons -> piro_next == inside piroBox , piro_next_out == outside piroBox
-			pirobox_prev : 'piro_prev',// Nav buttons -> piro_prev == inside piroBox , piro_prev_out == outside piroBox
-			close_all : '.piro_close',// add class .piro_overlay(with comma)if you want overlay click close piroBox
-			slideShow : 'slideshow', // just delete slideshow between '' if you don't want it.
-			slideSpeed : 4
-		//slideshow duration in seconds(3 to 6 Recommended)
-		});
-	});
-</script>
-<!--////// END  \\\\\\\-->
 <script type="text/javascript">
 	function ClearList(OptionList, TitleName) {
 		OptionList.length = 0;
 	}
-
 	function move(side, form_name) {
 		var temp1 = new Array();
 		var temp2 = new Array();
 		var current1 = 0;
 		var current2 = 0;
 		var attribute;
-
 		//assign what select attribute treat as attribute1 and attribute2
 		if (side == "right") {
 			attribute1 = document.getElementById('change_name');
@@ -151,7 +111,6 @@ function Go1(){
 			attribute2 = document.getElementById('change_name');
 			attribute1 = document.getElementById('change_selected');
 		}
-
 		//fill an array with old values
 		for ( var i = 0; i < attribute2.length; i++) {
 			temp1[current1++] = attribute2.options[i].value;
@@ -245,14 +204,9 @@ function Go1(){
 <script type="text/javascript" src="jquery-1.6.1.min.js"></script>
 <link href="jquery.datepick.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="datetimepicker.js"></script>
-
 <link href="jquery-ui-1.8.18.custom.css" rel="stylesheet" />
-<script src="js/jquery-1.7.2.min.js">
-	
-</script>
-<script src="js/jquery-ui-1.8.18.custom.min.js">
-	
-</script>
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/jquery-ui-1.8.18.custom.min.js"></script>
 <script type="text/javascript" src="tabledeleterow.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -268,8 +222,6 @@ function Go1(){
 		});
 	});
 </script>
-
-
 <script type="text/javascript">
 	$(function() {
 
@@ -290,7 +242,6 @@ function Go1(){
 	});
 </script>
 <script type="text/javascript">
-
 function showState(str) {
 	var xmlhttp;
 	var where_to = confirm("Do you really want to DELETE this file ???");
@@ -304,12 +255,6 @@ function showState(str) {
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 				window.location.reload(true);
-				//window.opener.location.href = window.opener.location;
-				//window.opener.location.reload(true);
-				//window.location.href = window.location;
-				//window.opener.document.forms["myForm"].submit();
-				//document.getElementById("myForm").innerHTML=xmlhttp.responseText;
-				//window.opener.location.replace(window.opener.location.href);
 			}
 		};
 		xmlhttp.open("GET", "Delete_Customer.jsp?q=" + str, true);
@@ -319,346 +264,211 @@ function showState(str) {
 	}
 }
 </script>
-<!--============================================================================-->
-<!--============================================================================-->
-
 </head>
 <body id="sub_page">
-
-
-	<div id="templatemo_wrapper1">
-		<div id="templatemo_top"></div>
-		<!-- end of top -->
-
-<!--============================== Menu Bar ====================================-->
-<!--============================================================================-->
+<%
+try { 
+	int uid = Integer.parseInt(session.getAttribute("uid").toString()); 
+	Connection con = Connection_Utility.getConnection();
+	PreparedStatement ps_uidappr = con.prepareStatement("select * from user_tbl where U_Id=" + uid);
+	String UName = null; 
+	ResultSet rs_uname = ps_uidappr.executeQuery(); 
+	String user_name = null; 
+	while (rs_uname.next()) {
+		user_name = rs_uname.getString("u_name");
+	}
+	rs_uname.close();
+%>
 		<div id="templatemo_header" class="ddsmoothmenu">
 			<ul>
 				<li><a href="Cab_Home.jsp">Home</a></li>
 				<li><a href="New_Request.jsp">New Request</a></li>
-				<li><a href="Cab_Edit_Request.jsp">Edit Request</a></li>
-				<li><a href="Add_Action.jsp">Add Action</a></li>
-				<li><a href="My_Approvals.jsp">My Approvals</a></li>
+				<!-- <li><a href="Cab_Edit_Request.jsp">Edit Request</a></li> -->
+				<li><a href="Add_Action.jsp" style="background-color: #808080"><b>Add Action</b></a></li>
+				<li><a href="My_Approvals.jsp">Details</a></li>
 				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
 				<li><a href="Reports.jsp">Reports</a></li>
-				<li><a href="logout.jsp">Log Out</a></li>
+				<li style="text-align: center;"><a href="logout.jsp">Log Out <b style="font-size: 9px;">( <%=user_name%> )</b></a></li>
 			</ul>
-			<br style="clear: left" />
 		</div>
-		<!--============================================================================-->
-		<!--============================================================================-->
-		<!-- end of templatemo_menu -->
-		<div id="templatemo_menu">
-			<div id="site_title">
-				<h1 style="color: orange;">ECN</h1>
-			</div>
-		</div>
-
-		<!-- end of header -->
-
-		<div id="templatemo_main">
-			<h1 style="color: white;">Action Details</h1>
-			<div class="col_w630 float_l">
-
-				<div id="contact_form">
-					<form method="post" action="Action_Controller_Customer"
-						onsubmit="return(validate());" name="myForm" id="myForm"
-						enctype="multipart/form-data">
-						<table width="1050px" border="1" bordercolor="F70727">
-
-
+  				<div style="height: 550px;width: 100%;overflow: scroll;">
+					<form method="post" action="Action_Controller_Customer" onsubmit="return(validate());" name="myForm" id="myForm" enctype="multipart/form-data">
+						<table style="width: 100%;" class="tftable">
 							<%
-								try {
 
-									Connection con = Connection_Utility.getConnection();
 									HttpSession session1 = request.getSession();
 									int cr_No = 0;
 									cr_No = Integer.parseInt(request.getParameter("hid"));
 
 									session1.setAttribute("crno", cr_No);
 
-									PreparedStatement ps_edit = con
-											.prepareStatement("select * from CRC_tbl where CRC_No="
-													+ cr_No);
+									PreparedStatement ps_edit = con.prepareStatement("select * from CRC_tbl where CRC_No=" + cr_No);
 
 									ResultSet rs_edit = ps_edit.executeQuery();
 									int company_id = 0;
 									while (rs_edit.next()) {
 							%>
 							<input type="hidden" name="crno" value="<%=cr_No%>">
-							<tr>
-								<td align="center"><b>R No</b></td>
-								<td align="center"><b>R Date</b></td>
-								<td align="center"><b>Supplier Name</b></td>
-								<td align="center"><b>Part Name</b></td>
-								<td align="center"><b>Change For</b></td>
-								<td align="center"><b>WIP Stock</b></td>
-								<td align="center"><b>As Cast Stock</b></td>
-								<td align="center"><b>Total Stock</b></td>
-
+							<tr style="height: 27px;">
+								<th align="center"><b>R No</b></th>
+								<th align="center"><b>R Date</b></th>
+								<th align="center"><b>Supplier Name</b></th>
+								<th align="center" colspan="2"><b>Part Name</b></th>
+								<th align="center"><b>Change For</b></th>
+								<th align="center"><b>WIP Stock</b></th>
+								<th align="center"><b>As Cast Stock</b></th>
+								<th align="center"><b>Total Stock</b></th>
 							</tr>
 							<tr>
-								<td align="center"><label><%=cr_No%></label></td>
-								<td align="center"><label><%=rs_edit.getString("CRC_Date")%></label></td>
-
+								<td align="center"><b style="font-weight: bold;font-size: 12px;"><%=cr_No%></b></td>
+								<td align="left"><label><%=rs_edit.getString("CRC_Date")%></label></td> 
 								<%
-									PreparedStatement ps_company = con
-													.prepareStatement("select * from user_tbl_company where company_id="
+									PreparedStatement ps_company = con.prepareStatement("select * from user_tbl_company where company_id="
 															+ rs_edit.getInt("company_id"));
 											ResultSet rs_company = ps_company.executeQuery();
-											while (rs_company.next()) {
-
+											while (rs_company.next()) { 
 												company_id = rs_company.getInt("Company_Id");
 								%>
-								<td align="center"><label><%=rs_company.getString("Company_name")%></label></td>
+								<td align="left"><label><%=rs_company.getString("Company_name")%></label></td>
 								<%
-									}
-
-											PreparedStatement ps_item = con
-													.prepareStatement("select * from customer_tbl_item where item_id="
+									} 
+											PreparedStatement ps_item = con.prepareStatement("select * from customer_tbl_item where item_id="
 															+ rs_edit.getInt("item_id"));
 											ResultSet rs_item = ps_item.executeQuery();
 
 											while (rs_item.next()) {
 								%>
-								<td align="center"><label><%=rs_item.getString("Item_Name")%></label></td>
+								<td align="left" colspan="2"><label><%=rs_item.getString("Item_Name")%></label></td>
 								<%
 									}
 								%>
-
-								<td align="center"><label><%=rs_edit.getString("Change_For")%></label>
+								<td align="left"><label><%=rs_edit.getString("Change_For")%></label>
 								</td>
-								<td align="center"><label><%=rs_edit.getInt("Existing_WIP_Stock")%></label>
+								<td align="right"><label><%=rs_edit.getInt("Existing_WIP_Stock")%></label>
 								</td>
-								<td align="center"><label><%=rs_edit.getInt("Existing_As_Cast_Stock")%></label>
+								<td align="right"><label><%=rs_edit.getInt("Existing_As_Cast_Stock")%></label>
 								</td>
-								<td align="center"><label><%=rs_edit.getInt("Total_Stock")%></label>
-								</td>
-
-
-
-							</tr>
-						</table>
-
-						<table width="1050px" border="1" bordercolor="F70727">
-
-							<tr>
-								<td align="center"><b>Targated Impl. Date</b></td>
-								<td colspan="4" align="center"><b>Tooling</b></td>
-								<td colspan="4" align="center"><b>Gauges</b></td>
-								<td colspan="4" align="center"><b>Fixture</b></td>
-								<td colspan="2" align="center"><b>PPAP</b></td>
-								<td colspan="2" align="center"><b>Change Level</b></td>
-
+								<td align="right"><label><%=rs_edit.getInt("Total_Stock")%></label>
+								</td> 
 							</tr>
 							<tr>
-
-
+								<th align="center"><b>Targated Impl. Date</b></th>
+								<th align="center"><b>Tooling Old</b></th>
+								<th align="center"><b>Tooling New</b></th>
+								<th align="center"><b>Gauges Old</b></th>
+								<th align="center"><b>Gauges New</b></th>
+								<th align="center"><b>Fixture Old</b></th>
+								<th align="center"><b>Fixture New</b></th>
+								<th align="center"><b>PPAP</b></th>
+								<th align="center"><b>Change Level</b></th>
+							</tr>
+							<tr>
 								<%
-									if (rs_edit.getString("Targated_Impl_Date").equals(
-													"0002-11-30 00:00:00.0")) {
+									if (rs_edit.getString("Targated_Impl_Date").equals("0002-11-30 00:00:00.0")) {
 								%>
-								<td align="center" width="110px">0000-00-00 00:00:00.0</td>
+								<td>&nbsp;</td>
 								<%
 									} else {
-								%>
-
-
-								<td align="center"><label><%=rs_edit.getString("Targated_Impl_Date")%></label></td>
+								%> 
+								<td align="left"><label><%=rs_edit.getString("Targated_Impl_Date")%></label></td>
 								<%
 									}
-								%>
-
-
-								<td colspan="4" align="center">
-									<table border="1">
-										<tr>
-											<td colspan="2" align="left"><b>Old</b></td>
-											<td colspan="2" align="right"><b>New</b></td>
-										</tr>
-										<tr>
-											<td colspan="2" align="left"><%=rs_edit.getInt("Tooling_Old")%></td>
-											<td colspan="2" align="right"><%=rs_edit.getInt("Tooling_New")%></td>
-										</tr>
-									</table>
-
-								</td>
-
-								<td colspan="4" align="center">
-
-									<table border="1">
-
-										<tr>
-											<td colspan="2" align="left"><b>Old</b></td>
-											<td colspan="2" align="right"><b>New</b></td>
-										</tr>
-										<tr>
-											<td colspan="2" align="left"><%=rs_edit.getInt("Gauges_Old")%></td>
-											<td colspan="2" align="right"><%=rs_edit.getInt("Gauges_New")%></td>
-										</tr>
-									</table>
-								</td>
-								<td colspan="4" align="center">
-									<table border="1">
-
-										<tr>
-											<td colspan="2" align="left"><b>Old</b></td>
-											<td colspan="2" align="right"><b>New</b></td>
-										</tr>
-										<tr>
-											<td colspan="2" align="left"><%=rs_edit.getInt("Fixture_Old")%></td>
-											<td colspan="2" align="right"><%=rs_edit.getInt("Fixture_New")%></td>
-										</tr>
-									</table>
-								</td>
-
-								<td colspan="2" align="center"><%=rs_edit.getString("PPAP")%>
-								</td>
-
-								<td colspan="2" align="center"><%=rs_edit.getString("Change_Level")%>
+								%> 
+								<td align="right"><%=rs_edit.getInt("Tooling_Old")%></td>
+								<td align="right"><%=rs_edit.getInt("Tooling_New")%></td>
+								<td align="right"><%=rs_edit.getInt("Gauges_Old")%></td>
+								<td align="right"><%=rs_edit.getInt("Gauges_New")%></td>
+								<td align="right"><%=rs_edit.getInt("Fixture_Old")%></td>
+								<td align="right"><%=rs_edit.getInt("Fixture_New")%></td>
+								<td align="left"><%=rs_edit.getString("PPAP")%></td> 
+								<td align="left"><%=rs_edit.getString("Change_Level")%>
 								</td>
 							</tr>
-
-
-						</table>
-
-
-						<table width="1050px" border="1" bordercolor="F70727">
-
-
-							<tr>
-								<td colspan="1" align="center"><b>Requestor </b></td>
-								<td colspan="1" align="center"><b>Attachments </b></td>
+ 							<tr>
+								<th colspan="4" align="center"><b>Requestor </b></th>
+								<th colspan="5" align="center"><b>Attachments </b></th>
 							</tr>
 							<tr>
-								<td colspan="1" align="center">
+								<td colspan="4" align="center">
 									<%
-										PreparedStatement ps_UName = con
-														.prepareStatement("select U_Name from User_tbl where U_Id="
-																+ rs_edit.getInt("U_Id"));
-
-												ResultSet rs_UName = ps_UName.executeQuery();
-
-												while (rs_UName.next()) {
-									%> <label> <%=rs_UName.getString("U_Name")%>
-								</label> <%
- 	}
- 		}
- %>
+										PreparedStatement ps_UName = con.prepareStatement("select U_Name from User_tbl where U_Id=" + rs_edit.getInt("U_Id"));
+										ResultSet rs_UName = ps_UName.executeQuery();
+										while (rs_UName.next()) {
+									%> <label> <%=rs_UName.getString("U_Name")%> </label> 
+								<%
+ 								}
+ 									}
+ 								%>
 								</td>
-								<td colspan="1" align="center">
+								<td colspan="5" align="left">
 									<%
-										/****************************************************************************************************************
-																																																																																																																																																																																																			TO SELECT ATTACHMENTS RELATED TO Action NUMBER 							
-											 ****************************************************************************************************************/
 											PreparedStatement ps_file1 = null;
-											System.out.println("Cr no.... for attachment...." + cr_No);
-											ps_file1 = con
-													.prepareStatement("select * from crc_tbl_attachment where CRC_No="
-															+ cr_No + " and Del_Status=1");
+											//System.out.println("Cr no.... for attachment...." + cr_No);
+											ps_file1 = con.prepareStatement("select * from crc_tbl_attachment where CRC_No=" + cr_No + " and Del_Status=1");
 											ResultSet rs_file1 = ps_file1.executeQuery();
 											while (rs_file1.next()) {
 									%>
-									<table width="390px">
-										<tr>
-											<td width="270px" align="center"><a
-												href="Display_Attach_Customer.jsp?field=<%=rs_file1.getString("CRC_File_Name")%>"
-												style="color: #396E2F"> <b> <%=rs_file1.getString("CRC_File_Name")%></b>
-											</a></td>
-										</tr>
-									</table> <%
- 	}
- %>
+									<label>
+									<a href="Display_Attach_Customer.jsp?field=<%=rs_file1.getString("CRC_File_Name")%>" style="color: green;"> <b> <%=rs_file1.getString("CRC_File_Name")%></b> </a>
+									</label>
+									<%
+ 										}
+ 									%>
 								</td>
-
 							</tr>
-
-						</table>
-
-
-
-						<table width="1050px" border="1" bordercolor="F70727">
 							<tr>
-								<td align="center" colspan="2"><b>Approver Name</b>
-									<div class="cleaner h10"></div></td>
-								<td align="center" colspan="2"><b>Approve Type</b>
-									<div class="cleaner h10"></div></td>
-								<td align="center" colspan="1"><b>Approve Date</b>
-									<div class="cleaner h10"></div></td>
-								<td align="center" colspan="3"><b>Remark</b>
-									<div class="cleaner h10"></div></td>
+								<th align="center" colspan="2"><b>Approver Name</b></th>
+								<th align="center" colspan="2"><b>Approve Type</b></th>
+								<th align="center" colspan="2"><b>Approve Date</b></th>
+								<th align="center" colspan="3"><b>Remark</b></th>
 							</tr>
 							<%
-								PreparedStatement ps_appr_details = con
-											.prepareStatement("select * from crc_tbl_approval where CRC_no="
-													+ cr_No);
-
+								PreparedStatement ps_appr_details = con.prepareStatement("select * from crc_tbl_approval where CRC_no=" + cr_No);
 									ResultSet rs_appr_details = ps_appr_details.executeQuery();
-
 									while (rs_appr_details.next()) {
 							%>
 							<tr>
 								<%
-									PreparedStatement ps_U_Name = con
-													.prepareStatement("select U_Name from user_tbl where U_Id="
-															+ rs_appr_details.getInt("U_Id"));
-
+									PreparedStatement ps_U_Name = con.prepareStatement("select U_Name from user_tbl where U_Id=" + rs_appr_details.getInt("U_Id"));
 											ResultSet rs_U_Name = ps_U_Name.executeQuery();
-
 											while (rs_U_Name.next()) {
 								%>
-								<td colspan="2" align="center"><%=rs_U_Name.getString("U_Name")%><div
-										class="cleaner h10"></div></td>
+								<td colspan="2" align="left"><%=rs_U_Name.getString("U_Name")%></td>
 								<%
-									}
-
-											PreparedStatement ps_A_Name = con
-													.prepareStatement("select Approval_Type from Cr_tbl_Approval_Type where Approval_Id="
-															+ rs_appr_details.getInt("Approval_Id"));
-
-											ResultSet rs_A_Name = ps_A_Name.executeQuery();
-
+									} 
+											PreparedStatement ps_A_Name = con.prepareStatement("select Approval_Type from Cr_tbl_Approval_Type where Approval_Id="
+															+ rs_appr_details.getInt("Approval_Id")); 
+											ResultSet rs_A_Name = ps_A_Name.executeQuery(); 
 											while (rs_A_Name.next()) {
 								%>
-								<td colspan="2" align="center"><%=rs_A_Name.getString("Approval_Type")%><div
-										class="cleaner h10"></div></td>
+								<td colspan="2" align="left"><%=rs_A_Name.getString("Approval_Type")%></td>
 								<%
-									}
-
-											PreparedStatement ps_Remark = con
-													.prepareStatement("select Remark,CRC_Approval_Date from crc_tbl_approval where U_Id="
+									} 
+											PreparedStatement ps_Remark = con.prepareStatement("select Remark,CRC_Approval_Date from crc_tbl_approval where U_Id="
 															+ rs_appr_details.getInt("U_Id")
 															+ " and CRC_No=" + cr_No);
-
-											ResultSet rs_Remark = ps_Remark.executeQuery();
-
+											ResultSet rs_Remark = ps_Remark.executeQuery(); 
 											while (rs_Remark.next()) {
 								%>
-								<td colspan="1" align="center"><%=rs_Remark.getTimestamp("CRC_Approval_Date")%></td>
-								<td colspan="3" align="center"><%=rs_Remark.getString("Remark")%><div
-										class="cleaner h10"></div></td>
+								<td colspan="2" align="left"><%=rs_Remark.getTimestamp("CRC_Approval_Date")%></td>
+								<td colspan="3" align="left"><%=rs_Remark.getString("Remark")%></td>
 								<%
 									}
 								%>
-
 							</tr>
 							<%
 								}
-							%>
-
-						</table>
-						<table width="1050px" border="1" bordercolor="F70727">
+							%> 
 							<tr>
-								<td align="center" width="10px"><b>Action No</b></td>
-								<td align="center" width="200px"><b>Action Description</b></td>
-								<td align="center" width="110px"><b>Action Date</b></td>
-								<td align="center" width="110px"><b>Proposed Output</b></td>
-								<td align="center" width="110px"><b>Actual Output</b></td>
-								<td align="center" width="390px"><b>Attachments</b></td>
+								<th align="center"><b>Action No</b></th>
+								<th align="center" colspan="2"><b>Action Description</b></th>
+								<th align="center"><b>Action Date</b></th>
+								<th align="center" colspan="2"><b>Proposed Output</b></th>
+								<th align="center" colspan="2"><b>Actual Output</b></th>
+								<th align="center"><b>Attachments</b></th>
 							</tr>
 							<%
-								PreparedStatement ps_action_no = con
-											.prepareStatement("select * from crc_tbl_action where CRC_No="
+								PreparedStatement ps_action_no = con.prepareStatement("select * from crc_tbl_action where CRC_No="
 													+ cr_No);
 									ArrayList act_id = new ArrayList();
 									ArrayList act_no = new ArrayList();
@@ -676,117 +486,81 @@ function showState(str) {
 										}
 							%>
 							<tr>
-								<td align="center" width="10px"><%=cnt%></td>
-
-								<td align="left" width="250px"><textarea
-										style="width: 250px; height: 50px;"><%=rs_action_no.getString("Action_Discription")%></textarea></td>
-
-								<td align="center" width="110px"><%=rs_action_no.getString("Action_Date")%></td>
-
-								<td align="center" width="110px"><%=rs_action_no.getString("proposed_Output")%></td>
-								<td align="center" width="110px"><%=rs_action_no.getString("Actual_Output")%></td>
-
-								<td width="390px">
-									<%
-										/****************************************************************************************************************
-																																																																																																																																																															TO SELECT ATTACHMENTS RELATED TO Action NUMBER 							
-												 ****************************************************************************************************************/
-												PreparedStatement ps_file = null;
-
-												ps_file = con.prepareStatement("select * from crc_tbl_action_attachment where CRC_Action_Id="
+								<td align="right"><%=cnt%></td> 
+								<td align="left" colspan="2"><%=rs_action_no.getString("Action_Discription")%></td> 
+								<td align="left"><%=rs_action_no.getString("Action_Date")%></td> 
+								<td align="left" colspan="2"><%=rs_action_no.getString("proposed_Output")%></td>
+								<td align="left" colspan="2"><%=rs_action_no.getString("Actual_Output")%></td> 
+								<td>
+									<%		
+									PreparedStatement ps_file = null;
+									ps_file = con.prepareStatement("select * from crc_tbl_action_attachment where CRC_Action_Id="
 																+ rs_action_no.getInt("CRC_Action_Id")
 																+ " and CRC_Action_delete_status=1");
-												ResultSet rs_file = ps_file.executeQuery();
-												while (rs_file.next()) {
+									ResultSet rs_file = ps_file.executeQuery();
+									while (rs_file.next()) {
 									%>
-									<table width="390px">
-										<tr>
-											<td width="270px" align="center"><a
-												href="Display_Customer.jsp?field=<%=rs_file.getString("CRC_Action_File_Name")%>"><%=rs_file.getString("CRC_Action_File_Name")%></a></td>
-											<td width="100px"><input type="button" value=" Delete "
-												onclick="showState(<%=rs_file.getInt("CRC_Attach_Id")%>)"></td>
-										</tr>
-									</table> <%
- 	}
- 		}
- %>
-								</td>
-
-							</tr>
-						</table>
-
+									<a href="Display_Customer.jsp?field=<%=rs_file.getString("CRC_Action_File_Name")%>" style="color: blue;font-weight: bold;"><%=rs_file.getString("CRC_Action_File_Name")%></a>
+									<input type="button" value=" Delete " onclick="showState(<%=rs_file.getInt("CRC_Attach_Id")%>)"><br>
+									<%
+ 									}
+ 										}
+ 									%>
+								</td> 
+							</tr> 
 						<%
 							if (act_id.size() == 0) {
-						%>
-
-						<table width="1050px" border="1" bordercolor="F70727">
+						%>							
+							<tr style="background-color: #388eab;font-size: 12px;color: white;">
+								<td colspan="2"><b>Action Discription</b></td>
+								<td colspan="7"><b>Proposed Output</b></td> 
+							</tr> 
 							<tr>
-								<td colspan="1" width="200px"><b>Action Discription</b></td>
-								<td colspan="1" width="200px"><b>Proposed Output</b></td>
-
-							</tr>
-
-							<tr>
-								<td align="left" width="500px"><textarea
-										style="height: 50px; width: 200px" name="Action_disc"
-										id="Action_disc"></textarea></td>
-								<td align="left" width="500px"><textarea
-										style="height: 50px; width: 200px" name="Prop_output"
-										id="Prop_Action"></textarea></td>
-
+								<td align="left"  colspan="2">
+								<textarea cols="30" rows="4" name="Action_disc" id="Action_disc" style="background-color: #dcf1f8"></textarea>
+								</td>
+								<td align="left" colspan="7">
+								<textarea  cols="30" rows="4" name="Prop_output" id="Prop_Action" style="background-color: #dcf1f8"></textarea>
+								</td> 
 							</tr>
 							<tr>
-								<td><b>Proposed Date</b><br> <input id="demo3"
-									name="proposeddate" type="text" size="25" readonly="readonly">
-									<a href="javascript:NewCal('demo3','ddmmyyyy',true,24)"> <img
-										src="cal.gif" width="16" height="16" border="0"
-										alt="Pick a date"></td>
-								<td><b>Actual Implementation Date</b><br> <input
-									id="demo4" name="actualimpldate" type="text" size="25"
-									readonly="readonly"> <a
-									href="javascript:NewCal('demo4','ddmmyyyy',true,24)"> <img
-										src="cal.gif" width="16" height="16" border="0"
-										alt="Pick a date"></a></td>
+								<td colspan="2"><b>Proposed Date</b><br> 
+								<input id="demo3" name="proposeddate" type="text" size="25" readonly="readonly" style="background-color: #dcf1f8">
+									<a href="javascript:NewCal('demo3','ddmmyyyy',true,24)"> <img src="cal.gif" width="16" height="16" border="0" alt="Pick a date">
+								</td>
+								<td colspan="7"><b>Actual Implementation Date</b><br> 
+								<input id="demo4" name="actualimpldate" type="text" size="25" readonly="readonly" style="background-color: #dcf1f8"> 
+								<a href="javascript:NewCal('demo4','ddmmyyyy',true,24)"> <img src="cal.gif" width="16" height="16" border="0" alt="Pick a date"></a>
+								</td>
 							</tr>
 							<tr>
-								<td style="padding-top: 10px; padding-bottom: 10px;"><b>ATTACH
-										FILE (Optional) </b><br>
+								<td colspan="9"><b>ATTACH FILE (Optional) </b><br>
 									<table id="tblSample">
 										<tr style="padding-top: 10px;">
-											<td><strong> <input type="button"
-													value="  ADD More Files  " name="button"
-													onclick="addRowToTable();" /></strong></td>
-											<td><input type="button" value=" Delete[Selected] "
-												onclick="deleteChecked();" />&nbsp;&nbsp; <input
-												type="hidden" id="srno" name="srno" value=""></td>
+											<td><strong> <input type="button" value="  ADD More Files  " name="button" onclick="addRowToTable();" /></strong></td>
+											<td><input type="button" value=" Delete[Selected] " onclick="deleteChecked();" />&nbsp;&nbsp; 
+											<input type="hidden" id="srno" name="srno" value=""></td>
 										</tr>
 										<tbody></tbody>
 									</table></td>
 							</tr>
-
-						</table>
-						<table>
-							<tr>
-								<td align="center"><input type="submit"
+ 							<tr>
+								<td align="left" colspan="9"><input type="submit"
 									value="Click to Add Action"
-									style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"
+									style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;font-weight: bold;"
 									onclick="Go();"> <input type="hidden" name="mytext"
 									id="mytext"> <a href="Cab_Home.jsp">Back To Home</a></td>
-							</tr>
-						</table>
-
+							</tr>  
 						<%
 							} else {
-						%>
-						<table width="1050px" border="1" bordercolor="F70727">
-							<tr style="margin-left: 10px">
-								<td><b>Choose Action No</b></td>
+						%> 
+							<tr style="background-color: #388eab;color: white;font-size: 12px;">
+								<td colspan="9"><b>Choose Action No</b></td>
 							</tr>
 							<tr>
-								<td><select name="Action_No">
+								<td colspan="9" align="left"><select name="Action_No" style="background-color: #dcf1f8;font-size: 14px;">
 										<%
-											System.out.println("Action ID =  " + act_id
-															+ " Action Number =  " + act_no);
+										//	System.out.println("Action ID =  " + act_id + " Action Number =  " + act_no);
 													for (int i = 0; i < act_id.size(); i++) {
 										%>
 										<option value="<%=act_id.get(i)%>"><%=act_no.get(i)%></option>
@@ -797,24 +571,21 @@ function showState(str) {
 							</tr>
 
 							<tr>
-								<td colspan="1" width="200px"><b>Actual Output</b></td>
+								<td colspan="9" align="left"><b>Actual Output</b></td>
 							</tr>
 							<tr>
-								<td colspan="1" width="200px"><textarea
-										style="height: 50px; width: 400px" name="actual_output"
-										id="actual_output"></textarea></td>
-
+								<td colspan="9" align="left">
+								<textarea cols="30" rows="4" name="actual_output" 	id="actual_output" style="background-color: #dcf1f8;font-size: 14px;"></textarea>
+								</td> 
 							</tr>
 							<tr>
-								<td><b>Actual Implementation Date</b><br> <input
-									id="demo4" name="act_impl_date_op" type="text" size="25"
-									readonly="readonly"> <a
-									href="javascript:NewCal('demo4','ddmmyyyy',true,24)"> <img
-										src="cal.gif" width="16" height="16" border="0"
-										alt="Pick a date"></a></td>
+								<td colspan="9" align="left"><b>Actual Implementation Date</b><br> 
+								<input style="background-color: #dcf1f8;font-size: 14px;" id="demo4" name="act_impl_date_op" type="text" size="25" readonly="readonly"> 
+								<a href="javascript:NewCal('demo4','ddmmyyyy',true,24)"> 
+								<img src="cal.gif" width="16" height="16" border="0" alt="Pick a date"></a></td>
 							</tr>
 							<tr>
-								<td style="padding-top: 10px; padding-bottom: 10px;"><b>ATTACH
+								<td colspan="9" align="left"><b>ATTACH
 										FILE (Optional) </b><br>
 									<table id="tblSample">
 										<tr style="padding-top: 10px;">
@@ -827,47 +598,20 @@ function showState(str) {
 										</tr>
 										<tbody></tbody>
 									</table></td>
-							</tr>
-						</table>
-						<table>
+							</tr> 
 							<tr>
-								<td align="center"><input type="submit"
-									value="Add Actual Output"
-									style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"
-									onclick="Go1();"> <input type="hidden" name="mytextAct"
-									id="mytextAct"><a href="Cab_Home.jsp">Back To Home</a></td>
+								<td align="left" colspan="9">
+								<input type="submit" value="Add Actual Output" style="height: 35px; width: 210px; background-color: #C4C4C4; border-radius: 20px/20px;" onclick="Go1();"> 
+								<input type="hidden" name="mytextAct" id="mytextAct"><a href="Cab_Home.jsp">Back To Home</a></td>
 							</tr>
 						</table>
-
-
 						<%
 							}
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-						%>
-
-
-					</form>
-
+						%>  
+					</form> 
 				</div>
-			</div>
-
-			<div class="cleaner"></div>
-		</div>
-		<!-- end of main -->
-	</div>
-	<!-- end of wrapper -->
-<!--============================================================================-->
-<!--============================================================================-->
-
-	<div id="templatemo_footer_wrapper">
-		<div id="templatemo_footer">
-			| Copyright 2013 <a href="http://www.muthagroup.com">Muthagroup
-				Satara</a> |
-			<div class="cleaner"></div>
-		</div>
-	</div>
-
 </body>
 </html>

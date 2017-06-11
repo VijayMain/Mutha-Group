@@ -17,7 +17,29 @@ div.scroll {
 	overflow: scroll;
 }
 </style>
+<style type="text/css">
+.tftable {
+	font-size: 10px;
+	color: #333333;
+	width: 100%;  
+}
 
+.tftable th {
+	font-size: 11px;
+	background-color: #388EAB; 
+	padding: 3px; 
+	color: white;
+	text-align: center;
+}
+
+.tftable tr {
+	background-color: white;
+}
+.tftable td {
+	font-size: 10px; 
+	padding: 3px; 
+}
+</style>
 <script language="javascript" type="text/javascript">
 	function clearText(field) {
 		if (field.defaultValue == field.value)
@@ -59,12 +81,10 @@ div.scroll {
 </head>
 <body id="sub_page">
 				<%
-						try {
-
+						try { 
 							int uid = 0;
 							uid = Integer.parseInt(session.getAttribute("uid").toString()); 
-							Connection con = Connection_Utility.getConnection();
-							
+							Connection con = Connection_Utility.getConnection(); 
 							PreparedStatement ps_uidappr = con.prepareStatement("select * from user_tbl where U_Id=" + uid);
 							String UName = null; 
 							ResultSet rs_uname = ps_uidappr.executeQuery(); 
@@ -95,79 +115,52 @@ div.scroll {
 							<a href="Add_Action_Customer.jsp"><b>Add Action Customer</b></a>
 							</li>
 						</ul>
-			</div> 
-					<form method="post" name="action" action="Add_Action_Details_Customer.jsp"
-						id="action">
+			</div>
+			<div style="height: 550px;width: 100%;overflow: scroll;"> 
+					<form method="post" name="action" action="Add_Action_Details_Customer.jsp" id="action">
 							<%
-								int cr_no = 0;
-
+								int cr_no = 0; 
 								ArrayList appr_id_list1 = new ArrayList();
 								ArrayList appr_id_list = new ArrayList();
-								ArrayList cr_no_list = new ArrayList();
-
-								PreparedStatement ps_Cr_No = con
-										.prepareStatement("select CRC_no from crc_tbl where U_Id="
-												+ uid);
+								ArrayList cr_no_list = new ArrayList(); 
+								PreparedStatement ps_Cr_No = con.prepareStatement("select CRC_no from crc_tbl where U_Id=" + uid);
 								ResultSet rs_Cr_No = ps_Cr_No.executeQuery();
 								while (rs_Cr_No.next())
 								{
 									ArrayList appr_list = new ArrayList();
-
 									int cnt1 = 0;
 									int cnt2 = 0;
-									int cnt3 = 0;
-									
-									cr_no = rs_Cr_No.getInt("CRC_NO");
-									
-									System.out.print("\n req no... " + cr_no);
-									
-									
-									PreparedStatement ps_appr_list = con
-											.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No="
-													+ cr_no);
-
+									int cnt3 = 0; 
+									cr_no = rs_Cr_No.getInt("CRC_NO"); 
+									// System.out.print("\n req no... " + cr_no); 
+									PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No=" + cr_no);
 									ResultSet rs_appr_list = ps_appr_list.executeQuery();
-
 									while (rs_appr_list.next()) 
 									{
-										System.out.print("\n Approvers ... for CRC NO "+cr_no+" is ... "+ rs_appr_list.getInt("U_Id"));
-
+										// System.out.print("\n Approvers ... for CRC NO "+cr_no+" is ... "+ rs_appr_list.getInt("U_Id"));
 										appr_list.add(rs_appr_list.getInt("U_Id"));
 									}
-
 									appr_id_list.clear();
-									
 									for (int appr = 0; appr < appr_list.size(); appr++) {
-										PreparedStatement ps_appr = con
-												.prepareStatement("select Approval_Id from crc_tbl_approval where CRC_No="
+										PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_approval where CRC_No="
 														+ cr_no
 														+ " and U_Id="
-														+ Integer.parseInt(appr_list.get(appr)
-																.toString()));
-
-										ResultSet rs_appr = ps_appr.executeQuery();
-
+														+ Integer.parseInt(appr_list.get(appr).toString())); 
+										ResultSet rs_appr = ps_appr.executeQuery(); 
 										while (rs_appr.next()) 
 										{
 											//System.out.print("\n loop for approvers list ... " + appr_list.size());
-											System.out.print("\n what are the Approvals ... "+ rs_appr.getInt("Approval_Id"));
+											//System.out.print("\n what are the Approvals ... "+ rs_appr.getInt("Approval_Id"));
 											appr_id_list.add(rs_appr.getInt("Approval_Id"));
-										}
-
+										} 
 									}
-									String Status = null;
-
+									String Status = null; 
 									boolean flag = false;
-									System.out.print(" \n  approvers id size :"+ appr_id_list.size());
-									
-									
+									//System.out.print(" \n  approvers id size :"+ appr_id_list.size()); 
 									for (int appr_id = 0; appr_id < appr_id_list.size(); appr_id++) 
 									{
-										int id = 0;
-
-										id = Integer.parseInt(appr_id_list.get(appr_id)
-												.toString());
-
+										int id = 0; 
+										id = Integer.parseInt(appr_id_list.get(appr_id).toString()); 
 										if (id == 3) 
 										{
 											cnt3++;
@@ -186,157 +179,104 @@ div.scroll {
 									}
 
 									if (cnt3 > 0) {
-										System.out.print("\n  Declined");
+										//System.out.print("\n  Declined");
 
 									} else if (cnt1 == appr_id_list.size()) {
-										System.out.print("\n  Approved. . . " + cr_no);
+										//System.out.print("\n  Approved. . . " + cr_no);
 										cr_no_list.add(cr_no);
 
 									} else {
-										System.out.print("\n Pending  . . . ");
+										//System.out.print("\n Pending  . . . ");
 									}
 
 								}
 						%>
-
-
-						<div class="scroll">
-							<table width="1000px">
-							<thead style="color: #FAF7F2; background-color: #2B2A29;">
-								<tr>
-									<td align="center" width="50px">CR NO</td>
-									<td align="center" width="50px">Supplier Name</td>
-									<td align="center" width="210px">Customer Name</td>
-									<td align="center" width="210px">Item Name</td>
-									<td align="center" width="50px">Change For</td>
-									<td align="center" width="60px">Change Request Date</td>
-									<td align="center" width="50px">Total Stock</td>
-									<td align="center" width="60px">Targeted Impl. Date</td>
-									<td align="center" width="50px">Approval Status</td>
-									<!--  	<td align="center" width="110px">Action</td>-->
+ 
+							<table style="width: 100%;" class="tftable">  
+								<tr style="height: 27px;">
+									<th align="center">CR NO</th>
+									<th align="center">Supplier Name</th>
+									<th align="center">Customer Name</th>
+									<th align="center">Item Name</th>
+									<th align="center">Change For</th>
+									<th align="center">Change Request Date</th>
+									<th align="center">Total Stock</th>
+									<th align="center">Targeted Impl. Date</th>
+									<th align="center">Approval Status</th>
 								</tr>
-							</thead>
-								<tbody>
 									<%
 											PreparedStatement ps_action;
-											ResultSet rs_action;
-
+											ResultSet rs_action; 
 											for (int cr = 0; cr < cr_no_list.size(); cr++) {
-												System.out.print("into loop .. " + cr_no_list.get(cr));
-												int crno = Integer.parseInt(cr_no_list.get(cr).toString());
-
-												ps_action = con
-														.prepareStatement("select * from crc_tbl where crc_no="
-																+ crno);
-
-												rs_action = ps_action.executeQuery();
-
+												//System.out.print("into loop .. " + cr_no_list.get(cr));
+												int crno = Integer.parseInt(cr_no_list.get(cr).toString()); 
+												ps_action = con.prepareStatement("select * from crc_tbl where crc_no=" + crno); 
+												rs_action = ps_action.executeQuery(); 
 												while (rs_action.next()) {
 									%>
-									<tr onmouseover="ChangeColor(this, true);"
-										onmouseout="ChangeColor(this, false);"
-										onclick="button1('<%=crno%>');">
+									<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=crno%>');" style="cursor: pointer;">
+										 <td align="center"><b style="font-weight: bold;"><%=crno%></b></td>
 										<%
-											
-										%>
-										<td align="center" width="50px"><%=crno%></td>
-										<%
-											PreparedStatement ps_company = con
-																.prepareStatement("select Company_Name from User_tbl_Company where Company_Id="
+											PreparedStatement ps_company = con.prepareStatement("select Company_Name from User_tbl_Company where Company_Id="
 																		+ rs_action.getInt("Company_Id"));
 														ResultSet rs_company = ps_company.executeQuery();
 														while (rs_company.next()) {
 										%>
-										<td align="center" width="50px"><%=rs_company.getString("Company_Name")%></td>
+										<td align="left"><%=rs_company.getString("Company_Name")%></td>
 										<%
 											}
-														PreparedStatement ps_Cust = con
-																.prepareStatement("select Cust_Name from customer_tbl where Cust_Id="
+														PreparedStatement ps_Cust = con.prepareStatement("select Cust_Name from customer_tbl where Cust_Id="
 																		+ rs_action.getInt("Cust_Id"));
 														ResultSet rs_Cust = ps_Cust.executeQuery();
-														while (rs_Cust.next()) {
-														
-										%>
-										
-										
-										<td align="center" width="210px"><%=rs_Cust.getString("Cust_Name")%></td>
-										
-										<%				
+														while (rs_Cust.next()) { 
+										%> 
+										<td align="left"><%=rs_Cust.getString("Cust_Name")%></td> 
+										<%
 														}
-														
-														PreparedStatement ps_item = con
-																.prepareStatement("select Item_Name from customer_tbl_item where Item_Id="
+														PreparedStatement ps_item = con.prepareStatement("select Item_Name from customer_tbl_item where Item_Id="
 																		+ rs_action.getInt("Item_Id"));
 														ResultSet rs_item = ps_item.executeQuery();
 														while (rs_item.next()) {
 										%>
-										<td align="center" width="210px"><%=rs_item.getString("Item_Name")%></td>
-									
+										<td align="left"><%=rs_item.getString("Item_Name")%></td> 
 										<%
 													}
 										%>
-										<td align="center" width="60px"><%=rs_action.getString("Change_For") %></td>
-										<td align="center" width="65px"><%=rs_action.getString("CRC_Date")%>
-										<input type="hidden" name="req_date"
-											value="<%=rs_action.getString("CRC_Date")%>"></td>
-										
-										
-										<td align="center" width="60px"><%=rs_action.getDouble("Total_Stock")%></td>
-										
+										<td align="left"><%=rs_action.getString("Change_For") %></td>
+										<td align="left"><%=rs_action.getString("CRC_Date")%>
+										<input type="hidden" name="req_date" value="<%=rs_action.getString("CRC_Date")%>"></td>
+										<td align="right"><%=rs_action.getDouble("Total_Stock")%></td>
 										<%
 											if(rs_action.getString("Targated_Impl_Date").equals("0002-11-30 00:00:00.0"))
 											{
 										%>
-												<td align="center" width="65px">0000-00-00 00:00:00.0</td>
+												<td align="left"></td>
 										<%
 											}
 											else
 											{
-										%>
-										
-											<td align="center" width="65px"><%=rs_action.getString("Targated_Impl_Date")%></td>
-										
+										%> 
+											<td align="left"><%=rs_action.getString("Targated_Impl_Date")%></td> 
 										<%
 											}
 										
 										%>
-										<td align="center" width="50px">Approved</td>
+										<td align="left">Approved</td>
 										<%--		<td align="center" width="110px">
 											<button onclick="button1(this.value)" name="action_button"
 												id="action_button" value="<%=crno%>">Action</button>
-										</td> --%>
-
+										</td> --%> 
 										<input type="hidden" name="hid" id="hid">
 									</tr>
 									<%
 										}
-											}
-
+											} 
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
-									%>
-								</tbody>
-
-							</table>
-						</div>
-					</form>
-				</div>
-			</div>
-
-			<div class="cleaner"></div>
-		</div>
-		<!-- end of main -->
-	</div>
-	<!-- end of wrapper -->
-
-	<div id="templatemo_footer_wrapper">
-		<div id="templatemo_footer">
-			| Copyright 2013 <a href="http://www.muthagroup.com">Muthagroup
-				Satara</a> |
-			<div class="cleaner"></div>
-		</div>
-	</div>
-
+									%> 
+							</table> 
+					</form> 
+					</div>
 </body>
 </html>

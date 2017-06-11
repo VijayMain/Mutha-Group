@@ -126,7 +126,7 @@ div.scroll {
 					<!-- <form method="post" name="contact" action="Edit_Request.jsp"> -->
 					<form method="post" name="action" action="Add_Action_Details.jsp" id="action">
 						<%
-							int cr_no = 0; 
+								int cr_no = 0; 
 								ArrayList appr_id_list1 = new ArrayList();
 								ArrayList appr_id_list = new ArrayList();
 								ArrayList cr_no_list = new ArrayList();
@@ -140,7 +140,7 @@ div.scroll {
 									int cnt2 = 0;
 									int cnt3 = 0;
 									cr_no = rs_Cr_No.getInt("CR_NO");
-									System.out.print("\n req no... " + cr_no);
+									// System.out.print("\n req no... " + cr_no);
 									PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No=" + cr_no);
 									ResultSet rs_appr_list = ps_appr_list.executeQuery();
  									while (rs_appr_list.next()) {
@@ -155,15 +155,13 @@ div.scroll {
 												.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No="
 														+ cr_no
 														+ " and U_Id="
-														+ Integer.parseInt(appr_list.get(appr)
-																.toString()));
+														+ Integer.parseInt(appr_list.get(appr).toString()));
 
 										ResultSet rs_appr = ps_appr.executeQuery();
 
 										while (rs_appr.next()) {
-											System.out.print("\n loop... " + appr_list.size());
-											System.out.print("\n Approvals ... "
-													+ rs_appr.getInt("Approval_Id"));
+											// System.out.print("\n loop... " + appr_list.size());
+											// System.out.print("\n Approvals ... " + rs_appr.getInt("Approval_Id"));
 											appr_id_list.add(rs_appr.getInt("Approval_Id"));
 										}
 
@@ -171,14 +169,10 @@ div.scroll {
 									String Status = null;
 
 									boolean flag = false;
-									System.out.print("approvers id size :"
-											+ appr_id_list.size());
+									// System.out.print("approvers id size :" + appr_id_list.size());
 									for (int appr_id = 0; appr_id < appr_id_list.size(); appr_id++) {
-										int id = 0;
-
-										id = Integer.parseInt(appr_id_list.get(appr_id)
-												.toString());
-
+										int id = 0; 
+										id = Integer.parseInt(appr_id_list.get(appr_id).toString()); 
 										if (id == 3) {
 											cnt3++;
 											//flag=true;
@@ -189,19 +183,17 @@ div.scroll {
 										} else {
 											cnt1++;
 											continue;
-										}
-
-									}
-
+										} 
+									} 
 									if (cnt3 > 0) {
-										System.out.print("Declined");
+										// System.out.print("Declined");
 
 									} else if (cnt1 == appr_id_list.size()) {
-										System.out.print("Approved. . . " + cr_no);
+										// System.out.print("Approved. . . " + cr_no);
 										cr_no_list.add(cr_no);
 
 									} else {
-										System.out.print("\n Pending  . . . ");
+										// System.out.print("\n Pending  . . . ");
 									}
 
 								}
@@ -223,14 +215,14 @@ div.scroll {
 										ResultSet rs_action;
 
 											for (int cr = 0; cr < cr_no_list.size(); cr++) {
-												System.out.print("into loop .. " + cr_no_list.get(cr));
+												// System.out.print("into loop .. " + cr_no_list.get(cr));
 												int crno = Integer.parseInt(cr_no_list.get(cr).toString()); 
 												ps_action = con.prepareStatement("select * from cr_tbl where cr_no=" + crno); 
 												rs_action = ps_action.executeQuery(); 
 												while (rs_action.next()) {
 									%>
 									<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" style="cursor: pointer;" onclick="button1('<%=crno%>');">
-										<td align="right"><%=crno%></td>
+										<td align="center"><b><%=crno%></b></td>
 										<%
 											PreparedStatement ps_company = con.prepareStatement("select Company_Name from User_tbl_Company where Company_Id="
 																		+ rs_action.getInt("Company_Id"));
@@ -240,8 +232,7 @@ div.scroll {
 										<td align="left"><%=rs_company.getString("Company_Name")%></td>
 										<%
 											}
-														PreparedStatement ps_item = con.prepareStatement("select Item_Name from customer_tbl_item where Item_Id="
-																		+ rs_action.getInt("Item_Id"));
+														PreparedStatement ps_item = con.prepareStatement("select Item_Name from customer_tbl_item where Item_Id=" + rs_action.getInt("Item_Id"));
 														ResultSet rs_item = ps_item.executeQuery();
 														while (rs_item.next()) {
 										%>

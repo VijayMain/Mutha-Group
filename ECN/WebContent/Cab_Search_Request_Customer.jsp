@@ -1,5 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@page import="java.util.ArrayList"%>
+<%@page import="com.muthagroup.connectionUtility.Connection_Utility"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.ResultSet"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head> 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -31,7 +35,6 @@
 <link href="css_pirobox/white/style.css" media="screen" title="shadow" rel="stylesheet" type="text/css" /> 
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/piroBox.1_2.js"></script>
-
 <script type="text/javascript">
 	$(document).ready(function() {
 		$().piroBox({
@@ -55,17 +58,11 @@
 		document.getElementById("hid").value = val1;
 		edit.submit();
 	}
-</script>
-
+</script> 
 <link href="jquery-ui-1.8.18.custom.css" rel="stylesheet" />
-<script src="js/jquery-1.7.2.min.js">
-	
-</script>
-<script src="js/jquery-ui-1.8.18.custom.min.js">
-	
-</script>
-<script language="javascript" type="text/javascript"
-	src="datetimepicker.js"></script>
+<script src="js/jquery-1.7.2.min.js"> </script>
+<script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+<script language="javascript" type="text/javascript" src="datetimepicker.js"></script>
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="tytabs.jquery.min.js"></script>
 <script type="text/javascript">
@@ -88,8 +85,7 @@
 .center {
 	width: 60%;
 	margin: 20px auto 0 auto;
-}
-
+} 
 .marginbot {
 	margin-bottom: 15px;
 }
@@ -136,13 +132,32 @@ ul.tabs li.current {
 	text-align: justify;
 } 
 </style>
-<!--============================================================================-->
-<!--============================================================================-->
-<!--================== Item Name =================================-->
+<style type="text/css">
+.tftable {
+	font-size: 10px;
+	color: #333333;
+	width: 100%;  
+}
+
+.tftable th {
+	font-size: 11px;
+	background-color: #388EAB; 
+	padding: 3px; 
+	color: white;
+	text-align: center;
+}
+
+.tftable tr {
+	background-color: white;
+}
+.tftable td {
+	font-size: 10px; 
+	padding: 3px; 
+}
+</style>
 <script language="javascript" type="text/javascript">
 	function showState(str) {
 		var xmlhttp;
-
 		if (window.XMLHttpRequest) {
 			// code for IE7+, Firefox, Chrome, Opera, Safari
 			xmlhttp = new XMLHttpRequest();
@@ -154,103 +169,58 @@ ul.tabs li.current {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 				var a = null;
 				document.getElementById("item").innerHTML = xmlhttp.responseText;
-				//document.getElementById("approvers").innerHTML = xmlhttp.responseText;
-
 			}
 		};
 		xmlhttp.open("GET", "Item_Name.jsp?q=" + str, true);
 		xmlhttp.send();
 	};
 </script>
-
-<!--////// END  \\\\\\\-->
-<!--============================================================================-->
-<!--============================================================================-->
 </head>
-
-<%@page import="com.muthagroup.connectionUtility.Connection_Utility"%>
-<%@page import="java.sql.PreparedStatement"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="java.sql.ResultSet"%>
-
-
 <body id="sub_page">
-	<div id="templatemo_wrapper">
-		<div id="templatemo_top"></div>
-		<!-- end of top -->
-
-<!--====================== Menu Bar ===============================-->
-<!--============================================================================-->
+					<%
+						try { 
+							int uid = Integer.parseInt(session.getAttribute("uid").toString()); 
+							Connection con = Connection_Utility.getConnection();
+							PreparedStatement ps_uidappr = con.prepareStatement("select * from user_tbl where U_Id=" + uid);
+							String UName = null; 
+							ResultSet rs_uname = ps_uidappr.executeQuery(); 
+							String user_name = null; 
+							while (rs_uname.next()) {
+								user_name = rs_uname.getString("u_name");
+							}
+							rs_uname.close();
+					%>
 		<div id="templatemo_header" class="ddsmoothmenu">
 			<ul>
 				<li><a href="Cab_Home.jsp">Home</a></li>
 				<li><a href="New_Request.jsp">New Request</a></li>
-				<li><a href="Cab_Edit_Request.jsp">Edit Request</a></li>
+				<!-- <li><a href="Cab_Edit_Request.jsp">Edit Request</a></li> -->
 				<li><a href="Add_Action.jsp">Add Action</a></li>
-				<li><a href="My_Approvals.jsp">My Approvals</a></li>
-				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
+				<li><a href="My_Approvals.jsp">Details</a></li>
+				<li><a href="Cab_Search_Request.jsp" style="background-color: #808080"><b>Search Request</b></a></li>
 				<li><a href="Reports.jsp">Reports</a></li>
-				<li><a href="logout.jsp">Log Out</a></li>
-			</ul>
-			<br style="clear: left" />
+				<li style="text-align: center;"><a href="logout.jsp">Log Out <b style="font-size: 9px;">( <%=user_name%> )</b></a></li>
+			</ul> 
 		</div>
-		<!--============================================================================-->
-		<!--============================================================================-->
-		<!-- end of templatemo_menu -->
-		<div id="templatemo_menu">
-			<div id="site_title">
-				<h1 style="color: orange;">ECN</h1>
-			</div>
-		</div>
-
-		<!-- end of header -->
-
-		<div id="templatemo_main">
-			<h4 style="color: white;">Search Request Customer</h4>
-			<div class="col_w630 float_l">
-				<div id="contact_form">
-
-					<div id="templatemo_header" class="ddsmoothmenu">
-
+		 		<div id="templatemo_header" class="ddsmoothmenu" style="width: 100%"> 
 						<ul>
-
-							<li style="background-color: #B3A6AA;"><a
-								href="Cab_Search_Request.jsp">Search Request Internal</a></li>
-							<li style="background-color: #B3A6AA;"><a
-								href="Cab_Search_Request_Customer.jsp">Search Request
-									Customer</a></li>
+							<li style="background-color: #B3A6AA;"><a href="Cab_Search_Request.jsp">Search Request Internal</a></li>
+							<li  style="background-color: #1c6f8a;color: white;"> <a href="Cab_Search_Request_Customer.jsp"><b>Search Request Customer</b></a></li>
 						</ul>
 					</div>
-
-
-					<%
-						try {
-
-							int uid = 0;
-
-							uid = Integer.parseInt(session.getAttribute("uid").toString());
-
-							Connection con = Connection_Utility.getConnection();
-					%>
-
-
-					<form method="post" name="contact"
-						action="Search_Request_Customer_Controller">
-
-
+					<div style="height: 550px;width: 100%;overflow: scroll;">
+					<form method="post" name="contact" action="Search_Request_Customer_Controller"> 
 						<p>&nbsp;</p>
 						<!-- Tabs -->
-						<div id="tabsholder">
-
+						<div id="tabsholder"> 
 							<ul class="tabs">
 								<li id="tab1">Supplier Wise</li>
 								<li id="tab2">Item Wise</li>
 								<li id="tab3">Approval Type Wise</li>
 							</ul>
-							<div class="contents marginbot">
-
+							<div class="contents marginbot"> 
 								<div id="content1" class="tabscontent">
-									<table>
+									<table style="width: 50%;" class="tftable">
 										<tr>
 											<td colspan="2"><b>Company </b></td>
 											<%
@@ -258,7 +228,7 @@ ul.tabs li.current {
 															.prepareStatement("select * from user_tbl_company where company_id!=6");
 													ResultSet rs_company = ps_company.executeQuery();
 											%>
-											<td><select name="company_name_sup">
+											<td><select name="company_name_sup" style="background-color: #dcf1f8">
 													<option value="0">---Select---</option>
 													<%
 														while (rs_company.next()) {
@@ -273,7 +243,7 @@ ul.tabs li.current {
 
 											<td><b>Start Date</b></td>
 
-											<td colspan="2"><input id="demo3" name="start_date_sup"
+											<td colspan="2"><input id="demo3" name="start_date_sup"  style="background-color: #dcf1f8"
 												type="text" size="25" readonly="readonly"
 												title="Click on DatePicker"> <a
 													href="javascript:NewCal('demo3','ddmmyyyy',true,24)"> <img
@@ -282,7 +252,7 @@ ul.tabs li.current {
 										</tr>
 										<tr>
 											<td><b>End Date</b></td>
-											<td colspan="2"><input id="demo4" name="end_date_sup"
+											<td colspan="2"><input id="demo4" name="end_date_sup"  style="background-color: #dcf1f8"
 												type="text" size="25" readonly="readonly"
 												title="Click on DatePicker"> <a
 													href="javascript:NewCal('demo4','ddmmyyyy',true,24)"> <img
@@ -290,9 +260,9 @@ ul.tabs li.current {
 														alt="Pick a date"></a></td>
 										</tr>
 										<tr>
-											<td colspan="2" align="center"><input type="submit"
+											<td colspan="3" align="left"><input type="submit"
 												value="Search"
-												style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"></input></td>
+												style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;font-weight: bold;"></input></td>
 										</tr>
 
 									</table>
@@ -301,7 +271,7 @@ ul.tabs li.current {
 								<div id="content2" class="tabscontent">
 
 
-									<table>
+									<table style="width: 50%;" class="tftable">
 										<tr>
 											<td colspan="2"><b>Company</b></td>
 											<%
@@ -309,7 +279,7 @@ ul.tabs li.current {
 															.prepareStatement("select * from user_tbl_company where company_id!=6");
 													ResultSet rs_company1 = ps_company1.executeQuery();
 											%>
-											<td><select name="company_name_item"
+											<td><select name="company_name_item"  style="background-color: #dcf1f8"
 												onchange="showState(this.value)">
 													<option value="0">---Select---</option>
 													<%
@@ -330,7 +300,7 @@ ul.tabs li.current {
 											%>
 											<td>
 												<div id="item">
-													<select name="item_name">
+													<select name="item_name"  style="background-color: #dcf1f8">
 														<option value="0">---Select---</option>
 														<%
 															while (rs_item.next()) {
@@ -346,7 +316,7 @@ ul.tabs li.current {
 
 										<tr>
 											<td><b>Start Date</b></td>
-											<td colspan="2"><input id="demo5" name="start_date_item"
+											<td colspan="2"><input id="demo5" name="start_date_item"  style="background-color: #dcf1f8"
 												type="text" size="25" readonly="readonly"
 												title="Click on DatePicker"> <a
 													href="javascript:NewCal('demo5','ddmmyyyy',true,24)"> <img
@@ -355,7 +325,7 @@ ul.tabs li.current {
 										</tr>
 										<tr>
 											<td><b>End Date</b></td>
-											<td colspan="2"><input id="demo6" name="end_date_item"
+											<td colspan="2"><input id="demo6" name="end_date_item"  style="background-color: #dcf1f8"
 												type="text" size="25" readonly="readonly"
 												title="Click on DatePicker"> <a
 													href="javascript:NewCal('demo6','ddmmyyyy',true,24)"> <img
@@ -363,9 +333,9 @@ ul.tabs li.current {
 														alt="Pick a date"></a></td>
 										</tr>
 										<tr>
-											<td colspan="2" align="center"><input type="submit"
+											<td colspan="3" align="left"><input type="submit"
 												value="Search"
-												style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"></input></td>
+												style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;font-weight: bold;"></input></td>
 										</tr>
 
 									</table>
@@ -373,7 +343,7 @@ ul.tabs li.current {
 
 								</div>
 								<div id="content3" class="tabscontent">
-									<table>
+									<table style="width: 50%;" class="tftable">
 
 										<tr>
 											<td colspan="2"><b>Approval Type</b></td>
@@ -382,7 +352,7 @@ ul.tabs li.current {
 															.prepareStatement("select * from cr_tbl_approval_type");
 													ResultSet rs_appr = ps_appr.executeQuery();
 											%>
-											<td><select name="approval_type_app">
+											<td><select name="approval_type_app"  style="background-color: #dcf1f8">
 													<option value="0">---Select---</option>
 													<%
 														while (rs_appr.next()) {
@@ -395,8 +365,8 @@ ul.tabs li.current {
 										</tr>
 										<tr>
 											<td><b>Start Date</b></td>
-											<td colspan="2"><input id="demo7" name="start_date_app"
-												type="text" size="25" readonly="readonly"
+											<td colspan="2"><input id="demo7" name="start_date_app"  style="background-color: #dcf1f8"
+												type="text" size="25" readonly="readonly" 
 												title="Click on DatePicker"> <a
 													href="javascript:NewCal('demo7','ddmmyyyy',true,24)"> <img
 														src="cal.gif" width="16" height="16" border="0"
@@ -404,7 +374,7 @@ ul.tabs li.current {
 										</tr>
 										<tr>
 											<td><b>End Date</b></td>
-											<td colspan="2"><input id="demo8" name="end_date_app"
+											<td colspan="2"><input id="demo8" name="end_date_app"  style="background-color: #dcf1f8"
 												type="text" size="25" readonly="readonly"
 												title="Click on DatePicker"> <a
 													href="javascript:NewCal('demo8','ddmmyyyy',true,24)"> <img
@@ -412,9 +382,8 @@ ul.tabs li.current {
 														alt="Pick a date"></a></td>
 										</tr>
 										<tr>
-											<td colspan="2" align="center"><input type="submit"
-												value="Search"
-												style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"></input></td>
+											<td colspan="3" align="left">
+	<input type="submit" value="Search" style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;font-weight: bold;"></input></td>
 										</tr>
 									</table>
 									<%
@@ -426,30 +395,7 @@ ul.tabs li.current {
 							</div>
 						</div>
 						<!-- /Tabs -->
-
-
-
-
 					</form>
-
-
-				</div>
-			</div>
-
-			<div class="cleaner"></div>
 		</div>
-		<!-- end of main -->
-	</div>
-	<!-- end of wrapper -->
-
-	<div id="templatemo_footer_wrapper">
-		<div id="templatemo_footer">
-			| Copyright 2013 <a href="http://www.muthagroup.com">Muthagroup
-				Satara</a> |
-			<div class="cleaner"></div>
-		</div>
-	</div>
-<!--============================================================================-->
-<!--============================================================================-->
 </body>
 </html>

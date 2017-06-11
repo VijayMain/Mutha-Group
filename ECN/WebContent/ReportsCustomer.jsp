@@ -1,22 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@page import="java.util.ArrayList"%>
+<%@page import="com.muthagroup.connectionUtility.Connection_Utility"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.ResultSet"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-
+<head> 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>ECN Reports Customer</title>
-<!--============================================================================-->
-<!--=================== Design Script ==================================-->
-<!--============================================================================-->
-
+<title>ECN Reports Customer</title> 
 <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
-
-<meta name="keywords"
-	content="graphite theme, free templates, website templates, CSS, HTML" />
-<meta name="description"
-	content="Graphite Theme, Contact page, free CSS template provided by templatemo.com" />
+<meta name="keywords" content="graphite theme, free templates, website templates, CSS, HTML" />
+<meta name="description" content="Graphite Theme, Contact page, free CSS template provided by templatemo.com" />
 <link href="css/templatemo_style.css" rel="stylesheet" type="text/css" />
-
 <script language="javascript" type="text/javascript">
 	function clearText(field) {
 		if (field.defaultValue == field.value)
@@ -24,27 +19,10 @@
 		else if (field.value == '')
 			field.value = field.defaultValue;
 	}
-
-	/* 	function popupWindow() {
-	 myRef = window.open('ReportsCAB.jsp', '',
-	 'left=20,top=20,width=1200,height=1000,toolbar=1,resizable=1');
-
-	 } */
 </script>
-
-
-
 <link rel="stylesheet" type="text/css" href="css/ddsmoothmenu.css" />
-
 <script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/ddsmoothmenu.js">
-	/***********************************************
-	 * Smooth Navigational Menu- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
-	 * This notice MUST stay intact for legal use
-	 * Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
-	 ***********************************************/
-</script>
-
+<script type="text/javascript" src="js/ddsmoothmenu.js"></script>
 <script type="text/javascript">
 	ddsmoothmenu.init({
 		mainmenuid : "templatemo_menu", //menu DIV id
@@ -54,18 +32,8 @@
 		contentsource : "markup" //"markup" or ["container_id", "path_to_menu_file"]
 	});
 </script>
-
-<!--////// CHOOSE ONE OF THE 3 PIROBOX STYLES  \\\\\\\-->
-<link href="css_pirobox/white/style.css" media="screen" title="shadow"
-	rel="stylesheet" type="text/css" />
-<!--<link href="css_pirobox/white/style.css" media="screen" title="white" rel="stylesheet" type="text/css" />
-<link href="css_pirobox/black/style.css" media="screen" title="black" rel="stylesheet" type="text/css" />-->
-<!--////// END  \\\\\\\-->
-
-<!--////// INCLUDE THE JS AND PIROBOX OPTION IN YOUR HEADER  \\\\\\\-->
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/piroBox.1_2.js"></script>
-
 <script type="text/javascript">
 	$(document).ready(function() {
 		$().piroBox({
@@ -90,17 +58,10 @@
 		edit.submit();
 	}
 </script>
-
 <link href="jquery-ui-1.8.18.custom.css" rel="stylesheet" />
-<script src="js/jquery-1.7.2.min.js">
-	
-</script>
-<script src="js/jquery-ui-1.8.18.custom.min.js">
-	
-</script>
-<script language="javascript" type="text/javascript"
-	src="datetimepicker.js"></script>
-<!-- End Tab Logic -->
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+<script language="javascript" type="text/javascript" src="datetimepicker.js"></script> 
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="tytabs.jquery.min.js"></script>
 <script type="text/javascript">
@@ -119,17 +80,7 @@
 		});
 	});
 </script>
-
-
-
-<%
-	response.setHeader("Cache-Control", "no-cache");
-	response.setHeader("Pragma", "no-cache");
-	response.setDateHeader("Expires", 0);
-%>
-
-<style type="text/css">
-<!--
+ <style type="text/css">
 .center {
 	width: 60%;
 	margin: 20px auto 0 auto;
@@ -179,10 +130,31 @@ ul.tabs li.current {
 	display: none;
 	width: 100%;
 	text-align: justify;
-}
--->
+} 
 </style>
+<style type="text/css">
+.tftable {
+	font-size: 11px;
+	color: #333333;
+	width: 100%;  
+}
 
+.tftable th {
+	font-size: 12px;
+	background-color: #388EAB; 
+	padding: 3px; 
+	color: white;
+	text-align: center;
+}
+
+.tftable tr {
+	background-color: white;
+}
+.tftable td {
+	font-size: 11px; 
+	padding: 3px; 
+}
+</style>
 <script language="javascript" type="text/javascript">
 	function showState(str) {
 		var xmlhttp;
@@ -206,85 +178,42 @@ ul.tabs li.current {
 		xmlhttp.send();
 	};
 </script>
-
-<!--////// END  \\\\\\\-->
-<!--============================================================================-->
-<!--============================================================================-->
-
 </head>
-
-<%@page import="com.muthagroup.connectionUtility.Connection_Utility"%>
-<%@page import="java.sql.PreparedStatement"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="java.sql.ResultSet"%>
-
-
 <body id="sub_page">
-	<div id="templatemo_wrapper">
-		<div id="templatemo_top"></div>
-		<!-- end of top -->
-
-<!--============================================================================-->
-<!--========================= Menu Bar ===============================-->
-<!--============================================================================-->
-		<div id="templatemo_header" class="ddsmoothmenu">
+				<%
+						try { 
+							int uid = 0; 
+							uid = Integer.parseInt(session.getAttribute("uid").toString()); 
+							Connection con = Connection_Utility.getConnection();
+							
+							PreparedStatement ps_uidappr = con.prepareStatement("select * from user_tbl where U_Id=" + uid);
+							String UName = null; 
+							ResultSet rs_uname = ps_uidappr.executeQuery(); 
+							String user_name = null; 
+							while (rs_uname.next()) {
+								user_name = rs_uname.getString("u_name");
+							}
+							rs_uname.close();
+					%>
+			<div id="templatemo_header" class="ddsmoothmenu">
 			<ul>
 				<li><a href="Cab_Home.jsp">Home</a></li>
-				<li><a href="New_Request.jsp">New Request</a></li>
-				<li><a href="Cab_Edit_Request.jsp">Edit Request</a></li>
+				<li><a href="New_Request.jsp">New Request</a></li> 
 				<li><a href="Add_Action.jsp">Add Action</a></li>
-				<li><a href="My_Approvals.jsp">My Approvals</a></li>
-				<li><a href="Cab_Search_Request.jsp">Search Request</a></li>
-				<li><a href="Reports.jsp">Reports</a></li>
-				<li><a href="logout.jsp">Log Out</a></li>
-			</ul>
-			<br style="clear: left" />
-		</div>
-		<!-- end of templatemo_menu -->
-<!--============================================================================-->
-<!--============================================================================-->
-		<div id="templatemo_menu">
-			<div id="site_title">
-				<h1 style="color: orange;">ECN</h1>
-			</div>
-		</div>
-
-		<!-- end of header -->
-
-		<div id="templatemo_main">
-			<h4 style="color: white;">Reports Customer</h4>
-			<div class="col_w630 float_l">
-				<div id="contact_form">
-
-
-					<div id="templatemo_header" class="ddsmoothmenu">
-
+				<li><a href="My_Approvals.jsp">Details</a></li>
+				<li><a href="Cab_Search_Request.jsp"><b>Search Request</b></a></li>
+				<li><a href="Reports.jsp" style="background-color: #808080"><b>Reports</b></a></li>
+				<li style="text-align: center;"><a href="logout.jsp">Log Out <b style="font-size: 9px;">( <%=user_name%> )</b></a></li>
+			</ul> 
+		</div> 
+			<div id="templatemo_header" class="ddsmoothmenu" style="width: 100%"> 
 						<ul>
-
-							<li style="background-color: #B3A6AA;"><a href="Reports.jsp">Reports
-									Internal</a></li>
-							<li style="background-color: #B3A6AA;"><a
-								href="ReportsCustomer.jsp">Reports Customer</a></li>
+							<li style="background-color: #B3A6AA;"><a href="Reports.jsp">Reports Internal</a></li>
+							<li  style="background-color: #1c6f8a;color: white;"><a href="ReportsCustomer.jsp"><b>Reports Customer</b></a></li>
 						</ul>
-					</div>
-
-
-
-					<%
-						try {
-
-							int uid = 0;
-
-							uid = Integer.parseInt(session.getAttribute("uid").toString());
-
-							Connection con = Connection_Utility.getConnection();
-					%>
-
-
-					<form method="post" name="contact"
-						action="Reports_customer_Controller">
-
-
+			</div>
+				<div style="height: 550px;width: 100%;overflow: scroll;">	 
+					<form method="post" name="contact" action="Reports_customer_Controller">
 						<p>&nbsp;</p>
 						<!-- Tabs -->
 						<div id="tabsholder">
@@ -297,7 +226,7 @@ ul.tabs li.current {
 							<div class="contents marginbot">
 
 								<div id="content1" class="tabscontent">
-									<table>
+									<table style="width: 50%;" class="tftable">  
 										<tr>
 											<td colspan="2"><b>Company </b></td>
 											<%
@@ -305,7 +234,7 @@ ul.tabs li.current {
 															.prepareStatement("select * from user_tbl_company where company_id!=6");
 													ResultSet rs_company = ps_company.executeQuery();
 											%>
-											<td><select name="company_name_sup">
+											<td><select name="company_name_sup" style="background-color: #dcf1f8">
 													<option value="0">---Select---</option>
 													<%
 														while (rs_company.next()) {
@@ -318,7 +247,7 @@ ul.tabs li.current {
 										</tr>
 										<tr>
 											<td><b>Start Date</b></td>
-											<td colspan="2"><input id="demo1" name="start_date_sup"
+											<td colspan="2"><input id="demo1" name="start_date_sup" style="background-color: #dcf1f8"
 												type="text" size="25" TITLE="Click on Date Picker">
 													<a href="javascript:NewCal('demo1','ddmmyyyy',true,24)">
 														<img src="cal.gif" width="16" height="16" border="0"
@@ -326,16 +255,16 @@ ul.tabs li.current {
 										</tr>
 										<tr>
 											<td><b>End Date</b></td>
-											<td colspan="2"><input id="demo2" name="end_date_sup"
+											<td colspan="2"><input id="demo2" name="end_date_sup" style="background-color: #dcf1f8"
 												type="text" size="25" TITLE="Click on Date Picker">
 													<a href="javascript:NewCal('demo2','ddmmyyyy',true,24)">
 														<img src="cal.gif" width="16" height="16" border="0"
 														alt="Pick a date" /></td>
 										</tr>
 										<tr>
-											<td colspan="2" align="center"><input type="submit"
+											<td colspan="3" align="center"><input type="submit"
 												value="Generate Report" onclick="popupWindow();"
-												style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"></input></td>
+												style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;font-weight: bold;"></input></td>
 										</tr>
 
 									</table>
@@ -344,7 +273,7 @@ ul.tabs li.current {
 								<div id="content2" class="tabscontent">
 
 
-									<table>
+									<table style="width: 50%;" class="tftable">  
 										<tr>
 											<td colspan="2"><b>Company</b></td>
 											<%
@@ -352,7 +281,7 @@ ul.tabs li.current {
 															.prepareStatement("select * from user_tbl_company where company_id!=6");
 													ResultSet rs_company1 = ps_company1.executeQuery();
 											%>
-											<td><select name="company_name_item"
+											<td><select name="company_name_item" style="background-color: #dcf1f8"
 												onchange="showState(this.value)">
 													<option value="0">---Select---</option>
 													<%
@@ -373,7 +302,7 @@ ul.tabs li.current {
 											%>
 											<td>
 												<div id="item">
-													<select name="item_name">
+													<select name="item_name" style="background-color: #dcf1f8">
 														<option value="0">---Select---</option>
 														<%
 															while (rs_item.next()) {
@@ -389,7 +318,7 @@ ul.tabs li.current {
 
 										<tr>
 											<td><b>Start Date</b></td>
-											<td colspan="2"><input id="demo3" name="start_date_item"
+											<td colspan="2"><input id="demo3" name="start_date_item" style="background-color: #dcf1f8"
 												type="text" size="25" TITLE="Click on Date Picker">
 													<a href="javascript:NewCal('demo3','ddmmyyyy',true,24)">
 														<img src="cal.gif" width="16" height="16" border="0"
@@ -397,16 +326,16 @@ ul.tabs li.current {
 										</tr>
 										<tr>
 											<td><b>End Date</b></td>
-											<td colspan="2"><input id="demo4" name="end_date_item"
+											<td colspan="2"><input id="demo4" name="end_date_item" style="background-color: #dcf1f8"
 												type="text" size="25" TITLE="Click on Date Picker">
 													<a href="javascript:NewCal('demo4','ddmmyyyy',true,24)">
 														<img src="cal.gif" width="16" height="16" border="0"
 														alt="Pick a date"></td>
 										</tr>
 										<tr>
-											<td colspan="2" align="center"><input type="submit"
+											<td colspan="3" align="center"><input type="submit"
 												value="Generate Report"
-												style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"></input></td>
+												style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;font-weight: bold;"></input></td>
 										</tr>
 
 									</table>
@@ -424,7 +353,7 @@ ul.tabs li.current {
 
 								</div>
 								<div id="content3" class="tabscontent">
-									<table>
+									<table style="width: 50%;" class="tftable">  
 
 										<tr>
 											<td colspan="2"><b>Approval Type</b></td>
@@ -433,7 +362,7 @@ ul.tabs li.current {
 															.prepareStatement("select * from cr_tbl_approval_type");
 													ResultSet rs_appr = ps_appr.executeQuery();
 											%>
-											<td><select name="approval_type_app">
+											<td><select name="approval_type_app" style="background-color: #dcf1f8">
 													<option value="0">---Select---</option>
 													<%
 														while (rs_appr.next()) {
@@ -446,7 +375,7 @@ ul.tabs li.current {
 										</tr>
 										<tr>
 											<td><b>Start Date</b></td>
-											<td colspan="2"><input id="demo5" name="start_date_app"
+											<td colspan="2"><input id="demo5" name="start_date_app" style="background-color: #dcf1f8"
 												type="text" size="25" TITLE="Click on Date Picker">
 													<a href="javascript:NewCal('demo5','ddmmyyyy',true,24)">
 														<img src="cal.gif" width="16" height="16" border="0"
@@ -454,16 +383,15 @@ ul.tabs li.current {
 										</tr>
 										<tr>
 											<td><b>End Date</b></td>
-											<td colspan="2"><input id="demo6" name="start_date_app"
+											<td colspan="2"><input id="demo6" name="start_date_app" style="background-color: #dcf1f8"
 												type="text" size="25" TITLE="Click on Date Picker">
 													<a href="javascript:NewCal('demo6','ddmmyyyy',true,24)">
 														<img src="cal.gif" width="16" height="16" border="0"
 														alt="Pick a date"></td>
 										</tr>
 										<tr>
-											<td colspan="2" align="center"><input type="submit"
-												value="Generate Report"
-												style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"></input></td>
+											<td colspan="3" align="center">
+											<input type="submit" value="Generate Report" style="height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;font-weight: bold;"></input></td>
 										</tr>
 									</table>
 									<%
@@ -475,31 +403,7 @@ ul.tabs li.current {
 							</div>
 						</div>
 						<!-- /Tabs -->
-
-
-
-
-					</form>
-
-<!--============================================================================-->
-<!--============================================================================-->
-
+					</form> 
 				</div>
-			</div>
-
-			<div class="cleaner"></div>
-		</div>
-		<!-- end of main -->
-	</div>
-	<!-- end of wrapper -->
-
-	<div id="templatemo_footer_wrapper">
-		<div id="templatemo_footer">
-			| Copyright 2013 <a href="http://www.muthagroup.com">Muthagroup
-				Satara</a> |
-			<div class="cleaner"></div>
-		</div>
-	</div>
-
 </body>
 </html>

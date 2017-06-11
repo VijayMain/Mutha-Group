@@ -441,10 +441,10 @@ try {
 							%> 
 							<tr>
 								<th align="center"><b>A No</b></th>
-								<th align="center"><b>Action Description</b></th>
+								<th align="center" colspan="2"><b>Action Description</b></th>
 								<th align="center"><b>Action Date</b></th>
-								<th align="center"><b>Proposed Output</b></th>
-								<th align="center"><b>Actual Output</b></th>
+								<th align="center" colspan="2"><b>Proposed Output</b></th>
+								<th align="center" colspan="2"><b>Actual Output</b></th>
 								<th align="center"><b>Attachments</b></th>
 							</tr>
 							<%
@@ -456,33 +456,33 @@ try {
 							%>
 							<tr>
 								<td align="center"><%=cnt%></td>
-								<td align="left"><%=rs_action_no.getString("Action_Discription")%></td> 
+								<td align="left" colspan="2"><%=rs_action_no.getString("Action_Discription")%></td> 
 								<td align="left"><%=rs_action_no.getString("Action_Date")%></td>
-								<td align="left"><%=rs_action_no.getString("Proposed_Output")%></td>
-								<td align="left"><%=rs_action_no.getString("Actual_Output")%></td>
+								<td align="left" colspan="2"><%=rs_action_no.getString("Proposed_Output")%></td>
+								<td align="left" colspan="2"><%=rs_action_no.getString("Actual_Output")%></td>
 								<td>
 									<%
 									PreparedStatement ps_file = null;
 									ps_file = con.prepareStatement("select * from cr_tbl_action_attachment where CR_Action_Id="
 																+ rs_action_no.getInt("CR_Action_Id")
 																+ " and delete_Status=1");
-												ResultSet rs_file = ps_file.executeQuery();
-												while (rs_file.next()) {
-									%> 
-											<a href="Display.jsp?field=<%=rs_file.getString("File_Name")%>"><%=rs_file.getString("File_Name")%></a>
-								<%
- 									}
+									ResultSet rs_file = ps_file.executeQuery();
+									while (rs_file.next()) {
+									%>
+									<a href="Display.jsp?field=<%=rs_file.getString("File_Name")%>"><%=rs_file.getString("File_Name")%></a>
+									<%
  										}
- 								%>
+ 											}
+ 									%>
 								</td> 
 							</tr>
-						</table> 
+						</table>
 						<%
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-						%>  
-					</form> 
-				</div>  
+						%>
+					</form>
+				</div>
 	 </body>
 </html>
