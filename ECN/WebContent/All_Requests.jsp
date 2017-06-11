@@ -153,7 +153,7 @@ function ChangeColor(tableRow, highLight) {
 											int cr_no = 0;
 											while (rs_CR_Details.next()) {
 												cr_no = rs_CR_Details.getInt("CR_No");
-												System.out.println("Testing Cr No = " + cr_no);
+												//System.out.println("Testing Cr No = " + cr_no);
 									%>
 									<tr onmouseover="ChangeColor(this, true);"
 										onmouseout="ChangeColor(this, false);" style="cursor: pointer;"
