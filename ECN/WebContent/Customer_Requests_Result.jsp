@@ -359,12 +359,17 @@ try {
 								<td align="left"><%=rs_edit.getString("PPAP")%></td> 
 								<td align="left"><%=rs_edit.getString("Change_Level")%></td>
 							</tr> 
+							
+							
+							
 							<tr>
-								<th colspan="4" align="center"><b>Requestor </b></th>
-								<th colspan="5" align="center"><b>Attachments </b></th>
+								<th colspan="2" align="center"><b>Requestor </b></th>
+								<th colspan="3" align="center"><b>Attachments </b></th>
+								<th colspan="2" align="center"><b>Nature of Change</b></th>
+								<th colspan="2" align="center"><b>Reason for change</b></th>								
 							</tr>
 							<tr>
-								<td colspan="4" align="left">
+								<td colspan="2" align="left">
 									<%
 										PreparedStatement ps_UName = con.prepareStatement("select U_Name from User_tbl where U_Id=" + rs_edit.getInt("U_Id"));
 										ResultSet rs_UName = ps_UName.executeQuery();
@@ -372,11 +377,10 @@ try {
 									%> 
 									<label> <%=rs_UName.getString("U_Name")%></label> 
 								<%
- 									}
- 										}
+ 									} 
  								%>
 								</td>
-								<td colspan="5" align="left">
+								<td colspan="3" align="left">
 									<%
 											PreparedStatement ps_file1 = null;
 											System.out.println("Cr no.... for attachment...." + cr_No);
@@ -389,7 +393,15 @@ try {
  										}
  									%>
 								</td> 
+								<td colspan="2" align="left"><%=rs_edit.getString("Nature_Of_Change")%></td>
+								<td colspan="2" align="left"><%=rs_edit.getString("Reason_For_Change")%></td>
+								<%
+									}
+								%>
 							</tr> 
+							
+							
+							
  							<tr>
 								<th align="center" colspan="3"><b>Approver Name</b></th>
 								<th align="center" colspan="2"><b>Approve Type</b></th>
@@ -454,7 +466,7 @@ try {
 										cnt++;
 							%>
 							<tr>
-								<td><%=cnt%></td> 
+								<td align="right"><%=cnt%></td> 
 								<td align="left" colspan="2"><%=rs_action_no.getString("Action_Discription")%></td> 
 								<td align="left"><%=rs_action_no.getString("Action_Date")%></td> 
 								<td align="left" colspan="2"><%=rs_action_no.getString("Proposed_Output")%></td> 

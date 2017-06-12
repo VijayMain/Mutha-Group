@@ -39,31 +39,21 @@ public class Search_Request_Customer_Controller extends HttpServlet {
 			bean.setCompany_name_sup(Integer.parseInt(request
 					.getParameter("company_name_sup")));
 
-			bean.setCompany_name_item(Integer.parseInt(request
-					.getParameter("company_name_item")));
-			System.out.println("Company Name Item = "
-					+ bean.getCompany_name_item());
-			bean.setItem_name_item(Integer.parseInt(request
-					.getParameter("item_name")));
+			bean.setCompany_name_item(Integer.parseInt(request.getParameter("company_name_item")));
+			// System.out.println("Company Name Item = " + bean.getCompany_name_item());
+			bean.setItem_name_item(Integer.parseInt(request.getParameter("item_name")));
 
-			bean.setApproval_type_app(Integer.parseInt(request
-					.getParameter("approval_type_app")));
+			bean.setApproval_type_app(Integer.parseInt(request.getParameter("approval_type_app")));
 
-			System.out.println("Test ==== = " + bean.getEnd_date_sup() + "-"
-					+ bean.getCompany_name_sup() + "-"
-					+ bean.getCompany_name_item() + "-"
-					+ bean.getApproval_type_app());
+			//System.out.println("Test ==== = " + bean.getEnd_date_sup() + "-" + bean.getCompany_name_sup() + "-" + bean.getCompany_name_item() + "-" + bean.getApproval_type_app());
 
 			Timestamp sdates = null, edates = null, sdatei = null, edatei = null, sdatea = null, edatea = null;
 
-			bean.setCompany_name_item(Integer.parseInt(request
-					.getParameter("company_name_item")));
+			bean.setCompany_name_item(Integer.parseInt(request.getParameter("company_name_item")));
 
-			bean.setItem_name_item(Integer.parseInt(request
-					.getParameter("item_name")));
+			bean.setItem_name_item(Integer.parseInt(request.getParameter("item_name")));
 
-			bean.setApproval_type_app(Integer.parseInt(request
-					.getParameter("approval_type_app")));
+			bean.setApproval_type_app(Integer.parseInt(request.getParameter("approval_type_app")));
 
 			// ******************************************************************************************************************
 			String start_date_sup = request.getParameter("start_date_sup");
@@ -73,7 +63,7 @@ public class Search_Request_Customer_Controller extends HttpServlet {
 			String start_date_app = request.getParameter("start_date_app");
 			String end_date_app = request.getParameter("end_date_app");
 
-			System.out.println("End date = " + end_date_item);
+			//System.out.println("End date = " + end_date_item);
 
 			int comp_Sup = bean.getCompany_name_sup();
 
@@ -130,8 +120,7 @@ public class Search_Request_Customer_Controller extends HttpServlet {
 				bean.setEnd_date_app(edatea);
 
 			}
-			System.out.println("Testing output = " + bean.getStart_date_item()
-					+ "\n" + bean.getEnd_date_item());
+			// System.out.println("Testing output = " + bean.getStart_date_item() + "\n" + bean.getEnd_date_item());
 			boolean flag = false;
 
 			Search_Request_Customer_BO bo = new Search_Request_Customer_BO();

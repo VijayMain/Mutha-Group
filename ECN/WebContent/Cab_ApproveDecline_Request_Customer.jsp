@@ -291,7 +291,7 @@ try {
 								<th align="center"><b>Total Stock</b></th>
 							</tr>
 							<tr>
-								<td align="right" width="70"><label><%=cr_No%></label></td>
+								<td align="center"><b><%=cr_No%></b></td>
 								<td align="left"><label><%=rs_edit.getString("CRC_Date")%></label></td>
 
 								<%
@@ -359,11 +359,13 @@ try {
 								%>
 							</tr>   
 							<tr>
-								<th colspan="4" align="center"><b>Requestor </b></th>
-								<th colspan="5" align="center"><b>Attachments </b></th>
+								<th colspan="2" align="center"><b>Requestor </b></th>
+								<th colspan="3" align="center"><b>Attachments </b></th>
+								<th colspan="2" align="center"><b>Nature of Change</b></th>
+								<th colspan="2" align="center"><b>Reason for change</b></th>								
 							</tr>
 							<tr>
-								<td colspan="4" align="center">
+								<td colspan="2" align="center">
 								<%
 										PreparedStatement ps_UName = con.prepareStatement("select U_Name from User_tbl where U_Id="
 																+ rs_edit.getInt("U_Id")); 
@@ -372,29 +374,26 @@ try {
 								%> <b style="font-size: 13px;"> <%=rs_UName.getString("U_Name")%> </b> 
 								<%
  									} 
- 									}
  								%>
 								</td>
-								<td colspan="5" align="left">
-									<%
-										/****************************************************************************************************************
-																																																																																																																																																																																																																																																TO SELECT ATTACHMENTS RELATED TO Action NUMBER 							
-											 ****************************************************************************************************************/
+								<td colspan="3" align="left">
+									<% 
 											PreparedStatement ps_file1 = null; 
 											ps_file1 = con.prepareStatement("select * from crc_tbl_attachment where CRC_No="
 															+ cr_No + " and Del_Status=1");
 											ResultSet rs_file1 = ps_file1.executeQuery();
 											while (rs_file1.next()) {
 									%>
-									<table>
-										<tr>
-											<td align="center"><a href="Display_Attach_Customer.jsp?field=<%=rs_file1.getString("CRC_File_Name")%>" style="color: #396E2F"> <b> <%=rs_file1.getString("CRC_File_Name")%></b> </a></td>
-										</tr>
-									</table> <%
- 	}
- %>
+								<label>
+								<a href="Display_Attach_Customer.jsp?field=<%=rs_file1.getString("CRC_File_Name")%>" style="color: #396E2F"> <b> <%=rs_file1.getString("CRC_File_Name")%></b> </a><br>
+								</label>
+									<%
+ 										}
+ 									%>
 								</td>
- 							</tr> 
+								<td colspan="2" align="left"><%=rs_edit.getString("Nature_Of_Change")%></td>
+								<td colspan="2" align="left"><%=rs_edit.getString("Reason_For_Change")%></td> 
+ 							</tr>
  							<tr>
 								<th align="center" colspan="2"><b>Approver Name</b></th>
 								<th align="center" colspan="2"><b>Approve Type</b></th>
@@ -613,24 +612,23 @@ try {
 								<% 
 										boolean flag = false;  
 										int ap_id = 0; 
-										PreparedStatement ps_check = con.prepareStatement("select * from cr_tbl_approval");
+										PreparedStatement ps_check = con.prepareStatement("select * from crc_tbl_approval");
 										ResultSet rs_check = ps_check.executeQuery();
 										while (rs_check.next()) {
-											int cr_No1 = rs_check.getInt("CR_No");
+											int cr_No1 = rs_check.getInt("CRC_No");
 											int uid1 = rs_check.getInt("U_Id");
 
+											// System.out.println("CR NO = " +cr_No + "CRNO = " + cr_No1 + " UID = " + uid1 + " UID = "+uid);
+											
 											if (cr_No == cr_No1 && uid == uid1) {
+											//	System.out.println("In lopp");
 												flag = true;
 								%>
 								<td><b>Action</b></td>
 								<td colspan="4"><select name="approval_name" style="font-size: 14px;width: 200px;height: 26px; background-color: #d2e9f0">
-
 										<%
-											ap_id = rs_check.getInt("Approval_Id");
-
-														PreparedStatement ps = con
-																.prepareStatement("select * from cr_tbl_approval_Type where Approval_Id="
-																		+ ap_id);
+											ap_id = rs_check.getInt("Approval_Id"); 
+														PreparedStatement ps = con.prepareStatement("select * from cr_tbl_approval_Type where Approval_Id=" + ap_id);
 														ResultSet rs = ps.executeQuery();
 														while (rs.next()) {
 										%>
@@ -640,25 +638,19 @@ try {
 										<%
 											}
 														if (ap_id == 1 || ap_id == 3) {
-															PreparedStatement ps_apprval_type = con.prepareStatement("select * from cr_tbl_approval_type where approval_id!="
-																			+ ap_id + " and approval_id!=2");
-															ResultSet rs_apprval_type = ps_apprval_type
-																	.executeQuery();
+															PreparedStatement ps_apprval_type = con.prepareStatement("select * from cr_tbl_approval_type where approval_id!=" + ap_id + " and approval_id!=2");
+															ResultSet rs_apprval_type = ps_apprval_type.executeQuery();
 															while (rs_apprval_type.next()) {
 										%>
 										<option value="<%=rs_apprval_type.getInt("Approval_id")%>"><%=rs_apprval_type.getString("Approval_Type")%></option>
 										<%
 											}
 														} else {
-															PreparedStatement ps_apprval_type = con
-																	.prepareStatement("select * from cr_tbl_approval_type where approval_id!="
-																			+ ap_id);
-															ResultSet rs_apprval_type = ps_apprval_type
-																	.executeQuery();
+															PreparedStatement ps_apprval_type = con.prepareStatement("select * from cr_tbl_approval_type where approval_id!=" + ap_id);
+															ResultSet rs_apprval_type = ps_apprval_type.executeQuery();
 															while (rs_apprval_type.next()) {
 										%>
-										<option value="<%=rs_apprval_type.getInt("Approval_id")%>"><%=rs_apprval_type
-										.getString("Approval_Type")%></option>
+										<option value="<%=rs_apprval_type.getInt("Approval_id")%>"><%=rs_apprval_type.getString("Approval_Type")%></option>
 										<%
 											}
 														}
@@ -669,6 +661,9 @@ try {
 								<td><b>Remark</b></td>
 								<td colspan="4"><textarea name="remark" cols="30" rows="4" style="background-color: #d2e9f0"><%=rs_check.getString("Remark")%></textarea>
 								</td>
+							</tr>
+							<tr>
+							<td colspan="5"><input type="submit" value="Take Action" style="font-weight:bold;height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"></td>
 							</tr>
 							<%
 								}
@@ -681,8 +676,7 @@ try {
 										<option selected="selected" value="0">----select-----</option>
 										<%
 											PreparedStatement ps_apprval_type1 = con.prepareStatement("select * from cr_tbl_approval_type");
-											ResultSet rs_apprval_type1 = ps_apprval_type1
-															.executeQuery();
+											ResultSet rs_apprval_type1 = ps_apprval_type1.executeQuery();
 													while (rs_apprval_type1.next()) {
 										%>
 										<option value="<%=rs_apprval_type1.getInt("Approval_id")%>"><%=rs_apprval_type1.getString("Approval_Type")%></option>
@@ -700,11 +694,11 @@ try {
 							%>
 						</table>
 						<%
+									}
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-						%>
-						<input type="submit" value="Take Action" style="font-weight:bold;height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"> 
+						%>						 
 					</form> 
 				</div> 
 </body>

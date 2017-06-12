@@ -639,8 +639,7 @@ try {
 												//******************************************************************************************************************
 
 												ArrayList users = new ArrayList();
-												PreparedStatement ps_user = con
-														.prepareStatement("select distinct(U_Name) from user_tbl where Enable_id=1 and  U_Designation='Manager' or U_Designation='Administration' order by U_Name");
+												PreparedStatement ps_user = con.prepareStatement("select distinct(U_Name) from user_tbl where Enable_id=1 and  U_Designation='Manager' or U_Designation='Administration' order by U_Name");
 												ResultSet rs_user = ps_user.executeQuery();
 
 												while (rs_user.next()) {
@@ -682,7 +681,6 @@ try {
 														for (int b1 = 0; b1 < depthd.size(); b1++) {
 															if (users.contains(depthd.get(b1))) {
 																depthd.remove(b1);
-
 															} else {
 																continue;
 															}
@@ -708,16 +706,13 @@ try {
 
 												users.addAll(planthd);
 
-												PreparedStatement ps_DefaulApprovers = con
-														.prepareStatement("select U_id from cr_approver_relation_tbl where cr_no="
+												PreparedStatement ps_DefaulApprovers = con.prepareStatement("select U_id from cr_approver_relation_tbl where cr_no="
 																+ cr_No);
-												ResultSet rs_DefaultApprovers = ps_DefaulApprovers
-														.executeQuery();
+												ResultSet rs_DefaultApprovers = ps_DefaulApprovers.executeQuery();
 												PreparedStatement ps_AppName = null;
 												ResultSet rs_AppName = null;
 												while (rs_DefaultApprovers.next()) {
-													ps_AppName = con
-															.prepareStatement("select U_Name from User_Tbl where U_Id="
+													ps_AppName = con.prepareStatement("select U_Name from User_Tbl where U_Id="
 																	+ rs_DefaultApprovers.getInt("U_Id"));
 													rs_AppName = ps_AppName.executeQuery();
 
@@ -777,32 +772,25 @@ try {
 											int cr_No1 = rs_check.getInt("CR_No");
 											int uid1 = rs_check.getInt("U_Id");
 											if (cr_No == cr_No1 && uid == uid1) {
-												flag = true;
+											flag = true;
 								%>
 								<td><b style="font-size: 13px;">Action</b></td>
 								<td align="left" colspan="9">
 								<select name="approval_name" style="font-size: 14px;width: 200px;height: 26px;background-color: #d2e9f0"> 
 										<%
 											ap_id = rs_check.getInt("Approval_Id");
-
-														PreparedStatement ps = con
-																.prepareStatement("select * from cr_tbl_approval_Type where Approval_Id="
-																		+ ap_id);
-														ResultSet rs = ps.executeQuery();
-														while (rs.next()) {
+											PreparedStatement ps = con.prepareStatement("select * from cr_tbl_approval_Type where Approval_Id=" + ap_id);
+											ResultSet rs = ps.executeQuery();
+											while (rs.next()) {
 										%>
-										<option selected="selected"
-											value="<%=rs.getInt("Approval_Id")%>"><%=rs.getString("Approval_Type")%></option>
-
+										<option selected="selected" value="<%=rs.getInt("Approval_Id")%>"><%=rs.getString("Approval_Type")%></option>
 										<%
 											}
-														if (ap_id == 1 || ap_id == 3) {
-															PreparedStatement ps_apprval_type = con
-																	.prepareStatement("select * from cr_tbl_approval_type where approval_id!="
+											if (ap_id == 1 || ap_id == 3) {
+													PreparedStatement ps_apprval_type = con.prepareStatement("select * from cr_tbl_approval_type where approval_id!="
 																			+ ap_id + " and approval_id!=2");
-															ResultSet rs_apprval_type = ps_apprval_type
-																	.executeQuery();
-															while (rs_apprval_type.next()) {
+													ResultSet rs_apprval_type = ps_apprval_type.executeQuery();
+													while (rs_apprval_type.next()) {
 										%>
 										<option value="<%=rs_apprval_type.getInt("Approval_id")%>"><%=rs_apprval_type.getString("Approval_Type")%></option>
 										<%
@@ -823,6 +811,9 @@ try {
 								<td><b style="font-size: 13px;">Remark</b></td>
 								<td colspan="9" align="left"><textarea name="remark" cols="30" rows="4" style="background-color: #d2e9f0"><%=rs_check.getString("Remark")%></textarea>
 								</td> 
+							</tr>
+							<tr>
+							<td colspan="10"><input type="submit" value="Take Action" style="font-weight:bold;height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;"></td>
 							</tr>
 							<%
 								}
@@ -847,7 +838,7 @@ try {
 							</tr>
 							<tr>
 								<td><b style="font-size: 13px;">Remark</b></td>
-								<td colspan="9" align="left"><textarea name="remark" cols="30" rows="4" style="background-color: #d2e9f0"><%=rs_check.getString("Remark")%></textarea></td>
+								<td colspan="9" align="left"><textarea name="remark" cols="30" rows="4" style="background-color: #d2e9f0"></textarea></td>
 							</tr> 
 							<%
 								}
@@ -858,7 +849,7 @@ try {
 								e.printStackTrace();
 							}
 						%>
-						<input type="submit" value="Take Action" style="font-weight:bold;height: 35px; width: 200px; background-color: #C4C4C4; border-radius: 20px/20px;">
+						
 
 					</form>
 				</div> 

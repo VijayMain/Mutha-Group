@@ -182,10 +182,8 @@ div.scroll {
 																}
 																//System.out.println("Home Test = " + cat_id);
 																for (int j = 0; j < cat_id.size(); j++) {
-																	PreparedStatement ps_category = con
-																			.prepareStatement("select * from CR_tbl_category where CR_Category_Id="
-																					+ Integer.parseInt(cat_id.get(j)
-																							.toString()));
+																	PreparedStatement ps_category = con.prepareStatement("select * from CR_tbl_category where CR_Category_Id="
+																					+ Integer.parseInt(cat_id.get(j).toString()));
 																	ResultSet rs_category = ps_category.executeQuery();
 																	while (rs_category.next()) {
 												%>

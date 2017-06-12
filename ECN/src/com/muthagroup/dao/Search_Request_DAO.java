@@ -349,10 +349,8 @@ public class Search_Request_DAO {
 						&& bean.getStart_date_item() == null
 						&& bean.getCompany_name_item() == 0
 						&& bean.getItem_name_item() == 0) {
-					System.out.println("Approval Type = "
-							+ bean.getApproval_type_app());
-					PreparedStatement ps = con
-							.prepareStatement("select * from cr_tbl_approval where Approval_Id="
+					// System.out.println("Approval Type = " + bean.getApproval_type_app());
+					PreparedStatement ps = con.prepareStatement("select * from cr_tbl_approval where Approval_Id="
 									+ bean.getApproval_type_app()
 									+ " and U_Id="
 									+ Integer.parseInt(id1.get(s).toString()));
@@ -396,14 +394,14 @@ public class Search_Request_DAO {
 				}
 
 				else {
-					System.out.println("No value selectd");
+					//System.out.println("No value selectd");
 				}
 
 				while (rs.next()) {
 					ListDisplay.add(rs.getInt("CR_No"));
 				}
 			}
-			System.out.println("List == " + ListDisplay);
+			//System.out.println("List == " + ListDisplay);
 			// RequestDispatcher rd =
 			// request.getRequestDispatcher("/Search_Result.jsp");
 			// request.setAttribute("disList", ListDisplay);
