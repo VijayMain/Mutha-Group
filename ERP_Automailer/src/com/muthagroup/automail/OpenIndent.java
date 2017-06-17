@@ -28,7 +28,7 @@ public class OpenIndent extends TimerTask {
 		Date d = new Date();
 		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 		
-		if (weekday[d.getDay()].equals("Wednesday") && d.getHours() == 9 && d.getMinutes() == 30) {
+		if (weekday[d.getDay()].equals("Monday") && d.getHours() == 9 && d.getMinutes() == 30) {
 		boolean flag=false;
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
@@ -112,7 +112,7 @@ ResultSet rs = cs.executeQuery();
 while(rs.next()){
 if(rs.getString("STATUS_CODE").equalsIgnoreCase("0")){
 sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
-"<td align='right'>"+rs.getString("PRN_TRANDATE") +"</td>"+
+"<td>"+rs.getString("PRN_TRANDATE") +"</td>"+
 "<td>"+rs.getString("AC_NAME") +"</td>"+
 "<td>"+rs.getString("CREATED_BY") +"</td>"+
 "<td>"+rs.getString("APPROVED_BY") +"</td>"+
@@ -142,7 +142,7 @@ rs = cs.executeQuery();
 while(rs.next()){
 if(rs.getString("STATUS_CODE").equalsIgnoreCase("0")){
 sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
-"<td align='right'>"+rs.getString("PRN_TRANDATE") +"</td>"+
+"<td>"+rs.getString("PRN_TRANDATE") +"</td>"+
 "<td>"+rs.getString("AC_NAME") +"</td>"+
 "<td>"+rs.getString("CREATED_BY") +"</td>"+
 "<td>"+rs.getString("APPROVED_BY") +"</td>"+
@@ -172,7 +172,7 @@ rs = cs.executeQuery();
 while(rs.next()){
 if(rs.getString("STATUS_CODE").equalsIgnoreCase("0")){
 sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
-"<td align='right'>"+rs.getString("PRN_TRANDATE") +"</td>"+
+"<td>"+rs.getString("PRN_TRANDATE") +"</td>"+
 "<td>"+rs.getString("AC_NAME") +"</td>"+
 "<td>"+rs.getString("CREATED_BY") +"</td>"+
 "<td>"+rs.getString("APPROVED_BY") +"</td>"+
@@ -204,7 +204,7 @@ rs = cs.executeQuery();
 while(rs.next()){
 if(rs.getString("STATUS_CODE").equalsIgnoreCase("0")){
 sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
-"<td align='right'>"+rs.getString("PRN_TRANDATE") +"</td>"+
+"<td>"+rs.getString("PRN_TRANDATE") +"</td>"+
 "<td>"+rs.getString("AC_NAME") +"</td>"+
 "<td>"+rs.getString("CREATED_BY") +"</td>"+
 "<td>"+rs.getString("APPROVED_BY") +"</td>"+
@@ -234,7 +234,7 @@ rs = cs.executeQuery();
 while(rs.next()){
 if(rs.getString("STATUS_CODE").equalsIgnoreCase("0")){
 sb.append("<tr><td align='right'>"+rs.getString("STRAN_NO") +"</td>"+
-"<td align='right'>"+rs.getString("PRN_TRANDATE") +"</td>"+
+"<td>"+rs.getString("PRN_TRANDATE") +"</td>"+
 "<td>"+rs.getString("AC_NAME") +"</td>"+
 "<td>"+rs.getString("CREATED_BY") +"</td>"+
 "<td>"+rs.getString("APPROVED_BY") +"</td>"+

@@ -298,12 +298,9 @@ alert("Done");
 		Connection con = ConnectionUrl.getBWAYSERPMASTERConnection();
 		Connection conlocal = ConnectionUrl.getLocalDatabase();
 		PreparedStatement ps=null;
-		ResultSet rs = null; 
-		
+		ResultSet rs = null;
 		Calendar now = Calendar.getInstance();
 		int year = now.get(Calendar.YEAR);
-		 
-		
 		if(request.getParameter("repMsg")!=null){ 
 	  %>
 	  <script type="text/javascript">
@@ -311,7 +308,7 @@ alert("Done");
 	  </script>
 	  <% 
 		}
-	  %>  	
+	  %>
 <strong style="color: #1B5869;font-family: Arial;font-size: 14px;">To create new Supplier in ERP System</strong> 
 <br/>
 <strong style="font-family: Arial;font-size: 14px;font-weight: bold;"><a href="HomePage.jsp" style="text-decoration: none;">&lArr; BACK</a></strong>

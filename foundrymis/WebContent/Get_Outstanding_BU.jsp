@@ -125,7 +125,7 @@ if(comp.equalsIgnoreCase("101")){
 		<tr style="font-size: 12px;font-family: Arial;">
 					<th scope="col" class="th">INVOICE NO</th>
 					<th scope="col" class="th">INVOICE DATE</th>
-					<th scope="col" class="th">INVOICE AMT</th> 
+					<th scope="col" class="th">INVOICE AMT</th>
 		</tr>
 	<%
 	PreparedStatement ps = con.prepareStatement("select RIGHT(CONVERT( VARCHAR, TRNACCTMATH.TRAN_NO), 6)  AS INV_NO,DBO.FORMAT_DATE(TRAN_DATE) as TRAN_DATE, TRAN_AMT from TRNACCTMATH where TRAN_NO LIKE '"+trn_no+"%' AND SUB_GLACNO1 ="+custBU+" AND TRAN_DATE BETWEEN  "+firstdate+"  AND "+lastdate+" AND STATUS_CODE =0");
@@ -135,11 +135,11 @@ if(comp.equalsIgnoreCase("101")){
 		<tr>
 			<td scope="col" align="right"><%=rs.getString("INV_NO") %></td>
 			<td scope="col" align="left"><%=rs.getString("TRAN_DATE") %></td>
-			<td scope="col" align="right"><%=rs.getString("TRAN_AMT") %></td> 
+			<td scope="col" align="right"><%=rs.getString("TRAN_AMT") %></td>
 		</tr>
 	<%
 	}
-	%>	
+	%>
 </table>
 </div>
 <%  

@@ -1817,15 +1817,14 @@ while(rs.next()){
 		</table>
 	</form>
 				
-				
 			</div>
 		<% 		
 			}if(reportList.contains("MRM Operations")){
 		%>
-			<div id="tabs-18" style="padding-left: 10px;padding-right: 10px;">
-			
-	<div style="float: left;width: 40%">
-			
+<div id="tabs-18" style="height: 500px;"> 
+<br>
+<br>
+	<div style="float: left;width: 45%">
 	<form action="MRMOperation_Controller" method="post"  onSubmit="return validateMRMOP();">
 		<br/>
 				<table class="tftable" style="border: 0px;">
@@ -1888,7 +1887,7 @@ while(rs.next()){
 	</form>
  	</div>
  		
- 	<div style="float: right;width: 40%;">
+ 	<div style="float: right;width: 50%;">
  	
  	<form action="MRMOperation_Entries" method="post"  onSubmit="return validateMRMEntries();">
  	<br>
@@ -1931,7 +1930,7 @@ while(rs.next()){
 		</tr>		 
 		</table>
  	</form>
-	</div>
+	</div> 
 	</div>
 		<%	
 			}if(reportList.contains("Bill Wise Purchase Details")){
@@ -1973,36 +1972,25 @@ while(rs.next()){
 			</tr>
 						 
 		</table>
-	</form>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			 		
+	</form>	
 		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		<%
 			}if(reportList.contains("ERP New Item Creation")){
 			Connection conMaster = ConnectionUrl.getBWAYSERPMASTERConnection(); 
 		%>
-			<div id="tabs-20">
-			 
+		<div id="tabs-20" style="height:300px;text-align: left;">
+		<div style="float: left;width: 50%;">	 
 			<form action="ItemCreate_Controller" method="post" onSubmit="return validateNewItemCreation();">
 			<br/>
 			<table class="tftable" style="border: 0px;">
@@ -2017,8 +2005,12 @@ while(rs.next()){
 			<td colspan="2" align="left"><span id="waitnewERPItem" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
 			</tr>	 
 		</table>
-	</form>  
-			<%-- <div style="float: right; width: 50%">
+	</form>
+	</div>  
+			
+			
+		<div style="float: right; width: 49%">
+		<!-- Master :=:> select * from mstmaterials -->
 			<form action="New_ItemGenerate.jsp" method="post" onSubmit="return validateNewERPItem();">
 			<br/>
 			<table class="tftable">
@@ -2052,9 +2044,23 @@ while(rs.next()){
 			</tr>	 
 		</table>
 	</form> 
-			</div>  --%>
-			<br/><br/><br/><br/><br/><br/><br/><br/>
+			</div> 
+			<br/><br/><br/>
 			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		<%
 			}if(reportList.contains("Heat_Trend")){
 		%>
