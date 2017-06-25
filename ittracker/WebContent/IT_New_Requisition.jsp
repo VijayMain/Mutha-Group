@@ -16,9 +16,7 @@
 <link rel="stylesheet" href="js/jquery-ui.css" />
 <script src="js/jquery-1.9.1.js"></script>
 <script src="js/jquery-ui.js"></script>
-
 <script type="text/javascript">
-
 $(function() {
 	$("#tabs").tabs();
 });
@@ -122,18 +120,43 @@ $(function() {
 				<li><a href="Logout.jsp">Logout<strong style="color: blue; font-size: 8px;"> <%=uname%></strong></a></li>
 			</ul>
 		</div>
-	
-		
 		
 		 <div style="height: 500px;width:99%; overflow: scroll;">
-		 
 		 <div id="tabs">
 				<ul>
-					<li><a href="#tabs-1"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL H21</b>&nbsp;&nbsp;</font> </a></li>
-					<li><a href="#tabs-2"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL H25</b>&nbsp;&nbsp;</font></a></li> 
-					<li><a href="#tabs-3"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MFPL</b>&nbsp;&nbsp;</font></a></li>
-					<li><a href="#tabs-4"><font style="font-size: 12px;">&nbsp;&nbsp;<b>DI</b>&nbsp;&nbsp;</font></a></li>
-					<li><a href="#tabs-5"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL UIII</b>&nbsp;&nbsp;</font></a></li> 
+				<%
+				int cnt_comph21=0,cnt_comph25=0,cnt_compdi=0,cnt_compmf=0,cnt_compk1=0;
+				PreparedStatement ps_reqcnt = con.prepareStatement("select count(*) as count from it_user_requisition where status!='Closed' and Company_Id=1");
+				ResultSet rs_reqcnt = ps_reqcnt.executeQuery();
+				while (rs_reqcnt.next()) {
+					cnt_comph21 = rs_reqcnt.getInt("count");
+				}
+				ps_reqcnt = con.prepareStatement("select count(*) as count from it_user_requisition where status!='Closed' and Company_Id=2");
+				rs_reqcnt = ps_reqcnt.executeQuery();
+				while (rs_reqcnt.next()) {
+					cnt_comph25 = rs_reqcnt.getInt("count");
+				}
+				ps_reqcnt = con.prepareStatement("select count(*) as count from it_user_requisition where status!='Closed' and Company_Id=3");
+				rs_reqcnt = ps_reqcnt.executeQuery();
+				while (rs_reqcnt.next()) {
+					cnt_compmf = rs_reqcnt.getInt("count");
+				}
+				ps_reqcnt = con.prepareStatement("select count(*) as count from it_user_requisition where status!='Closed' and Company_Id=5");
+				rs_reqcnt = ps_reqcnt.executeQuery();
+				while (rs_reqcnt.next()) {
+					cnt_compdi = rs_reqcnt.getInt("count");
+				}
+				ps_reqcnt = con.prepareStatement("select count(*) as count from it_user_requisition where status!='Closed' and Company_Id=4");
+				rs_reqcnt = ps_reqcnt.executeQuery();
+				while (rs_reqcnt.next()) {
+					cnt_compk1 = rs_reqcnt.getInt("count");
+				}
+				%>
+					<li><a href="#tabs-1"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL H21</b>&nbsp;&nbsp;<b style="background-color: #b30000;color: white;">&nbsp;[&nbsp;<%=cnt_comph21 %>&nbsp;]&nbsp;</b>&nbsp;&nbsp;</font> </a></li>
+					<li><a href="#tabs-2"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL H25</b>&nbsp;&nbsp;<b style="background-color: #b30000;color: white;">&nbsp;[&nbsp;<%=cnt_comph25 %>&nbsp;]&nbsp;</b>&nbsp;&nbsp;</font></a></li> 
+					<li><a href="#tabs-3"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MFPL</b>&nbsp;&nbsp;<b style="background-color: #b30000;color: white;">&nbsp;[&nbsp;<%=cnt_compmf %>&nbsp;]&nbsp;</b>&nbsp;&nbsp;</font></a></li>
+					<li><a href="#tabs-4"><font style="font-size: 12px;">&nbsp;&nbsp;<b>DI</b>&nbsp;&nbsp;<b style="background-color: #b30000;color: white;">&nbsp;[&nbsp;<%=cnt_compdi %>&nbsp;]&nbsp;</b>&nbsp;&nbsp;</font></a></li>
+					<li><a href="#tabs-5"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL UIII</b>&nbsp;&nbsp;<b style="background-color: #b30000;color: white;">&nbsp;[&nbsp;<%=cnt_compk1 %>&nbsp;]&nbsp;</b>&nbsp;&nbsp;</font></a></li> 
 				</ul>
 				<div id="tabs-1">
 				<form method="post" name="edit1" action="IT_Take_Action.jsp" id="edit1">
@@ -148,34 +171,28 @@ $(function() {
 							<th>Type</th>
 							<th>Req. Date</th>
 							<th>Status</th>
-							<th>Transfer To</th>
-
+							<th>Transfer To</th> 
 						</tr>
-					</thead>
-
+					</thead> 
 					<%
 						PreparedStatement ps_reqDetails = con.prepareStatement("select * from it_user_requisition where status!='Closed' and Company_Id=1  order by Company_Id,Req_Date desc");
-
 							ResultSet rs_reqDetails = ps_reqDetails.executeQuery();
-
 							while (rs_reqDetails.next()) {
-					%>
-
+					%> 
 					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
 						<td align="center"><%=rs_reqDetails.getInt("U_Req_Id")%></td>
 						<%
-							PreparedStatement ps_name = con.prepareStatement("select U_Name from User_tbl where U_Id="
-													+ rs_reqDetails.getInt("U_Id"));
-									ResultSet rs_name = ps_name.executeQuery();
-									while (rs_name.next()) {
+							PreparedStatement ps_name = con.prepareStatement("select U_Name from User_tbl where U_Id=" + rs_reqDetails.getInt("U_Id"));
+							ResultSet rs_name = ps_name.executeQuery();
+							while (rs_name.next()) {
 						%>
 						<td align="left"><%=rs_name.getString("U_Name")%></td>
 						<%
 							}
 						PreparedStatement ps_comp = con.prepareStatement("select Company_Name from User_tbl_Company where Company_Id="
 													+ rs_reqDetails.getInt("Company_Id"));
-									ResultSet rs_comp = ps_comp.executeQuery();
-									while (rs_comp.next()) {
+						ResultSet rs_comp = ps_comp.executeQuery();
+						while (rs_comp.next()) {
 						%>
 						<td align="left"><%=rs_comp.getString("Company_Name")%></td>
 						<%
