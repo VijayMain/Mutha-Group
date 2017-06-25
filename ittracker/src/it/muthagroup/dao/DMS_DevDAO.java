@@ -313,7 +313,7 @@ public class DMS_DevDAO {
 				transport.connect(host, user, pass);
 				transport.sendMessage(msg, msg.getAllRecipients()); 
 				transport.close();
-				System.out.println("Loop ENd.....");
+				//System.out.println("Loop ENd.....");
 				flag=true; 
 		}
 		if(flag==true){
