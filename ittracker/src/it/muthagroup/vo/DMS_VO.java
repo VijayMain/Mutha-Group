@@ -6,11 +6,19 @@ import java.sql.Timestamp;
 public class DMS_VO {
 
 	private int srno, dmscode, shared_access = 0, code, tran_dmscode,
-			tranrelCode;
+			tranrelCode, folder_code;
 	private String folder, subject, file, share_others, blob_name, note,
 			date_dms, carriedout, videbill, forrs, purorder, subject_title;
 	private InputStream blob_file = null;
 	private Timestamp demo4 = null;
+
+	public int getFolder_code() {
+		return folder_code;
+	}
+
+	public void setFolder_code(int folder_code) {
+		this.folder_code = folder_code;
+	}
 
 	public String getSubject_title() {
 		return subject_title;

@@ -172,10 +172,11 @@ public class DMS_DevDAO {
 				}
 				if(flag==true){
 					String msg = "Successfully Submitted !!!"; 
-					response.sendRedirect("DMS.jsp?msg=" + msg);
+					// response.sendRedirect("DMS.jsp?msg=" + msg);
+					response.sendRedirect("DMSApproved_Success.jsp?msg=" + msg+ "&q="+bean.getCode());
 					}else{
 						String msg = "Data upload failed !!!"; 
-						response.sendRedirect("DMS.jsp?msg=" + msg);	
+						response.sendRedirect("DMSApproved_Success.jsp?msg=" + msg+ "&q="+bean.getCode());	
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -317,10 +318,10 @@ public class DMS_DevDAO {
 		}
 		if(flag==true){
 			String msg = "Successfully Submitted !!!"; 
-			response.sendRedirect("DMS.jsp?msg=" + msg);
+			response.sendRedirect("DMSApproved_Success.jsp?msg=" + msg+ "&q="+bean.getFolder_code());
 			}else{
 				String msg = "Data upload failed !!!"; 
-				response.sendRedirect("DMS.jsp?msg=" + msg);	
+				response.sendRedirect("DMSApproved_Success.jsp?msg=" + msg+ "&q="+bean.getFolder_code());
 		}
 	} catch (Exception e) {
 		e.printStackTrace();

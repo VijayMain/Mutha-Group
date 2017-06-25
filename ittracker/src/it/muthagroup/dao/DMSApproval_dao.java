@@ -145,11 +145,11 @@ public class DMSApproval_dao {
 					flag=true;
 	   }
 			if(flag==true){
-				String msg = "Successfully Submitted !!!"; 
-				response.sendRedirect("DMS.jsp?msg=" + msg);
+				String msg = "Successfully Submitted !!!";
+				response.sendRedirect("DMSApproved_Success.jsp?msg=" + msg+ "&q="+folder_code);
 				}else{
-					String msg = "Data upload failed !!!"; 
-					response.sendRedirect("DMS.jsp?msg=" + msg);	
+					String msg = "Data upload failed !!!";
+					response.sendRedirect("DMSApproved_Success.jsp?msg=" + msg+ "&q="+folder_code);
 			}
      } catch (Exception e) {
 			e.printStackTrace();

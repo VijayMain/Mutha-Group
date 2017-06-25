@@ -54,7 +54,7 @@
 		  }
 	   // System.out.println("dept id = " + ins_check);
    %>
-   <div style="float: left;width: 75%;height: 550px;overflow: scroll;">
+   <div style="float: left;width: 75%;height: 500px;overflow: scroll;">
 			<table style="width: 100%;" class="tftable">
 				<%-- <tr>
 					<th colspan="6" align="center"><%=folder %></th>
@@ -188,8 +188,7 @@
 			    </tr>
 				<% 
 				String carried="",billno="",dated="",forrs="",purorder="",creator="",approval="",approved_by="",dec_note="",doc_ref="",subject_title=subjectName;
-				
-				int tran_relno=0;
+				  int tran_relno=0;
 				  ps_data = con.prepareStatement("SELECT * FROM tarn_dms where tran_no="+code +" order by approved");
 				  rs_data = ps_data.executeQuery();
 				  while(rs_data.next()){

@@ -72,6 +72,9 @@ public class DeclineDMSFile extends HttpServlet {
 							}
 							if (fieldName.equalsIgnoreCase("tran_dms_rel")) {
 								bean.setTranrelCode(Integer.valueOf(fieldValue));
+							}		
+							if (fieldName.equalsIgnoreCase("folder_code")) {
+								bean.setFolder_code(Integer.valueOf(fieldValue));
 							}
 					} else {
 							fileItem = fileItemTemp;
