@@ -651,13 +651,13 @@ function validateNewItemCreation() {
 	return true;
 }
 function validateNewERPItem() {
-	var matType = document.getElementById("matType");
+	/* var matType = document.getElementById("matType");
 	if (matType.value=="") {
 		alert("Please Select Material Type first !!!"); 
 		document.getElementById("ADDERPItem").disabled = false;
 		document.getElementById("saveERPItem").style.visibility = "hidden";		
 		return false;
-	}
+	} */
 	document.getElementById("ADDERPItem").disabled = true;
 	document.getElementById("saveERPItem").style.visibility = "visible"; 
 }
@@ -712,12 +712,14 @@ function validateSoftUsage() {
 try{
 	int uid = Integer.parseInt(session.getAttribute("uid").toString());
 	String uname=null;
+	int dept_id = 0;
 	Connection con = Connection_Utility.getConnection();
 	PreparedStatement ps_uname=con.prepareStatement("select * from User_tbl where U_Id="+uid);
 	ResultSet rs_uname=ps_uname.executeQuery();
 	while(rs_uname.next())
 	{
-		uname=rs_uname.getString("U_Name"); 
+		uname=rs_uname.getString("U_Name");
+		dept_id =rs_uname.getInt("Dept_Id");
 	}
 %>
 <div style="width: 100%">
@@ -740,7 +742,7 @@ try{
 <br/> 
 <br/>  
 <%
-//-------------------------------------------------------- Date Logic ---------------------------------------------------------
+		//	-------------------------------------------------------- Date Logic ---------------------------------------------------------
 
 Calendar first_Datecal = Calendar.getInstance();   
 first_Datecal.set(Calendar.DAY_OF_MONTH, 1);  
@@ -1987,7 +1989,7 @@ while(rs.next()){
 		
 		<%
 			}if(reportList.contains("ERP New Item Creation")){
-			Connection conMaster = ConnectionUrl.getBWAYSERPMASTERConnection(); 
+			//Connection conMaster = ConnectionUrl.getBWAYSERPMASTERConnection(); 
 		%>
 		<div id="tabs-20" style="height:300px;text-align: left;">
 		<div style="float: left;width: 50%;">	 
@@ -2003,23 +2005,23 @@ while(rs.next()){
 			</tr>
 			<tr>
 			<td colspan="2" align="left"><span id="waitnewERPItem" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
-			</tr>	 
+			</tr>
 		</table>
 	</form>
-	</div>  
-			
-			
+	</div>
 		<div style="float: right; width: 49%">
 		<!-- Master :=:> select * from mstmaterials -->
 			<form action="New_ItemGenerate.jsp" method="post" onSubmit="return validateNewERPItem();">
 			<br/>
 			<table class="tftable">
 			<tr>
-				<td colspan="2"><strong>To Create New Item in ERP<br/></strong> <br/>
-			</td>
+				<td colspan="2"><strong>To Create New Item in ERP<br/></strong> <br/> </td>
 			</tr>
+			<%--
 			<tr>
-			<td colspan="2" align="center"><strong>Select Material Type :</strong> 
+			<td colspan="2" align="center">
+			Connection conMaster = ConnectionUrl.getBWAYSERPMASTERConnection();
+			<strong>Select Material Type :</strong>
 			<select name="matType" id="matType" style="height: 25px;font-family: sans-serif;font-size: 15px;background-color: #e1e1e1;">
 			<option value=""> - - - Select - - - </option>
 			<%
@@ -2031,12 +2033,17 @@ while(rs.next()){
 			<%
 			}
 			%>
-			</select> 
+			</select>
 			</td>
-			</tr>
+			</tr> 
+			--%>
 			<tr>
 			<td colspan="2" align="center">
-			<input type="submit" name="ADD" id="ADDERPItem" value="Click Here" style="background-color: #BABABA;font-weight:bold; width: 85px;height: 35px;"/> 
+			<input type="submit" name="ADD" id="ADDERPItem" value="Click Here" style="background-color: #BABABA;font-weight:bold; width: 85px;height: 35px;"/>
+		 	<!--
+			<br><br>
+			<a href="MasterFillingRel.jsp" style="text-decoration: none;font-size: 14px;text-shadow: aqua;color: blue;"><b>==> Master Filling <==</b></a> 
+			--> 
 			</td>
 			</tr>
 			<tr>
@@ -2138,9 +2145,7 @@ while(rs.next()){
 		%>
 		 <div id="tabs-23">
 		<!--
-		exec "DIERP"."dbo"."Sel_RptAcctLedger";1 
-		'105', '0', '101001024101001056101000928101000110101000144101001210101000145101000146101000147101000148101001080101001211101000149101000150101000179101001212101000180101000181101001144101001213', 
-		'20170401', '20170428', 0
+		exec "DIERP"."dbo"."Sel_RptAcctLedger";1 '105', '0', '101001024101001056101000928101000110101000144101001210101000145101000146101000147101000148101001080101001211101000149101000150101000179101001212101000180101000181101001144101001213', '20170401', '20170428', 0
 		 -->
 		<form action="VAT_ledger.jsp" method="post"  onSubmit="return validateVAT_ledger();">
 			<br/>

@@ -11,11 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.muthagroup.connectionUtil.ConnectionUrl;
- 
+
+/**
+ * Servlet implementation class Created_inERP
+ */
 @WebServlet("/Created_inERP")
 public class Created_inERP extends HttpServlet {
 	private static final long serialVersionUID = 1L;
- 
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String hid_code = request.getParameter("hid_code");
@@ -32,5 +38,6 @@ public class Created_inERP extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	} 
+	}
+
 }
