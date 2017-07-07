@@ -19,7 +19,7 @@ private static final long serialVersionUID = 1L;
 			// ******************************************************************************************************************
 			// Thread No 1
 			// ******************************************************************************************************************
-	 
+ 
 			// 09:40
 			TimerTask  siscompSale =new SisterCompanySale_Report();
 			timer.schedule(siscompSale, 1000, 60000);
@@ -221,7 +221,8 @@ private static final long serialVersionUID = 1L;
 						// 09:33
 						TimerTask pendingPO = new ERP_PendingPO();
 						timer.schedule(pendingPO, 1000, 60000);
-						
+					 
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -232,60 +233,4 @@ private static final long serialVersionUID = 1L;
  
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 
-
-// 10:20
-	TimerTask  sheduleh21 =new SheduleEntryReminder();
-	timer.schedule(sheduleh21, 1000, 60000);
-
-	// 10:21
-	TimerTask  sheduleH25 =new SheduleEntryReminder25();
-	timer.schedule(sheduleH25, 1000, 60000);
-	
-	// 10:22
-	TimerTask  sheduleMFPL =new SheduleEntryRemindermfpl();
-	timer.schedule(sheduleMFPL, 1000, 60000);
-	
-	
-	// 10:23
-	TimerTask  shedulek1 =new SheduleEntryReminderk1();
-	timer.schedule(shedulek1, 1000, 60000);
-	
-	 
-	// 10:24
-	TimerTask  sheduledi =new SheduleEntryReminderdi();
-	timer.schedule(sheduledi, 1000, 60000);
-	
-	
-// 17:01
-TimerTask  timerTaskMISF =new MIS_SummaryReportFND();
-timer.schedule(timerTaskMISF, 1000, 60000);
-
-// 17:03
-TimerTask  timerTaskMISK =new MIS_SummaryReportK1();
-timer.schedule(timerTaskMISK, 1000, 60000);
-
-// 17:05
-TimerTask  timerTaskMISD =new MIS_SummaryReportDI();
-timer.schedule(timerTaskMISD, 1000, 60000);
-
-*/
+ 

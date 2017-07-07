@@ -54,7 +54,7 @@ public class SheduleXLSReminder extends TimerTask {
 			 if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 21) { 
 				 /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 8) {*/
 			//******************************************************************************************************************************
-				ArrayList weekOff = new ArrayList(); 
+				 	ArrayList weekOff = new ArrayList(); 
 					int cnt = 0;
 					DecimalFormat zeroDForm = new DecimalFormat("#####0");
 					DecimalFormat twoDForm = new DecimalFormat("#####0.00"); 
@@ -1565,14 +1565,9 @@ public class SheduleXLSReminder extends TimerTask {
 					    writableWorkbook.write();
 					    writableWorkbook.close();
 					//***************************************************************************************************************************************************************************************************
-					//***************************************************************************************************************************************************************************************************
 					//												<======= End Excel Logic 
 					//***************************************************************************************************************************************************************************************************
-					
-			//***************************************************************************************************************************************************************************************************	
-				
 				System.out.println("Shedule Mailer Start");
-				
 				String host = "send.one.com";
 				String user = "itsupports@muthagroup.com";
 				String pass = "itsupports@xyz";
@@ -1582,13 +1577,24 @@ public class SheduleXLSReminder extends TimerTask {
 				// *********************************************************************************************
 				// multiple recipients : == >
 				// *********************************************************************************************
-								
-				String recipients[] = {"nandkumar@muthagroup.com","h25supervisor@muthagroup.com","asshete@muthagroup.com","arif@muthagroup.com","dmvhankade@muthagroup.com","ankatariya@muthagroup.com","vmjoshi@muthagroup.com","meplunit3production@muthagroup.com" ,"pdpatil@muthagroup.com","jangam@muthagroup.com","sunilpb@muthagroup.com","takalena@muthagroup.com","brchourasiya@muthagroup.com","anoop@muthagroup.com","marketing@muthagroup.com","parikshitap@muthagroup.com","nrfirodia@muthagroup.com","kunalvm@muthagroup.com" ,"vahalkar@muthagroup.com","asbe@muthagroup.com","sanjay@muthagroup.com","prbhosale@muthagroup.com","prmallewadikar@muthagroup.com","kamlesh@muthagroup.com","gdc@muthagroup.com","srpatekar@muthagroup.com","jbaphna@muthagroup.com","ssgare@muthagroup.com","vvsamant@muthagroup.com","jginamdar@muthagroup.com","vishal@muthagroup.com","unpatil@muthagroup.com"};
-				String cc_recipients[] = {"nileshss@muthagroup.com"};
-								
-				/*String recipients[] = {"vijaybm@muthagroup.com"};
-				String cc_recipients[] = {"vijaybm@muthagroup.com"};*/
-
+				
+				/*String recipients[] = {"nandkumar@muthagroup.com","h25supervisor@muthagroup.com","asshete@muthagroup.com","arif@muthagroup.com","dmvhankade@muthagroup.com","ankatariya@muthagroup.com","vmjoshi@muthagroup.com","meplunit3production@muthagroup.com" ,"pdpatil@muthagroup.com","jangam@muthagroup.com","sunilpb@muthagroup.com","takalena@muthagroup.com","brchourasiya@muthagroup.com","anoop@muthagroup.com","marketing@muthagroup.com","parikshitap@muthagroup.com","nrfirodia@muthagroup.com","kunalvm@muthagroup.com" ,"vahalkar@muthagroup.com","asbe@muthagroup.com","sanjay@muthagroup.com","prbhosale@muthagroup.com","prmallewadikar@muthagroup.com","kamlesh@muthagroup.com","gdc@muthagroup.com","srpatekar@muthagroup.com","jbaphna@muthagroup.com","ssgare@muthagroup.com","vvsamant@muthagroup.com","jginamdar@muthagroup.com","vishal@muthagroup.com","unpatil@muthagroup.com","ppch21@muthagroup.com"};
+				String cc_recipients[] = {"nileshss@muthagroup.com"};*/
+				
+				ArrayList listemailTo = new ArrayList();
+				String report = "DayWiseDispatchSchedule";
+				Connection conMailer = ConnectionUrl.getLocalDatabase();
+				PreparedStatement psauto = conMailer.prepareStatement("select * from pending_approvee where report='"+report+"'");
+				ResultSet rsauto = psauto.executeQuery();
+				while (rsauto.next()) {
+						listemailTo.add(rsauto.getString("email"));
+				}
+				
+				String recipients[] = new String[listemailTo.size()];
+				for(int i=0;i<listemailTo.size();i++){
+					recipients[i] = listemailTo.get(i).toString();
+				}
+				 
 				Properties props = System.getProperties();
 				props.put("mail.host", host);
 				
@@ -1607,18 +1613,11 @@ public class SheduleXLSReminder extends TimerTask {
 				Message msg = new MimeMessage(mailSession);
 				msg.setFrom(new InternetAddress(from));
 				InternetAddress[] addressTo = new InternetAddress[recipients.length];
-
 				for (int p = 0; p < recipients.length; p++) {
 					addressTo[p] = new InternetAddress(recipients[p]);
 				}
-				
-				InternetAddress[] addressCc = new InternetAddress[cc_recipients.length];
-				for (int p = 0; p < cc_recipients.length; p++) {
-					addressCc[p] = new InternetAddress(cc_recipients[p]);
-				}
 
-				msg.setRecipients(Message.RecipientType.TO, addressTo);
-				msg.setRecipients(Message.RecipientType.CC, addressCc);
+				msg.setRecipients(Message.RecipientType.TO, addressTo); 
 
 				msg.setSubject(subject);
 				msg.setSentDate(new Date());
@@ -1638,7 +1637,6 @@ public class SheduleXLSReminder extends TimerTask {
 	
 	con.close();
 	conlocal.close();
-	//*******************************************************************************************************************************
 	//*******************************************************************************************************************************
 	BodyPart messageBodyPart = new MimeBodyPart();
 	messageBodyPart.setContent(sb.toString(),"Text/html");
@@ -1663,14 +1661,9 @@ public class SheduleXLSReminder extends TimerTask {
 	transport.connect(host, user, pass);
 	transport.sendMessage(msg, msg.getAllRecipients());
 	transport.close();
-	
-	
 	// System.out.println("Data file sent to host....");
-	
 	// ********************************************************************************************************************
-			
 			System.out.println("Shedule Mailer End");
-			
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
