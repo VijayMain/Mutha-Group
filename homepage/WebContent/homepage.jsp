@@ -165,6 +165,7 @@ ArrayList list_news = new ArrayList();
     <a href="https://www.heromotocorp.biz/uniquesig57919d5129f13baf4f5e500df3809d0134979942cb6a1fcbf12a514df3e637fe/uniquesig0/irj/portal"><strong>Hero MotoCorp</strong></a>
     <!-- OLD LINK <a href="https://121.244.106.225/"><strong>Bajaj</strong></a> -->
     <a href="https://121.244.106.238/"><strong>Bajaj</strong></a>
+    <a href="https://www.asnportal.com/supplier.aspx"><strong>JCB ASN Portal</strong></a>
  </div>
  </div>  
  <a href="http://www.getmykaizen.com/">&nbsp;&nbsp;<strong>GetMyKaizen</strong> &nbsp;&nbsp;</a>  
@@ -524,7 +525,7 @@ if (session.getAttribute("uid") != null) {
   <%  
   String fromdate="",todate="";
   
-  PreparedStatement ps_news = con.prepareStatement("select * from  homepage_stories_tbl   where enable_id=1");
+  PreparedStatement ps_news = con.prepareStatement("select * from  homepage_stories_tbl   where enable_id=1 order by created_date desc");
   ResultSet rs_news = ps_news.executeQuery();
   while(rs_news.next()){
 	  fromdate = formatter.format(rs_news.getDate("visible_fromdate"));
