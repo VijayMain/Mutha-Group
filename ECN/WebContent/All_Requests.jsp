@@ -142,8 +142,7 @@ function ChangeColor(tableRow, highLight) {
 									<th align="center">Item Name</th>
 									<th align="center">Category</th>
 									<th align="center">Change Request Date</th>
-									<th align="center">Proposed Impl. Date</th>
-									<!-- <th align="center">Actual Impl. Date</th> -->
+									<th align="center">Proposed Impl. Date</th> 
 									<th align="center">Approval Status</th> 
 								</tr>
 									<%
