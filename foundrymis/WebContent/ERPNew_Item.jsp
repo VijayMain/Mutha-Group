@@ -142,7 +142,12 @@ function validateNewItemForm() {
 	var mfpl = document.getElementById("mfpl").checked;
 	var di = document.getElementById("di").checked;
 	var meplunitIII = document.getElementById("meplunitIII").checked;
-	 
+	
+	   
+	var GSTIN_number = document.getElementById("GSTIN_number"); 
+	var state_gst = document.getElementById("state_gst"); 
+	
+	
 		if (supplier.value=="0" || supplier.value==null || supplier.value=="" || supplier.value=="null") {
 			document.getElementById("submit").disabled = false;
 			alert("Please Provide Supplier Name !!!");  
@@ -222,8 +227,18 @@ function validateNewItemForm() {
 			return false;
 		}
 		
+		   
 		
-		return true;
+		if (GSTIN_number.value=="0" || GSTIN_number.value==null || GSTIN_number.value=="" || GSTIN_number.value=="null") {
+			document.getElementById("submit").disabled = false;
+			alert("Provide GSTIN Number !!!");  
+			return false;
+		}
+		if (state_gst.value=="0" || state_gst.value==null || state_gst.value=="" || state_gst.value=="null") {
+			document.getElementById("submit").disabled = false;
+			alert("Please Provide State  !!!");  
+			return false;
+		}
 }
  
 function get_allAvailSuppliers(name) {
@@ -611,7 +626,7 @@ alert("Done");
 	</td>
     </tr>
     <tr>
-      <td>GSTIN Number (If Yes)</td>
+      <td>GSTIN Number</td>
       <td colspan="3"><input type="text" name="GSTIN_number" id="GSTIN_number" size="30" maxlength="50" style="text-transform: uppercase;"></td>
     </tr>
     <tr>
@@ -623,18 +638,27 @@ alert("Done");
     </tr>
     <tr>
       <td>State</td>
-      <td colspan="3"><input type="text" name="state_gst" id="state_gst" size="40"></td>
-    </tr>
-   
+      <td colspan="3">
+      <select name="state_gst" id="state_gst" style="font-weight: bold;">
+      	<option value="">- - - - Select - - - - </option>
+      <%
+      ps = con.prepareStatement("select * from MSTCOMMSTATE");
+      rs = ps.executeQuery();
+      while(rs.next()){
+      %>
+      <option value="<%=rs.getString("NAME")%>"><%=rs.getString("NAME")%> <%=rs.getString("CODE")%></option>
+      <%
+      }
+      %>
+      </select>
+      </td>
+    </tr>   
    <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------- -->
-   
-   
-   
-   
-    
+ 
     <!--
     		Transfer data to company selected  
     --->
+    
     <tr>
       <td colspan="4" align="left" bgcolor="#c3c3c3"><strong>After Creation, Transfer Supplier To</strong></td>
     </tr>
@@ -713,6 +737,7 @@ alert("Done");
  %>
   </tr>
   <%
+  created_erp=0;
   }
   %>
 </table>
