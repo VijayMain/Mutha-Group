@@ -51,8 +51,8 @@ public class SheduleXLSReminder extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };  
 			boolean flag = true;
-			 if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 23 && d.getMinutes() == 30) { 
-				 /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 8) {*/
+			 /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 23 && d.getMinutes() == 30) { */
+				 if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 1 && d.getMinutes() == 15) {
 			//******************************************************************************************************************************
 				 	ArrayList weekOff = new ArrayList(); 
 					int cnt = 0;

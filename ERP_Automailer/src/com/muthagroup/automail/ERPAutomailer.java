@@ -130,9 +130,9 @@ private static final long serialVersionUID = 1L;
 			TimerTask  timerTask20 =new Purchase_PendDues_StatK1();
 			timer.schedule(timerTask20, 1000, 60000);
 		
-			// 23:30
+			/*// 1:15
 			TimerTask  shedulexls_h21 =new SheduleXLSReminder();
-			timer.schedule(shedulexls_h21, 1000, 60000); 
+			timer.schedule(shedulexls_h21, 1000, 60000); */
 			
 			// 11:01 | 14:30 | 16:30
 			TimerTask  reqalert =new ERPReq_Alert();
@@ -221,7 +221,13 @@ private static final long serialVersionUID = 1L;
 						// 09:33
 						TimerTask pendingPO = new ERP_PendingPO();
 						timer.schedule(pendingPO, 1000, 60000);
-					 
+		 
+			// 1:20
+			TimerTask  shedulexlsSummary =new SaleDispatchxls_Summary();
+			timer.schedule(shedulexlsSummary, 1000, 60000);
+			
+		
+			 
 			
 		} catch (Exception e) {
 			e.printStackTrace();
