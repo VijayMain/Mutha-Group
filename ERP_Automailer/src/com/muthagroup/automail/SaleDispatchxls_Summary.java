@@ -52,8 +52,8 @@ public class SaleDispatchxls_Summary extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };  
 			boolean flag = true;
-			 if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 1 && d.getMinutes() == 20) {
-				 /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 14 && d.getMinutes() == 8) {*/
+			 /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 48) {*/
+				 if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 1 && d.getMinutes() == 20) {
 			//******************************************************************************************************************************
 				 	ArrayList weekOff = new ArrayList();
 					int cnt = 0;
@@ -61,11 +61,13 @@ public class SaleDispatchxls_Summary extends TimerTask {
 					DecimalFormat twoDForm = new DecimalFormat("#####0.00");
 					
 					Calendar cal = Calendar.getInstance();
-					cal.add(Calendar.DATE, -1);
+					// cal.add(Calendar.DATE, -1);
 					SimpleDateFormat todaysDate = new SimpleDateFormat("dd/MM/yyyy");
 					SimpleDateFormat sqlDate = new SimpleDateFormat("yyyyMMdd");	
 					String todays_date = todaysDate.format(cal.getTime()).toString();
 					String sql_date = sqlDate.format(cal.getTime()).toString();				
+					
+					//System.out.println("Sql Date = = " + sql_date);
 					
 					// **********************************************************************************************************
 					Date dateLogic = todaysDate.parse(todays_date);
@@ -145,7 +147,7 @@ public class SaleDispatchxls_Summary extends TimerTask {
 			//-------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 			  		String testDate = sql_date.substring(6,8) +"-"+ sql_date.substring(4,6) +"-"+ sql_date.substring(0,4);
 			  		
-			  		System.out.println("Date Logic = " + sql_date + " prev = " + sql_date_prev + " main date = "  + testDate);
+			  		//System.out.println("Date Logic = " + sql_date + " prev = " + sql_date_prev + " main date = "  + testDate);
 			  		
 			  		DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 					Date today = formatter.parse(testDate);
@@ -260,7 +262,7 @@ public class SaleDispatchxls_Summary extends TimerTask {
 					cs_prev.setString(3, sb2.toString());
 					cs_prev.setString(4, sql_date_prev);
 					ResultSet rs_prev=null;
-					String disp_qtyyes ="",disp_amtyes="",sale_qtyyes="",sale_amtyes="";
+					String sale_qtyyes="",sale_amtyes="";
 					// ***************************************************************************************************************
 					if (custcodes.size() > 0) {
 					//***************************************************************************************************************************************************************************************************
@@ -300,21 +302,21 @@ public class SaleDispatchxls_Summary extends TimerTask {
 					    Label label5 = new Label(4, 3, "Qty",cellFormat);
 					    Label label6 = new Label(5, 3, "AMT",cellFormat);
 					    
-					    Label label7 = new Label(6, 2, "Yesterday's Despatch Plan ",cellFormat_header);
+					    /*Label label7 = new Label(6, 2, "Yesterday's Despatch Plan ",cellFormat_header);
 					    Label label8 = new Label(6, 3, "Qty",cellFormat);
-					    Label label9 = new Label(7, 3, "AMT",cellFormat);
+					    Label label9 = new Label(7, 3, "AMT",cellFormat);*/
 					    
-					    Label label10 = new Label(8, 2, "Sales",cellFormat);		    
-					    Label label11 = new Label(8, 3, "Qty",cellFormat);
-					    Label label12 = new Label(9, 3, "AMT",cellFormat);
+					    Label label10 = new Label(6, 2, "Sales",cellFormat);		    
+					    Label label11 = new Label(6, 3, "Qty",cellFormat);
+					    Label label12 = new Label(7, 3, "AMT",cellFormat);
 					    
-					    Label label13 = new Label(10, 2, "Yesterday's Sales",cellFormat_header);
-					    Label label14 = new Label(10, 3, "Qty",cellFormat);
-					    Label label15 = new Label(11, 3, "AMT",cellFormat);
+					    Label label13 = new Label(8, 2, "Yesterday's Sales",cellFormat_header);
+					    Label label14 = new Label(8, 3, "Qty",cellFormat);
+					    Label label15 = new Label(9, 3, "AMT",cellFormat);
 					    
-					    Label label16 = new Label(12, 2, "Pending",cellFormat);
-					    Label label17 = new Label(12, 3, "Qty",cellFormat);
-					    Label label18 = new Label(13, 3, "AMT",cellFormat);
+					    Label label16 = new Label(10, 2, "Pending",cellFormat);
+					    Label label17 = new Label(10, 3, "Qty",cellFormat);
+					    Label label18 = new Label(11, 3, "AMT",cellFormat);
 					     
 					     
 					 writableSheet.addCell(label_1);
@@ -329,9 +331,9 @@ public class SaleDispatchxls_Summary extends TimerTask {
 					 writableSheet.addCell(label4);
 					 writableSheet.addCell(label5);
 					 writableSheet.addCell(label6);
-					 writableSheet.addCell(label7);
+					 /*writableSheet.addCell(label7);
 					 writableSheet.addCell(label8);
-					 writableSheet.addCell(label9);
+					 writableSheet.addCell(label9);*/
 					 writableSheet.addCell(label10);
 					 writableSheet.addCell(label11);
 					 writableSheet.addCell(label12);
@@ -382,42 +384,44 @@ public class SaleDispatchxls_Summary extends TimerTask {
 						writableSheet.addCell(label_des_amt);
 						 
 						rs_prev = cs_prev.executeQuery();
-						disp_qtyyes="0";
-						disp_amtyes="0";
+						/*disp_qtyyes="0";
+						disp_amtyes="0";*/
 						sale_qtyyes="0";
 						sale_amtyes="0";
 						while(rs_prev.next()){
 							if(rs_prev.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString()) && 
 								rs_prev.getString("MAT_CODE").equalsIgnoreCase(rs.getString("MAT_CODE"))){
-								disp_qtyyes =rs_prev.getString("NOS_QTY");
-								disp_amtyes=rs_prev.getString("SCH_AMT");
+								/*disp_qtyyes =rs_prev.getString("NOS_QTY");
+								disp_amtyes=rs_prev.getString("SCH_AMT");*/
 								sale_qtyyes=rs_prev.getString("SALE_QTY");
 								sale_amtyes=rs_prev.getString("SALE_AMT"); 
 							}
 						}
-						
+						/*
 						Label yes_des_qty = new Label(6, col, zeroDForm.format(Math.round(Double.parseDouble(disp_qtyyes))),cellRIghtformat);
 						writableSheet.addCell(yes_des_qty);
 						
 						Label yes_des_amt = new Label(7, col, twoDForm.format(Double.parseDouble(disp_amtyes)/100000),cellRIghtformat);
 						writableSheet.addCell(yes_des_amt);
+						*/
 						
-						Label label_sale_qty = new Label(8, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+						
+						Label label_sale_qty = new Label(6, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
 						writableSheet.addCell(label_sale_qty);
 						
-						Label label_sale_amt = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+						Label label_sale_amt = new Label(7, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
 						writableSheet.addCell(label_sale_amt);
 						
-						Label yes_sale_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+						Label yes_sale_qty = new Label(8, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
 						writableSheet.addCell(yes_sale_qty);
 						
-						Label yes_sale_amt = new Label(11, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+						Label yes_sale_amt = new Label(9, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
 						writableSheet.addCell(yes_sale_amt);
 						 
-						Label label_pend_qty = new Label(12, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+						Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
 						writableSheet.addCell(label_pend_qty);
 						
-						Label label_pend_amt = new Label(13, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+						Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
 						writableSheet.addCell(label_pend_amt);
 						
 						col++;
@@ -466,7 +470,7 @@ public class SaleDispatchxls_Summary extends TimerTask {
 						cs_prev.setString(3, sb2.toString());
 						cs_prev.setString(4, sql_date_prev);
 						rs_prev=null;
-						disp_qtyyes ="";disp_amtyes="";sale_qtyyes="";sale_amtyes="";
+						sale_qtyyes="";sale_amtyes="";
 						// ***************************************************************************************************************
 						if (custcodes.size() > 0) {
 						//***************************************************************************************************************************************************************************************************
@@ -506,22 +510,21 @@ public class SaleDispatchxls_Summary extends TimerTask {
 						    Label label5 = new Label(4, 3, "Qty",cellFormat);
 						    Label label6 = new Label(5, 3, "AMT",cellFormat);
 						    
-						    Label label7 = new Label(6, 2, "Yesterday's Despatch Plan ",cellFormat_header);
+						    /*Label label7 = new Label(6, 2, "Yesterday's Despatch Plan ",cellFormat_header);
 						    Label label8 = new Label(6, 3, "Qty",cellFormat);
-						    Label label9 = new Label(7, 3, "AMT",cellFormat);
+						    Label label9 = new Label(7, 3, "AMT",cellFormat);*/
 						    
-						    Label label10 = new Label(8, 2, "Sales",cellFormat);		    
-						    Label label11 = new Label(8, 3, "Qty",cellFormat);
-						    Label label12 = new Label(9, 3, "AMT",cellFormat);
+						    Label label10 = new Label(6, 2, "Sales",cellFormat);		    
+						    Label label11 = new Label(6, 3, "Qty",cellFormat);
+						    Label label12 = new Label(7, 3, "AMT",cellFormat);
 						    
-						    Label label13 = new Label(10, 2, "Yesterday's Sales",cellFormat_header);
-						    Label label14 = new Label(10, 3, "Qty",cellFormat);
-						    Label label15 = new Label(11, 3, "AMT",cellFormat);
+						    Label label13 = new Label(8, 2, "Yesterday's Sales",cellFormat_header);
+						    Label label14 = new Label(8, 3, "Qty",cellFormat);
+						    Label label15 = new Label(9, 3, "AMT",cellFormat);
 						    
-						    Label label16 = new Label(12, 2, "Pending",cellFormat);
-						    Label label17 = new Label(12, 3, "Qty",cellFormat);
-						    Label label18 = new Label(13, 3, "AMT",cellFormat);
-						     
+						    Label label16 = new Label(10, 2, "Pending",cellFormat);
+						    Label label17 = new Label(10, 3, "Qty",cellFormat);
+						    Label label18 = new Label(11, 3, "AMT",cellFormat);
 						     
 						 writableSheet2.addCell(label_1);
 						 writableSheet2.addCell(label_2);
@@ -535,9 +538,9 @@ public class SaleDispatchxls_Summary extends TimerTask {
 						 writableSheet2.addCell(label4);
 						 writableSheet2.addCell(label5);
 						 writableSheet2.addCell(label6);
-						 writableSheet2.addCell(label7);
+						 /*writableSheet2.addCell(label7);
 						 writableSheet2.addCell(label8);
-						 writableSheet2.addCell(label9);
+						 writableSheet2.addCell(label9);*/
 						 writableSheet2.addCell(label10);
 						 writableSheet2.addCell(label11);
 						 writableSheet2.addCell(label12);
@@ -588,42 +591,42 @@ public class SaleDispatchxls_Summary extends TimerTask {
 							writableSheet2.addCell(label_des_amt);
 							 
 							rs_prev = cs_prev.executeQuery();
-							disp_qtyyes="0";
-							disp_amtyes="0";
+							/*disp_qtyyes="0";
+							disp_amtyes="0";*/
 							sale_qtyyes="0";
 							sale_amtyes="0";
 							while(rs_prev.next()){
 								if(rs_prev.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString()) && 
 									rs_prev.getString("MAT_CODE").equalsIgnoreCase(rs.getString("MAT_CODE"))){
-									disp_qtyyes =rs_prev.getString("NOS_QTY");
-									disp_amtyes=rs_prev.getString("SCH_AMT");
+									/*disp_qtyyes =rs_prev.getString("NOS_QTY");
+									disp_amtyes=rs_prev.getString("SCH_AMT");*/
 									sale_qtyyes=rs_prev.getString("SALE_QTY");
 									sale_amtyes=rs_prev.getString("SALE_AMT"); 
 								}
 							}
-							
+							/*
 							Label yes_des_qty = new Label(6, col, zeroDForm.format(Math.round(Double.parseDouble(disp_qtyyes))),cellRIghtformat);
 							writableSheet2.addCell(yes_des_qty);
 							
 							Label yes_des_amt = new Label(7, col, twoDForm.format(Double.parseDouble(disp_amtyes)/100000),cellRIghtformat);
-							writableSheet2.addCell(yes_des_amt);
+							writableSheet2.addCell(yes_des_amt);*/
 							
-							Label label_sale_qty = new Label(8, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+							Label label_sale_qty = new Label(6, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
 							writableSheet2.addCell(label_sale_qty);
 							
-							Label label_sale_amt = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+							Label label_sale_amt = new Label(7, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
 							writableSheet2.addCell(label_sale_amt);
 							
-							Label yes_sale_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+							Label yes_sale_qty = new Label(8, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
 							writableSheet2.addCell(yes_sale_qty);
 							
-							Label yes_sale_amt = new Label(11, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+							Label yes_sale_amt = new Label(9, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
 							writableSheet2.addCell(yes_sale_amt);
 							 
-							Label label_pend_qty = new Label(12, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+							Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
 							writableSheet2.addCell(label_pend_qty);
 							
-							Label label_pend_amt = new Label(13, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+							Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
 							writableSheet2.addCell(label_pend_amt);
 							
 							col++;
@@ -672,7 +675,10 @@ public class SaleDispatchxls_Summary extends TimerTask {
 							cs_prev.setString(3, sb2.toString());
 							cs_prev.setString(4, sql_date_prev);
 							rs_prev=null;
-							disp_qtyyes ="";disp_amtyes="";sale_qtyyes="";sale_amtyes="";
+							sale_qtyyes="";sale_amtyes="";
+							
+							//System.out.println("sql date = " + sql_date + " sql prev = " + sql_date_prev);
+							
 							// ***************************************************************************************************************
 							if (custcodes.size() > 0) {
 							//***************************************************************************************************************************************************************************************************
@@ -712,21 +718,21 @@ public class SaleDispatchxls_Summary extends TimerTask {
 							    Label label5 = new Label(4, 3, "Qty",cellFormat);
 							    Label label6 = new Label(5, 3, "AMT",cellFormat);
 							    
-							    Label label7 = new Label(6, 2, "Yesterday's Despatch Plan ",cellFormat_header);
+							    /*Label label7 = new Label(6, 2, "Yesterday's Despatch Plan ",cellFormat_header);
 							    Label label8 = new Label(6, 3, "Qty",cellFormat);
-							    Label label9 = new Label(7, 3, "AMT",cellFormat);
+							    Label label9 = new Label(7, 3, "AMT",cellFormat);*/
 							    
-							    Label label10 = new Label(8, 2, "Sales",cellFormat);		    
-							    Label label11 = new Label(8, 3, "Qty",cellFormat);
-							    Label label12 = new Label(9, 3, "AMT",cellFormat);
+							    Label label10 = new Label(6, 2, "Sales",cellFormat);		    
+							    Label label11 = new Label(6, 3, "Qty",cellFormat);
+							    Label label12 = new Label(7, 3, "AMT",cellFormat);
 							    
-							    Label label13 = new Label(10, 2, "Yesterday's Sales",cellFormat_header);
-							    Label label14 = new Label(10, 3, "Qty",cellFormat);
-							    Label label15 = new Label(11, 3, "AMT",cellFormat);
+							    Label label13 = new Label(8, 2, "Yesterday's Sales",cellFormat_header);
+							    Label label14 = new Label(8, 3, "Qty",cellFormat);
+							    Label label15 = new Label(9, 3, "AMT",cellFormat);
 							    
-							    Label label16 = new Label(12, 2, "Pending",cellFormat);
-							    Label label17 = new Label(12, 3, "Qty",cellFormat);
-							    Label label18 = new Label(13, 3, "AMT",cellFormat);
+							    Label label16 = new Label(10, 2, "Pending",cellFormat);
+							    Label label17 = new Label(10, 3, "Qty",cellFormat);
+							    Label label18 = new Label(11, 3, "AMT",cellFormat);
 							     
 							     
 							 writableSheet3.addCell(label_1);
@@ -741,9 +747,9 @@ public class SaleDispatchxls_Summary extends TimerTask {
 							 writableSheet3.addCell(label4);
 							 writableSheet3.addCell(label5);
 							 writableSheet3.addCell(label6);
-							 writableSheet3.addCell(label7);
+							 /*writableSheet3.addCell(label7);
 							 writableSheet3.addCell(label8);
-							 writableSheet3.addCell(label9);
+							 writableSheet3.addCell(label9);*/
 							 writableSheet3.addCell(label10);
 							 writableSheet3.addCell(label11);
 							 writableSheet3.addCell(label12);
@@ -794,42 +800,42 @@ public class SaleDispatchxls_Summary extends TimerTask {
 								writableSheet3.addCell(label_des_amt);
 								 
 								rs_prev = cs_prev.executeQuery();
-								disp_qtyyes="0";
-								disp_amtyes="0";
+								/*disp_qtyyes="0";
+								disp_amtyes="0";*/
 								sale_qtyyes="0";
 								sale_amtyes="0";
 								while(rs_prev.next()){
 									if(rs_prev.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString()) && 
 										rs_prev.getString("MAT_CODE").equalsIgnoreCase(rs.getString("MAT_CODE"))){
-										disp_qtyyes =rs_prev.getString("NOS_QTY");
-										disp_amtyes=rs_prev.getString("SCH_AMT");
+										/*disp_qtyyes =rs_prev.getString("NOS_QTY");
+										disp_amtyes=rs_prev.getString("SCH_AMT");*/
 										sale_qtyyes=rs_prev.getString("SALE_QTY");
 										sale_amtyes=rs_prev.getString("SALE_AMT"); 
 									}
 								}
-								
+								/*
 								Label yes_des_qty = new Label(6, col, zeroDForm.format(Math.round(Double.parseDouble(disp_qtyyes))),cellRIghtformat);
 								writableSheet3.addCell(yes_des_qty);
 								
 								Label yes_des_amt = new Label(7, col, twoDForm.format(Double.parseDouble(disp_amtyes)/100000),cellRIghtformat);
-								writableSheet3.addCell(yes_des_amt);
+								writableSheet3.addCell(yes_des_amt);*/
 								
-								Label label_sale_qty = new Label(8, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+								Label label_sale_qty = new Label(6, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
 								writableSheet3.addCell(label_sale_qty);
 								
-								Label label_sale_amt = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+								Label label_sale_amt = new Label(7, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
 								writableSheet3.addCell(label_sale_amt);
 								
-								Label yes_sale_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+								Label yes_sale_qty = new Label(8, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
 								writableSheet3.addCell(yes_sale_qty);
 								
-								Label yes_sale_amt = new Label(11, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+								Label yes_sale_amt = new Label(9, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
 								writableSheet3.addCell(yes_sale_amt);
 								 
-								Label label_pend_qty = new Label(12, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+								Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
 								writableSheet3.addCell(label_pend_qty);
 								
-								Label label_pend_amt = new Label(13, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+								Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
 								writableSheet3.addCell(label_pend_amt);
 								
 								col++;
@@ -883,7 +889,7 @@ public class SaleDispatchxls_Summary extends TimerTask {
 								cs_prev.setString(3, sb2.toString());
 								cs_prev.setString(4, sql_date_prev);
 								rs_prev=null;
-								disp_qtyyes ="";disp_amtyes="";sale_qtyyes="";sale_amtyes="";
+								sale_qtyyes="";sale_amtyes="";
 								// ***************************************************************************************************************
 								if (custcodes.size() > 0) {
 								//***************************************************************************************************************************************************************************************************
@@ -923,21 +929,21 @@ public class SaleDispatchxls_Summary extends TimerTask {
 								    Label label5 = new Label(4, 3, "Qty",cellFormat);
 								    Label label6 = new Label(5, 3, "AMT",cellFormat);
 								    
-								    Label label7 = new Label(6, 2, "Yesterday's Despatch Plan ",cellFormat_header);
+								    /*Label label7 = new Label(6, 2, "Yesterday's Despatch Plan ",cellFormat_header);
 								    Label label8 = new Label(6, 3, "Qty",cellFormat);
-								    Label label9 = new Label(7, 3, "AMT",cellFormat);
+								    Label label9 = new Label(7, 3, "AMT",cellFormat);*/
 								    
-								    Label label10 = new Label(8, 2, "Sales",cellFormat);		    
-								    Label label11 = new Label(8, 3, "Qty",cellFormat);
-								    Label label12 = new Label(9, 3, "AMT",cellFormat);
+								    Label label10 = new Label(6, 2, "Sales",cellFormat);		    
+								    Label label11 = new Label(6, 3, "Qty",cellFormat);
+								    Label label12 = new Label(7, 3, "AMT",cellFormat);
 								    
-								    Label label13 = new Label(10, 2, "Yesterday's Sales",cellFormat_header);
-								    Label label14 = new Label(10, 3, "Qty",cellFormat);
-								    Label label15 = new Label(11, 3, "AMT",cellFormat);
+								    Label label13 = new Label(8, 2, "Yesterday's Sales",cellFormat_header);
+								    Label label14 = new Label(8, 3, "Qty",cellFormat);
+								    Label label15 = new Label(9, 3, "AMT",cellFormat);
 								    
-								    Label label16 = new Label(12, 2, "Pending",cellFormat);
-								    Label label17 = new Label(12, 3, "Qty",cellFormat);
-								    Label label18 = new Label(13, 3, "AMT",cellFormat);
+								    Label label16 = new Label(10, 2, "Pending",cellFormat);
+								    Label label17 = new Label(10, 3, "Qty",cellFormat);
+								    Label label18 = new Label(11, 3, "AMT",cellFormat);
 								     
 								     
 								 writableSheet4.addCell(label_1);
@@ -952,9 +958,9 @@ public class SaleDispatchxls_Summary extends TimerTask {
 								 writableSheet4.addCell(label4);
 								 writableSheet4.addCell(label5);
 								 writableSheet4.addCell(label6);
-								 writableSheet4.addCell(label7);
+								 /*writableSheet4.addCell(label7);
 								 writableSheet4.addCell(label8);
-								 writableSheet4.addCell(label9);
+								 writableSheet4.addCell(label9);*/
 								 writableSheet4.addCell(label10);
 								 writableSheet4.addCell(label11);
 								 writableSheet4.addCell(label12);
@@ -1005,42 +1011,43 @@ public class SaleDispatchxls_Summary extends TimerTask {
 									writableSheet4.addCell(label_des_amt);
 									 
 									rs_prev = cs_prev.executeQuery();
-									disp_qtyyes="0";
-									disp_amtyes="0";
+									/*disp_qtyyes="0";
+									disp_amtyes="0";*/
 									sale_qtyyes="0";
 									sale_amtyes="0";
 									while(rs_prev.next()){
 										if(rs_prev.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString()) && 
 											rs_prev.getString("MAT_CODE").equalsIgnoreCase(rs.getString("MAT_CODE"))){
-											disp_qtyyes =rs_prev.getString("NOS_QTY");
-											disp_amtyes=rs_prev.getString("SCH_AMT");
+											/*disp_qtyyes =rs_prev.getString("NOS_QTY");
+											disp_amtyes=rs_prev.getString("SCH_AMT");*/
 											sale_qtyyes=rs_prev.getString("SALE_QTY");
 											sale_amtyes=rs_prev.getString("SALE_AMT"); 
 										}
 									}
 									
+									/*
 									Label yes_des_qty = new Label(6, col, zeroDForm.format(Math.round(Double.parseDouble(disp_qtyyes))),cellRIghtformat);
 									writableSheet4.addCell(yes_des_qty);
 									
 									Label yes_des_amt = new Label(7, col, twoDForm.format(Double.parseDouble(disp_amtyes)/100000),cellRIghtformat);
-									writableSheet4.addCell(yes_des_amt);
+									writableSheet4.addCell(yes_des_amt);*/
 									
-									Label label_sale_qty = new Label(8, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+									Label label_sale_qty = new Label(6, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
 									writableSheet4.addCell(label_sale_qty);
 									
-									Label label_sale_amt = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+									Label label_sale_amt = new Label(7, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
 									writableSheet4.addCell(label_sale_amt);
 									
-									Label yes_sale_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+									Label yes_sale_qty = new Label(8, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
 									writableSheet4.addCell(yes_sale_qty);
 									
-									Label yes_sale_amt = new Label(11, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+									Label yes_sale_amt = new Label(9, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
 									writableSheet4.addCell(yes_sale_amt);
 									 
-									Label label_pend_qty = new Label(12, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+									Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
 									writableSheet4.addCell(label_pend_qty);
 									
-									Label label_pend_amt = new Label(13, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+									Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
 									writableSheet4.addCell(label_pend_amt);
 									
 									col++;
@@ -1093,7 +1100,7 @@ public class SaleDispatchxls_Summary extends TimerTask {
 									cs_prev.setString(3, sb2.toString());
 									cs_prev.setString(4, sql_date_prev);
 									rs_prev=null;
-									disp_qtyyes ="";disp_amtyes="";sale_qtyyes="";sale_amtyes="";
+									sale_qtyyes="";sale_amtyes="";
 									// ***************************************************************************************************************
 									if (custcodes.size() > 0) {
 									//***************************************************************************************************************************************************************************************************
@@ -1133,21 +1140,21 @@ public class SaleDispatchxls_Summary extends TimerTask {
 									    Label label5 = new Label(4, 3, "Qty",cellFormat);
 									    Label label6 = new Label(5, 3, "AMT",cellFormat);
 									    
-									    Label label7 = new Label(6, 2, "Yesterday's Despatch Plan ",cellFormat_header);
+									    /*Label label7 = new Label(6, 2, "Yesterday's Despatch Plan ",cellFormat_header);
 									    Label label8 = new Label(6, 3, "Qty",cellFormat);
-									    Label label9 = new Label(7, 3, "AMT",cellFormat);
+									    Label label9 = new Label(7, 3, "AMT",cellFormat);*/
 									    
-									    Label label10 = new Label(8, 2, "Sales",cellFormat);		    
-									    Label label11 = new Label(8, 3, "Qty",cellFormat);
-									    Label label12 = new Label(9, 3, "AMT",cellFormat);
+									    Label label10 = new Label(6, 2, "Sales",cellFormat);		    
+									    Label label11 = new Label(6, 3, "Qty",cellFormat);
+									    Label label12 = new Label(7, 3, "AMT",cellFormat);
 									    
-									    Label label13 = new Label(10, 2, "Yesterday's Sales",cellFormat_header);
-									    Label label14 = new Label(10, 3, "Qty",cellFormat);
-									    Label label15 = new Label(11, 3, "AMT",cellFormat);
+									    Label label13 = new Label(8, 2, "Yesterday's Sales",cellFormat_header);
+									    Label label14 = new Label(8, 3, "Qty",cellFormat);
+									    Label label15 = new Label(9, 3, "AMT",cellFormat);
 									    
-									    Label label16 = new Label(12, 2, "Pending",cellFormat);
-									    Label label17 = new Label(12, 3, "Qty",cellFormat);
-									    Label label18 = new Label(13, 3, "AMT",cellFormat);
+									    Label label16 = new Label(10, 2, "Pending",cellFormat);
+									    Label label17 = new Label(10, 3, "Qty",cellFormat);
+									    Label label18 = new Label(11, 3, "AMT",cellFormat);
 									     
 									     
 									 writableSheet5.addCell(label_1);
@@ -1162,9 +1169,9 @@ public class SaleDispatchxls_Summary extends TimerTask {
 									 writableSheet5.addCell(label4);
 									 writableSheet5.addCell(label5);
 									 writableSheet5.addCell(label6);
-									 writableSheet5.addCell(label7);
+									/* writableSheet5.addCell(label7);
 									 writableSheet5.addCell(label8);
-									 writableSheet5.addCell(label9);
+									 writableSheet5.addCell(label9);*/
 									 writableSheet5.addCell(label10);
 									 writableSheet5.addCell(label11);
 									 writableSheet5.addCell(label12);
@@ -1215,42 +1222,42 @@ public class SaleDispatchxls_Summary extends TimerTask {
 										writableSheet5.addCell(label_des_amt);
 										 
 										rs_prev = cs_prev.executeQuery();
-										disp_qtyyes="0";
-										disp_amtyes="0";
+										/*disp_qtyyes="0";
+										disp_amtyes="0";*/
 										sale_qtyyes="0";
 										sale_amtyes="0";
 										while(rs_prev.next()){
 											if(rs_prev.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString()) && 
 												rs_prev.getString("MAT_CODE").equalsIgnoreCase(rs.getString("MAT_CODE"))){
-												disp_qtyyes =rs_prev.getString("NOS_QTY");
-												disp_amtyes=rs_prev.getString("SCH_AMT");
+												/*disp_qtyyes =rs_prev.getString("NOS_QTY");
+												disp_amtyes=rs_prev.getString("SCH_AMT");*/
 												sale_qtyyes=rs_prev.getString("SALE_QTY");
 												sale_amtyes=rs_prev.getString("SALE_AMT"); 
 											}
 										}
-										
+										/*
 										Label yes_des_qty = new Label(6, col, zeroDForm.format(Math.round(Double.parseDouble(disp_qtyyes))),cellRIghtformat);
 										writableSheet5.addCell(yes_des_qty);
 										
 										Label yes_des_amt = new Label(7, col, twoDForm.format(Double.parseDouble(disp_amtyes)/100000),cellRIghtformat);
-										writableSheet5.addCell(yes_des_amt);
+										writableSheet5.addCell(yes_des_amt);*/
 										
-										Label label_sale_qty = new Label(8, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+										Label label_sale_qty = new Label(6, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
 										writableSheet5.addCell(label_sale_qty);
 										
-										Label label_sale_amt = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+										Label label_sale_amt = new Label(7, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
 										writableSheet5.addCell(label_sale_amt);
 										
-										Label yes_sale_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+										Label yes_sale_qty = new Label(8, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
 										writableSheet5.addCell(yes_sale_qty);
 										
-										Label yes_sale_amt = new Label(11, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+										Label yes_sale_amt = new Label(9, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
 										writableSheet5.addCell(yes_sale_amt);
 										 
-										Label label_pend_qty = new Label(12, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+										Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
 										writableSheet5.addCell(label_pend_qty);
 										
-										Label label_pend_amt = new Label(13, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+										Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
 										writableSheet5.addCell(label_pend_amt);
 										
 										col++;
@@ -1286,7 +1293,7 @@ public class SaleDispatchxls_Summary extends TimerTask {
 				String user = "itsupports@muthagroup.com";
 				String pass = "itsupports@xyz";
 		 		String from = "itsupports@muthagroup.com";
-				String subject = "Day Wise Dispatch Schedule Report on "+ todays_date;
+				String subject = "Dispatch Schedule Report on "+ todays_date;
 				boolean sessionDebug = false;
 				// *********************************************************************************************
 				// multiple recipients : == >
@@ -1340,7 +1347,7 @@ public class SaleDispatchxls_Summary extends TimerTask {
 				StringBuilder sb = new StringBuilder();
 				
 				//*******************************************************************************************************************************
-				sb.append("<p style='color: #0D265E; font-family: Arial; font-size: 11px;'>*** This is an automatically generated email for Day Wise Dispatch Schedule ***</p>"+ 
+				sb.append("<p style='color: #0D265E; font-family: Arial; font-size: 11px;'>*** This is an automatically generated email for Dispatch Schedule ***</p>"+ 
 						"<p><b>Please find below attached Day Wise Dispatch Schedule report on "+ todays_date+"</p>");				 
 	sb.append("<p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'> IT | Software Development | Mutha Group Satara </p><hr><p>"+
 			"<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
