@@ -30,9 +30,9 @@ public class InOut_Register extends TimerTask {
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			
 			if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 35){
-			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 12 && d.getMinutes() == 44){*/
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 41){*/
 			
-				Connection conlocal = ConnectionUrl.getLocalDatabase();
+			Connection conlocal = ConnectionUrl.getLocalDatabase();
 				 
 			String host = "send.one.com";
 			String user = "itsupports@muthagroup.com";
@@ -74,303 +74,481 @@ public class InOut_Register extends TimerTask {
 			
 	 		
 	 		Connection con=null; 
-	 		boolean chk_flag=false,chk_grand=false;
+	 		boolean chk_flag=false,flagMail=false;
 	 		/**************************************************************************************************************/
-	 	  		String CompanyName="";
-	 			String comp = "";
-	 			ArrayList subgl = new ArrayList();
-	 		 	String DATE_FORMAT = "yyyyMMdd";
-	 		    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-	 		    Calendar c1 = Calendar.getInstance(); // today
-	 		   c1.add(Calendar.DATE, -1);
-	 		    String DATE_FORMAT2 = "dd/MM/yyyy";
-	 		    SimpleDateFormat sdf2 = new SimpleDateFormat(DATE_FORMAT2);
-	 		    Calendar c2 = Calendar.getInstance(); // today
-	 		   c2.add(Calendar.DATE, -1);
-	 		   
-	 			String datesql = sdf.format(c1.getTime());
-	 			String printdate = sdf2.format(c1.getTime());
-	 		
-	 			System.out.println("IN OUT Register = " + datesql + " = = " + printdate);
-	 			
-	 		sb.append("<b style='color: #0D265E;font-family: Arial;font-size: 11px;'>*** This is an automatically generated email of ERP Stock In/Out Register ***</b><table border='1' width='90%' style='font-family: Arial;text-align: center;font-family: Arial;font-size: 12px;'>"+
-	 	"<tr style='font-size: 12px; background-color: #c8e6f0; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;font-weight: bold;'>"+
-	 	"<td colspan='3'>Stock In/Out Register as on "+printdate +"</td>"+
-	 	"</tr>"+
-	 	"<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;font-weight: bold;'>"+
-	 	"<td>Part Name</td>"+
-	 	"<td>In Qty</td>"+
-	 	"<td>Out Qty</td>"+
-	 	"</tr>");
-	 		
-	 		
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
-	 		subgl.clear();
-	 		comp = "101";
-	 		CompanyName = "MEPL H-21";
-	 		con = ConnectionUrl.getMEPLH21ERP();
-	 		CallableStatement cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
-	 		cs.setString(1, comp);
-	 		cs.setString(2, "0");
-	 		cs.setString(3, datesql);
-	 		/* cs.setString(3, "20170122"); */
-	 		cs.setString(4, "101102103");
-	 		ResultSet rs = cs.executeQuery();
-	 		while(rs.next()){
-	 		subgl.add(rs.getString("SUB_GLACNO"));
-	 		chk_flag=true;
-	 		}
+	 		String CompanyName="";
+ 			String comp = ""; 
+ 		 	String DATE_FORMAT = "yyyyMMdd";
+ 		 	ArrayList subglNo = new ArrayList();
 	 		Set<String> hs = new HashSet();
-	 		hs.addAll(subgl);
-	 		subgl.clear();
-	 		subgl.addAll(hs);
-	 		 
-	 		int flag=0,sno=1;
-	 		double sum_inqty=0,sum_outqty=0;
-	 		for(int i=0;i<subgl.size();i++){
-	 		if(i==0){
-	 		
-	 		sb.append("<tr><td colspan='3' align='left' style='background-color: #382891;color: white;'><strong>"+CompanyName +" ===> </strong></td></tr>");
-	 		
-	 		} 
-	 		flag=i;
-	 		rs = cs.executeQuery();
-	 		while(rs.next()){
-	 			if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
-	 			   if(flag==i){
-	 		chk_grand=true;
-	 		
-	 		sb.append("<tr><td colspan='3' align='left' style='background-color: #fdffaa'><strong>"+sno +" &nbsp; "+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
-	 		
-	 		sno++;
-	 		}
-	 			   
-	 		sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td><td align='right'>"+rs.getString("IN_QTY") +"</td><td align='right'>"+rs.getString("OUT_QTY") +"</td></tr>");	   
-	 		
-	 		sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
-	 		sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
-	 		flag++;
+ 		    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+ 		    Calendar c1 = Calendar.getInstance(); // today
+ 		   c1.add(Calendar.DATE, -1);
+ 		    String DATE_FORMAT2 = "dd/MM/yyyy";
+ 		    SimpleDateFormat sdf2 = new SimpleDateFormat(DATE_FORMAT2);
+ 		    Calendar c2 = Calendar.getInstance(); // today
+ 		   c2.add(Calendar.DATE, -1); 
+ 			String datesql = sdf.format(c1.getTime());
+ 			String printdate = sdf2.format(c1.getTime()); 
+ 			ArrayList type = new ArrayList();
+	 		type.add("101");
+	 		type.add("102");
+	 		type.add("103"); 
+ 			// System.out.println("IN OUT Register = " + datesql + " = = " + printdate);
+sb.append("<b style='color: #0D265E;font-family: Arial;font-size: 11px;'>*** This is an automatically generated email of ERP Stock In/Out Register ***</b><table border='1' width='90%' style='font-family: Arial;text-align: center;font-family: Arial;font-size: 12px;'>"+
+ 	"<tr style='font-size: 12px; background-color: #c8e6f0; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;font-weight: bold;'>"+
+ 	"<td colspan='3'>Stock In/Out Register as on </td></tr>"+
+ 	"<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;font-weight: bold;'>"+
+	 "<td>Part Name</td>"+
+ 	"<td>In Qty</td>"+
+ 	"<td>Out Qty</td>"+
+ 	"</tr>");
+ 
+
+/******************************************************* MEPL H21 *******************************************/
+
+sb.append("<tr><td colspan='3' align='left' style='background-color: #466817; color: white;font-size: 12px;'><strong>Company Name : MEPL H21 ==> </strong></td></tr>");
+ 		comp = "101";
+ 		CompanyName = "MEPL H-21";
+ 		subglNo.clear();   
+ 		hs.clear();
+ 		chk_flag=false;
+ 		con = ConnectionUrl.getMEPLH21ERP();
+ 		CallableStatement cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+ 		cs.setString(1, comp);
+ 		cs.setString(2, "0");
+ 		cs.setString(3, datesql);
+ 		cs.setString(4, "101102103");
+ 		ResultSet rs_data = cs.executeQuery();
+ 		while(rs_data.next()){
+ 			subglNo.add(rs_data.getString("SUB_GLACNO"));
+ 		}
+ 		hs.addAll(subglNo);
+ 		subglNo.clear();
+ 		subglNo.addAll(hs);
+ 		 ResultSet rs = null,rs_name=null;
+ 		for(int i=0;i<type.size();i++){
+ 			if(i==0 && type.get(i).toString().equalsIgnoreCase("101")){ 
+ 			sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>JOBWORK</strong></td></tr>");
+ 				for(int j=0;j<subglNo.size();j++){
+ 				rs = cs.executeQuery();
+ 				while(rs.next()){
+ 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("101")){
+ 						if(chk_flag==false){
+ 			sb.append("<tr><td colspan='3' align='left' style='background-color: #aeaeae;color: black;'><strong>"+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+ 				chk_flag=true;
+ 						}
+ 			sb.append("<tr><td align='left'>"+rs.getString("NAME")+"</td><td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+ 			flagMail=true;
+ 					}	 					
+ 				}
+ 				rs=null;
+ 				chk_flag=false;
+ 				}
+ 			}
+			if(i==1 && type.get(i).toString().equalsIgnoreCase("102")){ 
+			 	sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>PURCHASE / SALE</strong></td></tr>");
+			 	for(int j=0;j<subglNo.size();j++){
+	 				rs = cs.executeQuery();
+	 				while(rs.next()){
+	 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("102")){
+	 						if(chk_flag==false){ 
+	 			 sb.append("<tr><td colspan='3' align='left' style='background-color:  #aeaeae;color: black;'><strong>"+ rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>"); 
+	 				chk_flag=true;
+	 						} 
+	 				sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
+ 					"<td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+	 				flagMail=true;
+	 					} 
 	 				}
-	 			}
-	 		} 
-	 		if(chk_grand==true){ 
-	 		sb.append("<tr style='background-color: #b5fdfd'><td><strong>Grand Total </strong> </td><td align='right'>"+ sum_inqty+"</td><td align='right'>"+ sum_outqty +"</td></tr> ");
-	 		}
-
-	 		
-// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	 		subgl.clear();
-	 		chk_grand=false;
-	 		comp = "102";
-	 		CompanyName = "MEPL H-25";
-	 		con = ConnectionUrl.getMEPLH25ERP();
-	 		cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
-	 		cs.setString(1, comp);
-	 		cs.setString(2, "0");
-	 		cs.setString(3, datesql);
-	 		/* cs.setString(3, "20170122"); */
-	 		cs.setString(4, "101102103");
-	 		rs = cs.executeQuery();
-	 		while(rs.next()){
-	 		subgl.add(rs.getString("SUB_GLACNO"));
-	 		chk_flag=true;
-	 		} 
-	 		hs.clear();
-	 		hs.addAll(subgl);
-	 		subgl.clear();
-	 		subgl.addAll(hs);
-	 		 
-	 		flag=0;sno=1;
-	 		sum_inqty=0;sum_outqty=0;
-	 		for(int i=0;i<subgl.size();i++){
-	 		if(i==0){
-	 			chk_grand=true;	 			
-	 		sb.append("<tr><td colspan='3' align='left' style='background-color: #382891;color: white;'><strong>"+CompanyName +" ===> </strong></td></tr>");	
-	 		} 
-	 		flag=i;
-	 		rs = cs.executeQuery();
-	 		while(rs.next()){
-	 			if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
-	 	if(flag==i){	
-	 		
-	 		sb.append("<tr><td colspan='3' align='left' style='background-color: #fdffaa'><strong>"+sno +"&nbsp; "+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
-	 		sno++;
-	 	}
-	 	sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td><td align='right'>"+rs.getString("IN_QTY") +"</td><td align='right'>"+rs.getString("OUT_QTY") +"</td></tr>");
-	 	
-	 	sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
-	 	sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
-	 	flag++;
-	 			}
-	 		}
-	 	} 
-	 	if(chk_grand==true){
-	 		sb.append("<tr style='background-color: #b5fdfd'><td><strong>Grand Total </strong> </td><td align='right'>"+ sum_inqty +"</td><td align='right'>"+sum_outqty +"</td></tr>");
-	 	}
-	 	
-// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	 	
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-		subgl.clear();
-		chk_grand=false;
-		comp = "105";
-		CompanyName = "DI";
-		con = ConnectionUrl.getDIERPConnection();
-		cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
-		cs.setString(1, comp);
-		cs.setString(2, "0");
-		cs.setString(3, datesql);
-		/* cs.setString(3, "20170122"); */
-		cs.setString(4, "101102103");
-		rs = cs.executeQuery();
-		while(rs.next()){
-		subgl.add(rs.getString("SUB_GLACNO"));
-		chk_flag=true;
-		} 
-		hs.clear();
-		hs.addAll(subgl);
-		subgl.clear();
-		subgl.addAll(hs);
-		 
-		flag=0;sno=1;
-		sum_inqty=0;sum_outqty=0;
-		for(int i=0;i<subgl.size();i++){
-		if(i==0){
-			chk_grand=true;
-			sb.append("<tr><td colspan='3' align='left' style='background-color: #382891;color: white;'><strong>"+CompanyName +" ===> </strong></td></tr>");
-		} 
-		flag=i;
-		rs = cs.executeQuery();
-		while(rs.next()){
-			if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
-	if(flag==i){
-		sb.append("<tr><td colspan='3' align='left' style='background-color: #fdffaa'><strong>"+sno +" &nbsp; "+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>"); 
-		sno++;
-	}
-	sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td><td align='right'>"+rs.getString("IN_QTY") +"</td><td align='right'>"+rs.getString("OUT_QTY") +"</td></tr>");
-	sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
-	sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
-	flag++;
+	 				rs=null;
+	 				chk_flag=false;
+	 				}
+			 	
+ 			}
+			if(i==2 && type.get(i).toString().equalsIgnoreCase("103")){
+				sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>SUBCONTRACT IN OUT</strong></td></tr>");
+			 	for(int j=0;j<subglNo.size();j++){
+	 				rs = cs.executeQuery();
+	 				while(rs.next()){
+	 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("103")){
+	 						if(chk_flag==false){
+	 						sb.append("<tr><td colspan='3' align='left' style='background-color: #aeaeae;color: black;'><strong>"+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+	 				chk_flag=true;
+	 						}
+	 			sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
+ 					"<td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+	 			flagMail=true;
+	 					}
+	 				}
+	 				rs=null;
+	 				chk_flag=false;
+	 				}
 			}
-		}
-	} 
-	if(chk_grand==true){
-		sb.append("<tr style='background-color: #b5fdfd'><td><strong>Grand Total </strong></td><td align='right'>"+ sum_inqty +"</td><td align='right'>"+ sum_outqty +"</td></tr>");
-	}
-	
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
-	subgl.clear();
-	chk_grand=false;
-	comp = "106";
-	CompanyName = "MEPL UNIT III";
-	con = ConnectionUrl.getK1ERPConnection();
-	cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
-	cs.setString(1, comp);
-	cs.setString(2, "0");
-	cs.setString(3, datesql);
-	/* cs.setString(3, "20170122"); */
-	cs.setString(4, "101102103");
-	rs = cs.executeQuery();
-	while(rs.next()){
-	subgl.add(rs.getString("SUB_GLACNO"));
-	chk_flag=true;
-	} 
-	hs.clear();
-	hs.addAll(subgl);
-	subgl.clear();
-	subgl.addAll(hs);
-	 
-	flag=0;sno=1;
-	sum_inqty=0;sum_outqty=0;
-	for(int i=0;i<subgl.size();i++){
-	if(i==0){
-		chk_grand=true;
-		
-		sb.append("<tr><td colspan='3' align='left' style='background-color: #382891;color: white;'><strong>"+CompanyName +" ===> </strong></td></tr>");
-	} 
-	flag=i;
-	rs = cs.executeQuery();
-	while(rs.next()){
-		if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
-if(flag==i){
-	sb.append("<tr><td colspan='3' align='left' style='background-color: #fdffaa'><strong>"+sno +" &nbsp; "+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
-	sno++;
-	}
-sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td><td align='right'>"+rs.getString("IN_QTY") +"</td><td align='right'>"+rs.getString("OUT_QTY") +"</td></tr>");	
-sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
-sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
-flag++;
-		}
-	}
-}
+ 		}
+ 		/*******************************************************************************************************************/
+	 	/******************************************************* MEPL H25 *******************************************/
+ 			sb.append("<tr><td colspan='3' align='left' style='background-color: #466817; color: white;font-size: 12px;'><strong>Company Name : MEPL H25 ==> </strong></td></tr>");
+ 		 		comp = "102";
+ 		 		CompanyName = "MEPL H-25";
+ 		 		subglNo.clear();
+ 		 		hs.clear();
+ 		 		chk_flag=false;
+ 		 		con = ConnectionUrl.getMEPLH25ERP();
+ 		 		cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+ 		 		cs.setString(1, comp);
+ 		 		cs.setString(2, "0");
+ 		 		cs.setString(3, datesql);
+ 		 		cs.setString(4, "101102103");
+ 		 		rs_data = cs.executeQuery();
+ 		 		while(rs_data.next()){
+ 		 			subglNo.add(rs_data.getString("SUB_GLACNO"));
+ 		 		}
+ 		 		hs.addAll(subglNo);
+ 		 		subglNo.clear();
+ 		 		subglNo.addAll(hs);
+ 		 		rs = null;
+ 		 		rs_name=null;
+ 		 		for(int i=0;i<type.size();i++){
+ 		 			if(i==0 && type.get(i).toString().equalsIgnoreCase("101")){ 
+ 		 			sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>JOBWORK</strong></td></tr>");
+ 		 				for(int j=0;j<subglNo.size();j++){
+ 		 				rs = cs.executeQuery();
+ 		 				while(rs.next()){
+ 		 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("101")){
+ 		 						if(chk_flag==false){
+ 		 			sb.append("<tr><td colspan='3' align='left' style='background-color: #aeaeae;color: black;'><strong>"+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+ 		 				chk_flag=true;
+ 		 						}
+ 		 			sb.append("<tr><td align='left'>"+rs.getString("NAME")+"</td><td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 		 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+ 		 			flagMail=true;
+ 		 					}	 					
+ 		 				}
+ 		 				rs=null;
+ 		 				chk_flag=false;
+ 		 				}
+ 		 			}
+ 					if(i==1 && type.get(i).toString().equalsIgnoreCase("102")){ 
+ 					 	sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>PURCHASE / SALE</strong></td></tr>");
+ 					 	for(int j=0;j<subglNo.size();j++){
+ 			 				rs = cs.executeQuery();
+ 			 				while(rs.next()){
+ 			 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("102")){
+ 			 						if(chk_flag==false){ 
+ 			 			 sb.append("<tr><td colspan='3' align='left' style='background-color:  #aeaeae;color: black;'><strong>"+ rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>"); 
+ 			 				chk_flag=true;
+ 			 						} 
+ 			 				sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
+ 		 					"<td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 		 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+ 			 				flagMail=true;
+ 			 					} 
+ 			 				}
+ 			 				rs=null;
+ 			 				chk_flag=false;
+ 			 				}
+ 					 	
+ 		 			}
+ 					if(i==2 && type.get(i).toString().equalsIgnoreCase("103")){
+ 						sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>SUBCONTRACT IN OUT</strong></td></tr>");
+ 					 	for(int j=0;j<subglNo.size();j++){
+ 			 				rs = cs.executeQuery();
+ 			 				while(rs.next()){
+ 			 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("103")){
+ 			 						if(chk_flag==false){
+ 			 						sb.append("<tr><td colspan='3' align='left' style='background-color: #aeaeae;color: black;'><strong>"+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+ 			 				chk_flag=true;
+ 			 						}
+ 			 			sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
+ 		 					"<td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 		 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+ 			 			flagMail=true;
+ 			 					}
+ 			 				}
+ 			 				rs=null;
+ 			 				chk_flag=false;
+ 			 				}
+ 					}
+ 		 		}
+ 		 		/*******************************************************************************************************************/
+ 		 		/******************************************************* DI *******************************************/
+ 	 			sb.append("<tr><td colspan='3' align='left' style='background-color: #466817; color: white;font-size: 12px;'><strong>Company Name : DI ==> </strong></td></tr>");
+ 	 		 		comp = "105";
+ 	 		 		CompanyName = "DI";
+ 	 		 		subglNo.clear();
+ 	 		 		hs.clear();
+ 	 		 		chk_flag=false;
+ 	 		 		con = ConnectionUrl.getDIERPConnection();
+ 	 		 		cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+ 	 		 		cs.setString(1, comp);
+ 	 		 		cs.setString(2, "0");
+ 	 		 		cs.setString(3, datesql);
+ 	 		 		cs.setString(4, "101102103");
+ 	 		 		rs_data = cs.executeQuery();
+ 	 		 		while(rs_data.next()){
+ 	 		 			subglNo.add(rs_data.getString("SUB_GLACNO"));
+ 	 		 		}
+ 	 		 		hs.addAll(subglNo);
+ 	 		 		subglNo.clear();
+ 	 		 		subglNo.addAll(hs);
+ 	 		 		rs = null;
+ 	 		 		rs_name=null;
+ 	 		 		for(int i=0;i<type.size();i++){
+ 	 		 			if(i==0 && type.get(i).toString().equalsIgnoreCase("101")){ 
+ 	 		 			sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>JOBWORK</strong></td></tr>");
+ 	 		 				for(int j=0;j<subglNo.size();j++){
+ 	 		 				rs = cs.executeQuery();
+ 	 		 				while(rs.next()){
+ 	 		 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("101")){
+ 	 		 						if(chk_flag==false){
+ 	 		 			sb.append("<tr><td colspan='3' align='left' style='background-color: #aeaeae;color: black;'><strong>"+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+ 	 		 				chk_flag=true;
+ 	 		 						}
+ 	 		 			sb.append("<tr><td align='left'>"+rs.getString("NAME")+"</td><td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 	 		 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+ 	 		 			flagMail=true;
+ 	 		 					}	 					
+ 	 		 				}
+ 	 		 				rs=null;
+ 	 		 				chk_flag=false;
+ 	 		 				}
+ 	 		 			}
+ 	 					if(i==1 && type.get(i).toString().equalsIgnoreCase("102")){ 
+ 	 					 	sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>PURCHASE / SALE</strong></td></tr>");
+ 	 					 	for(int j=0;j<subglNo.size();j++){
+ 	 			 				rs = cs.executeQuery();
+ 	 			 				while(rs.next()){
+ 	 			 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("102")){
+ 	 			 						if(chk_flag==false){ 
+ 	 			 			 sb.append("<tr><td colspan='3' align='left' style='background-color:  #aeaeae;color: black;'><strong>"+ rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>"); 
+ 	 			 				chk_flag=true;
+ 	 			 						} 
+ 	 			 				sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
+ 	 		 					"<td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 	 		 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+ 	 			 				flagMail=true;
+ 	 			 					} 
+ 	 			 				}
+ 	 			 				rs=null;
+ 	 			 				chk_flag=false;
+ 	 			 				}
+ 	 					 	
+ 	 		 			}
+ 	 					if(i==2 && type.get(i).toString().equalsIgnoreCase("103")){
+ 	 						sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>SUBCONTRACT IN OUT</strong></td></tr>");
+ 	 					 	for(int j=0;j<subglNo.size();j++){
+ 	 			 				rs = cs.executeQuery();
+ 	 			 				while(rs.next()){
+ 	 			 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("103")){
+ 	 			 						if(chk_flag==false){
+ 	 			 						sb.append("<tr><td colspan='3' align='left' style='background-color: #aeaeae;color: black;'><strong>"+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+ 	 			 				chk_flag=true;
+ 	 			 						}
+ 	 			 			sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
+ 	 		 					"<td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 	 		 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+ 	 			 			flagMail=true;
+ 	 			 					}
+ 	 			 				}
+ 	 			 				rs=null;
+ 	 			 				chk_flag=false;
+ 	 			 				}
+ 	 					}
+ 	 		 		}
+ 	 		 		/*******************************************************************************************************************/
+ 	 		 		/******************************************************* MEPL UNIT III *******************************************/
+ 	 	 			sb.append("<tr><td colspan='3' align='left' style='background-color: #466817; color: white;font-size: 12px;'><strong>Company Name : MEPL UNIT III ==> </strong></td></tr>");
+ 	 	 		 		comp = "106";
+ 	 	 		 		CompanyName = "MEPL UNIT III";
+ 	 	 		 		subglNo.clear();
+ 	 	 		 		hs.clear();
+ 	 	 		 		chk_flag=false;
+ 	 	 		 		con = ConnectionUrl.getK1ERPConnection();
+ 	 	 		 		cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+ 	 	 		 		cs.setString(1, comp);
+ 	 	 		 		cs.setString(2, "0");
+ 	 	 		 		cs.setString(3, datesql);
+ 	 	 		 		cs.setString(4, "101102103");
+ 	 	 		 		rs_data = cs.executeQuery();
+ 	 	 		 		while(rs_data.next()){
+ 	 	 		 			subglNo.add(rs_data.getString("SUB_GLACNO"));
+ 	 	 		 		}
+ 	 	 		 		hs.addAll(subglNo);
+ 	 	 		 		subglNo.clear();
+ 	 	 		 		subglNo.addAll(hs);
+ 	 	 		 		rs = null;
+ 	 	 		 		rs_name=null;
+ 	 	 		 		for(int i=0;i<type.size();i++){
+ 	 	 		 			if(i==0 && type.get(i).toString().equalsIgnoreCase("101")){ 
+ 	 	 		 			sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>JOBWORK</strong></td></tr>");
+ 	 	 		 				for(int j=0;j<subglNo.size();j++){
+ 	 	 		 				rs = cs.executeQuery();
+ 	 	 		 				while(rs.next()){
+ 	 	 		 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("101")){
+ 	 	 		 						if(chk_flag==false){
+ 	 	 		 			sb.append("<tr><td colspan='3' align='left' style='background-color: #aeaeae;color: black;'><strong>"+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+ 	 	 		 				chk_flag=true;
+ 	 	 		 						}
+ 	 	 		 			sb.append("<tr><td align='left'>"+rs.getString("NAME")+"</td><td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 	 	 		 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+ 	 	 		 			flagMail=true;
+ 	 	 		 					}	 					
+ 	 	 		 				}
+ 	 	 		 				rs=null;
+ 	 	 		 				chk_flag=false;
+ 	 	 		 				}
+ 	 	 		 			}
+ 	 	 					if(i==1 && type.get(i).toString().equalsIgnoreCase("102")){ 
+ 	 	 					 	sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>PURCHASE / SALE</strong></td></tr>");
+ 	 	 					 	for(int j=0;j<subglNo.size();j++){
+ 	 	 			 				rs = cs.executeQuery();
+ 	 	 			 				while(rs.next()){
+ 	 	 			 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("102")){
+ 	 	 			 						if(chk_flag==false){ 
+ 	 	 			 			 sb.append("<tr><td colspan='3' align='left' style='background-color:  #aeaeae;color: black;'><strong>"+ rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>"); 
+ 	 	 			 				chk_flag=true;
+ 	 	 			 						} 
+ 	 	 			 				sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
+ 	 	 		 					"<td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 	 	 		 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+ 	 	 			 				flagMail=true;
+ 	 	 			 					} 
+ 	 	 			 				}
+ 	 	 			 				rs=null;
+ 	 	 			 				chk_flag=false;
+ 	 	 			 				}
+ 	 	 					 	
+ 	 	 		 			}
+ 	 	 					if(i==2 && type.get(i).toString().equalsIgnoreCase("103")){
+ 	 	 						sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>SUBCONTRACT IN OUT</strong></td></tr>");
+ 	 	 					 	for(int j=0;j<subglNo.size();j++){
+ 	 	 			 				rs = cs.executeQuery();
+ 	 	 			 				while(rs.next()){
+ 	 	 			 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("103")){
+ 	 	 			 						if(chk_flag==false){
+ 	 	 			 						sb.append("<tr><td colspan='3' align='left' style='background-color: #aeaeae;color: black;'><strong>"+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+ 	 	 			 				chk_flag=true;
+ 	 	 			 						}
+ 	 	 			 			sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
+ 	 	 		 					"<td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 	 	 		 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+ 	 	 			 			flagMail=true;
+ 	 	 			 					}
+ 	 	 			 				}
+ 	 	 			 				rs=null;
+ 	 	 			 				chk_flag=false;
+ 	 	 			 				}
+ 	 	 					}
+ 	 	 		 		}
+ 	 	 		 		/*******************************************************************************************************************/
+ 	 			 		
+ 	 	 		 		/******************************************************* MFPL *******************************************/
+ 	 	 	 			sb.append("<tr><td colspan='3' align='left' style='background-color: #466817; color: white;font-size: 12px;'><strong>Company Name : MFPL ==> </strong></td></tr>");
+ 	 	 	 		 		comp = "103";
+ 	 	 	 		 		CompanyName = "MFPL";
+ 	 	 	 		 		subglNo.clear();
+ 	 	 	 		 		hs.clear();
+ 	 	 	 		 		chk_flag=false;
+ 	 	 	 		 		con = ConnectionUrl.getFoundryERPNEWConnection();
+ 	 	 	 		 		cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
+ 	 	 	 		 		cs.setString(1, comp);
+ 	 	 	 		 		cs.setString(2, "0");
+ 	 	 	 		 		cs.setString(3, datesql);
+ 	 	 	 		 		cs.setString(4, "101102103");
+ 	 	 	 		 		rs_data = cs.executeQuery();
+ 	 	 	 		 		while(rs_data.next()){
+ 	 	 	 		 			subglNo.add(rs_data.getString("SUB_GLACNO"));
+ 	 	 	 		 		}
+ 	 	 	 		 		hs.addAll(subglNo);
+ 	 	 	 		 		subglNo.clear();
+ 	 	 	 		 		subglNo.addAll(hs);
+ 	 	 	 		 		rs = null;
+ 	 	 	 		 		rs_name=null;
+ 	 	 	 		 		for(int i=0;i<type.size();i++){
+ 	 	 	 		 			if(i==0 && type.get(i).toString().equalsIgnoreCase("101")){ 
+ 	 	 	 		 			sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>JOBWORK</strong></td></tr>");
+ 	 	 	 		 				for(int j=0;j<subglNo.size();j++){
+ 	 	 	 		 				rs = cs.executeQuery();
+ 	 	 	 		 				while(rs.next()){
+ 	 	 	 		 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("101")){
+ 	 	 	 		 						if(chk_flag==false){
+ 	 	 	 		 			sb.append("<tr><td colspan='3' align='left' style='background-color: #aeaeae;color: black;'><strong>"+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+ 	 	 	 		 				chk_flag=true;
+ 	 	 	 		 						}
+ 	 	 	 		 			sb.append("<tr><td align='left'>"+rs.getString("NAME")+"</td><td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 	 	 	 		 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+ 	 	 	 		 			flagMail=true;
+ 	 	 	 		 					}	 					
+ 	 	 	 		 				}
+ 	 	 	 		 				rs=null;
+ 	 	 	 		 				chk_flag=false;
+ 	 	 	 		 				}
+ 	 	 	 		 			}
+ 	 	 	 					if(i==1 && type.get(i).toString().equalsIgnoreCase("102")){ 
+ 	 	 	 					 	sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>PURCHASE / SALE</strong></td></tr>");
+ 	 	 	 					 	for(int j=0;j<subglNo.size();j++){
+ 	 	 	 			 				rs = cs.executeQuery();
+ 	 	 	 			 				while(rs.next()){
+ 	 	 	 			 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("102")){
+ 	 	 	 			 						if(chk_flag==false){
+ 	 	 	 			 			 sb.append("<tr><td colspan='3' align='left' style='background-color:  #aeaeae;color: black;'><strong>"+ rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>"); 
+ 	 	 	 			 				chk_flag=true;
+ 	 	 	 			 						} 
+ 	 	 	 			 				sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
+ 	 	 	 		 					"<td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 	 	 	 		 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+ 	 	 	 			 				flagMail=true;
+ 	 	 	 			 					} 
+ 	 	 	 			 				}
+ 	 	 	 			 				rs=null;
+ 	 	 	 			 				chk_flag=false;
+ 	 	 	 			 				} 
+ 	 	 	 		 			}
+ 	 	 	 					if(i==2 && type.get(i).toString().equalsIgnoreCase("103")){
+ 	 	 	 						sb.append("<tr><td colspan='3' align='left' style='background-color: #6f2781;color: white;'><strong>SUBCONTRACT IN OUT</strong></td></tr>");
+ 	 	 	 					 	for(int j=0;j<subglNo.size();j++){
+ 	 	 	 			 				rs = cs.executeQuery();
+ 	 	 	 			 				while(rs.next()){
+ 	 	 	 			 					if(rs.getString("SUB_GLACNO").equalsIgnoreCase(subglNo.get(j).toString()) && rs.getString("TYPE").equalsIgnoreCase("103")){
+ 	 	 	 			 						if(chk_flag==false){
+ 	 	 	 			 						sb.append("<tr><td colspan='3' align='left' style='background-color: #aeaeae;color: black;'><strong>"+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
+ 	 	 	 			 				chk_flag=true;
+ 	 	 	 			 						}
+ 	 	 	 			 			sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td>"+
+ 	 	 	 		 					"<td align='right'><b>"+rs.getString("IN_QTY") +"</b></td>"+
+ 	 	 	 		 					"<td align='right'><b>"+rs.getString("OUT_QTY") +"</b></td></tr>");
+ 	 	 	 			 			flagMail=true;
+ 	 	 	 			 					}
+ 	 	 	 			 				}
+ 	 	 	 			 				rs=null;
+ 	 	 	 			 				chk_flag=false;
+ 	 	 	 			 				}
+ 	 	 	 					}
+ 	 	 	 		 		}
+ 	 	 	 		 		/*******************************************************************************************************************/
+ 	 	 			 		
+ 		 		
+	 		
+	 		
+	 		
+	 		
+	 		
+	 		
+	 		
+	 		
 
-	if(chk_grand==true){
-
-		sb.append("<tr style='background-color: #b5fdfd'><td><strong>Grand Total </strong> </td><td align='right'>"+ sum_inqty +"</td><td align='right'>"+ sum_outqty +"</td></tr>");
-	}		
-	
-	
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
-	subgl.clear();
- 	chk_grand=false;
- 	comp = "103";
- 	CompanyName = "MFPL";
- 	con = ConnectionUrl.getFoundryERPNEWConnection();
- 	cs = con.prepareCall("{call Sel_RptStockInoutStatus(?,?,?,?)}");
- 	cs.setString(1, comp);
- 	cs.setString(2, "0");
- 	cs.setString(3, datesql);
- 	// cs.setString(3, "20170122"); 
- 	cs.setString(4, "101102103");
- 	rs = cs.executeQuery();
- 	while(rs.next()){
- 	subgl.add(rs.getString("SUB_GLACNO"));
- 	chk_flag=true;
- 	} 
- 	hs.clear();
- 	hs.addAll(subgl);
- 	subgl.clear();
- 	subgl.addAll(hs);
- 	 
- 	flag=0;sno=1;
- 	sum_inqty=0;sum_outqty=0;
- 	for(int i=0;i<subgl.size();i++){
- 	if(i==0){
- 		chk_grand=true;
- 		
- 		sb.append("<tr><td colspan='3' align='left' style='background-color: #382891;color: white;'><strong>"+CompanyName +" ===> </strong></td></tr>");
- 	} 
-	flag=i;
-	rs = cs.executeQuery();
-	while(rs.next()){
-		if(subgl.get(i).toString().equalsIgnoreCase(rs.getString("SUB_GLACNO"))){
-			if(flag==i){
-	sb.append("<tr><td colspan='3' align='left' style='background-color: #fdffaa'><strong>"+sno +" &nbsp; "+rs.getString("SUBGL_LONGNAME") +"</strong></td></tr>");
-	sno++;
-	}
-	sb.append("<tr><td align='left'>"+rs.getString("NAME") +"</td><td align='right'>"+rs.getString("IN_QTY") +"</td><td align='right'>"+rs.getString("OUT_QTY") +"</td></tr>");
-	sum_inqty=Double.parseDouble(rs.getString("IN_QTY")) + sum_inqty;
-	sum_outqty=Double.parseDouble(rs.getString("OUT_QTY")) + sum_outqty;
-	flag++;
-			}
-		}
-	}
-	if(chk_grand==true){
- 	sb.append("<tr style='background-color: #b5fdfd'><td><strong>Grand Total </strong> </td><td align='right'>"+ sum_inqty+"</td><td align='right'>"+ sum_outqty +"</td></tr>");
-	}
-	
-	
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
-	
-
-			sb.append("</table><b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
+	 sb.append("</table><b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
 			"<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"+
 			"it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons"+
 			"or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"+
 			"</font></p>");
 		 
 			msg.setContent(sb.toString(), "text/html"); 
-			if(chk_flag==true){
+			if(flagMail==true){
 			Transport transport = mailSession.getTransport("smtp");
 			transport.connect(host, user, pass);
 			transport.sendMessage(msg, msg.getAllRecipients());
