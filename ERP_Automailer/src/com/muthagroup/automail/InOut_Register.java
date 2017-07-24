@@ -97,7 +97,7 @@ public class InOut_Register extends TimerTask {
  			// System.out.println("IN OUT Register = " + datesql + " = = " + printdate);
 sb.append("<b style='color: #0D265E;font-family: Arial;font-size: 11px;'>*** This is an automatically generated email of ERP Stock In/Out Register ***</b><table border='1' width='90%' style='font-family: Arial;text-align: center;font-family: Arial;font-size: 12px;'>"+
  	"<tr style='font-size: 12px; background-color: #c8e6f0; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;font-weight: bold;'>"+
- 	"<td colspan='3'>Stock In/Out Register as on </td></tr>"+
+ 	"<td colspan='3'>Stock In/Out Register as on "+printdate+"</td></tr>"+
  	"<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;font-weight: bold;'>"+
 	 "<td>Part Name</td>"+
  	"<td>In Qty</td>"+

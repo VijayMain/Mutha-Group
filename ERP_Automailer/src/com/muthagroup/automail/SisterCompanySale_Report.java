@@ -1,5 +1,6 @@
 package com.muthagroup.automail;
 
+import java.io.File;
 import java.sql.CallableStatement; 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,15 +11,34 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Properties;
 import java.util.TimerTask;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.Message;
+import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
+import jxl.Workbook;
+import jxl.format.Alignment;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
+import jxl.format.Colour;
+import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 
 import com.muthagroup.connectionERPUtil.ConnectionUrl;
 
@@ -27,594 +47,538 @@ public class SisterCompanySale_Report extends TimerTask {
 	@Override
 	public void run() {
 		try {
-			//-------------------------------------------------------- Date Logic ---------------------------------------------------------
-
+			//-------------------------------------------------------- Date Logic --------------------------------------------------------- 
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			Date datesq = new Date();
-			int day = datesq.getDate();
-			
-			ArrayList rem = new ArrayList(); 
-			if (day==1 && d.getHours() == 9 && d.getMinutes() == 40) {
-			Connection con = ConnectionUrl.getLocalDatabase();
+			int day = datesq.getDate(); 
+			if (day==1 && d.getHours() == 9 && d.getMinutes() == 40) { 
+			/*if (day==24 && d.getHours() == 10 && d.getMinutes() == 27) {*/
 				
-			SimpleDateFormat formatView = new SimpleDateFormat("dd/MM/yyyy");
-			SimpleDateFormat formatsql = new SimpleDateFormat("yyyyMMdd"); 
-			DecimalFormat mytotals = new DecimalFormat( "######0.00" );
+				Connection con = ConnectionUrl.getLocalDatabase(); 
+				SimpleDateFormat formatView = new SimpleDateFormat("dd/MM/yyyy");
+				SimpleDateFormat formatsql = new SimpleDateFormat("yyyyMMdd");
+				DecimalFormat mytotals = new DecimalFormat("######0.00");
 
-			Calendar aCalendar = Calendar.getInstance();
-			//add -1 month to current month
-			aCalendar.add(Calendar.MONTH, -1);
-			//set DATE to 1, so first date of previous month
-			aCalendar.set(Calendar.DATE, 1);
-			Date firstDateOfPreviousMonth = aCalendar.getTime();
-			//set actual maximum date of previous month
-			aCalendar.set(Calendar.DATE,aCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-			//read it
-			Date lastDateOfPreviousMonth = aCalendar.getTime();
-			String from_date = formatsql.format(firstDateOfPreviousMonth);
-			String to_date = formatsql.format(lastDateOfPreviousMonth);
-			String dateFrom = formatView.format(firstDateOfPreviousMonth); 
-			String dateTo = formatView.format(lastDateOfPreviousMonth);
+				Calendar aCalendar = Calendar.getInstance();
+				//add -1 month to current month
+				aCalendar.add(Calendar.MONTH, -1);
+				//set DATE to 1, so first date of previous month
+				aCalendar.set(Calendar.DATE, 1);
+				Date firstDateOfPreviousMonth = aCalendar.getTime();
+				//set actual maximum date of previous month
+				aCalendar.set(Calendar.DATE, aCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+				//read it
+				Date lastDateOfPreviousMonth = aCalendar.getTime();
+				String from_date = formatsql.format(firstDateOfPreviousMonth);
+				String to_date = formatsql.format(lastDateOfPreviousMonth);
+				String dateFrom = formatView.format(firstDateOfPreviousMonth);
+				String dateTo = formatView.format(lastDateOfPreviousMonth);
 
-			/*System.out.println("fdate = " + from_date + "\nLast day = " + to_date);
-			System.out.println("fdate view = " + dateFrom + "\nLast day view = " + dateTo);*/				
-			  				
+				ArrayList listpara = new ArrayList();   
+				ArrayList listyear = new ArrayList();
+				ArrayList listmonthcnt = new ArrayList();
+				ArrayList listmonth = new ArrayList();   
+				int year = Calendar.getInstance().get(Calendar.YEAR); 
+				DateFormatSymbols dfs = new DateFormatSymbols();
+				String[] months = dfs.getShortMonths(); 
+				int cnt = 2;
+				int yearcnt = year+1; 
+				//  to adjust months to display =====>
+				outerLoop:
+				for(int i=0;i<=12;i++){ 
+				 listyear.add(months[cnt] + yearcnt);
+				 listmonth.add(months[cnt]);
+				 listmonthcnt.add(cnt); 
+			 	 if(cnt==3){
+					 break outerLoop;
+				 } 
+				 if(cnt==0){
+					 cnt=11;
+					 yearcnt--;
+				}else{
+					 cnt--;
+				}
+				} 
+				Collections.reverse(listyear);
+				Collections.reverse(listmonthcnt);
+				Collections.reverse(listmonth);  
+						// ***************************************************************************************************************
+			   	String Sheet_Name = "";
+				int sheetcnt=0;
+
+				ArrayList alistFile = new ArrayList();
+				File folder = new File("C:/reportxls");
+				File[] listOfFiles = folder.listFiles();
+				String listname = "";
+				int val = listOfFiles.length + 1;
+
+				File exlFile = new File("C:/reportxls/SisterComp"+val+".xls");
+				WritableWorkbook writableWorkbook = Workbook.createWorkbook(exlFile); 
+
+				Colour bckcolor = Colour.TURQUOISE;
+			    WritableFont font = new WritableFont(WritableFont.ARIAL);
+			    font.setColour(Colour.BLACK); 
+			    
+			    WritableFont fontbold = new WritableFont(WritableFont.ARIAL);
+			    fontbold.setColour(Colour.BLACK);
+			    fontbold.setBoldStyle(WritableFont.BOLD);
+			    
+			    WritableCellFormat cellFormat = new WritableCellFormat();
+			    cellFormat.setBackground(bckcolor);
+			    cellFormat.setAlignment(Alignment.CENTRE);
+			    cellFormat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK); 
+			    cellFormat.setFont(fontbold); 
+			    
+			    Colour backHcolor = Colour.GREY_25_PERCENT;
+			    WritableCellFormat cellFormat_header = new WritableCellFormat();
+			    cellFormat_header.setBackground(backHcolor);
+			    cellFormat_header.setAlignment(Alignment.CENTRE); 
+			    cellFormat_header.setFont(fontbold); 
+			    
+			    Colour backHcolor1 = Colour.CORAL;
+			    WritableCellFormat cellFormat_header1 = new WritableCellFormat();
+			    cellFormat_header1.setBackground(backHcolor1);
+			    cellFormat_header1.setAlignment(Alignment.CENTRE); 
+			    cellFormat_header1.setFont(fontbold); 
+			    
+			    WritableCellFormat cellRIghtformat = new WritableCellFormat();
+			    cellRIghtformat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
+			    font.setColour(Colour.BLACK); 
+			    cellRIghtformat.setFont(font);
+			    cellRIghtformat.setAlignment(Alignment.RIGHT);
+			    
+			    WritableCellFormat cellRIghtformatWrap = new WritableCellFormat(); 
+			    cellRIghtformatWrap.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
+			    font.setColour(Colour.BLACK); 
+			    cellRIghtformatWrap.setFont(font);
+			    cellRIghtformatWrap.setAlignment(Alignment.RIGHT);
+			    cellRIghtformatWrap.setWrap(true);
+			    
+			    WritableCellFormat cellFormatWrap = new WritableCellFormat();
+			    cellFormatWrap.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
+			    font.setColour(Colour.BLACK); 
+			    cellFormatWrap.setBackground(bckcolor);
+			    cellFormatWrap.setFont(fontbold);
+			    cellFormatWrap.setAlignment(Alignment.RIGHT); 
+			    cellFormatWrap.setWrap(true);
+			    
+			    WritableCellFormat cellleftformat = new WritableCellFormat(); 
+			    cellleftformat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
+			    font.setColour(Colour.BLACK); 
+			    cellleftformat.setFont(font); 	
+			    cellleftformat.setAlignment(Alignment.LEFT);
+				//-------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+			   //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+					Sheet_Name = "Sister Company Sale";
+					con = ConnectionUrl.getMEPLH21ERP();
+				   	WritableSheet writableSheet = writableWorkbook.createSheet(Sheet_Name, sheetcnt);
+				  			writableSheet.setColumnView(0, 15);
+						    writableSheet.setColumnView(1, 15);
+						    writableSheet.setColumnView(2, 15);
+						    writableSheet.setColumnView(3, 15);
+						    writableSheet.setColumnView(4, 15);
+						    writableSheet.setColumnView(5, 15);
+						    writableSheet.setColumnView(6, 15);
+						    writableSheet.setColumnView(7, 15);
+						    writableSheet.setColumnView(8, 15);
+						    writableSheet.setColumnView(9, 15);
+						    writableSheet.setColumnView(10, 15);
+						    writableSheet.setColumnView(11, 15);
+						    writableSheet.setColumnView(12, 15);
+						    writableSheet.setColumnView(13, 15);
+						    writableSheet.setColumnView(14, 15); 
+						    
+						    writableSheet.mergeCells(0, 0,14, 0);
+						    writableSheet.mergeCells(1, 1,2, 1); 
+						    writableSheet.mergeCells(3, 1,4, 1);
+						    writableSheet.mergeCells(5, 1,6, 1);
+						    writableSheet.mergeCells(7, 1,8, 1);
+						    writableSheet.mergeCells(9, 1,10, 1); 
+						    writableSheet.mergeCells(11, 1,12, 1);
+						    writableSheet.mergeCells(13, 1,14, 1);
+						    writableSheet.mergeCells(15, 1,16, 1); 
+						     
+						    Label label_1 = new Label(0, 0, "INTER-COMPANY SALES ",cellFormat_header1);
+						    Label label_2 = new Label(1, 1, "FOUNDERS TO ENGINEERING",cellFormat_header1);
+						    Label label_3 = new Label(3, 1, "MEPL UIII TO ENGINEERING",cellFormat_header1);
+						    Label label_4 = new Label(5, 1, "DHANSHREE TO ENGINEERING",cellFormat_header1);
+						    Label label_5 = new Label(7, 1, "MEPL UIII TO FOUNDERS",cellFormat_header1);
+						    Label label_6 = new Label(9, 1, "EGINEERING H-25 TO FOUNDERS",cellFormat_header1);
+						    Label label_7 = new Label(11, 1, "DHANASHREE TO FOUNDERS",cellFormat_header1);
+						    Label label_8 = new Label(13, 1, "TOTAL",cellFormat_header1);
+						      
+						 writableSheet.addCell(label_1);
+						 writableSheet.addCell(label_2);
+						 writableSheet.addCell(label_3);
+						 writableSheet.addCell(label_4);
+						 writableSheet.addCell(label_5);
+						 writableSheet.addCell(label_6);
+						 writableSheet.addCell(label_7);
+						 writableSheet.addCell(label_8);
+						 
+						 Label row_1 = new Label(0, 1, "",cellFormat);
+						 writableSheet.addCell(row_1);
+						 
+						 Label row_2 = new Label(0, 2, "",cellFormat);
+						 writableSheet.addCell(row_2);
+						 
+						 Label row_head1 = new Label(1, 2, "TONNAGE",cellFormat); 
+						 writableSheet.addCell(row_head1);
+						 Label row_head2 = new Label(2, 2, "AMOUNT",cellFormat); 
+						 writableSheet.addCell(row_head2);
+						 
+						 Label row_head3 = new Label(3, 2, "TONNAGE",cellFormat); 
+						 writableSheet.addCell(row_head3);
+						 Label row_head4 = new Label(4, 2, "AMOUNT",cellFormat); 
+						 writableSheet.addCell(row_head4);
+						 Label row_head5 = new Label(5, 2, "TONNAGE",cellFormat); 
+						 writableSheet.addCell(row_head5);
+						 Label row_head6 = new Label(6, 2, "AMOUNT",cellFormat); 
+						 writableSheet.addCell(row_head6);
+						 Label row_head7 = new Label(7, 2, "TONNAGE",cellFormat); 
+						 writableSheet.addCell(row_head7);
+						 Label row_head8 = new Label(8, 2, "AMOUNT",cellFormat); 
+						 writableSheet.addCell(row_head8);
+						 Label row_head9 = new Label(9, 2, "TONNAGE",cellFormat); 
+						 writableSheet.addCell(row_head9);
+						 Label row_head10 = new Label(10, 2, "AMOUNT",cellFormat); 
+						 writableSheet.addCell(row_head10);
+						 Label row_head11 = new Label(11, 2, "TONNAGE",cellFormat); 
+						 writableSheet.addCell(row_head11);
+						 Label row_head12 = new Label(12, 2, "AMOUNT",cellFormat); 
+						 writableSheet.addCell(row_head12);
+						 Label row_head13 = new Label(13, 2, "TONNAGE",cellFormat); 
+						 writableSheet.addCell(row_head13);
+						 Label row_head14 = new Label(14, 2, "AMOUNT",cellFormat); 
+						 writableSheet.addCell(row_head14);
+						 
+						 
+						 
+						 
+						 
+						 // -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+						 cnt=3;
+						 PreparedStatement ps_sis = null; 
+							ResultSet rs_sis = null;
+							Connection con_erp = null;
+							double tonnage=0,amount=0,tonnageTotal=0,amountTotal=0;
+							 
+							for(int i=0;i<listmonthcnt.size();i++){
+							Calendar calendar = Calendar.getInstance();
+							int yearpart =  Integer.valueOf(listyear.get(i).toString().substring(listyear.get(i).toString().length() - 4));
+							int monthPart = Integer.valueOf(listmonthcnt.get(i).toString());
+							int dateDay = 1;
+							calendar.set(yearpart, monthPart, dateDay);
+							int numOfDaysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH); 
+							String firstsql = formatsql.format(calendar.getTime());
+							calendar.add(Calendar.DAY_OF_MONTH, numOfDaysInMonth-1); 
+							String lastsql = formatsql.format(calendar.getTime());
+							//System.out.println("First Day of month: " + listyear.get(i).toString() + firstsql  + "  = " + lastsql);
+							
+							// +++++++++++++++++++++++++++++++++++++++++++++ FOUNDERS TO ENGINEERING +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+							con_erp = ConnectionUrl.getFoundryERPNEWConnection();
+							ps_sis = con_erp.prepareStatement("SELECT TRNACCTMATISALE.TRAN_NO,TRNACCTMATISALE.TRAN_DATE,TRNACCTMATISALE.TRAN_SUBTYPE, "+
+									"TRNACCTMATISALE.MAT_CODE, "+
+									"TRNACCTMATISALE.MAT_NAME,TRNACCTMATISALE.DRG_NO,TRNACCTMATISALE.QTY, "+
+									"TRNACCTMATISALE.WEIGHT,TRNACCTMATISALE.RATE,(CAST(TRNACCTMATISALE.WEIGHT as FLOAT) * CAST(TRNACCTMATISALE.QTY AS FLOAT)) as TONNAGE ,TRNACCTMATISALE.AMOUNT,TRNACCTMATISALE.CUST_SUB_GLACNO, "+
+									"MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
+									"MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE FROM TRNACCTMATISALE "+
+									"LEFT JOIN MSTACCTGLSUB ON TRNACCTMATISALE.CUST_SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
+									"LEFT JOIN MSTMATERIALS ON TRNACCTMATISALE.MAT_CODE = MSTMATERIALS.CODE "+
+									"WHERE CUST_SUB_GLACNO "+
+									"in(101110205,101110100) "+
+									"AND TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
+									"AND MATERIAL_TYPE =101 AND TRAN_SUBTYPE IN (1,51) order by CUST_SUB_GLACNO ");
+							rs_sis = ps_sis.executeQuery();
+							while(rs_sis.next()){
+								
+								tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
+								amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
+								
+							}
+							tonnageTotal=tonnage+tonnageTotal;
+							amountTotal=amount+amountTotal;
+							
+							
+							
+							Label row_11 = new Label(0, cnt, listyear.get(i).toString() ,cellRIghtformat);
+							 writableSheet.addCell(row_11);
+							 
+							 Label row_22 = new Label(1, cnt, mytotals.format(tonnage)  ,cellRIghtformat);
+							 writableSheet.addCell(row_22);
+							 
+							 Label row_33 = new Label(2, cnt, mytotals.format(amount)  ,cellRIghtformat);
+							 writableSheet.addCell(row_33);
+							
+							tonnage=0;amount=0;
+							
+							// =================================================================================================================================
+							// +++++++++++++++++++++++++++++++++++++++++++++ MEPL UIII TO ENGINEERING +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+							con_erp = ConnectionUrl.getK1ERPConnection();
+							ps_sis = con_erp.prepareStatement("SELECT TRNACCTMATISALE.TRAN_NO,TRNACCTMATISALE.TRAN_DATE,TRNACCTMATISALE.TRAN_SUBTYPE, "+
+									"TRNACCTMATISALE.MAT_CODE, "+
+									"TRNACCTMATISALE.MAT_NAME,TRNACCTMATISALE.DRG_NO,TRNACCTMATISALE.QTY, "+
+									"TRNACCTMATISALE.WEIGHT,TRNACCTMATISALE.RATE,(CAST(TRNACCTMATISALE.WEIGHT as FLOAT) * CAST(TRNACCTMATISALE.QTY AS FLOAT)) as TONNAGE ,TRNACCTMATISALE.AMOUNT,TRNACCTMATISALE.CUST_SUB_GLACNO, "+
+									"MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
+									"MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE FROM TRNACCTMATISALE "+
+									"LEFT JOIN MSTACCTGLSUB ON TRNACCTMATISALE.CUST_SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
+									"LEFT JOIN MSTMATERIALS ON TRNACCTMATISALE.MAT_CODE = MSTMATERIALS.CODE "+
+									"WHERE CUST_SUB_GLACNO "+
+									"in(101110205,101110100)  "+
+									" AND TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
+									" AND MATERIAL_TYPE =101 AND TRAN_SUBTYPE IN (1,51) order by CUST_SUB_GLACNO ");
+							rs_sis = ps_sis.executeQuery();
+							while(rs_sis.next()){
+								tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
+								amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
+							}
+							
+							
+							
+							
+							ps_sis = con_erp.prepareStatement("SELECT TRNSTORMATI.TRAN_NO,TRNSTORMATI.TRAN_DATE,TRNSTORMATI.TRAN_SUBTYPE, "+
+									" TRNSTORMATI.MAT_CODE, "+
+									" TRNSTORMATI.CHLN_QTY, "+
+									" TRNSTORMATI.SUB_GLACNO, "+
+									" MSTMATERIALS.CASTING_WT, (CAST(MSTMATERIALS.CASTING_WT as FLOAT) * CAST(TRNSTORMATI.CHLN_QTY AS FLOAT)) as TONNAGE "+
+									" ,(CAST(TRNSTORMATI.RATE as FLOAT) * CAST(TRNSTORMATI.CHLN_QTY AS FLOAT)) as AMOUNT "+
+									" ,TRNSTORMATI.RATE,TRNSTORMATI.SUB_GLACNO, "+
+									" MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
+									" MSTMATERIALS.CASTING_WT,MSTMATERIALS.FINISH_WT, "+
+									" MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE,MSTMATERIALS.NAME FROM TRNSTORMATI "+
+									" LEFT JOIN MSTACCTGLSUB ON TRNSTORMATI.SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
+									" LEFT JOIN MSTMATERIALS ON TRNSTORMATI.MAT_CODE = MSTMATERIALS.CODE "+
+									" WHERE TRNSTORMATI.SUB_GLACNO  "+
+									" in(101110054,101110069,101110100,101110205,101110233,101110347, "+
+									" 101110475,101120645,101122002,101123158,101124452) "+ 
+									" AND TRNSTORMATI.TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
+									" and TRNSTORMATI.STATUS_CODE =0 "+
+									" AND MSTMATERIALS.MATERIAL_TYPE =101 "+
+									" AND TRNSTORMATI.TRAN_SUBTYPE IN (66) order by TRNSTORMATI.SUB_GLACNO,TRAN_NO");
+							rs_sis = ps_sis.executeQuery();
+							while(rs_sis.next()){
+								tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
+								amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
+							}
+						 
+							
+							tonnageTotal=tonnage+tonnageTotal;
+							amountTotal=amount+amountTotal; 
+							 
+							 Label row_4 = new Label(3, cnt, mytotals.format(tonnage)  ,cellRIghtformat);
+							 writableSheet.addCell(row_4);
+							 
+							 Label row_5 = new Label(4, cnt, mytotals.format(amount)  ,cellRIghtformat);
+							 writableSheet.addCell(row_5);
+							
+							tonnage=0;amount=0;
+							 
+							// =================================================================================================================================
+							
+							// +++++++++++++++++++++++++++++++++++++++++++++ DHANSHREE TO ENGINEERING ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+						con_erp = ConnectionUrl.getDIERPConnection();
+						ps_sis = con_erp.prepareStatement("SELECT TRNACCTMATISALE.TRAN_NO,TRNACCTMATISALE.TRAN_DATE,TRNACCTMATISALE.TRAN_SUBTYPE, "+
+								"TRNACCTMATISALE.MAT_CODE, "+
+								"TRNACCTMATISALE.MAT_NAME,TRNACCTMATISALE.DRG_NO,TRNACCTMATISALE.QTY, "+
+								"TRNACCTMATISALE.WEIGHT,TRNACCTMATISALE.RATE,(CAST(TRNACCTMATISALE.WEIGHT as FLOAT) * CAST(TRNACCTMATISALE.QTY AS FLOAT)) as TONNAGE ,TRNACCTMATISALE.AMOUNT,TRNACCTMATISALE.CUST_SUB_GLACNO, "+
+								"MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
+								"MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE FROM TRNACCTMATISALE "+
+								"LEFT JOIN MSTACCTGLSUB ON TRNACCTMATISALE.CUST_SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
+								"LEFT JOIN MSTMATERIALS ON TRNACCTMATISALE.MAT_CODE = MSTMATERIALS.CODE "+
+								"WHERE CUST_SUB_GLACNO "+
+								"in(101110205,101110100)  "+
+								"AND TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
+								"AND MATERIAL_TYPE =101 AND TRAN_SUBTYPE IN (1,51) order by CUST_SUB_GLACNO ");
+						rs_sis = ps_sis.executeQuery();
+						while(rs_sis.next()){
+							tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
+							amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
+						}
+						tonnageTotal=tonnage+tonnageTotal;
+						amountTotal=amount+amountTotal;
+						
+						Label row_6 = new Label(5, cnt, mytotals.format(tonnage)  ,cellRIghtformat);
+						 writableSheet.addCell(row_6);
+						 
+						 Label row_7 = new Label(6, cnt, mytotals.format(amount)  ,cellRIghtformat);
+						 writableSheet.addCell(row_7); 
+						tonnage=0;amount=0;
+						 
+							// ===================================================================================================================================
+							// +++++++++++++++++++++++++++++++++++++++++++++ MEPL UIII TO FOUNDERS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+					con_erp = ConnectionUrl.getK1ERPConnection();
+					ps_sis = con_erp.prepareStatement("SELECT TRNACCTMATISALE.TRAN_NO,TRNACCTMATISALE.TRAN_DATE,TRNACCTMATISALE.TRAN_SUBTYPE, "+
+							"TRNACCTMATISALE.MAT_CODE, "+
+							"TRNACCTMATISALE.MAT_NAME,TRNACCTMATISALE.DRG_NO,TRNACCTMATISALE.QTY, "+
+							"TRNACCTMATISALE.WEIGHT,TRNACCTMATISALE.RATE,(CAST(TRNACCTMATISALE.WEIGHT as FLOAT) * CAST(TRNACCTMATISALE.QTY AS FLOAT)) as TONNAGE ,TRNACCTMATISALE.AMOUNT,TRNACCTMATISALE.CUST_SUB_GLACNO, "+
+							"MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
+							"MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE FROM TRNACCTMATISALE "+
+							"LEFT JOIN MSTACCTGLSUB ON TRNACCTMATISALE.CUST_SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
+							"LEFT JOIN MSTMATERIALS ON TRNACCTMATISALE.MAT_CODE = MSTMATERIALS.CODE "+
+							"WHERE CUST_SUB_GLACNO "+
+							"in(101110070) "+
+							"AND TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
+							"AND MATERIAL_TYPE =101 AND TRAN_SUBTYPE IN (1,51) order by CUST_SUB_GLACNO ");
+					rs_sis = ps_sis.executeQuery();
+					while(rs_sis.next()){
+						tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
+						amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
+					}
+					tonnageTotal=tonnage+tonnageTotal;
+					amountTotal=amount+amountTotal;
+					
+					Label row_8 = new Label(7, cnt, mytotals.format(tonnage)  ,cellRIghtformat);
+					 writableSheet.addCell(row_8);
+					 
+					 Label row_9 = new Label(8, cnt, mytotals.format(amount)  ,cellRIghtformat);
+					 writableSheet.addCell(row_9); 
+					tonnage=0;amount=0; 
+							// ===================================================================================================================================
+							
+							// +++++++++++++++++++++++++++++++++++++++++++++ EGINEERING H-25 TO FOUNDERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+					con_erp = ConnectionUrl.getMEPLH25ERP();
+					ps_sis = con_erp.prepareStatement("SELECT TRNACCTMATISALE.TRAN_NO,TRNACCTMATISALE.TRAN_DATE,TRNACCTMATISALE.TRAN_SUBTYPE, "+
+							"TRNACCTMATISALE.MAT_CODE, "+
+							"TRNACCTMATISALE.MAT_NAME,TRNACCTMATISALE.DRG_NO,TRNACCTMATISALE.QTY, "+
+							"TRNACCTMATISALE.WEIGHT,TRNACCTMATISALE.RATE,(CAST(TRNACCTMATISALE.WEIGHT as FLOAT) * CAST(TRNACCTMATISALE.QTY AS FLOAT)) as TONNAGE ,TRNACCTMATISALE.AMOUNT,TRNACCTMATISALE.CUST_SUB_GLACNO, "+
+							"MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
+							"MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE FROM TRNACCTMATISALE "+
+							"LEFT JOIN MSTACCTGLSUB ON TRNACCTMATISALE.CUST_SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
+							"LEFT JOIN MSTMATERIALS ON TRNACCTMATISALE.MAT_CODE = MSTMATERIALS.CODE "+
+							"WHERE CUST_SUB_GLACNO "+
+							"in(101110070) "+
+							"AND TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
+							"AND MATERIAL_TYPE =101 AND TRAN_SUBTYPE IN (1,51) order by CUST_SUB_GLACNO ");
+					rs_sis = ps_sis.executeQuery();
+					while(rs_sis.next()){
+						tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
+						amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
+					}
+					tonnageTotal=tonnage+tonnageTotal;
+					amountTotal=amount+amountTotal;
+					
+					Label row_10 = new Label(9, cnt, mytotals.format(tonnage)  ,cellRIghtformat);
+					 writableSheet.addCell(row_10);
+					 
+					 Label row_111 = new Label(10, cnt, mytotals.format(amount)  ,cellRIghtformat);
+					 writableSheet.addCell(row_111); 
+					tonnage=0;amount=0;  
+							// ===================================================================================================================================
+							
+							// +++++++++++++++++++++++++++++++++++++++++++++ DHANASHREE TO FOUNDERS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+					con_erp = ConnectionUrl.getDIERPConnection();
+					ps_sis = con_erp.prepareStatement("SELECT TRNACCTMATISALE.TRAN_NO,TRNACCTMATISALE.TRAN_DATE,TRNACCTMATISALE.TRAN_SUBTYPE, "+
+							"TRNACCTMATISALE.MAT_CODE, "+
+							"TRNACCTMATISALE.MAT_NAME,TRNACCTMATISALE.DRG_NO,TRNACCTMATISALE.QTY, "+
+							"TRNACCTMATISALE.WEIGHT,TRNACCTMATISALE.RATE,(CAST(TRNACCTMATISALE.WEIGHT as FLOAT) * CAST(TRNACCTMATISALE.QTY AS FLOAT)) as TONNAGE ,TRNACCTMATISALE.AMOUNT,TRNACCTMATISALE.CUST_SUB_GLACNO, "+
+							"MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
+							"MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE FROM TRNACCTMATISALE "+
+							"LEFT JOIN MSTACCTGLSUB ON TRNACCTMATISALE.CUST_SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
+							"LEFT JOIN MSTMATERIALS ON TRNACCTMATISALE.MAT_CODE = MSTMATERIALS.CODE "+
+							"WHERE CUST_SUB_GLACNO "+
+							"in(101110070) "+
+							"AND TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
+							"AND MATERIAL_TYPE =101 AND TRAN_SUBTYPE IN (1,51) order by CUST_SUB_GLACNO ");
+					rs_sis = ps_sis.executeQuery();
+					while(rs_sis.next()){
+						tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
+						amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
+					}
+					tonnageTotal=tonnage+tonnageTotal;
+					amountTotal=amount+amountTotal;
+					
+					Label row_12 = new Label(11, cnt, mytotals.format(tonnage)  ,cellRIghtformat);
+					 writableSheet.addCell(row_12);
+					 
+					 Label row_13 = new Label(12, cnt, mytotals.format(amount)  ,cellRIghtformat);
+					 writableSheet.addCell(row_13);  
+					
+					 Label row_14 = new Label(13, cnt, mytotals.format(tonnageTotal)  ,cellRIghtformat);
+					 writableSheet.addCell(row_14);
+					 
+					 Label row_15 = new Label(14, cnt, mytotals.format(amountTotal)  ,cellRIghtformat);
+					 writableSheet.addCell(row_15); 
+					tonnage=0; amount=0;			
+					tonnageTotal=0; amountTotal=0;
+					cnt++;
+				// ===================================================================================================================================
+					}
+				//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+				 // ***************************************************************************************************************************************************************************************************
+					writableWorkbook.write();
+					writableWorkbook.close();
+				//***************************************************************************************************************************************************************************************************
+					 
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			
+			
+			
+			
+			
+			
+			
 				System.out.println("ERP Sister Company Automailer Starts !!!");
 				
 				String host = "send.one.com";
 				String user = "itsupports@muthagroup.com";
 				String pass = "itsupports@xyz";
 		 		String from = "itsupports@muthagroup.com";
-				String subject = "Sister Company Sale From "+dateFrom+" to "+dateTo ; 
+				String subject = "Sister Company Sale" ; 
 				boolean sessionDebug = false;
 				// *********************************************************************************************
 				// multiple recipients : == >
 				// *********************************************************************************************
-				// *********************************************************************************************
-				// multiple recipients : == >
-				// *********************************************************************************************
 				ArrayList listemailTo = new ArrayList();
-				ArrayList listemailCc = new ArrayList();
-				
-				PreparedStatement psauto = con.prepareStatement("select * from automailer_config where Automailer_Reports_id=1");
+				String report = "SisterCompanySale";
+				Connection conMailer = ConnectionUrl.getLocalDatabase();
+				PreparedStatement psauto = conMailer.prepareStatement("select * from pending_approvee where report='"+report+"'");
 				ResultSet rsauto = psauto.executeQuery();
 				while (rsauto.next()) {
-					if(rsauto.getString("Email_id_to")!=null){ 
-						listemailTo.add(rsauto.getString("Email_id_to"));
-					}
-					if(rsauto.getString("Email_id_cc")!=null){
-						listemailCc.add(rsauto.getString("Email_id_cc"));
-					}
+						listemailTo.add(rsauto.getString("email"));
 				}
 				
 				String recipients[] = new String[listemailTo.size()];
-				String cc_recipients[] = new String[listemailCc.size()]; 
-				
 				for(int i=0;i<listemailTo.size();i++){
 					recipients[i] = listemailTo.get(i).toString();
-				}
-				for(int j=0;j<listemailCc.size();j++){
-					cc_recipients[j] = listemailCc.get(j).toString();
-				} 
-				
-				// *********************************************************************************************
-				
-				/*String recipients[] = {"vijaybm@muthagroup.com"};
-				String cc_recipients[] = {"vijaybm@muthagroup.com"};*/
-
+				}				
+				// ***************************************** 
 				Properties props = System.getProperties();
-				props.put("mail.host", host);
-				
-				
-				/*props.put("mail.transport.protocol", "smtp");
-				props.put("mail.smtp.auth", "true");
-				props.put("mail.smtp.port", 2525);*/
-				
+				props.put("mail.host", host); 
 				props.put("mail.transport.protocol", "smtp");
 				props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 				props.put("mail.smtp.auth", "true");
 				props.put("mail.smtp.port", 465);
-				
 				Session mailSession = Session.getDefaultInstance(props, null);
 				mailSession.setDebug(sessionDebug);
 				Message msg = new MimeMessage(mailSession);
 				msg.setFrom(new InternetAddress(from));
 				InternetAddress[] addressTo = new InternetAddress[recipients.length];
-
 				for (int p = 0; p < recipients.length; p++) {
 					addressTo[p] = new InternetAddress(recipients[p]);
 				}
-				
-				InternetAddress[] addressCc = new InternetAddress[cc_recipients.length];
-				for (int p = 0; p < cc_recipients.length; p++) {
-					addressCc[p] = new InternetAddress(cc_recipients[p]);
-				}
-
-				msg.setRecipients(Message.RecipientType.TO, addressTo);
-				msg.setRecipients(Message.RecipientType.CC, addressCc);
-
+				msg.setRecipients(Message.RecipientType.TO, addressTo); 
 				msg.setSubject(subject);
 				msg.setSentDate(new Date());
 				
+				
 				StringBuilder sb = new StringBuilder();
-				
-	//*******************************************************************************************************************************
-				sb.append("<p style='color: #0D265E; font-family: Arial; font-size: 11px;'>*** This is an automatically generated email of Sister Company Sale Report !!! ***</p>");
-				
-				sb.append("<table  border='1'><tr style='background-color: #D1CED9;'>"+
-						"<td align='center' scope='col' colspan='7'><strong style='font-size: 15px;font-family: Arial;'>Sister Company Sale From  "+dateFrom +" to "+dateTo +"</strong> <strong style='color: green;'>in Rs.</strong> </td>"+ 
-						"</tr><tr style='font-family: Arial;font-size: 11px;'>"+
-						"<th align='center' scope='col' width='18%'>"+
-						"<strong>CUSTOMERS&#8658; </strong><hr/>"+
-						"<strong>COMPANY&#8659;</strong></th>"+
-						"<th align='center' scope='col' width='15%'><strong>MEPL H21</strong></th>"+
-						"<th align='center' scope='col' width='15%'><strong>MEPL H25</strong></th>"+
-						"<th align='center' scope='col' width='15%'><strong>MFPL</strong></th>"+
-						"<th align='center' scope='col' width='15%'><strong>DI</strong></th>"+
-						"<th align='center' scope='col' width='15%'><strong>MEPL Unit III</strong></th>"+
-						"<th align='center' scope='col' width='18%'><strong>Total</strong></th></tr>");
-				
-				double sumH21_ToH25 = 0;
-				double sumH21_Total = 0;
-				ArrayList listH21_ToH25 = new ArrayList();
-				//H21 to H25 exec "ENGERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '101', '0', '101110205', '20141201', '20141231'
-				Connection con_H21_toH25 = ConnectionUrl.getMEPLH21ERP();
-				CallableStatement H21_toH25 = con_H21_toH25.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				H21_toH25.setString(1, "101");
-				H21_toH25.setString(2, "0");
-				H21_toH25.setString(3, "101110205");
-				H21_toH25.setString(4, from_date);
-				H21_toH25.setString(5, to_date);
-				ResultSet rs_H21_toH25 = H21_toH25.executeQuery();
-				while(rs_H21_toH25.next()){
-					 listH21_ToH25.add(Double.parseDouble(rs_H21_toH25.getString("SALES_AMOUNT"))); 
-				 }
-				 for(int i = 0; i < listH21_ToH25.size(); i++)
-				  {
-					 sumH21_ToH25 += (Double.parseDouble(listH21_ToH25.get(i).toString()));
-				  }
-				double sumH21_Tomfpl = 0;
-				ArrayList listH21_Tomfpl = new ArrayList();
-				//H21 to mfpl exec "ENGERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '101', '0', '101110070101110032101110060101110100', '20141201', '20141231'
-				
-				CallableStatement H21_tomfpl = con_H21_toH25.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				H21_tomfpl.setString(1, "101");
-				H21_tomfpl.setString(2, "0");
-				H21_tomfpl.setString(3, "101110070101110032101110060101110100");
-				H21_tomfpl.setString(4, from_date);
-				H21_tomfpl.setString(5, to_date);
-				ResultSet rs_H21_tomfpl = H21_tomfpl.executeQuery();
-				 while(rs_H21_tomfpl.next()){ 
-					 listH21_Tomfpl.add(Double.parseDouble(rs_H21_tomfpl.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listH21_Tomfpl.size(); i++)
-				  {
-					 sumH21_Tomfpl += (Double.parseDouble(listH21_Tomfpl.get(i).toString()));
-				  }   
-				double sumH21_Todi = 0; 
-				ArrayList listH21_Todi = new ArrayList();
-				//H21 to di exec "ENGERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '101', '0', '101110012101110084', '20141201', '20141231'
-				
-				CallableStatement H21_todi = con_H21_toH25.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				H21_todi.setString(1, "101");
-				H21_todi.setString(2, "0");
-				H21_todi.setString(3, "101110012101110084");
-				H21_todi.setString(4, from_date);
-				H21_todi.setString(5, to_date);
-				ResultSet rs_H21_todi = H21_todi.executeQuery();
-				 while(rs_H21_todi.next()){ 
-					 listH21_Todi.add(Double.parseDouble(rs_H21_todi.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listH21_Todi.size(); i++)
-				  {
-					 sumH21_Todi += (Double.parseDouble(listH21_Todi.get(i).toString()));
-				  } 
-				double sumH21_TounitIII = 0; 
-				ArrayList listH21_TounitIII = new ArrayList();
-				//H21 to unitIII exec "ENGERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '101', '0', '101110347', '20141201', '20141231'
-				
-				CallableStatement H21_tounitIII = con_H21_toH25.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				H21_tounitIII.setString(1, "101");
-				H21_tounitIII.setString(2, "0");
-				H21_tounitIII.setString(3, "101110347");
-				H21_tounitIII.setString(4, from_date);
-				H21_tounitIII.setString(5, to_date);
-				ResultSet rs_H21_tounitIII = H21_tounitIII.executeQuery();
-				 while(rs_H21_tounitIII.next()){ 
-					 listH21_TounitIII.add(Double.parseDouble(rs_H21_tounitIII.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listH21_TounitIII.size(); i++)
-				  {
-					 sumH21_TounitIII += (Double.parseDouble(listH21_TounitIII.get(i).toString()));
-				  }
-				 
-				sumH21_Total = sumH21_ToH25 + sumH21_Tomfpl + sumH21_Todi + sumH21_TounitIII;
-				
-				sb.append("<tr><th  align='left'><strong>MEPL H21</strong></th>"+ 
-					"<td align='right' style='background-color: #ED723E;'></td>"+
-					"<td align='right'><strong>"+mytotals.format(sumH21_ToH25)+"</strong> </td>"+
-					"<td align='right'><strong>"+mytotals.format(sumH21_Tomfpl)+"</strong> </td>"+
-					"<td align='right'><strong>"+mytotals.format(sumH21_Todi)+"</strong> </td>"+
-					"<td align='right'><strong>"+mytotals.format(sumH21_TounitIII)+"</strong> </td>"+
-					"<td align='right'><strong>"+mytotals.format(sumH21_Total)+"</strong></td></tr>");
-				
-				double sumH25_ToH21 = 0;
-				double sumH25_Total = 0;
-				ArrayList listH25_toH21 = new ArrayList();
-				//H25 to H21 exec "H25ERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '102', '0', '101110054101110233101110100101110069', '20141201', '20141231' 
-				Connection con_H25_toH21 = ConnectionUrl.getMEPLH25ERP();
-				CallableStatement H25_toH21 = con_H25_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				H25_toH21.setString(1, "102");
-				H25_toH21.setString(2, "0");
-				H25_toH21.setString(3, "101110054101110233101110100101110069");
-				H25_toH21.setString(4, from_date);
-				H25_toH21.setString(5, to_date);
-				ResultSet rs_H25_toH21 = H25_toH21.executeQuery();
-				 while(rs_H25_toH21.next()){ 
-					 listH25_toH21.add(Double.parseDouble(rs_H25_toH21.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listH25_toH21.size(); i++)
-				  {
-					 sumH25_ToH21 += (Double.parseDouble(listH25_toH21.get(i).toString()));
-				  } 
-				double sumH25_Tomfpl = 0; 
-				ArrayList listH25_tomfpl = new ArrayList();
-				//H25 to mfpl exec "H25ERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '102', '0', '101110070101110032101110060101110100', '20141201', '20141231' 
-				
-				CallableStatement H25_tomfpl = con_H25_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				H25_tomfpl.setString(1, "102");
-				H25_tomfpl.setString(2, "0");
-				H25_tomfpl.setString(3, "101110070101110032101110060101110100");
-				H25_tomfpl.setString(4, from_date);
-				H25_tomfpl.setString(5, to_date);
-				ResultSet rs_H25_tomfpl = H25_tomfpl.executeQuery();
-				 while(rs_H25_tomfpl.next()){ 
-					 listH25_tomfpl.add(Double.parseDouble(rs_H25_tomfpl.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listH25_tomfpl.size(); i++)
-				  {
-					 sumH25_Tomfpl += (Double.parseDouble(listH25_tomfpl.get(i).toString()));
-				  } 
-				double sumH25_Todi = 0; 
-				ArrayList listH25_todi = new ArrayList();
-				//H25 to di exec "H25ERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '102', '0', '101110012101110084', '20141201', '20141231' 
-				CallableStatement H25_todi = con_H25_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				H25_todi.setString(1, "102");
-				H25_todi.setString(2, "0");
-				H25_todi.setString(3, "101110012101110084");
-				H25_todi.setString(4, from_date);
-				H25_todi.setString(5, to_date);
-				ResultSet rs_H25_todi = H25_todi.executeQuery();
-				 while(rs_H25_todi.next()){ 
-					 listH25_todi.add(Double.parseDouble(rs_H25_todi.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listH25_todi.size(); i++)
-				  {
-					 sumH25_Todi += (Double.parseDouble(listH25_todi.get(i).toString()));
-				  } 
-				double sumH25_Tok1 = 0; 
-				ArrayList listH25_tok1 = new ArrayList();
-				//H25 to k1 exec "H25ERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '102', '0', '101110347', '20141201', '20141231' 
-				CallableStatement H25_tok1 = con_H25_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				H25_tok1.setString(1, "102");
-				H25_tok1.setString(2, "0");
-				H25_tok1.setString(3, "101110347");
-				H25_tok1.setString(4, from_date);
-				H25_tok1.setString(5, to_date);
-				ResultSet rs_H25_tok1 = H25_tok1.executeQuery();
-				 while(rs_H25_tok1.next()){ 
-					 listH25_tok1.add(Double.parseDouble(rs_H25_tok1.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listH25_tok1.size(); i++)
-				  {
-					 sumH25_Tok1 += (Double.parseDouble(listH25_tok1.get(i).toString()));
-				  }  				
-				sumH25_Total = sumH25_ToH21 + sumH25_Tomfpl + sumH25_Todi  +  sumH25_Tok1;
-				
-				sb.append("<tr><th  align='left'><strong>MEPL H25</strong></th>"+
-					"<td align='right'><strong>"+mytotals.format(sumH25_ToH21)+"</strong> </td>"+
-					"<td align='right' style='background-color: #ED723E;'></td>"+
-					"<td align='right'><strong>"+mytotals.format(sumH25_Tomfpl)+"</strong> </td>"+
-					"<td align='right'><strong>"+mytotals.format(sumH25_Todi)+"</strong> </td>"+
-					"<td align='right'><strong>"+mytotals.format(sumH25_Tok1)+"</strong> </td>"+
-					"<td align='right'><strong>"+mytotals.format(sumH25_Total)+"</strong></td></tr>");
-				
-				double summfpl_ToH21 = 0;
-				double summfpl_Total = 0;
-				ArrayList listmfpl_toH21 = new ArrayList();
-				//K1 to H21 exec "K1ERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '106', '0', '101110070101110032101110060101110100', '20141001', '20141231'
-				Connection con_mfpl_toH21 = ConnectionUrl.getFoundryERPNEWConnection();
-				CallableStatement mfpl_toH21 = con_mfpl_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				mfpl_toH21.setString(1, "103");
-				mfpl_toH21.setString(2, "0");
-				mfpl_toH21.setString(3, "101110070101110032101110060101110100");
-				mfpl_toH21.setString(4, from_date);
-				mfpl_toH21.setString(5, to_date);
-				ResultSet rs_mfpl_toH21 = mfpl_toH21.executeQuery();
-				 while(rs_mfpl_toH21.next()){ 
-					 listmfpl_toH21.add(Double.parseDouble(rs_mfpl_toH21.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listmfpl_toH21.size(); i++)
-				  {
-					 summfpl_ToH21 += (Double.parseDouble(listmfpl_toH21.get(i).toString()));
-				  } 
-				double summfpl_ToH25 = 0; 
-				ArrayList listmfpl_toH25 = new ArrayList();
-				//K1 to H25 exec "K1ERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '106', '0', '101110205', '20141001', '20141231' 
-				CallableStatement mfpl_toH25 = con_mfpl_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				mfpl_toH25.setString(1, "103");
-				mfpl_toH25.setString(2, "0");
-				mfpl_toH25.setString(3, "101110205");
-				mfpl_toH25.setString(4, from_date);
-				mfpl_toH25.setString(5, to_date);
-				ResultSet rs_mfpl_toH25 = mfpl_toH25.executeQuery();
-				 while(rs_mfpl_toH25.next()){ 
-					 listmfpl_toH25.add(Double.parseDouble(rs_mfpl_toH25.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listmfpl_toH25.size(); i++)
-				  {
-					 summfpl_ToH25 += (Double.parseDouble(listmfpl_toH25.get(i).toString()));
-				  } 
-				double summfpl_Todi = 0; 
-				ArrayList listmfpl_todi = new ArrayList();
-				//K1 to di exec "K1ERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '106', '0', '101110012101110084', '20141001', '20141231' 
-				CallableStatement mfpl_todi = con_mfpl_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				mfpl_todi.setString(1, "103");
-				mfpl_todi.setString(2, "0");
-				mfpl_todi.setString(3, "101110012101110084");
-				mfpl_todi.setString(4, from_date);
-				mfpl_todi.setString(5, to_date);
-				ResultSet rs_mfpl_todi = mfpl_todi.executeQuery();
-				 while(rs_mfpl_todi.next()){ 
-					 listmfpl_todi.add(Double.parseDouble(rs_mfpl_todi.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listmfpl_todi.size(); i++)
-				  {
-					 summfpl_Todi += (Double.parseDouble(listmfpl_todi.get(i).toString()));
-				  } 
-				double summfpl_TounitIII = 0; 
-				ArrayList listmfpl_tounitIII = new ArrayList();
-				//K1 to unitIII exec "K1ERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '106', '0', '101110347', '20141001', '20141231' 
-				CallableStatement mfpl_tounitIII = con_mfpl_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				mfpl_tounitIII.setString(1, "103");
-				mfpl_tounitIII.setString(2, "0");
-				mfpl_tounitIII.setString(3, "101110347");
-				mfpl_tounitIII.setString(4, from_date);
-				mfpl_tounitIII.setString(5, to_date);
-				ResultSet rs_mfpl_tounitIII = mfpl_tounitIII.executeQuery();
-				 while(rs_mfpl_tounitIII.next()){ 
-					 listmfpl_tounitIII.add(Double.parseDouble(rs_mfpl_tounitIII.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listmfpl_tounitIII.size(); i++)
-				  {
-					 summfpl_TounitIII += (Double.parseDouble(listmfpl_tounitIII.get(i).toString()));
-				  }
-				 summfpl_Total = summfpl_ToH21 + summfpl_ToH25 + summfpl_Todi + summfpl_TounitIII;
-				 
-			sb.append("<tr><th  align='left'><strong>MFPL</strong></th>"+
-				"<td align='right'><strong>"+mytotals.format(summfpl_ToH21)+"</strong> </td>"+
-				"<td align='right'><strong>"+mytotals.format(summfpl_ToH25)+"</strong> </td>"+
-				"<td align='right' style='background-color: #ED723E;'></td>"+
-				"<td align='right'><strong>"+mytotals.format(summfpl_Todi)+"</strong> </td>"+
-				"<td align='right'><strong>"+mytotals.format(summfpl_TounitIII)+"</strong> </td>"+
-				"<td align='right'><strong>"+mytotals.format(summfpl_Total)+"</strong></td></tr>");	
-			
-			double sumdi_toH21 = 0;
-			double sumdi_Total = 0;
-			ArrayList listdi_toH21 = new ArrayList();
-			//DI to H21 exec "DIERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '105', '0', '101110054101110233101110100101110069', '20141001', '20141231'
-			Connection con_di_toH21 = ConnectionUrl.getDIERPConnection();
-			CallableStatement di_toH21 = con_di_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-			di_toH21.setString(1, "105");
-			di_toH21.setString(2, "0");
-			di_toH21.setString(3, "101110054101110233101110100101110069");
-			di_toH21.setString(4, from_date);
-			di_toH21.setString(5, to_date);
-			ResultSet rs_di_toH21 = di_toH21.executeQuery();
-			 while(rs_di_toH21.next()){ 
-				 listdi_toH21.add(Double.parseDouble(rs_di_toH21.getString("SALES_AMOUNT"))); 
-			 } 				
-			 for(int i = 0; i < listdi_toH21.size(); i++)
-			  {
-				 sumdi_toH21 += (Double.parseDouble(listdi_toH21.get(i).toString()));
-			  } 
-			double sumdi_toH25 = 0; 
-			ArrayList listdi_toH25 = new ArrayList();
-			//DI to H25 exec "DIERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '105', '0', '101110205', '20141001', '20141231' 
-			CallableStatement di_toH25 = con_di_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-			di_toH25.setString(1, "105");
-			di_toH25.setString(2, "0");
-			di_toH25.setString(3, "101110205");
-			di_toH25.setString(4, from_date);
-			di_toH25.setString(5, to_date);
-			ResultSet rs_di_toH25 = di_toH25.executeQuery();
-			 while(rs_di_toH25.next()){ 
-				 listdi_toH25.add(Double.parseDouble(rs_di_toH25.getString("SALES_AMOUNT"))); 
-			 } 				
-			 for(int i = 0; i < listdi_toH25.size(); i++)
-			  {
-				 sumdi_toH25 += (Double.parseDouble(listdi_toH25.get(i).toString()));
-			  } 
-			double sumdi_tomfpl = 0; 
-			ArrayList listdi_tomfpl = new ArrayList();
-			//DI to mfpl exec "DIERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '105', '0', '101110070101110032101110060101110100', '20141001', '20141231' 
-			CallableStatement di_tomfpl = con_di_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-			di_tomfpl.setString(1, "105");
-			di_tomfpl.setString(2, "0");
-			di_tomfpl.setString(3, "101110070101110032101110060101110100");
-			di_tomfpl.setString(4, from_date);
-			di_tomfpl.setString(5, to_date);
-			ResultSet rs_di_tomfpl = di_tomfpl.executeQuery();
-			 while(rs_di_tomfpl.next()){ 
-				 listdi_tomfpl.add(Double.parseDouble(rs_di_tomfpl.getString("SALES_AMOUNT"))); 
-			 } 				
-			 for(int i = 0; i < listdi_tomfpl.size(); i++)
-			  {
-				 sumdi_tomfpl += (Double.parseDouble(listdi_tomfpl.get(i).toString()));
-			  } 
-			double sumdi_tounitIII = 0; 
-			ArrayList listdi_tounitIII = new ArrayList();
-			//DI to unitIII exec "DIERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '105', '0', '101110347', '20141001', '20141231' 
-			CallableStatement di_tounitIII = con_di_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-			di_tounitIII.setString(1, "105");
-			di_tounitIII.setString(2, "0");
-			di_tounitIII.setString(3, "101110347");
-			di_tounitIII.setString(4, from_date);
-			di_tounitIII.setString(5, to_date);
-			ResultSet rs_di_tounitIII = di_tounitIII.executeQuery();
-			 while(rs_di_tounitIII.next()){ 
-				 listdi_tounitIII.add(Double.parseDouble(rs_di_tounitIII.getString("SALES_AMOUNT"))); 
-			 } 				
-			 for(int i = 0; i < listdi_tounitIII.size(); i++)
-			  {
-				 sumdi_tounitIII += (Double.parseDouble(listdi_tounitIII.get(i).toString()));
-			  }				 
-			 sumdi_Total = sumdi_toH21 + sumdi_toH25 + sumdi_tomfpl + sumdi_tounitIII;	
-			 
-			 sb.append("<tr><th  align='left'><strong>DI</strong></th>"+
-				"<td align='right'><strong>"+mytotals.format(sumdi_toH21)+"</strong> </td>"+
-				"<td align='right'><strong>"+mytotals.format(sumdi_toH25)+"</strong> </td>"+
-				"<td align='right'><strong>"+mytotals.format(sumdi_tomfpl)+"</strong> </td>"+
-				"<td align='right' style='background-color: #ED723E;'></td>"+
-				"<td align='right'><strong>"+mytotals.format(sumdi_tounitIII)+"</strong> </td>"+
-				"<td align='right'><strong>"+mytotals.format(sumdi_Total)+"</strong> </td></tr>");
-			 double sumk1_ToH21 = 0;
-				double sumk1_Total = 0;
-				ArrayList listk1_ToH21 = new ArrayList();
-				//K1 to H21 exec "K1ERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '106', '0', '101110054101110233101110100101110069', '20141001', '20141231'
-				Connection con_k1_toH21 = ConnectionUrl.getK1ERPConnection();
-				CallableStatement k1_toH21 = con_k1_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				k1_toH21.setString(1, "106");
-				k1_toH21.setString(2, "0");
-				k1_toH21.setString(3, "101110054101110233101110100101110069");
-				k1_toH21.setString(4, from_date);
-				k1_toH21.setString(5, to_date);
-				ResultSet rs_k1_toH21 = k1_toH21.executeQuery();
-				 while(rs_k1_toH21.next()){ 
-					 listk1_ToH21.add(Double.parseDouble(rs_k1_toH21.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listk1_ToH21.size(); i++)
-				  {
-				 	sumk1_ToH21 += (Double.parseDouble(listk1_ToH21.get(i).toString()));
-				  }  
-				double sumk1_ToH25 = 0;	 
-				ArrayList listk1_ToH25 = new ArrayList();
-				//K1 to H25 exec "K1ERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '106', '0', '101110205', '20141001', '20141231'
-				CallableStatement k1_toH25 = con_k1_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				k1_toH25.setString(1, "106");
-				k1_toH25.setString(2, "0");
-				k1_toH25.setString(3, "101110205");
-				k1_toH25.setString(4, from_date);
-				k1_toH25.setString(5, to_date);
-				ResultSet rs_k1_toH25 = k1_toH25.executeQuery();
-				 while(rs_k1_toH25.next()){ 
-					 listk1_ToH25.add(Double.parseDouble(rs_k1_toH25.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listk1_ToH25.size(); i++)
-				  {
-				 	sumk1_ToH25 += (Double.parseDouble(listk1_ToH25.get(i).toString()));
-				  }  
-				double sumk1_Tomfpl = 0;	  
-				ArrayList listk1_Tomfpl = new ArrayList();
-				//K1 to mfpl exec "K1ERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '106', '0', '101110070101110032101110060101110100', '20141001', '20141231'
-				CallableStatement k1_tomfpl = con_k1_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				k1_tomfpl.setString(1, "106");
-				k1_tomfpl.setString(2, "0");
-				k1_tomfpl.setString(3, "101110070101110032101110060101110100");
-				k1_tomfpl.setString(4, from_date);
-				k1_tomfpl.setString(5, to_date);
-				ResultSet rs_k1_tomfpl = k1_tomfpl.executeQuery();
-				 while(rs_k1_tomfpl.next()){ 
-					 listk1_Tomfpl.add(Double.parseDouble(rs_k1_tomfpl.getString("SALES_AMOUNT"))); 
-					} 				
-				 for(int i = 0; i < listk1_Tomfpl.size(); i++)
-				  {
-				 	sumk1_Tomfpl += (Double.parseDouble(listk1_Tomfpl.get(i).toString()));
-				  }  
-				double sumk1_Todi = 0;	  
-				ArrayList listk1_Todi = new ArrayList();
-				//K1 to di exec "K1ERP"."dbo"."Sel_RptCustomerWsSaleSummary";1 '106', '0', '101110012101110084', '20141001', '20141231'
-				CallableStatement k1_todi = con_k1_toH21.prepareCall("{call Sel_RptCustomerWsSaleSummary(?,?,?,?,?)}");
-				k1_todi.setString(1, "106");
-				k1_todi.setString(2, "0");
-				k1_todi.setString(3, "101110012101110084");
-				k1_todi.setString(4, from_date);
-				k1_todi.setString(5, to_date);
-				ResultSet rs_k1_todi = k1_todi.executeQuery();
-				 while(rs_k1_todi.next()){ 
-					 listk1_Todi.add(Double.parseDouble(rs_k1_todi.getString("SALES_AMOUNT"))); 
-				 } 				
-				 for(int i = 0; i < listk1_Todi.size(); i++)
-				  {
-				 	sumk1_Todi += (Double.parseDouble(listk1_Todi.get(i).toString()));
-				  } 	 
-				 sumk1_Total = sumk1_ToH21 + sumk1_ToH25 + sumk1_Tomfpl + sumk1_Todi;
-				 
-				 sb.append("<tr><th  align='left'><strong>MEPL Unit III</strong></th>"+
-					"<td align='right'> <strong>"+mytotals.format(sumk1_ToH21)+"</strong> </td>"+
-					"<td align='right'> <strong>"+mytotals.format(sumk1_ToH25)+"</strong> </td>"+
-					"<td align='right'> <strong>"+mytotals.format(sumk1_Tomfpl)+"</strong> </td>"+
-					"<td align='right'> <strong>"+mytotals.format(sumk1_Todi)+"</strong> </td>"+
-					"<td align='right' style='background-color: #ED723E;'></td>"+
-					"<td align='right'><strong>"+mytotals.format(sumk1_Total)+"</strong></td></tr>");
-				
-				 String h21sum = "0.00";
-					double totalH21 =  sumH25_ToH21  +  summfpl_ToH21  +  sumdi_toH21  + sumk1_ToH21; 
-					if(totalH21==.00){
-						totalH21 = 0;
-					}else{
-						h21sum = mytotals.format(totalH21);
-					} 
-					String h25sum = "0.00";
-					double totalH25 =  sumH21_ToH25 +  summfpl_ToH25  +   sumdi_toH25 +  sumk1_ToH25;
-					if(totalH25==.00){
-						totalH25 = 0;
-					}else{
-						h25sum = mytotals.format(totalH25);
-					} 
-					String mfplsum = "0.00";
-					double totalmfpl =  sumH21_Tomfpl +  sumH25_Tomfpl  +   sumdi_tomfpl +  sumk1_Tomfpl;
-				 
-					if(totalmfpl==.00){
-						totalmfpl = 0;
-					}else{
-						mfplsum = mytotals.format(totalmfpl);
-					} 
-					String disum = "0.00";
-					double totaldi =  sumH21_Todi +  sumH25_Todi  +   summfpl_Todi +  sumk1_Todi;
-					if(totaldi==.00){
-						totaldi = 0;
-					}else{
-						disum = mytotals.format(totaldi);
-					} 
-					String k1sum = "0.00";
-					double totalk1 =  sumH21_TounitIII +  sumH25_Tok1  +   summfpl_TounitIII +  sumdi_tounitIII;
-					if(totalk1==.00){
-						totalk1 = 0;
-					}else{
-						k1sum = mytotals.format(totalk1);
-					} 
-					String allsum = "0.00";
-					double totalall =  sumH21_Total  +  sumH25_Total  + summfpl_Total  +  sumdi_Total  +  sumk1_Total;
-					if(totalall==.00){
-						totalall = 0;
-					}else{
-						allsum = mytotals.format(totalall);
-					}
-					
-					
-				sb.append("<tr><th  align='left'><strong>TOTAL &#8658;</strong></th>"+
-					"<td align='right'><strong>"+h21sum+"</strong></td>"+
-					"<td align='right'><strong>"+h25sum+"</strong> </td>"+
-					"<td align='right'><strong> "+mfplsum+"</strong> </td>"+
-					"<td align='right'><strong>"+disum+" </strong></td>"+
-					"<td align='right'><strong>"+k1sum+"</strong></td>"+
-					"<td align='right'><strong>"+allsum+"</strong></td></tr>");	
-				 
-				 
-	sb.append("</table> <p><b style='color: #330B73;font-family: Arial;'>Thanks & Regards </b></P><p style='font-family: Arial;'> IT | Software Development | Mutha Group Satara </p><hr><p>"+
-			"<b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
+				//*******************************************************************************************************************************
+	sb.append("<p style='color: #0D265E; font-family: Arial; font-size: 11px;'>*** This is an automatically generated email of Sister Company Sale Report !!! ***</p>"+ 
+			"<p><b>Please find below attached Sister Company Sale Report</p>");				 
+	sb.append("<hr><p><b style='font-family: Arial;'>Disclaimer :</b></p> <p><font face='Arial' size='1'>"+
 			"<b style='color: #49454F;'>The information transmitted, including attachments, is intended only for the person(s) or entity to which"+
 			"it is addressed and may contain confidential and/or privileged material. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information by persons"+
 			"or entities other than the intended recipient is prohibited. If you received this in error, please contact the sender and destroy any copies of this information.</b>"+
@@ -622,14 +586,36 @@ public class SisterCompanySale_Report extends TimerTask {
 
 	//*******************************************************************************************************************************
 	//*******************************************************************************************************************************
-			msg.setContent(sb.toString(), "text/html");
-	 
-			Transport transport = mailSession.getTransport("smtp");
-			transport.connect(host, user, pass);
-			transport.sendMessage(msg, msg.getAllRecipients());
-			// *******************************************************************************************
-			transport.close(); 
-			System.out.println("Automail loop End");			
+	BodyPart messageBodyPart = new MimeBodyPart();
+	messageBodyPart.setContent(sb.toString(),"Text/html");
+	// Create a multipar message
+	Multipart multipart = new MimeMultipart();
+
+	// Set text message part
+	multipart.addBodyPart(messageBodyPart);
+
+	// Part two is attachment
+	messageBodyPart = new MimeBodyPart();
+	
+	String filename = "C:/reportxls/SisterComp"+val+".xls";
+	
+	DataSource source = new FileDataSource(filename);
+	messageBodyPart.setDataHandler(new DataHandler(source));
+	messageBodyPart.setFileName(filename);
+	multipart.addBodyPart(messageBodyPart);
+
+	// Send the complete message parts
+	msg.setContent(multipart);
+	
+	Transport transport = mailSession.getTransport("smtp");
+	transport.connect(host, user, pass);
+	transport.sendMessage(msg, msg.getAllRecipients());
+	// *******************************************************************************************
+	transport.close();
+	System.out.println("Automail loop End");		
+			
+			
+			
 		}	 
 		} catch (Exception e) {
 			e.printStackTrace();

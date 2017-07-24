@@ -333,9 +333,7 @@ public class WO_Expected_Boring extends TimerTask {
 			    writableWorkbook.write();
 			    writableWorkbook.close();
 				//*******************************************************************************************************************************
-				
 				StringBuilder sb = new StringBuilder();
-				
 				//*******************************************************************************************************************************
 				sb.append("<p style='color: #0D265E; font-family: Arial; font-size: 11px;'>*** This is an automatically generated email of Work Order Wise Expected Boring Summary Report !!! ***</p>"+ 
 						"<p><b>Please find below attached Work Order Wise Expected Boring Summary Report of MFPL from " + dateFrom + " to " + dateTo + "</p>");				 
