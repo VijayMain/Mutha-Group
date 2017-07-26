@@ -122,6 +122,15 @@ if(window.history[nHist] != window.location)
 				      changeMonth: true,
 				      changeYear: true 				         
 				});
+			    
+			    $( "#date_frombt" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true 				         
+				});
+			    $( "#date_tobt" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true 				         
+				});
 			  } 
 			); 
 </script>
@@ -674,6 +683,12 @@ function validateMRMOP() {
 	return true;
 }
 
+function validatedBranch_Transfer() {
+	document.getElementById("ADDbt").disabled = true;
+	document.getElementById("waitImagebt").style.visibility = "visible";		
+	return true;
+}
+
 function validateSoftUsage() {			 
 	var selected_users = document.getElementById("selected_users");
 	var year = document.getElementById("year");     
@@ -859,9 +874,13 @@ while(rs.next()){
 		%>
 			<li><a href="#tabs-23">VAT Ledger</a></li>
 		<%
+		}if(reportList.contains("Branch_Transfer")){
+		%>
+			<li><a href="#tabs-24">Branch Transfer</a></li>
+		<%
 		}if(reportList.size()==0){
 		%>
-			<li><a href="#tabs-24">Work In Progress</a></li>
+			<li><a href="#tabs-25">Work In Progress</a></li>
 		<%
 		}
 		%>
@@ -1381,16 +1400,24 @@ while(rs.next()){
 			<tr>
 				<td colspan="2"><strong>To Get Sister Company Sale Report<br/> </strong> <br/>
 			</td>
-			</tr>  
-			<tr>
-				<td>From Date :</td>
-				<td> <input type="text" name="FromDate_ICS" value="<%=sdfFIrstDate.format(dddd) %>" id="FromDate_ICS" readonly="readonly"/>  
-				 </td>
-			</tr> 
-			<tr>
-				<td>To Date :</td>
-				<td> <input type="text" name="ToDate_ICS" value="<%=sdfFIrstDate.format(tdate) %>" id="ToDate_ICS" readonly="readonly"/>  
-				 </td>
+			</tr>
+			<tr> 
+			<td>Select Year :</td>
+			<td>
+			<select name="year" id="yearMRMOP">
+ 			<%
+ 			int year = Calendar.getInstance().get(Calendar.YEAR);
+ 			String fyear="",fyearpass="";
+ 			for(int x = year; x >= year-5; x = x-1) {
+ 				fyear = x + "-" + (Integer.parseInt(String.valueOf(x).substring(String.valueOf(x).length()-2))+1);
+ 				fyearpass = String.valueOf(Integer.parseInt(String.valueOf(x))); 
+ 			%>
+ 				<option value="<%=fyearpass%>"><%= fyear%></option>
+ 			<%
+ 				}
+ 			%>
+ 			</select>
+			</td>
 			</tr>  
 			<tr> 
 			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADD_ICS" value="Get Inter Company Sale" style="background-color: #BABABA;width: 285px;height: 35px;"/> </td>
@@ -2009,7 +2036,7 @@ while(rs.next()){
 		</table>
 	</form>
 	</div>
-		<div style="float: right; width: 49%">
+		<%-- <div style="float: right; width: 49%">
 		<!-- Master :=:> select * from mstmaterials -->
 			<form action="New_ItemGenerate.jsp" method="post" onSubmit="return validateNewERPItem();">
 			<br/>
@@ -2017,7 +2044,7 @@ while(rs.next()){
 			<tr>
 				<td colspan="2"><strong>To Create New Item in ERP<br/></strong> <br/> </td>
 			</tr>
-			<%--
+			
 			<tr>
 			<td colspan="2" align="center">
 			Connection conMaster = ConnectionUrl.getBWAYSERPMASTERConnection();
@@ -2036,7 +2063,7 @@ while(rs.next()){
 			</select>
 			</td>
 			</tr> 
-			--%>
+			
 			<tr>
 			<td colspan="2" align="center">
 			<input type="submit" name="ADD" id="ADDERPItem" value="Click Here" style="background-color: #BABABA;font-weight:bold; width: 85px;height: 35px;"/>
@@ -2051,7 +2078,7 @@ while(rs.next()){
 			</tr>	 
 		</table>
 	</form> 
-			</div> 
+			</div>  --%>
 			<br/><br/><br/>
 			</div>
 			
@@ -2183,15 +2210,65 @@ while(rs.next()){
 		</form>
  		
 		 </div>
-				<%
-					}if(reportList.size()==0){
-				%>
-				 <div id="tabs-24">
+		<%
+		 }if(reportList.contains("Branch_Transfer")){
+		%>
+		<div id="tabs-24">
+			     <form action="Branch_Transfer.jsp" method="post"  onSubmit="return validatedBranch_Transfer();">
+			<table class="tftable" style="border: 0px;">
+			<tr>
+				<td colspan="2"><strong>Branch Transfer Report<br/> </strong> <br/>
+				 </td>
+			</tr>
+			<tr>
+				<td>Select Company :</td>
+				<td> 
+				<select name="company" id="companybt">  
+ 				<option value="101">MEPL H21</option> 
+ 				<option value="102">MEPL H25</option>
+ 				<option value="106">MEPL Unit III</option>  
+ 			</select>
+				 </td>
+			</tr> 
+			<tr>
+				<td>Select Suppliers :</td>
+				<td> 
+				<select name="sup" id="sup_bt"> 
+					<option value="All_Supplier">ALL</option>
+					<option value="101110069">MUTHA ENGINEERING PVT LTD (D) UNIT I</option> 
+ 					<option value="101110205">MUTHA ENGINEERING PVT LTD (D) UNIT II</option>
+ 					<option value="101110347">MUTHA ENGINEERING PVT LTD (D) UNIT III</option>  
+			 	</select> 
+				</td> 
+			</tr>
+			<tr>    
+				<td>From Date :</td>     
+				<td> <input type="text" name="date_frombt" value="<%=sdfFIrstDate.format(dddd) %>" id="date_frombt" readonly="readonly" style="font-size: 10px;width: 200px;"/>  
+				 </td>
+			</tr>
+			<tr>
+				<td>To Date :</td>
+				<td> <input type="text" name="date_tobt" value="<%=sdfFIrstDate.format(tdate) %>" id="date_tobt" readonly="readonly" style="font-size: 10px;width: 200px;"/>  
+				</td>
+			</tr>  
+  			<tr> 
+			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADDbt" value="Get Branch Transfer Report" style="background-color: #BABABA;width: 285px;height: 35px;"/> </td>
+			</tr>
+			<tr> 
+			<td colspan="2" align="center"><span id="waitImagebt" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
+			</tr>						 
+		</table>
+	</form>
+		</div>	
+		<%
+			}if(reportList.size()==0){
+		%>
+			 <div id="tabs-25">
 					<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
-				 </div>
-				<% 
-					}
-				%>
+			</div>
+		<% 
+				}
+		%>
 	</div>	
 		
 	<%

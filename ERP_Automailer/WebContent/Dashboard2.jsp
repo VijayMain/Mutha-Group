@@ -30,11 +30,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 	<%
 		Date d = new Date();
-		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday",
-				"Thursday", "Friday", "Saturday" };
+		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday","Thursday", "Friday", "Saturday" };
 		Date datesq = new Date();
 		int day = datesq.getDate();
 
@@ -73,7 +71,7 @@
 		int yearcnt = year+1; 
 		//  to adjust months to display =====>
 		outerLoop:
-		for(int i=0;i<=12;i++){ 
+		for(int i=0;i<=12;i++){
 		 listyear.add(months[cnt] + yearcnt);
 		 listmonth.add(months[cnt]);
 		 listmonthcnt.add(cnt); 

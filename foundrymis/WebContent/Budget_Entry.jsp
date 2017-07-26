@@ -114,7 +114,6 @@ function validatenumerics(key) {
 //getting key code of pressed key
 var keycode = (key.which) ? key.which : key.keyCode;
 //comparing pressed keycodes
- 
 if (keycode > 31 && (keycode < 48 || keycode > 57) && keycode != 46) {
     alert("Only allow numeric Data entry");
     return false;
@@ -166,8 +165,6 @@ function deleteRec(str) {
 		String comp = request.getParameter("comp");
 		String year = request.getParameter("year");
 		
-		
-		
 		String yearfor = String.valueOf(Integer.parseInt(year)-1) + year.substring(year.length()-2);
 		
 		DecimalFormat twoDForm = new DecimalFormat("#####0.00"); 
@@ -213,7 +210,6 @@ if(request.getParameter("notif")!=null){
 }
 %> 
 <div style="height: 550px;overflow: scroll;background-color: white;">
-
 					 
 <div id="tabs">
 		<ul> 
