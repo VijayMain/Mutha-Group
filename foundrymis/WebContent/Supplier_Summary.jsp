@@ -310,7 +310,9 @@ if(uid==116 && record_flag!=1){
 				<td><%=rs_rec.getString("credit_days")%></td>
 				<td colspan='2'></td>
 			</tr>
-			<tr>
+			
+			
+			<%-- <tr>
 				<td><strong>TIN/SST Number</strong></td>
 				<td><%= rs_rec.getString("tin_sst")%></td>
 				<td><strong>Date</strong></td>
@@ -376,7 +378,10 @@ if(uid==116 && record_flag!=1){
 			<tr>
 				<td><strong>Collectorate</strong></td>
 				<td colspan='3'><%= rs_rec.getString("collectorate")%></td>
-			</tr>
+			</tr> --%>
+			
+			
+			
 			<tr>
 				<td><strong>Supplier Category</strong></td>
 				<td><%= sup_cat %></td>
@@ -389,10 +394,10 @@ if(uid==116 && record_flag!=1){
 				<td><strong>TAN Number</strong></td>
 				<td><%=rs_rec.getString("tan_no")%></td>
 			</tr>
-			<tr>
+			<%-- <tr>
 				<td><strong>LBT Number</strong></td>
 				<td colspan='3'><%=rs_rec.getString("lbt_no")%></td>
-			</tr>
+			</tr> --%>
 			<tr>
 				<td><strong>TDS Code</strong></td>
 				<td colspan='3'><%=tds_code %></td>
@@ -405,27 +410,30 @@ if(uid==116 && record_flag!=1){
 				<td><strong>TDS Method</strong></td>
 				<td colspan='3'><%=tds_method %>* Checked TDS Posting Entry Wise and Unchecked for TDS Debit Note</td>
 			</tr>
-			<tr>
+			
+			<%-- <tr>
 				<td><strong>Excise Round</strong></td>
 				<td><%= excise_round %></td>
 				<td><strong>Excise Cess Round</strong></td>
 				<td><%=excise_cessround%></td>
-			</tr>
-			<tr>
+			</tr> --%>
+			
+			<%-- <tr>
 				<td><strong>Service Tax Round</strong></td>
 				<td><%=service_taxround%></td>
 				<td><strong>Service Cess Round</strong></td>
 				<td><%=service_cessround%></td>
-			</tr>
-			<tr>
+			</tr> --%>
+			<%-- <tr>
 				<td><strong>VAT Round</strong></td>
-				<td><%= vat_round %></td>
+				<td><%= vat_round %></td> 
+			</tr> --%>
+			
+			<tr>
 				<td><strong>Net Amount Round</strong></td>
 				<td><%= net_amountRound %></td>
-			</tr>
-			<tr>
 				<td><strong>Is Overseas<strong></td>
-				<td colspan='3'><%= is_overseas%></td>
+				<td><%= is_overseas%></td>
 
 			</tr>
 			<tr>

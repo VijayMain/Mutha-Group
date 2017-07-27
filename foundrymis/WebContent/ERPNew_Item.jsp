@@ -125,12 +125,14 @@ function validateNewItemForm() {
 	var supp_city = document.getElementById("supp_city");
 	/* var work_address = document.getElementById("work_address"); */
 	var credit_days = document.getElementById("credit_days");
-	var tin_sst = document.getElementById("tin_sst");
+	
+	/* var tin_sst = document.getElementById("tin_sst");
 	var tin_sst_date = document.getElementById("tin_sst_date"); 
 	var cst_number = document.getElementById("cst_number"); 
 	var cst_number_date = document.getElementById("cst_number_date"); 
 	var service_tax = document.getElementById("service_tax"); 
 	var service_tax_date = document.getElementById("service_tax_date");
+	 */
 	var supp_category = document.getElementById("supp_category"); 
 	var purpose = document.getElementById("purpose"); 
 	var category = document.getElementById("category"); 
@@ -175,7 +177,7 @@ function validateNewItemForm() {
 			alert("Please Provide Credit Days !!!");  
 			return false;
 		}
-		if (tin_sst.value!="" && tin_sst_date.value=="") {
+		/* if (tin_sst.value!="" && tin_sst_date.value=="") {
 			document.getElementById("submit").disabled = false;
 			alert("If TIN/SST Number is available, Date is mandatory !!!");  
 			return false;
@@ -189,7 +191,7 @@ function validateNewItemForm() {
 			document.getElementById("submit").disabled = false;
 			alert("If Service Tax Number is available, Date is mandatory !!!");  
 			return false;
-		}
+		} */
 		if (supp_category.value=="0" || supp_category.value==null || supp_category.value=="" || supp_category.value=="null") {
 			document.getElementById("submit").disabled = false;
 			alert("Please Provide Supplier Category !!!");  
@@ -409,7 +411,8 @@ alert("Done");
       <td>Credit Days <b style="color: red;">*</b> </td>
       <td colspan="3"><input type="text" name="credit_days" id="credit_days" size="5"  style="text-align: right;"   onkeypress ="return validatenumerics(event);" maxlength="3"></td>
       </tr>
-    <tr>
+      
+    <!-- <tr>
       <td>TIN/SST Number</td>
       <td><input type="text" name="tin_sst" id="tin_sst" maxlength="12" style="text-transform: uppercase;"></td>
       <td>Date</td>
@@ -440,7 +443,10 @@ alert("Done");
     <tr>
       <td>Collectorate</td>
       <td colspan="3"><input type="text" name="collectorate" id="collectorate" style="text-transform: uppercase;"></td>
-      </tr>
+      </tr> -->
+      
+      
+      
     <tr>
       <td>Supplier Category <b style="color: red;">*</b> </td>
       <td><select name="supp_category" id="supp_category">
@@ -470,12 +476,16 @@ alert("Done");
       <td>PAN Number <b style="color: red;">*</b></td>
       <td><input type="text" name="pan_no" id="pan_no" maxlength="10" style="text-transform: uppercase;"></td>
       </tr>
-    <tr>
+      
+      
+<!--     <tr>
       <td>LBT Number</td>
       <td><input type="text" name="lbt_no" id="lbt_no" maxlength="15" style="text-transform: uppercase;"></td>
       <td>TAN Number</td>
       <td><input type="text" name="tan_no" id="tan_no" maxlength="10" style="text-transform: uppercase;"></td>
-    </tr>
+    </tr> -->
+    
+    
     <tr>
       <td>TDS Code <b style="color: red;">*</b> </td>
       <td colspan="3"><select name="tds_code" id="tds_code">
@@ -503,7 +513,7 @@ alert("Done");
       <td colspan="3"><input type="checkbox" name="tds_method" id="tds_method">* Checked TDS Posting Entry Wise and Unchecked for TDS Debit Note</td>
       </tr>
     
-    <tr>
+    <!-- <tr>
       <td>Excise Round</td>
       <td><input type="checkbox" name="excise_round" id="excise_round"></td>
       <td>Excise Cess Round</td>
@@ -514,16 +524,18 @@ alert("Done");
       <td><input type="checkbox" name="service_taxround" id="service_taxround"></td>
       <td>Service Cess Round</td>
       <td><input type="checkbox" name="service_cessround" id="service_cessround"></td>
-    </tr>
+    </tr> -->
     <tr>
-      <td>VAT Round</td>
-      <td><input type="checkbox" name="vat_round" id="vat_round"></td>
+      <!-- <td>VAT Round</td>
+      <td><input type="checkbox" name="vat_round" id="vat_round"></td> 
       <td>Net Amount Round</td>
-      <td><input type="checkbox" name="net_amountRound" id="net_amountRound"></td>
+      <td colspan="3"><input type="checkbox" name="net_amountRound" id="net_amountRound"></td>-->
     </tr>
     <tr>
+    <td>Net Amount Round</td>
+      <td><input type="checkbox" name="net_amountRound" id="net_amountRound"></td>
       <td>Is Overseas</td>
-      <td colspan="3"><input type="checkbox" name="is_overseas" id="is_overseas"></td>
+      <td><input type="checkbox" name="is_overseas" id="is_overseas"></td>
     </tr> 
     <tr>
       <td colspan="4" align="left" bgcolor="#c3c3c3"><strong>Extra Information</strong></td>

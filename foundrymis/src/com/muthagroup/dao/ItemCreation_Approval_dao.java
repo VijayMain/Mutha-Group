@@ -139,7 +139,7 @@ if(flag_check==false){
 			ps.setString(74, vo.getPurpose());
 			// gstin_reg, GSTIN_number, line_itemgstround, state_gst;
 			ps.setString(75, vo.getGstin_reg());
-			ps.setString(76, vo.getGSTIN_number());
+			ps.setString(76, vo.getGSTIN_number().toUpperCase());
 			ps.setString(77, vo.getLine_itemgstround());
 			ps.setString(78, vo.getState_gst());
 			
