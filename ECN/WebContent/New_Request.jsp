@@ -441,7 +441,7 @@ try {
 							 <tr> 
 							 <td colspan="1"><b>Company Name :</b></td>
 								<td colspan="5"> 
-								<Select id="supplier" style="height: 27px; width: 300px;  text-align: center;background-color: #dcf1f8"
+								<Select id="supplier" style="height: 27px; width: 300px;  text-align: left;background-color: #dcf1f8"
 									name="supplier" class="required input_field"
 									title="Supplier Name" 
 									onchange="showState(this.value)">
