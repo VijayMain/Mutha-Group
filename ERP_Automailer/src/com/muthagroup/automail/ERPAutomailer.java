@@ -220,11 +220,19 @@ private static final long serialVersionUID = 1L;
 						TimerTask pendingPO = new ERP_PendingPO();
 						timer.schedule(pendingPO, 1000, 60000);
 		 
+						 
+						
 			// 1:20
 			TimerTask  shedulexlsSummary =new SaleDispatchxls_Summary();
 			timer.schedule(shedulexlsSummary, 1000, 60000);
 			  
 			 
+			
+			
+			
+			
+			
+			
 			
 			
 			

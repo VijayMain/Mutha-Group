@@ -1,3 +1,6 @@
+<%@page import="java.util.HashSet"%>
+<%@page import="java.util.Set"%>
+<%@page import="java.sql.CallableStatement"%>
 <%@page import="jxl.write.Label"%>
 <%@page import="jxl.write.WritableSheet"%>
 <%@page import="java.text.DateFormat"%>
@@ -25,483 +28,1196 @@
 <head>
 <title>Dash Board</title>
 </head>
-<body>
-<% 
-try { 
-	Connection con = ConnectionUrl.getLocalDatabase();
-
-	SimpleDateFormat formatView = new SimpleDateFormat("dd/MM/yyyy");
-	SimpleDateFormat formatsql = new SimpleDateFormat("yyyyMMdd");
-	DecimalFormat mytotals = new DecimalFormat("######0.00");
-
-	Calendar aCalendar = Calendar.getInstance();
-	//add -1 month to current month
-	aCalendar.add(Calendar.MONTH, -1);
-	//set DATE to 1, so first date of previous month
-	aCalendar.set(Calendar.DATE, 1);
-	Date firstDateOfPreviousMonth = aCalendar.getTime();
-	//set actual maximum date of previous month
-	aCalendar.set(Calendar.DATE, aCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-	//read it
-	Date lastDateOfPreviousMonth = aCalendar.getTime();
-	String from_date = formatsql.format(firstDateOfPreviousMonth);
-	String to_date = formatsql.format(lastDateOfPreviousMonth);
-	String dateFrom = formatView.format(firstDateOfPreviousMonth);
-	String dateTo = formatView.format(lastDateOfPreviousMonth);
-
-	ArrayList listpara = new ArrayList();   
-	ArrayList listyear = new ArrayList();
-	ArrayList listmonthcnt = new ArrayList();
-	ArrayList listmonth = new ArrayList(); 
-//	System.out.println("fdate = " + from_date + "\nLast day = " + to_date);
-//	System.out.println("fdate view = " + dateFrom + "\nLast day view = " + dateTo); 
-	int year = Calendar.getInstance().get(Calendar.YEAR); 
-	DateFormatSymbols dfs = new DateFormatSymbols();
-	String[] months = dfs.getShortMonths(); 
-	int cnt = 2;
-	int yearcnt = year+1; 
-	//  to adjust months to display =====>
-	outerLoop:
-	for(int i=0;i<=12;i++){ 
-	 listyear.add(months[cnt] + yearcnt);
-	 listmonth.add(months[cnt]);
-	 listmonthcnt.add(cnt); 
-	// System.out.println("List Year = " + listyear.get(i) +"List Month = " + listmonth.get(i) + "list Month cnt " + listmonthcnt.get(i) + "list for =" + yearfor);
-	// 	listmonth.add(cnt);
-	// System.out.println("Looop = " + cnt + " loop = " +  months[cnt] + " year = " + yearcnt); 
-	 if(cnt==3){
-		 break outerLoop;
-	 } 
-	 if(cnt==0){
-		 cnt=11;
-		 yearcnt--;
-	}else{
-		 cnt--;
-	}
-	} 
-	Collections.reverse(listyear);
-	Collections.reverse(listmonthcnt);
-	Collections.reverse(listmonth);  
-			// ***************************************************************************************************************
-   	String Sheet_Name = "";
-	int sheetcnt=0;
-
-	ArrayList alistFile = new ArrayList();
-	File folder = new File("C:/reportxls");
-	File[] listOfFiles = folder.listFiles();
-	String listname = "";
-	int val = listOfFiles.length + 1;
-
-	File exlFile = new File("C:/reportxls/SisterComp"+val+".xls");
-	WritableWorkbook writableWorkbook = Workbook.createWorkbook(exlFile); 
-
-	Colour bckcolor = Colour.TURQUOISE;
-    WritableFont font = new WritableFont(WritableFont.ARIAL);
-    font.setColour(Colour.BLACK); 
-    
-    WritableFont fontbold = new WritableFont(WritableFont.ARIAL);
-    fontbold.setColour(Colour.BLACK);
-    fontbold.setBoldStyle(WritableFont.BOLD);
-    
-    WritableCellFormat cellFormat = new WritableCellFormat();
-    cellFormat.setBackground(bckcolor);
-    cellFormat.setAlignment(Alignment.CENTRE);
-    cellFormat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK); 
-    cellFormat.setFont(fontbold); 
-    
-    Colour backHcolor = Colour.GREY_25_PERCENT;
-    WritableCellFormat cellFormat_header = new WritableCellFormat();
-    cellFormat_header.setBackground(backHcolor);
-    cellFormat_header.setAlignment(Alignment.CENTRE); 
-    cellFormat_header.setFont(fontbold); 
-    
-    Colour backHcolor1 = Colour.CORAL;
-    WritableCellFormat cellFormat_header1 = new WritableCellFormat();
-    cellFormat_header1.setBackground(backHcolor1);
-    cellFormat_header1.setAlignment(Alignment.CENTRE); 
-    cellFormat_header1.setFont(fontbold); 
-    
-    WritableCellFormat cellRIghtformat = new WritableCellFormat();
-    cellRIghtformat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
-    font.setColour(Colour.BLACK); 
-    cellRIghtformat.setFont(font);
-    cellRIghtformat.setAlignment(Alignment.RIGHT);
-    
-    WritableCellFormat cellRIghtformatWrap = new WritableCellFormat(); 
-    cellRIghtformatWrap.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
-    font.setColour(Colour.BLACK); 
-    cellRIghtformatWrap.setFont(font);
-    cellRIghtformatWrap.setAlignment(Alignment.RIGHT);
-    cellRIghtformatWrap.setWrap(true);
-    
-    WritableCellFormat cellFormatWrap = new WritableCellFormat();
-    cellFormatWrap.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
-    font.setColour(Colour.BLACK); 
-    cellFormatWrap.setBackground(bckcolor);
-    cellFormatWrap.setFont(fontbold);
-    cellFormatWrap.setAlignment(Alignment.RIGHT); 
-    cellFormatWrap.setWrap(true);
-    
-    WritableCellFormat cellleftformat = new WritableCellFormat(); 
-    cellleftformat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
-    font.setColour(Colour.BLACK); 
-    cellleftformat.setFont(font); 	
-    cellleftformat.setAlignment(Alignment.LEFT);
-	//-------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
-   //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-		Sheet_Name = "Sister Company Sale";
-		con = ConnectionUrl.getMEPLH21ERP();
-	   	WritableSheet writableSheet = writableWorkbook.createSheet(Sheet_Name, sheetcnt);
-	  			writableSheet.setColumnView(0, 15);
-			    writableSheet.setColumnView(1, 15);
-			    writableSheet.setColumnView(2, 15);
-			    writableSheet.setColumnView(3, 15);
-			    writableSheet.setColumnView(4, 15);
-			    writableSheet.setColumnView(5, 15);
-			    writableSheet.setColumnView(6, 15);
-			    writableSheet.setColumnView(7, 15);
-			    writableSheet.setColumnView(8, 15);
-			    writableSheet.setColumnView(9, 15);
-			    writableSheet.setColumnView(10, 15);
-			    writableSheet.setColumnView(11, 15);
-			    writableSheet.setColumnView(12, 15);
-			    writableSheet.setColumnView(13, 15);
-			    writableSheet.setColumnView(14, 15); 
-			    
-			    writableSheet.mergeCells(0, 0,14, 0);
-			    writableSheet.mergeCells(1, 1,2, 1); 
-			    writableSheet.mergeCells(3, 1,4, 1);
-			    writableSheet.mergeCells(5, 1,6, 1);
-			    writableSheet.mergeCells(7, 1,8, 1);
-			    writableSheet.mergeCells(9, 1,10, 1); 
-			    writableSheet.mergeCells(11, 1,12, 1);
-			    writableSheet.mergeCells(13, 1,14, 1);
-			    writableSheet.mergeCells(15, 1,16, 1); 
-			     
-			    Label label_1 = new Label(0, 0, "INTER-COMPANY SALES ",cellFormat_header1);
-			    Label label_2 = new Label(1, 1, "FOUNDERS TO ENGINEERING",cellFormat_header1);
-			    Label label_3 = new Label(3, 1, "MEPL UIII TO ENGINEERING",cellFormat_header1);
-			    Label label_4 = new Label(5, 1, "DHANSHREE TO ENGINEERING",cellFormat_header1);
-			    Label label_5 = new Label(7, 1, "MEPL UIII TO FOUNDERS",cellFormat_header1);
-			    Label label_6 = new Label(9, 1, "EGINEERING H-25 TO FOUNDERS",cellFormat_header1);
-			    Label label_7 = new Label(11, 1, "DHANASHREE TO FOUNDERS",cellFormat_header1);
-			    Label label_8 = new Label(13, 1, "TOTAL",cellFormat_header1);
-			      
-			 writableSheet.addCell(label_1);
-			 writableSheet.addCell(label_2);
-			 writableSheet.addCell(label_3);
-			 writableSheet.addCell(label_4);
-			 writableSheet.addCell(label_5);
-			 writableSheet.addCell(label_6);
-			 writableSheet.addCell(label_7);
-			 writableSheet.addCell(label_8);
-			 
-			 Label row_1 = new Label(0, 1, "",cellFormat);
-			 writableSheet.addCell(row_1);
-			 
-			 Label row_2 = new Label(0, 2, "",cellFormat);
-			 writableSheet.addCell(row_2);
-			 
-			 Label row_head1 = new Label(1, 2, "TONNAGE",cellFormat); 
-			 writableSheet.addCell(row_head1);
-			 Label row_head2 = new Label(2, 2, "AMOUNT",cellFormat); 
-			 writableSheet.addCell(row_head2);
-			 
-			 Label row_head3 = new Label(3, 2, "TONNAGE",cellFormat); 
-			 writableSheet.addCell(row_head3);
-			 Label row_head4 = new Label(4, 2, "AMOUNT",cellFormat); 
-			 writableSheet.addCell(row_head4);
-			 Label row_head5 = new Label(5, 2, "TONNAGE",cellFormat); 
-			 writableSheet.addCell(row_head5);
-			 Label row_head6 = new Label(6, 2, "AMOUNT",cellFormat); 
-			 writableSheet.addCell(row_head6);
-			 Label row_head7 = new Label(7, 2, "TONNAGE",cellFormat); 
-			 writableSheet.addCell(row_head7);
-			 Label row_head8 = new Label(8, 2, "AMOUNT",cellFormat); 
-			 writableSheet.addCell(row_head8);
-			 Label row_head9 = new Label(9, 2, "TONNAGE",cellFormat); 
-			 writableSheet.addCell(row_head9);
-			 Label row_head10 = new Label(10, 2, "AMOUNT",cellFormat); 
-			 writableSheet.addCell(row_head10);
-			 Label row_head11 = new Label(11, 2, "TONNAGE",cellFormat); 
-			 writableSheet.addCell(row_head11);
-			 Label row_head12 = new Label(12, 2, "AMOUNT",cellFormat); 
-			 writableSheet.addCell(row_head12);
-			 Label row_head13 = new Label(13, 2, "TONNAGE",cellFormat); 
-			 writableSheet.addCell(row_head13);
-			 Label row_head14 = new Label(14, 2, "AMOUNT",cellFormat); 
-			 writableSheet.addCell(row_head14);
-			 
-			 
-			 
-			 
-			 
-			 // -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-			 cnt=3;
-			 PreparedStatement ps_sis = null; 
-				ResultSet rs_sis = null;
-				Connection con_erp = null;
-				double tonnage=0,amount=0,tonnageTotal=0,amountTotal=0;
-				 
-				for(int i=0;i<listmonthcnt.size();i++){
-				Calendar calendar = Calendar.getInstance();
-				int yearpart =  Integer.valueOf(listyear.get(i).toString().substring(listyear.get(i).toString().length() - 4));
-				int monthPart = Integer.valueOf(listmonthcnt.get(i).toString());
-				int dateDay = 1;
-				calendar.set(yearpart, monthPart, dateDay);
-				int numOfDaysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH); 
-				String firstsql = formatsql.format(calendar.getTime());
-				calendar.add(Calendar.DAY_OF_MONTH, numOfDaysInMonth-1); 
-				String lastsql = formatsql.format(calendar.getTime());
-				//System.out.println("First Day of month: " + listyear.get(i).toString() + firstsql  + "  = " + lastsql);
-				
-				// +++++++++++++++++++++++++++++++++++++++++++++ FOUNDERS TO ENGINEERING +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-				con_erp = ConnectionUrl.getFoundryERPNEWConnection();
-				ps_sis = con_erp.prepareStatement("SELECT TRNACCTMATISALE.TRAN_NO,TRNACCTMATISALE.TRAN_DATE,TRNACCTMATISALE.TRAN_SUBTYPE, "+
-						"TRNACCTMATISALE.MAT_CODE, "+
-						"TRNACCTMATISALE.MAT_NAME,TRNACCTMATISALE.DRG_NO,TRNACCTMATISALE.QTY, "+
-						"TRNACCTMATISALE.WEIGHT,TRNACCTMATISALE.RATE,(CAST(TRNACCTMATISALE.WEIGHT as FLOAT) * CAST(TRNACCTMATISALE.QTY AS FLOAT)) as TONNAGE ,TRNACCTMATISALE.AMOUNT,TRNACCTMATISALE.CUST_SUB_GLACNO, "+
-						"MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
-						"MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE FROM TRNACCTMATISALE "+
-						"LEFT JOIN MSTACCTGLSUB ON TRNACCTMATISALE.CUST_SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
-						"LEFT JOIN MSTMATERIALS ON TRNACCTMATISALE.MAT_CODE = MSTMATERIALS.CODE "+
-						"WHERE CUST_SUB_GLACNO "+
-						"in(101110205,101110100) "+
-						"AND TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
-						"AND MATERIAL_TYPE =101 AND TRAN_SUBTYPE IN (1,51) order by CUST_SUB_GLACNO ");
-				rs_sis = ps_sis.executeQuery();
-				while(rs_sis.next()){
+<body> 
+<%
+	 try {
+			System.out.println("Schedule Report Loop Start");
+			//-------------------------------------------------------- Date Logic ---------------------------------------------------------
+			Date d = new Date();
+			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+			boolean flag = true; 
+				 /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 1 && d.getMinutes() == 20) {*/
+			//******************************************************************************************************************************
+				 	ArrayList weekOff = new ArrayList();
+					int cnt = 0;
+					DecimalFormat zeroDForm = new DecimalFormat("#####0");
+					DecimalFormat twoDForm = new DecimalFormat("#####0.00");
 					
-					tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
-					amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
+					Calendar cal = Calendar.getInstance();
+					// cal.add(Calendar.DATE, -1);
+					SimpleDateFormat todaysDate = new SimpleDateFormat("dd/MM/yyyy");
+					SimpleDateFormat sqlDate = new SimpleDateFormat("yyyyMMdd");	
+					String todays_date = todaysDate.format(cal.getTime()).toString();
+					String sql_date = sqlDate.format(cal.getTime()).toString();				
 					
+					//System.out.println("Sql Date = = " + sql_date);
+					
+					// **********************************************************************************************************
+					Date dateLogic = todaysDate.parse(todays_date);
+					if(weekday[dateLogic.getDay()].equals("Tuesday")){
+						cal.add(Calendar.DATE, -1);
+						todays_date = todaysDate.format(cal.getTime()).toString();
+						sql_date = sqlDate.format(cal.getTime()).toString();
+					} 
+					cal.add(Calendar.DATE, -1); 
+					String  sql_date_prev = sqlDate.format(cal.getTime()).toString();
+					
+					// **********************************************************************************************************
+					//double req_perdayQty=0,avg_perdayQty=0,del_rating=0; 
+					// ***************************************************************************************************************
+					// *************************************************** Workdays ***************************************************
+			Connection conlocal = ConnectionUrl.getLocalDatabase();
+			Connection con = null;
+			String comp_id ="";
+			String Sheet_Name = "";
+			int sheetcnt=0;
+
+			ArrayList alistFile = new ArrayList();
+			File folder = new File("C:/reportxls");
+			File[] listOfFiles = folder.listFiles();
+			String listname = "";
+			int val = listOfFiles.length + 1;
+
+			File exlFile = new File("C:/reportxls/Sheduler"+val+".xls");
+			WritableWorkbook writableWorkbook = Workbook.createWorkbook(exlFile); 
+	
+			Colour bckcolor = Colour.TURQUOISE;
+		    WritableFont font = new WritableFont(WritableFont.ARIAL);
+		    font.setColour(Colour.BLACK); 
+		    
+		    WritableFont fontbold = new WritableFont(WritableFont.ARIAL);
+		    fontbold.setColour(Colour.BLACK);
+		    fontbold.setBoldStyle(WritableFont.BOLD);
+		    
+		    WritableCellFormat cellFormat = new WritableCellFormat();
+		    cellFormat.setBackground(bckcolor);
+		    cellFormat.setAlignment(Alignment.CENTRE);
+		    cellFormat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK); 
+		    cellFormat.setFont(fontbold); 
+		    
+		    Colour backHcolor = Colour.CORAL;
+		    WritableCellFormat cellFormat_header = new WritableCellFormat();
+		    cellFormat_header.setBackground(backHcolor);
+		    cellFormat_header.setAlignment(Alignment.LEFT); 
+		    cellFormat_header.setFont(fontbold); 
+		    
+		    WritableCellFormat cellRIghtformat = new WritableCellFormat();
+		    cellRIghtformat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
+		    font.setColour(Colour.BLACK); 
+		    cellRIghtformat.setFont(font);
+		    cellRIghtformat.setAlignment(Alignment.RIGHT);
+		    
+		    WritableCellFormat cellRIghtformatWrap = new WritableCellFormat(); 
+		    cellRIghtformatWrap.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
+		    font.setColour(Colour.BLACK); 
+		    cellRIghtformatWrap.setFont(font);
+		    cellRIghtformatWrap.setAlignment(Alignment.RIGHT);
+		    cellRIghtformatWrap.setWrap(true);
+		    
+		    WritableCellFormat cellFormatWrap = new WritableCellFormat();
+		    cellFormatWrap.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
+		    font.setColour(Colour.BLACK); 
+		    cellFormatWrap.setBackground(bckcolor);
+		    cellFormatWrap.setFont(fontbold);
+		    cellFormatWrap.setAlignment(Alignment.RIGHT); 
+		    cellFormatWrap.setWrap(true);
+		    
+		    WritableCellFormat cellleftformat = new WritableCellFormat(); 
+		    cellleftformat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
+		    font.setColour(Colour.BLACK); 
+		    cellleftformat.setFont(font); 	
+		    cellleftformat.setAlignment(Alignment.LEFT);
+			//-------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+			  		String testDate = sql_date.substring(6,8) +"-"+ sql_date.substring(4,6) +"-"+ sql_date.substring(0,4);
+			  		
+			  		//System.out.println("Date Logic = " + sql_date + " prev = " + sql_date_prev + " main date = "  + testDate);
+			  		
+			  		DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+					Date today = formatter.parse(testDate);
+ 					String dayCNT = sql_date.substring(6,8);
+ 				//	System.err.println("Day = " + sql_date.substring(6,8) + "    " + dayCNT);
+ 					int month = Integer.parseInt(sql_date.substring(4,6));
+					String fromDate = sql_date.substring(0,4)+sql_date.substring(4,6) +"01";			 
+ 					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(today);
+					calendar.add(Calendar.MONTH, 1);
+					calendar.set(Calendar.DAY_OF_MONTH, 1);
+					calendar.add(Calendar.DATE, -1);
+					
+					Date lastDayOfMonth = calendar.getTime();
+
+					SimpleDateFormat sdfparse = new SimpleDateFormat("dd/MM/yyyy"); 
+					Calendar calAvg = Calendar.getInstance();
+
+				int total_dd = 0;
+				int holliday = 0; 
+				int day = Integer.parseInt(dayCNT);
+
+				PreparedStatement ps_week = conlocal.prepareStatement("select count(*) from montlyweekdays_tbl where month=" + month + " and day<" + day);
+				ResultSet rs_week = ps_week.executeQuery();
+				while (rs_week.next()) {
+					holliday = Integer.parseInt(rs_week.getString("count(*)"));
 				}
-				tonnageTotal=tonnage+tonnageTotal;
-				amountTotal=amount+amountTotal;
-				
-				
-				
-				Label row_11 = new Label(0, cnt, listyear.get(i).toString() ,cellRIghtformat);
-				 writableSheet.addCell(row_11);
-				 
-				 Label row_22 = new Label(1, cnt, mytotals.format(tonnage)  ,cellRIghtformat);
-				 writableSheet.addCell(row_22);
-				 
-				 Label row_33 = new Label(2, cnt, mytotals.format(amount)  ,cellRIghtformat);
-				 writableSheet.addCell(row_33);
-				
-				tonnage=0;amount=0;
-				
-				// =================================================================================================================================
-				// +++++++++++++++++++++++++++++++++++++++++++++ MEPL UIII TO ENGINEERING +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-				con_erp = ConnectionUrl.getK1ERPConnection();
-				ps_sis = con_erp.prepareStatement("SELECT TRNACCTMATISALE.TRAN_NO,TRNACCTMATISALE.TRAN_DATE,TRNACCTMATISALE.TRAN_SUBTYPE, "+
-						"TRNACCTMATISALE.MAT_CODE, "+
-						"TRNACCTMATISALE.MAT_NAME,TRNACCTMATISALE.DRG_NO,TRNACCTMATISALE.QTY, "+
-						"TRNACCTMATISALE.WEIGHT,TRNACCTMATISALE.RATE,(CAST(TRNACCTMATISALE.WEIGHT as FLOAT) * CAST(TRNACCTMATISALE.QTY AS FLOAT)) as TONNAGE ,TRNACCTMATISALE.AMOUNT,TRNACCTMATISALE.CUST_SUB_GLACNO, "+
-						"MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
-						"MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE FROM TRNACCTMATISALE "+
-						"LEFT JOIN MSTACCTGLSUB ON TRNACCTMATISALE.CUST_SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
-						"LEFT JOIN MSTMATERIALS ON TRNACCTMATISALE.MAT_CODE = MSTMATERIALS.CODE "+
-						"WHERE CUST_SUB_GLACNO "+
-						"in(101110205,101110100)  "+
-						" AND TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
-						" AND MATERIAL_TYPE =101 AND TRAN_SUBTYPE IN (1,51) order by CUST_SUB_GLACNO ");
-				rs_sis = ps_sis.executeQuery();
-				while(rs_sis.next()){
-					tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
-					amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
+  
+				PreparedStatement ps_holli = conlocal.prepareStatement("select * from montlyweekdays_tbl where day=" + day + " and month=" + month);
+				ResultSet rs_holli = ps_holli.executeQuery();
+				while (rs_holli.next()) {
+					flag = false;
 				}
-				
-				
-				
-				
-				ps_sis = con_erp.prepareStatement("SELECT TRNSTORMATI.TRAN_NO,TRNSTORMATI.TRAN_DATE,TRNSTORMATI.TRAN_SUBTYPE, "+
-						" TRNSTORMATI.MAT_CODE, "+
-						" TRNSTORMATI.CHLN_QTY, "+
-						" TRNSTORMATI.SUB_GLACNO, "+
-						" MSTMATERIALS.CASTING_WT, (CAST(MSTMATERIALS.CASTING_WT as FLOAT) * CAST(TRNSTORMATI.CHLN_QTY AS FLOAT)) as TONNAGE "+
-						" ,(CAST(TRNSTORMATI.RATE as FLOAT) * CAST(TRNSTORMATI.CHLN_QTY AS FLOAT)) as AMOUNT "+
-						" ,TRNSTORMATI.RATE,TRNSTORMATI.SUB_GLACNO, "+
-						" MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
-						" MSTMATERIALS.CASTING_WT,MSTMATERIALS.FINISH_WT, "+
-						" MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE,MSTMATERIALS.NAME FROM TRNSTORMATI "+
-						" LEFT JOIN MSTACCTGLSUB ON TRNSTORMATI.SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
-						" LEFT JOIN MSTMATERIALS ON TRNSTORMATI.MAT_CODE = MSTMATERIALS.CODE "+
-						" WHERE TRNSTORMATI.SUB_GLACNO  "+
-						" in(101110054,101110069,101110100,101110205,101110233,101110347, "+
-						" 101110475,101120645,101122002,101123158,101124452) "+ 
-						" AND TRNSTORMATI.TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
-						" and TRNSTORMATI.STATUS_CODE =0 "+
-						" AND MSTMATERIALS.MATERIAL_TYPE =101 "+
-						" AND TRNSTORMATI.TRAN_SUBTYPE IN (66) order by TRNSTORMATI.SUB_GLACNO,TRAN_NO");
-				rs_sis = ps_sis.executeQuery();
-				while(rs_sis.next()){
-					tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
-					amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
+
+				int dd = today.getDate();
+				int tues = 0;
+				for (int i = 1; i < dd; i++) {
+					calAvg.set(Calendar.DAY_OF_MONTH, i);
+					if (calAvg.get(Calendar.DAY_OF_WEEK) == calAvg.TUESDAY) {
+						tues++;
+						weekOff.add(i); 
+					}
 				}
-			 
+				int workdays = dd - tues; 
+				total_dd = workdays;
+				total_dd = total_dd - holliday; 
+				// System.out.println("Hollidays = " + holliday + " Total dd = " + total_dd);
+				// ***************************************************************************************************************
+				int space = 0;
+				PreparedStatement ps_allHol = conlocal.prepareStatement("select count(montlyWeekdays_id) from montlyweekdays_tbl where month=" + month);
+				ResultSet rs_allHol = ps_allHol.executeQuery();
+				while (rs_allHol.next()) {
+					space = Integer.parseInt(rs_allHol.getString("count(montlyWeekdays_id)"));
+				}
+
+				PreparedStatement ps_Hol = conlocal.prepareStatement("select day from montlyweekdays_tbl where month=" + month);
+				ResultSet rs_Hol = ps_Hol.executeQuery();
+				while (rs_Hol.next()) {
+					weekOff.add(rs_Hol.getInt("day"));
+				}
+
+				int count_mnt = lastDayOfMonth.getDate();
+
+				int tue_month = 0;
+				for (int i = 1; i < count_mnt; i++) {
+					calAvg.set(Calendar.DAY_OF_MONTH, i);
+					if (calAvg.get(Calendar.DAY_OF_WEEK) == calAvg.TUESDAY) {
+						tue_month++;
+					}
+				}
+				count_mnt = count_mnt - tue_month;
+				count_mnt = count_mnt - space;
+				// System.out.println("Total Woring Days = " + count_mnt);
+				// ***************************************************************************************************************
+ 
+				//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+				//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+				comp_id ="101";
+				Sheet_Name = "MEPL H21";
+				con = ConnectionUrl.getMEPLH21ERP();
 				
-				tonnageTotal=tonnage+tonnageTotal;
-				amountTotal=amount+amountTotal; 
-				 
-				 Label row_4 = new Label(3, cnt, mytotals.format(tonnage)  ,cellRIghtformat);
-				 writableSheet.addCell(row_4);
-				 
-				 Label row_5 = new Label(4, cnt, mytotals.format(amount)  ,cellRIghtformat);
-				 writableSheet.addCell(row_5);
-				
-				tonnage=0;amount=0;
-				 
-				// =================================================================================================================================
-				
-				// +++++++++++++++++++++++++++++++++++++++++++++ DHANSHREE TO ENGINEERING ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-			con_erp = ConnectionUrl.getDIERPConnection();
-			ps_sis = con_erp.prepareStatement("SELECT TRNACCTMATISALE.TRAN_NO,TRNACCTMATISALE.TRAN_DATE,TRNACCTMATISALE.TRAN_SUBTYPE, "+
-					"TRNACCTMATISALE.MAT_CODE, "+
-					"TRNACCTMATISALE.MAT_NAME,TRNACCTMATISALE.DRG_NO,TRNACCTMATISALE.QTY, "+
-					"TRNACCTMATISALE.WEIGHT,TRNACCTMATISALE.RATE,(CAST(TRNACCTMATISALE.WEIGHT as FLOAT) * CAST(TRNACCTMATISALE.QTY AS FLOAT)) as TONNAGE ,TRNACCTMATISALE.AMOUNT,TRNACCTMATISALE.CUST_SUB_GLACNO, "+
-					"MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
-					"MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE FROM TRNACCTMATISALE "+
-					"LEFT JOIN MSTACCTGLSUB ON TRNACCTMATISALE.CUST_SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
-					"LEFT JOIN MSTMATERIALS ON TRNACCTMATISALE.MAT_CODE = MSTMATERIALS.CODE "+
-					"WHERE CUST_SUB_GLACNO "+
-					"in(101110205,101110100)  "+
-					"AND TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
-					"AND MATERIAL_TYPE =101 AND TRAN_SUBTYPE IN (1,51) order by CUST_SUB_GLACNO ");
-			rs_sis = ps_sis.executeQuery();
-			while(rs_sis.next()){
-				tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
-				amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
-			}
-			tonnageTotal=tonnage+tonnageTotal;
-			amountTotal=amount+amountTotal;
-			
-			Label row_6 = new Label(5, cnt, mytotals.format(tonnage)  ,cellRIghtformat);
-			 writableSheet.addCell(row_6);
-			 
-			 Label row_7 = new Label(6, cnt, mytotals.format(amount)  ,cellRIghtformat);
-			 writableSheet.addCell(row_7); 
-			tonnage=0;amount=0;
-			 
-				// ===================================================================================================================================
-				// +++++++++++++++++++++++++++++++++++++++++++++ MEPL UIII TO FOUNDERS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		con_erp = ConnectionUrl.getK1ERPConnection();
-		ps_sis = con_erp.prepareStatement("SELECT TRNACCTMATISALE.TRAN_NO,TRNACCTMATISALE.TRAN_DATE,TRNACCTMATISALE.TRAN_SUBTYPE, "+
-				"TRNACCTMATISALE.MAT_CODE, "+
-				"TRNACCTMATISALE.MAT_NAME,TRNACCTMATISALE.DRG_NO,TRNACCTMATISALE.QTY, "+
-				"TRNACCTMATISALE.WEIGHT,TRNACCTMATISALE.RATE,(CAST(TRNACCTMATISALE.WEIGHT as FLOAT) * CAST(TRNACCTMATISALE.QTY AS FLOAT)) as TONNAGE ,TRNACCTMATISALE.AMOUNT,TRNACCTMATISALE.CUST_SUB_GLACNO, "+
-				"MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
-				"MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE FROM TRNACCTMATISALE "+
-				"LEFT JOIN MSTACCTGLSUB ON TRNACCTMATISALE.CUST_SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
-				"LEFT JOIN MSTMATERIALS ON TRNACCTMATISALE.MAT_CODE = MSTMATERIALS.CODE "+
-				"WHERE CUST_SUB_GLACNO "+
-				"in(101110070) "+
-				"AND TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
-				"AND MATERIAL_TYPE =101 AND TRAN_SUBTYPE IN (1,51) order by CUST_SUB_GLACNO ");
-		rs_sis = ps_sis.executeQuery();
-		while(rs_sis.next()){
-			tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
-			amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
+			  	WritableSheet writableSheet = writableWorkbook.createSheet(Sheet_Name, sheetcnt);
+				StringBuilder sb2 = new StringBuilder(); 
+					PreparedStatement ps_code = con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE='11'");
+					ResultSet rs_code = ps_code.executeQuery();
+					while (rs_code.next()) {
+						sb2.append(rs_code.getString("SUB_GLACNO"));
+					}
+					
+					// exec "ENGERP"."dbo"."Sel_RptDespatchPlanSaleMUTA";1 '101', '0', '101110001101110002101110003101110004101110005101110006101110007101110008101110009101110010101110011101110012101110013101110014101110015101110016101110017101110018101110019101110020101110021101110022101110023101110024101110025101110026101110027101110028101110029101110030101110031101110032101110033101110034101110035101110036101110037101110038101110039101110040101110041101110042101110043101110044101110045101110046101110047101110048101110049101110050101110051101110052101110055101110058101110059101110062101110063101110077101110081101110082101110094101110117101110129101110130101110131101110132101110135101110140101110141101110144101110148101110149101110150101110151101110160101110161101110162101110164101110165101110168101110179101110180101110181101110183101110184101110185101110186101110187101110191101110192101110193101110198101110199101110200101110202101110203101110205101110209101110210101110212101110230101110240101110247101110248101110249101110250101110251101110258101110261101110266101110269101110272101110280101110281101110282101110284101110287101110288101110291101110293101110298101110299101110300101110302101110304101110305101110307101110309101110311101110312101110313101110315101110316101110318101110322101110324101110325101110326101110327101110331101110342101110343101110344101110346101110347101110350101110353101110354101110362101110368101110369101110370101110371101110373101110374101110376101110379101110382101110383101110384101110387101110388101110389101110390101110391101110393101110394101110396101110399101110400101110402101110407101110408101110411101110418101110420101110426101110428101110442101110444101110454101110455101110460101110462101110463101110467101110469101110470101110471101110475101110476101110478101110479101110481101110483101110484101110493101110494101110495101110496101110497101110507101110508101110510101110515101110516101110517101110518101110519101110520101110523101110526101110529101110530101110539101110543101110544101110546101110547101110548101110550101110555101110556101110557101110558101110559101110561101110572' , '20170712'
+					ArrayList custcodes=new ArrayList();
+					CallableStatement cs = con.prepareCall("{call Sel_RptDespatchPlanSaleMUTA(?,?,?,?)}");
+					cs.setString(1, comp_id);
+					cs.setString(2, "0"); 
+					  cs.setString(3, sb2.toString());
+					cs.setString(4, sql_date);
+					ResultSet rs = cs.executeQuery();
+					while (rs.next()) {
+					custcodes.add(rs.getString("CUST_CODE"));
+					} 					  
+					
+					Set<String> hs = new HashSet();
+					hs.addAll(custcodes);
+					custcodes.clear();
+					custcodes.addAll(hs);  
+					
+					
+					CallableStatement cs_prev = con.prepareCall("{call Sel_RptDespatchPlanSaleMUTA(?,?,?,?)}");
+					cs_prev.setString(1, comp_id);
+					cs_prev.setString(2, "0"); 
+					cs_prev.setString(3, sb2.toString());
+					cs_prev.setString(4, sql_date_prev);
+					ResultSet rs_prev=null;
+					String sale_qtyyes="",sale_amtyes="",tonnage_yes="";
+					double complSaleper=0;
+					// ***************************************************************************************************************
+					if (custcodes.size() > 0) {
+					//***************************************************************************************************************************************************************************************************
+						writableSheet.setColumnView(0, 40);
+					    writableSheet.setColumnView(1, 12);
+					    writableSheet.setColumnView(2, 12);
+					    writableSheet.setColumnView(3, 12);
+					    writableSheet.setColumnView(4, 12);
+					    writableSheet.setColumnView(5, 12);
+					    writableSheet.setColumnView(6, 12);
+					    writableSheet.setColumnView(7, 12);
+					    writableSheet.setColumnView(8, 12);
+					    writableSheet.setColumnView(9, 12);
+					    writableSheet.setColumnView(10, 12);
+					    writableSheet.setColumnView(11, 12);
+					    writableSheet.setColumnView(12, 12);
+					    writableSheet.setColumnView(13, 12);
+					  
+					    writableSheet.mergeCells(0, 2,0, 3);  
+					    writableSheet.mergeCells(1, 2,3, 2); 
+					    writableSheet.mergeCells(4, 2,6, 2);  
+					    writableSheet.mergeCells(7, 2,9, 2); 
+					    writableSheet.mergeCells(10, 2,11, 2);
+					    writableSheet.mergeCells(12,2,12,3);   
+					    writableSheet.mergeCells(13, 2,13, 3); 
+					    
+					    Label label1 = new Label(0, 0, "Working Days",cellRIghtformat);
+					    Label label2 = new Label(0, 1, "Days Completed",cellRIghtformat);
+					    Label label3 = new Label(3, 0, "Dispatch vs Schedule on " + testDate,cellRIghtformat);
+					    Label label4 = new Label(1, 0, zeroDForm.format(count_mnt) , cellRIghtformat); 
+					    Label label5 = new Label(1, 1, zeroDForm.format(total_dd), cellRIghtformat);
+					    Label label6 = new Label(0, 2, "Name of Item",cellFormat);  
+					    
+					    Label label7 = new Label(1, 2, "Schedule",cellFormat);
+					    Label label8 = new Label(1, 3, "Qty",cellFormat);
+					    Label label9 = new Label(2, 3, "AMT",cellFormat);
+					    
+					    Label label10 = new Label(3, 3, "Wt. in Tons",cellFormat);
+					     
+					    Label label11 = new Label(4, 2, "Yesterday's Sales",cellFormat_header);
+					    Label label12 = new Label(4, 3, "Qty",cellFormat);
+					    Label label13 = new Label(5, 3, "AMT",cellFormat); 
+					    
+					    Label label14 = new Label(6, 3, "Wt. in Tons",cellFormat);
+					    
+					    Label label15 = new Label(7, 2, "Sales",cellFormat);		    
+					    Label label16 = new Label(7, 3, "Qty",cellFormat);
+					    Label label17 = new Label(8, 3, "AMT",cellFormat);
+					    
+					    Label label18 = new Label(9, 3, "Wt. in Tons",cellFormat);
+					    
+					    Label label19 = new Label(10, 2, "Pending",cellFormat);
+					    Label label20 = new Label(10, 3, "Qty",cellFormat);
+					    Label label21 = new Label(11, 3, "AMT",cellFormat);
+					     
+					    /* Label label22 = new Label(11, 2, "Wt. in Tons",cellFormat); */
+					    Label label22 = new Label(12, 2, "Schedule Compliance%",cellFormat);
+					     
+					 writableSheet.addCell(label1);
+					 writableSheet.addCell(label2);
+					 writableSheet.addCell(label3);					 
+					 writableSheet.addCell(label4);
+					 writableSheet.addCell(label5);
+					 writableSheet.addCell(label6);
+					 writableSheet.addCell(label7);
+					 writableSheet.addCell(label8);
+					 writableSheet.addCell(label9);
+					 writableSheet.addCell(label10);
+					 writableSheet.addCell(label11);
+					 writableSheet.addCell(label12); 
+					 writableSheet.addCell(label13); 
+					 writableSheet.addCell(label14); 
+					 writableSheet.addCell(label15); 
+					 writableSheet.addCell(label16);
+					 writableSheet.addCell(label17);
+					 writableSheet.addCell(label18);
+					 writableSheet.addCell(label19);
+					 writableSheet.addCell(label20);
+					 writableSheet.addCell(label21);
+					 writableSheet.addCell(label22); 
+					}
+					 
+					int count=0;
+					int col=4; 
+					for(int i=0;i<custcodes.size();i++){
+					count=0; 
+					rs = cs.executeQuery(); 
+					while(rs.next()){
+						
+						if(rs.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString())){
+							
+						if(count==0){
+							Label customer = new  Label(0, col, rs.getString("CUST_NAME"),cellFormat_header);
+							writableSheet.addCell(customer);
+							count ++;
+							col++;
+						} 
+						
+						rs_prev = cs_prev.executeQuery(); 
+						sale_qtyyes="0";
+						sale_amtyes="0";
+						tonnage_yes="0";
+						complSaleper=0; 
+						while(rs_prev.next()){
+							if(rs_prev.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString()) && 
+								rs_prev.getString("MAT_CODE").equalsIgnoreCase(rs.getString("MAT_CODE"))){ 
+								sale_qtyyes=rs_prev.getString("SALE_QTY");
+								sale_amtyes=rs_prev.getString("SALE_AMT"); 
+								tonnage_yes = rs_prev.getString("SALE_TONAGE");
+							}
+						} 
+						 
+						complSaleper =Double.parseDouble(rs.getString("SALE_QTY"))/ Double.parseDouble(rs.getString("SCH_QTY"))*100;
+						
+						Label matName = new  Label(0, col, rs.getString("MAT_NAME"),cellleftformat);
+						writableSheet.addCell(matName); 
+						
+						Label label_des_qty = new Label(1, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SCH_QTY")))),cellRIghtformat);
+						writableSheet.addCell(label_des_qty);
+						
+						Label label_des_amt = new Label(2, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_AMT"))/100000),cellRIghtformat);
+						writableSheet.addCell(label_des_amt);
+						 
+						Label label_sch_tons = new Label(3, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_TONAGE"))),cellRIghtformat);
+						writableSheet.addCell(label_sch_tons);
+						
+						
+						
+						Label yes_sale_qty = new Label(4, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+						writableSheet.addCell(yes_sale_qty);
+						
+						Label yes_sale_amt = new Label(5, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+						writableSheet.addCell(yes_sale_amt);
+
+						Label label_saleyes_tons = new Label(6, col, twoDForm.format(Double.parseDouble(tonnage_yes)),cellRIghtformat);
+						writableSheet.addCell(label_saleyes_tons);
+						
+						
+						Label label_sale_qty = new Label(7, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+						writableSheet.addCell(label_sale_qty);
+						
+						Label label_sale_amt = new Label(8, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+						writableSheet.addCell(label_sale_amt);
+						
+						Label label_sale_tons = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_TONAGE"))),cellRIghtformat);
+						writableSheet.addCell(label_sale_tons);
+						
+						
+						Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+						writableSheet.addCell(label_pend_qty);
+						
+						Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+						writableSheet.addCell(label_pend_amt);
+						 	
+						Label label_schCompl = new Label(12, col, twoDForm.format(complSaleper),cellRIghtformat);
+						writableSheet.addCell(label_schCompl);
+						
+						col++;
+					  }
+					} 
+					}
+					//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+					//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+					comp_id ="102";
+					Sheet_Name = "MEPL H25";
+					con = ConnectionUrl.getMEPLH25ERP();
+					sheetcnt++;
+				  	WritableSheet writableSheet2 = writableWorkbook.createSheet(Sheet_Name, sheetcnt); 
+				  	sb2.setLength(0); 
+						ps_code = con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE='11'");
+						rs_code = ps_code.executeQuery();
+						while (rs_code.next()) {
+							sb2.append(rs_code.getString("SUB_GLACNO"));
+						}
+						
+						// exec "ENGERP"."dbo"."Sel_RptDespatchPlanSaleMUTA";1 '101', '0', '101110001101110002101110003101110004101110005101110006101110007101110008101110009101110010101110011101110012101110013101110014101110015101110016101110017101110018101110019101110020101110021101110022101110023101110024101110025101110026101110027101110028101110029101110030101110031101110032101110033101110034101110035101110036101110037101110038101110039101110040101110041101110042101110043101110044101110045101110046101110047101110048101110049101110050101110051101110052101110055101110058101110059101110062101110063101110077101110081101110082101110094101110117101110129101110130101110131101110132101110135101110140101110141101110144101110148101110149101110150101110151101110160101110161101110162101110164101110165101110168101110179101110180101110181101110183101110184101110185101110186101110187101110191101110192101110193101110198101110199101110200101110202101110203101110205101110209101110210101110212101110230101110240101110247101110248101110249101110250101110251101110258101110261101110266101110269101110272101110280101110281101110282101110284101110287101110288101110291101110293101110298101110299101110300101110302101110304101110305101110307101110309101110311101110312101110313101110315101110316101110318101110322101110324101110325101110326101110327101110331101110342101110343101110344101110346101110347101110350101110353101110354101110362101110368101110369101110370101110371101110373101110374101110376101110379101110382101110383101110384101110387101110388101110389101110390101110391101110393101110394101110396101110399101110400101110402101110407101110408101110411101110418101110420101110426101110428101110442101110444101110454101110455101110460101110462101110463101110467101110469101110470101110471101110475101110476101110478101110479101110481101110483101110484101110493101110494101110495101110496101110497101110507101110508101110510101110515101110516101110517101110518101110519101110520101110523101110526101110529101110530101110539101110543101110544101110546101110547101110548101110550101110555101110556101110557101110558101110559101110561101110572' , '20170712'
+						custcodes.clear();
+						cs = con.prepareCall("{call Sel_RptDespatchPlanSaleMUTA(?,?,?,?)}");
+						cs.setString(1, comp_id);
+						cs.setString(2, "0"); 
+						cs.setString(3, sb2.toString());
+						cs.setString(4, sql_date);
+						rs = cs.executeQuery();
+						while (rs.next()) {
+						custcodes.add(rs.getString("CUST_CODE"));
+						} 					 
+						
+						hs.clear();
+						hs.addAll(custcodes);
+						custcodes.clear();
+						custcodes.addAll(hs);  
+						
+						cs_prev = con.prepareCall("{call Sel_RptDespatchPlanSaleMUTA(?,?,?,?)}");
+						cs_prev.setString(1, comp_id);
+						cs_prev.setString(2, "0"); 
+						cs_prev.setString(3, sb2.toString());
+						cs_prev.setString(4, sql_date_prev);
+						rs_prev=null;
+						sale_qtyyes="";sale_amtyes="";tonnage_yes="";
+						complSaleper=0;
+						// ***************************************************************************************************************
+						if (custcodes.size() > 0) {
+						//***************************************************************************************************************************************************************************************************
+							writableSheet2.setColumnView(0, 40);
+						    writableSheet2.setColumnView(1, 12);
+						    writableSheet2.setColumnView(2, 12);
+						    writableSheet2.setColumnView(3, 12);
+						    writableSheet2.setColumnView(4, 12);
+						    writableSheet2.setColumnView(5, 12);
+						    writableSheet2.setColumnView(6, 12);
+						    writableSheet2.setColumnView(7, 12);
+						    writableSheet2.setColumnView(8, 12);
+						    writableSheet2.setColumnView(9, 12);
+						    writableSheet2.setColumnView(10, 12);
+						    writableSheet2.setColumnView(11, 12);
+						    writableSheet2.setColumnView(12, 12);
+						    writableSheet2.setColumnView(13, 12); 
+						    		
+						    		writableSheet2.mergeCells(0, 2,0, 3);  
+						    		writableSheet2.mergeCells(1, 2,3, 2); 
+						    		writableSheet2.mergeCells(4, 2,6, 2);  
+						    		writableSheet2.mergeCells(7, 2,9, 2); 
+						    		writableSheet2.mergeCells(10, 2,11, 2);
+						    		writableSheet2.mergeCells(12,2,12,3);   
+						    		writableSheet2.mergeCells(13, 2,13, 3); 		
+						    		
+						    
+						    Label label1 = new Label(0, 0, "Working Days",cellRIghtformat);
+						    Label label2 = new Label(0, 1, "Days Completed",cellRIghtformat);
+						    Label label3 = new Label(3, 0, "Dispatch vs Schedule on " + testDate,cellRIghtformat);
+						    Label label4 = new Label(1, 0, zeroDForm.format(count_mnt) , cellRIghtformat); 
+						    Label label5 = new Label(1, 1, zeroDForm.format(total_dd), cellRIghtformat);
+						    Label label6 = new Label(0, 2, "Name of Item",cellFormat);  
+						    
+						    Label label7 = new Label(1, 2, "Schedule",cellFormat);
+						    Label label8 = new Label(1, 3, "Qty",cellFormat);
+						    Label label9 = new Label(2, 3, "AMT",cellFormat);
+						    
+						    Label label10 = new Label(3, 3, "Wt. in Tons",cellFormat);
+						     
+						    Label label11 = new Label(4, 2, "Yesterday's Sales",cellFormat_header);
+						    Label label12 = new Label(4, 3, "Qty",cellFormat);
+						    Label label13 = new Label(5, 3, "AMT",cellFormat); 
+						    
+						    Label label14 = new Label(6, 3, "Wt. in Tons",cellFormat);
+						    
+						    Label label15 = new Label(7, 2, "Sales",cellFormat);		    
+						    Label label16 = new Label(7, 3, "Qty",cellFormat);
+						    Label label17 = new Label(8, 3, "AMT",cellFormat);
+						    
+						    Label label18 = new Label(9, 3, "Wt. in Tons",cellFormat);
+						    
+						    Label label19 = new Label(10, 2, "Pending",cellFormat);
+						    Label label20 = new Label(10, 3, "Qty",cellFormat);
+						    Label label21 = new Label(11, 3, "AMT",cellFormat);
+						     
+						    /* Label label22 = new Label(11, 2, "Wt. in Tons",cellFormat); */
+						    Label label22 = new Label(12, 2, "Schedule Compliance%",cellFormat);
+						     
+						 writableSheet2.addCell(label1);
+						 writableSheet2.addCell(label2);
+						 writableSheet2.addCell(label3);					 
+						 writableSheet2.addCell(label4);
+						 writableSheet2.addCell(label5);
+						 writableSheet2.addCell(label6);
+						 writableSheet2.addCell(label7);
+						 writableSheet2.addCell(label8);
+						 writableSheet2.addCell(label9);
+						 writableSheet2.addCell(label10);
+						 writableSheet2.addCell(label11);
+						 writableSheet2.addCell(label12); 
+						 writableSheet2.addCell(label13); 
+						 writableSheet2.addCell(label14); 
+						 writableSheet2.addCell(label15); 
+						 writableSheet2.addCell(label16);
+						 writableSheet2.addCell(label17);
+						 writableSheet2.addCell(label18);
+						 writableSheet2.addCell(label19);
+						 writableSheet2.addCell(label20);
+						 writableSheet2.addCell(label21);
+						 writableSheet2.addCell(label22); 
+						}
+						
+						count=0;
+						col=4;
+						for(int i=0;i<custcodes.size();i++){
+						count=0; 
+						rs = cs.executeQuery(); 
+						while(rs.next()){ 
+							if(rs.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString())){
+							if(count==0){
+								Label customer = new  Label(0, col, rs.getString("CUST_NAME"),cellFormat_header);
+								writableSheet2.addCell(customer);
+								count ++;
+								col++;
+							} 
+							
+							rs_prev = cs_prev.executeQuery(); 
+							sale_qtyyes="0";
+							sale_amtyes="0";
+							tonnage_yes="0";
+							complSaleper=0; 
+							while(rs_prev.next()){
+								if(rs_prev.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString()) && 
+									rs_prev.getString("MAT_CODE").equalsIgnoreCase(rs.getString("MAT_CODE"))){ 
+									sale_qtyyes=rs_prev.getString("SALE_QTY");
+									sale_amtyes=rs_prev.getString("SALE_AMT"); 
+									tonnage_yes = rs_prev.getString("SALE_TONAGE");
+								}
+							} 
+							 
+							complSaleper =Double.parseDouble(rs.getString("SALE_QTY"))/ Double.parseDouble(rs.getString("SCH_QTY"))*100;
+							
+							Label matName = new  Label(0, col, rs.getString("MAT_NAME"),cellleftformat);
+							writableSheet2.addCell(matName); 
+							
+							Label label_des_qty = new Label(1, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SCH_QTY")))),cellRIghtformat);
+							writableSheet2.addCell(label_des_qty);
+							
+							Label label_des_amt = new Label(2, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_AMT"))/100000),cellRIghtformat);
+							writableSheet2.addCell(label_des_amt);
+							 
+							Label label_sch_tons = new Label(3, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_TONAGE"))),cellRIghtformat);
+							writableSheet2.addCell(label_sch_tons);
+							
+							
+							
+							Label yes_sale_qty = new Label(4, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+							writableSheet2.addCell(yes_sale_qty);
+							
+							Label yes_sale_amt = new Label(5, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+							writableSheet2.addCell(yes_sale_amt);
+
+							Label label_saleyes_tons = new Label(6, col, twoDForm.format(Double.parseDouble(tonnage_yes)),cellRIghtformat);
+							writableSheet2.addCell(label_saleyes_tons);
+							
+							
+							Label label_sale_qty = new Label(7, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+							writableSheet2.addCell(label_sale_qty);
+							
+							Label label_sale_amt = new Label(8, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+							writableSheet2.addCell(label_sale_amt);
+							
+							Label label_sale_tons = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_TONAGE"))),cellRIghtformat);
+							writableSheet2.addCell(label_sale_tons);
+							
+							
+							Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+							writableSheet2.addCell(label_pend_qty);
+							
+							Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+							writableSheet2.addCell(label_pend_amt);
+							 	
+							Label label_schCompl = new Label(12, col, twoDForm.format(complSaleper),cellRIghtformat);
+							writableSheet2.addCell(label_schCompl);
+							
+							col++;
+						  }
+						} 
+						}
+						//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+					
+						//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+						comp_id ="103";
+						Sheet_Name = "MFPL";
+						con = ConnectionUrl.getFoundryERPNEWConnection();
+						sheetcnt++;
+						WritableSheet writableSheet3 = writableWorkbook.createSheet(Sheet_Name, sheetcnt);
+					  	sb2.setLength(0);
+							ps_code = con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE='11'");
+							rs_code = ps_code.executeQuery();
+							while (rs_code.next()) {
+								sb2.append(rs_code.getString("SUB_GLACNO"));
+							}
+							
+							// exec "ENGERP"."dbo"."Sel_RptDespatchPlanSaleMUTA";1 '101', '0', '101110001101110002101110003101110004101110005101110006101110007101110008101110009101110010101110011101110012101110013101110014101110015101110016101110017101110018101110019101110020101110021101110022101110023101110024101110025101110026101110027101110028101110029101110030101110031101110032101110033101110034101110035101110036101110037101110038101110039101110040101110041101110042101110043101110044101110045101110046101110047101110048101110049101110050101110051101110052101110055101110058101110059101110062101110063101110077101110081101110082101110094101110117101110129101110130101110131101110132101110135101110140101110141101110144101110148101110149101110150101110151101110160101110161101110162101110164101110165101110168101110179101110180101110181101110183101110184101110185101110186101110187101110191101110192101110193101110198101110199101110200101110202101110203101110205101110209101110210101110212101110230101110240101110247101110248101110249101110250101110251101110258101110261101110266101110269101110272101110280101110281101110282101110284101110287101110288101110291101110293101110298101110299101110300101110302101110304101110305101110307101110309101110311101110312101110313101110315101110316101110318101110322101110324101110325101110326101110327101110331101110342101110343101110344101110346101110347101110350101110353101110354101110362101110368101110369101110370101110371101110373101110374101110376101110379101110382101110383101110384101110387101110388101110389101110390101110391101110393101110394101110396101110399101110400101110402101110407101110408101110411101110418101110420101110426101110428101110442101110444101110454101110455101110460101110462101110463101110467101110469101110470101110471101110475101110476101110478101110479101110481101110483101110484101110493101110494101110495101110496101110497101110507101110508101110510101110515101110516101110517101110518101110519101110520101110523101110526101110529101110530101110539101110543101110544101110546101110547101110548101110550101110555101110556101110557101110558101110559101110561101110572' , '20170712'
+							custcodes.clear();
+							cs = con.prepareCall("{call Sel_RptDespatchPlanSaleMUTA(?,?,?,?)}");
+							cs.setString(1, comp_id);
+							cs.setString(2, "0"); 
+							cs.setString(3, sb2.toString());
+							cs.setString(4, sql_date);
+							rs = cs.executeQuery();
+							while (rs.next()) {
+							custcodes.add(rs.getString("CUST_CODE"));
+							} 					 
+							
+							hs.clear();
+							hs.addAll(custcodes);
+							custcodes.clear();
+							custcodes.addAll(hs);  
+							
+							cs_prev = con.prepareCall("{call Sel_RptDespatchPlanSaleMUTA(?,?,?,?)}");
+							cs_prev.setString(1, comp_id);
+							cs_prev.setString(2, "0"); 
+							cs_prev.setString(3, sb2.toString());
+							cs_prev.setString(4, sql_date_prev);
+							rs_prev=null;
+							sale_qtyyes="";sale_amtyes="";tonnage_yes="";
+							complSaleper=0;
+							// ***************************************************************************************************************
+							if (custcodes.size() > 0) {
+							//***************************************************************************************************************************************************************************************************
+								writableSheet3.setColumnView(0, 40);
+							    writableSheet3.setColumnView(1, 12);
+							    writableSheet3.setColumnView(2, 12);
+							    writableSheet3.setColumnView(3, 12);
+							    writableSheet3.setColumnView(4, 12);
+							    writableSheet3.setColumnView(5, 12);
+							    writableSheet3.setColumnView(6, 12);
+							    writableSheet3.setColumnView(7, 12);
+							    writableSheet3.setColumnView(8, 12);
+							    writableSheet3.setColumnView(9, 12);
+							    writableSheet3.setColumnView(10, 12);
+							    writableSheet3.setColumnView(11, 12);
+							    writableSheet3.setColumnView(12, 12);
+							    writableSheet3.setColumnView(13, 12);
+							    
+							    writableSheet3.mergeCells(0, 2,0, 3);  
+							    writableSheet3.mergeCells(1, 2,3, 2); 
+							    writableSheet3.mergeCells(4, 2,6, 2);  
+							    writableSheet3.mergeCells(7, 2,9, 2); 
+							    writableSheet3.mergeCells(10, 2,11, 2);
+							    writableSheet3.mergeCells(12,2,12,3);   
+							    writableSheet3.mergeCells(13, 2,13, 3); 	
+							    
+							    Label label1 = new Label(0, 0, "Working Days",cellRIghtformat);
+							    Label label2 = new Label(0, 1, "Days Completed",cellRIghtformat);
+							    Label label3 = new Label(3, 0, "Dispatch vs Schedule on " + testDate,cellRIghtformat);
+							    Label label4 = new Label(1, 0, zeroDForm.format(count_mnt) , cellRIghtformat); 
+							    Label label5 = new Label(1, 1, zeroDForm.format(total_dd), cellRIghtformat);
+							    Label label6 = new Label(0, 2, "Name of Item",cellFormat);  
+							    
+							    Label label7 = new Label(1, 2, "Schedule",cellFormat);
+							    Label label8 = new Label(1, 3, "Qty",cellFormat);
+							    Label label9 = new Label(2, 3, "AMT",cellFormat);
+							    
+							    Label label10 = new Label(3, 3, "Wt. in Tons",cellFormat);
+							     
+							    Label label11 = new Label(4, 2, "Yesterday's Sales",cellFormat_header);
+							    Label label12 = new Label(4, 3, "Qty",cellFormat);
+							    Label label13 = new Label(5, 3, "AMT",cellFormat); 
+							    
+							    Label label14 = new Label(6, 3, "Wt. in Tons",cellFormat);
+							    
+							    Label label15 = new Label(7, 2, "Sales",cellFormat);		    
+							    Label label16 = new Label(7, 3, "Qty",cellFormat);
+							    Label label17 = new Label(8, 3, "AMT",cellFormat);
+							    
+							    Label label18 = new Label(9, 3, "Wt. in Tons",cellFormat);
+							    
+							    Label label19 = new Label(10, 2, "Pending",cellFormat);
+							    Label label20 = new Label(10, 3, "Qty",cellFormat);
+							    Label label21 = new Label(11, 3, "AMT",cellFormat);
+							     
+							    /* Label label22 = new Label(11, 2, "Wt. in Tons",cellFormat); */
+							    Label label22 = new Label(12, 2, "Schedule Compliance%",cellFormat);
+							     
+							 writableSheet3.addCell(label1);
+							 writableSheet3.addCell(label2);
+							 writableSheet3.addCell(label3);					 
+							 writableSheet3.addCell(label4);
+							 writableSheet3.addCell(label5);
+							 writableSheet3.addCell(label6);
+							 writableSheet3.addCell(label7);
+							 writableSheet3.addCell(label8);
+							 writableSheet3.addCell(label9);
+							 writableSheet3.addCell(label10);
+							 writableSheet3.addCell(label11);
+							 writableSheet3.addCell(label12); 
+							 writableSheet3.addCell(label13); 
+							 writableSheet3.addCell(label14); 
+							 writableSheet3.addCell(label15); 
+							 writableSheet3.addCell(label16);
+							 writableSheet3.addCell(label17);
+							 writableSheet3.addCell(label18);
+							 writableSheet3.addCell(label19);
+							 writableSheet3.addCell(label20);
+							 writableSheet3.addCell(label21);
+							 writableSheet3.addCell(label22); 
+							}
+							
+							count=0;
+							col=4;
+							for(int i=0;i<custcodes.size();i++){
+							count=0; 
+							rs = cs.executeQuery(); 
+							while(rs.next()){ 
+								if(rs.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString())){
+								if(count==0){
+									Label customer = new  Label(0, col, rs.getString("CUST_NAME"),cellFormat_header);
+									writableSheet3.addCell(customer);
+									count ++;
+									col++;
+								} 
+								
+								rs_prev = cs_prev.executeQuery(); 
+								sale_qtyyes="0";
+								sale_amtyes="0";
+								tonnage_yes="0";
+								complSaleper=0; 
+								while(rs_prev.next()){
+									if(rs_prev.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString()) && 
+										rs_prev.getString("MAT_CODE").equalsIgnoreCase(rs.getString("MAT_CODE"))){ 
+										sale_qtyyes=rs_prev.getString("SALE_QTY");
+										sale_amtyes=rs_prev.getString("SALE_AMT"); 
+										tonnage_yes = rs_prev.getString("SALE_TONAGE");
+									}
+								} 
+								 
+								complSaleper =Double.parseDouble(rs.getString("SALE_QTY"))/ Double.parseDouble(rs.getString("SCH_QTY"))*100;
+								
+								Label matName = new  Label(0, col, rs.getString("MAT_NAME"),cellleftformat);
+								writableSheet3.addCell(matName); 
+								
+								Label label_des_qty = new Label(1, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SCH_QTY")))),cellRIghtformat);
+								writableSheet3.addCell(label_des_qty);
+								
+								Label label_des_amt = new Label(2, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_AMT"))/100000),cellRIghtformat);
+								writableSheet3.addCell(label_des_amt);
+								 
+								Label label_sch_tons = new Label(3, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_TONAGE"))),cellRIghtformat);
+								writableSheet3.addCell(label_sch_tons);
+								
+								
+								
+								Label yes_sale_qty = new Label(4, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+								writableSheet3.addCell(yes_sale_qty);
+								
+								Label yes_sale_amt = new Label(5, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+								writableSheet3.addCell(yes_sale_amt);
+
+								Label label_saleyes_tons = new Label(6, col, twoDForm.format(Double.parseDouble(tonnage_yes)),cellRIghtformat);
+								writableSheet3.addCell(label_saleyes_tons);
+								
+								
+								Label label_sale_qty = new Label(7, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+								writableSheet3.addCell(label_sale_qty);
+								
+								Label label_sale_amt = new Label(8, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+								writableSheet3.addCell(label_sale_amt);
+								
+								Label label_sale_tons = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_TONAGE"))),cellRIghtformat);
+								writableSheet3.addCell(label_sale_tons);
+								
+								
+								Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+								writableSheet3.addCell(label_pend_qty);
+								
+								Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+								writableSheet3.addCell(label_pend_amt);
+								 	
+								Label label_schCompl = new Label(12, col, twoDForm.format(complSaleper),cellRIghtformat);
+								writableSheet3.addCell(label_schCompl);
+								
+								col++;
+							  }
+							} 
+							}
+							//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+							//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+							comp_id ="105";
+							Sheet_Name = "DI";
+							con = ConnectionUrl.getDIERPConnection();
+							sheetcnt++;
+							WritableSheet writableSheet4 = writableWorkbook.createSheet(Sheet_Name, sheetcnt);
+						  	sb2.setLength(0);
+								ps_code = con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE='11'");
+								rs_code = ps_code.executeQuery();
+								while (rs_code.next()) {
+									sb2.append(rs_code.getString("SUB_GLACNO"));
+								}
+								
+								// exec "ENGERP"."dbo"."Sel_RptDespatchPlanSaleMUTA";1 '101', '0', '101110001101110002101110003101110004101110005101110006101110007101110008101110009101110010101110011101110012101110013101110014101110015101110016101110017101110018101110019101110020101110021101110022101110023101110024101110025101110026101110027101110028101110029101110030101110031101110032101110033101110034101110035101110036101110037101110038101110039101110040101110041101110042101110043101110044101110045101110046101110047101110048101110049101110050101110051101110052101110055101110058101110059101110062101110063101110077101110081101110082101110094101110117101110129101110130101110131101110132101110135101110140101110141101110144101110148101110149101110150101110151101110160101110161101110162101110164101110165101110168101110179101110180101110181101110183101110184101110185101110186101110187101110191101110192101110193101110198101110199101110200101110202101110203101110205101110209101110210101110212101110230101110240101110247101110248101110249101110250101110251101110258101110261101110266101110269101110272101110280101110281101110282101110284101110287101110288101110291101110293101110298101110299101110300101110302101110304101110305101110307101110309101110311101110312101110313101110315101110316101110318101110322101110324101110325101110326101110327101110331101110342101110343101110344101110346101110347101110350101110353101110354101110362101110368101110369101110370101110371101110373101110374101110376101110379101110382101110383101110384101110387101110388101110389101110390101110391101110393101110394101110396101110399101110400101110402101110407101110408101110411101110418101110420101110426101110428101110442101110444101110454101110455101110460101110462101110463101110467101110469101110470101110471101110475101110476101110478101110479101110481101110483101110484101110493101110494101110495101110496101110497101110507101110508101110510101110515101110516101110517101110518101110519101110520101110523101110526101110529101110530101110539101110543101110544101110546101110547101110548101110550101110555101110556101110557101110558101110559101110561101110572' , '20170712'
+								custcodes.clear();
+								cs = con.prepareCall("{call Sel_RptDespatchPlanSaleMUTA(?,?,?,?)}");
+								cs.setString(1, comp_id);
+								cs.setString(2, "0"); 
+								cs.setString(3, sb2.toString());
+								cs.setString(4, sql_date);
+								rs = cs.executeQuery();
+								while (rs.next()) {
+								custcodes.add(rs.getString("CUST_CODE"));
+								} 					 
+								
+								hs.clear();
+								hs.addAll(custcodes);
+								custcodes.clear();
+								custcodes.addAll(hs);  
+								
+								cs_prev = con.prepareCall("{call Sel_RptDespatchPlanSaleMUTA(?,?,?,?)}");
+								cs_prev.setString(1, comp_id);
+								cs_prev.setString(2, "0"); 
+								cs_prev.setString(3, sb2.toString());
+								cs_prev.setString(4, sql_date_prev);
+								rs_prev=null;
+								sale_qtyyes="";sale_amtyes="";tonnage_yes="";
+								complSaleper=0;
+								// ***************************************************************************************************************
+								if (custcodes.size() > 0) {
+								//***************************************************************************************************************************************************************************************************
+									writableSheet4.setColumnView(0, 40);
+								    writableSheet4.setColumnView(1, 12);
+								    writableSheet4.setColumnView(2, 12);
+								    writableSheet4.setColumnView(3, 12);
+								    writableSheet4.setColumnView(4, 12);
+								    writableSheet4.setColumnView(5, 12);
+								    writableSheet4.setColumnView(6, 12);
+								    writableSheet4.setColumnView(7, 12);
+								    writableSheet4.setColumnView(8, 12);
+								    writableSheet4.setColumnView(9, 12);
+								    writableSheet4.setColumnView(10, 12);
+								    writableSheet4.setColumnView(11, 12);
+								    writableSheet4.setColumnView(12, 12);
+								    writableSheet4.setColumnView(13, 12);
+								   
+								    
+								    
+								    writableSheet4.mergeCells(0, 2,0, 3);  
+								    writableSheet4.mergeCells(1, 2,3, 2); 
+								    writableSheet4.mergeCells(4, 2,6, 2);  
+								    writableSheet4.mergeCells(7, 2,9, 2); 
+								    writableSheet4.mergeCells(10, 2,11, 2);
+								    writableSheet4.mergeCells(12,2,12,3);   
+								    writableSheet4.mergeCells(13, 2,13, 3); 	
+								    
+								    Label label1 = new Label(0, 0, "Working Days",cellRIghtformat);
+								    Label label2 = new Label(0, 1, "Days Completed",cellRIghtformat);
+								    Label label3 = new Label(3, 0, "Dispatch vs Schedule on " + testDate,cellRIghtformat);
+								    Label label4 = new Label(1, 0, zeroDForm.format(count_mnt) , cellRIghtformat); 
+								    Label label5 = new Label(1, 1, zeroDForm.format(total_dd), cellRIghtformat);
+								    Label label6 = new Label(0, 2, "Name of Item",cellFormat);  
+								    
+								    Label label7 = new Label(1, 2, "Schedule",cellFormat);
+								    Label label8 = new Label(1, 3, "Qty",cellFormat);
+								    Label label9 = new Label(2, 3, "AMT",cellFormat);
+								    
+								    Label label10 = new Label(3, 3, "Wt. in Tons",cellFormat);
+								     
+								    Label label11 = new Label(4, 2, "Yesterday's Sales",cellFormat_header);
+								    Label label12 = new Label(4, 3, "Qty",cellFormat);
+								    Label label13 = new Label(5, 3, "AMT",cellFormat); 
+								    
+								    Label label14 = new Label(6, 3, "Wt. in Tons",cellFormat);
+								    
+								    Label label15 = new Label(7, 2, "Sales",cellFormat);		    
+								    Label label16 = new Label(7, 3, "Qty",cellFormat);
+								    Label label17 = new Label(8, 3, "AMT",cellFormat);
+								    
+								    Label label18 = new Label(9, 3, "Wt. in Tons",cellFormat);
+								    
+								    Label label19 = new Label(10, 2, "Pending",cellFormat);
+								    Label label20 = new Label(10, 3, "Qty",cellFormat);
+								    Label label21 = new Label(11, 3, "AMT",cellFormat);
+								     
+								    /* Label label22 = new Label(11, 2, "Wt. in Tons",cellFormat); */
+								    Label label22 = new Label(12, 2, "Schedule Compliance%",cellFormat);
+								     
+								 writableSheet4.addCell(label1);
+								 writableSheet4.addCell(label2);
+								 writableSheet4.addCell(label3);					 
+								 writableSheet4.addCell(label4);
+								 writableSheet4.addCell(label5);
+								 writableSheet4.addCell(label6);
+								 writableSheet4.addCell(label7);
+								 writableSheet4.addCell(label8);
+								 writableSheet4.addCell(label9);
+								 writableSheet4.addCell(label10);
+								 writableSheet4.addCell(label11);
+								 writableSheet4.addCell(label12); 
+								 writableSheet4.addCell(label13); 
+								 writableSheet4.addCell(label14); 
+								 writableSheet4.addCell(label15); 
+								 writableSheet4.addCell(label16);
+								 writableSheet4.addCell(label17);
+								 writableSheet4.addCell(label18);
+								 writableSheet4.addCell(label19);
+								 writableSheet4.addCell(label20);
+								 writableSheet4.addCell(label21);
+								 writableSheet4.addCell(label22); 
+								}
+								
+								count=0;
+								col=4;
+								for(int i=0;i<custcodes.size();i++){
+								count=0; 
+								rs = cs.executeQuery(); 
+								while(rs.next()){ 
+									if(rs.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString())){
+									if(count==0){
+										Label customer = new  Label(0, col, rs.getString("CUST_NAME"),cellFormat_header);
+										writableSheet4.addCell(customer);
+										count ++;
+										col++;
+									} 
+									
+									rs_prev = cs_prev.executeQuery(); 
+									sale_qtyyes="0";
+									sale_amtyes="0";
+									tonnage_yes="0";
+									complSaleper=0; 
+									while(rs_prev.next()){
+										if(rs_prev.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString()) && 
+											rs_prev.getString("MAT_CODE").equalsIgnoreCase(rs.getString("MAT_CODE"))){ 
+											sale_qtyyes=rs_prev.getString("SALE_QTY");
+											sale_amtyes=rs_prev.getString("SALE_AMT"); 
+											tonnage_yes = rs_prev.getString("SALE_TONAGE");
+										}
+									} 
+									 
+									complSaleper =Double.parseDouble(rs.getString("SALE_QTY"))/ Double.parseDouble(rs.getString("SCH_QTY"))*100;
+									
+									Label matName = new  Label(0, col, rs.getString("MAT_NAME"),cellleftformat);
+									writableSheet4.addCell(matName); 
+									
+									Label label_des_qty = new Label(1, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SCH_QTY")))),cellRIghtformat);
+									writableSheet4.addCell(label_des_qty);
+									
+									Label label_des_amt = new Label(2, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_AMT"))/100000),cellRIghtformat);
+									writableSheet4.addCell(label_des_amt);
+									 
+									Label label_sch_tons = new Label(3, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_TONAGE"))),cellRIghtformat);
+									writableSheet4.addCell(label_sch_tons);
+									
+									
+									
+									Label yes_sale_qty = new Label(4, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+									writableSheet4.addCell(yes_sale_qty);
+									
+									Label yes_sale_amt = new Label(5, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+									writableSheet4.addCell(yes_sale_amt);
+
+									Label label_saleyes_tons = new Label(6, col, twoDForm.format(Double.parseDouble(tonnage_yes)),cellRIghtformat);
+									writableSheet4.addCell(label_saleyes_tons);
+									
+									
+									Label label_sale_qty = new Label(7, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+									writableSheet4.addCell(label_sale_qty);
+									
+									Label label_sale_amt = new Label(8, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+									writableSheet4.addCell(label_sale_amt);
+									
+									Label label_sale_tons = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_TONAGE"))),cellRIghtformat);
+									writableSheet4.addCell(label_sale_tons);
+									
+									
+									Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+									writableSheet4.addCell(label_pend_qty);
+									
+									Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+									writableSheet4.addCell(label_pend_amt);
+									 	
+									Label label_schCompl = new Label(12, col, twoDForm.format(complSaleper),cellRIghtformat);
+									writableSheet4.addCell(label_schCompl);
+									
+									col++;
+								  }
+								} 
+								}
+								//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+								//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+								comp_id ="106";
+								Sheet_Name = "MEPL Unit III";
+								con = ConnectionUrl.getK1ERPConnection();
+								sheetcnt++;
+								WritableSheet writableSheet5 = writableWorkbook.createSheet(Sheet_Name, sheetcnt);
+							  	sb2.setLength(0);
+									ps_code = con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE='11'");
+									rs_code = ps_code.executeQuery();
+									while (rs_code.next()) {
+										sb2.append(rs_code.getString("SUB_GLACNO"));
+									}
+									
+									// exec "ENGERP"."dbo"."Sel_RptDespatchPlanSaleMUTA";1 '101', '0', '101110001101110002101110003101110004101110005101110006101110007101110008101110009101110010101110011101110012101110013101110014101110015101110016101110017101110018101110019101110020101110021101110022101110023101110024101110025101110026101110027101110028101110029101110030101110031101110032101110033101110034101110035101110036101110037101110038101110039101110040101110041101110042101110043101110044101110045101110046101110047101110048101110049101110050101110051101110052101110055101110058101110059101110062101110063101110077101110081101110082101110094101110117101110129101110130101110131101110132101110135101110140101110141101110144101110148101110149101110150101110151101110160101110161101110162101110164101110165101110168101110179101110180101110181101110183101110184101110185101110186101110187101110191101110192101110193101110198101110199101110200101110202101110203101110205101110209101110210101110212101110230101110240101110247101110248101110249101110250101110251101110258101110261101110266101110269101110272101110280101110281101110282101110284101110287101110288101110291101110293101110298101110299101110300101110302101110304101110305101110307101110309101110311101110312101110313101110315101110316101110318101110322101110324101110325101110326101110327101110331101110342101110343101110344101110346101110347101110350101110353101110354101110362101110368101110369101110370101110371101110373101110374101110376101110379101110382101110383101110384101110387101110388101110389101110390101110391101110393101110394101110396101110399101110400101110402101110407101110408101110411101110418101110420101110426101110428101110442101110444101110454101110455101110460101110462101110463101110467101110469101110470101110471101110475101110476101110478101110479101110481101110483101110484101110493101110494101110495101110496101110497101110507101110508101110510101110515101110516101110517101110518101110519101110520101110523101110526101110529101110530101110539101110543101110544101110546101110547101110548101110550101110555101110556101110557101110558101110559101110561101110572' , '20170712'
+									custcodes.clear();
+									cs = con.prepareCall("{call Sel_RptDespatchPlanSaleMUTA(?,?,?,?)}");
+									cs.setString(1, comp_id);
+									cs.setString(2, "0"); 
+									cs.setString(3, sb2.toString());
+									cs.setString(4, sql_date);
+									rs = cs.executeQuery();
+									while (rs.next()) {
+									custcodes.add(rs.getString("CUST_CODE"));
+									} 					 
+									
+									hs.clear();
+									hs.addAll(custcodes);
+									custcodes.clear();
+									custcodes.addAll(hs);  
+									
+									cs_prev = con.prepareCall("{call Sel_RptDespatchPlanSaleMUTA(?,?,?,?)}");
+									cs_prev.setString(1, comp_id);
+									cs_prev.setString(2, "0"); 
+									cs_prev.setString(3, sb2.toString());
+									cs_prev.setString(4, sql_date_prev);
+									rs_prev=null;
+									sale_qtyyes="";sale_amtyes="";tonnage_yes="";
+									complSaleper=0;
+									// ***************************************************************************************************************
+									if (custcodes.size() > 0) {
+									//***************************************************************************************************************************************************************************************************
+										writableSheet5.setColumnView(0, 40);
+									    writableSheet5.setColumnView(1, 12);
+									    writableSheet5.setColumnView(2, 12);
+									    writableSheet5.setColumnView(3, 12);
+									    writableSheet5.setColumnView(4, 12);
+									    writableSheet5.setColumnView(5, 12);
+									    writableSheet5.setColumnView(6, 12);
+									    writableSheet5.setColumnView(7, 12);
+									    writableSheet5.setColumnView(8, 12);
+									    writableSheet5.setColumnView(9, 12);
+									    writableSheet5.setColumnView(10, 12);
+									    writableSheet5.setColumnView(11, 12);
+									    writableSheet5.setColumnView(12, 12);
+									    writableSheet5.setColumnView(13, 12);
+									    
+									    writableSheet5.mergeCells(0, 2,0, 3);  
+									    writableSheet5.mergeCells(1, 2,3, 2); 
+									    writableSheet5.mergeCells(4, 2,6, 2);  
+									    writableSheet5.mergeCells(7, 2,9, 2); 
+									    writableSheet5.mergeCells(10, 2,11, 2);
+									    writableSheet5.mergeCells(12,2,12,3);   
+									    writableSheet5.mergeCells(13, 2,13, 3); 	
+									    
+									    Label label1 = new Label(0, 0, "Working Days",cellRIghtformat);
+									    Label label2 = new Label(0, 1, "Days Completed",cellRIghtformat);
+									    Label label3 = new Label(3, 0, "Dispatch vs Schedule on " + testDate,cellRIghtformat);
+									    Label label4 = new Label(1, 0, zeroDForm.format(count_mnt) , cellRIghtformat); 
+									    Label label5 = new Label(1, 1, zeroDForm.format(total_dd), cellRIghtformat);
+									    Label label6 = new Label(0, 2, "Name of Item",cellFormat);  
+									    
+									    Label label7 = new Label(1, 2, "Schedule",cellFormat);
+									    Label label8 = new Label(1, 3, "Qty",cellFormat);
+									    Label label9 = new Label(2, 3, "AMT",cellFormat);
+									    
+									    Label label10 = new Label(3, 3, "Wt. in Tons",cellFormat);
+									     
+									    Label label11 = new Label(4, 2, "Yesterday's Sales",cellFormat_header);
+									    Label label12 = new Label(4, 3, "Qty",cellFormat);
+									    Label label13 = new Label(5, 3, "AMT",cellFormat); 
+									    
+									    Label label14 = new Label(6, 3, "Wt. in Tons",cellFormat);
+									    
+									    Label label15 = new Label(7, 2, "Sales",cellFormat);		    
+									    Label label16 = new Label(7, 3, "Qty",cellFormat);
+									    Label label17 = new Label(8, 3, "AMT",cellFormat);
+									    
+									    Label label18 = new Label(9, 3, "Wt. in Tons",cellFormat);
+									    
+									    Label label19 = new Label(10, 2, "Pending",cellFormat);
+									    Label label20 = new Label(10, 3, "Qty",cellFormat);
+									    Label label21 = new Label(11, 3, "AMT",cellFormat);
+									     
+									    /* Label label22 = new Label(11, 2, "Wt. in Tons",cellFormat); */
+									    Label label22 = new Label(12, 2, "Schedule Compliance%",cellFormat);
+									     
+									 writableSheet5.addCell(label1);
+									 writableSheet5.addCell(label2);
+									 writableSheet5.addCell(label3);					 
+									 writableSheet5.addCell(label4);
+									 writableSheet5.addCell(label5);
+									 writableSheet5.addCell(label6);
+									 writableSheet5.addCell(label7);
+									 writableSheet5.addCell(label8);
+									 writableSheet5.addCell(label9);
+									 writableSheet5.addCell(label10);
+									 writableSheet5.addCell(label11);
+									 writableSheet5.addCell(label12); 
+									 writableSheet5.addCell(label13); 
+									 writableSheet5.addCell(label14); 
+									 writableSheet5.addCell(label15); 
+									 writableSheet5.addCell(label16);
+									 writableSheet5.addCell(label17);
+									 writableSheet5.addCell(label18);
+									 writableSheet5.addCell(label19);
+									 writableSheet5.addCell(label20);
+									 writableSheet5.addCell(label21);
+									 writableSheet5.addCell(label22); 
+									}
+									
+									count=0;
+									col=4;
+									for(int i=0;i<custcodes.size();i++){
+									count=0; 
+									rs = cs.executeQuery(); 
+									while(rs.next()){ 
+										if(rs.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString())){
+										if(count==0){
+											Label customer = new  Label(0, col, rs.getString("CUST_NAME"),cellFormat_header);
+											writableSheet5.addCell(customer);
+											count ++;
+											col++;
+										} 
+										
+										rs_prev = cs_prev.executeQuery(); 
+										sale_qtyyes="0";
+										sale_amtyes="0";
+										tonnage_yes="0";
+										complSaleper=0; 
+										while(rs_prev.next()){
+											if(rs_prev.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString()) && 
+												rs_prev.getString("MAT_CODE").equalsIgnoreCase(rs.getString("MAT_CODE"))){ 
+												sale_qtyyes=rs_prev.getString("SALE_QTY");
+												sale_amtyes=rs_prev.getString("SALE_AMT"); 
+												tonnage_yes = rs_prev.getString("SALE_TONAGE");
+											}
+										} 
+										 
+										complSaleper =Double.parseDouble(rs.getString("SALE_QTY"))/ Double.parseDouble(rs.getString("SCH_QTY"))*100;
+										
+										Label matName = new  Label(0, col, rs.getString("MAT_NAME"),cellleftformat);
+										writableSheet5.addCell(matName); 
+										
+										Label label_des_qty = new Label(1, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SCH_QTY")))),cellRIghtformat);
+										writableSheet5.addCell(label_des_qty);
+										
+										Label label_des_amt = new Label(2, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_AMT"))/100000),cellRIghtformat);
+										writableSheet5.addCell(label_des_amt);
+										 
+										Label label_sch_tons = new Label(3, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_TONAGE"))),cellRIghtformat);
+										writableSheet5.addCell(label_sch_tons);
+										
+										
+										
+										Label yes_sale_qty = new Label(4, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+										writableSheet5.addCell(yes_sale_qty);
+										
+										Label yes_sale_amt = new Label(5, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+										writableSheet5.addCell(yes_sale_amt);
+
+										Label label_saleyes_tons = new Label(6, col, twoDForm.format(Double.parseDouble(tonnage_yes)),cellRIghtformat);
+										writableSheet5.addCell(label_saleyes_tons);
+										
+										
+										Label label_sale_qty = new Label(7, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+										writableSheet5.addCell(label_sale_qty);
+										
+										Label label_sale_amt = new Label(8, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+										writableSheet5.addCell(label_sale_amt);
+										
+										Label label_sale_tons = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_TONAGE"))),cellRIghtformat);
+										writableSheet5.addCell(label_sale_tons);
+										
+										
+										Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+										writableSheet5.addCell(label_pend_qty);
+										
+										Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+										writableSheet5.addCell(label_pend_amt);
+										 	
+										Label label_schCompl = new Label(12, col, twoDForm.format(complSaleper),cellRIghtformat);
+										writableSheet5.addCell(label_schCompl);
+										
+										col++;
+									 }
+									}
+									}
+									//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+						
+						
+						
+					//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+					 // ***************************************************************************************************************************************************************************************************
+					    writableWorkbook.write();
+					    writableWorkbook.close();
+					//***************************************************************************************************************************************************************************************************
+					//												<======= End Excel Logic 
+					//***************************************************************************************************************************************************************************************************
+	 		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		tonnageTotal=tonnage+tonnageTotal;
-		amountTotal=amount+amountTotal;
-		
-		Label row_8 = new Label(7, cnt, mytotals.format(tonnage)  ,cellRIghtformat);
-		 writableSheet.addCell(row_8);
-		 
-		 Label row_9 = new Label(8, cnt, mytotals.format(amount)  ,cellRIghtformat);
-		 writableSheet.addCell(row_9); 
-		tonnage=0;amount=0; 
-				// ===================================================================================================================================
-				
-				// +++++++++++++++++++++++++++++++++++++++++++++ EGINEERING H-25 TO FOUNDERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		con_erp = ConnectionUrl.getMEPLH25ERP();
-		ps_sis = con_erp.prepareStatement("SELECT TRNACCTMATISALE.TRAN_NO,TRNACCTMATISALE.TRAN_DATE,TRNACCTMATISALE.TRAN_SUBTYPE, "+
-				"TRNACCTMATISALE.MAT_CODE, "+
-				"TRNACCTMATISALE.MAT_NAME,TRNACCTMATISALE.DRG_NO,TRNACCTMATISALE.QTY, "+
-				"TRNACCTMATISALE.WEIGHT,TRNACCTMATISALE.RATE,(CAST(TRNACCTMATISALE.WEIGHT as FLOAT) * CAST(TRNACCTMATISALE.QTY AS FLOAT)) as TONNAGE ,TRNACCTMATISALE.AMOUNT,TRNACCTMATISALE.CUST_SUB_GLACNO, "+
-				"MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
-				"MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE FROM TRNACCTMATISALE "+
-				"LEFT JOIN MSTACCTGLSUB ON TRNACCTMATISALE.CUST_SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
-				"LEFT JOIN MSTMATERIALS ON TRNACCTMATISALE.MAT_CODE = MSTMATERIALS.CODE "+
-				"WHERE CUST_SUB_GLACNO "+
-				"in(101110070) "+
-				"AND TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
-				"AND MATERIAL_TYPE =101 AND TRAN_SUBTYPE IN (1,51) order by CUST_SUB_GLACNO ");
-		rs_sis = ps_sis.executeQuery();
-		while(rs_sis.next()){
-			tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
-			amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
-		}
-		tonnageTotal=tonnage+tonnageTotal;
-		amountTotal=amount+amountTotal;
-		
-		Label row_10 = new Label(9, cnt, mytotals.format(tonnage)  ,cellRIghtformat);
-		 writableSheet.addCell(row_10);
-		 
-		 Label row_111 = new Label(10, cnt, mytotals.format(amount)  ,cellRIghtformat);
-		 writableSheet.addCell(row_111); 
-		tonnage=0;amount=0;  
-				// ===================================================================================================================================
-				
-				// +++++++++++++++++++++++++++++++++++++++++++++ DHANASHREE TO FOUNDERS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		con_erp = ConnectionUrl.getDIERPConnection();
-		ps_sis = con_erp.prepareStatement("SELECT TRNACCTMATISALE.TRAN_NO,TRNACCTMATISALE.TRAN_DATE,TRNACCTMATISALE.TRAN_SUBTYPE, "+
-				"TRNACCTMATISALE.MAT_CODE, "+
-				"TRNACCTMATISALE.MAT_NAME,TRNACCTMATISALE.DRG_NO,TRNACCTMATISALE.QTY, "+
-				"TRNACCTMATISALE.WEIGHT,TRNACCTMATISALE.RATE,(CAST(TRNACCTMATISALE.WEIGHT as FLOAT) * CAST(TRNACCTMATISALE.QTY AS FLOAT)) as TONNAGE ,TRNACCTMATISALE.AMOUNT,TRNACCTMATISALE.CUST_SUB_GLACNO, "+
-				"MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+
-				"MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE FROM TRNACCTMATISALE "+
-				"LEFT JOIN MSTACCTGLSUB ON TRNACCTMATISALE.CUST_SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO "+
-				"LEFT JOIN MSTMATERIALS ON TRNACCTMATISALE.MAT_CODE = MSTMATERIALS.CODE "+
-				"WHERE CUST_SUB_GLACNO "+
-				"in(101110070) "+
-				"AND TRAN_DATE BETWEEN '"+firstsql+"' AND '"+ lastsql + "' " +
-				"AND MATERIAL_TYPE =101 AND TRAN_SUBTYPE IN (1,51) order by CUST_SUB_GLACNO ");
-		rs_sis = ps_sis.executeQuery();
-		while(rs_sis.next()){
-			tonnage = Double.valueOf(rs_sis.getString("TONNAGE")) + tonnage;
-			amount = Double.valueOf(rs_sis.getString("AMOUNT")) + amount;
-		}
-		tonnageTotal=tonnage+tonnageTotal;
-		amountTotal=amount+amountTotal;
-		
-		Label row_12 = new Label(11, cnt, mytotals.format(tonnage)  ,cellRIghtformat);
-		 writableSheet.addCell(row_12);
-		 
-		 Label row_13 = new Label(12, cnt, mytotals.format(amount)  ,cellRIghtformat);
-		 writableSheet.addCell(row_13);  
-		
-		 Label row_14 = new Label(13, cnt, mytotals.format(tonnageTotal)  ,cellRIghtformat);
-		 writableSheet.addCell(row_14);
-		 
-		 Label row_15 = new Label(14, cnt, mytotals.format(amountTotal)  ,cellRIghtformat);
-		 writableSheet.addCell(row_15); 
-		tonnage=0; amount=0;			
-		tonnageTotal=0; amountTotal=0;
-		cnt++;
-	// ===================================================================================================================================
-		} 
-	//------------------------------------------------------------------------------------------------------------------------------------------------------------------
-			 
-			  
-			 
-			 
-			 
-			 
-			 
-			 
-		  
-		   // ***************************************************************************************************************************************************************************************************
-			    writableWorkbook.write();
-			    writableWorkbook.close();
-			//***************************************************************************************************************************************************************************************************
-		 
-} catch (Exception e) {
-	e.printStackTrace();
-}
-System.out.println("Schedule Report Loop END");  
-%>
+		System.out.println("Schedule Report Loop END");
+	%>	
 </body>
 </html>
