@@ -16,7 +16,7 @@
 <%@page import="com.muthagroup.connectionUtil.ConnectionUrl"%>
 <html>
 <head> 
-<title>Party Wise Work Order</title>
+<title>Branch Transfer</title>
 <STYLE TYPE="text/css" MEDIA=all> 
 
 .tftable tr {
@@ -46,7 +46,7 @@
 try{
 Connection con =null;
 String comp =request.getParameter("company");
-String sup =request.getParameter("sup");
+String sup =request.getParameter("sup").toString();
 
 String from =request.getParameter("date_frombt");
 String to =request.getParameter("date_tobt");
@@ -89,16 +89,21 @@ boolean allFlag = false;
 String supName="";
  if(sup.equalsIgnoreCase("All_Supplier")){
 	 allFlag = true; 
-	 sup = "101110054,101110069,101110100,101110205,101110233,101110347,101110475,101120645,101122002,101123158,101124452";
+	 sup = "101110054,101110069,101110100,101110233,101120645,101110205,101110475,101122002,101124452,101110347,101123158";
 	 supName = "ALL"; 
  }else{
-	 PreparedStatement pssup=con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLACNO='" + sup + "'");
-	 ResultSet rssup=pssup.executeQuery();
-	  while(rssup.next()){
-	 	 if(rssup.getString("SUB_GLACNO").equalsIgnoreCase(sup)){
-	 		 supName = rssup.getString("SUBGL_LONGNAME");
-	 	 }
-	  }
+	 if(sup.equalsIgnoreCase("101")){
+		 sup="101110054,101110069,101110100,101110233,101120645";
+		 supName="MUTHA ENGINEERING PVT LTD (D) UNIT I";
+	 }
+	 if(sup.equalsIgnoreCase("102")){
+		 sup="101110205,101110475,101122002,101124452";
+		 supName="MUTHA ENGINEERING PVT LTD (D) UNIT II";
+	 }
+	 if(sup.equalsIgnoreCase("106")){
+		 sup="101110347,101123158";
+		 supName="MUTHA ENGINEERING PVT LTD (D) UNIT III";
+	 }
  }
 %>
 	<strong style="color: blue; font-family: Arial; font-size: 14px;"><%=CompanyName %> </strong>
