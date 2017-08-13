@@ -47,6 +47,17 @@ try{
 Connection con =null;
 String comp =request.getParameter("company");
 String sup =request.getParameter("sup").toString();
+int getcategoryDate = Integer.parseInt(request.getParameter("category"));
+String rep_cat="";
+if(getcategoryDate==1){
+	rep_cat = "ISSUES & RECEIPT";
+}
+if(getcategoryDate==2){
+	rep_cat = "ISSUES";
+}
+if(getcategoryDate==3){
+	rep_cat = "RECEIPT";
+} 
 
 String from =request.getParameter("date_frombt");
 String to =request.getParameter("date_tobt");
@@ -108,60 +119,116 @@ String supName="";
  }
 %>
 	<strong style="color: blue; font-family: Arial; font-size: 14px;"><%=CompanyName %> </strong>
-	<strong style="color: #1B5869; font-family: Arial; font-size: 14px;">Branch Transfer for <%=supName %> from &nbsp;<%=fromDate %>&nbsp; to &nbsp;<%=toDate %>
-	</strong>
+	<strong style="color: #1B5869; font-family: Arial; font-size: 14px;">Branch Transfer for <b style="color: blue;"><%=supName %></b> from &nbsp;<%=fromDate %>&nbsp; to &nbsp;<%=toDate %></strong>
+	 &nbsp; <b style="color: blue;">( <%=rep_cat %>)</b>
 	<br /> 
 <strong style="font-family: Arial; font-size: 13px;"><a href="HomePage.jsp" style="text-decoration: none;">&lArr;BACK</a></strong>
 	   <div style="width: 100%"> 
 		<table id="tftable" class="tftable" border="1" style="width: 100%">  
 			<tr style="font-size: 12px; font-family: Arial;">
-			<th scope="col" class="th">TRAN NO</th> 
+			<th scope="col" class="th">GRN_NO</th> 
 			<th scope="col" class="th">TRAN DATE</th>
 			<th scope="col" class="th">SUPPLIER</th> 
 			<th scope="col" class="th">MATERIAL NAME</th>
 			<th scope="col" class="th">CHALLAN QTY</th>  
 			<th scope="col" class="th">CASTING WT</th>
-			<th scope="col" class="th">TONNAGE</th>
-			<th scope="col" class="th">RATE</th>  
-			<th scope="col" class="th">AMOUNT</th>
+			<th scope="col" class="th">TONNAGE</th> 
+			<th scope="col" class="th" width="200">NARRATION</th>
 			</tr>
+			
 			<%
+			if(getcategoryDate ==1 || getcategoryDate ==2){
+			%>
+			<tr>
+			<td colspan="8" height="25" style="background-color: #64590b;font-size:12px; color: white;"><b>ISSUE ==></b></td>
+			</tr>
+			<%	
 			String trn_date = "";
-			PreparedStatement ps_bt = con.prepareStatement("SELECT RIGHT(TRNSTORMATI.TRAN_NO,6) AS TranNO, "+
-					" TRNSTORMATI.TRAN_DATE, TRNSTORMATI.TRAN_SUBTYPE, TRNSTORMATI.MAT_CODE,  "+
-					" TRNSTORMATI.CHLN_QTY, TRNSTORMATI.SUB_GLACNO,  "+
-					" MSTMATERIALS.CASTING_WT, (CAST(MSTMATERIALS.CASTING_WT as FLOAT) * CAST(TRNSTORMATI.CHLN_QTY AS FLOAT)) as TONNAGE "+ 
-					" ,(CAST(TRNSTORMATI.RATE as FLOAT) * CAST(TRNSTORMATI.CHLN_QTY AS FLOAT)) as AMOUNT  "+
-				    " ,TRNSTORMATI.RATE,TRNSTORMATI.SUB_GLACNO,  "+
-				    " MSTACCTGLSUB.SUBGL_LONGNAME,MSTACCTGLSUB.SUB_GLACNO, "+ 
-					" MSTMATERIALS.CASTING_WT,MSTMATERIALS.FINISH_WT,  "+
-					" MSTMATERIALS.MATERIAL_TYPE,MSTMATERIALS.CODE,MSTMATERIALS.NAME FROM TRNSTORMATI "+ 
-					" LEFT JOIN MSTACCTGLSUB ON TRNSTORMATI.SUB_GLACNO = MSTACCTGLSUB.SUB_GLACNO  "+
-					" LEFT JOIN MSTMATERIALS ON TRNSTORMATI.MAT_CODE = MSTMATERIALS.CODE  "+
-					" WHERE TRNSTORMATI.SUB_GLACNO in(" + sup + ")   "+
-					" AND TRNSTORMATI.TRAN_DATE BETWEEN '"+sqlfromDate+"' AND '" + sqltoDate +
-					"' and TRNSTORMATI.STATUS_CODE =0  "+
-					" AND MSTMATERIALS.MATERIAL_TYPE =101 "+ 
-					 " AND TRNSTORMATI.TRAN_SUBTYPE IN (66) order by TRNSTORMATI.SUB_GLACNO,TRAN_NO");
+			PreparedStatement ps_bt = con.prepareStatement("select CONVERT(INT, SUBSTRING(CONVERT(VARCHAR,TRNMATPOST.TRAN_NO),13,6)) AS GRN_NO, "+
+					" TRNMATPOST.TRAN_DATE, "+
+					" TRNMATPOST.SUB_GLACNO1 AS SUB_GLACNO, "+
+					" MSTACCTGLSUB.SUBGL_LONGNAME, "+
+					" TRNMATPOST.MAT_CODE, "+
+					" MSTMATERIALS.NAME, "+
+					" MSTMATERIALS.CASTING_WT, (CAST(MSTMATERIALS.CASTING_WT as FLOAT) * CAST(TRNMATPOST.QTY AS FLOAT)) as TONNAGE, "+
+					" TRNMATPOST.QTY, "+
+					" TRNACCTMATH.SHORT_NARRTN "+
+					" from TRNMATPOST "+
+					" LEFT JOIN TRNACCTMATH ON  TRNMATPOST.TRAN_NO = TRNACCTMATH.TRAN_NO "+
+					" LEFT JOIN MSTACCTGLSUB ON  TRNMATPOST.SUB_GLACNO1 = MSTACCTGLSUB.SUB_GLACNO "+
+					" LEFT JOIN MSTMATERIALS ON  TRNMATPOST.MAT_CODE = MSTMATERIALS.CODE "+
+					" where TRNMATPOST.TRAN_NO like '%171821333%' "+
+					" and TRNMATPOST.STATUS_CODE=0  AND  "+
+					" TRNMATPOST.TRAN_DATE between '"+sqlfromDate+"' AND '" + sqltoDate +
+					"' and MSTACCTGLSUB.SUB_GLACNO in(" + sup + ") " +
+					" ORDER BY TRNMATPOST.TRAN_NO");
 			ResultSet rs_bt = ps_bt.executeQuery();
 			while(rs_bt.next()){ 					// 20170709  12345678
 				trn_date = rs_bt.getString("TRAN_DATE").substring(6,8)   +"/"+ rs_bt.getString("TRAN_DATE").substring(4,6)  +"/"+ rs_bt.getString("TRAN_DATE").substring(0,4); 
 			%>
 			<tr>
-			<td align="right"><%=rs_bt.getString("TranNO") %></td>
+			<td align="right"><%=rs_bt.getString("GRN_NO") %></td>
 			<td><%=trn_date %></td>
 			<td><%=rs_bt.getString("SUBGL_LONGNAME") %></td>
 			<td><%=rs_bt.getString("NAME") %></td> 
-			<td align="right"><%=noDForm.format(Double.valueOf(rs_bt.getString("CHLN_QTY"))) %></td>
+			<td align="right"><%=noDForm.format(Double.valueOf(rs_bt.getString("QTY"))) %></td>
 			<td align="right"><%=threeDForm.format(Double.valueOf(rs_bt.getString("CASTING_WT"))) %></td>
-			<td align="right"><%=twoDForm.format(Double.valueOf(rs_bt.getString("TONNAGE"))) %></td>
-			<td align="right"><%=rs_bt.getString("RATE") %></td>
-			<td align="right"><%=twoDForm.format(Double.valueOf(rs_bt.getString("AMOUNT"))) %></td>
+			<td align="right"><%=twoDForm.format(Double.valueOf(rs_bt.getString("TONNAGE"))) %></td> 
+			<td align="left"><%=rs_bt.getString("SHORT_NARRTN") %></td>
 			</tr>
 			<%
 			trn_date="";
 			}
+			}
 			%>  
+			<%
+			if(getcategoryDate ==1 || getcategoryDate ==3){
+			%>
+			<tr>
+			<td colspan="8" height="25" style="background-color: #64590b;font-size:12px; color: white;"><b>RECEIPT ==></b></td>
+			</tr>
+			<%	
+			String trn_date = "";
+			PreparedStatement ps_bt = con.prepareStatement("select CONVERT(INT, SUBSTRING(CONVERT(VARCHAR,TRNMATPOST.TRAN_NO),13,6)) AS GRN_NO, "+
+					" TRNMATPOST.TRAN_DATE, "+
+					" TRNMATPOST.SUB_GLACNO1 AS SUB_GLACNO, "+
+					" MSTACCTGLSUB.SUBGL_LONGNAME, "+
+					" TRNMATPOST.MAT_CODE, "+
+					" MSTMATERIALS.NAME, "+
+					" MSTMATERIALS.CASTING_WT, (CAST(MSTMATERIALS.CASTING_WT as FLOAT) * CAST(TRNMATPOST.QTY AS FLOAT)) as TONNAGE, "+
+					" TRNMATPOST.QTY, "+
+					" TRNACCTMATH.SHORT_NARRTN "+
+					" from TRNMATPOST "+
+					" LEFT JOIN TRNACCTMATH ON  TRNMATPOST.TRAN_NO = TRNACCTMATH.TRAN_NO "+
+					" LEFT JOIN MSTACCTGLSUB ON  TRNMATPOST.SUB_GLACNO1 = MSTACCTGLSUB.SUB_GLACNO "+
+					" LEFT JOIN MSTMATERIALS ON  TRNMATPOST.MAT_CODE = MSTMATERIALS.CODE "+
+					" where TRNMATPOST.TRAN_NO like '%171820232%' "+
+					" and TRNMATPOST.STATUS_CODE=0  AND  "+
+					" TRNMATPOST.TRAN_DATE between '"+sqlfromDate+"' AND '" + sqltoDate +
+					"' and MSTACCTGLSUB.SUB_GLACNO in(" + sup + ") " +
+					" ORDER BY TRNMATPOST.TRAN_NO");
+			ResultSet rs_bt = ps_bt.executeQuery();
+			while(rs_bt.next()){ 					// 20170709  12345678
+				trn_date = rs_bt.getString("TRAN_DATE").substring(6,8)   +"/"+ rs_bt.getString("TRAN_DATE").substring(4,6)  +"/"+ rs_bt.getString("TRAN_DATE").substring(0,4); 
+			%>
+			<tr>
+			<td align="right"><%=rs_bt.getString("GRN_NO") %></td>
+			<td><%=trn_date %></td>
+			<td><%=rs_bt.getString("SUBGL_LONGNAME") %></td>
+			<td><%=rs_bt.getString("NAME") %></td> 
+			<td align="right"><%=noDForm.format(Double.valueOf(rs_bt.getString("QTY"))) %></td>
+			<td align="right"><%=threeDForm.format(Double.valueOf(rs_bt.getString("CASTING_WT"))) %></td>
+			<td align="right"><%=twoDForm.format(Double.valueOf(rs_bt.getString("TONNAGE"))) %></td> 
+			<td align="left"><%=rs_bt.getString("SHORT_NARRTN") %></td>
+			</tr>
+			<%
+			trn_date="";
+			}
+			}
+			%>  
+			
+			
+			
 		</table>
 <% 
 con.close();

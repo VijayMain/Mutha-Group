@@ -2003,15 +2003,7 @@ while(rs.next()){
 		</table>
 	</form>	
 		</div>
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		  
 		
 		
 		<%
@@ -2036,9 +2028,9 @@ while(rs.next()){
 		</table>
 	</form>
 	</div>
-		<%-- <div style="float: right; width: 49%">
-		<!-- Master :=:> select * from mstmaterials -->
-			<form action="New_ItemGenerate.jsp" method="post" onSubmit="return validateNewERPItem();">
+		<div style="float: right; width: 49%">
+		<!-- Master :=: > select * from mstmaterials -->
+			<%-- <form action="Generate_NewItemERP" method="post" onSubmit="return validateNewERPItem();">
 			<br/>
 			<table class="tftable">
 			<tr>
@@ -2047,7 +2039,9 @@ while(rs.next()){
 			
 			<tr>
 			<td colspan="2" align="center">
+			<%
 			Connection conMaster = ConnectionUrl.getBWAYSERPMASTERConnection();
+			%>
 			<strong>Select Material Type :</strong>
 			<select name="matType" id="matType" style="height: 25px;font-family: sans-serif;font-size: 15px;background-color: #e1e1e1;">
 			<option value=""> - - - Select - - - </option>
@@ -2067,18 +2061,14 @@ while(rs.next()){
 			<tr>
 			<td colspan="2" align="center">
 			<input type="submit" name="ADD" id="ADDERPItem" value="Click Here" style="background-color: #BABABA;font-weight:bold; width: 85px;height: 35px;"/>
-		 	<!--
-			<br><br>
-			<a href="MasterFillingRel.jsp" style="text-decoration: none;font-size: 14px;text-shadow: aqua;color: blue;"><b>==> Master Filling <==</b></a> 
-			--> 
-			</td>
+		  </td>
 			</tr>
 			<tr>
 			<td colspan="2" align="left"><span id="saveERPItem" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
 			</tr>	 
 		</table>
-	</form> 
-			</div>  --%>
+	</form>  --%>
+			</div> 
 			<br/><br/><br/>
 			</div>
 			
@@ -2235,14 +2225,24 @@ while(rs.next()){
 				<td> 
 				<select name="sup" id="sup_bt"> 
 					<option value="All_Supplier">ALL</option>
-					<option value="101110069">MUTHA ENGINEERING PVT LTD (D) UNIT I</option> 
- 					<option value="101110205">MUTHA ENGINEERING PVT LTD (D) UNIT II</option>
- 					<option value="101110347">MUTHA ENGINEERING PVT LTD (D) UNIT III</option>  
+					<option value="101">MUTHA ENGINEERING PVT LTD (D) UNIT I</option> 
+ 					<option value="102">MUTHA ENGINEERING PVT LTD (D) UNIT II</option>
+ 					<option value="106">MUTHA ENGINEERING PVT LTD (D) UNIT III</option>  
 			 	</select> 
 				</td> 
 			</tr>
-			<tr>    
-				<td>From Date :</td>     
+				<tr>    
+				<td>Category :</td>
+				<td>
+				  <select name="category" id="category"> 
+					<option value="1">ALL</option>
+					<option value="2">ISSUE</option>
+ 					<option value="3">RECEIPT</option>   
+			 	</select>
+				</td>
+			</tr>
+			<tr>
+				<td>From Date :</td>
 				<td> <input type="text" name="date_frombt" value="<%=sdfFIrstDate.format(dddd) %>" id="date_frombt" readonly="readonly" style="font-size: 10px;width: 200px;"/>  
 				 </td>
 			</tr>
