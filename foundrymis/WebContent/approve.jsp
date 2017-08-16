@@ -18,8 +18,7 @@
 	    document.getElementById("hid_status").value = str;
   		document.getElementById("hid_mode").value = str1;
   		document.getElementById("approve_btn").disabled = true;
-  		document.getElementById("decline_btn").disabled = true;
-  		
+  		document.getElementById("decline_btn").disabled = true; 
   		document.getElementById("myForm").submit();
   }
   </script>
@@ -78,6 +77,8 @@ if(request.getParameter("userName")!=null){
     <tr>
       <td align="center"><b>Sr.No</b></td>
       <td align="left"><b>Supplier Name</b></td>
+      <td align="left"><b>Req. By</b></td>
+      <td align="left"><b>Req. Department</b></td>
       <td align="left"><b>Purpose</b></td>
       <td align="left"><b>Request Date</b></td>
       <td align="left"><b>Request Days</b></td>
@@ -87,21 +88,21 @@ if(request.getParameter("userName")!=null){
     </tr>
   </thead>
  <tbody>
-  <%
+ <%
   	int sr=1;
- 	PreparedStatement ps = con.prepareStatement("select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,supp_category,tds_code,supp_city,supplier,purpose,registered_by,supp_address,supplier_phone1,supplier_phone2,pan_no,indus_type,credit_days,tan_no,code, DATEDIFF(CURDATE(), registered_date) AS DAYS from new_item_creation where enable=1 and approval_status=0");
+ 	PreparedStatement ps = con.prepareStatement("select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,req_user,req_dept,supp_category,tds_code,supp_city,supplier,purpose,registered_by,supp_address,supplier_phone1,supplier_phone2,pan_no,indus_type,credit_days,tan_no,code,DATEDIFF(CURDATE(), registered_date) AS DAYS from new_item_creation where enable=1 and approval_status=0");
 	ResultSet rs = ps.executeQuery();
     while(rs.next()){
     	     PreparedStatement ps_sup = conERP.prepareStatement("select * from MSTMATCATAG where code ='"+ rs.getString("supp_category") + "'");
     	     ResultSet rs_sup = ps_sup.executeQuery();
     	      while(rs_sup.next()){
-    	    	  supp_cat = rs_sup.getString("NAME");  
+    	    	  supp_cat = rs_sup.getString("NAME");
     	      }
     	      
     	      ps_sup = conERP.prepareStatement("select * from CNFRATETDS where code ='"+ rs.getString("tds_code") + "'");
      	      rs_sup = ps_sup.executeQuery();
      	      while(rs_sup.next()){
-     	    	  tds_code = rs_sup.getString("NAME");  
+     	    	  tds_code = rs_sup.getString("NAME");
      	      }
      	      
      	     ps_sup = conERP.prepareStatement("select * from MSTCOMMCITY  where CODE ='"+ rs.getString("supp_city") + "'");
@@ -113,6 +114,8 @@ if(request.getParameter("userName")!=null){
     <tr>
       <td align="center"><%=sr %></td>
       <td align="left"><%=rs.getString("supplier") %></td>
+      <td  align='left'><%=  rs.getString("req_user")%></td>
+	  <td  align='left'><%= rs.getString("req_dept")%></td> 
       <td align="left"><%=rs.getString("purpose") %></td>
       <td align="left"><%=rs.getString("registered_date") %></td>
       <td align="left"><%=rs.getString("DAYS") %></td>
@@ -146,9 +149,6 @@ if(request.getParameter("userName")!=null){
 <input type="hidden" name="hid_status" id="hid_status">
 <input type="hidden" name="hid_mode" id="hid_mode">
 <div style="width: 50%;float: left;">
-
-
-
   <dl>
     <dt>Address</dt>
     <dd>- <%=rs.getString("supp_address") %></dd>
@@ -159,6 +159,13 @@ if(request.getParameter("userName")!=null){
     <dd>- <%=rs.getString("pan_no") %></dd>
     <dt>Industry Type</dt>
     <dd>- <%=rs.getString("indus_type") %></dd>
+    
+    <dt>Supplier Category</dt>
+    <dd>- <%=supp_cat %></dd>
+     <dt>TDS Code</dt>
+    <dd>- <%=tds_code %></dd>
+    
+    
   </dl>
   </div>
   <div style="width: 49%;float: right;">
@@ -169,10 +176,13 @@ if(request.getParameter("userName")!=null){
     <dd>- <%=rs.getString("credit_days") %></dd>
      <dt>TAN Number</dt>
     <dd>- <%=rs.getString("tan_no") %></dd>
-    <dt>Supplier Category</dt>
-    <dd>- <%=supp_cat %></dd>
-     <dt>TDS Code</dt>
-    <dd>- <%=tds_code %></dd>
+    
+     <dt>Requested By</dt>
+    <dd>- <%=  rs.getString("req_user")%></dd>
+    <dt>Purpose</dt>
+    <dd>- <%=rs.getString("purpose") %></dd>
+    <dt>Requested Department</dt>
+    <dd>- <%= rs.getString("req_dept")%></dd>
   </dl>
   </div>
   <input type="button" id="approve_btn" value="Approve"  class="btn btn-default" onclick="myFunction(1,'<%= rs.getString("code")%>')" style="background-color: #2cc543;font-weight: bold;">
