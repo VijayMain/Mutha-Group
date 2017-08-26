@@ -131,6 +131,14 @@ if(window.history[nHist] != window.location)
 				      changeMonth: true,
 				      changeYear: true 				         
 				});
+			    $( "#date_fromgateIN" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true 				         
+				});
+			    $( "#date_togateIN" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true
+				});
 			  } 
 			); 
 </script>
@@ -670,19 +678,21 @@ function validateNewERPItem() {
 	document.getElementById("ADDERPItem").disabled = true;
 	document.getElementById("saveERPItem").style.visibility = "visible"; 
 }
-
 function validateMRMEntries() {
 	document.getElementById("ADDBudAdd").disabled = true;
 	document.getElementById("waitImageBudAdd").style.visibility = "visible";		
 	return true;
 }
-
 function validateMRMOP() {
 	document.getElementById("ADDMRMOP").disabled = true;
 	document.getElementById("waitImageMRMOP").style.visibility = "visible";		
 	return true;
 }
-
+function validatedGate_Inward() {
+	document.getElementById("ADDgateIN").disabled = true;
+	document.getElementById("waitImagegateIN").style.visibility = "visible";		
+	return true;
+}
 function validatedBranch_Transfer() {
 	document.getElementById("ADDbt").disabled = true;
 	document.getElementById("waitImagebt").style.visibility = "visible";		
@@ -878,9 +888,13 @@ while(rs.next()){
 		%>
 			<li><a href="#tabs-24">Branch Transfer</a></li>
 		<%
+		}if(reportList.contains("Gate Inward")){
+		%>
+			<li><a href="#tabs-25">Gate Inward</a></li>
+		<%
 		}if(reportList.size()==0){
 		%>
-			<li><a href="#tabs-25">Work In Progress</a></li>
+			<li><a href="#tabs-26">Work In Progress</a></li>	
 		<%
 		}
 		%>
@@ -2204,7 +2218,7 @@ while(rs.next()){
 		 }if(reportList.contains("Branch_Transfer")){
 		%>
 		<div id="tabs-24">
-			     <form action="Branch_Transfer.jsp" method="post"  onSubmit="return validatedBranch_Transfer();">
+		 <form action="Branch_Transfer.jsp" method="post"  onSubmit="return validatedBranch_Transfer();">
 			<table class="tftable" style="border: 0px;">
 			<tr>
 				<td colspan="2"><strong>Branch Transfer Report<br/> </strong> <br/>
@@ -2241,6 +2255,30 @@ while(rs.next()){
 			 	</select>
 				</td>
 			</tr>
+			
+			<tr>
+			<%
+			Connection conMaster = ConnectionUrl.getBWAYSERPMASTERConnection();
+			%>
+			<td align="left">Material Type :</td>
+			<td>
+			<select name="matType" id="matType">
+			<option value="All">All</option>
+			<%
+			PreparedStatement ps_mst = conMaster.prepareStatement("select * from CNFMATERIALS");
+			ResultSet rs_mst = ps_mst.executeQuery();
+			while(rs_mst.next()){
+			%>
+			<option value="<%=rs_mst.getString("CODE")%>" style="font-family: sans-serif;font-size: 15px;"><%=rs_mst.getString("NAME").toUpperCase()%></option>
+			<%
+			}
+			%>
+			</select>
+			</td>
+			</tr> 
+			
+			
+			
 			<tr>
 				<td>From Date :</td>
 				<td> <input type="text" name="date_frombt" value="<%=sdfFIrstDate.format(dddd) %>" id="date_frombt" readonly="readonly" style="font-size: 10px;width: 200px;"/>  
@@ -2259,11 +2297,57 @@ while(rs.next()){
 			</tr>						 
 		</table>
 	</form>
-		</div>	
+		</div>
+		<%
+		 }if(reportList.contains("Gate Inward")){
+		%>
+		 <div id="tabs-25">
+			 <form action="Gate_Inward.jsp" method="post"  onSubmit="return validatedGate_Inward();">
+			<table class="tftable" style="border: 0px;font-size: 12px;">
+			<tr>
+				<td colspan="2"><strong>Gate Inward<br/> </strong><br/></td>
+			</tr>
+			<tr>
+				<td>Select Company :</td>
+				<td>
+				<select name="company" id="companygateIN">
+ 				<option value="103">MFPL</option> 
+ 				<option value="105">DI</option> 
+ 				<option value="106">MEPL Unit III</option>
+ 			</select>
+				 </td>
+			</tr>
+			<tr>
+				<td>Select Type :</td>
+				<td>
+				<select name="inward_type" id="inward_typegateIN">
+ 				<option value="Against_GRN">Against GRN</option>
+ 				<option value="Without_GRN">Without GRN</option> 
+ 				</select>
+			</td>
+			</tr>
+			<tr>
+				<td>From Date :</td>
+				<td> <input type="text" name="date_from" value="<%=sdfFIrstDate.format(dddd) %>" id="date_fromgateIN" readonly="readonly" style="font-size: 10px;width: 200px;"/></td>
+			</tr>
+			<tr>
+				<td>To Date :</td>
+				<td> <input type="text" name="date_to" value="<%=sdfFIrstDate.format(tdate) %>" id="date_togateIN" readonly="readonly" style="font-size: 10px;width: 200px;"/>  
+				</td>
+			</tr>
+  			<tr>
+			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADDgateIN" value="Get Gate Inward Report" style="background-color: #BABABA;width: 285px;height: 35px;"/> </td>
+			</tr>
+			<tr> 
+			<td colspan="2" align="center"><span id="waitImagegateIN" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
+			</tr>					 
+		</table>
+	</form> 	 		
+			</div>
 		<%
 			}if(reportList.size()==0){
 		%>
-			 <div id="tabs-25">
+			 <div id="tabs-26">
 					<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
 			</div>
 		<% 

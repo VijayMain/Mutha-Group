@@ -67,15 +67,11 @@ System.out.println("From Date : " + from_date + " To Date : " + to_date + " from
 <td></td>
 </tr>
 </table>
-
-
-
-
-
-
-
-
-
-
+<%
+String newData = "27-08-2017 02:00:00";
+String date = "2010-11-01"; // YYYY-MM-DD
+java.sql.Date sqlDate = java.sql.Date.valueOf(date);
+System.out.println("Date  = = " + sqlDate);
+%>
 </body>
 </html>

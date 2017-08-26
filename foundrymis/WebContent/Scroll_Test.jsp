@@ -1,406 +1,194 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.CallableStatement"%>
-<%@page import="com.muthagroup.connectionUtil.ConnectionUrl"%>
-<%@page import="java.sql.Connection"%>
+<!DOCTYPE HTML PUBLIC -//W3C//DTD HTML 4.01 Transitional//EN http://www.w3.org/TR/html4/loose.dtd>
 <html>
 <head>
-<title>Scrolling Freeze Panes html table like excel</title>
-<STYLE TYPE="text/css" MEDIA=all>
-.td1 {
-	background: #EEEEEE;
-	color: #000;
-	border: 1px solid #000;
-}
-
-.th {
-	background: blue;
-	color: white;
-	border: 1px solid #000;
-}
-
-A:link {
-	COLOR: #0000EE;
-}
-
-A:hover {
-	COLOR: #0000EE;
-}
-
-A:visited {
-	COLOR: #0000EE;
-}
-
-A:hover {
-	COLOR: #0000EE;
-}
-
-.div_freezepanes_wrapper {
-	position: relative;
-	width: 99%;
-	height: 550px;
-	overflow: hidden;
-	background: #fff;
-	border-style: ridge;
-}
-
-.div_verticalscroll {
-	position: absolute;
-	right: 0px;
-	width: 18px;
-	height: 100%;
-	background: #EAEAEA;
-	border: 1px solid #C0C0C0;
-}
-
-.buttonUp {
-	width: 20px;
-	position: absolute;
-	top: 2px;
-}
-
-.buttonDn {
-	width: 20px;
-	position: absolute;
-	bottom: 22px;
-}
-
-.div_horizontalscroll {
-	position: absolute;
-	bottom: 0px;
-	width: 100%;
-	height: 18px;
-	background: #EAEAEA;
-	border: 1px solid #C0C0C0;
-}
-
-.buttonRight {
-	width: 20px;
-	position: absolute;
-	left: 0px;
-	padding-top: 2px;
-}
-
-.buttonLeft {
-	width: 20px;
-	position: absolute;
-	right: 22px;
-	padding-top: 2px;
-}
-</STYLE>
+<title>Dashboard</title>
 </head>
-<body bgcolor="#DEDEDE" style="font-family: Arial;">
-	<div>
-		<h5> 
-DHANASHREE INDUSTRIES<br/>
-Plot No.D-12 OLD MIDC SATARA 415004.<br/>
-Day wise Production For The Month October 2014
-		</h5> 
-		<div class="div_freezepanes_wrapper">
+<body bgcolor=#DEDEDE style="font-family: Arial;">
 
-			<div class="div_verticalscroll"
-				onmouseover="this.style.cursor='pointer'">
-				<div style="height: 50%;" onmousedown="upp();" onmouseup="upp(1);">
-					<img class="buttonUp" src="images/up.png">
-				</div>
-				<div style="height: 50%;" onmousedown="down();" onmouseup="down(1);">
-					<img class="buttonDn" src="images/down.png">
-				</div>
-			</div>
+	<table border='1' width='97%' style='font-family: Arial;'>
+		<tr
+			style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>
+			<th height='24'>Registered By</th>
+			<th>Approval Status</th>
+			<th>Transfer To</th>
+		</tr>
+		<tr style='font-size: 12px; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>
+			<td>"+reg_by+"</td>
+			<td><strong>"+ap_status + "</strong> by " + userName+"</td>
+			<td>" + tranf_to + "</td>
+		</tr>
+		<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>
+			<th height='24'>Requested By</th>
+			<th>Requested Department</th>
+			<th>Purpose </th>
+		</tr>
+		<tr style='font-size: 12px; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>
+			<td>"+req_user +"</td>
+			<td> "+req_dept +"</td>
+			<td>" + purpose + "</td>
+		</tr>
+	</table>
 
-			<div class="div_horizontalscroll"
-				onmouseover="this.style.cursor='pointer'">
-				<div style="float: left; width: 50%; height: 100%;"
-					onmousedown="right();" onmouseup="right(1);">
-					<img class="buttonRight" src="images/left.png">
-				</div>
-				<div style="float: right; width: 50%; height: 100%;"
-					onmousedown="left();" onmouseup="left(1);">
-					<img class="buttonLeft" src="images/forward.png">
-				</div>
-			</div>
-
-
-
-<%
-Connection con = ConnectionUrl.getDIFMShopConnection();
-CallableStatement callsp1 = con.prepareCall("{call Sel_RptDaywiseCastingSale('105', '201410', 'DIERP')}"); 
-ResultSet rs = callsp1.executeQuery();
-while(rs.next()){
-	System.out.println("Testing Mat Name = " + rs.getString("MAT_Name"));
-}
-%>
-			<table id="t1" border="1" cellpadding=2 style="border: 1px solid #000;">
-
-				<tr>
-					<th class="th">Sr. No</th>
-					<th class="th">Item Name</th>
-					<th class="th">Grade</th>
-					<th class="th">Prod Plan Qty</th>
-					<th class="th">Prod Day Qty</th>
-					<th class="th">Avg Qty</th>
-					<th class="th">Total Qty</th>
-					<th class="th">01</th>
-					<th class="th">02</th>
-					<th class="th">03</th>
-					<th class="th">04</th>
-					<th class="th">05</th>
-					<th class="th">06</th>
-					<th class="th">07</th>
-					<th class="th">08</th>
-					<th class="th">09</th>
-					<th class="th">10</th>
-					<th class="th">11</th>
-					<th class="th">12</th>
-					<th class="th">13</th>
-					<th class="th">14</th>
-					<th class="th">15</th>
-					<th class="th">16</th>
-
-				</tr>
-				
-				
-				<tr onmouseover="this.style.background='#EEEEEE';"
-					onmouseout="this.style.background='';">
-					<td class="td1">00M</td>
-					<td nowrap>THIGPEN FIELD</td>
-					<td nowrap>BAY SPRINGS</td>
-					<td nowrap>MS</td>
-					<td nowrap>31</td>
-					<td nowrap>31</td>
-					<td nowrap>57</td>
-					<td nowrap>13</td>
-					<td nowrap>N</td>
-					<td nowrap>089</td>
-					<td nowrap>89</td>
-					<td nowrap>14</td>
-					<td nowrap>4</td>
-					<td nowrap>W</td>
-					<td nowrap>11</td>
-					<td nowrap></td>
-					<td nowrap>13</td>
-					<td nowrap>N</td>
-					<td nowrap>089</td>
-					<td nowrap>89</td>
-					<td nowrap>14</td>
-					<td nowrap>4</td>
-					<td nowrap>W</td> 
-				</tr>
-				<tr onmouseover="this.style.background='#EEEEEE';"
-					onmouseout="this.style.background='';">
-					<td class="td1">00M</td>
-					<td nowrap>THIGPEN FIELD</td>
-					<td nowrap>BAY SPRINGS</td>
-					<td nowrap>MS</td>
-					<td nowrap>31</td>
-					<td nowrap>31</td>
-					<td nowrap>57</td>
-					<td nowrap>13</td>
-					<td nowrap>N</td>
-					<td nowrap>089</td>
-					<td nowrap>89</td>
-					<td nowrap>14</td>
-					<td nowrap>4</td>
-					<td nowrap>W</td>
-					<td nowrap>11</td>
-					<td nowrap></td>
-					<td nowrap>13</td>
-					<td nowrap>N</td>
-					<td nowrap>089</td>
-					<td nowrap>89</td>
-					<td nowrap>14</td>
-					<td nowrap>4</td>
-					<td nowrap>W</td> 
-				</tr>
-				<tr onmouseover="this.style.background='#EEEEEE';"
-					onmouseout="this.style.background='';">
-					<td class="td1">00M</td>
-					<td nowrap>THIGPEN FIELD</td>
-					<td nowrap>BAY SPRINGS</td>
-					<td nowrap>MS</td>
-					<td nowrap>31</td>
-					<td nowrap>31</td>
-					<td nowrap>57</td>
-					<td nowrap>13</td>
-					<td nowrap>N</td>
-					<td nowrap>089</td>
-					<td nowrap>89</td>
-					<td nowrap>14</td>
-					<td nowrap>4</td>
-					<td nowrap>W</td>
-					<td nowrap>11</td>
-					<td nowrap></td>
-					<td nowrap>13</td>
-					<td nowrap>N</td>
-					<td nowrap>089</td>
-					<td nowrap>89</td>
-					<td nowrap>14</td>
-					<td nowrap>4</td>
-					<td nowrap>W</td> 
-				</tr>
-				<tr onmouseover="this.style.background='#EEEEEE';"
-					onmouseout="this.style.background='';">
-					<td class="td1">00M</td>
-					<td nowrap>THIGPEN FIELD</td>
-					<td nowrap>BAY SPRINGS</td>
-					<td nowrap>MS</td>
-					<td nowrap>31</td>
-					<td nowrap>31</td>
-					<td nowrap>57</td>
-					<td nowrap>13</td>
-					<td nowrap>N</td>
-					<td nowrap>089</td>
-					<td nowrap>89</td>
-					<td nowrap>14</td>
-					<td nowrap>4</td>
-					<td nowrap>W</td>
-					<td nowrap>11</td>
-					<td nowrap></td>
-					<td nowrap>13</td>
-					<td nowrap>N</td>
-					<td nowrap>089</td>
-					<td nowrap>89</td>
-					<td nowrap>14</td>
-					<td nowrap>4</td>
-					<td nowrap>W</td> 
-				</tr>
-				
-				<tr onmouseover="this.style.background='#EEEEEE';"
-					onmouseout="this.style.background='';">
-					<td class="td1">00M</td>
-					<td nowrap>THIGPEN FIELD</td>
-					<td nowrap>BAY SPRINGS</td>
-					<td nowrap>MS</td>
-					<td nowrap>31</td>
-					<td nowrap>31</td>
-					<td nowrap>57</td>
-					<td nowrap>13</td>
-					<td nowrap>N</td>
-					<td nowrap>089</td>
-					<td nowrap>89</td>
-					<td nowrap>14</td>
-					<td nowrap>4</td>
-					<td nowrap>W</td>
-					<td nowrap>11</td>
-					<td nowrap></td>
-					<td nowrap>13</td>
-					<td nowrap>N</td>
-					<td nowrap>089</td>
-					<td nowrap>89</td>
-					<td nowrap>14</td>
-					<td nowrap>4</td>
-					<td nowrap>W</td> 
-				</tr>
-
-			</table>
-
-		</div>
-
-		<br> <br>
-	</div>
-	<script type="text/javascript">
-		var freezeRow = 1; //change to row to freeze at
-		var freezeCol = 7; //change to column to freeze at
-		var myRow = freezeRow;
-		var myCol = freezeCol;
-		var speed = 100; //timeout speed
-		var myTable;
-		var noRows;
-		var myCells, ID;
-
-		function setUp() {
-			if (!myTable) {
-				myTable = document.getElementById("t1");
-			}
-			myCells = myTable.rows[0].cells.length;
-			noRows = myTable.rows.length;
-
-			for ( var x = 0; x < myTable.rows[0].cells.length; x++) {
-				colWdth = myTable.rows[0].cells[x].offsetWidth;
-				myTable.rows[0].cells[x].setAttribute("width", colWdth - 4);
-
-			}
-		}
-
-		function right(up) {
-			if (up) {
-				window.clearTimeout(ID);
-				return;
-			}
-			if (!myTable) {
-				setUp();
-			}
-
-			if (myCol < (myCells)) {
-				for ( var x = 0; x < noRows; x++) {
-					myTable.rows[x].cells[myCol].style.display = "";
-				}
-				if (myCol > freezeCol) {
-					myCol--;
-				}
-				ID = window.setTimeout('right()', speed);
-			}
-		}
-
-		function left(up) {
-			if (up) {
-				window.clearTimeout(ID);
-				return;
-			}
-			if (!myTable) {
-				setUp();
-			}
-
-			if (myCol < (myCells - 1)) {
-				for ( var x = 0; x < noRows; x++) {
-					myTable.rows[x].cells[myCol].style.display = "none";
-				}
-				myCol++;
-				ID = window.setTimeout('left()', speed);
-
-			}
-		}
-
-		function down(up) {
-			if (up) {
-				window.clearTimeout(ID);
-				return;
-			}
-			if (!myTable) {
-				setUp();
-			}
-
-			if (myRow < (noRows - 1)) {
-				myTable.rows[myRow].style.display = "none";
-				myRow++;
-
-				ID = window.setTimeout('down()', speed);
-			}
-		}
-
-		function upp(up) {
-			if (up) {
-				window.clearTimeout(ID);
-				return;
-			}
-			if (!myTable) {
-				setUp();
-			}
-			if (myRow <= noRows) {
-				myTable.rows[myRow].style.display = "";
-				if (myRow > freezeRow) {
-					myRow--;
-				}
-				ID = window.setTimeout('upp()', speed);
-			}
-		}
-	</script>
-
+	<table border='1' width='97%' style='font-family: Arial;'>
+		<tr>
+			<td colspan='4' align='left' bgcolor='#999999'><strong>Supplier
+					Details</strong></td>
+		</tr>
+		<tr>
+			<td width='23%'><strong>Supplier Name</strong></td>
+			<td colspan='3'>"+rs_rec.getString("supplier").toUpperCase()+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>Supplier Short Name</strong></td>
+			<td colspan='3'>"+rs_rec.getString("short_supplier").toUpperCase()+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>Address</strong></td>
+			<td colspan='3'>"+rs_rec.getString("supp_address").toUpperCase()+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>City</strong></td>
+			<td width='27%'>"+city_up+"&nbsp;</td>
+			<td width='21%'><strong>Pin Code</strong></td>
+			<td width='29%'>"+rs_rec.getString("pin_supplier")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>Vendor Code</strong></td>
+			<td>"+rs_rec.getString("vendor_code")+"&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>Phone Number</strong></td>
+			<td>"+rs_rec.getString("supplier_phone1")+"&nbsp;</td>
+			<td>"+rs_rec.getString("supplier_phone2")+"&nbsp;</td>
+			<td>"+rs_rec.getString("supplier_phone3")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>Fax Number</strong></td>
+			<td>"+rs_rec.getString("fax_supplier")+"&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>E-mail ID</strong></td>
+			<td colspan='3'>"+rs_rec.getString("email_supplier")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>Website</strong></td>
+			<td colspan='3'>"+rs_rec.getString("website_supplier")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>Work Address</strong></td>
+			<td colspan='3'>"+rs_rec.getString("work_address").toUpperCase()+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan='4' align='left' bgcolor='#999999'><strong>Taxation
+					Details</strong></td>
+		</tr>
+		<tr>
+			<td><strong>Credit Days</strong></td>
+			<td>"+rs_rec.getString("credit_days")+"&nbsp;</td>
+			<td colspan='2'></td>
+		</tr>
+		<tr>
+			<td><strong>Supplier Category</strong></td>
+			<td>"+sup_cat+"&nbsp;</td>
+			<td><strong>Category</strong></td>
+			<td>"+categ+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>PAN Number</strong></td>
+			<td>"+rs_rec.getString("pan_no")+"&nbsp;</td>
+			<td><strong>TAN Number</strong></td>
+			<td>"+rs_rec.getString("tan_no")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>TDS Code</strong></td>
+			<td colspan='3'>"+tds_code+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>Industry Type</strong></td>
+			<td colspan='3'>"+rs_rec.getString("indus_type")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>TDS Method</strong></td>
+			<td colspan='3'>tds_method +"* Checked TDS Posting Entry Wise
+				and Unchecked for TDS Debit Note</td>
+		</tr>
+		<tr>
+			<td><strong>Net Amount Round</strong></td>
+			<td>"+net_amountRound+"&nbsp;</td>
+			<td><strong>Is Overseas</strong></td>
+			<td>"+is_overseas+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan='4' align='left' bgcolor='#999999'><strong>Bank
+					Details</strong></td>
+		<tr>
+			<td><strong>Account Name</strong></td>
+			<td colspan='3'>"+rs_rec.getString("account_name")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>Account Number</strong></td>
+			<td colspan='3'>"+rs_rec.getString("account_number")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>Bank Name</strong></td>
+			<td colspan='3'>"+rs_rec.getString("bank_name")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>Branch</strong></td>
+			<td colspan='3'>"+rs_rec.getString("branch")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>IFSC Code for RTGS</strong></td>
+			<td colspan='3'>"+rs_rec.getString("ifsc_rtgs")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>IFSC Code NEFT</strong></td>
+			<td colspan='3'>"+rs_rec.getString("ifsc_neft")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>MICR Code</strong></td>
+			<td colspan='3'>"+rs_rec.getString("micr_code")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>Phone Number</strong></td>
+			<td>"+rs_rec.getString("phone_number1")+"&nbsp;</td>
+			<td>"+rs_rec.getString("phone_number2")+"&nbsp;</td>
+			<td>"+rs_rec.getString("phone_number3")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td rowspan='3'><strong>Bank Address</strong></td>
+			<td colspan='3'>"+rs_rec.getString("bank_address1")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan='3'>"+rs_rec.getString("bank_address2")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan='3'>"+rs_rec.getString("bank_address3")+"&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan='4' align='left' bgcolor='#c3c3c3'><strong>GST
+					Details</strong></td>
+		</tr>
+		<tr>
+			<td>Supplier GSTIN Registered ?</td>
+			<td colspan='3'>"+rs_rec.getString("gstin_reg")+"</td>
+		</tr>
+		<tr>
+			<td>GSTIN Number (If Yes)</td>
+			<td colspan='3'>"+rs_rec.getString("GSTIN_number")+"</td>
+		</tr>
+		<tr>
+			<td>Is Line Item GST Round</td>
+			<td colspan='3'>"+rs_rec.getString("line_itemgstround")+"</td>
+		</tr>
+		<tr>
+			<td>State</td>
+			<td colspan='3'>"+rs_rec.getString("state_gst")+"</td>
+		</tr> 
+	</table>
 </body>
 </html>
-
-
-
-
-
-

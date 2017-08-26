@@ -1,8 +1,8 @@
+<%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashSet"%>
 <%@page import="java.text.DateFormat"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%> 
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -232,7 +232,9 @@ System.out.println("NameString = " + nameSubstring.substring(6) + " = " + city);
 
 
 
-
+<%
+String datesql = "21-7-2017 04:00:00";
+%>
 
 
 
