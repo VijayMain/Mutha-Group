@@ -280,11 +280,8 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 				<img class="buttonLeft" src="images/forward.png">
 			</div>
 		</div>
-		<table id="t1" class="t1" border="1"
-			style="width: 96%; border: 1px solid #000;">
-			
-		<!--  PO NO.	PO DATE	Amd 	wef	Sr No	DHANASHREE IND.	Wgt kgs	Rs/kg	Rs/Pc No. -->						
-			
+		<table id="t1" class="t1" border="1" style="width: 96%; border: 1px solid #000;">
+		<!--  PO NO.	PO DATE	Amd 	wef	Sr No	DHANASHREE IND.	Wgt kgs	Rs/kg	Rs/Pc No. -->
 			<tr style="font-size: 12px; font-family: Arial;"> 
 				<th scope="col" class="th" width="5%">PO NO.</th>
 				<th scope="col" class="th">PO DATE</th>
@@ -293,22 +290,22 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 				<th scope="col" class="th">Sr No</th>
 				<th scope="col" class="th"><%=supName %></th>
 				<th scope="col" class="th">Wgt kgs</th>
-				<th scope="col" class="th">Boring Wgt kgs</th>		
+				<th scope="col" class="th">Boring Wgt kgs</th>
 				<th scope="col" class="th">Rs/kg</th>
 				<th scope="col" class="th">Rs/Pc</th>
 			</tr>
 <%
-// exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1  '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
-//  Updated New SP  ====>   exec "H25ERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1 '102', '0', '4031,4032,4038,4039', '20160401', '20170430', 0, '101124269'
- 	CallableStatement cs11 = con.prepareCall("{call Sel_RptPartyWsPurchOrderRegister(?,?,?,?,?,?,?)}");
+// exec "ENGERP"."dbo"."Sel_RptPartyWsPurchOrderRegistermutha";1  '101', '0', '4031,4032', '20140401', '20150313', 0, '101120238'
+//  Updated New SP  ====>   exec "H25ERP"."dbo"."Sel_RptPartyWsPurchOrderRegistermutha";1 '102', '0', '4031,4032,4038,4039', '20160401', '20170430', 0, '101124269'
+ 	CallableStatement cs11 = con.prepareCall("{call Sel_RptPartyWsPurchOrderRegistermutha(?,?,?,?,?,?,?)}");
 	cs11.setString(1,comp);
 	cs11.setString(2,"0");
-	cs11.setString(3,"4031,4032");
+	cs11.setString(3,"4031,4032,40351,40352");
 	cs11.setString(4,from);
 	cs11.setString(5,to);
 	cs11.setString(6,"0");
 	cs11.setString(7,sup);
-	ResultSet rs = cs11.executeQuery(); 
+	ResultSet rs = cs11.executeQuery();
 	while(rs.next()){
 		poDate = rs.getString("AMEND_DATE").substring(6,8) +"/"+ rs.getString("AMEND_DATE").substring(4,6) +"/"+ rs.getString("AMEND_DATE").substring(0,4); 
  %>
@@ -324,7 +321,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
 			 	<td align="right"><%=rs.getString("RATE") %></td> 
 			</tr>
-	<% 
+	<%
 	}
 	%>
 		</table>

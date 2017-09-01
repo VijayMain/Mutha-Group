@@ -44,43 +44,7 @@
 			} else {
 				tableRow.style.backgroundColor = '#FFFFFF';
 			}
-		}
-	 
-	 function get_allAvailSuppliers(name) {
-			var xmlhttp;
-			if (window.XMLHttpRequest) {
-				// code for IE7+, Firefox, Chrome, Opera, Safari
-				xmlhttp = new XMLHttpRequest(); 
-			} else {
-				// code for IE6, IE5
-				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); 
-			}
-			xmlhttp.onreadystatechange = function() {
-				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-					document.getElementById("autofind").innerHTML = xmlhttp.responseText; 
-				}
-			};
-			xmlhttp.open("POST", "Get_allAvailUsers.jsp?q=" + name, true);  
-			xmlhttp.send();
-		}
-	 
-	 function get_FormSelected(name) {
-			var xmlhttp;
-			if (window.XMLHttpRequest) {
-				// code for IE7+, Firefox, Chrome, Opera, Safari
-				xmlhttp = new XMLHttpRequest();
-			} else {
-				// code for IE6, IE5
-				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); 
-			}
-			xmlhttp.onreadystatechange = function() {
-				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-					document.getElementById("itemSelected").innerHTML = xmlhttp.responseText; 
-				}
-			};
-			xmlhttp.open("POST", "Master_Ajax.jsp?q=" + name, true);  
-			xmlhttp.send();
-		}
+		}  
 </script>
 <STYLE TYPE="text/css" MEDIA=all>
 input{
@@ -137,58 +101,20 @@ background-color: #e6e6ff;
 }
 
 .tft td {
-	font-size: 12px;   
+	font-size: 12px;
 	border: 1px solid #963;
 }
 </STYLE>
 <script type="text/javascript">
 function validateNewItemForm() {
-	document.getElementById("submit").disabled = true; 
-	var supplier = document.getElementById("supplier"); 
-	  	if (supplier.value=="0" || supplier.value==null || supplier.value=="" || supplier.value=="null") {
+	document.getElementById("submit").disabled = true;
+	var itemName = document.getElementById("itemName");
+	  	if (itemName.value=="0" || itemName.value==null || itemName.value=="" || itemName.value=="null") {
 			document.getElementById("submit").disabled = false;
-			alert("Please Provide Supplier Name !!!");  
+			alert("Please Provide Item Name !!!");  
 			return false;
 		} 
 }
- 
-function get_allAvailSuppliers(name) {
-	var xmlhttp;
-	if (window.XMLHttpRequest) {
-		// code for IE7+, Firefox, Chrome, Opera, Safari
-		xmlhttp = new XMLHttpRequest(); 
-	} else {
-		// code for IE6, IE5
-		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); 
-	}
-	xmlhttp.onreadystatechange = function() {
-		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-			document.getElementById("autofind").innerHTML = xmlhttp.responseText; 
-		}
-	};
-	xmlhttp.open("POST", "Get_allAvailUsers.jsp?q=" + name, true);  
-	xmlhttp.send(); 
-}
-
-function getSupplier(str) {
-	if(str!=""){
-	var xmlhttp;
-	if (window.XMLHttpRequest) {
-		// code for IE7+, Firefox, Chrome, Opera, Safari
-		xmlhttp = new XMLHttpRequest();
-	} else {
-		// code for IE6, IE5
-		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	xmlhttp.onreadystatechange = function() {
-		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-			document.getElementById("autofind").innerHTML = xmlhttp.responseText; 
-		}
-	};
-	xmlhttp.open("POST", "GetSelectedApproval_List.jsp?q=" + str, true);
-	xmlhttp.send();
-	}
-};
 </script>
 <script type="text/javascript">
 function validatenumerics(key) {
@@ -203,6 +129,25 @@ if (keycode > 31 && (keycode < 48 || keycode > 57) && keycode != 46) {
 {
 	return true;
 };
+}
+
+
+function get_allAvailItems(name) {
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp = new XMLHttpRequest(); 
+	} else {
+		// code for IE6, IE5
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); 
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById("autofind").innerHTML = xmlhttp.responseText; 
+		}
+	};
+	xmlhttp.open("POST", "Get_AvailItems.jsp?q=" + name, true);  
+	xmlhttp.send(); 
 }
 </script> 
 <script type="text/javascript">
@@ -219,7 +164,7 @@ alert("Done");
 	<%
 	try {
 		SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyy-MM-dd");
-		Date tdate = new Date();
+		Date tdate = new Date(); 
 		String todaysDate = sdfFIrstDate.format(tdate);
 		Connection con = ConnectionUrl.getBWAYSERPMASTERConnection();
 		Connection conlocal = ConnectionUrl.getLocalDatabase();
@@ -227,141 +172,376 @@ alert("Done");
 		ResultSet rs = null;
 		Calendar now = Calendar.getInstance();
 		int year = now.get(Calendar.YEAR);
-		if(request.getParameter("repMsg")!=null){ 
-	  %>
+		if(request.getParameter("repMsg")!=null){
+	%>
 	  <script type="text/javascript">
 	  alert("<%=request.getParameter("repMsg") %>");
 	  </script>
-	  <%
+	<%
 		}
-	  %>
+	%>
 <strong style="color: #1B5869;font-family: Arial;font-size: 14px;">New Item Creation in ERP System</strong> 
 <br/>
 <strong style="font-family: Arial;font-size: 14px;font-weight: bold;"><a href="HomePage.jsp" style="text-decoration: none;">&lArr; BACK</a></strong>
 &nbsp;&nbsp;&nbsp;<b style="font-size: 11px;color: #555306">Note : Please Use Mozilla Firefox Web Browser for full control.......</b>
 <br>
 <div style="overflow: scroll;background-color: white;width:70%;float:left">
-<form action="ItemERP_Creation" method="post"  onSubmit="return validateNewItemForm();"  enctype="multipart/form-data">
+<form action="Master_ItemCreate" method="post"  onSubmit="return validateNewItemForm();">
 <table class="tftable" style="width: 100%">
-  <tr>
-    <th colspan="4" align="left">
-    		<strong>Select Material Type :</strong>  
-			<select name="matType" id="matType" style="height: 25px;font-family: sans-serif;font-size: 15px;background-color: #e1e1e1;"  onchange="get_FormSelected(this.value)">
-			<option value=""> - - - Select - - - </option>
-			<%
-			Connection conMaster = ConnectionUrl.getBWAYSERPMASTERConnection();
-			PreparedStatement ps_mst = conMaster.prepareStatement("select * from CNFMATERIALS");
-			ResultSet rs_mst = ps_mst.executeQuery();
-			while(rs_mst.next()){
-			%>
-			<option value="<%=rs_mst.getString("CODE")%>" style="font-family: sans-serif;font-size: 15px;"><%=rs_mst.getString("NAME").toUpperCase()%></option>
-			<%
-			}
-			%>
-			</select>
-			&nbsp;&nbsp;( <a href="New_ItemGenerate.jsp" style="font-family: Arial;font-size: 13px;color: green;">Reset</a> )
-    </th>
+ <tr>
+ <th colspan="2" align="left">Product Master ==></th>
  </tr>
-    <!-- <tr>
-      <td>Purpose <b style="color: red;">*</b></td>
-      <td colspan="3"><input type="text" name="purpose" id="purpose" size="50" style="text-transform: uppercase;"></td>
-      </tr> 
-    <tr>
-      <td>Attach cheque/other for ref.</td>
-      <td colspan="3"><input type="file" name="attachment" id="attachment" size="40"></td>
-    </tr> 
-    		Transfer data to company selected -
-    <tr>
-      <td colspan="4" align="left" bgcolor="#c3c3c3"><strong>After Creation, Transfer Supplier To</strong></td>
-    </tr>
-    <tr>
-      <td colspan="4">
-      <br>
-      <input type="checkbox" name="meplH21" id="meplH21"> MEPL H21  &nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="checkbox" name="meplH25" id="meplH25"> MEPL H25  &nbsp;&nbsp; &nbsp;&nbsp; 
-      <input type="checkbox" name="mfpl" id="mfpl"> MFPL  &nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="checkbox" name="di" id="di"> DI  &nbsp;&nbsp; &nbsp;&nbsp;
-      <input type="checkbox" name="meplunitIII" id="meplunitIII"> MEPL UNIT III
-      <br><br>      
-      </td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td colspan="3"><input type="submit" name="submit" id="submit" value="Submit for Approval" style="font-weight:bold;height: 29px;width: 200px;background-color: #9ae9ef;"></td>
-    </tr>
-    -->
-  </table>
-  
-  
-  <div id="itemSelected">
-  
-  </div>
+<tr>
+	  <td align="left"><label class="caption">Item Name*</label></td>
+	  <td width="81%" align="left"><Input Type="Text" Id="itemName" name="itemName"  onKeyUp="get_allAvailItems(this.value)" size="40"></td>
+</tr>
+<tr>
+	  <td align="left"><label class="caption">Inv. Name</label></td>
+	  <td align="left"><Input Type="Text" Id="invName" name="invName" TabIndex="3"  Size="70" MaxLength="100" ></td>
+</tr>
+		<tr>
+		  <td align="left">
+	    <label class="caption">Sub Grade*</label></td>
+	  <td align="left">
+  				<Select id="SubGrade" name="SubGrade">
+				<%
+				PreparedStatement ps_subgrd = con.prepareStatement("select * from MSTCOMMCASTGRADE");
+				ResultSet rs_subgrd = ps_subgrd.executeQuery();
+				while(rs_subgrd.next()){
+				%>
+					<Option Value="<%=rs_subgrd.getString("CODE") %>" ><%=rs_subgrd.getString("NAME") %></Option>
+				<%
+				}
+				%>	 
+				</select>			
+		</td> 
+	  </tr>
+		<tr>
+		  <td align="left"><label class="caption" >UOM</label></td>
+		  <td align="left"><Select id="drpUnitCode2" name="drpUnitCode2"  TabIndex="5"  disabled >
+            <Option Value="NOS" >NUMBERS</Option>
+          </select></td>
+  </tr>
+		<tr>
+		  <td align="left">
+	    <label class="caption" >Sub Grade Description</label></td>
+	  <td align="left">
+	    <Input Type="Text" Id="txtSubGradeDesc" name="txtSubGradeDesc" TabIndex="6"  Size="30" MaxLength="50" >			</td>
+	  </tr>
+		<tr>
+		  <td align="left">
+	    <label class="caption" >Item Type</label>			</td>
+	  <td align="left">
+  				<Select id="drpItemType" name="drpItemType" TabIndex="7" >
+					<Option Value="0"> Purchase or Own Production </Option>
+					<Option Value="1"> Job Work Machining </Option>
+					<Option Value="2"> Own Production </Option> 
+				    <Option Value="3"> Job Work or Own Production </Option>
+				</select>			
+	  </td>
+	  </tr> 
+		<tr>
+		  <td align="left">
+	    <label class="caption" >Drawing Number</label>			</td>
+	  <td  align="left">
+	    <Input Type="Text" Id="txtRefPartCode" name="txtRefPartCode" TabIndex="8"  Size="45" MaxLength="40" ></td>
+	  </tr>
+		<tr>
+		  <td align="left"><Label class="Caption">Revision Number</Label></td>
+		  <td  align="left"><Input Type="Text" Id="txtRevNo2" name="txtRevNo2" TabIndex="9"  Size="12" MaxLength="10" style="Text-align:Right"></td>
+  </tr>
+		<tr>
+		  <td align="left"><Label class="Caption">Rev. Date</Label></td>
+		  <td  align="left"><Input Type="Text" Name="txtRevDate2" Id="txtRevDate2" Size="10" MaxLength="10" Tabindex="10"  OnBlur="chkValidFormatDate(this,'dd/mm/yyyy')" ></td>
+  </tr>
+		<tr>
+		  <td align="left">
+	    <label class="caption" >Drawing Location</label>			</td>
+	  <td  align="left">
+	    <Input Type="Text" Id="txtDrgLocation" name="txtDrgLocation" TabIndex="12"  Size="70" MaxLength="70" >			</td>
+	  </tr>
+		<tr>
+		  <td align="left">
+	    <label class="caption">Quality Test Type</label>			</td>
+	  <td align="left">
+  			<Select id="drpTestCode" name="drpTestCode" TabIndex="13" >
+					<Option Value="0"> Inspection Not Required </Option>
+					<Option Value="1"> Visual Inspection </Option>
+					<Option Value="2"> QA Testing </Option>
+				</select>			
+	</td>
+	  </tr>
+		<tr>
+		  <td align="left">
+	    <label class="caption">Quality Specification No</label></td>
+	  <td align="left">
+	    <Input Type="Text" Id="txtSpecNo" name="txtSpecNo" TabIndex="14"  Size="22" MaxLength="20" style="Text-align:Right">			</td>
+	  </tr>
+		<tr>
+		  <td align="left"><Label class="Caption">Revision Number</Label></td>
+		  <td align="left"><Input Type="Text" Id="txtSpecRevNo" name="txtSpecRevNo" TabIndex="15"  Size="12" MaxLength="10" value="0" style="Text-align:Right"></td>
+  </tr>
+		<tr>
+		  <td align="left"><Label class="Caption">Rev. Date</Label></td>
+		  <td align="left"><Input Type="Text" Name="txtSpecRevDate2" Id="txtSpecRevDate2" Size="10" MaxLength="10" Tabindex="16"  OnBlur="chkValidFormatDate(this,'dd/mm/yyyy')" ></td> 
+  </tr>
+		<tr>
+		  <td align="left"><label class="caption" >Casting Weight</label></td>
+  <td align="left">
+	    <Input Type="Text" Id="txtCastingWt" name="txtCastingWt" TabIndex="18"  Size="12" MaxLength="10" value="0.000" OnBlur="ChkInputWt(this)" style="Text-align:Right">			</td>
+</tr>
+ <tr>
+		  <td align="left"><label class="caption" >Finished Weight</label></td>
+		  <td align="left"><Input Type="Text" Id="txtFinishWt" name="txtFinishWt" TabIndex="19"  Size="12" MaxLength="10" value="0.000" OnBlur="ChkInputWt(this)" style="Text-align:Right"></td>
+ </tr>
+ <tr>
+		  <td align="left"><span class="caption">Rate</span></td>
+		  <td align="left"><Input Type="Text" Id="txtRate" name="txtRate" TabIndex="20"  Size="12" MaxLength="10" value="0" OnBlur='chkValidNoValue(this,0,"Rate");' style="Text-align:Right" ></td>
+  </tr>
+		<tr>
+		  <td align="left">
+	    <label class="caption">Despatch As / Item Type</label></td>
+	  <td align="left">
+	    <Input Type="Radio" Id="rdoCasting" name="rdoDespType" TabIndex="21"  Value="1"  class="check" /><b>&nbsp;
+	    Casting</b>			<Input Type="Radio" Id="rdoFinish"  name="rdoDespType" TabIndex="22" " Value="0" checked runAt="server" class="check" />
+	    <b>&nbsp;Finished
+	    <Input Type="Radio" Id="rdoAssembly"  name="rdoDespType" TabIndex="23" " Value="2"  class="check" />
+	    <b>&nbsp;Assembly</b></b></td>
+	  </tr>
+		<tr>
+		  <td align="left">
+	    <label class="caption" >Sales classification</label>			</td>
+	  <td   align="left">
+  <Select id="drpSaleAs" name="drpSaleAs"  TabIndex="24" > 
+					<Option Value="101001" >SALES</Option>
+				</select>			</td>
+	  </tr>
+		<tr>
+		  <td align="left">
+	    <label class="caption">HS Number</label>			</td>
+	  <td align="left">
+  				<Select id="drpChapter" name="drpChapter"  style="width: 500px;">
+  				<option value=""> - - - - - Select  - - - - - </option>
+				<%
+				ps_subgrd = con.prepareStatement("SELECT * FROM CNFRATEEXCISE");
+				rs_subgrd = ps_subgrd.executeQuery();
+				while(rs_subgrd.next()){
+				%>
+					<Option Value="<%=rs_subgrd.getString("CODE") %>" ><%=rs_subgrd.getString("CHAPTER_NO")%>  <%=rs_subgrd.getString("NAME") %></Option>
+				<%
+				}
+				%>
+				</select>			
+		</td>
+	  </tr>
+	<tr>
+	   <Td align="left">
+	    <Label class="caption">Rejection Scrap Material </label></Td>
+	  <Td align="left">
+  	<Select id="drpScrap" name="drpScrap">
+  	<option value=""> - - - - - Select  - - - - - </option>
+  				<%
+				ps_subgrd = con.prepareStatement("select * from MSTMATERIALS where MATERIAL_TYPE=131");
+				rs_subgrd = ps_subgrd.executeQuery();
+				while(rs_subgrd.next()){
+				%>
+					<Option Value="<%=rs_subgrd.getString("CODE") %>" ><%=rs_subgrd.getString("NAME") %></Option>
+				<%
+				}
+				%>
+	</select>
+	</td>
+	  </tr>
+		<tr>
+		  <td align="left">
+	    <label class="caption" >Purchase GL</label>			</td>
+	  <td align="left">
+	  <Select id="drpPurhGlAcNo" name="drpPurhGlAcNo">
+	  <option value=""> - - - - - Select  - - - - - </option>
+				<%
+				ps_subgrd = con.prepareStatement("select * from MSTACCTGL order by GL_NAME");
+				rs_subgrd = ps_subgrd.executeQuery();
+				while(rs_subgrd.next()){
+				%>
+					<Option Value="<%=rs_subgrd.getString("GL_ACNO") %>" ><%=rs_subgrd.getString("GL_NAME") %></Option>
+				<%
+				}
+				%>	
+		</select>			
+		</td>
+	  </tr>
+		<tr>
+		  <td align="left">
+	    <label class="caption" >Purchase Return</label>			</td>
+	  <Td align="left">
+  			<Select id="drpPurhRetAcNo" name="drpPurhRetAcNo">
+  			<option value=""> - - - - - Select  - - - - - </option>
+  			<%
+				ps_subgrd = con.prepareStatement("select * from MSTACCTGL order by GL_NAME");
+				rs_subgrd = ps_subgrd.executeQuery();
+				while(rs_subgrd.next()){
+				%>
+					<Option Value="<%=rs_subgrd.getString("GL_ACNO") %>" ><%=rs_subgrd.getString("GL_NAME") %></Option>
+				<%
+				}
+				%>
+  			</select>			
+  </Td>
+	  </tr>
+		<tr>
+		  <td align="left">
+	    <label class="caption" >Sales GL</label>			</td>
+	  <Td align="left">
+	  <Select id="drpSaleGlAcno" name="drpSaleGlAcno">
+	  <option value=""> - - - - - Select  - - - - - </option>
+				<%
+				ps_subgrd = con.prepareStatement("select * from MSTACCTGL order by GL_NAME");
+				rs_subgrd = ps_subgrd.executeQuery();
+				while(rs_subgrd.next()){
+				%>
+					<Option Value="<%=rs_subgrd.getString("GL_ACNO") %>" ><%=rs_subgrd.getString("GL_NAME") %></Option>
+				<%
+				}
+				%> 
+				</select>			
+		</td>
+	  </tr>
+		<tr>
+		  <td align="left">
+	    <label class="caption" >Sales Return</label>			</td>
+	  <Td align="left">
+  		<Select id="drpSaleRetAcno" name="drpSaleRetAcno"  TabIndex="30" >
+  		<option value=""> - - - - - Select  - - - - - </option>
+  				<%
+				ps_subgrd = con.prepareStatement("select * from MSTACCTGL order by GL_NAME");
+				rs_subgrd = ps_subgrd.executeQuery();
+				while(rs_subgrd.next()){
+				%>
+					<Option Value="<%=rs_subgrd.getString("GL_ACNO") %>" ><%=rs_subgrd.getString("GL_NAME") %></Option>
+				<%
+				}
+				%>	
+		</select>
+	</Td>
+	  </tr>
+		<tr>
+		  <Td align="left">
+	    <label class="caption">Stock List Group </label>			</Td>
+	  <Td align="left">
+  		<Select id="drpAcctGroup" name="drpAcctGroup"> 
+  		<option value=""> - - - - - Select  - - - - - </option>
+				<%
+				ps_subgrd = con.prepareStatement("SELECT * FROM MSTMATGROUP");
+				rs_subgrd = ps_subgrd.executeQuery();
+				while(rs_subgrd.next()){
+				%>
+					<Option Value="<%=rs_subgrd.getString("CODE") %>" ><%=rs_subgrd.getString("NAME") %></Option>
+				<%
+				}
+				%>	
+					
+				</select>
+		</Td>
+	  </tr>
+		<tr>
+		  <td align="left"><label class="caption">Store Location</label>          </td>
+		  <Td align="left"><Select id="drpLocCode" name="drpLocCode"> 
+		  <option value=""> - - - - - Select  - - - - - </option>
+            <%
+				ps_subgrd = con.prepareStatement("SELECT * FROM MSTMATLOCATION");
+				rs_subgrd = ps_subgrd.executeQuery();
+				while(rs_subgrd.next()){
+				%>
+					<Option Value="<%=rs_subgrd.getString("CODE") %>" ><%=rs_subgrd.getString("NAME") %></Option>
+				<%
+				}
+				%>	            
+          </select></Td>
+  </tr>
+		<tr>
+		  <Td align="left">
+	    <label class="caption">DBK </label>			</Td>
+	  <Td align="left">
+				
+  <Select id="drpDbk" name="drpDbk"  TabIndex="33" >
+				
+					<Option Value="0" >Not Applicable</Option>
+				</select>			</Td>
+	  </tr>
+		<tr>
+		  <Td align="left">
+	    <label class="caption">Goods Category </label>			</Td>
+	  <Td align="left">
+				
+  <Select id="drpGoodsCat" name="drpGoodsCat"  TabIndex="34" >
+				 <option value=""> - - - - - Select  - - - - - </option>
+			  <%
+				ps_subgrd = con.prepareStatement("SELECT * FROM CNFGSTRATECATEGORY");
+				rs_subgrd = ps_subgrd.executeQuery();
+				while(rs_subgrd.next()){
+				%>
+					<Option Value="<%=rs_subgrd.getString("CODE") %>" ><%=rs_subgrd.getString("NAME") %></Option>
+				<%
+				}
+				%>	
+				</select>			
+			</Td>
+	  </tr>
+		<tr>
+		  <td align="left"><label class="caption">BHN Specification</label>          </td>
+		  <td align="left"><Input Type="Text" Id="txtBHNSpec" name="txtBHNSpec" TabIndex="35"  Size="20" MaxLength="20" >          </td>
+  </tr>
+		<tr>
+		  <td align="left"><span class="caption">Old System Code</span></td>
+		  <td align="left"><Input Type="Text" Id="txtOldCode" name="txtOldCode" TabIndex="36"  Size="15" MaxLength="10"  ></td>
+  </tr>
+		<tr>
+		  <td align="left"></td>
+	  <td align="left"><input type="checkbox" name="chkWTinputSale2"  Class="check" TabIndex=37 >
+        <label class="caption">Is Wt.Input in Invoice</label></td>
+	  </tr>
+		
+		<tr>
+		  <td align="left" valign="top">Remark</td>
+	  <td align="left">
+	    <textarea id="txtAddSpec" name="txtAddSpec" TabIndex="38"  Cols=52 rows=3 OnKeyup="CheckTextAreaLength(this , 500)" OnKeyDown="CheckTextAreaLength(this , 500)" > </textarea>			</td>
+	  </tr>
+		<tr>
+		  <td align="left">&nbsp;</td>
+		  <td align="left"><input type="submit" name="submit" id="submit" value="Submit for Approval" style="font-weight:bold;height: 29px;width: 200px;background-color: #9ae9ef;"></td>
+  </tr>
+	</table>
 </form>
 </div>
-
-<div style="height:550px; overflow: scroll;background-color: white;width:29%;float:right;">
-<form action="Supplier_Summary.jsp" method="post" name="edit" id="edit">
-<input type="hidden" name="hid_code" id="hid_code"> 
-<span id="autofind">
-<table class="tftable">
-<tr>
-    <th>
-    <select name="supplier_name" id="supplier_name" onChange="getSupplier(this.value)">
-    <option value="">All</option>
-    <option value="0">Pending</option>
-    <option value="1">Approved</option>
-    <option value="3">Declined</option> 
-    </select> Supplier</th>
-    <th>Request Date</th>
-    <th>Created By</th>
-    <th>Status</th>
-    <th>Created in ERP</th>
-  </tr>
-  <%
-  int created_erp =0;
-  ps = conlocal.prepareStatement("select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,created_inERP,code,supplier,registered_by,approval_status  from new_item_creation where enable=1 and approval_status!=3 order by created_inERP");
-  rs = ps.executeQuery();
-  while(rs.next()){
-	  created_erp = rs.getInt("created_inERP");
-  %>
-  <tr  onmouseover="ChangeColor(this, true);" onMouseOut="ChangeColor(this, false);" onClick="button1('<%=rs.getInt("code")%>')" style="cursor: pointer;">
-  <td align="left" style="font-family: Arial;font-size: 10px;"><%=rs.getString("supplier").toUpperCase() %></td>
-  <td><%=rs.getString("registered_date") %></td>
-  <td><%=rs.getString("registered_by") %></td>
-  <%
-  if(rs.getString("approval_status").equalsIgnoreCase("0")){
-  %>
-  <td>Pending</td>
-  <%
-  } 
-  if(rs.getString("approval_status").equalsIgnoreCase("1")){
-  %>
-  <td>Approved</td>
-  <%
-  } 
-  if(rs.getString("approval_status").equalsIgnoreCase("3")){
-  %>
-  <td>Declined</td>
-  <%
-  }
-  if(created_erp==0){
-  %>  
- <td><b> - - - - </b></td>
- <%
-  }else{
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+<div style="height:100%; overflow: scroll;background-color: white;width:29%;float:right;">
+<%
+PreparedStatement ps_avail =null;
+ResultSet rs_avail = null;
 %>
- <td><b>Created</b></td>
-<%	  
-  }
- %>
+<form action="Supplier_Summary.jsp" method="post" name="edit" id="edit">
+<span id="autofind">
+<input type="hidden" name="hid_code" id="hid_code">
+<table class="tftable">
+  <tr>
+    <th>Available Supplier Names</th>
   </tr>
-  <%
-  }
-  %>
+<%
+ps_avail = conlocal.prepareStatement("select * from erp_itemmaster where enable=1");
+rs_avail = ps_avail.executeQuery();
+while(rs_avail.next()){
+%>
+<tr>
+	<td><%=rs_avail.getString("NAME") %></td>
+</tr>
+<%
+}
+%>
 </table>
 </span>
 </form>
 </div>
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 	<%
 		} catch (Exception e) {
 			e.printStackTrace();

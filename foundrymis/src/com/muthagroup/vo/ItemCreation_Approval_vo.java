@@ -3,22 +3,29 @@ package com.muthagroup.vo;
 import java.io.InputStream;
 
 public class ItemCreation_Approval_vo {
-	private String supplier="", short_supplier="", supp_address="", supp_city="",
-			pin_supplier="", vendor_code="", fax_supplier="", email_supplier="",
-			website_supplier="", work_address="", credit_days="", tin_sst="", tin_sst_date="",
-			cst_number="", cst_number_date="", service_tax="", service_tax_date="", ecc_no="",
-			excise_range="", division="", collectorate="", supp_category="", category="",
-			pan_no="", tan_no="", lbt_no="", tds_code="", indus_type="", tds_method="",
-			excise_round="", excise_cessround="", service_taxround="",
-			service_cessround="", vat_round="", net_amountRound="", is_overseas="",
-			account_name="", account_number="", bank_name="", branch="", ifsc_rtgs="",
-			ifsc_neft="", micr_code="", phone_number1="", phone_number2="", bank_address1="",
-			bank_address2="", bank_address3="", supplier_phone2="", supplier_phone1="",
-			supplier_phone3="", relativeinMutha="", relative_name="", turnYear1="",
-			turnover1="", turnover2="", turnover3="", turnYear2="", turnYear3="", owners_name="",
-			phone_number3="", attachment_name="", meplH21="", meplH25="", mfpl="", di="",
-			meplunitIII="", purpose="", gstin_reg="", GSTIN_number="", line_itemgstround="",
-			state_gst="";
+	private String supplier = "", short_supplier = "", supp_address = "",
+			supp_city = "", pin_supplier = "", vendor_code = "",
+			fax_supplier = "", email_supplier = "", website_supplier = "",
+			work_address = "", credit_days = "", tin_sst = "",
+			tin_sst_date = "", cst_number = "", cst_number_date = "",
+			service_tax = "", service_tax_date = "", ecc_no = "",
+			excise_range = "", division = "", collectorate = "",
+			supp_category = "", category = "", pan_no = "", tan_no = "",
+			lbt_no = "", tds_code = "", indus_type = "", tds_method,
+			excise_round = "", excise_cessround = "", service_taxround = "",
+			service_cessround = "", vat_round = "", net_amountRound,
+			is_overseas , account_name = "", account_number = "",
+			bank_name = "", branch = "", ifsc_rtgs = "", ifsc_neft = "",
+			micr_code = "", phone_number1 = "", phone_number2 = "",
+			bank_address1 = "", bank_address2 = "", bank_address3 = "",
+			supplier_phone2 = "", supplier_phone1 = "", supplier_phone3 = "",
+			relativeinMutha = "", relative_name = "", turnYear1 = "",
+			turnover1 = "", turnover2 = "", turnover3 = "", turnYear2 = "",
+			turnYear3 = "", owners_name = "", phone_number3 = "",
+			attachment_name = "", meplH21, meplH25, mfpl, di, meplunitIII,
+			purpose = "", gstin_reg = "", GSTIN_number = "",
+			line_itemgstround = "", state_gst = "", req_user = "",
+			req_dept = "";
 	private InputStream attachment;
 
 	public String getSupplier() {
@@ -603,6 +610,22 @@ public class ItemCreation_Approval_vo {
 
 	public void setState_gst(String state_gst) {
 		this.state_gst = state_gst;
+	}
+
+	public String getReq_user() {
+		return req_user;
+	}
+
+	public void setReq_user(String req_user) {
+		this.req_user = req_user;
+	}
+
+	public String getReq_dept() {
+		return req_dept;
+	}
+
+	public void setReq_dept(String req_dept) {
+		this.req_dept = req_dept;
 	}
 
 }

@@ -1,5 +1,5 @@
 package com.muthagroup.controller;
- 
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -114,7 +114,13 @@ private static final long serialVersionUID = 1L;
 				}
 				if (fieldName.equalsIgnoreCase("supp_category")) {
 					vo.setSupp_category(fieldValue);
+				}		   
+				if (fieldName.equalsIgnoreCase("req_user")) {
+					vo.setReq_user(fieldValue);
 				}
+				if (fieldName.equalsIgnoreCase("req_dept")) {
+					vo.setReq_dept(fieldValue);
+				}				
 				if (fieldName.equalsIgnoreCase("purpose")) {
 					vo.setPurpose(fieldValue);
 				}

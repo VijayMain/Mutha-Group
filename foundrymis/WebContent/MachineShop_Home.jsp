@@ -787,9 +787,13 @@ while(rs.next()){
 		%>
 			<li><a href="#tabs-17">VAT Ledger</a></li>
 		<%
+		}if(reportList.contains("Gate Inward")){
+		%>
+			<li><a href="#tabs-18">Gate Inward</a></li>
+		<%
 		}if(reportList.size()==0){			
 		%> 	
-			<li><a href="#tabs-18">Work In Progress</a></li>
+			<li><a href="#tabs-19">Work In Progress</a></li>
 		<%
 		}
 		%>
@@ -1747,13 +1751,57 @@ while(rs.next()){
 					<td colspan="2" align="left"><span id="waitImage_vatledger" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
 					</tr>
 					</table>
-				</form>
-		 		
-				 </div>
-						<%
-							}if(reportList.size()==0){
+				</form> 
+				 </div>  
+		<%
+		 }if(reportList.contains("Gate Inward")){
 		%>
-			<div id="tabs-18">
+		 <div id="tabs-18">
+			 <form action="Gate_Inward.jsp" method="post"  onSubmit="return validatedGate_Inward();">
+			<table class="tftable" style="border: 0px;font-size: 12px;">
+			<tr>
+				<td colspan="2"><strong>Gate Inward<br/> </strong><br/></td>
+			</tr>
+			<tr>
+				<td>Select Company :</td>
+				<td>
+			<select name="company" id="companygateIN">
+ 				<option value="101">MEPL H21</option>
+ 				<option value="102">MEPL H25</option> 
+ 			</select>
+				 </td>
+			</tr>
+			<tr>
+				<td>Select Type :</td>
+				<td>
+				<select name="inward_type" id="inward_typegateIN">
+ 				<option value="Against_GRN">Against GRN</option>
+ 				<option value="Without_GRN">Without GRN</option> 
+ 				</select>
+			</td>
+			</tr>
+			<tr>
+				<td>From Date :</td>
+				<td> <input type="text" name="date_from" value="<%=sdfFIrstDate.format(dddd) %>" id="date_fromgateIN" readonly="readonly" style="font-size: 10px;width: 200px;"/></td>
+			</tr>
+			<tr>
+				<td>To Date :</td>
+				<td> <input type="text" name="date_to" value="<%=sdfFIrstDate.format(tdate) %>" id="date_togateIN" readonly="readonly" style="font-size: 10px;width: 200px;"/>  
+				</td>
+			</tr>
+  			<tr>
+			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADDgateIN" value="Get Gate Inward Report" style="background-color: #BABABA;width: 285px;height: 35px;"/> </td>
+			</tr>
+			<tr> 
+			<td colspan="2" align="center"><span id="waitImagegateIN" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
+			</tr>					 
+		</table>
+	</form> 	 		
+			</div>
+		<%
+			}if(reportList.size()==0){
+		%>
+			<div id="tabs-19">
 			<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
 			</div>
 		<%

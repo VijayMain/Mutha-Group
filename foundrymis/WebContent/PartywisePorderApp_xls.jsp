@@ -155,11 +155,11 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
     writableSheet.addCell(label9); 
   	//***********************************************************************************************************************************
     //***********************************************************************************************************************************
-    //  Updated New SP  ====>   exec "H25ERP"."dbo"."Sel_RptPartyWsPurchOrderRegister";1 '102', '0', '4031,4032,4038,4039', '20160401', '20170430', 0, '101124269'
-     	CallableStatement cs11 = con.prepareCall("{call Sel_RptPartyWsPurchOrderRegister(?,?,?,?,?,?,?)}");
+    //  Updated New SP  ====>   exec "H25ERP"."dbo"."Sel_RptPartyWsPurchOrderRegistermutha";1 '102', '0', '4031,4032,4038,4039', '20160401', '20170430', 0, '101124269'
+     	CallableStatement cs11 = con.prepareCall("{call Sel_RptPartyWsPurchOrderRegistermutha(?,?,?,?,?,?,?)}");
 	cs11.setString(1,comp);
 	cs11.setString(2,"0");
-	cs11.setString(3,"4031,4032");
+	cs11.setString(3,"4031,4032,40351,40352");
 	cs11.setString(4,from);
 	cs11.setString(5,to);
 	cs11.setString(6,"0");

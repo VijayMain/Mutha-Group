@@ -138,12 +138,16 @@ if(request.getParameter("createdflag")!=null){
 				userName = "";
 			}
 
-			String reg_by = "", tranf_to = "", tds_method = "", excise_round = "", excise_cessround = "", service_taxround = "", service_cessround = "", vat_round = "", net_amountRound = "", is_overseas = "";
+			String reg_by = "", tranf_to = "", tds_method = "", excise_round = "", excise_cessround = "", service_taxround = "", service_cessround = "", vat_round = "", net_amountRound = "", is_overseas = "",req_user="",req_dept="",purpose="";
 			int record_flag = 0;
 			PreparedStatement ps_rec = con.prepareStatement("select * from new_item_creation where code="+ Integer.parseInt(hid_code));
 			ResultSet rs_rec = ps_rec.executeQuery();
 			while (rs_rec.next()) {
 				reg_by = rs_rec.getString("registered_by");
+				
+				req_user=rs_rec.getString("req_user");
+				req_dept=rs_rec.getString("req_dept");
+				purpose=rs_rec.getString("purpose");
 				record_flag = rs_rec.getInt("created_inERP");
 				
 				if (rs_rec.getString("transf_h21") != null) {
@@ -209,6 +213,16 @@ if(uid==116 && record_flag!=1){
 			<td><%=reg_by%></td>
 			<td><strong><%=app_status %></strong>(<%= userName %>)</td>
 			<td><%= tranf_to %></td>
+		</tr>
+		<tr style='font-size: 12px; background-color: #94B4FE; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>
+			<th height='24'>Requested By</th>
+			<th>Requested Department</th>
+			<th>Purpose </th>
+		</tr>
+		<tr style='font-size: 12px; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center;'>
+			<td><%= req_user %></td>
+			<td><%= req_dept %></td>
+			<td><%= purpose %></td>
 		</tr>
 	</table>
 	<table border='1' width='87%' style='font-family: Arial;'>
