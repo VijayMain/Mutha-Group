@@ -138,9 +138,9 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
     Label label4 = new Label(4, 0, "Sr No",cellFormat);
     Label label5 = new Label(5, 0, supName,cellFormat);
     Label label6 = new Label(6, 0, "Wgt kgs",cellFormat);
-    Label label7 = new Label(7, 0, "Boring Wgt kgs",cellFormat);
-    Label label8 = new Label(8, 0, "Rs/kg",cellFormat);
-    Label label9 = new Label(9, 0, "Rs/Pc",cellFormat);  
+    /* Label label7 = new Label(7, 0, "Boring Wgt kgs",cellFormat); */
+    Label label8 = new Label(7, 0, "Rs/kg",cellFormat);
+    Label label9 = new Label(8, 0, "Rs/Pc",cellFormat);  
 
   // Add the created Cells to the sheet
     writableSheet.addCell(label);
@@ -150,7 +150,7 @@ try {	   //  xmlhttp.open("POST", "PartywisePorder_xls.jsp?comp=" + comp +"&sup=
     writableSheet.addCell(label4);
     writableSheet.addCell(label5);
     writableSheet.addCell(label6);
-    writableSheet.addCell(label7);
+    /* writableSheet.addCell(label7); */
     writableSheet.addCell(label8); 
     writableSheet.addCell(label9); 
   	//***********************************************************************************************************************************
@@ -189,8 +189,8 @@ Label supnamelbl = new Label(row, col, rs.getString("MAT_NAME"),cellRIghtformat)
 row++;
 Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
 row++;
-Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
-row++;
+/* Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
+row++; */
 Number rskglbl = new Number(row, col, Double.parseDouble(rs.getString("REJ_RATE")),cellRIghtformat);
 row++; 
 Number rspclbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),cellRIghtformat);
@@ -201,11 +201,11 @@ Number rspclbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),c
 		writableSheet.addCell(srnolbl);
 		writableSheet.addCell(supnamelbl);
 		writableSheet.addCell(wtkglbl);
-		writableSheet.addCell(boriwtkglbl);
+		/* writableSheet.addCell(boriwtkglbl); */
 		writableSheet.addCell(rskglbl);	
 		writableSheet.addCell(rspclbl);
 		row++;
-		if(row==10){
+		if(row==9){
 			row=0;
 			col++;   
 		}
@@ -228,8 +228,8 @@ Number rspclbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),c
 			row++;
 			Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
 			row++;
-			Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
-			row++;
+			/* Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
+			row++; */
 			Number rskglbl = new Number(row, col, Double.parseDouble(rs.getString("REJ_RATE")),cellRIghtformat);
 			row++; 
 			Number rspclbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),cellRIghtformat);
@@ -240,11 +240,11 @@ Number rspclbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),c
 					writableSheet.addCell(srnolbl);
 					writableSheet.addCell(supnamelbl);
 					writableSheet.addCell(wtkglbl);
-					writableSheet.addCell(boriwtkglbl);
+					/* writableSheet.addCell(boriwtkglbl); */
 					writableSheet.addCell(rskglbl);	
 					writableSheet.addCell(rspclbl);
 					row++;
-					if(row==10){
+					if(row==9){
 						row=0;
 						col++;   
 					}
@@ -267,8 +267,8 @@ Number rspclbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),c
 			row++;
 			Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
 			row++;
-			Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
-			row++;
+			/* Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
+			row++; */
 			Number rskglbl = new Number(row, col, Double.parseDouble(rs.getString("REJ_RATE")),cellRIghtformat);
 			row++; 
 			Number rspclbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),cellRIghtformat);
@@ -279,11 +279,11 @@ Number rspclbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),c
 					writableSheet.addCell(srnolbl);
 					writableSheet.addCell(supnamelbl);
 					writableSheet.addCell(wtkglbl);
-					writableSheet.addCell(boriwtkglbl);
+					/* writableSheet.addCell(boriwtkglbl); */
 					writableSheet.addCell(rskglbl);	
 					writableSheet.addCell(rspclbl);
 					row++;
-					if(row==10){
+					if(row==9){
 						row=0;
 						col++;   
 					}
@@ -305,8 +305,8 @@ Number rspclbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),c
 			row++;
 			Number wtkglbl = new Number(row, col,Double.parseDouble(rs.getString("WEIGHT")),cellRIghtformat);
 			row++;
-			Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
-			row++;
+			/* Number boriwtkglbl = new Number(row, col,Double.parseDouble(rs.getString("BORI_WEIGHT")),cellRIghtformat);
+			row++; */
 			Number rskglbl = new Number(row, col, Double.parseDouble(rs.getString("REJ_RATE")),cellRIghtformat);
 			row++; 
 			Number rspclbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),cellRIghtformat);
@@ -317,11 +317,11 @@ Number rspclbl = new Number(row, col, Double.parseDouble(rs.getString("RATE")),c
 					writableSheet.addCell(srnolbl);
 					writableSheet.addCell(supnamelbl);
 					writableSheet.addCell(wtkglbl);
-					writableSheet.addCell(boriwtkglbl);
+					/* writableSheet.addCell(boriwtkglbl); */
 					writableSheet.addCell(rskglbl);	
 					writableSheet.addCell(rspclbl);
 					row++;
-					if(row==10){
+					if(row==9){
 						row=0;
 						col++;   
 					}

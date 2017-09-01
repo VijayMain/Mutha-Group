@@ -290,7 +290,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 				<th scope="col" class="th">Sr No</th>
 				<th scope="col" class="th"><%=supName %></th>
 				<th scope="col" class="th">Wgt kgs</th>
-				<th scope="col" class="th">Boring Wgt kgs</th>
+				<!-- <th scope="col" class="th">Boring Wgt kgs</th> -->
 				<th scope="col" class="th">Rs/kg</th>
 				<th scope="col" class="th">Rs/Pc</th>
 			</tr>
@@ -317,7 +317,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			 	<td align="right"><%=rs.getString("SR_NO") %></td>
 			 	<td width="40%"><%=rs.getString("MAT_NAME") %></td>
 			 	<td align="right"><%=rs.getString("WEIGHT") %></td>
-			 	<td align="right"><%=rs.getString("BORI_WEIGHT") %></td>
+			 	<%-- <td align="right"><%=rs.getString("BORI_WEIGHT") %></td> --%>
 			 	<td align="right"><%=rs.getString("REJ_RATE") %></td> 
 			 	<td align="right"><%=rs.getString("RATE") %></td> 
 			</tr>
