@@ -34,6 +34,14 @@
 			    $( "#toUserwiseDate" ).datepicker({
 				      changeMonth: true,
 				      changeYear: true 
+				    });   				   
+			    $( "#fromSoftwareDate" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true 
+				    });   
+			    $( "#toSoftwareDate" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true 
 				    });   
 			  } 
 			); 
@@ -153,7 +161,8 @@ function validatePerticularForm() {
 				<ul>
 					<li><a href="#tabs-1"><font style="font-size: 12px;">Req No Wise</font> </a></li>
 					<li><a href="#tabs-2"><font style="font-size: 12px;">Select Particulars</font></a></li> 
-					<li><a href="#tabs-3"><font style="font-size: 12px;">User Wise Usage</font></a></li> 
+					<li><a href="#tabs-3"><font style="font-size: 12px;">User Wise Usage</font></a></li>
+					<li><a href="#tabs-4"><font style="font-size: 12px;">Software Counts</font></a></li> 
 				</ul>
 				<div id="tabs-1">
 				<form action="Report_Generator_Controller" name="report" id="report"
@@ -313,26 +322,50 @@ function validatePerticularForm() {
 				
 				
 				</div>
+				
+				
+				
+				<div id="tabs-4">
+				
+				<form action="Software_CountReport.jsp" name="Userreport" id="Userreport" method="post">
+				<table  align="center" border="0" class="tftable">
+								<tr>
+									<td width="12%" align="right"><b>Select Report Dates :</b></td>
+								  <td width="88%" colspan="2"></td>
+				  </tr> 
+								<tr>
+									<td align="right">From :</td>
+									<td colspan="2" align="left">
+									<input type="text" name="fromSoftwareDate" id="fromSoftwareDate" readonly="readonly" value="<%=sdfFIrstDate.format(dddd) %>"/>									</td>
+								</tr>
+								<tr>
+									<td align="right">To Date :</td>
+									<td colspan="2" align="left">
+									<input type="text" name="toSoftwareDate" id="toSoftwareDate" readonly="readonly" value="<%=sdfFIrstDate.format(tdate) %>"/>									</td>
+								</tr> 
+								<tr>
+									<td colspan="2" align="center"><input type="submit" value="View Report" style="width: 150px; height: 30px;"/></td>
+								    <td align="center">&nbsp;</td>
+								</tr>
+							</table>
+				  </form>
+				
+				
+				</div>
+				
+				
+				
+				
+				
+				
+				
 			</div>	
-		
-		
-		
-		<!-- Reports End-->
+		 <!-- Reports End-->
 		<%
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		%>
-		<!-- <div id="footer">
-			<p class="style2">
-				<a href="IT_index.jsp">Home</a> <a href="IT_New_Requisition.jsp">New
-					Requisition</a> <a href="Closed_Requisitions.jsp">Closed
-					Requisition</a> <a href="IT_All_Requisitions.jsp">All Requisitions</a>
-				<a href="IT_Reports.jsp">Reports</a> <a href="Software_Access.jsp">Software
-					Access</a> <a href="Logout.jsp">Logout</a><br /> <a
-					href="http://www.muthagroup.com">Mutha Group, Satara </a>
-			</p>
-		</div> -->
+		%> 
 	</div>
 </body>
 </html>

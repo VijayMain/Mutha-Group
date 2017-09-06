@@ -79,6 +79,12 @@ $(function() {
 		document.getElementById("hid5").value = val1;
 		edit5.submit();
 	}
+			function button6(val) {
+				var val1 = val; 
+				document.getElementById("hid6").value = val1;
+				edit6.submit();
+			}
+			
 </script>
 
 <%
@@ -125,7 +131,7 @@ $(function() {
 		 <div id="tabs">
 				<ul>
 				<%
-				int cnt_comph21=0,cnt_comph25=0,cnt_compdi=0,cnt_compmf=0,cnt_compk1=0;
+				int cnt_comph21=0,cnt_comph25=0,cnt_compdi=0,cnt_compmf=0,cnt_compk1=0,cnt_compgroup=0;
 				PreparedStatement ps_reqcnt = con.prepareStatement("select count(*) as count from it_user_requisition where status!='Closed' and Company_Id=1");
 				ResultSet rs_reqcnt = ps_reqcnt.executeQuery();
 				while (rs_reqcnt.next()) {
@@ -151,12 +157,18 @@ $(function() {
 				while (rs_reqcnt.next()) {
 					cnt_compk1 = rs_reqcnt.getInt("count");
 				}
+				ps_reqcnt = con.prepareStatement("select count(*) as count from it_user_requisition where status!='Closed'");
+				rs_reqcnt = ps_reqcnt.executeQuery();
+				while (rs_reqcnt.next()) {
+					cnt_compgroup = rs_reqcnt.getInt("count");
+				}
 				%>
 					<li><a href="#tabs-1"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL H21</b>&nbsp;&nbsp;<b style="background-color: #b30000;color: white;">&nbsp;[&nbsp;<%=cnt_comph21 %>&nbsp;]&nbsp;</b>&nbsp;&nbsp;</font> </a></li>
 					<li><a href="#tabs-2"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL H25</b>&nbsp;&nbsp;<b style="background-color: #b30000;color: white;">&nbsp;[&nbsp;<%=cnt_comph25 %>&nbsp;]&nbsp;</b>&nbsp;&nbsp;</font></a></li> 
 					<li><a href="#tabs-3"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MFPL</b>&nbsp;&nbsp;<b style="background-color: #b30000;color: white;">&nbsp;[&nbsp;<%=cnt_compmf %>&nbsp;]&nbsp;</b>&nbsp;&nbsp;</font></a></li>
 					<li><a href="#tabs-4"><font style="font-size: 12px;">&nbsp;&nbsp;<b>DI</b>&nbsp;&nbsp;<b style="background-color: #b30000;color: white;">&nbsp;[&nbsp;<%=cnt_compdi %>&nbsp;]&nbsp;</b>&nbsp;&nbsp;</font></a></li>
-					<li><a href="#tabs-5"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL UIII</b>&nbsp;&nbsp;<b style="background-color: #b30000;color: white;">&nbsp;[&nbsp;<%=cnt_compk1 %>&nbsp;]&nbsp;</b>&nbsp;&nbsp;</font></a></li> 
+					<li><a href="#tabs-5"><font style="font-size: 12px;">&nbsp;&nbsp;<b>MEPL UIII</b>&nbsp;&nbsp;<b style="background-color: #b30000;color: white;">&nbsp;[&nbsp;<%=cnt_compk1 %>&nbsp;]&nbsp;</b>&nbsp;&nbsp;</font></a></li>
+					<li><a href="#tabs-6"><font style="font-size: 12px;">&nbsp;&nbsp;<b>All Req.</b>&nbsp;&nbsp;<b style="background-color: #b30000;color: white;">&nbsp;[&nbsp;<%=cnt_compgroup %>&nbsp;]&nbsp;</b>&nbsp;&nbsp;</font></a></li> 
 				</ul>
 				<div id="tabs-1">
 				<form method="post" name="edit1" action="IT_Take_Action.jsp" id="edit1">
@@ -641,6 +653,106 @@ ResultSet rs_dept = ps_dept.executeQuery();
 				
 				
 				</div>
+				
+				
+				
+				<div id="tabs-6">
+				<form method="post" name="edit5" action="IT_Take_Action.jsp" id="edit6">
+				<table style="width: 100%;" border="0" class="tftable">
+					<thead>
+						<tr>
+							<th>Req. No.</th>
+							<th>User Name</th>
+							<th>Company Name</th>
+							<th>Department</th>
+							<th>Related To</th>
+							<th>Type</th>
+							<th>Req. Date</th>
+							<th>Status</th>
+							<th>Transfer To</th>
+						</tr>
+					</thead> 
+					<%
+							ps_reqDetails = con.prepareStatement("select * from it_user_requisition where status!='Closed' order by Req_Date desc");
+							rs_reqDetails = ps_reqDetails.executeQuery();
+							while (rs_reqDetails.next()) {
+					%>
+
+					<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button6('<%=rs_reqDetails.getInt("U_Req_Id")%>');" style="cursor: pointer;">
+						<td align="center"><%=rs_reqDetails.getInt("U_Req_Id")%></td>
+						<%
+							PreparedStatement ps_name = con.prepareStatement("select U_Name from User_tbl where U_Id="
+													+ rs_reqDetails.getInt("U_Id"));
+									ResultSet rs_name = ps_name.executeQuery();
+									while (rs_name.next()) {
+						%>
+						<td align="left"><%=rs_name.getString("U_Name")%></td>
+						<%
+							}
+									PreparedStatement ps_comp = con.prepareStatement("select Company_Name from User_tbl_Company where Company_Id="
+													+ rs_reqDetails.getInt("Company_Id"));
+									ResultSet rs_comp = ps_comp.executeQuery();
+									while (rs_comp.next()) {
+						%>
+						<td align="left"><%=rs_comp.getString("Company_Name")%></td>
+						<%
+							}
+
+									PreparedStatement ps_dept = con.prepareStatement("select Department from user_tbl_dept where dept_id in (SELECT dept_id FROM complaintzilla.user_tbl where u_id="+ rs_reqDetails.getInt("U_Id")+")");
+									ResultSet rs_dept = ps_dept.executeQuery();
+												while (rs_dept.next()) {
+												%>
+												<td align="left"><%=rs_dept.getString("Department")%></td>
+												<%
+												}			
+									
+									PreparedStatement ps_related = con.prepareStatement("select Related_To from it_related_problem_tbl where Rel_Id="
+													+ rs_reqDetails.getInt("Rel_Id"));
+									ResultSet rs_related = ps_related.executeQuery();
+									while (rs_related.next()) {
+						%>
+						<td align="left"><%=rs_related.getString("Related_To")%></td>
+						<%
+							}
+									PreparedStatement ps_type = con
+											.prepareStatement("select Req_Type from it_requisition_type_tbl where Req_Type_Id="
+													+ rs_reqDetails.getInt("Req_type_id"));
+									ResultSet rs_type = ps_type.executeQuery();
+									while (rs_type.next()) {
+						%>
+						<td align="left"><%=rs_type.getString("Req_Type")%></td>
+						<%
+							}
+						%>
+						<td align="left"><%=rs_reqDetails.getTimestamp("Req_Date")%></td>
+						<td align="left"><%=rs_reqDetails.getString("Status")%></td>
+						<%
+									PreparedStatement ps_doneBy = con.prepareStatement("select Done_By from it_requisition_remark_tbl where U_Req_Id="
+													+ rs_reqDetails.getInt("U_Req_Id"));
+									ResultSet rs_doneBy = ps_doneBy.executeQuery();
+									while (rs_doneBy.next()) {
+
+									}
+						%>
+						<td align="left"><%=rs_reqDetails.getString("transfer_call")%></td>
+					</tr>
+					<%
+						} 
+					%>
+					
+				</table>
+				<input type="hidden" name="hid" id="hid6">
+			</form> 
+		</div>
+				
+				
+				
+				
+				
+				
+				
+				
+				
 		</div>		
 		 
 		 

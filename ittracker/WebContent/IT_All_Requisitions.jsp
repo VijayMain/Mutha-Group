@@ -245,7 +245,7 @@ response.setDateHeader("Expires", -1);
 		</div>
 
 
-		<div id="footer">
+		<!-- <div id="footer">
 			<p class="style2">
 				<a href="IT_index.jsp">Home</a> <a href="IT_New_Requisition.jsp">New
 					Requisition</a> <a href="Closed_Requisitions.jsp">Closed
@@ -254,7 +254,7 @@ response.setDateHeader("Expires", -1);
 					href="Logout.jsp">Logout</a><br /> <a
 					href="http://www.muthagroup.com">Mutha Group, Satara </a>
 			</p>
-		</div>
+		</div> -->
 	</div>
 
 </body>
