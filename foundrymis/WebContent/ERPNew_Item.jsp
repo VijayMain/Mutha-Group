@@ -126,6 +126,10 @@ function validateNewItemForm() {
 	/* var work_address = document.getElementById("work_address"); */
 	var credit_days = document.getElementById("credit_days");
 	
+	var req_user = document.getElementById("req_user");
+	var req_dept = document.getElementById("req_dept");
+	   
+	
 	/* var tin_sst = document.getElementById("tin_sst");
 	var tin_sst_date = document.getElementById("tin_sst_date"); 
 	var cst_number = document.getElementById("cst_number"); 
@@ -197,11 +201,7 @@ function validateNewItemForm() {
 			alert("Please Provide Supplier Category !!!");  
 			return false;
 		}
-		if (purpose.value=="0" || purpose.value==null || purpose.value=="" || purpose.value=="null") {
-			document.getElementById("submit").disabled = false;
-			alert("Please Provide Purpose  !!!");  
-			return false;
-		}
+	
 		if (category.value==null || category.value=="" || category.value=="null") {
 			document.getElementById("submit").disabled = false;
 			alert("Please Provide Category !!!");
@@ -222,15 +222,27 @@ function validateNewItemForm() {
 			alert("Please Provide Industry Type !!!");
 			return false;
 		}
-		            
+		if (req_user.value=="0" || req_user.value==null || req_user.value=="" || req_user.value=="null") {
+			document.getElementById("submit").disabled = false;
+			alert("Please Provide the User Name Requested to create the Supplier !!!");
+			return false;
+		}
+		if (req_dept.value=="0" || req_dept.value==null || req_dept.value=="" || req_dept.value=="null") {
+			document.getElementById("submit").disabled = false;
+			alert("Please Provide the Department for which the Supplier is required !!!");  
+			return false;
+		}
+		if (purpose.value=="0" || purpose.value==null || purpose.value=="" || purpose.value=="null") {
+			document.getElementById("submit").disabled = false;
+			alert("Please Provide Purpose to create new supplier !!!");  
+			return false;
+		}       
 		if (meplH21==false && meplH25==false && mfpl==false && di==false && meplunitIII==false) {
 			document.getElementById("submit").disabled = false;
 			alert("After supplier creation, which company it belongs to / Transfer to !!!");
 			return false;
 		}
-		
-		   
-		
+		 
 		if (GSTIN_number.value=="0" || GSTIN_number.value==null || GSTIN_number.value=="" || GSTIN_number.value=="null") {
 			document.getElementById("submit").disabled = false;
 			alert("Provide GSTIN Number !!!");  
@@ -335,7 +347,6 @@ alert("Done");
 &nbsp;&nbsp;&nbsp;<b style="font-size: 11px;color: #555306">Note : Please Use Mozilla Firefox Web Browser for full control.......</b>
 <br>
 <div style="overflow: scroll;background-color: white;width:58%;float:left">
-
 <form action="ItemCreation_Approval" method="post"  onSubmit="return validateNewItemForm();"  enctype="multipart/form-data">
 <table class="tftable" style="border: 0px;">
   <tr>
@@ -461,8 +472,8 @@ alert("Done");
       }
       %>
       </select></td>
-      <td>Purpose <b style="color: red;">*</b></td>
-      <td><input type="text" name="purpose" id="purpose" style="text-transform: uppercase;"></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
       </tr>
     <tr>
       <td>Category <b style="color: red;">*</b></td>
@@ -537,6 +548,27 @@ alert("Done");
       <td>Is Overseas</td>
       <td><input type="checkbox" name="is_overseas" id="is_overseas"></td>
     </tr> 
+    
+      <tr>
+      <td colspan="4" align="left" bgcolor="#c3c3c3"><strong>Requirement Details</strong></td>
+      </tr>
+    <tr>
+     <td>Requested By <b style="color: red;">*</b> <br>(Provide User Name) </td>
+      <td><input type="text" name="req_user" id="req_user" maxlength="40" style="text-transform: uppercase;"> </td>
+     <td>Requested Department <b style="color: red;">*</b></td>
+      <td><input type="text" name="req_dept" id="req_dept" style="text-transform: uppercase;" maxlength="30"></td> 
+    </tr> 
+    
+    <tr> 
+     <td>Purpose <b style="color: red;">*</b></td>
+      <td colspan="3"><input type="text" name="purpose" id="purpose" style="text-transform: uppercase;" size="60"></td> 
+    </tr> 
+    
+    
+    
+    
+    
+    
     <tr>
       <td colspan="4" align="left" bgcolor="#c3c3c3"><strong>Extra Information</strong></td>
       </tr>
@@ -638,7 +670,7 @@ alert("Done");
 	</td>
     </tr>
     <tr>
-      <td>GSTIN Number</td>
+      <td>GSTIN Number <b style="color: red;">*</b></td>
       <td colspan="3"><input type="text" name="GSTIN_number" id="GSTIN_number" size="30" maxlength="50" style="text-transform: uppercase;"></td>
     </tr>
     <tr>
@@ -649,7 +681,7 @@ alert("Done");
       </td>
     </tr>
     <tr>
-      <td>State</td>
+      <td>State <b style="color: red;">*</b></td>
       <td colspan="3">
       <select name="state_gst" id="state_gst" style="font-weight: bold;">
       	<option value="">- - - - Select - - - - </option>
@@ -692,7 +724,7 @@ alert("Done");
   </table>
   </form>
 </div>
-<div style="height:550px; overflow: scroll;background-color: white;width:41%;float:right;">
+<div style="height:100%; overflow: scroll;background-color: white;width:41%;float:right;">
 <form action="Supplier_Summary.jsp" method="post" name="edit" id="edit">
 <input type="hidden" name="hid_code" id="hid_code"> 
 <span id="autofind">
