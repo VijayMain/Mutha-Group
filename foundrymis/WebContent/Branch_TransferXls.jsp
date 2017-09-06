@@ -46,6 +46,9 @@ try {
 	    String passSuppliers =request.getParameter("passSuppliers").toString();
 	    int getcategoryDate = Integer.parseInt(request.getParameter("getcategoryDate"));
 	    String ps_matType=request.getParameter("ps_matType"); 
+	    
+	 //   System.out.println("syetem ===== " + ps_matType);
+	    
 	    String rep_cat="";
 	    if(getcategoryDate==1){
 	    	rep_cat = "ISSUES & RECEIPT";
@@ -67,9 +70,9 @@ try {
 	    	}
 	    	matType = matType.substring(0, matType.length() - 1);
 	    }else{
-	    	matType = request.getParameter("matType");
+	    	matType = request.getParameter("ps_matType");
 	    }  
-	     
+	   // System.out.println("syetem = " + matType);
 DecimalFormat twoDForm = new DecimalFormat("#####0.00");
 DecimalFormat threeDForm = new DecimalFormat("#####0.000");
 DecimalFormat noDForm = new DecimalFormat("####0");
