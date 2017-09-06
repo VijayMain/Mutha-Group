@@ -141,19 +141,16 @@ div.scroll {
 										appr_list.add(rs_appr_list.getInt("U_Id"));
 									}
 									appr_id_list.clear();
-									for (int appr = 0; appr < appr_list.size(); appr++) {
-										PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_approval where CRC_No="
-														+ cr_no
-														+ " and U_Id="
-														+ Integer.parseInt(appr_list.get(appr).toString())); 
+									/* for (int appr = 0; appr < appr_list.size(); appr++) { */
+										PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_approval where CRC_No=" + cr_no); 
 										ResultSet rs_appr = ps_appr.executeQuery(); 
 										while (rs_appr.next()) 
 										{
 											//System.out.print("\n loop for approvers list ... " + appr_list.size());
 											//System.out.print("\n what are the Approvals ... "+ rs_appr.getInt("Approval_Id"));
 											appr_id_list.add(rs_appr.getInt("Approval_Id"));
-										} 
-									}
+										}
+									/* } */
 									String Status = null; 
 									boolean flag = false;
 									//System.out.print(" \n  approvers id size :"+ appr_id_list.size()); 
