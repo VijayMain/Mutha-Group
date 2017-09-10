@@ -26,6 +26,7 @@ public class Purchase_Approved_statusdi extends TimerTask {
 		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday","Thursday", "Friday", "Saturday" };
 		ArrayList rem = new ArrayList(); 
 		if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 18)||(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16  && d.getMinutes() == 13)) {
+		/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 18) {*/
 		try { 
 			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
@@ -58,10 +59,10 @@ public class Purchase_Approved_statusdi extends TimerTask {
 			//System.out.println("Test = " + firstDate+"\n"+nowDate);
 			
 			Connection con = ConnectionUrl.getDIERPConnection();
-			CallableStatement cs = con.prepareCall("{call Sel_RptPurchOrderRegister(?,?,?,?,?,?)}");
+			CallableStatement cs = con.prepareCall("{call Sel_RptPurchOrderRegistermutha(?,?,?,?,?,?)}");
 			cs.setString(1, "105");
 			cs.setString(2, "0");
-			cs.setString(3, "4031,4032,4037");
+			cs.setString(3, "40351,40352,40357");
 			cs.setString(4, firstDate);
 			cs.setString(5, nowDate);
 			cs.setInt(6, 0);
@@ -80,7 +81,7 @@ public class Purchase_Approved_statusdi extends TimerTask {
 		String cc_recipients[] = {"internalaudit@muthagroup.com","kunalvm@muthagroup.com","ankatariya@muthagroup.com","kamlesh@muthagroup.com"};
 		
 		/*String recipients[] = {"vijaybm@muthagroup.com"};
-		String cc_recipients[] = {"vijaybm@muthagroup.com"}; */
+		String cc_recipients[] = {"vijaybm@muthagroup.com"};*/ 
 		
 
 		Properties props = System.getProperties();

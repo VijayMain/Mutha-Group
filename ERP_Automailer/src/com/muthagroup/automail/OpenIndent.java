@@ -28,7 +28,8 @@ public class OpenIndent extends TimerTask {
 		Date d = new Date();
 		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 		
-		if (weekday[d.getDay()].equals("Monday") && d.getHours() == 9 && d.getMinutes() == 30) {
+		/*if (weekday[d.getDay()].equals("Monday") && d.getHours() == 9 && d.getMinutes() == 30) {*/
+			if (weekday[d.getDay()].equals("Monday") && d.getHours() == 15 && d.getMinutes() == 7) {
 		boolean flag=false;
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");

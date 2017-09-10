@@ -35,6 +35,7 @@ import jxl.format.Border;
 import jxl.format.BorderLineStyle;
 import jxl.format.Colour;
 import jxl.write.Label;
+import jxl.write.Number;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
@@ -52,7 +53,7 @@ public class SaleDispatchxls_Summary extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			boolean flag = true;
-			 /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 15 && d.getMinutes() == 32) {*/
+			 /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 4) {*/
 				 if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 1 && d.getMinutes() == 20) {
 			//******************************************************************************************************************************
 				 	ArrayList weekOff = new ArrayList();
@@ -223,12 +224,35 @@ public class SaleDispatchxls_Summary extends TimerTask {
 				// System.out.println("Total Woring Days = " + count_mnt);
 				// *************************************************************************************************************** 
 				//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-			 
+				 
+				ArrayList	sch_qtyalist	= new	ArrayList();
+				ArrayList	sch_amtalist	= new	ArrayList();
+				ArrayList	sch_wtalist	= new	ArrayList();  
+				ArrayList	yes_qtyalist	= new	ArrayList();
+				ArrayList	yes_amtalist	= new	ArrayList();
+				ArrayList	yes_wtalist	= new	ArrayList(); 
+				ArrayList	sale_qtyalist	= new	ArrayList();
+				ArrayList	sale_amtalist	= new	ArrayList();
+				ArrayList	sale_wtalist	 = new	ArrayList();
+				ArrayList	pend_qtyalist	= new	ArrayList();
+				ArrayList	pend_amtalist	= new	ArrayList(); 
 				//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 				comp_id ="101";
 				Sheet_Name = "MEPL H21";
 				con = ConnectionUrl.getMEPLH21ERP();
-				
+				// -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+				sch_qtyalist.clear();
+				sch_amtalist.clear();
+				sch_wtalist.clear(); 
+				yes_qtyalist.clear();
+				yes_amtalist.clear();
+				yes_wtalist.clear(); 
+				sale_qtyalist.clear();
+				sale_amtalist.clear();
+				sale_wtalist.clear(); 
+				pend_qtyalist.clear();
+				pend_amtalist.clear();
+				// -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			  	WritableSheet writableSheet = writableWorkbook.createSheet(Sheet_Name, sheetcnt);
 				StringBuilder sb2 = new StringBuilder(); 
 					PreparedStatement ps_code = con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE='11'");
@@ -241,7 +265,7 @@ public class SaleDispatchxls_Summary extends TimerTask {
 					ArrayList custcodes=new ArrayList();
 					CallableStatement cs = con.prepareCall("{call Sel_RptDespatchPlanSaleMUTA(?,?,?,?)}");
 					cs.setString(1, comp_id);
-					cs.setString(2, "0"); 
+					cs.setString(2, "0");
 					  cs.setString(3, sb2.toString());
 					cs.setString(4, sql_date);
 					ResultSet rs = cs.executeQuery();
@@ -296,27 +320,27 @@ public class SaleDispatchxls_Summary extends TimerTask {
 					    Label label5 = new Label(1, 1, zeroDForm.format(total_dd), cellRIghtformat);
 					    Label label6 = new Label(0, 2, "Name of Item",cellFormat);  
 					    
-					    Label label7 = new Label(1, 2, "Schedule",cellFormat);
-					    Label label8 = new Label(1, 3, "Qty",cellFormat);
-					    Label label9 = new Label(2, 3, "AMT",cellFormat);
+					    Label label7 = new Label(1, 2, "Schedule",cellFormat);				
+					    Label label8 = new Label(1, 3, "Qty",cellFormat);						
+					    Label label9 = new Label(2, 3, "AMT",cellFormat);					
 					    
-					    Label label10 = new Label(3, 3, "Wt. in Tons",cellFormat);
-					     
-					    Label label11 = new Label(4, 2, "Yesterday's Sales",cellFormat_header);
-					    Label label12 = new Label(4, 3, "Qty",cellFormat);
-					    Label label13 = new Label(5, 3, "AMT",cellFormat); 
+					    Label label10 = new Label(3, 3, "Wt. in Tons",cellFormat);     
 					    
-					    Label label14 = new Label(6, 3, "Wt. in Tons",cellFormat);
+					    Label label11 = new Label(4, 2, "Yesterday's Sales",cellFormat_header);    
+					    Label label12 = new Label(4, 3, "Qty",cellFormat);                  
+					    Label label13 = new Label(5, 3, "AMT",cellFormat); 					
 					    
-					    Label label15 = new Label(7, 2, "Sales",cellFormat);		    
-					    Label label16 = new Label(7, 3, "Qty",cellFormat);
-					    Label label17 = new Label(8, 3, "AMT",cellFormat);
+					    Label label14 = new Label(6, 3, "Wt. in Tons",cellFormat);      
 					    
-					    Label label18 = new Label(9, 3, "Wt. in Tons",cellFormat);
+					    Label label15 = new Label(7, 2, "Sales",cellFormat);		  
+					    Label label16 = new Label(7, 3, "Qty",cellFormat);			
+					    Label label17 = new Label(8, 3, "AMT",cellFormat);			
 					    
-					    Label label19 = new Label(10, 2, "Pending",cellFormat);
-					    Label label20 = new Label(10, 3, "Qty",cellFormat);
-					    Label label21 = new Label(11, 3, "AMT",cellFormat);
+					    Label label18 = new Label(9, 3, "Wt. in Tons",cellFormat);   
+					    
+					    Label label19 = new Label(10, 2, "Pending",cellFormat);    
+					    Label label20 = new Label(10, 3, "Qty",cellFormat);				
+					    Label label21 = new Label(11, 3, "AMT",cellFormat);			
 					     
 					    /* Label label22 = new Label(11, 2, "Wt. in Tons",cellFormat); */
 					    Label label22 = new Label(12, 2, "Schedule Compliance%",cellFormat);
@@ -361,11 +385,11 @@ public class SaleDispatchxls_Summary extends TimerTask {
 							col++;
 						} 
 						
-						rs_prev = cs_prev.executeQuery(); 
+						rs_prev = cs_prev.executeQuery();
 						sale_qtyyes="0";
 						sale_amtyes="0";
 						tonnage_yes="0";
-						complSaleper=0; 
+						complSaleper=0;
 						while(rs_prev.next()){
 							if(rs_prev.getString("CUST_CODE").equalsIgnoreCase(custcodes.get(i).toString()) && 
 								rs_prev.getString("MAT_CODE").equalsIgnoreCase(rs.getString("MAT_CODE"))){ 
@@ -373,62 +397,189 @@ public class SaleDispatchxls_Summary extends TimerTask {
 								sale_amtyes=rs_prev.getString("SALE_AMT"); 
 								tonnage_yes = rs_prev.getString("SALE_TONAGE");
 							}
-						} 
-						 
+						}
 						complSaleper =Double.parseDouble(rs.getString("SALE_QTY"))/ Double.parseDouble(rs.getString("SCH_QTY"))*100;
 						
 						Label matName = new  Label(0, col, rs.getString("MAT_NAME"),cellleftformat);
-						writableSheet.addCell(matName); 
+						writableSheet.addCell(matName);
 						
-						Label label_des_qty = new Label(1, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SCH_QTY")))),cellRIghtformat);
+						Number label_des_qty = new Number(1, col, Math.round(Double.parseDouble(rs.getString("SCH_QTY"))),cellRIghtformat);
 						writableSheet.addCell(label_des_qty);
 						
-						Label label_des_amt = new Label(2, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_AMT"))/100000),cellRIghtformat);
+						
+						Number label_des_amt = new Number(2, col, Double.parseDouble(rs.getString("SCH_AMT"))/100000,cellRIghtformat);
 						writableSheet.addCell(label_des_amt);
+						
 						 
-						Label label_sch_tons = new Label(3, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_TONAGE"))),cellRIghtformat);
+						Number label_sch_tons = new Number(3, col, Double.parseDouble(rs.getString("SCH_TONAGE")),cellRIghtformat);
 						writableSheet.addCell(label_sch_tons);
 						
 						
-						
-						Label yes_sale_qty = new Label(4, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+						Number yes_sale_qty = new Number(4, col, Math.round(Double.parseDouble(sale_qtyyes)),cellRIghtformat);
 						writableSheet.addCell(yes_sale_qty);
 						
-						Label yes_sale_amt = new Label(5, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+						
+						
+						Number yes_sale_amt = new Number(5, col, Double.parseDouble(sale_amtyes)/100000,cellRIghtformat);
 						writableSheet.addCell(yes_sale_amt);
-
-						Label label_saleyes_tons = new Label(6, col, twoDForm.format(Double.parseDouble(tonnage_yes)),cellRIghtformat);
+						
+						
+						
+						Number label_saleyes_tons = new Number(6, col, Double.parseDouble(tonnage_yes),cellRIghtformat);
 						writableSheet.addCell(label_saleyes_tons);
 						
 						
-						Label label_sale_qty = new Label(7, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+						
+						Number label_sale_qty = new Number(7, col, Math.round(Double.parseDouble(rs.getString("SALE_QTY"))),cellRIghtformat);
 						writableSheet.addCell(label_sale_qty);
 						
-						Label label_sale_amt = new Label(8, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+						
+						
+						Number label_sale_amt = new Number(8, col, Double.parseDouble(rs.getString("SALE_AMT"))/100000,cellRIghtformat);
 						writableSheet.addCell(label_sale_amt);
 						
-						Label label_sale_tons = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_TONAGE"))),cellRIghtformat);
+						
+						
+						Number label_sale_tons = new Number(9, col, Double.parseDouble(rs.getString("SALE_TONAGE")),cellRIghtformat);
 						writableSheet.addCell(label_sale_tons);
 						
 						
-						Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+						
+						Number label_pend_qty = new Number(10, col, Math.round(Double.parseDouble(rs.getString("PEND_QTY"))),cellRIghtformat);
 						writableSheet.addCell(label_pend_qty);
 						
-						Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+						
+						
+						Number label_pend_amt = new Number(11, col, Math.round(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
 						writableSheet.addCell(label_pend_amt);
-						 	
-						Label label_schCompl = new Label(12, col, twoDForm.format(complSaleper),cellRIghtformat);
+						 
+						Number label_schCompl = new Number(12, col, Math.round(complSaleper),cellRIghtformat);
 						writableSheet.addCell(label_schCompl);
+						
+						sch_qtyalist.add(Math.round(Double.parseDouble(rs.getString("SCH_QTY"))));
+						sch_amtalist.add(Double.parseDouble(rs.getString("SCH_AMT"))/100000);
+						sch_wtalist.add(Double.parseDouble(rs.getString("SCH_TONAGE")));
+						yes_qtyalist.add(Math.round(Double.parseDouble(sale_qtyyes)));
+						yes_amtalist.add(Double.parseDouble(sale_amtyes)/100000);
+						yes_wtalist.add(Double.parseDouble(tonnage_yes));
+						sale_qtyalist.add(Math.round(Double.parseDouble(rs.getString("SALE_QTY"))));
+						sale_amtalist.add(Double.parseDouble(rs.getString("SALE_AMT"))/100000);
+						sale_wtalist.add(Double.parseDouble(rs.getString("SALE_TONAGE")));
+						pend_qtyalist.add(Math.round(Double.parseDouble(rs.getString("PEND_QTY"))));
+						pend_amtalist.add(Double.parseDouble(rs.getString("PEND_AMT"))/100000);
 						
 						col++;
 					  }
 					} 
 					}
+				//--------------------------------------------	
+					double sum = 0;
+					
+					Label grd0 = new Label(0, col, "Grand Total",cellFormat);   
+					writableSheet.addCell(grd0);
+					//--------------------------------------------	
+					for(int i=0; i<sch_qtyalist.size(); i++){
+						  sum += Double.parseDouble(sch_qtyalist.get(i).toString());
+					} 
+					Number grd1 = new Number(1, col, sum,cellRIghtformat);		
+					writableSheet.addCell(grd1);
+					//--------------------------------------------
+					sum=0;
+					for(int i=0; i<sch_amtalist.size(); i++){
+						  sum += Double.parseDouble(sch_amtalist.get(i).toString());
+					} 
+					
+					Number grd2 = new Number(2, col, sum,cellRIghtformat);
+					writableSheet.addCell(grd2);
+					//--------------------------------------------
+					sum=0;
+					for(int i=0; i<sch_wtalist.size(); i++){
+						  sum += Double.parseDouble(sch_wtalist.get(i).toString());
+					} 
+					Number grd3 = new Number(3, col, sum,cellRIghtformat);
+					writableSheet.addCell(grd3);
+					//--------------------------------------------
+					sum=0;
+					for(int i=0; i<yes_qtyalist.size(); i++){
+						  sum += Double.parseDouble(yes_qtyalist.get(i).toString());
+					} 
+					Number grd4 = new Number(4, col, sum,cellRIghtformat);
+					writableSheet.addCell(grd4);
+					//--------------------------------------------
+					sum=0;
+					for(int i=0; i<yes_amtalist.size(); i++){
+						  sum += Double.parseDouble(yes_amtalist.get(i).toString());
+					}
+					Number grd5 = new Number(5, col, sum,cellRIghtformat);
+					writableSheet.addCell(grd5);
+					//--------------------------------------------
+					sum=0;
+					for(int i=0; i<yes_wtalist.size(); i++){
+						  sum += Double.parseDouble(yes_wtalist.get(i).toString());
+					} 
+					Number grd6 = new Number(6, col, sum,cellRIghtformat);
+					writableSheet.addCell(grd6);
+					//--------------------------------------------
+					sum=0;
+					for(int i=0; i<sale_qtyalist.size(); i++){
+						  sum += Double.parseDouble(sale_qtyalist.get(i).toString());
+					}
+					Number grd7 = new Number(7, col, sum,cellRIghtformat);
+					writableSheet.addCell(grd7);
+					//--------------------------------------------
+					sum=0;
+					for(int i=0; i<sale_amtalist.size(); i++){
+						  sum += Double.parseDouble(sale_amtalist.get(i).toString());
+					}
+					Number grd8 = new Number(8, col, sum,cellRIghtformat);
+					writableSheet.addCell(grd8);
+					//--------------------------------------------
+					sum=0;
+					for(int i=0; i<sale_wtalist.size(); i++){
+						  sum += Double.parseDouble(sale_wtalist.get(i).toString());
+					}
+					Number grd9 = new Number(9, col, sum,cellRIghtformat);
+					writableSheet.addCell(grd9);
+					//--------------------------------------------
+					sum=0;
+					for(int i=0; i<pend_qtyalist.size(); i++){
+						  sum += Double.parseDouble(pend_qtyalist.get(i).toString());
+					}
+					Number grd10 = new Number(10, col, sum,cellRIghtformat);
+					writableSheet.addCell(grd10);
+					//--------------------------------------------
+					sum=0;
+					for(int i=0; i<pend_amtalist.size(); i++){
+						  sum += Double.parseDouble(pend_amtalist.get(i).toString());
+					}
+					Number grd11 = new Number(11, col, sum,cellRIghtformat);
+					writableSheet.addCell(grd11);
+					//--------------------------------------------
+					sum=0;
+					//--------------------------------------------
+					Label grd12 = new Label(12, col, "",cellRIghtformat);
+					writableSheet.addCell(grd12);
+					//--------------------------------------------
+					
+					
 					//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 					//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 					comp_id ="102";
 					Sheet_Name = "MEPL H25";
 					con = ConnectionUrl.getMEPLH25ERP();
+					// -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+					sch_qtyalist.clear();
+					sch_amtalist.clear();
+					sch_wtalist.clear(); 
+					yes_qtyalist.clear();
+					yes_amtalist.clear();
+					yes_wtalist.clear(); 
+					sale_qtyalist.clear();
+					sale_amtalist.clear();
+					sale_wtalist.clear(); 
+					pend_qtyalist.clear();
+					pend_amtalist.clear();
+					// -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 					sheetcnt++;
 				  	WritableSheet writableSheet2 = writableWorkbook.createSheet(Sheet_Name, sheetcnt); 
 				  	sb2.setLength(0); 
@@ -509,7 +660,7 @@ public class SaleDispatchxls_Summary extends TimerTask {
 						    
 						    Label label14 = new Label(6, 3, "Wt. in Tons",cellFormat);
 						    
-						    Label label15 = new Label(7, 2, "Sales",cellFormat);		    
+						    Label label15 = new Label(7, 2, "Sales",cellFormat);
 						    Label label16 = new Label(7, 3, "Qty",cellFormat);
 						    Label label17 = new Label(8, 3, "AMT",cellFormat);
 						    
@@ -524,7 +675,7 @@ public class SaleDispatchxls_Summary extends TimerTask {
 						     
 						 writableSheet2.addCell(label1);
 						 writableSheet2.addCell(label2);
-						 writableSheet2.addCell(label3);					 
+						 writableSheet2.addCell(label3);
 						 writableSheet2.addCell(label4);
 						 writableSheet2.addCell(label5);
 						 writableSheet2.addCell(label6);
@@ -579,56 +730,167 @@ public class SaleDispatchxls_Summary extends TimerTask {
 							Label matName = new  Label(0, col, rs.getString("MAT_NAME"),cellleftformat);
 							writableSheet2.addCell(matName); 
 							
-							Label label_des_qty = new Label(1, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SCH_QTY")))),cellRIghtformat);
+							Number label_des_qty = new Number(1, col, Math.round(Double.parseDouble(rs.getString("SCH_QTY"))),cellRIghtformat);
 							writableSheet2.addCell(label_des_qty);
 							
-							Label label_des_amt = new Label(2, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_AMT"))/100000),cellRIghtformat);
+							Number label_des_amt = new Number(2, col, Double.parseDouble(rs.getString("SCH_AMT"))/100000,cellRIghtformat);
 							writableSheet2.addCell(label_des_amt);
 							 
-							Label label_sch_tons = new Label(3, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_TONAGE"))),cellRIghtformat);
+							Number label_sch_tons = new Number(3, col, Double.parseDouble(rs.getString("SCH_TONAGE")),cellRIghtformat);
 							writableSheet2.addCell(label_sch_tons);
+												
 							
-							
-							
-							Label yes_sale_qty = new Label(4, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+							Number yes_sale_qty = new Number(4, col, Math.round(Double.parseDouble(sale_qtyyes)),cellRIghtformat);
 							writableSheet2.addCell(yes_sale_qty);
 							
-							Label yes_sale_amt = new Label(5, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+							Number yes_sale_amt = new Number(5, col, Double.parseDouble(sale_amtyes)/100000,cellRIghtformat);
 							writableSheet2.addCell(yes_sale_amt);
 
-							Label label_saleyes_tons = new Label(6, col, twoDForm.format(Double.parseDouble(tonnage_yes)),cellRIghtformat);
+							Number label_saleyes_tons = new Number(6, col, Double.parseDouble(tonnage_yes),cellRIghtformat);
 							writableSheet2.addCell(label_saleyes_tons);
 							
 							
-							Label label_sale_qty = new Label(7, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+							Number label_sale_qty = new Number(7, col, Math.round(Double.parseDouble(rs.getString("SALE_QTY"))),cellRIghtformat);
 							writableSheet2.addCell(label_sale_qty);
 							
-							Label label_sale_amt = new Label(8, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+							Number label_sale_amt = new Number(8, col, Double.parseDouble(rs.getString("SALE_AMT"))/100000,cellRIghtformat);
 							writableSheet2.addCell(label_sale_amt);
 							
-							Label label_sale_tons = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_TONAGE"))),cellRIghtformat);
+							Number label_sale_tons = new Number(9, col,Double.parseDouble(rs.getString("SALE_TONAGE")),cellRIghtformat);
 							writableSheet2.addCell(label_sale_tons);
 							
 							
-							Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+							Number label_pend_qty = new Number(10, col,Math.round(Double.parseDouble(rs.getString("PEND_QTY"))),cellRIghtformat);
 							writableSheet2.addCell(label_pend_qty);
 							
-							Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+							Number label_pend_amt = new Number(11, col, Double.parseDouble(rs.getString("PEND_AMT"))/100000,cellRIghtformat);
 							writableSheet2.addCell(label_pend_amt);
 							 	
-							Label label_schCompl = new Label(12, col, twoDForm.format(complSaleper),cellRIghtformat);
+							Number label_schCompl = new Number(12, col, Math.round(complSaleper),cellRIghtformat);
 							writableSheet2.addCell(label_schCompl);
+						    
+							sch_qtyalist.add(Math.round(Double.parseDouble(rs.getString("SCH_QTY"))));
+							sch_amtalist.add(Double.parseDouble(rs.getString("SCH_AMT"))/100000);
+							sch_wtalist.add(Double.parseDouble(rs.getString("SCH_TONAGE")));
+							yes_qtyalist.add(Math.round(Double.parseDouble(sale_qtyyes)));
+							yes_amtalist.add(Double.parseDouble(sale_amtyes)/100000);
+							yes_wtalist.add(Double.parseDouble(tonnage_yes));
+							sale_qtyalist.add(Math.round(Double.parseDouble(rs.getString("SALE_QTY"))));
+							sale_amtalist.add(Double.parseDouble(rs.getString("SALE_AMT"))/100000);
+							sale_wtalist.add(Double.parseDouble(rs.getString("SALE_TONAGE")));
+							pend_qtyalist.add(Math.round(Double.parseDouble(rs.getString("PEND_QTY"))));
+							pend_amtalist.add(Double.parseDouble(rs.getString("PEND_AMT"))/100000);
 							
 							col++;
 						  }
 						} 
 						}
+						//--------------------------------------------	
+						sum = 0; 
+						grd0 = new Label(0, col, "Grand Total",cellFormat);   
+						writableSheet2.addCell(grd0);
+						//--------------------------------------------	
+						for(int i=0; i<sch_qtyalist.size(); i++){
+							  sum += Double.parseDouble(sch_qtyalist.get(i).toString());
+						} 
+						grd1 = new Number(1, col, sum,cellRIghtformat);		
+						writableSheet2.addCell(grd1);
+						//--------------------------------------------
+						sum=0;
+						for(int i=0; i<sch_amtalist.size(); i++){
+							  sum += Double.parseDouble(sch_amtalist.get(i).toString());
+						} 
+
+						grd2 = new Number(2, col, sum,cellRIghtformat);
+						writableSheet2.addCell(grd2);
+						//--------------------------------------------
+						sum=0;
+						for(int i=0; i<sch_wtalist.size(); i++){
+							  sum += Double.parseDouble(sch_wtalist.get(i).toString());
+						} 
+						grd3 = new Number(3, col, sum,cellRIghtformat);
+						writableSheet2.addCell(grd3);
+						//--------------------------------------------
+						sum=0;
+						for(int i=0; i<yes_qtyalist.size(); i++){
+							  sum += Double.parseDouble(yes_qtyalist.get(i).toString());
+						} 
+						grd4 = new Number(4, col, sum,cellRIghtformat);
+						writableSheet2.addCell(grd4);
+						//--------------------------------------------
+						sum=0;
+						for(int i=0; i<yes_amtalist.size(); i++){
+							  sum += Double.parseDouble(yes_amtalist.get(i).toString());
+						}
+						grd5 = new Number(5, col, sum,cellRIghtformat);
+						writableSheet2.addCell(grd5);
+						//--------------------------------------------
+						sum=0;
+						for(int i=0; i<yes_wtalist.size(); i++){
+							  sum += Double.parseDouble(yes_wtalist.get(i).toString());
+						} 
+						grd6 = new Number(6, col, sum,cellRIghtformat);
+						writableSheet2.addCell(grd6);
+						//--------------------------------------------
+						sum=0;
+						for(int i=0; i<sale_qtyalist.size(); i++){
+							  sum += Double.parseDouble(sale_qtyalist.get(i).toString());
+						}
+						grd7 = new Number(7, col, sum,cellRIghtformat);
+						writableSheet2.addCell(grd7);
+						//--------------------------------------------
+						sum=0;
+						for(int i=0; i<sale_amtalist.size(); i++){
+							  sum += Double.parseDouble(sale_amtalist.get(i).toString());
+						}
+						grd8 = new Number(8, col, sum,cellRIghtformat);
+						writableSheet2.addCell(grd8);
+						//--------------------------------------------
+						sum=0;
+						for(int i=0; i<sale_wtalist.size(); i++){
+							  sum += Double.parseDouble(sale_wtalist.get(i).toString());
+						}
+						grd9 = new Number(9, col, sum,cellRIghtformat);
+						writableSheet2.addCell(grd9);
+						//--------------------------------------------
+						sum=0;
+						for(int i=0; i<pend_qtyalist.size(); i++){
+							  sum += Double.parseDouble(pend_qtyalist.get(i).toString());
+						}
+						grd10 = new Number(10, col, sum,cellRIghtformat);
+						writableSheet2.addCell(grd10);
+						//--------------------------------------------
+						sum=0;
+						for(int i=0; i<pend_amtalist.size(); i++){
+							  sum += Double.parseDouble(pend_amtalist.get(i).toString());
+						}
+						grd11 = new Number(11, col, sum,cellRIghtformat);
+						writableSheet2.addCell(grd11);
+						//--------------------------------------------
+						sum=0;
+						//--------------------------------------------
+						grd12 = new Label(12, col, "",cellRIghtformat);
+						writableSheet2.addCell(grd12);
+						//--------------------------------------------  
 						//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 					
 						//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 						comp_id ="103";
 						Sheet_Name = "MFPL";
 						con = ConnectionUrl.getFoundryERPNEWConnection();
+						// -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+						sch_qtyalist.clear();
+						sch_amtalist.clear();
+						sch_wtalist.clear(); 
+						yes_qtyalist.clear();
+						yes_amtalist.clear();
+						yes_wtalist.clear(); 
+						sale_qtyalist.clear();
+						sale_amtalist.clear();
+						sale_wtalist.clear(); 
+						pend_qtyalist.clear();
+						pend_amtalist.clear();
+						// -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 						sheetcnt++;
 						WritableSheet writableSheet3 = writableWorkbook.createSheet(Sheet_Name, sheetcnt);
 					  	sb2.setLength(0);
@@ -778,55 +1040,168 @@ public class SaleDispatchxls_Summary extends TimerTask {
 								Label matName = new  Label(0, col, rs.getString("MAT_NAME"),cellleftformat);
 								writableSheet3.addCell(matName); 
 								
-								Label label_des_qty = new Label(1, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SCH_QTY")))),cellRIghtformat);
+								Number label_des_qty = new Number(1, col, Math.round(Double.parseDouble(rs.getString("SCH_QTY"))),cellRIghtformat);
 								writableSheet3.addCell(label_des_qty);
 								
-								Label label_des_amt = new Label(2, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_AMT"))/100000),cellRIghtformat);
+								Number label_des_amt = new Number(2, col,  Double.parseDouble(rs.getString("SCH_AMT"))/100000,cellRIghtformat);
 								writableSheet3.addCell(label_des_amt);
 								 
-								Label label_sch_tons = new Label(3, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_TONAGE"))),cellRIghtformat);
+								Number label_sch_tons = new Number(3, col, Double.parseDouble(rs.getString("SCH_TONAGE")),cellRIghtformat);
 								writableSheet3.addCell(label_sch_tons);
 								
 								
 								
-								Label yes_sale_qty = new Label(4, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+								Number yes_sale_qty = new Number(4, col, Math.round(Double.parseDouble(sale_qtyyes)),cellRIghtformat);
 								writableSheet3.addCell(yes_sale_qty);
 								
-								Label yes_sale_amt = new Label(5, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+								Number yes_sale_amt = new Number(5, col, Double.parseDouble(sale_amtyes)/100000,cellRIghtformat);
 								writableSheet3.addCell(yes_sale_amt);
 
-								Label label_saleyes_tons = new Label(6, col, twoDForm.format(Double.parseDouble(tonnage_yes)),cellRIghtformat);
+								Number label_saleyes_tons = new Number(6, col, Double.parseDouble(tonnage_yes),cellRIghtformat);
 								writableSheet3.addCell(label_saleyes_tons);
 								
 								
-								Label label_sale_qty = new Label(7, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+								Number label_sale_qty = new Number(7, col,Math.round(Double.parseDouble(rs.getString("SALE_QTY"))),cellRIghtformat);
 								writableSheet3.addCell(label_sale_qty);
 								
-								Label label_sale_amt = new Label(8, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+								Number label_sale_amt = new Number(8, col, Double.parseDouble(rs.getString("SALE_AMT"))/100000,cellRIghtformat);
 								writableSheet3.addCell(label_sale_amt);
 								
-								Label label_sale_tons = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_TONAGE"))),cellRIghtformat);
+								Number label_sale_tons = new Number(9, col, Double.parseDouble(rs.getString("SALE_TONAGE")),cellRIghtformat);
 								writableSheet3.addCell(label_sale_tons);
 								
 								
-								Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+								Number label_pend_qty = new Number(10, col, Math.round(Double.parseDouble(rs.getString("PEND_QTY"))),cellRIghtformat);
 								writableSheet3.addCell(label_pend_qty);
 								
-								Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+								Number label_pend_amt = new Number(11, col, Double.parseDouble(rs.getString("PEND_AMT"))/100000,cellRIghtformat);
 								writableSheet3.addCell(label_pend_amt);
 								 	
-								Label label_schCompl = new Label(12, col, twoDForm.format(complSaleper),cellRIghtformat);
+								Number label_schCompl = new Number(12, col, Math.round(complSaleper),cellRIghtformat);
 								writableSheet3.addCell(label_schCompl);
+								
+								sch_qtyalist.add(Math.round(Double.parseDouble(rs.getString("SCH_QTY"))));
+								sch_amtalist.add(Double.parseDouble(rs.getString("SCH_AMT"))/100000);
+								sch_wtalist.add(Double.parseDouble(rs.getString("SCH_TONAGE")));
+								yes_qtyalist.add(Math.round(Double.parseDouble(sale_qtyyes)));
+								yes_amtalist.add(Double.parseDouble(sale_amtyes)/100000);
+								yes_wtalist.add(Double.parseDouble(tonnage_yes));
+								sale_qtyalist.add(Math.round(Double.parseDouble(rs.getString("SALE_QTY"))));
+								sale_amtalist.add(Double.parseDouble(rs.getString("SALE_AMT"))/100000);
+								sale_wtalist.add(Double.parseDouble(rs.getString("SALE_TONAGE")));
+								pend_qtyalist.add(Math.round(Double.parseDouble(rs.getString("PEND_QTY"))));
+								pend_amtalist.add(Double.parseDouble(rs.getString("PEND_AMT"))/100000);
 								
 								col++;
 							  }
 							} 
 							}
+							//--------------------------------------------	
+							sum = 0; 
+							grd0 = new Label(0, col, "Grand Total",cellFormat);   
+							writableSheet3.addCell(grd0);
+							//--------------------------------------------	
+							for(int i=0; i<sch_qtyalist.size(); i++){
+								  sum += Double.parseDouble(sch_qtyalist.get(i).toString());
+							} 
+							grd1 = new Number(1, col, sum,cellRIghtformat);		
+							writableSheet3.addCell(grd1);
+							//--------------------------------------------
+							sum=0;
+							for(int i=0; i<sch_amtalist.size(); i++){
+								  sum += Double.parseDouble(sch_amtalist.get(i).toString());
+							} 
+
+							grd2 = new Number(2, col, sum,cellRIghtformat);
+							writableSheet3.addCell(grd2);
+							//--------------------------------------------
+							sum=0;
+							for(int i=0; i<sch_wtalist.size(); i++){
+								  sum += Double.parseDouble(sch_wtalist.get(i).toString());
+							} 
+							grd3 = new Number(3, col, sum,cellRIghtformat);
+							writableSheet3.addCell(grd3);
+							//--------------------------------------------
+							sum=0;
+							for(int i=0; i<yes_qtyalist.size(); i++){
+								  sum += Double.parseDouble(yes_qtyalist.get(i).toString());
+							} 
+							grd4 = new Number(4, col, sum,cellRIghtformat);
+							writableSheet3.addCell(grd4);
+							//--------------------------------------------
+							sum=0;
+							for(int i=0; i<yes_amtalist.size(); i++){
+								  sum += Double.parseDouble(yes_amtalist.get(i).toString());
+							}
+							grd5 = new Number(5, col, sum,cellRIghtformat);
+							writableSheet3.addCell(grd5);
+							//--------------------------------------------
+							sum=0;
+							for(int i=0; i<yes_wtalist.size(); i++){
+								  sum += Double.parseDouble(yes_wtalist.get(i).toString());
+							} 
+							grd6 = new Number(6, col, sum,cellRIghtformat);
+							writableSheet3.addCell(grd6);
+							//--------------------------------------------
+							sum=0;
+							for(int i=0; i<sale_qtyalist.size(); i++){
+								  sum += Double.parseDouble(sale_qtyalist.get(i).toString());
+							}
+							grd7 = new Number(7, col, sum,cellRIghtformat);
+							writableSheet3.addCell(grd7);
+							//--------------------------------------------
+							sum=0;
+							for(int i=0; i<sale_amtalist.size(); i++){
+								  sum += Double.parseDouble(sale_amtalist.get(i).toString());
+							}
+							grd8 = new Number(8, col, sum,cellRIghtformat);
+							writableSheet3.addCell(grd8);
+							//--------------------------------------------
+							sum=0;
+							for(int i=0; i<sale_wtalist.size(); i++){
+								  sum += Double.parseDouble(sale_wtalist.get(i).toString());
+							}
+							grd9 = new Number(9, col, sum,cellRIghtformat);
+							writableSheet3.addCell(grd9);
+							//--------------------------------------------
+							sum=0;
+							for(int i=0; i<pend_qtyalist.size(); i++){
+								  sum += Double.parseDouble(pend_qtyalist.get(i).toString());
+							}
+							grd10 = new Number(10, col, sum,cellRIghtformat);
+							writableSheet3.addCell(grd10);
+							//--------------------------------------------
+							sum=0;
+							for(int i=0; i<pend_amtalist.size(); i++){
+								  sum += Double.parseDouble(pend_amtalist.get(i).toString());
+							}
+							grd11 = new Number(11, col, sum,cellRIghtformat);
+							writableSheet3.addCell(grd11);
+							//--------------------------------------------
+							sum=0;
+							//--------------------------------------------
+							grd12 = new Label(12, col, "",cellRIghtformat);
+							writableSheet3.addCell(grd12);
+							//--------------------------------------------  
+							
 							//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 							//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 							comp_id ="105";
 							Sheet_Name = "DI";
 							con = ConnectionUrl.getDIERPConnection();
+							// -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+							sch_qtyalist.clear();
+							sch_amtalist.clear();
+							sch_wtalist.clear(); 
+							yes_qtyalist.clear();
+							yes_amtalist.clear();
+							yes_wtalist.clear(); 
+							sale_qtyalist.clear();
+							sale_amtalist.clear();
+							sale_wtalist.clear(); 
+							pend_qtyalist.clear();
+							pend_amtalist.clear();
+							// -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 							sheetcnt++;
 							WritableSheet writableSheet4 = writableWorkbook.createSheet(Sheet_Name, sheetcnt);
 						  	sb2.setLength(0);
@@ -971,62 +1346,172 @@ public class SaleDispatchxls_Summary extends TimerTask {
 											sale_amtyes=rs_prev.getString("SALE_AMT"); 
 											tonnage_yes = rs_prev.getString("SALE_TONAGE");
 										}
-									} 
+									}
 									 
 									complSaleper =Double.parseDouble(rs.getString("SALE_QTY"))/ Double.parseDouble(rs.getString("SCH_QTY"))*100;
 									
 									Label matName = new  Label(0, col, rs.getString("MAT_NAME"),cellleftformat);
 									writableSheet4.addCell(matName); 
 									
-									Label label_des_qty = new Label(1, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SCH_QTY")))),cellRIghtformat);
+									Number label_des_qty = new Number(1, col, Math.round(Double.parseDouble(rs.getString("SCH_QTY"))),cellRIghtformat);
 									writableSheet4.addCell(label_des_qty);
 									
-									Label label_des_amt = new Label(2, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_AMT"))/100000),cellRIghtformat);
+									Number label_des_amt = new Number(2, col, Double.parseDouble(rs.getString("SCH_AMT"))/100000,cellRIghtformat);
 									writableSheet4.addCell(label_des_amt);
 									 
-									Label label_sch_tons = new Label(3, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_TONAGE"))),cellRIghtformat);
+									Number label_sch_tons = new Number(3, col, Double.parseDouble(rs.getString("SCH_TONAGE")),cellRIghtformat);
 									writableSheet4.addCell(label_sch_tons);
-									
-									
-									
-									Label yes_sale_qty = new Label(4, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+									 
+									Number yes_sale_qty = new Number(4, col, Math.round(Double.parseDouble(sale_qtyyes)),cellRIghtformat);
 									writableSheet4.addCell(yes_sale_qty);
 									
-									Label yes_sale_amt = new Label(5, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+									Number yes_sale_amt = new Number(5, col, Double.parseDouble(sale_amtyes)/100000,cellRIghtformat);
 									writableSheet4.addCell(yes_sale_amt);
 
-									Label label_saleyes_tons = new Label(6, col, twoDForm.format(Double.parseDouble(tonnage_yes)),cellRIghtformat);
+									Number label_saleyes_tons = new Number(6, col, Double.parseDouble(tonnage_yes),cellRIghtformat);
 									writableSheet4.addCell(label_saleyes_tons);
 									
 									
-									Label label_sale_qty = new Label(7, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+									Number label_sale_qty = new Number(7, col, Math.round(Double.parseDouble(rs.getString("SALE_QTY"))),cellRIghtformat);
 									writableSheet4.addCell(label_sale_qty);
 									
-									Label label_sale_amt = new Label(8, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+									Number label_sale_amt = new Number(8, col, Double.parseDouble(rs.getString("SALE_AMT"))/100000,cellRIghtformat);
 									writableSheet4.addCell(label_sale_amt);
 									
-									Label label_sale_tons = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_TONAGE"))),cellRIghtformat);
+									Number label_sale_tons = new Number(9, col, Double.parseDouble(rs.getString("SALE_TONAGE")),cellRIghtformat);
 									writableSheet4.addCell(label_sale_tons);
 									
 									
-									Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+									Number label_pend_qty = new Number(10, col, Math.round(Double.parseDouble(rs.getString("PEND_QTY"))),cellRIghtformat);
 									writableSheet4.addCell(label_pend_qty);
 									
-									Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+									Number label_pend_amt = new Number(11, col, Double.parseDouble(rs.getString("PEND_AMT"))/100000,cellRIghtformat);
 									writableSheet4.addCell(label_pend_amt);
 									 	
-									Label label_schCompl = new Label(12, col, twoDForm.format(complSaleper),cellRIghtformat);
+									Number label_schCompl = new Number(12, col, Math.round(complSaleper),cellRIghtformat);
 									writableSheet4.addCell(label_schCompl);
+									
+									sch_qtyalist.add(Math.round(Double.parseDouble(rs.getString("SCH_QTY"))));
+									sch_amtalist.add(Double.parseDouble(rs.getString("SCH_AMT"))/100000);
+									sch_wtalist.add(Double.parseDouble(rs.getString("SCH_TONAGE")));
+									yes_qtyalist.add(Math.round(Double.parseDouble(sale_qtyyes)));
+									yes_amtalist.add(Double.parseDouble(sale_amtyes)/100000);
+									yes_wtalist.add(Double.parseDouble(tonnage_yes));
+									sale_qtyalist.add(Math.round(Double.parseDouble(rs.getString("SALE_QTY"))));
+									sale_amtalist.add(Double.parseDouble(rs.getString("SALE_AMT"))/100000);
+									sale_wtalist.add(Double.parseDouble(rs.getString("SALE_TONAGE")));
+									pend_qtyalist.add(Math.round(Double.parseDouble(rs.getString("PEND_QTY"))));
+									pend_amtalist.add(Double.parseDouble(rs.getString("PEND_AMT"))/100000);
 									
 									col++;
 								  }
 								} 
 								}
+								//--------------------------------------------	
+								sum = 0; 
+								grd0 = new Label(0, col, "Grand Total",cellFormat);   
+								writableSheet4.addCell(grd0);
+								//--------------------------------------------	
+								for(int i=0; i<sch_qtyalist.size(); i++){
+									  sum += Double.parseDouble(sch_qtyalist.get(i).toString());
+								} 
+								grd1 = new Number(1, col, sum,cellRIghtformat);		
+								writableSheet4.addCell(grd1);
+								//--------------------------------------------
+								sum=0;
+								for(int i=0; i<sch_amtalist.size(); i++){
+									  sum += Double.parseDouble(sch_amtalist.get(i).toString());
+								} 
+
+								grd2 = new Number(2, col, sum,cellRIghtformat);
+								writableSheet4.addCell(grd2);
+								//--------------------------------------------
+								sum=0;
+								for(int i=0; i<sch_wtalist.size(); i++){
+									  sum += Double.parseDouble(sch_wtalist.get(i).toString());
+								} 
+								grd3 = new Number(3, col, sum,cellRIghtformat);
+								writableSheet4.addCell(grd3);
+								//--------------------------------------------
+								sum=0;
+								for(int i=0; i<yes_qtyalist.size(); i++){
+									  sum += Double.parseDouble(yes_qtyalist.get(i).toString());
+								} 
+								grd4 = new Number(4, col, sum,cellRIghtformat);
+								writableSheet4.addCell(grd4);
+								//--------------------------------------------
+								sum=0;
+								for(int i=0; i<yes_amtalist.size(); i++){
+									  sum += Double.parseDouble(yes_amtalist.get(i).toString());
+								}
+								grd5 = new Number(5, col, sum,cellRIghtformat);
+								writableSheet4.addCell(grd5);
+								//--------------------------------------------
+								sum=0;
+								for(int i=0; i<yes_wtalist.size(); i++){
+									  sum += Double.parseDouble(yes_wtalist.get(i).toString());
+								} 
+								grd6 = new Number(6, col, sum,cellRIghtformat);
+								writableSheet4.addCell(grd6);
+								//--------------------------------------------
+								sum=0;
+								for(int i=0; i<sale_qtyalist.size(); i++){
+									  sum += Double.parseDouble(sale_qtyalist.get(i).toString());
+								}
+								grd7 = new Number(7, col, sum,cellRIghtformat);
+								writableSheet4.addCell(grd7);
+								//--------------------------------------------
+								sum=0;
+								for(int i=0; i<sale_amtalist.size(); i++){
+									  sum += Double.parseDouble(sale_amtalist.get(i).toString());
+								}
+								grd8 = new Number(8, col, sum,cellRIghtformat);
+								writableSheet4.addCell(grd8);
+								//--------------------------------------------
+								sum=0;
+								for(int i=0; i<sale_wtalist.size(); i++){
+									  sum += Double.parseDouble(sale_wtalist.get(i).toString());
+								}
+								grd9 = new Number(9, col, sum,cellRIghtformat);
+								writableSheet4.addCell(grd9);
+								//--------------------------------------------
+								sum=0;
+								for(int i=0; i<pend_qtyalist.size(); i++){
+									  sum += Double.parseDouble(pend_qtyalist.get(i).toString());
+								}
+								grd10 = new Number(10, col, sum,cellRIghtformat);
+								writableSheet4.addCell(grd10);
+								//--------------------------------------------
+								sum=0;
+								for(int i=0; i<pend_amtalist.size(); i++){
+									  sum += Double.parseDouble(pend_amtalist.get(i).toString());
+								}
+								grd11 = new Number(11, col, sum,cellRIghtformat);
+								writableSheet4.addCell(grd11);
+								//--------------------------------------------
+								sum=0;
+								//--------------------------------------------
+								grd12 = new Label(12, col, "",cellRIghtformat);
+								writableSheet4.addCell(grd12);
+								//--------------------------------------------  
 								//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 								//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 								comp_id ="106";
 								Sheet_Name = "MEPL Unit III";
 								con = ConnectionUrl.getK1ERPConnection();
+								// -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+								sch_qtyalist.clear();
+								sch_amtalist.clear();
+								sch_wtalist.clear(); 
+								yes_qtyalist.clear();
+								yes_amtalist.clear();
+								yes_wtalist.clear(); 
+								sale_qtyalist.clear();
+								sale_amtalist.clear();
+								sale_wtalist.clear(); 
+								pend_qtyalist.clear();
+								pend_amtalist.clear();
+								// -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 								sheetcnt++;
 								WritableSheet writableSheet5 = writableWorkbook.createSheet(Sheet_Name, sheetcnt);
 							  	sb2.setLength(0);
@@ -1176,53 +1661,149 @@ public class SaleDispatchxls_Summary extends TimerTask {
 										Label matName = new  Label(0, col, rs.getString("MAT_NAME"),cellleftformat);
 										writableSheet5.addCell(matName); 
 										
-										Label label_des_qty = new Label(1, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SCH_QTY")))),cellRIghtformat);
+										Number label_des_qty = new Number(1, col, Math.round(Double.parseDouble(rs.getString("SCH_QTY"))),cellRIghtformat);
 										writableSheet5.addCell(label_des_qty);
 										
-										Label label_des_amt = new Label(2, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_AMT"))/100000),cellRIghtformat);
+										Number label_des_amt = new Number(2, col, Double.parseDouble(rs.getString("SCH_AMT"))/100000,cellRIghtformat);
 										writableSheet5.addCell(label_des_amt);
 										 
-										Label label_sch_tons = new Label(3, col, twoDForm.format(Double.parseDouble(rs.getString("SCH_TONAGE"))),cellRIghtformat);
+										Number label_sch_tons = new Number(3, col, Double.parseDouble(rs.getString("SCH_TONAGE")),cellRIghtformat);
 										writableSheet5.addCell(label_sch_tons);
-										
-										
-										
-										Label yes_sale_qty = new Label(4, col, zeroDForm.format(Math.round(Double.parseDouble(sale_qtyyes))),cellRIghtformat);
+										 
+										Number yes_sale_qty = new Number(4, col, Math.round(Double.parseDouble(sale_qtyyes)),cellRIghtformat);
 										writableSheet5.addCell(yes_sale_qty);
 										
-										Label yes_sale_amt = new Label(5, col, twoDForm.format(Double.parseDouble(sale_amtyes)/100000),cellRIghtformat);
+										Number yes_sale_amt = new Number(5, col, Double.parseDouble(sale_amtyes)/100000,cellRIghtformat);
 										writableSheet5.addCell(yes_sale_amt);
 
-										Label label_saleyes_tons = new Label(6, col, twoDForm.format(Double.parseDouble(tonnage_yes)),cellRIghtformat);
+										Number label_saleyes_tons = new Number(6, col, Double.parseDouble(tonnage_yes),cellRIghtformat);
 										writableSheet5.addCell(label_saleyes_tons);
 										
 										
-										Label label_sale_qty = new Label(7, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("SALE_QTY")))),cellRIghtformat);
+										Number label_sale_qty = new Number(7, col, Math.round(Double.parseDouble(rs.getString("SALE_QTY"))),cellRIghtformat);
 										writableSheet5.addCell(label_sale_qty);
 										
-										Label label_sale_amt = new Label(8, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_AMT"))/100000),cellRIghtformat);
+										Number label_sale_amt = new Number(8, col, Double.parseDouble(rs.getString("SALE_AMT"))/100000,cellRIghtformat);
 										writableSheet5.addCell(label_sale_amt);
 										
-										Label label_sale_tons = new Label(9, col, twoDForm.format(Double.parseDouble(rs.getString("SALE_TONAGE"))),cellRIghtformat);
+										Number label_sale_tons = new Number(9, col, Double.parseDouble(rs.getString("SALE_TONAGE")),cellRIghtformat);
 										writableSheet5.addCell(label_sale_tons);
 										
-										
-										Label label_pend_qty = new Label(10, col, zeroDForm.format(Math.round(Double.parseDouble(rs.getString("PEND_QTY")))),cellRIghtformat);
+										Number label_pend_qty = new Number(10, col, Math.round(Double.parseDouble(rs.getString("PEND_QTY"))),cellRIghtformat);
 										writableSheet5.addCell(label_pend_qty);
 										
-										Label label_pend_amt = new Label(11, col, twoDForm.format(Double.parseDouble(rs.getString("PEND_AMT"))/100000),cellRIghtformat);
+										Number label_pend_amt = new Number(11, col,Double.parseDouble(rs.getString("PEND_AMT"))/100000,cellRIghtformat);
 										writableSheet5.addCell(label_pend_amt);
 										 	
-										Label label_schCompl = new Label(12, col, twoDForm.format(complSaleper),cellRIghtformat);
-										writableSheet5.addCell(label_schCompl);
+										Number label_schCompl = new Number(12, col, Math.round(complSaleper),cellRIghtformat);
+										writableSheet5.addCell(label_schCompl);		
+										
+										sch_qtyalist.add(Math.round(Double.parseDouble(rs.getString("SCH_QTY"))));
+										sch_amtalist.add(Double.parseDouble(rs.getString("SCH_AMT"))/100000);
+										sch_wtalist.add(Double.parseDouble(rs.getString("SCH_TONAGE")));
+										yes_qtyalist.add(Math.round(Double.parseDouble(sale_qtyyes)));
+										yes_amtalist.add(Double.parseDouble(sale_amtyes)/100000);
+										yes_wtalist.add(Double.parseDouble(tonnage_yes));
+										sale_qtyalist.add(Math.round(Double.parseDouble(rs.getString("SALE_QTY"))));
+										sale_amtalist.add(Double.parseDouble(rs.getString("SALE_AMT"))/100000);
+										sale_wtalist.add(Double.parseDouble(rs.getString("SALE_TONAGE")));
+										pend_qtyalist.add(Math.round(Double.parseDouble(rs.getString("PEND_QTY"))));
+										pend_amtalist.add(Double.parseDouble(rs.getString("PEND_AMT"))/100000);
 										
 										col++;
+										
 									 }
 									}
 									}
 									//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 						
-					
+									//--------------------------------------------	
+									sum = 0; 
+									grd0 = new Label(0, col, "Grand Total",cellFormat);   
+									writableSheet5.addCell(grd0);
+									//--------------------------------------------	
+									for(int i=0; i<sch_qtyalist.size(); i++){
+										  sum += Double.parseDouble(sch_qtyalist.get(i).toString());
+									} 
+									grd1 = new Number(1, col, sum,cellRIghtformat);		
+									writableSheet5.addCell(grd1);
+									//--------------------------------------------
+									sum=0;
+									for(int i=0; i<sch_amtalist.size(); i++){
+										  sum += Double.parseDouble(sch_amtalist.get(i).toString());
+									} 
+
+									grd2 = new Number(2, col, sum,cellRIghtformat);
+									writableSheet5.addCell(grd2);
+									//--------------------------------------------
+									sum=0;
+									for(int i=0; i<sch_wtalist.size(); i++){
+										  sum += Double.parseDouble(sch_wtalist.get(i).toString());
+									} 
+									grd3 = new Number(3, col, sum,cellRIghtformat);
+									writableSheet5.addCell(grd3);
+									//--------------------------------------------
+									sum=0;
+									for(int i=0; i<yes_qtyalist.size(); i++){
+										  sum += Double.parseDouble(yes_qtyalist.get(i).toString());
+									} 
+									grd4 = new Number(4, col, sum,cellRIghtformat);
+									writableSheet5.addCell(grd4);
+									//--------------------------------------------
+									sum=0;
+									for(int i=0; i<yes_amtalist.size(); i++){
+										  sum += Double.parseDouble(yes_amtalist.get(i).toString());
+									}
+									grd5 = new Number(5, col, sum,cellRIghtformat);
+									writableSheet5.addCell(grd5);
+									//--------------------------------------------
+									sum=0;
+									for(int i=0; i<yes_wtalist.size(); i++){
+										  sum += Double.parseDouble(yes_wtalist.get(i).toString());
+									} 
+									grd6 = new Number(6, col, sum,cellRIghtformat);
+									writableSheet5.addCell(grd6);
+									//--------------------------------------------
+									sum=0;
+									for(int i=0; i<sale_qtyalist.size(); i++){
+										  sum += Double.parseDouble(sale_qtyalist.get(i).toString());
+									}
+									grd7 = new Number(7, col, sum,cellRIghtformat);
+									writableSheet5.addCell(grd7);
+									//--------------------------------------------
+									sum=0;
+									for(int i=0; i<sale_amtalist.size(); i++){
+										  sum += Double.parseDouble(sale_amtalist.get(i).toString());
+									}
+									grd8 = new Number(8, col, sum,cellRIghtformat);
+									writableSheet5.addCell(grd8);
+									//--------------------------------------------
+									sum=0;
+									for(int i=0; i<sale_wtalist.size(); i++){
+										  sum += Double.parseDouble(sale_wtalist.get(i).toString());
+									}
+									grd9 = new Number(9, col, sum,cellRIghtformat);
+									writableSheet5.addCell(grd9);
+									//--------------------------------------------
+									sum=0;
+									for(int i=0; i<pend_qtyalist.size(); i++){
+										  sum += Double.parseDouble(pend_qtyalist.get(i).toString());
+									}
+									grd10 = new Number(10, col, sum,cellRIghtformat);
+									writableSheet5.addCell(grd10);
+									//--------------------------------------------
+									sum=0;
+									for(int i=0; i<pend_amtalist.size(); i++){
+										  sum += Double.parseDouble(pend_amtalist.get(i).toString());
+									}
+									grd11 = new Number(11, col, sum,cellRIghtformat);
+									writableSheet5.addCell(grd11);
+									//--------------------------------------------
+									sum=0;
+									//--------------------------------------------
+									grd12 = new Label(12, col, "",cellRIghtformat);
+									writableSheet5.addCell(grd12);
+									//--------------------------------------------  
 					
 					
 					
@@ -1266,14 +1847,13 @@ public class SaleDispatchxls_Summary extends TimerTask {
 				for(int i=0;i<listemailTo.size();i++){
 					recipients[i] = listemailTo.get(i).toString();
 				}
-				 
+				
 				Properties props = System.getProperties();
 				props.put("mail.host", host);
 				
 				/*props.put("mail.transport.protocol", "smtp");
 				props.put("mail.smtp.auth", "true");
 				props.put("mail.smtp.port", 2525);*/
-				
 				
 				props.put("mail.transport.protocol", "smtp");
 				props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");

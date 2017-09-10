@@ -219,38 +219,30 @@ private static final long serialVersionUID = 1L;
 						// 09:33
 						TimerTask pendingPO = new ERP_PendingPO();
 						timer.schedule(pendingPO, 1000, 60000);
-		 
-						 
-						
-			// 1:20
-			TimerTask  shedulexlsSummary =new SaleDispatchxls_Summary();
-			timer.schedule(shedulexlsSummary, 1000, 60000);
+		  
+						// 1:20
+						TimerTask  shedulexlsSummary =new SaleDispatchxls_Summary();
+						timer.schedule(shedulexlsSummary, 1000, 60000);
 			  
 			 
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			  
 			
 			/*
+			// 09:33
+			TimerTask reqStatus = new ERP_RequisitionStatus();
+			timer.schedule(reqStatus, 1000, 60000);
+			
 			// 1:15
 			TimerTask  shedulexls_h21 =new SheduleXLSReminder();
-			timer.schedule(shedulexls_h21, 1000, 60000);*/
+			timer.schedule(shedulexls_h21, 1000, 60000);
+			*/
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 }
-/*____________________________________________________ End of AutoMailer___________________________________________________________*/
+/*____________________________________________________ End of AutoMailer ___________________________________________________________*/
 /*______________________________________________________________________________________________________________________________*/
  
 

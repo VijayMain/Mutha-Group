@@ -51,11 +51,11 @@ public class SisterCompanySale_Report extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			Date datesq = new Date();
-			int day = datesq.getDate(); 
-			if (day==1 && d.getHours() == 9 && d.getMinutes() == 40) { 
-			/*if (day==24 && d.getHours() == 10 && d.getMinutes() == 27) {*/
+			int day = datesq.getDate();
+			if (day==1 && d.getHours() == 9 && d.getMinutes() == 40) {
+			/* if (day==11 && d.getHours() == 15 && d.getMinutes() == 59) { */
 				
-				Connection con = ConnectionUrl.getLocalDatabase(); 
+				Connection con = ConnectionUrl.getLocalDatabase();
 				SimpleDateFormat formatView = new SimpleDateFormat("dd/MM/yyyy");
 				SimpleDateFormat formatsql = new SimpleDateFormat("yyyyMMdd");
 				DecimalFormat mytotals = new DecimalFormat("######0.00");
@@ -75,38 +75,38 @@ public class SisterCompanySale_Report extends TimerTask {
 				String dateFrom = formatView.format(firstDateOfPreviousMonth);
 				String dateTo = formatView.format(lastDateOfPreviousMonth);
 
-				ArrayList listpara = new ArrayList();   
+				ArrayList listpara = new ArrayList();
 				ArrayList listyear = new ArrayList();
 				ArrayList listmonthcnt = new ArrayList();
-				ArrayList listmonth = new ArrayList();   
-				int year = Calendar.getInstance().get(Calendar.YEAR); 
+				ArrayList listmonth = new ArrayList();
+				int year = Calendar.getInstance().get(Calendar.YEAR);
 				DateFormatSymbols dfs = new DateFormatSymbols();
-				String[] months = dfs.getShortMonths(); 
+				String[] months = dfs.getShortMonths();
 				int cnt = 2;
-				int yearcnt = year+1; 
+				int yearcnt = year+1;
 				//  to adjust months to display =====>
 				outerLoop:
-				for(int i=0;i<=12;i++){ 
+				for(int i=0;i<=12;i++){
 				 listyear.add(months[cnt] + yearcnt);
 				 listmonth.add(months[cnt]);
-				 listmonthcnt.add(cnt); 
+				 listmonthcnt.add(cnt);
 			 	 if(cnt==3){
 					 break outerLoop;
-				 } 
+				 }
 				 if(cnt==0){
 					 cnt=11;
 					 yearcnt--;
 				}else{
 					 cnt--;
 				}
-				} 
+				}
 				Collections.reverse(listyear);
 				Collections.reverse(listmonthcnt);
-				Collections.reverse(listmonth);  
+				Collections.reverse(listmonth);
 						// ***************************************************************************************************************
 			   	String Sheet_Name = "";
 				int sheetcnt=0;
-
+ 				
 				ArrayList alistFile = new ArrayList();
 				File folder = new File("C:/reportxls");
 				File[] listOfFiles = folder.listFiles();
@@ -168,8 +168,8 @@ public class SisterCompanySale_Report extends TimerTask {
 			    font.setColour(Colour.BLACK); 
 			    cellleftformat.setFont(font); 	
 			    cellleftformat.setAlignment(Alignment.LEFT);
-				//-------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
-			   //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+				//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 					Sheet_Name = "Sister Company Sale";
 					con = ConnectionUrl.getMEPLH21ERP();
 				   	WritableSheet writableSheet = writableWorkbook.createSheet(Sheet_Name, sheetcnt);
@@ -275,7 +275,7 @@ public class SisterCompanySale_Report extends TimerTask {
 							calendar.add(Calendar.DAY_OF_MONTH, numOfDaysInMonth-1); 
 							String lastsql = formatsql.format(calendar.getTime());
 							//System.out.println("First Day of month: " + listyear.get(i).toString() + firstsql  + "  = " + lastsql);
-							
+							  System.out.println(firstsql + " AND "+ lastsql);
 							// +++++++++++++++++++++++++++++++++++++++++++++ FOUNDERS TO ENGINEERING +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 							con_erp = ConnectionUrl.getFoundryERPNEWConnection();
 							ps_sis = con_erp.prepareStatement("SELECT TRNACCTMATISALE.TRAN_NO,TRNACCTMATISALE.TRAN_DATE,TRNACCTMATISALE.TRAN_SUBTYPE, "+
@@ -612,10 +612,7 @@ public class SisterCompanySale_Report extends TimerTask {
 	transport.sendMessage(msg, msg.getAllRecipients());
 	// *******************************************************************************************
 	transport.close();
-	System.out.println("Automail loop End");		
-			
-			
-			
+	System.out.println("Automail loop End");
 		}	 
 		} catch (Exception e) {
 			e.printStackTrace();

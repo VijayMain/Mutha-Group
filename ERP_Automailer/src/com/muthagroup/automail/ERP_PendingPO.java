@@ -29,7 +29,8 @@ public class ERP_PendingPO extends TimerTask {
 			Date d = new Date();
 			String weekday[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 			
-			if (weekday[d.getDay()].equals("Monday") && d.getHours() == 9 && d.getMinutes() == 33) {
+			/*if (weekday[d.getDay()].equals("Monday") && d.getHours() == 9 && d.getMinutes() == 33) {*/
+				if (weekday[d.getDay()].equals("Monday") && d.getHours() == 15 && d.getMinutes() == 5) {
 			boolean flag=false;
 			String comp="";
 			SimpleDateFormat formatView = new SimpleDateFormat("dd/MM/yyyy");

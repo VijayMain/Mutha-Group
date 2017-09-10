@@ -24,9 +24,10 @@ public class Purchase_Approved_statusH21 extends TimerTask {
 	public void run() {
 		Date d = new Date();
 		String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday","Thursday", "Friday", "Saturday" };
-		ArrayList rem = new ArrayList(); 
+		ArrayList rem = new ArrayList();
 		if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 15)||(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16  && d.getMinutes() == 10)) {
-		try { 
+		/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 15) {*/
+		try {
 			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat sdfFIrstDate = new SimpleDateFormat("yyyyMMdd");
 			SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -39,35 +40,35 @@ public class Purchase_Approved_statusH21 extends TimerTask {
 				cal.add(Calendar.DATE, 0);
 			}
 				
-			String yest_date = sdfFIrstDate.format(cal.getTime()).toString(); 
+			String yest_date = sdfFIrstDate.format(cal.getTime()).toString();
 			String y_date = formatDate.format(cal.getTime()).toString();
 			
 			System.out.println("Yest Date = "+yest_date);
 			System.out.println("Y = "+y_date);
 			
-			Calendar first_Datecal = Calendar.getInstance();   
-			first_Datecal.set(Calendar.DAY_OF_MONTH, 1);  
-			Date dddd = first_Datecal.getTime();  
+			Calendar first_Datecal = Calendar.getInstance();
+			first_Datecal.set(Calendar.DAY_OF_MONTH, 1);
+			Date dddd = first_Datecal.getTime();
 			  
-			Date tdate = new Date(); 
+			Date tdate = new Date();
 			String firstDate = sdfFIrstDate.format(dddd);
 			String nowDate = sdfFIrstDate.format(tdate);
 			
-			//System.out.println("Test = " + firstDate+"\n"+nowDate);
+			// System.out.println("Test = " + firstDate+"\n"+nowDate);
 			
 			Connection con = ConnectionUrl.getMEPLH21ERP();
-			CallableStatement cs = con.prepareCall("{call Sel_RptPurchOrderRegister(?,?,?,?,?,?)}");
+			CallableStatement cs = con.prepareCall("{call Sel_RptPurchOrderRegistermutha(?,?,?,?,?,?)}");
 			cs.setString(1, "101");
 			cs.setString(2, "0");
-			cs.setString(3, "4031,4032,4037");
+			cs.setString(3, "40351,40352,40357");
 			cs.setString(4, firstDate);
 			cs.setString(5, nowDate);
 			cs.setInt(6, 0);
-			ResultSet rs = cs.executeQuery();				 
+			ResultSet rs = cs.executeQuery();
 		System.out.println("Email ERP Automailer.....");
 		String host = "send.one.com";
 		String user = "itsupports@muthagroup.com";
-		String pass = "itsupports@xyz"; 
+		String pass = "itsupports@xyz";
  		String from = "itsupports@muthagroup.com";
 		String subject = "Purchase Approved PO from MEPL H21 on  "+y_date+" !!!"; 
 		boolean sessionDebug = false;
@@ -78,16 +79,13 @@ public class Purchase_Approved_statusH21 extends TimerTask {
 		String cc_recipients[] = {"kunalvm@muthagroup.com","ankatariya@muthagroup.com","internalaudit@muthagroup.com","h21store@muthagroup.com"};
 		
 		/*String recipients[] = {"vijaybm@muthagroup.com"};
-		String cc_recipients[] = {"vijaybm@muthagroup.com"}; */
+		String cc_recipients[] = {"vijaybm@muthagroup.com"};*/ 
 		
-
 		Properties props = System.getProperties();
 		props.put("mail.host", host);
-		
 		/*props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", 2525);*/
-		
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.auth", "true");
