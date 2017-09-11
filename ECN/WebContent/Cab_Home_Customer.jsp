@@ -241,27 +241,22 @@ PreparedStatement ps_CR_Details = con.prepareStatement("select * from CRC_tbl wh
 										<td align="left"><%=rs_U_Name.getString("U_Name")%></td>
 										<%
 											}
-														ArrayList appr_list = new ArrayList();
+													//	ArrayList appr_list = new ArrayList();
 														ArrayList appr_id_list = new ArrayList();
-														PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No="
+														/* PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No="
 																		+ cr_no);
 														ResultSet rs_appr_list = ps_appr_list.executeQuery();
 														while (rs_appr_list.next()) {
 															appr_list.add(rs_appr_list.getInt("U_Id"));
 														}
 
-														for (int appr = 0; appr < appr_list.size(); appr++) {
-															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No="
-																			+ cr_no
-																			+ " and U_Id="
-																			+ Integer.parseInt(appr_list.get(
-																					appr).toString()));
-
+														for (int appr = 0; appr < appr_list.size(); appr++) { */
+															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No=" + cr_no); 
 															ResultSet rs_appr = ps_appr.executeQuery();
 															while (rs_appr.next()) {
 																appr_id_list.add(rs_appr.getInt("Approval_Id"));
-															} 
-														}
+															}
+														/* } */
 														String Status = null; 
 														boolean flag = false;
 														int cnt1 = 0;
@@ -372,27 +367,22 @@ PreparedStatement ps_CR_Details = con.prepareStatement("select * from CRC_tbl wh
 										<td align="left"><%=rs_U_Name.getString("U_Name")%></td>
 										<%
 											}
-														ArrayList appr_list = new ArrayList();
+														// ArrayList appr_list = new ArrayList();
 														ArrayList appr_id_list = new ArrayList();
-														PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No="
+														/* PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No="
 																		+ cr_no);
 														ResultSet rs_appr_list = ps_appr_list.executeQuery();
 														while (rs_appr_list.next()) {
 															appr_list.add(rs_appr_list.getInt("U_Id"));
 														}
 
-														for (int appr = 0; appr < appr_list.size(); appr++) {
-															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No="
-																			+ cr_no
-																			+ " and U_Id="
-																			+ Integer.parseInt(appr_list.get(
-																					appr).toString()));
-
+														for (int appr = 0; appr < appr_list.size(); appr++) { */
+															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No=" + cr_no);
 															ResultSet rs_appr = ps_appr.executeQuery();
 															while (rs_appr.next()) {
 																appr_id_list.add(rs_appr.getInt("Approval_Id"));
 															} 
-														}
+														/* } */
 														String Status = null; 
 														boolean flag = false;
 														int cnt1 = 0;
@@ -504,27 +494,22 @@ PreparedStatement ps_CR_Details = con.prepareStatement("select * from CRC_tbl wh
 										<td align="left"><%=rs_U_Name.getString("U_Name")%></td>
 										<%
 											}
-														ArrayList appr_list = new ArrayList();
+													//	ArrayList appr_list = new ArrayList();
 														ArrayList appr_id_list = new ArrayList();
-														PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No="
+														/* PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No="
 																		+ cr_no);
 														ResultSet rs_appr_list = ps_appr_list.executeQuery();
 														while (rs_appr_list.next()) {
 															appr_list.add(rs_appr_list.getInt("U_Id"));
 														}
 
-														for (int appr = 0; appr < appr_list.size(); appr++) {
-															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No="
-																			+ cr_no
-																			+ " and U_Id="
-																			+ Integer.parseInt(appr_list.get(
-																					appr).toString()));
-
+														for (int appr = 0; appr < appr_list.size(); appr++) { */
+															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No=" + cr_no); 
 															ResultSet rs_appr = ps_appr.executeQuery();
 															while (rs_appr.next()) {
 																appr_id_list.add(rs_appr.getInt("Approval_Id"));
 															} 
-														}
+														/* } */
 														String Status = null; 
 														boolean flag = false;
 														int cnt1 = 0;
@@ -635,27 +620,23 @@ PreparedStatement ps_CR_Details = con.prepareStatement("select * from CRC_tbl wh
 										<td align="left"><%=rs_U_Name.getString("U_Name")%></td>
 										<%
 											}
-														ArrayList appr_list = new ArrayList();
+													//	ArrayList appr_list = new ArrayList();
 														ArrayList appr_id_list = new ArrayList();
-														PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No="
+														/* PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No="
 																		+ cr_no);
 														ResultSet rs_appr_list = ps_appr_list.executeQuery();
 														while (rs_appr_list.next()) {
 															appr_list.add(rs_appr_list.getInt("U_Id"));
 														}
 
-														for (int appr = 0; appr < appr_list.size(); appr++) {
-															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No="
-																			+ cr_no
-																			+ " and U_Id="
-																			+ Integer.parseInt(appr_list.get(
-																					appr).toString()));
+														for (int appr = 0; appr < appr_list.size(); appr++) { */
+															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No=" + cr_no);
 
 															ResultSet rs_appr = ps_appr.executeQuery();
 															while (rs_appr.next()) {
 																appr_id_list.add(rs_appr.getInt("Approval_Id"));
 															} 
-														}
+														/* } */
 														String Status = null; 
 														boolean flag = false;
 														int cnt1 = 0;
@@ -765,27 +746,22 @@ PreparedStatement ps_CR_Details = con.prepareStatement("select * from CRC_tbl wh
 										<td align="left"><%=rs_U_Name.getString("U_Name")%></td>
 										<%
 											}
-														ArrayList appr_list = new ArrayList();
+														// ArrayList appr_list = new ArrayList();
 														ArrayList appr_id_list = new ArrayList();
-														PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No="
+														/* PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No="
 																		+ cr_no);
 														ResultSet rs_appr_list = ps_appr_list.executeQuery();
 														while (rs_appr_list.next()) {
 															appr_list.add(rs_appr_list.getInt("U_Id"));
 														}
 
-														for (int appr = 0; appr < appr_list.size(); appr++) {
-															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No="
-																			+ cr_no
-																			+ " and U_Id="
-																			+ Integer.parseInt(appr_list.get(
-																					appr).toString()));
-
+														for (int appr = 0; appr < appr_list.size(); appr++) { */
+															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No=" + cr_no);
 															ResultSet rs_appr = ps_appr.executeQuery();
 															while (rs_appr.next()) {
 																appr_id_list.add(rs_appr.getInt("Approval_Id"));
 															} 
-														}
+														/* } */
 														String Status = null; 
 														boolean flag = false;
 														int cnt1 = 0;
@@ -895,27 +871,22 @@ PreparedStatement ps_CR_Details = con.prepareStatement("select * from CRC_tbl wh
 										<td align="left"><%=rs_U_Name.getString("U_Name")%></td>
 										<%
 											}
-														ArrayList appr_list = new ArrayList();
+														// ArrayList appr_list = new ArrayList();
 														ArrayList appr_id_list = new ArrayList();
-														PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No="
+														/* PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No="
 																		+ cr_no);
 														ResultSet rs_appr_list = ps_appr_list.executeQuery();
 														while (rs_appr_list.next()) {
 															appr_list.add(rs_appr_list.getInt("U_Id"));
 														}
 
-														for (int appr = 0; appr < appr_list.size(); appr++) {
-															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No="
-																			+ cr_no
-																			+ " and U_Id="
-																			+ Integer.parseInt(appr_list.get(
-																					appr).toString()));
-
+														for (int appr = 0; appr < appr_list.size(); appr++) { */
+															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No=" + cr_no); 
 															ResultSet rs_appr = ps_appr.executeQuery();
 															while (rs_appr.next()) {
 																appr_id_list.add(rs_appr.getInt("Approval_Id"));
 															} 
-														}
+														/* } */
 														String Status = null; 
 														boolean flag = false;
 														int cnt1 = 0;

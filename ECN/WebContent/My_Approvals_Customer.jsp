@@ -118,7 +118,7 @@ div.scroll {
 
 								while (rs_ap_id.next()) {
 
-									System.out.print("CR No..." + rs_ap_id.getInt("CR_No"));
+									//System.out.print("CR No..." + rs_ap_id.getInt("CR_No"));
 									approval_list.add(rs_ap_id.getInt("CR_No"));
 
 								}
@@ -180,14 +180,13 @@ div.scroll {
 												String sqlPagination = "SELECT * FROM CRC_Tbl where CRC_No="
 														+ Integer.parseInt(cr.get(crno).toString())
 														+ " order by crc_no";
-												System.out.println("Testing Cr No2 = "
-														+ Integer.parseInt(cr.get(crno).toString()));
+												  // System.out.println("Testing Cr No2 = " + Integer.parseInt(cr.get(crno).toString()));
 												psPagianation = con.prepareStatement(sqlPagination);
 												rs_CR_Details = psPagianation.executeQuery();
 												int cr_no = 0;
 												while (rs_CR_Details.next()) {
 													cr_no = rs_CR_Details.getInt("CRC_No");
-													System.out.println("Testing Cr No = " + cr_no);
+													// System.out.println("Testing Cr No = " + cr_no);
 									%>
 									<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" onclick="button1('<%=cr_no%>');" style="cursor: pointer;">
 										<td align="right"><%=cr_no%></td>
@@ -225,27 +224,23 @@ div.scroll {
 										%> --%>
 										
 										<%
-															ArrayList appr_list = new ArrayList();
+														//	ArrayList appr_list = new ArrayList();
 															ArrayList appr_id_list = new ArrayList();
-															PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No=" + cr_no); 
+															/* PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from crc_tbl_approver_rel where CRC_No=" + cr_no); 
 															ResultSet rs_appr_list = ps_appr_list.executeQuery();
 
 															while (rs_appr_list.next()) {
 																appr_list.add(rs_appr_list.getInt("U_Id"));
 															}
 
-															for (int appr = 0; appr < appr_list.size(); appr++) {
-																PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No="
-																				+ cr_no
-																				+ " and U_Id="
-																				+ Integer.parseInt(appr_list.get(appr).toString()));
-
+															for (int appr = 0; appr < appr_list.size(); appr++) { */
+																PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from crc_tbl_Approval where CRC_No=" + cr_no);
 																ResultSet rs_appr = ps_appr.executeQuery();
 																while (rs_appr.next()) {
 																	appr_id_list.add(rs_appr.getInt("Approval_Id"));
 																}
 
-															}
+															/* } */
 															String Status = null;
 
 															boolean flag = false;

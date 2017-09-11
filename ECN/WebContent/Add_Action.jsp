@@ -151,11 +151,8 @@ div.scroll {
 
 									appr_id_list.clear();
 									/* for (int appr = 0; appr < appr_list.size(); appr++) { */
-										PreparedStatement ps_appr = con
-												.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No="+ cr_no);
-
+										PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No="+ cr_no);
 										ResultSet rs_appr = ps_appr.executeQuery();
-
 										while (rs_appr.next()) {
 											// System.out.print("\n loop... " + appr_list.size());
 											// System.out.print("\n Approvals ... " + rs_appr.getInt("Approval_Id"));

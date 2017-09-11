@@ -144,7 +144,7 @@ $(function() {
 		</div>
 		<!--============================================================================--> 
 					<div id="templatemo_header" class="ddsmoothmenu" style="width: 100%"> 
-						<ul> 
+						<ul>
 							<li  style="background-color: #1c6f8a;color: white;"><a href="Cab_Home.jsp"><b>Internal Approvals</b></a></li>
 							<li style="background-color: #B3A6AA;"><a href="Cab_Home_Customer.jsp">Customer Approvals</a></li> 
 						</ul>
@@ -270,9 +270,9 @@ $(function() {
 										<%
 											}
 
-														ArrayList appr_list = new ArrayList();
+														/* ArrayList appr_list = new ArrayList(); */
 														ArrayList appr_id_list = new ArrayList();
-														PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
+														/* PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
 																		+ cr_no);
 														ResultSet rs_appr_list = ps_appr_list.executeQuery();
 
@@ -280,17 +280,14 @@ $(function() {
 															appr_list.add(rs_appr_list.getInt("U_Id"));
 														}
 
-														for (int appr = 0; appr < appr_list.size(); appr++) {
-															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No="
-																			+ cr_no
-																			+ " and U_Id="
-																			+ Integer.parseInt(appr_list.get(appr).toString()));
+														for (int appr = 0; appr < appr_list.size(); appr++) { */
+															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No=" + cr_no);
 															ResultSet rs_appr = ps_appr.executeQuery();
 															while (rs_appr.next()) {
 																appr_id_list.add(rs_appr.getInt("Approval_Id"));
 															}
 
-														}
+														/* } */
 														String Status = null;
 
 														boolean flag = false;
@@ -300,8 +297,7 @@ $(function() {
 														for (int appr_id = 0; appr_id < appr_id_list.size(); appr_id++) {
 															int id = 0;
 
-															id = Integer.parseInt(appr_id_list.get(appr_id)
-																	.toString());
+															id = Integer.parseInt(appr_id_list.get(appr_id).toString());
 
 															if (id == 3) {
 																cnt3++;
@@ -430,9 +426,9 @@ $(function() {
 										<%
 											}
 
-														ArrayList appr_list = new ArrayList();
+														// ArrayList appr_list = new ArrayList();
 														ArrayList appr_id_list = new ArrayList();
-														PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
+														/* PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
 																		+ cr_no);
 														ResultSet rs_appr_list = ps_appr_list.executeQuery();
 
@@ -440,17 +436,14 @@ $(function() {
 															appr_list.add(rs_appr_list.getInt("U_Id"));
 														}
 
-														for (int appr = 0; appr < appr_list.size(); appr++) {
-															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No="
-																			+ cr_no
-																			+ " and U_Id="
-																			+ Integer.parseInt(appr_list.get(appr).toString()));
+														for (int appr = 0; appr < appr_list.size(); appr++) { */
+															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No=" + cr_no);
 															ResultSet rs_appr = ps_appr.executeQuery();
 															while (rs_appr.next()) {
 																appr_id_list.add(rs_appr.getInt("Approval_Id"));
 															}
 
-														}
+														/* } */
 														String Status = null;
 
 														boolean flag = false;
@@ -504,8 +497,7 @@ $(function() {
 				
 				
 				</div>
-				<div id="tabs-3"> 
-				
+				<div id="tabs-3">
 				<!------------------------------------------------------------------------------------------ ( 2 ) --------------------------------------------------------------------------------------------------------->
 				<table style="width: 100%;" class="tftable">  
 					<tr style="height: 27px;">
@@ -594,9 +586,9 @@ $(function() {
 										<%
 											}
 
-														ArrayList appr_list = new ArrayList();
+														/* ArrayList appr_list = new ArrayList(); */
 														ArrayList appr_id_list = new ArrayList();
-														PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
+														/* PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
 																		+ cr_no);
 														ResultSet rs_appr_list = ps_appr_list.executeQuery();
 
@@ -604,17 +596,14 @@ $(function() {
 															appr_list.add(rs_appr_list.getInt("U_Id"));
 														}
 
-														for (int appr = 0; appr < appr_list.size(); appr++) {
-															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No="
-																			+ cr_no
-																			+ " and U_Id="
-																			+ Integer.parseInt(appr_list.get(appr).toString()));
+														for (int appr = 0; appr < appr_list.size(); appr++) { */
+															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No=" + cr_no);
 															ResultSet rs_appr = ps_appr.executeQuery();
 															while (rs_appr.next()) {
 																appr_id_list.add(rs_appr.getInt("Approval_Id"));
 															}
 
-														}
+														/* } */
 														String Status = null;
 
 														boolean flag = false;
@@ -759,9 +748,9 @@ $(function() {
 										<%
 											}
 
-														ArrayList appr_list = new ArrayList();
+													//	ArrayList appr_list = new ArrayList();
 														ArrayList appr_id_list = new ArrayList();
-														PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
+														/* PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
 																		+ cr_no);
 														ResultSet rs_appr_list = ps_appr_list.executeQuery();
 
@@ -769,17 +758,13 @@ $(function() {
 															appr_list.add(rs_appr_list.getInt("U_Id"));
 														}
 
-														for (int appr = 0; appr < appr_list.size(); appr++) {
-															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No="
-																			+ cr_no
-																			+ " and U_Id="
-																			+ Integer.parseInt(appr_list.get(appr).toString()));
+														for (int appr = 0; appr < appr_list.size(); appr++) { */
+															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No=" + cr_no);
 															ResultSet rs_appr = ps_appr.executeQuery();
 															while (rs_appr.next()) {
 																appr_id_list.add(rs_appr.getInt("Approval_Id"));
 															}
-
-														}
+														/* } */
 														String Status = null;
 
 														boolean flag = false;
@@ -924,9 +909,9 @@ $(function() {
 										<%
 											}
 
-														ArrayList appr_list = new ArrayList();
+														//ArrayList appr_list = new ArrayList();
 														ArrayList appr_id_list = new ArrayList();
-														PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
+														/* PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
 																		+ cr_no);
 														ResultSet rs_appr_list = ps_appr_list.executeQuery();
 
@@ -934,17 +919,13 @@ $(function() {
 															appr_list.add(rs_appr_list.getInt("U_Id"));
 														}
 
-														for (int appr = 0; appr < appr_list.size(); appr++) {
-															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No="
-																			+ cr_no
-																			+ " and U_Id="
-																			+ Integer.parseInt(appr_list.get(appr).toString()));
+														for (int appr = 0; appr < appr_list.size(); appr++) { */
+															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No=" + cr_no);
 															ResultSet rs_appr = ps_appr.executeQuery();
 															while (rs_appr.next()) {
 																appr_id_list.add(rs_appr.getInt("Approval_Id"));
 															}
-
-														}
+														/* } */
 														String Status = null;
 
 														boolean flag = false;
@@ -1088,9 +1069,9 @@ $(function() {
 										<%
 											}
 
-														ArrayList appr_list = new ArrayList();
+														// ArrayList appr_list = new ArrayList();
 														ArrayList appr_id_list = new ArrayList();
-														PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
+														/* PreparedStatement ps_appr_list = con.prepareStatement("select U_Id from cr_approver_relation_tbl where CR_No="
 																		+ cr_no);
 														ResultSet rs_appr_list = ps_appr_list.executeQuery();
 
@@ -1098,17 +1079,14 @@ $(function() {
 															appr_list.add(rs_appr_list.getInt("U_Id"));
 														}
 
-														for (int appr = 0; appr < appr_list.size(); appr++) {
-															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No="
-																			+ cr_no
-																			+ " and U_Id="
-																			+ Integer.parseInt(appr_list.get(appr).toString()));
+														for (int appr = 0; appr < appr_list.size(); appr++) { */
+															PreparedStatement ps_appr = con.prepareStatement("select Approval_Id from cr_tbl_Approval where CR_No=" + cr_no);
 															ResultSet rs_appr = ps_appr.executeQuery();
 															while (rs_appr.next()) {
 																appr_id_list.add(rs_appr.getInt("Approval_Id"));
 															}
 
-														}
+														/* } */
 														String Status = null;
 
 														boolean flag = false;

@@ -53,8 +53,8 @@ public class SaleDispatchxls_Summary extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			boolean flag = true;
-			 /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 4) {*/
-				 if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 1 && d.getMinutes() == 20) {
+			 if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 15 && d.getMinutes() == 12) {
+		  /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 23 && d.getMinutes() == 30) {*/
 			//******************************************************************************************************************************
 				 	ArrayList weekOff = new ArrayList();
 					int cnt = 0;
@@ -278,6 +278,7 @@ public class SaleDispatchxls_Summary extends TimerTask {
 					custcodes.clear();
 					custcodes.addAll(hs);  
 					
+					System.out.println("SQl Date = " + sql_date + "Sql YEst Date = " + sql_date_prev);
 					
 					CallableStatement cs_prev = con.prepareCall("{call Sel_RptDespatchPlanSaleMUTA(?,?,?,?)}");
 					cs_prev.setString(1, comp_id);
