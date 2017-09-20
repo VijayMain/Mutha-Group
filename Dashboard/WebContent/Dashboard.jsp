@@ -140,7 +140,7 @@ cal32.add(Calendar.DATE, +1);
 sql_date = sdfFIrstDate.format(cal32.getTime()).toString();
 System.out.println("SQL DATE =  " + sql_date);
 %>
-	<b style='color: #0D265E; font-family: Arial;font-size: 11px;'>This is an automatically generated email for ERP Pending Approval - To add new suppliers in ERP System !!!</b>
+	<b style='color: #0D265E; font-family: Arial;font-size: 11px;'>This is an automatically generated email from ERP Supplier Creation Portal - List of Approved Suppliers !!!</b>
 	<p><b>To Approve ,</b><a href='http://localhost/foundrymis/approve.jsp'>Click Here</a></p>
 	
 	
@@ -226,16 +226,33 @@ System.out.println("NameString = " + nameSubstring.substring(6) + " = " + city);
 
 
 
-//Get today as a Calendar
+/* //Get today as a Calendar
 Calendar today = Calendar.getInstance();
-today.add(Calendar.DATE, 1); 
+today.add(Calendar.DATE, 1);
 java.sql.Date today1 = new java.sql.Date(today.getTimeInMillis()); 
 System.out.println("today = " + today1);
+
+SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy"); 
+String sql_dateup = sdformat.format(today1.getTime()).toString();
+
 //Subtract 1 day
 today.add(Calendar.DATE, -3);
 //Make an SQL Date out of that
 java.sql.Date yesterday = new java.sql.Date(today.getTimeInMillis()); 
-System.out.println("yes = " + yesterday);
+System.out.println("yes = " + yesterday +" = " + sql_dateup);
+
+ */
+
+SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+Calendar today = Calendar.getInstance();
+SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");  
+java.sql.Date   today1 = new java.sql.Date(today.getTimeInMillis());
+
+System.out.println("today = " + today1);
+
+String email_datefrom = sdformat.format(today1.getTime()).toString();
+java.sql.Date  yesterday = new java.sql.Date(today.getTimeInMillis());
+
 %>
 
 

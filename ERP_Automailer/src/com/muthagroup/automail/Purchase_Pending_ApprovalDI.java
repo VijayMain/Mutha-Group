@@ -62,7 +62,7 @@ public class Purchase_Pending_ApprovalDI extends TimerTask {
 		// multiple recipients : == >
 		// ********************************************************************************************* 
 		String recipients[] = {"ankatariya@muthagroup.com","kamlesh@muthagroup.com"};
-		String cc_recipients[] = {"kunalvm@muthagroup.com","vishal@muthagroup.com"};
+		String cc_recipients[] = {"kunalvm@muthagroup.com","bhushan@muthagroup.com"};
 
 
 		Properties props = System.getProperties();
