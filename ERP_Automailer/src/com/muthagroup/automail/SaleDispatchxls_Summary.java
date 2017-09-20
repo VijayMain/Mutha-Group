@@ -64,9 +64,9 @@ public class SaleDispatchxls_Summary extends TimerTask {
 					Calendar cal = Calendar.getInstance();
 					// cal.add(Calendar.DATE, -1);
 					SimpleDateFormat todaysDate = new SimpleDateFormat("dd/MM/yyyy");
-					SimpleDateFormat sqlDate = new SimpleDateFormat("yyyyMMdd");	
+					SimpleDateFormat sqlDate = new SimpleDateFormat("yyyyMMdd");
 					String todays_date = todaysDate.format(cal.getTime()).toString();
-					String sql_date = sqlDate.format(cal.getTime()).toString();				
+					String sql_date = sqlDate.format(cal.getTime()).toString();
 					
 					//System.out.println("Sql Date = = " + sql_date);
 					
@@ -76,8 +76,8 @@ public class SaleDispatchxls_Summary extends TimerTask {
 						cal.add(Calendar.DATE, -1);
 						todays_date = todaysDate.format(cal.getTime()).toString();
 						sql_date = sqlDate.format(cal.getTime()).toString();
-					} 
-					cal.add(Calendar.DATE, -1); 
+					}
+					cal.add(Calendar.DATE, -1);
 					String  sql_date_prev = sqlDate.format(cal.getTime()).toString();
 					
 					// **********************************************************************************************************

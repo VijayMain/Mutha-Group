@@ -27,7 +27,6 @@ public class Purchase_Pending_ApprovalMEPLH21 extends TimerTask {
 		ArrayList rem = new ArrayList(); 
 		if ((!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 10 && d.getMinutes() == 01)||(!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 16 && d.getMinutes() == 01)) {
 		try {
-			
 			Calendar first_Datecal = Calendar.getInstance();   
 			first_Datecal.set(Calendar.DAY_OF_MONTH, 1);  
 			Date dddd = first_Datecal.getTime();  

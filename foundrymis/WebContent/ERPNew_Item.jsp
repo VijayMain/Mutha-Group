@@ -744,7 +744,7 @@ alert("Done");
   </tr>
   <%
   int created_erp =0;
-  ps = conlocal.prepareStatement("select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,created_inERP,code,supplier,registered_by,approval_status  from new_item_creation where enable=1 and approval_status!=3 order by created_inERP");
+  ps = conlocal.prepareStatement("select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,created_inERP,code,supplier,registered_by,approval_status  from new_item_creation where enable=1 and approval_status!=3 order by update_date desc");
   rs = ps.executeQuery();
   while(rs.next()){
 	  created_erp = rs.getInt("created_inERP");

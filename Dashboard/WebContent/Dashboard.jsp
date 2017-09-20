@@ -222,20 +222,27 @@ city.addAll(hashSet);
 
 String nameSubstring = "20170301";
 System.out.println("NameString = " + nameSubstring.substring(6) + " = " + city);
+
+
+
+
+//Get today as a Calendar
+Calendar today = Calendar.getInstance();
+today.add(Calendar.DATE, 1); 
+java.sql.Date today1 = new java.sql.Date(today.getTimeInMillis()); 
+System.out.println("today = " + today1);
+//Subtract 1 day
+today.add(Calendar.DATE, -3);
+//Make an SQL Date out of that
+java.sql.Date yesterday = new java.sql.Date(today.getTimeInMillis()); 
+System.out.println("yes = " + yesterday);
 %>
 
 
 
 
 
-
-
-
-
-<%
-String datesql = "21-7-2017 04:00:00";
-%>
-
+ 
 
 
 

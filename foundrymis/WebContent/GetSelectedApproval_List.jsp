@@ -1,3 +1,4 @@
+<%@page import="java.util.Calendar"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="com.muthagroup.connectionUtil.ConnectionUrl"%>
@@ -42,7 +43,25 @@ try{
     <th>Status</th>
   </tr>
   <%
-  PreparedStatement ps = conlocal.prepareStatement("select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,code,supplier,registered_by from new_item_creation where enable=1 and approval_status='"+app_code+"'  order by registered_date desc");
+//Get today as a Calendar
+Calendar today = Calendar.getInstance();
+today.add(Calendar.DATE, 1); 
+java.sql.Date today1 = new java.sql.Date(today.getTimeInMillis()); 
+//System.out.println("today = " + today1);
+//Subtract 1 day
+today.add(Calendar.DATE, -3);
+//Make an SQL Date out of that
+java.sql.Date yesterday = new java.sql.Date(today.getTimeInMillis()); 
+//System.out.println("yes = " + yesterday);
+  
+  String query = "";
+  if(app_status.equalsIgnoreCase("Approved")){
+	  query = "select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,code,supplier,registered_by from new_item_creation where enable=1 and approval_status='"+app_code+"' and update_date between  '"+yesterday+"' and '"+today1+"' order by update_date desc";
+  }else{
+	  query = "select DATE_FORMAT(registered_date, \"%d/%m/%Y %l:%i\") as registered_date,code,supplier,registered_by from new_item_creation where enable=1 and approval_status='"+app_code+"'  order by update_date desc";
+  }
+  
+  PreparedStatement ps = conlocal.prepareStatement(query);
   ResultSet rs = ps.executeQuery();
   while(rs.next()){
   %>
