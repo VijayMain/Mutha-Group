@@ -19,7 +19,8 @@ private static final long serialVersionUID = 1L;
 			// ******************************************************************************************************************
 			// Thread No 1
 			// ******************************************************************************************************************
- /*
+ 
+			/*
 			// 09:40
 			TimerTask  siscompSale =new SisterCompanySale_Report();
 			timer.schedule(siscompSale, 1000, 60000);
@@ -88,7 +89,7 @@ private static final long serialVersionUID = 1L;
 			
 			// 10:19  &  16:14
 			TimerTask  timerTask15 =new Purchase_Approved_statusk1();
-			timer.schedule(timerTask15, 1000, 60000);			 
+			timer.schedule(timerTask15, 1000, 60000); 
 					
 			// 23:45
 			TimerTask  timerTask21 =new TransporterWiseSale21();
@@ -212,24 +213,28 @@ private static final long serialVersionUID = 1L;
 						TimerTask pending57f4_MFPL = new Pending_Challan57f4_MFPL();
 						timer.schedule(pending57f4_MFPL, 1000, 60000);						
 			
-						// 09:30
+						// 15:07
 						TimerTask closedIndent = new OpenIndent();
 						timer.schedule(closedIndent, 1000, 60000);
 												
-						// 09:33
+						// 15:05
 						TimerTask pendingPO = new ERP_PendingPO();
 						timer.schedule(pendingPO, 1000, 60000);
 		  
-						// 1:20
+						// 23:30
 						TimerTask  shedulexlsSummary =new SaleDispatchxls_Summary();
 						timer.schedule(shedulexlsSummary, 1000, 60000);
-	*/		  
-			 
-			// 23:30
-			TimerTask  shedulexlsSummary =new SaleDispatchxls_Summary();
-			timer.schedule(shedulexlsSummary, 1000, 60000);
+			 	*/		  
+			
+						// 23:30
+						TimerTask  supplierAlert =new SupplierAlert();
+						timer.schedule(supplierAlert, 1000, 60000);
 			
 			/*
+			// 09:33
+			TimerTask reqStatus = new ERP_RequisitionStatus();
+			timer.schedule(reqStatus, 1000, 60000);
+			
 			// 09:33
 			TimerTask reqStatus = new ERP_RequisitionStatus();
 			timer.schedule(reqStatus, 1000, 60000);
@@ -246,7 +251,3 @@ private static final long serialVersionUID = 1L;
 }
 /*____________________________________________________ End of AutoMailer ___________________________________________________________*/
 /*______________________________________________________________________________________________________________________________*/
- 
-
-
- 

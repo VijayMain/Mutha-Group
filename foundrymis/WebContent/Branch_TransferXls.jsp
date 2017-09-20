@@ -268,25 +268,27 @@ String supName="";
 					Label lab5 = new  Label(5, col, rs_bt.getString("EXT_REF1"),cellleftformat);
 					writableSheet.addCell(lab5);
 					
-					/* Label lab6 = new  Label(6, col, rs_bt.getString("RATE"),cellleftformat);
-					writableSheet.addCell(lab6); */
+					/* 
+					Label lab6 = new  Label(6, col, rs_bt.getString("RATE"),cellleftformat);
+					writableSheet.addCell(lab6); 
+					*/
 					
-					Number lab6 = new  Number(6, col, Double.parseDouble(rs_bt.getString("RATE")),cellleftformat);
+					Number lab6 = new  Number(6, col, Double.parseDouble(rs_bt.getString("RATE")),cellRIghtformat);
 					writableSheet.addCell(lab6);
 					
-					Label lab7 = new  Label(7, col, noDForm.format((Double.valueOf(rs_bt.getString("QTY")) * -1)),cellleftformat);
+					Number lab7 = new  Number(7, col, Double.valueOf(rs_bt.getString("QTY")) * -1,cellRIghtformat);
 					writableSheet.addCell(lab7);
 					
 					/* Label lab8 = new  Label(8, col, threeDForm.format(Double.valueOf(rs_bt.getString("CASTING_WT"))),cellleftformat);
 					writableSheet.addCell(lab8); */
 					
-					Number lab8 = new  Number(8, col, Double.valueOf(rs_bt.getString("CASTING_WT")),cellleftformat);
+					Number lab8 = new  Number(8, col, Double.valueOf(rs_bt.getString("CASTING_WT")),cellRIghtformat);
 					writableSheet.addCell(lab8);
 					
 					/* Label lab9 = new  Label(9, col, twoDForm.format(Double.valueOf(rs_bt.getString("TONNAGE")) * -1),cellleftformat);
 					writableSheet.addCell(lab9); */
 					
-					Number lab9 = new  Number(9, col, Double.valueOf(rs_bt.getString("TONNAGE")) * -1,cellleftformat);
+					Number lab9 = new  Number(9, col, Double.valueOf(rs_bt.getString("TONNAGE")) * -1,cellRIghtformat);
 					writableSheet.addCell(lab9);
 					
 					Label lab10 = new  Label(10, col, rs_bt.getString("SHORT_NARRTN"),cellleftformat);
@@ -388,22 +390,22 @@ String supName="";
 							/* Label lab6 = new  Label(6, col, rs_bt.getString("RATE"),cellleftformat);
 							writableSheet1.addCell(lab6); */
 							
-							Number lab6 = new  Number(6, col, Double.parseDouble(rs_bt.getString("RATE")),cellleftformat);
+							Number lab6 = new  Number(6, col, Double.parseDouble(rs_bt.getString("RATE")),cellRIghtformat);
 							writableSheet1.addCell(lab6);
 							
-							Label lab7 = new  Label(7, col, noDForm.format(Double.valueOf(rs_bt.getString("QTY"))),cellleftformat);
+							Number lab7 = new  Number(7, col, Double.valueOf(rs_bt.getString("QTY")),cellRIghtformat);
 							writableSheet1.addCell(lab7);
 							
 							/* Label lab8 = new  Label(8, col, threeDForm.format(Double.valueOf(rs_bt.getString("CASTING_WT"))),cellleftformat);
 							writableSheet1.addCell(lab8); */
 							
-							Number lab8 = new  Number(8, col, Double.valueOf(rs_bt.getString("CASTING_WT")),cellleftformat);
+							Number lab8 = new  Number(8, col, Double.valueOf(rs_bt.getString("CASTING_WT")),cellRIghtformat);
 							writableSheet1.addCell(lab8);
 							
 							/* Label lab9 = new  Label(9, col, twoDForm.format(Double.valueOf(rs_bt.getString("TONNAGE"))),cellleftformat);
 							writableSheet1.addCell(lab9); */
 							
-							Number lab9 = new  Number(9, col, Double.valueOf(rs_bt.getString("TONNAGE")),cellleftformat);
+							Number lab9 = new  Number(9, col, Double.valueOf(rs_bt.getString("TONNAGE")),cellRIghtformat);
 							writableSheet1.addCell(lab9);
 							
 							Label lab10 = new  Label(10, col, rs_bt.getString("SHORT_NARRTN"),cellleftformat);

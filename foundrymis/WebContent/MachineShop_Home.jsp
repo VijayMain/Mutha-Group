@@ -107,7 +107,15 @@ if(window.history[nHist] != window.location)
 			    $( "#ToDatebillwisepurchase" ).datepicker({
 				      changeMonth: true,
 				      changeYear: true 				         
-				}); 
+				});
+			    $( "#date_fromchallanstk" ).datepicker({
+				      changeMonth: true,     
+				      changeYear: true
+				});
+			    $( "#date_tochallanstk" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true
+				});
 	}
 	);
 	 	
@@ -385,6 +393,11 @@ function validat_boring() {
 function validateBillWisePurchase() {
 	document.getElementById("ADDbillwisepurchase").disabled = true;
 	document.getElementById("waitImagebillwisepurchase").style.visibility = "visible";		
+	return true;
+}
+function validatedChallan_Stock(){
+	document.getElementById("ADDgatechallanstk").disabled = true;
+	document.getElementById("waitImagechallanstk").style.visibility = "visible";		
 	return true;
 }
 function validateVAT_ledger(){
@@ -791,14 +804,16 @@ while(rs.next()){
 		%>
 			<li><a href="#tabs-18">Gate Inward</a></li>
 		<%
-		}if(reportList.size()==0){			
+		}if(reportList.contains("Challan Stock")){	
 		%> 	
-			<li><a href="#tabs-19">Work In Progress</a></li>
+			<li><a href="#tabs-19">Challan Stock</a></li>
+		<%
+		}if(reportList.size()==0){			
+		%>
+			<li><a href="#tabs-20">Work In Progress</a></li>
 		<%
 		}
 		%>
-		
-		
 			<!-- 
 			<li><a href="#tabs-6">Casting Rejection</a></li>
 			 -->						  
@@ -1799,13 +1814,49 @@ while(rs.next()){
 	</form> 	 		
 			</div>
 		<%
-			}if(reportList.size()==0){
+		 	}if(reportList.contains("Challan Stock")){
 		%>
 			<div id="tabs-19">
-			<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
+			 <form action="Challan_Stock.jsp" method="post"  onSubmit="return validatedChallan_Stock();">
+			<table class="tftable" style="border: 0px;font-size: 12px;">
+			<tr>
+				<td colspan="2"><strong>Challan Stock<br/> </strong><br/></td>
+			</tr>
+			<tr>
+				<td>Select Company :</td>
+				<td>
+				<select name="company" id="companychallanstk">
+ 				<option value="101">MEPL H21</option>
+ 				<option value="102">MEPL H25</option> 
+ 			</select>
+				 </td>
+			</tr>
+			<tr>
+				<td>From Date :</td>
+				<td> <input type="text" name="date_from" value="<%=sdfFIrstDate.format(dddd) %>" id="date_fromchallanstk" readonly="readonly" style="font-size: 10px;width: 200px;"/></td>
+			</tr>
+			<tr>
+				<td>To Date :</td>
+				<td> <input type="text" name="date_to" value="<%=sdfFIrstDate.format(tdate) %>" id="date_tochallanstk" readonly="readonly" style="font-size: 10px;width: 200px;"/>  
+				</td>
+			</tr>
+  			<tr>
+			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADDgatechallanstk" value="Get Challan Stock Report" style="background-color: #BABABA;width: 285px;height: 35px;"/> </td>
+			</tr>
+			<tr> 
+			<td colspan="2" align="center"><span id="waitImagechallanstk" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
+			</tr>					 
+			</table>
+		</form>	
 			</div>
 		<%
-			}
+			}if(reportList.size()==0){
+		%>
+			<div id="tabs-20">
+				<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
+			</div>
+		<%
+				}
 		%>
 		
 		<%--		

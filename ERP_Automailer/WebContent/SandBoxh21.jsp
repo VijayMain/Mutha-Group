@@ -15,7 +15,7 @@
 <title>TEST SIDE</title>
 </head>
 <body>
-	<%
+	<%--
 		try {
 			Connection conlocal = ConnectionUrl.getLocalDatabase();
 			ArrayList weekOff = new ArrayList();
@@ -139,6 +139,55 @@
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	--%> 
+	<%
+	SimpleDateFormat formatView = new SimpleDateFormat("dd/MM/yyyy");
+	SimpleDateFormat formatsql = new SimpleDateFormat("yyyyMMdd");
+    Date date = new Date();
+    Calendar c = Calendar.getInstance();
+    c.setTime(date);
+    int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
+    c.add(Calendar.DATE, -i - 7);
+    Date start = c.getTime();
+    c.add(Calendar.DATE, 12);
+    Date end = c.getTime();
+    System.out.println(start + " - " + end);
+	 
+    String from_sqldate = formatsql.format(start);
+	String to_sqldate = formatsql.format(end);
+	String dateFrom = formatView.format(start);
+	String dateTo = formatView.format(end);
+	
+	System.out.println(start + " - " + end + " - " +  from_sqldate + " - " + to_sqldate + " - " +  dateFrom + " - " + dateTo);
 	%>
+	<b style='color: #0D265E; font-size: 10px;'>This is an automatically generated email for ERP Open Indent dated !!!</b>
+	<table border='1' style='font-size: 12px; color: #333333; width: 99%; border-width: 1px; border-color: #729ea5; border-collapse: collapse;'>
+		<tr style='font-size: 12px; background-color: #acc8cc; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: center; height: 25px;'>
+			<th scope='col'>Doc No</th>
+			<th scope='col'>Tran Date</th>
+			<th scope='col'>Subject</th>
+			<th scope='col'>Description</th>
+			<th scope='col'>User</th> 
+		</tr>
+		<tr style='font-size: 12px; background-color: #ffddbb;color: black; font-weight:bold; border-width: 1px; padding: 8px; border-style: solid; border-color: #729ea5; text-align: left; height: 25px;'>
+			<th scope='col' colspan="5"><strong>Company Name : </strong>MEPL H21</th>
+		</tr> 
+		<%
+		Connection conLoc_ERP = ConnectionUrl.getMEPLH21ERP();
+		PreparedStatement ps_eng = conLoc_ERP.prepareStatement("SELECT CLIENT_PREFIX, TRAN_NO, SUBSTRING(CONVERT(VARCHAR,TRAN_NO),4,4) +'-'+ SUBSTRING(CONVERT(VARCHAR,TRAN_NO),11,2) +'-'+ SUBSTRING(CONVERT(VARCHAR,TRAN_NO),13,6) DOC_NO, DBO.FORMAT_DATE(TRAN_DATE) AS TRAN_DATE, SUBJECT, INCIDENT_DESC, IS_TRANSFER, SYSADD_NAME FROM TRNSUPPORTH WHERE CLIENT_PREFIX = 'MUTHA-ENG' AND LEFT(SYSAPR_DATETIME,8) BETWEEN '"+from_sqldate+"' AND '"+to_sqldate+"' AND CALL_STATUS = 2 ORDER BY TRAN_DATE");
+		ResultSet rs_eng = ps_eng.executeQuery();
+		while(rs_eng.next()){
+		%>
+		<tr>
+			<td><%=rs_eng.getString("") %></td>
+			<td><%=rs_eng.getString("") %></td>
+			<td><%=rs_eng.getString("") %></td>
+			<td><%=rs_eng.getString("") %></td>
+			<td><%=rs_eng.getString("") %></td>
+		</tr>
+		<% 	
+		}
+		%>
+	</table>
 </body>
 </html>

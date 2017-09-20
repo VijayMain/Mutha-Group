@@ -139,6 +139,14 @@ if(window.history[nHist] != window.location)
 				      changeMonth: true,
 				      changeYear: true
 				});
+			    $( "#date_fromchallanstk" ).datepicker({
+				      changeMonth: true,     
+				      changeYear: true
+				});
+			    $( "#date_tochallanstk" ).datepicker({
+				      changeMonth: true,
+				      changeYear: true
+				});
 			  } 
 			); 
 </script>
@@ -337,6 +345,12 @@ function validateCatoutForm(){
 function validateVAT_ledger(){
 	document.getElementById("ADD_vatledger").disabled = true;
 	document.getElementById("waitImage_vatledger").style.visibility = "visible";		
+	return true;
+}
+
+function validatedChallan_Stock(){
+	document.getElementById("ADDgatechallanstk").disabled = true;
+	document.getElementById("waitImagechallanstk").style.visibility = "visible";		
 	return true;
 }
 
@@ -892,9 +906,13 @@ while(rs.next()){
 		%>
 			<li><a href="#tabs-25">Gate Inward</a></li>
 		<%
+		}if(reportList.contains("Challan Stock")){
+		%>
+			<li><a href="#tabs-26">Challan Stock</a></li>	
+		<%
 		}if(reportList.size()==0){
 		%>
-			<li><a href="#tabs-26">Work In Progress</a></li>	
+			<li><a href="#tabs-27">Work In Progress</a></li>	
 		<%
 		}
 		%>
@@ -2345,20 +2363,58 @@ while(rs.next()){
 	</form> 	 		
 			</div>
 		<%
-			}if(reportList.size()==0){
+			}if(reportList.contains("Challan Stock")){
 		%>
 			 <div id="tabs-26">
-					<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
+					
+		<form action="Challan_Stock.jsp" method="post"  onSubmit="return validatedChallan_Stock();">
+			<table class="tftable" style="border: 0px;font-size: 12px;">
+			<tr>
+				<td colspan="2"><strong>Challan Stock<br/> </strong><br/></td>
+			</tr>
+			<tr>
+				<td>Select Company :</td>
+				<td>
+				<select name="company" id="companychallanstk">
+ 				<option value="103">MFPL</option> 
+ 				<option value="105">DI</option> 
+ 				<option value="106">MEPL Unit III</option>
+ 			</select>
+				 </td>
+			</tr>
+			<tr>
+				<td>From Date :</td>
+				<td> <input type="text" name="date_from" value="<%=sdfFIrstDate.format(dddd) %>" id="date_fromchallanstk" readonly="readonly" style="font-size: 10px;width: 200px;"/></td>
+			</tr>
+			<tr>
+				<td>To Date :</td>
+				<td> <input type="text" name="date_to" value="<%=sdfFIrstDate.format(tdate) %>" id="date_tochallanstk" readonly="readonly" style="font-size: 10px;width: 200px;"/>  
+				</td>
+			</tr>
+  			<tr>
+			<td colspan="2" align="center"><input type="submit" name="ADD" id="ADDgatechallanstk" value="Get Challan Stock Report" style="background-color: #BABABA;width: 285px;height: 35px;"/> </td>
+			</tr>
+			<tr> 
+			<td colspan="2" align="center"><span id="waitImagechallanstk" style="visibility: hidden;"><strong style="color: blue;">Please Wait while loading......</strong></span> </td>
+			</tr>					 
+			</table>
+		</form>
+					 		
+			</div>
+		<% 
+			}if(reportList.size()==0){
+		%>
+			<div id="tabs-27">
+						<img alt="images/underconst.jpg" src="images/underconst.jpg"> 		
 			</div>
 		<% 
 				}
 		%>
-	</div>	
-		
+	</div>
 	<%
-}catch(Exception e){
-	e.printStackTrace();
-}
+	}catch(Exception e){
+		e.printStackTrace();
+	}
 	%>
 	<br><br> <br> <br> <br> <br> <br> <br> <br> <br>  <br> <br> <br> <br> <br> <br> 
 		<marquee behavior="alternate"><strong style="font-size: 16px;font-family: Arial; color: #38314A;">MIS OF MUTHA GROUP OF FOUNDRIES</strong></marquee>

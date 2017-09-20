@@ -1,3 +1,7 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -26,8 +30,27 @@
             </tr>
             <%
                 }
+            
+            SimpleDateFormat formatView = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat formatsql = new SimpleDateFormat("yyyyMMdd");
+            Date date = new Date();
+            Calendar c = Calendar.getInstance();
+            c.setTime(date);
+            int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
+            c.add(Calendar.DATE, -i - 7);
+            Date start = c.getTime();
+            c.add(Calendar.DATE, 12);
+            Date end = c.getTime();
+            System.out.println(start + " - " + end);
+			 
+            String from_sqldate = formatsql.format(start);
+			String to_sqldate = formatsql.format(end);
+			String dateFrom = formatView.format(start);
+			String dateTo = formatView.format(end);
+			
+			System.out.println(start + " - " + end + " - " +  from_sqldate + " - " + to_sqldate + " - " +  dateFrom + " - " + dateTo);
             %>
         </tbody>
     </table>
 </body>
-</html>tml>
+</html>
