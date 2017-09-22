@@ -142,7 +142,7 @@ cs.setString (3,rs_localPrev.getString("value"));
 }
 cs.setString(4, sqlfromDate);
 cs.setString(5, sqltoDate);
-cs.setString(6, comp);
+cs.setString(6, "101");
 ResultSet rs = cs.executeQuery();
 
 %>

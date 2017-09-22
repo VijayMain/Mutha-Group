@@ -203,7 +203,7 @@ cs.setString (3,rs_localPrev.getString("value"));
 }
 cs.setString(4, sqlfromDate);
 cs.setString(5, sqltoDate);
-cs.setString(6, comp);
+cs.setString(6, "101");
 ResultSet rs = cs.executeQuery();
 double tot_rec = 0,chl_bal=0,TRNNO=0,DESP_QTY=0,RCPT_TRNNO=0,RCPT_DC_QTY=0,RCPT_SCRAP_QTY=0,RCPT_CR_QTY=0,RCPT_CAST_QTY=0;
 while(rs.next()){ 
