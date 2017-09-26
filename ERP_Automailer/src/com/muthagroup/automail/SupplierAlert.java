@@ -22,11 +22,12 @@ public class SupplierAlert extends TimerTask {
 		try {
 			System.out.println("ERP Supplier Approval");
 			Date d = new Date();
-			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 9 && d.getMinutes() == 30) {*/
+			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }; 
 				if (!weekday[d.getDay()].equals("Tuesday") && 
 					((d.getHours() == 8 && d.getMinutes() == 10) || 
 							(d.getHours() == 16 && d.getMinutes() == 16))) {
+			
+			/*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 12) {*/
 			boolean flag=false;
 			int  app_code = 1;
 			
