@@ -181,7 +181,7 @@ ArrayList list_news = new ArrayList();
     <a href="HelpLine.html">ERP (Nilesh Sarnaik -<b>9923399361</b> )</a>
     <a href="HelpLine.html">ERP (Amit Jadhav - <b>9923395915</b> )</a>
     <a href="HelpLine.html">Software (Vijay Main - <b>9923396823</b> )</a>
-    <a href="HelpLine.html">Software (Uday Vedpathak - <b>9175004128</b> )</a>
+    <a href="HelpLine.html">Software (Uday Vedpathak - <b>9923395309</b> )</a>
     <a href="HelpLine.html">Hardware (Kuldeep Mane - <b>9923305481</b> )</a>
     <a href="HelpLine.html">Hardware (Makarand Apsingkar - <b>9923396807</b> )</a> 
   </div>
