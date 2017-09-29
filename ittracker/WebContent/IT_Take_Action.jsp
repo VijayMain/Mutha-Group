@@ -103,7 +103,7 @@ try {
 				req_no=Integer.parseInt(request.getParameter("hid"));
 				
 		%>
-<div style="height: 600px;overflow: scroll;"> 
+<div style="height: 500px;width:99%; overflow: scroll;">
 		<form action="take_action_controller" name="Take_Action" id="Take_Action" method="post">
   		<table align="center" border="0" class="tftable">
   			<tr>
