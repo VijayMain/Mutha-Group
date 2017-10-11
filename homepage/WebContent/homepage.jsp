@@ -150,12 +150,12 @@ ArrayList list_news = new ArrayList();
   <a href="http://192.168.0.7/foundrymis/">&nbsp;&nbsp;<strong>Foundry MIS</strong>&nbsp;</a>
   <a href="http://192.168.0.7/dailyreports/">&nbsp;&nbsp;<strong>Daily Reports</strong>&nbsp;</a>
   <a href="http://192.168.0.7/muthaplanner/">&nbsp;&nbsp;<strong>Mutha Planner</strong>&nbsp;</a>  
-  <a href="http://192.168.0.7/WebPivot/">&nbsp;&nbsp;<strong>Web Pivot</strong>&nbsp;</a>  
+  <!-- <a href="http://192.168.0.7/WebPivot/">&nbsp;&nbsp;<strong>Web Pivot</strong>&nbsp;</a>   -->
   <a href="http://192.168.0.148:8081/materialstock/">&nbsp;&nbsp;<strong>Material Stock(MDK)</strong>&nbsp;</a>  
   <a href="http://192.168.0.148:8081/vendorstock/">&nbsp;&nbsp;<strong>Vendor Stock</strong>&nbsp;</a>  
   <a href="http://192.168.0.7/muthastats/">&nbsp;&nbsp;<strong>Mutha Stats</strong>&nbsp;</a>
   <a href="http://192.168.0.148:8081/furnacestatus/">&nbsp;&nbsp;<strong>Furnace Status</strong>&nbsp;</a>  
-  
+  <a href="http://192.168.0.71/furnace/(S(sswzhrcutg0qf1lp0cq2ce0n))/Login.aspx">&nbsp;&nbsp;<strong>DI Furnace Monitoring</strong>&nbsp;</a>  
   </div>
 </div> 
  <div class="dropdown" style="cursor: pointer;">&nbsp;&nbsp;

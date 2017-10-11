@@ -223,11 +223,13 @@ private static final long serialVersionUID = 1L;
 						// 23:30
 						TimerTask  shedulexlsSummary =new SaleDispatchxls_Summary();
 						timer.schedule(shedulexlsSummary, 1000, 60000); 
-			*/
 				// 08:10 | 16:16
 				TimerTask  supplierAlert =new SupplierAlert();
 				timer.schedule(supplierAlert, 1000, 60000);
-			
+			*/
+				// 23:30
+				TimerTask  shedulexlsSummary =new SaleDispatchxls_Summary();
+				timer.schedule(shedulexlsSummary, 1000, 60000); 
 				
 			/*
 			// 09:33
