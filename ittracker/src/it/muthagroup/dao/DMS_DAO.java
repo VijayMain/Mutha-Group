@@ -142,7 +142,6 @@ public class DMS_DAO {
 			}
 			}
 			}
-			
 			/*
 			*
 			************************************ Insert data into  mst_dmsuser Table ******************************************** 
@@ -203,10 +202,9 @@ public class DMS_DAO {
 				
 				ps_uname = con.prepareStatement("select max(CODE) from tarn_dms");
 				rs_uname = ps_uname.executeQuery();
-				while (rs_uname.next()) { 
+				while (rs_uname.next()) {
 					trncode = rs_uname.getInt("max(CODE)");
 				}
-				
 				
 				PreparedStatement ps_fileHist = con.prepareStatement("insert into mst_dmshist(DMS_CODE,TRAN_FILE,USER,DATE,STATUS,TRAN_CODE)values(?,?,?,?,?,?)");
 				ps_fileHist.setInt(1, bean.getCode());
@@ -217,8 +215,6 @@ public class DMS_DAO {
 				ps_fileHist.setInt(6, trncode);
 				
 				int up_hist =  ps_fileHist.executeUpdate();
-				
-				
 				
 				flag=true;
 			}
@@ -270,8 +266,7 @@ public class DMS_DAO {
 			ps.setTimestamp(8, curr_Date); 
 			up = ps.executeUpdate(); 
 			************************************ Insert data into  mst_dept Table ******************************************** 
-			*/ 
-			
+			*/			
 			if(dMSDept_list.contains("0")){
 			ps = con.prepareStatement("insert into mst_dept(DMS_CODE,DEPT)values(?,?)");
 			ps.setInt(1, cnt_code);
@@ -285,8 +280,7 @@ public class DMS_DAO {
 					up = ps.executeUpdate();
 				}
 			}
-			
-			/* ************************************ Insert data into  mst_comp Table ******************************************** */
+			/************************************* Insert data into  mst_comp Table ******************************************** */
 			
 			if(dMSComp_list.contains("0")){
 				ps = con.prepareStatement("insert into mst_comp(DMS_CODE,COMPANY)values(?,?)");
@@ -301,7 +295,7 @@ public class DMS_DAO {
 				up = ps.executeUpdate();
 			}
 			}
-			
+			 
 			}
 			/* ************************************ Insert data into  mst_dmsuser Table ******************************************** */
 			if(dMSEmp_list.contains("0")){
@@ -317,6 +311,8 @@ public class DMS_DAO {
 				up = ps.executeUpdate();
 			}
 			}
+			
+			
 			/**************************************************** Upload Finish *************************************************/
 			if(flag==true){
 				String msg = "Successfully Submitted !!!"; 

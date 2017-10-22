@@ -459,7 +459,7 @@ alert("<%=request.getParameter("msg") %>");
   </p>
 </div>
 <button class="accordion" style="font-weight: bold;padding-left: 12px;text-align: left;">My Documents</button>
-<div class="panel">
+<div class="panel" style="overflow: scroll;">
  <%
  PreparedStatement ps = con.prepareStatement("select * from mst_dmsfolder where USER="+uid);
  ResultSet rs = ps.executeQuery();

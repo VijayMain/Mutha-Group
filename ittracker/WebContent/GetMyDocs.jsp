@@ -115,10 +115,10 @@
  				  }
  				  flagchk = 0;
 				  %>
-				  </td> 
+				  </td>
 				  <!--
 					---------------------------------------------- Department ---------------------------------------------   
-				  -->  
+				  -->
 				  <td align="center">
 				  <%
 				  ps_chk = con.prepareStatement("select * from mst_comp where DMS_CODE="+code);
@@ -128,6 +128,7 @@
 						  flagchk = 1;
 					  }
 				  }
+				//  System.out.println(code + "test = " + flagchk);
  				  if(flagchk==0){
 				  ps_data = con.prepareStatement("SELECT department FROM complaintzilla.user_tbl_dept where dept_id in (SELECT dept FROM complaintzilla.mst_dept where dms_code="+code+")");
 				  rs_data = ps_data.executeQuery(); 
@@ -139,7 +140,7 @@
  				  }else{
  				  %>
  				  ALL
- 				  <%  
+ 				  <%
  				  }
  				  flagchk = 0;
 				  %>
@@ -195,15 +196,14 @@
 				%>
 				<tr>
 				<%
-				subject_title = rs_data.getString("subject_title"); 
-				
+				subject_title = rs_data.getString("subject_title");				
 				  if(subject_title==null){
 					subject_title=subjectName;
 				  }
 				%>
 				<td><%=subject_title %></td>
 				<%
-				subject_title=subjectName; 
+				subject_title=subjectName;
 				%>
 			    <td align="left"   style="font-size:11px;word-wrap: break-word;max-width:100px;">
 				  <%

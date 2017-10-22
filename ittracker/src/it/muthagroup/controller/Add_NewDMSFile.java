@@ -101,8 +101,7 @@ public class Add_NewDMSFile extends HttpServlet {
 								// if multiple files then there names are
 								// inputName1,inputName2,inputName3,.......
 								// *************************************************************************************************************
-								if (fieldName.equalsIgnoreCase("inputName" + k)) {
-									
+								if (fieldName.equalsIgnoreCase("inputName" + k)) {									
 									file_stored = fileItem.getName();
 									if(FilenameUtils.getName(file_stored)!=""){
 									bean.setBlob_name(FilenameUtils.getName(file_stored)); 

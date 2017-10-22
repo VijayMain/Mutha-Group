@@ -44,7 +44,7 @@ public class Add_NewDMS_DEVDoc extends HttpServlet {
 								bean.setSubject(request.getParameter("subject")); 
 								bean.setShare_others(request.getParameter("share")); 
 								 
-								if(request.getParameter("add_fileAccess")!=null){ 
+								if(request.getParameter("add_fileAccess")!=null){
 									bean.setShared_access(Integer.valueOf(request.getParameter("add_fileAccess")));	
 								}
 								
@@ -58,18 +58,18 @@ public class Add_NewDMS_DEVDoc extends HttpServlet {
 								  
 								for(int i=0;i<dept.length; i++)
 								{
-									DMSDept_list.add(dept[i]); 
-								} 
-								for(int i=0;i<comp.length; i++)
+									DMSDept_list.add(dept[i]);
+								}
+								for(int j=0;j<comp.length; j++)
 								{
-									DMSComp_list.add(comp[i]); 
-								} 
-								for(int i=0;i<comp.length; i++)
+									DMSComp_list.add(comp[j]);
+								}
+								for(int k=0;k<emp.length; k++)
 								{
-									DMSEmp_list.add(comp[i]); 
+									DMSEmp_list.add(emp[k]);
 								}
 								
-						dao.upload_newDevFolder(session,bean,DMSComp_list,DMSDept_list,DMSEmp_list,response);				
+								dao.upload_newDevFolder(session,bean,DMSComp_list,DMSDept_list,DMSEmp_list,response);				
 													
 		} catch (Exception e) {
 			e.printStackTrace();
