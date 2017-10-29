@@ -376,7 +376,7 @@ int month = Integer.parseInt(OnDateMIS.substring(4,6));
 			}
 			if(head.get(i).toString().equalsIgnoreCase("SALES, MT")){
 				cust_rej_total12 = total1;
-				cust_rej_total22 = total2; 
+				cust_rej_total22 = total2;
 			//	System.out.println("Two = " + cust_rej_total12 + " = " +cust_rej_total22);
 			}
 			if(head.get(i).toString().equalsIgnoreCase("CUSTOMER RET, %")){
