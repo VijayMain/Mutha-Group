@@ -205,34 +205,19 @@ cs.setString(4, sqlfromDate);
 cs.setString(5, sqltoDate);
 cs.setString(6, "101");
 ResultSet rs = cs.executeQuery();
-double tot_rec = 0,chl_bal=0,TRNNO=0,DESP_QTY=0,RCPT_TRNNO=0,RCPT_DC_QTY=0,RCPT_SCRAP_QTY=0,RCPT_CR_QTY=0,RCPT_CAST_QTY=0;
-while(rs.next()){ 
+double tot_rec = 0,chl_bal=0,TRNNO=0,DESP_QTY=0,RCPT_TRNNO=0,RCPT_DC_QTY=0,RCPT_SCRAP_QTY=0,
+								RCPT_CR_QTY=0,RCPT_CAST_QTY=0,tr_chl_bal=0,tr_desp_Qty=0,trno = 0;
+boolean flagchk = false;
+while(rs.next()){
 	if(!rs.getString("TRNNO").equalsIgnoreCase("")){
 		TRNNO = Double.valueOf(rs.getString("TRNNO"));
-	} 
-	
-	Number 	para0	= new Number(row, col,TRNNO ,cellRIghtformat);	row++;
-	
-	Label 	para1	= new Label(row, col, 	rs.getString("AC_NAME")	,cellRIghtformat);	row++;
-	Label 	para10	= new Label(row, col, 	rs.getString("NAME")	,cellRIghtformat);	row++;
-	Label 	para11	= new Label(row, col, 	rs.getString("PRN_TRANDATE")	,cellRIghtformat);	row++;
-	
-	
+	}
 	if(!rs.getString("DESP_QTY").equalsIgnoreCase("")){
 		DESP_QTY = Double.valueOf(rs.getString("DESP_QTY"));
 	} 
 	if(!rs.getString("RCPT_TRNNO").equalsIgnoreCase("")){
 		RCPT_TRNNO = Double.valueOf(rs.getString("RCPT_TRNNO"));
 	} 
-	 
-	 
-	
-	Number 	para12	= new Number(row, col, DESP_QTY	,cellRIghtformat);	row++;
-	Number 	para13	= new Number(row, col, RCPT_TRNNO	,cellRIghtformat);	row++; 
-	Label 	para2	= new Label(row, col, rs.getString("RCPT_CHLNNO")	,cellRIghtformat);	row++;
-	
-	Label 	para3	= new Label(row, col, 	rs.getString("RCPT_TRAN_DATE")	,cellRIghtformat);	row++;
-	
 	if(!rs.getString("RCPT_DC_QTY").equalsIgnoreCase("")){
 		RCPT_DC_QTY = Double.valueOf(rs.getString("RCPT_DC_QTY"));
 	}
@@ -248,7 +233,32 @@ if(!rs.getString("RCPT_CAST_QTY").equalsIgnoreCase("")){
 if(!rs.getString("RCPT_SCRAP_QTY").equalsIgnoreCase("")){
 	RCPT_SCRAP_QTY = Double.valueOf(rs.getString("RCPT_SCRAP_QTY"));
 }
+
+
+if(trno!=0 && trno==TRNNO){
+	tr_desp_Qty = tr_chl_bal;
+	flagchk =true;
+}else{
+	tr_desp_Qty = DESP_QTY;
+}
+
+
+	Number 	para0	= new Number(row, col,TRNNO ,cellRIghtformat);	row++;
+	Label 	para1	= new Label(row, col, 	rs.getString("AC_NAME")	,cellRIghtformat);	row++;
+	Label 	para10	= new Label(row, col, 	rs.getString("NAME")	,cellRIghtformat);	row++;
+	Label 	para11	= new Label(row, col, 	rs.getString("PRN_TRANDATE")	,cellRIghtformat);	row++;
 	 
+	if(flagchk==true){
+		Label 	para12	= new Label(row, col, "" ,cellRIghtformat);	row++;
+		writableSheet.addCell(para12);
+	}else{
+	Number 	para12	= new Number(row, col, DESP_QTY,cellRIghtformat);	row++;
+	writableSheet.addCell(para12);
+	}
+	
+	Number 	para13	= new Number(row, col, RCPT_TRNNO	,cellRIghtformat);	row++; 
+	Label 	para2	= new Label(row, col, rs.getString("RCPT_CHLNNO")	,cellRIghtformat);	row++;
+	Label 	para3	= new Label(row, col, 	rs.getString("RCPT_TRAN_DATE")	,cellRIghtformat);	row++;
 	Number 	para4	= new Number(row, col, RCPT_DC_QTY,cellRIghtformat);	row++;
 	Number 	para5	= new Number(row, col, RCPT_SCRAP_QTY	,cellRIghtformat);	row++;
 	Number 	para6	= new Number(row, col, RCPT_CR_QTY	,cellRIghtformat);	row++;
@@ -279,13 +289,18 @@ if(!rs.getString("RCPT_SCRAP_QTY").equalsIgnoreCase("")){
 	writableSheet.addCell(para9);
 	writableSheet.addCell(para10);
 	writableSheet.addCell(para11);
-	writableSheet.addCell(para12);
+	
 	writableSheet.addCell(para13);
 	writableSheet.addCell(para14);
 	writableSheet.addCell(para15);
 	writableSheet.addCell(para16); 
 
 		row++;
+		
+		trno = TRNNO;
+		tr_chl_bal = chl_bal; 
+		flagchk=false;
+		
 		tot_rec = 0;
 		chl_bal =0;
 		TRNNO=0;
@@ -294,7 +309,7 @@ if(!rs.getString("RCPT_SCRAP_QTY").equalsIgnoreCase("")){
 		if(row==18){
 			row=0;
 			col++;   
-		} 
+		}
 } 
   //************************************************************************************************************************
   //************************************************ File Output Ligic *****************************************************

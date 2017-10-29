@@ -188,15 +188,34 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			<th scope="col" class="th">Process Type</th>			 
 			</tr>
 			<%
-			double tot_rec = 0,chl_bal=0;
+			double tot_rec = 0,chl_bal=0,tr_chl_bal=0,tr_desp_Qty=0;
+			String trno = "";
+			boolean flagchk = false;
 			while(rs.next()){
+				if(!trno.equalsIgnoreCase("") && trno.equalsIgnoreCase(rs.getString("TRNNO"))){
+					tr_desp_Qty = tr_chl_bal;
+					flagchk =true;
+				}else{
+					tr_desp_Qty = Double.parseDouble(rs.getString("DESP_QTY"));
+				} 
 			%>
 			<tr>
 				<td align="right"><%=rs.getString("TRNNO") %></td>
 				<td><%=rs.getString("AC_NAME") %></td>
 				<td><%=rs.getString("NAME") %></td>
 				<td><%=rs.getString("PRN_TRANDATE") %></td>
-				<td align="right"><%=rs.getString("DESP_QTY") %></td>
+				<%-- <td align="right"><%=rs.getString("DESP_QTY") %></td> --%>
+				<%
+				if(flagchk==true){
+				%>
+				<td align="right">&nbsp;</td>
+				<%
+				}else{
+				%>
+				<td align="right"><%=tr_desp_Qty %></td>
+				<%
+				}
+				%>
 				<td align="right"><%=rs.getString("RCPT_TRNNO") %></td>
 				<td align="right"><%=rs.getString("RCPT_CHLNNO") %></td>
 				<td><%=rs.getString("RCPT_TRAN_DATE") %></td>
@@ -211,7 +230,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 						Double.parseDouble(rs.getString("RCPT_CR_QTY"))+
 						Double.parseDouble(rs.getString("RCPT_CAST_QTY"))+
 						Double.parseDouble(rs.getString("RCPT_SCRAP_QTY"));
-				chl_bal = Double.parseDouble(rs.getString("DESP_QTY")) - tot_rec;
+				chl_bal = tr_desp_Qty - tot_rec;
 				%>
 				<td align="right"><%=tot_rec %></td>
 				<td align="right"><%=chl_bal %></td>
@@ -219,8 +238,11 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 				<td><%=rs.getString("PROCESS_TYPE") %></td> 
 			</tr>
 			<%
+			trno = rs.getString("TRNNO");
+			tr_chl_bal = chl_bal;
 			tot_rec = 0;
-			chl_bal =0;
+			chl_bal =0; 
+			flagchk=false;
 				}
 			%>
 		</table>
