@@ -191,13 +191,15 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			double tot_rec = 0,chl_bal=0,tr_chl_bal=0,tr_desp_Qty=0;
 			String trno = "";
 			boolean flagchk = false;
-			while(rs.next()){
+			while(rs.next()){ 
+				// System.out.println("This data = " + trno + " = = " + tr_chl_bal); 
 				if(!trno.equalsIgnoreCase("") && trno.equalsIgnoreCase(rs.getString("TRNNO"))){
 					tr_desp_Qty = tr_chl_bal;
 					flagchk =true;
+				// System.out.println("This data = " + trno + " = = " + tr_chl_bal + "  =  true = " + flagchk);
 				}else{
 					tr_desp_Qty = Double.parseDouble(rs.getString("DESP_QTY"));
-				} 
+				}
 			%>
 			<tr>
 				<td align="right"><%=rs.getString("TRNNO") %></td>
@@ -240,6 +242,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			<%
 			trno = rs.getString("TRNNO");
 			tr_chl_bal = chl_bal;
+			 
 			tot_rec = 0;
 			chl_bal =0; 
 			flagchk=false;

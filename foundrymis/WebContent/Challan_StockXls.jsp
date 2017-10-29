@@ -247,13 +247,12 @@ if(trno!=0 && trno==TRNNO){
 	Label 	para1	= new Label(row, col, 	rs.getString("AC_NAME")	,cellRIghtformat);	row++;
 	Label 	para10	= new Label(row, col, 	rs.getString("NAME")	,cellRIghtformat);	row++;
 	Label 	para11	= new Label(row, col, 	rs.getString("PRN_TRANDATE")	,cellRIghtformat);	row++;
-	 
+	Number 	para12;
+	
 	if(flagchk==true){
-		Label 	para12	= new Label(row, col, "" ,cellRIghtformat);	row++;
-		writableSheet.addCell(para12);
+		para12	= new Number(row, col, 0,cellRIghtformat);	row++; 
 	}else{
-	Number 	para12	= new Number(row, col, DESP_QTY,cellRIghtformat);	row++;
-	writableSheet.addCell(para12);
+		para12	= new Number(row, col, tr_desp_Qty,cellRIghtformat);	row++; 
 	}
 	
 	Number 	para13	= new Number(row, col, RCPT_TRNNO	,cellRIghtformat);	row++; 
@@ -270,7 +269,7 @@ if(trno!=0 && trno==TRNNO){
 			Double.valueOf(rs.getString("RCPT_CR_QTY"))+
 			Double.valueOf(rs.getString("RCPT_CAST_QTY"))+
 			Double.valueOf(rs.getString("RCPT_SCRAP_QTY"));
-	chl_bal = Double.valueOf(rs.getString("DESP_QTY")) - tot_rec;
+	chl_bal = tr_desp_Qty - tot_rec;
 	
 	Number 	para9	= new Number(row, col, 	tot_rec	,cellRIghtformat);	row++; 
 	Number 	para14	= new Number(row, col, 	chl_bal	,cellRIghtformat);	row++;
@@ -289,13 +288,13 @@ if(trno!=0 && trno==TRNNO){
 	writableSheet.addCell(para9);
 	writableSheet.addCell(para10);
 	writableSheet.addCell(para11);
-	
+	writableSheet.addCell(para12);
 	writableSheet.addCell(para13);
 	writableSheet.addCell(para14);
 	writableSheet.addCell(para15);
 	writableSheet.addCell(para16); 
 
-		row++;
+	row++;
 		
 		trno = TRNNO;
 		tr_chl_bal = chl_bal; 
