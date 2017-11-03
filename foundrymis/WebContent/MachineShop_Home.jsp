@@ -206,6 +206,25 @@ if(window.history[nHist] != window.location)
 		xmlhttp.send();
 	};
 	
+	function get_AllSupplierchallanstk(str) {
+		document.getElementById("waitchallanstk").style.visibility = "visible";
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) { 
+				document.getElementById("getsupplierchallanstk").innerHTML = xmlhttp.responseText; 
+			}
+		};
+		xmlhttp.open("GET", "Get_AllSupplierchallanstk.jsp?q=" + str, true);
+		xmlhttp.send();
+	};
+	
 	function validateCashBook() {
 		document.getElementById("ADD_cashbook").disabled = true;
 		document.getElementById("waitImage_cashbook").style.visibility = "visible";		
@@ -398,7 +417,21 @@ function validateBillWisePurchase() {
 function validatedChallan_Stock(){
 	document.getElementById("ADDgatechallanstk").disabled = true;
 	document.getElementById("waitImagechallanstk").style.visibility = "visible";		
-	return true;
+	var company = document.getElementById("companychallanstk");       
+	var sup = document.getElementById("supchallanstk"); 
+	 
+		if (company.value=="0" || company.value==null || company.value=="" || company.value=="null") {
+			alert("Please Select Company !!!"); 
+			document.getElementById("ADDmacRej").disabled = false;
+			document.getElementById("waitImagemacRej").style.visibility = "hidden";
+			return false;
+		} 
+		if (sup.value=="0" || sup.value==null || sup.value=="" || sup.value=="null") {
+			alert("Please Select Supplier !!!"); 
+			document.getElementById("ADDmacRej").disabled = false;
+			document.getElementById("waitImagemacRej").style.visibility = "hidden";
+			return false;
+		} 
 }
 function validateVAT_ledger(){
 	document.getElementById("ADD_vatledger").disabled = true;
@@ -1821,16 +1854,32 @@ while(rs.next()){
 			<table class="tftable" style="border: 0px;font-size: 12px;">
 			<tr>
 				<td colspan="2"><strong>Challan Stock<br/> </strong><br/></td>
-			</tr>
+			</tr> 
 			<tr>
 				<td>Select Company :</td>
 				<td>
-				<select name="company" id="companychallanstk">
+				<select name="company" id="companychallanstk"  onchange="get_AllSupplierchallanstk(this.value)">
+				<option value="">- - - - - Select - - - - - </option> 
  				<option value="101">MEPL H21</option>
- 				<option value="102">MEPL H25</option> 
- 			</select>
-				 </td>
+ 				<option value="102">MEPL H25</option>
+ 				</select>
+				</td>
 			</tr>
+			<tr>
+				<td>Select Supplier :</td>
+				<td>
+				<span id="getsupplierchallanstk"> 
+					<select name="sup" id="supchallanstk"  style="font-family: Arial;font-size: 10px;"> 
+						<option value="All_Suppliers"> - - - - - - All Suppliers - - - - - - </option> 
+					</select>&nbsp;
+				<span id="waitchallanstk" style="visibility: hidden;"><strong style="color: blue; font-family: Arial;font-size: 10px;">Please Wait.....</strong></span>
+				</span>
+				</td> 
+			</tr>
+			
+			
+			
+			
 			<tr>
 				<td>From Date :</td>
 				<td> <input type="text" name="date_from" value="<%=sdfFIrstDate.format(dddd) %>" id="date_fromchallanstk" readonly="readonly" style="font-size: 10px;width: 200px;"/></td>

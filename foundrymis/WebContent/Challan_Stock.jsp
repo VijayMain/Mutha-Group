@@ -17,8 +17,7 @@
 <html>
 <head> 
 <title>Challan Stock</title>
-<STYLE TYPE="text/css" MEDIA=all> 
-
+<STYLE TYPE="text/css" MEDIA=all>
 .tftable tr {
 	background-color: white;
 	font-size: 10px;
@@ -37,8 +36,7 @@
 	border-style: solid;
 	border-color: #729ea5;
 	text-align: center;
-}
- 
+} 
 </STYLE> 
 <script type="text/javascript">
 	function getExcel_Report(comp, from, to) {
@@ -66,9 +64,10 @@
 <%
 try{
 Connection con =null;
-String comp =request.getParameter("company"); 
-String from =request.getParameter("date_from");		   
-String to =request.getParameter("date_to"); 
+String comp =request.getParameter("company");
+String from =request.getParameter("date_from");
+String to =request.getParameter("date_to");
+String sup =request.getParameter("sup");
 
 String fromDate = from.substring(8,10) +"/"+ from.substring(5,7) +"/"+ from.substring(0,4);
 String toDate = to.substring(8,10) +"/"+ to.substring(5,7) +"/"+ to.substring(0,4);
@@ -111,11 +110,11 @@ PreparedStatement ps=con.prepareStatement("SELECT SUB_GLACNO FROM MSTACCTGLSUB W
  ResultSet rs_localmax=null,rs_localPrev=null;
  int ct=0;
  for(int i=0;i<codes.size();i++){
-	  if(i==0){
+	 if(i==0){
  ps_local = conLocal.prepareStatement("insert into purchase_overdues_tbl(value,enable)values(?,?)");
  ps_local.setString(1, codes.get(i).toString());
  ps_local.setInt(2, 1);
- ps_local.executeUpdate(); 
+ ps_local.executeUpdate();
 	  }else{
 		  ps_localmax = conLocal.prepareStatement("select max(overdue_id) from purchase_overdues_tbl");
 		  rs_localmax = ps_localmax.executeQuery();
@@ -132,19 +131,27 @@ PreparedStatement ps=con.prepareStatement("SELECT SUB_GLACNO FROM MSTACCTGLSUB W
 	  }
  }
  
-CallableStatement cs = con.prepareCall("{call Sel_SubContractStockLedgerMutha(?,?,?,?,?,?)}");
+ String sqlquery = "{call Sel_SubContractStockLedgerMutha(?,?,?,?,?,?)}";
+CallableStatement cs = con.prepareCall(sqlquery,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
 cs.setString(1, comp);
 cs.setString(2, "0");
+
+if(sup.equalsIgnoreCase("All_Suppliers")){
 ps_localPrev = conLocal.prepareStatement("select * from purchase_overdues_tbl where overdue_id="+ct);
 rs_localPrev=ps_localPrev.executeQuery();
 while (rs_localPrev.next()) {
 cs.setString (3,rs_localPrev.getString("value"));
 }
+}else{
+	cs.setString (3, sup);
+}
+
 cs.setString(4, sqlfromDate);
 cs.setString(5, sqltoDate);
 cs.setString(6, "101");
-ResultSet rs = cs.executeQuery();
 
+ 
+ResultSet rs = cs.executeQuery();
 %>
 	<strong style="color: blue; font-family: Arial; font-size: 14px;"><%=CompanyName %> </strong>
 	<strong style="color: #1B5869; font-family: Arial; font-size: 14px;">Sub Contract Stock Ledger from &nbsp;<%=fromDate %>&nbsp; to &nbsp;<%=toDate %></strong>
@@ -162,9 +169,11 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 <%
 }
 %>
+	<%-- 
 	<span id="exportId">  
 		<button id="filebutton" onclick="getExcel_Report('<%=comp%>','<%=from%>','<%=to%>')" style="cursor: pointer; font-family: Arial; font-size: 13px;height: 25px;font-weight: bold;">Generate Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading" style="visibility: hidden;" />
-	</span>  		       
+	</span>  
+	--%>       
 	   <div style="width: 100%"> 
 		<table id="tftable" class="tftable" border="1" style="width: 100%">
 		               
@@ -191,6 +200,7 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 			double tot_rec = 0,chl_bal=0,tr_chl_bal=0,tr_desp_Qty=0;
 			String trno = "";
 			boolean flagchk = false;
+			
 			while(rs.next()){ 
 				// System.out.println("This data = " + trno + " = = " + tr_chl_bal); 
 				if(!trno.equalsIgnoreCase("") && trno.equalsIgnoreCase(rs.getString("TRNNO"))){
@@ -235,14 +245,14 @@ if(comp.equalsIgnoreCase("101") || comp.equalsIgnoreCase("102")){
 				chl_bal = tr_desp_Qty - tot_rec;
 				%>
 				<td align="right"><%=tot_rec %></td>
+				<td align="right"><%=chl_bal %></td>				
 				<td align="right"><%=chl_bal %></td>
-				<td align="right"><%=chl_bal %></td>
+				<%-- <td align="right"><%=chl_bal %></td> --%> 
 				<td><%=rs.getString("PROCESS_TYPE") %></td> 
 			</tr>
 			<%
 			trno = rs.getString("TRNNO");
 			tr_chl_bal = chl_bal;
-			 
 			tot_rec = 0;
 			chl_bal =0; 
 			flagchk=false;

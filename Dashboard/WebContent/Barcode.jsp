@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.itextpdf.text.pdf.Barcode128"%>
 <%@page import="com.itextpdf.text.Paragraph"%>
 <%@page import="com.itextpdf.text.pdf.PdfWriter"%>
@@ -14,7 +15,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<%-- 
 	<%
 Document document = new Document(new Rectangle(PageSize.A4));    
 PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("D:\\Barcode_sample.pdf"));    
@@ -47,7 +48,36 @@ System.out.println("Document Generated...!!!!!!");
 			<td>"+start+"</td>
 			<td>"+end+"</td>
 		</tr>
-	</table>
+	</table> --%>
+
+
+<%
+ArrayList dup  = new ArrayList();
+dup.add("one");
+dup.add("two");
+dup.add("four");
+dup.add("five");
+dup.add("two");
+dup.add("ten");
+dup.add("one");
+dup.add("one");
+
+
+ArrayList found  = new ArrayList();
+
+System.out.println("list = = " + dup);
+
+
+for (int i = 0; i < dup.size(); i++) {
+    for (int j = i + 1 ; j < dup.size(); j++) {
+         if (dup.get(i).toString().equals(dup.get(j).toString())) {
+        	 found.add(dup.get(i).toString());
+         }
+    }
+}
+
+System.out.println("Found list = = " + found);
+%>
 
 </body>
 </html>

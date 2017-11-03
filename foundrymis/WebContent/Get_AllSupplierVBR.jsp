@@ -24,7 +24,7 @@
 		
 	%>
 			<select name="sup" id="supVBR"  style="font-family: Arial;font-size: 10px;">
-			<option value=""> - - - - - Select - - - - - </option>  
+			<option value=""> - - - - - Select - - - - - </option>
 			<option value="All_Suppliers">    All Suppliers    </option> 
 			<%
 			 PreparedStatement ps=con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE=12");

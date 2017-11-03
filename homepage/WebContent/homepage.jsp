@@ -175,15 +175,16 @@ ArrayList list_news = new ArrayList();
  </div>
  </div>  
  <a href="http://www.getmykaizen.com/">&nbsp;&nbsp;<strong>GetMyKaizen</strong> &nbsp;&nbsp;</a>  
- <div class="dropdown" style="cursor: pointer;">
+ <div class="dropdown" style="cursor: pointer;width: 300px;">
   <strong style="color: white;font-size: 13px"><a href="HelpLine.html">Contact Us</a></strong>
   <div class="dropdown-content" style="font-family: Arial;font-size: 10px;">
-    <a href="HelpLine.html">ERP (Nilesh Sarnaik -<b>9923399361</b> )</a>
-    <a href="HelpLine.html">ERP (Amit Jadhav - <b>9923395915</b> )</a>
-    <a href="HelpLine.html">Software (Vijay Main - <b>9923396823</b> )</a>
-    <a href="HelpLine.html">Software (Uday Vedpathak - <b>9923395309</b> )</a>
-    <a href="HelpLine.html">Hardware (Kuldeep Mane - <b>9923305481</b> )</a>
-    <a href="HelpLine.html">Hardware (Makarand Apsingkar - <b>9923396807</b> )</a> 
+    <a href="HelpLine.html">ERP & SAP <br /> (Nilesh Sarnaik <b> 9923399361</b> )</a>
+    <a href="HelpLine.html">ERP & SAP <br /> (Amit Jadhav <b> 9923395915</b> )</a>
+    <a href="HelpLine.html">SAP <br /> (Mahesh Ghadge <b> 9923386955</b> )</a>
+    <a href="HelpLine.html">SAP <br /> (Vijay Main <b> 9923396823</b> )</a>
+    <a href="HelpLine.html">SAP <br /> (Uday Vedpathak <b> 9923395309</b> )</a>
+    <a href="HelpLine.html">Hardware <br /> (Kuldeep Mane <b> 9923305481</b> )</a>
+    <a href="HelpLine.html">Hardware <br /> (Makarand Apsingkar <b> 9923396807</b> )</a> 
   </div>
 </div>
  
