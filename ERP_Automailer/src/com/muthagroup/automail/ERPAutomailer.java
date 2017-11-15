@@ -156,15 +156,15 @@ private static final long serialVersionUID = 1L;
 			TimerTask  timerInOut =new InOut_Register();
 			timer.schedule(timerInOut, 1000, 60000);  
 			 
-						// 14:57
+						// 13:57
 						TimerTask  timerTaskMISF =new MIS_SummaryReportFND();
 						timer.schedule(timerTaskMISF, 1000, 60000); 
 			  			
-			 			// 14:59
+			 			// 13:59
 						TimerTask  timerTaskMISDI =new MIS_SummaryReportDI();
 						timer.schedule(timerTaskMISDI, 1000, 60000);
-			
-						// 14:55
+						
+						// 13:55
 						TimerTask  timerTaskMISUIII=new MIS_SummaryReportK1();
 						timer.schedule(timerTaskMISUIII, 1000, 60000);
 						
@@ -231,11 +231,7 @@ private static final long serialVersionUID = 1L;
 									
 					 
 				
-				
-				
-				
-				
-				
+				 
 				
 				
 				
