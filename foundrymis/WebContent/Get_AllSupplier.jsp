@@ -34,7 +34,7 @@
 			<select name="sup" id="sup_order" style="font-size: 10px;font-family: Arial;"> 
 			<option value=""> - - - - - Select - - - - - </option> 
 			<%
-			 PreparedStatement ps=con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE=12");
+			 PreparedStatement ps=con.prepareStatement("select * from MSTACCTGLSUB where SUB_GLCODE=12 order by SUBGL_LONGNAME");
 			 ResultSet rs=ps.executeQuery();
 			  while(rs.next()){ 
 			%>	
