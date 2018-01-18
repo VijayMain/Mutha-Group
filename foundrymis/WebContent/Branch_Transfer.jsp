@@ -161,23 +161,23 @@ String supName="";
 		<button id="filebutton" onclick="getExcel_Report('<%=sqlfromDate%>','<%=sqltoDate%>','<%=passSuppliers%>','<%=comp%>','<%=getcategoryDate%>','<%=ps_matType%>')" style="cursor: pointer; font-family: Arial; font-size: 13px;height: 25px;font-weight: bold;">Generate Excel</button> <img alt="#" src="images/fileload.gif" id="fileloading" style="visibility: hidden;" />
 	</span>  		       
 	   <div style="width: 100%"> 
-		<table id="tftable" class="tftable" border="1" style="width: 100%">  
+		<table id="tftable" class="tftable" border="1" style="width: 100%">
+			<%
+			if(getcategoryDate ==1 || getcategoryDate ==2){
+			%>
 			<tr style="font-size: 12px; font-family: Arial;">
-			<th scope="col" class="th">GRN_NO</th> 
-			<th scope="col" class="th">TRAN DATE</th>
+			<th scope="col" class="th">INV No</th> 
+			<th scope="col" class="th">INV DATE</th>
 			<th scope="col" class="th">SUPPLIER</th> 
 			<th scope="col" class="th">MATERIAL NAME</th>
 			<th scope="col" class="th">TYPE</th>
-			<th scope="col" class="th">REF. NO</th> 
+			<!-- <th scope="col" class="th">REF. NO</th> --> 
 			<th scope="col" class="th">RATE</th> 
 			<th scope="col" class="th">CHALLAN QTY</th>  
 			<th scope="col" class="th">CASTING WT</th>
 			<th scope="col" class="th">TONNAGE</th> 
 			<th scope="col" class="th" width="200">NARRATION</th>			 
 			</tr>
-			<%
-			if(getcategoryDate ==1 || getcategoryDate ==2){
-			%>
 			<tr>
 			<td colspan="11" height="25" style="background-color: #64590b;font-size:12px; color: white;"><b>ISSUE ==></b></td>
 			</tr>
@@ -222,7 +222,7 @@ String supName="";
 			<td><%=rs_bt.getString("SUBGL_LONGNAME") %></td>
 			<td><%=rs_bt.getString("NAME") %></td> 
 			<td><%=rs_bt.getString("MAT_TYPE") %></td>
-			<td><%=rs_bt.getString("EXT_REF1") %></td>
+			<%-- <td><%=rs_bt.getString("EXT_REF1") %></td> --%>
 			<td align="right"><%=rs_bt.getString("RATE") %></td>			
 			<td align="right"><%=noDForm.format((Double.valueOf(rs_bt.getString("QTY")) * -1)) %></td>
 			<td align="right"><%=threeDForm.format(Double.valueOf(rs_bt.getString("CASTING_WT"))) %></td>
@@ -234,9 +234,26 @@ String supName="";
 			}
 			}
 			%>  
+			</table>
+			
+			
+			<table id="tftable" class="tftable" border="1" style="width: 100%">
 			<%
 			if(getcategoryDate ==1 || getcategoryDate ==3){
 			%>
+			<tr style="font-size: 12px; font-family: Arial;">
+			<th scope="col" class="th">GRN_NO</th> 
+			<th scope="col" class="th">TRAN DATE</th>
+			<th scope="col" class="th">SUPPLIER</th> 
+			<th scope="col" class="th">MATERIAL NAME</th>
+			<th scope="col" class="th">TYPE</th>
+			<th scope="col" class="th">REF. NO</th> 
+			<th scope="col" class="th">RATE</th> 
+			<th scope="col" class="th">CHALLAN QTY</th>  
+			<th scope="col" class="th">CASTING WT</th>
+			<th scope="col" class="th">TONNAGE</th> 
+			<th scope="col" class="th" width="200">NARRATION</th>			 
+			</tr>
 			<tr>
 			<td colspan="11" height="25" style="background-color: #64590b;font-size:12px; color: white;"><b>RECEIPT ==></b></td>
 			</tr>

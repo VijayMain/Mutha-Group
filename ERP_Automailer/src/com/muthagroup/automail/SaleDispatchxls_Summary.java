@@ -53,8 +53,8 @@ public class SaleDispatchxls_Summary extends TimerTask {
 			Date d = new Date();
 			String weekday[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 			boolean flag = true;
-			 /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 15 && d.getMinutes() == 12) {*/
-		  if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 23 && d.getMinutes() == 30) {
+			 if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 11 && d.getMinutes() == 4) {
+		  /*if (!weekday[d.getDay()].equals("Tuesday") && d.getHours() == 23 && d.getMinutes() == 30) {*/
 			//******************************************************************************************************************************
 				 	ArrayList weekOff = new ArrayList();
 					int cnt = 0;

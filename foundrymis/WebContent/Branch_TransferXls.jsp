@@ -190,31 +190,31 @@ String supName="";
 					    writableSheet.setColumnView(2, 30);
 					    writableSheet.setColumnView(3, 30);
 					    writableSheet.setColumnView(4, 12);
+					    /* writableSheet.setColumnView(5, 12); */
 					    writableSheet.setColumnView(5, 12);
 					    writableSheet.setColumnView(6, 12);
 					    writableSheet.setColumnView(7, 12);
 					    writableSheet.setColumnView(8, 12);
-					    writableSheet.setColumnView(9, 12);
-					    writableSheet.setColumnView(10, 30);
+					    writableSheet.setColumnView(9, 30);
 					    
-					    Label label1 = new Label(0, 0, "GRN NO",cellFormat);
-					    Label label2 = new Label(1, 0, "TRAN DATE",cellFormat);
+					    Label label1 = new Label(0, 0, "INV NO",cellFormat);
+					    Label label2 = new Label(1, 0, "INV DATE",cellFormat);
 					    Label label3 = new Label(2, 0, "SUPPLIER",cellFormat);
 					    Label label4 = new Label(3, 0, "MATERIAL NAME" , cellFormat); 
 					    Label label5 = new Label(4, 0, "TYPE", cellFormat);
-					    Label label6 = new Label(5, 0, "REF. NO",cellFormat);   
-					    Label label7 = new Label(6, 0, "RATE",cellFormat);
-					    Label label8 = new Label(7, 0, "CHALLAN QTY",cellFormat);
-					    Label label9 = new Label(8, 0, "CASTING WT",cellFormat); 
-					    Label label10 = new Label(9, 0, "TONNAGE",cellFormat); 
-					    Label label11 = new Label(10, 0, "NARRATION",cellFormat); 
+					    /* Label label6 = new Label(5, 0, "REF. NO",cellFormat);   */
+					    Label label7 = new Label(5, 0, "RATE",cellFormat);
+					    Label label8 = new Label(6, 0, "CHALLAN QTY",cellFormat);
+					    Label label9 = new Label(7, 0, "CASTING WT",cellFormat); 
+					    Label label10 = new Label(8, 0, "TONNAGE",cellFormat); 
+					    Label label11 = new Label(9, 0, "NARRATION",cellFormat); 
 					 
 					 writableSheet.addCell(label1);
 					 writableSheet.addCell(label2);
-					 writableSheet.addCell(label3);					 
+					 writableSheet.addCell(label3);
 					 writableSheet.addCell(label4);
 					 writableSheet.addCell(label5);
-					 writableSheet.addCell(label6);
+					 /* writableSheet.addCell(label6); */
 					 writableSheet.addCell(label7);
 					 writableSheet.addCell(label8);
 					 writableSheet.addCell(label9);
@@ -265,33 +265,33 @@ String supName="";
 					Label lab4 = new  Label(4, col, rs_bt.getString("MAT_TYPE"),cellleftformat);
 					writableSheet.addCell(lab4);
 					
-					Label lab5 = new  Label(5, col, rs_bt.getString("EXT_REF1"),cellleftformat);
-					writableSheet.addCell(lab5);
+					/* Label lab5 = new  Label(5, col, rs_bt.getString("EXT_REF1"),cellleftformat);
+					writableSheet.addCell(lab5); */
 					
 					/* 
 					Label lab6 = new  Label(6, col, rs_bt.getString("RATE"),cellleftformat);
 					writableSheet.addCell(lab6); 
 					*/
 					
-					Number lab6 = new  Number(6, col, Double.parseDouble(rs_bt.getString("RATE")),cellRIghtformat);
+					Number lab6 = new  Number(5, col, Double.parseDouble(rs_bt.getString("RATE")),cellRIghtformat);
 					writableSheet.addCell(lab6);
 					
-					Number lab7 = new  Number(7, col, Double.valueOf(rs_bt.getString("QTY")) * -1,cellRIghtformat);
+					Number lab7 = new  Number(6, col, Double.valueOf(rs_bt.getString("QTY")) * -1,cellRIghtformat);
 					writableSheet.addCell(lab7);
 					
 					/* Label lab8 = new  Label(8, col, threeDForm.format(Double.valueOf(rs_bt.getString("CASTING_WT"))),cellleftformat);
 					writableSheet.addCell(lab8); */
 					
-					Number lab8 = new  Number(8, col, Double.valueOf(rs_bt.getString("CASTING_WT")),cellRIghtformat);
+					Number lab8 = new  Number(7, col, Double.valueOf(rs_bt.getString("CASTING_WT")),cellRIghtformat);
 					writableSheet.addCell(lab8);
 					
 					/* Label lab9 = new  Label(9, col, twoDForm.format(Double.valueOf(rs_bt.getString("TONNAGE")) * -1),cellleftformat);
 					writableSheet.addCell(lab9); */
 					
-					Number lab9 = new  Number(9, col, Double.valueOf(rs_bt.getString("TONNAGE")) * -1,cellRIghtformat);
+					Number lab9 = new  Number(8, col, Double.valueOf(rs_bt.getString("TONNAGE")) * -1,cellRIghtformat);
 					writableSheet.addCell(lab9);
 					
-					Label lab10 = new  Label(10, col, rs_bt.getString("SHORT_NARRTN"),cellleftformat);
+					Label lab10 = new  Label(9, col, rs_bt.getString("SHORT_NARRTN"),cellleftformat);
 					writableSheet.addCell(lab10);
 					
 					col++;
@@ -299,8 +299,7 @@ String supName="";
 				sheetcnt++;
 			 }
   //************************************************************************************************************************
-   	 
-					if(getcategoryDate ==1 || getcategoryDate ==3){
+   	 			if(getcategoryDate ==1 || getcategoryDate ==3){
 					  int col=1;
 					  Sheet_Name = "RECEIPT"; 
 					  	WritableSheet writableSheet1 = writableWorkbook.createSheet(Sheet_Name, sheetcnt); 
