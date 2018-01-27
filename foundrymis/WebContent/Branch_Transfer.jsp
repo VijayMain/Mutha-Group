@@ -167,6 +167,7 @@ String supName="";
 			%>
 			<tr style="font-size: 12px; font-family: Arial;">
 			<th scope="col" class="th">INV No</th> 
+			<th scope="col" class="th">S. No</th> 
 			<th scope="col" class="th">INV DATE</th>
 			<th scope="col" class="th">SUPPLIER</th> 
 			<th scope="col" class="th">MATERIAL NAME</th>
@@ -179,7 +180,7 @@ String supName="";
 			<th scope="col" class="th" width="200">NARRATION</th>			 
 			</tr>
 			<tr>
-			<td colspan="11" height="25" style="background-color: #64590b;font-size:12px; color: white;"><b>ISSUE ==></b></td>
+			<td colspan="12" height="25" style="background-color: #64590b;font-size:12px; color: white;"><b>ISSUE ==></b></td>
 			</tr>
 			<%
 			String trn_date = "";
@@ -198,10 +199,12 @@ String supName="";
 					" MSTMATERIALS.CASTING_WT, (CAST(MSTMATERIALS.CASTING_WT as FLOAT) * CAST(TRNMATPOST.QTY AS FLOAT)) as TONNAGE, "+
 					" TRNMATPOST.QTY, "+
 					" TRNMATPOST.SR_NO, "+
+					" DENSE_RANK() OVER(PARTITION BY TRNMATPOST.TRAN_NO ORDER BY TRNMATPOST.mat_code) SR_NO_ref ," +
 					" TRNACCTMATH.SHORT_NARRTN, "+
 					" TRNACCTMATH.EXT_REF1 "+
 					" from TRNMATPOST "+
 					" LEFT JOIN TRNACCTMATH ON  TRNMATPOST.TRAN_NO = TRNACCTMATH.TRAN_NO "+ 
+					
 					" LEFT JOIN MSTACCTGLSUB ON  TRNMATPOST.SUB_GLACNO1 = MSTACCTGLSUB.SUB_GLACNO "+ 
 					" LEFT JOIN MSTMATERIALS ON  TRNMATPOST.MAT_CODE = MSTMATERIALS.CODE  "+
 					" LEFT JOIN CNFMATERIALS ON  CNFMATERIALS.CODE = MSTMATERIALS.MATERIAL_TYPE "+ 
@@ -218,6 +221,7 @@ String supName="";
 			%>
 			<tr>
 			<td align="right"><%=rs_bt.getString("GRN_NO") %></td>
+			<td align="right"><%=rs_bt.getString("SR_NO_ref") %></td>
 			<td><%=trn_date %></td>
 			<td><%=rs_bt.getString("SUBGL_LONGNAME") %></td>
 			<td><%=rs_bt.getString("NAME") %></td> 
@@ -242,7 +246,8 @@ String supName="";
 			if(getcategoryDate ==1 || getcategoryDate ==3){
 			%>
 			<tr style="font-size: 12px; font-family: Arial;">
-			<th scope="col" class="th">GRN_NO</th> 
+			<th scope="col" class="th">GRN_NO</th>
+			<th scope="col" class="th">S. No</th> 
 			<th scope="col" class="th">TRAN DATE</th>
 			<th scope="col" class="th">SUPPLIER</th> 
 			<th scope="col" class="th">MATERIAL NAME</th>
@@ -255,7 +260,7 @@ String supName="";
 			<th scope="col" class="th" width="200">NARRATION</th>			 
 			</tr>
 			<tr>
-			<td colspan="11" height="25" style="background-color: #64590b;font-size:12px; color: white;"><b>RECEIPT ==></b></td>
+			<td colspan="12" height="25" style="background-color: #64590b;font-size:12px; color: white;"><b>RECEIPT ==></b></td>
 			</tr>
 			<%	
 			String trn_date = "";
@@ -275,6 +280,7 @@ String supName="";
 					" TRNMATPOST.QTY, "+
 					" TRNMATPOST.SR_NO, "+
 					" TRNACCTMATH.SHORT_NARRTN, "+
+					"  DENSE_RANK() OVER(PARTITION BY TRNMATPOST.TRAN_NO ORDER BY TRNMATPOST.mat_code) SR_NO_ref ," +
 					" TRNACCTMATH.EXT_REF1 "+
 					" from TRNMATPOST "+
 					" LEFT JOIN TRNACCTMATH ON  TRNMATPOST.TRAN_NO = TRNACCTMATH.TRAN_NO "+ 
@@ -294,6 +300,7 @@ String supName="";
 			%>
 			<tr>
 			<td align="right"><%=rs_bt.getString("GRN_NO") %></td>
+			<td align="right"><%=rs_bt.getString("SR_NO_ref") %></td>
 			<td><%=trn_date %></td>
 			<td><%=rs_bt.getString("SUBGL_LONGNAME") %></td>
 			<td><%=rs_bt.getString("NAME") %></td> 
